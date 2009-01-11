@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- headlinks removed -->
+	<link rel="shortcut icon" href="../../../../misc/favicon.ico"/>
+    <title>ArtRepositoryLayOut - Peragro Tempus Wiki</title>
+    <style type="text/css">/*<![CDATA[*/ @import "../../../../skins/offline/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="../../../../skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if IE 6]><style type="text/css">@import "../../../../skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="../../../../skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="../../../../skins/common/wikibits.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/md5.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/utf8.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/lookup.js"></script>
+    <script type="text/javascript" src="../../../../raw/gen.js"></script>        <style type="text/css">/*<![CDATA[*/
+@import "../../../../raw/MediaWiki%7ECommon.css";
+@import "../../../../raw/MediaWiki%7EMonobook.css";
+@import "../../../../raw/gen.css";
+/*]]>*/</style>          </head>
+  <body
+    class="page-ArtRepositoryLayOut">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	        <h1 class="firstHeading">ArtRepositoryLayOut</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <table id="toc" class="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Basic_structure_art_repositories"><span class="tocnumber">1</span> <span class="toctext">Basic structure art repositories</span></a></li>
+<li class="toclevel-1"><a href="#Working_Art"><span class="tocnumber">2</span> <span class="toctext">Working Art</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Sources"><span class="tocnumber">2.1</span> <span class="toctext">Sources</span></a></li>
+<li class="toclevel-2"><a href="#Resources"><span class="tocnumber">2.2</span> <span class="toctext">Resources</span></a></li>
+<li class="toclevel-2"><a href="#Docs"><span class="tocnumber">2.3</span> <span class="toctext">Docs</span></a></li>
+<li class="toclevel-2"><a href="#Additional_notes"><span class="tocnumber">2.4</span> <span class="toctext">Additional notes</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Exported_Art"><span class="tocnumber">3</span> <span class="toctext">Exported Art</span></a></li>
+<li class="toclevel-1"><a href="#Repositories"><span class="tocnumber">4</span> <span class="toctext">Repositories</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Usage"><span class="tocnumber">4.1</span> <span class="toctext">Usage</span></a></li>
+<li class="toclevel-2"><a href="#Tips_and_notes"><span class="tocnumber">4.2</span> <span class="toctext">Tips and notes</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
+<a name="Basic_structure_art_repositories"></a><h2> <span class="mw-headline"> Basic structure art repositories </span></h2>
+<p>There are two art repositories that will be both used but slightly different. I'll first explain the common parts. This is the base directory structure.
+</p>
+<ul><li> 2D art
+<ul><li> Animals
+</li><li> Buildings
+</li><li> Characters
+</li><li> Clothes
+</li><li> Concepts
+</li><li> Environment
+</li><li> GUI
+</li><li> Others
+</li><li> Props
+</li><li> Tests
+</li><li> Vehicles
+</li></ul>
+</li><li> 3D Art
+<ul><li> Animals
+</li><li> Buildings
+</li><li> Characters
+</li><li> Clothes
+</li><li> Concepts
+</li><li> Environment
+</li><li> Others
+</li><li> Props
+</li><li> Tests
+</li><li> Vehicles
+</li></ul>
+</li><li> Documents
+<ul><li> Graphics
+</li><li> Game design
+</li><li> Others
+</li></ul>
+</li><li> Audio
+<ul><li> Ambient
+</li><li> Concepts
+</li><li> Music
+</li><li> Others
+</li><li> SFX
+</li><li> Tests
+</li><li> Voices
+</li></ul>
+</li></ul>
+<p>This structure is fairly simple and logical the actual structure will be the same with the exception that everything is lowercase and spaces are replaced by underscores (_).
+</p><p>Within these directories one can define their own structure but keep in mind to keep it clean and logical. Here is an example for what can be done with the "props" directory.
+</p>
+<ul><li> Props
+<ul><li> <b>Weapons</b>
+</li><li> <b>Shields</b>
+</li><li> <b>Armors</b>
+</li><li> <b>Potions</b>
+</li><li> <b>Artifacts</b>
+</li><li> <b>Others</b>
+</li></ul>
+</li></ul>
+<p><i>Note that the base structure is excluded in this example but should not be excluded in the repository</i>
+</p>
+<a name="Working_Art"></a><h2> <span class="mw-headline"> Working Art </span></h2>
+<p>Within the structural directories there is a strict standard way how we store our material.
+</p><p>Here is the primary outline of how it looks (taking props again as example):
+</p>
+<ul><li> Props
+<ul><li> Weapons
+</li><li> Shields
+</li><li> Armors
+</li><li> Potions
+</li><li> Artifacts
+<ul><li> <b>Holy mustang</b>
+<ul><li> <b>Source</b>
+</li><li> <b>Resources</b>
+</li><li> <b>Docs</b>
+</li></ul>
+</li></ul>
+</li><li> Others
+</li></ul>
+</li></ul>
+<p><i>Note that the base structure is excluded in this example but should not be excluded in the repository</i>
+</p><p>Lets explain what it all is. The directory "Holy mustang" describes the name of the material that can be found there. If you can't think of a good name or it is more or less impossible to give it a name then use a descriptive name with optionally a 2 digit number like "<b>Bottle 23</b>". Note that here the rule that spaces are transformed into underscores and everything is lowercase applies.
+</p><p>In the "Holy mustang" directory we found three directories that are required for each and every directory. These are the directories "Source", "Resources" and "Docs". Below you will find an explanation of what you have to put where.
+</p>
+<a name="Sources"></a><h3> <span class="mw-headline"> Sources </span></h3>
+<p>This directory will contain the source files. The source files are the files that are used to create the material. For example for maya this is *.mb or *.ma, for 3dsmax this is *.max and for Blender this is *.blend.
+</p><p>No exported files or textures or temporary files or whatever else that is not a source file should not be put in there.
+</p>
+<a name="Resources"></a><h3> <span class="mw-headline"> Resources </span></h3>
+<p>This folder is where you put all your resource files. For art this includes textures, source images for the textures, audio files used and other resources. You should if its needed include the author of the resources. This is however done in the "Docs" directory.
+</p>
+<a name="Docs"></a><h3> <span class="mw-headline"> Docs </span></h3>
+<p>This directory contains copyright and left notices about each and every file for which it is required. There should also be a file named <b>info.txt</b> that describes what the material should be and optionally how it was created and a todo list if necessary.
+</p>
+<a name="Additional_notes"></a><h3> <span class="mw-headline"> Additional notes </span></h3>
+<p>If you need to use a material that already is in the repository then just use it but don't put it again in the repository creating double files. Instead of doing that you make a file called <b>uses.txt</b> which lists what resources where used and where they can be found.
+</p>
+<a name="Exported_Art"></a><h2> <span class="mw-headline"> Exported Art </span></h2>
+<p>Exported art is handled a bit differently. Exported art same scheme as working art with the difference that the subdirectories "Source", "Resources" and "Docs" are not used. All the used textures and exported Crystal Space Library files go directly in the "named" directory.
+</p><p>This will look something like this:
+</p>
+<ul><li> Artifacts
+<ul><li> Holy mustang
+<ul><li> <b>Holy mustang.xml</b>
+</li><li> <b>mustangclean.png</b>
+</li><li> <b>mustangdirty.png</b>
+</li></ul>
+</li></ul>
+</li><li> Others
+</li></ul>
+<p><i>Note that the base structure is excluded in this example but should not be excluded in the repository</i>
+</p>
+<a name="Repositories"></a><h2> <span class="mw-headline"> Repositories </span></h2>
+<a name="Usage"></a><h3> <span class="mw-headline"> Usage </span></h3>
+<p>With all these things in the repository it can be quite a hazard to checkout the full repository. But you don't have to do a full checkout. SVN Allows you to checkout each and every directory you wish. With this structure its even simpler. Lets say you want to checkout the Holy mustang source from the working repository ... It is very simple with the command line client:
+</p>
+<pre> svn co <a href="https://cyanox.nl/ptart/3d_art/props/artifacts/holy_mustang/" class="external free" title="https://cyanox.nl/ptart/3d_art/props/artifacts/holy_mustang/" rel="nofollow">https://cyanox.nl/ptart/3d_art/props/artifacts/holy_mustang/</a>
+</pre>
+<p>this will checkout the directories "Source", "Resources" and "Docs" for the Holy mustang so you can work on that alone without checking out all the other stuff that will most likely become quite large.
+</p>
+<a name="Tips_and_notes"></a><h3> <span class="mw-headline"> Tips and notes </span></h3>
+<ul><li> <a href="../../../../articles/u/s/i/UsingSubversion_9704.html" title="UsingSubversion">Using Subversion</a>
+</li><li> Always update todo lists, uses.txt and info.txt when needed.
+</li><li> If you think a new or extra category or sub category is needed first discuss this before applying
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 11/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+<div class="printfooter">
+</div>
+	    <div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="../../../../articles/c/a/t/Special%7ECategories_101d.html" title="Special:Categories">Category</a>:&#32;<span dir='ltr'><a href="../../../../articles/a/r/t/Category%7EArt_General_3506.html" title="Category:Art General">Art General</a></span></div></div></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="../../../../articles/a/r/t/ArtRepositoryLayOut_68bc.html">Page</a></li><li id="ca-talk"
+	       class="new"	       ><a href="../../../../articles/a/r/t/Talk%7EArtRepositoryLayOut_cede.html">Discussion</a></li><li id="ca-current"
+	       	       ><a href="http://localhost/index.php/ArtRepositoryLayOut">Current revision</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(../../../../misc/clock_half.png);"
+	    href="../../../../index.html"
+	    title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>Navigation</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
+	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
+	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
+	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
+	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-SEARCH'>
+	  <h5>SEARCH</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-TOOLBOX'>
+	  <h5>TOOLBOX</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-LANGUAGES'>
+	  <h5>LANGUAGES</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div id="searchBody" class="pBody">
+	    <form action="javascript:goToStatic(3)" id="searchform"><div>
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="Go" />
+	    </div></form>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
+	  	  	  <li id="f-credits">This page was last modified 18:09, 28 September 2008 by <a href="../../../../articles/c/y/a/User%7ECyaNox_4c16.html" title="User:CyaNox">Mark Sanders</a>. Based on work by <a href="../../../../articles/j/e/k/User%7EJekkar_523e.html" title="User:Jekkar">Nick Bastin</a>, <a href="../../../../articles/s/u/e/User%7ESueastside_0e95.html" title="User:Sueastside">Jelle Hellemans</a>, <a href="../../../../articles/i/c/e/User%7EIceeey_a6d0.html" title="User:Iceeey">Seth</a> and Ross Brackstone.</li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+  </body>
+</html>

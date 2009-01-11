@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- headlinks removed -->
+	<link rel="shortcut icon" href="../../../../misc/favicon.ico"/>
+    <title>Skill Manager - Peragro Tempus Wiki</title>
+    <style type="text/css">/*<![CDATA[*/ @import "../../../../skins/offline/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="../../../../skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if IE 6]><style type="text/css">@import "../../../../skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="../../../../skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="../../../../skins/common/wikibits.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/md5.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/utf8.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/lookup.js"></script>
+    <script type="text/javascript" src="../../../../raw/gen.js"></script>        <style type="text/css">/*<![CDATA[*/
+@import "../../../../raw/MediaWiki%7ECommon.css";
+@import "../../../../raw/MediaWiki%7EMonobook.css";
+@import "../../../../raw/gen.css";
+/*]]>*/</style>          </head>
+  <body
+    class="page-Skill_Manager">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	        <h1 class="firstHeading">Skill Manager</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <p>The skill manager will parse an XML file which lists all possible skills, along with their correct icon and the behaviour scripts that define how the skills work for the client and server. This same xml file will also be used by the server, so client and server are always synced. The skill manager will also run the scripts defined for each skill when needed.
+</p>
+<table id="toc" class="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Reasons_for_the_Change"><span class="tocnumber">1</span> <span class="toctext">Reasons for the Change</span></a></li>
+<li class="toclevel-1"><a href="#The_New_XML_Format"><span class="tocnumber">2</span> <span class="toctext">The New XML Format</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Example"><span class="tocnumber">2.1</span> <span class="toctext">Example</span></a></li>
+<li class="toclevel-2"><a href="#Breakdown"><span class="tocnumber">2.2</span> <span class="toctext">Breakdown</span></a>
+<ul>
+<li class="toclevel-3"><a href="#.3Cid.3E"><span class="tocnumber">2.2.1</span> <span class="toctext">&lt;id&gt;</span></a></li>
+<li class="toclevel-3"><a href="#.3Cname.3E"><span class="tocnumber">2.2.2</span> <span class="toctext">&lt;name&gt;</span></a></li>
+<li class="toclevel-3"><a href="#.3Cdescription.3E"><span class="tocnumber">2.2.3</span> <span class="toctext">&lt;description&gt;</span></a></li>
+<li class="toclevel-3"><a href="#.3Cicon.3E"><span class="tocnumber">2.2.4</span> <span class="toctext">&lt;icon&gt;</span></a></li>
+<li class="toclevel-3"><a href="#.3Cbehaviour.3E"><span class="tocnumber">2.2.5</span> <span class="toctext">&lt;behaviour&gt;</span></a>
+<ul>
+<li class="toclevel-4"><a href="#.3Cclient.3E_and_.3Cserver.3E"><span class="tocnumber">2.2.5.1</span> <span class="toctext">&lt;client&gt; and &lt;server&gt;</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#The_Idea"><span class="tocnumber">3</span> <span class="toctext">The Idea</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Server-side_behaviour"><span class="tocnumber">3.1</span> <span class="toctext">Server-side behaviour</span></a></li>
+<li class="toclevel-2"><a href="#Client-side_behaviour"><span class="tocnumber">3.2</span> <span class="toctext">Client-side behaviour</span></a></li>
+<li class="toclevel-2"><a href="#Pseudocode_Examples"><span class="tocnumber">3.3</span> <span class="toctext">Pseudocode Examples</span></a></li>
+<li class="toclevel-2"><a href="#Python_Examples"><span class="tocnumber">3.4</span> <span class="toctext">Python Examples</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Inner_Workings"><span class="tocnumber">4</span> <span class="toctext">Inner Workings</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Lifecycle_of_a_skill"><span class="tocnumber">4.1</span> <span class="toctext">Lifecycle of a skill</span></a></li>
+<li class="toclevel-2"><a href="#Overview"><span class="tocnumber">4.2</span> <span class="toctext">Overview</span></a></li>
+<li class="toclevel-2"><a href="#Skill_type_divisions"><span class="tocnumber">4.3</span> <span class="toctext">Skill type divisions</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Comments"><span class="tocnumber">5</span> <span class="toctext">Comments</span></a>
+<ul>
+<li class="toclevel-2"><a href="#josePhoenix"><span class="tocnumber">5.1</span> <span class="toctext">josePhoenix</span></a></li>
+<li class="toclevel-2"><a href="#sueastside"><span class="tocnumber">5.2</span> <span class="toctext">sueastside</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Pro.27s"><span class="tocnumber">5.2.1</span> <span class="toctext">Pro's</span></a></li>
+<li class="toclevel-3"><a href="#Contra.27s"><span class="tocnumber">5.2.2</span> <span class="toctext">Contra's</span></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
+<a name="Reasons_for_the_Change"></a><h1> <span class="mw-headline"> Reasons for the Change </span></h1>
+<p>Although the <a href="../../../../articles/s/k/i/Skill_Manager_%28old_version%29_953c.html" title="Skill Manager (old version)">old method</a> had the advantage of nice layout of damage properties and requirements, it had too many limitations. The new proposal makes it easier to define more kinds of "damage" (elemental damage, buffs, etc.). Additionally, the old method was very static and would need a complicated XML parser which required an insane amount of glue code. For example, a "<b>Mana Shield</b>" that absorbs damage at the cost of mana. This would have been impossible with the old system.
+</p>
+<a name="The_New_XML_Format"></a><h1> <span class="mw-headline"> The New XML Format </span></h1>
+<a name="Example"></a><h2> <span class="mw-headline"> Example </span></h2>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;skills&gt;
+	&lt;skill&gt;
+		&lt;id&gt;1&lt;/id&gt;
+		&lt;name&gt;Heal&lt;/name&gt;
+		&lt;description&gt;Rejuvenates the target by 10 HP.&lt;/description&gt;
+		&lt;icon&gt;set:Skill image:Heal&lt;/icon&gt;
+		&lt;behaviour&gt;
+                   &lt;!-- Script to define skill behavior on the client, see the Examples section --&gt;
+                   &lt;client&gt;/peragro/behaviours/skills/spells/heal-client.py&lt;client&gt;
+                   &lt;!-- The same but for the server --&gt; 
+                   &lt;server&gt;/peragro/behaviours/skills/spells/heal-server.py&lt;server&gt; 
+		&lt;/behaviour&gt;
+	&lt;/skill&gt;
+&lt;/skills&gt;
+</pre>
+<a name="Breakdown"></a><h2> <span class="mw-headline"> Breakdown </span></h2>
+<a name=".3Cid.3E"></a><h3> <span class="mw-headline"> &lt;id&gt; </span></h3>
+<p>This is the ID number used to refer to the skill internally, and must be unique for each skill.
+</p>
+<a name=".3Cname.3E"></a><h3> <span class="mw-headline"> &lt;name&gt; </span></h3>
+<p>The displayed name of the skill for the client and server.
+</p>
+<a name=".3Cdescription.3E"></a><h3> <span class="mw-headline"> &lt;description&gt; </span></h3>
+<p>A short description of the skill that will appear in the client's skills window.
+</p>
+<a name=".3Cicon.3E"></a><h3> <span class="mw-headline"> &lt;icon&gt; </span></h3>
+<p>The associated icon in the format of a CeGUI image definition. <b>set:</b> is the set in which the image is found, and <b>image:</b> is the actual image name
+</p>
+<a name=".3Cbehaviour.3E"></a><h3> <span class="mw-headline"> &lt;behaviour&gt; </span></h3>
+<p>The behaviour scripts that control the skills behaviour on the client and server.
+</p>
+<a name=".3Cclient.3E_and_.3Cserver.3E"></a><h4> <span class="mw-headline"> &lt;client&gt; and &lt;server&gt; </span></h4>
+<p>These specify a (VFS?) path to the python scripts that should be called when a skill is performed. The server script is the only one that performs any calculations or rewards. The client script is used when a skill is performed or observed by another client
+</p>
+<a name="The_Idea"></a><h1> <span class="mw-headline"> The Idea </span></h1>
+<p>Each skill is a factory template, having it's own properties and behaviour.
+It is endlessly looped until either it deletes itself (its timer expires) or its force-deleted from the outside (a <b>skillcancelrequest</b> has been recieved).
+</p><p>A skill can have several possible inputs:
+</p>
+<ul><li>Entity: The skill is applied to this entity.
+</li><li>Position: The skill is applied to this position/region, the behaviour can either gather the entities around(think area of effect spells) or check for incoming entities(think traps).
+</li></ul>
+<p>The XML should be reloadable (like on the client with the itemmgr) so everything can be updated on the fly, on the client with the console, and on the server by sending an admin command or similar.
+</p>
+<a name="Server-side_behaviour"></a><h2> <span class="mw-headline"> Server-side behaviour </span></h2>
+<ol><li> Check the caster for skill requirements
+<ul><li> Enough STR?
+</li></ul>
+</li><li> Check target requirements
+<ul><li> Range?
+</li><li> Correct entity type?
+</li></ul>
+</li><li> Calculate changes and apply.
+</li></ol>
+<a name="Client-side_behaviour"></a><h2> <span class="mw-headline"> Client-side behaviour </span></h2>
+<ul><li> Attach effects
+</li><li> Move effects (projectiles, fireballs, etc.)
+</li><li> Animations
+</li><li> etc.
+</li></ul>
+<a name="Pseudocode_Examples"></a><h2> <span class="mw-headline"> Pseudocode Examples </span></h2>
+<p><a href="../../../../articles/s/k/i/Skill_Manager_Pseudocode_c972.html" title="Skill Manager/Pseudocode">These</a> were written to illustrate the concepts, and aren't real code.
+</p>
+<ul><li> <a href="../../../../articles/s/k/i/Skill_Manager_Pseudocode_c972.html#Harvesting_Skill" title="Skill Manager/Pseudocode">Harvesting Skill</a>
+</li><li> <a href="../../../../articles/s/k/i/Skill_Manager_Pseudocode_c972.html#Mana_Shield" title="Skill Manager/Pseudocode">Mana Shield</a>
+</li><li> <a href="../../../../articles/s/k/i/Skill_Manager_Pseudocode_c972.html#Combat_Hit" title="Skill Manager/Pseudocode">Combat Hit</a>
+</li></ul>
+<a name="Python_Examples"></a><h2> <span class="mw-headline"> Python Examples </span></h2>
+<p>Once this system is implemented, place real code examples in Skill Manager/Examples.
+</p>
+<a name="Inner_Workings"></a><h1> <span class="mw-headline"> Inner Workings </span></h1>
+<a name="Lifecycle_of_a_skill"></a><h2> <span class="mw-headline"> Lifecycle of a skill </span></h2>
+<ol><li> A player requests a startskillusage by sending such a request message.
+<ul><li> SkillID
+</li><li> EntityID or position (depending on the skill)
+</li></ul>
+</li><li> Server looks up the entities(and checks if the position is valid) and looks up the skill and creates a skill object with the specified script and passes the entities.
+</li><li> The skill object is pushed on an array which will be iterated each tick and be handled.
+</li><li> The skill takes care of itself when its finished.
+</li></ol>
+<a name="Overview"></a><h2> <span class="mw-headline"> Overview </span></h2>
+<ol><li> Client sends SkillRequest message.
+</li><li> Skill alters entities.
+</li><li> Changed entities register themselfs in UpdateEntityArray.
+</li><li> UpdateEntityArray is being progressed and appropiate messages are send for the changes.
+</li><li> Client recieves SkillResponse(b), Damage(b), Experience(p), Levelup(b),... Messages.
+</li></ol>
+<p><i>b = Broadcast message, send to everyone</i><br />
+<i>p = Personal message, send to the player and only the player</i>
+</p>
+<a name="Skill_type_divisions"></a><h2> <span class="mw-headline"> Skill type divisions </span></h2>
+<p><a href="../../../../articles/s/k/i/Skill_Manager_skilldivisions_66ba.html" title="Skill Manager/skilldivisions">Look here</a>
+</p>
+<a name="Comments"></a><h1> <span class="mw-headline"> Comments </span></h1>
+<a name="josePhoenix"></a><h4> <span class="mw-headline"> josePhoenix </span></h4>
+<p>Requesting change for the line "&lt;icon&gt;set:Skill image:Heal&lt;/icon&gt;"
+sueastside says this is the way to specify an image to CeGUI, which would decrease overhead a little
+however, if PT ever decides to move from CeGUI, this would add more work
+I propose this format to make it more abstracted: &lt;icon set="skills"&gt;Heal&lt;/icon&gt;
+</p>
+<a name="sueastside"></a><h4> <span class="mw-headline"> sueastside </span></h4>
+<a name="Pro.27s"></a><h5> <span class="mw-headline"> Pro's </span></h5>
+<ul><li> Fast prototyping
+</li><li> Fully custom skills
+</li><li> Reloadable on the fly
+</li><li> Doesn't need endless tables of data(most of it just to support some more "special" cases)
+</li></ul>
+<a name="Contra.27s"></a><h5> <span class="mw-headline"> Contra's </span></h5>
+<ul><li> Speed
+</li><li> Speed(not everyone will be using super powerful spells. in fact, most of the lower classes will just be using basic spells. even mid level classes often still have just more powerful versions of the same basic principle)
+</li><li> If you want to combine multiple categories together to create enhanced skills/spells, you could easily combine the standardized skills using id's in a table.(custom skills will still require scripting or hard coded solutions sadly.)
+</li></ul>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 29/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+<div class="printfooter">
+</div>
+	    <div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="../../../../articles/c/a/t/Special%7ECategories_101d.html" title="Special:Categories">Categories</a>:&#32;<span dir='ltr'><a href="../../../../articles/c/l/i/Category%7EClient_a60f.html" title="Category:Client">Client</a></span> | <span dir='ltr'><a href="../../../../articles/s/k/i/Category%7ESkill_Manager_1d67.html" title="Category:Skill Manager">Skill Manager</a></span></div></div></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="../../../../articles/s/k/i/Skill_Manager_c166.html">Page</a></li><li id="ca-talk"
+	       class="new"	       ><a href="../../../../articles/s/k/i/Talk%7ESkill_Manager_739c.html">Discussion</a></li><li id="ca-current"
+	       	       ><a href="http://localhost/index.php/Skill_Manager">Current revision</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(../../../../misc/clock_half.png);"
+	    href="../../../../index.html"
+	    title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>Navigation</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
+	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
+	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
+	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
+	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-SEARCH'>
+	  <h5>SEARCH</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-TOOLBOX'>
+	  <h5>TOOLBOX</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-LANGUAGES'>
+	  <h5>LANGUAGES</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div id="searchBody" class="pBody">
+	    <form action="javascript:goToStatic(3)" id="searchform"><div>
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="Go" />
+	    </div></form>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
+	  	  	  <li id="f-credits">This page was last modified 19:42, 28 November 2006 by <a href="../../../../articles/s/u/e/User%7ESueastside_0e95.html" title="User:Sueastside">Jelle Hellemans</a>. Based on work by <a href="../../../../articles/j/o/s/User%7EJosePhoenix_0279.html" title="User:JosePhoenix">Joseph Long</a>.</li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- headlinks removed -->
+	<link rel="shortcut icon" href="../../../../misc/favicon.ico"/>
+    <title>Communication - Peragro Tempus Wiki</title>
+    <style type="text/css">/*<![CDATA[*/ @import "../../../../skins/offline/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="../../../../skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if IE 6]><style type="text/css">@import "../../../../skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="../../../../skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="../../../../skins/common/wikibits.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/md5.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/utf8.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/lookup.js"></script>
+    <script type="text/javascript" src="../../../../raw/gen.js"></script>        <style type="text/css">/*<![CDATA[*/
+@import "../../../../raw/MediaWiki%7ECommon.css";
+@import "../../../../raw/MediaWiki%7EMonobook.css";
+@import "../../../../raw/gen.css";
+/*]]>*/</style>          </head>
+  <body
+    class="page-Communication">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	        <h1 class="firstHeading">Communication</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <table align="center" cellspacing="3" width="100%">
+
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<p><a href="../../../../articles/s/e/t/Setting.html" title="Setting">Settings Home</a>
+</p>
+</td><td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<p><a href="../../../../articles/g/a/m/Game_Mechanics_488b.html" title="Game Mechanics">Game Mechanics Home</a>
+</p>
+</td><td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<div style="float: right; font-size: 80%; padding: 0px 5px 0px 5px;"><a href="../../../../articles/g/a/m/Template%7EGameplay_0647.html" title="Template:Gameplay">T</a></div>
+<p><a href="../../../../index.html" title="Main Page">Wiki Home</a>
+</p>
+</td></tr>
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0" colspan="3"><a href="../../../../articles/c/o/m/Combat.html" title="Combat">Combat</a> · <a href="../../../../articles/e/c/o/Economy.html" title="Economy">Economy</a> · <a href="../../../../articles/h/o/u/Housing.html" title="Housing">Housing</a> · <a href="../../../../articles/c/h/a/Character.html" title="Character">Character</a> (<a href="../../../../articles/s/k/i/Skills.html" class="mw-redirect" title="Skills">Skills</a>, <a href="../../../../articles/a/b/i/Abilities.html" title="Abilities">Abilities</a>, <a href="../../../../articles/p/r/o/Progression.html" title="Progression">Progression</a>, &amp; <a href="../../../../articles/i/n/v/Inventory.html" title="Inventory">Inventory</a>) · <a href="../../../../articles/p/o/l/Category%7EPolitics_305d.html" title="Category:Politics">Politics</a> · <a href="../../../../articles/d/e/a/Death.html" title="Death">Death</a> · <a href="../../../../articles/w/a/r/War.html" title="War">War</a> · <a href="../../../../articles/m/a/g/Magic.html" title="Magic">Magic</a>
+</td></tr>
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0" colspan="3"><strong class="selflink">Communication</strong>
+</td></tr></table>
+<p><br />
+</p><p>Here follows a description of the social system and how it should be implemented.This is a page exclusively to be used by developers for developing purposes.In a later stage a player friendly version of this page may appear.
+</p><p><br />
+</p>
+<a name="The_System"></a><h1> <span class="mw-headline"> The System </span></h1>
+<p>A social system in gameplay terms can be defined as a system that describes all guidelines concerning the use of the user interface and a character in combination with the environment and other players. The system describes guidelines for chatting, interactions , and others.
+</p>
+<a name="Chatting"></a><h1> <span class="mw-headline"> Chatting </span></h1>
+<p>The following types of chat should be implemented.
+</p>
+<ul><li> <b>Global chat (temporary)</b>
+</li></ul>
+<p><br />
+<i>A chat used to communicate with everyone online on the server.Should be removed before alpha version.Global chats are unused in modern mmorpg's.Ideal for test purposes on the other hand while multiple developers are testing.</i>
+</p>
+<ul><li> <b>Group chat</b>
+</li></ul>
+<p><br />
+<i>Group chats are used to communicate with a group (guilds,clans or any other group).the output is similar to a global chat except that it is limited to involved persons(members of the goup).</i>
+</p><p><br />
+</p>
+<ul><li> <b>Personal Message</b>
+</li></ul>
+<p><i>The player should be able to send a personal mssage to any of the players in the game unless he or she is muted.</i>
+</p><p><br />
+</p>
+<ul><li> <b>Local chat</b>
+</li></ul>
+<p><i>Local chat is the chat on the diret location of the chatting players.The chat should be displayed in the direct environment of the player like this:</i>
+</p><p><a href="../../../../articles/l/o/c/Image%7ELocal.JPG_5157.html" class="image" title="Image:Local.JPG"><img alt="Image:Local.JPG" src="../../../../../images/7/7a/Local.JPG" width="220" height="216" border="0" /></a>
+</p>
+<ul><li> <b>Trade chat</b>
+</li></ul>
+<p>There should be a seperate trading chat between the 2 people who are trading
+</p>
+<ul><li> <b>Censorship</b>
+</li></ul>
+<p>Configurable censorship should be used. A list appears in the GUI, when asked for, the curse words you don't want to see are listed and a possibility is given for adding curse words you don't want to see anymore.
+</p>
+<a name="Interactions_.26_other_commands"></a><h1> <span class="mw-headline"> Interactions &amp; other commands </span></h1>
+<p>The following types of interaction should be implemented.
+</p>
+<ul><li> <b>Negotiate</b>
+</li></ul>
+<p><br />
+<i>Negotiate will be the command to activate a trade screen.the player should be given the option to be able to trade, give or recieve items and or money/any type of valuta.</i>
+</p><p><br />
+</p>
+<ul><li> <b>Add friend</b>
+</li></ul>
+<p><br />
+<i>The add friends command should trigger a friends list.This friends list is to give the players the option to check the status of their friends an easily contact them even if they belong to a different social or political group</i>
+</p>
+<ul><li> <b>Summon</b>
+</li></ul>
+<p><br />
+<i>Summon is the command to summon a aqquired creature,pet or mountable.When the command is given the creature should appear in the direct area of the player.No long range summons are implemented at this stage.</i>
+</p><p><br />
+</p>
+<ul><li> <b>Join group</b>
+</li></ul>
+<p><br />
+<i>The join group command is a command that allows you to join a certain group in the game.In some cases a player can belong to multiple groups as well political as well as a different faction.For player controlled non-political factions a invitation is required.</i>
+</p><p><br />
+</p>
+<ul><li> <b>Leave group</b>
+</li></ul>
+<p><br />
+<i>The command to leave a certain group. Not all groups can be left.</i>
+</p><p><br />
+</p>
+<ul><li> <b>Black list</b>
+</li></ul>
+<p><br />
+<i>The black list command should give th eplayer the option to block anyone froms ending a personal message to him/her</i>
+</p>
+<a name="End_of_System"></a><h1> <span class="mw-headline"> End of System </span></h1>
+
+<!-- 
+NewPP limit report
+Preprocessor node count: 8/1000000
+Post-expand include size: 1159/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+<div class="printfooter">
+</div>
+	    <div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="../../../../articles/c/a/t/Special%7ECategories_101d.html" title="Special:Categories">Category</a>:&#32;<span dir='ltr'><a href="../../../../articles/g/a/m/Category%7EGame_Mechanics_2a70.html" title="Category:Game Mechanics">Game Mechanics</a></span></div></div></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="../../../../articles/c/o/m/Communication.html">Page</a></li><li id="ca-talk"
+	       class="new"	       ><a href="../../../../articles/c/o/m/Talk%7ECommunication_9b2c.html">Discussion</a></li><li id="ca-current"
+	       	       ><a href="http://localhost/index.php/Communication">Current revision</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(../../../../misc/clock_half.png);"
+	    href="../../../../index.html"
+	    title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>Navigation</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
+	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
+	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
+	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
+	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-SEARCH'>
+	  <h5>SEARCH</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-TOOLBOX'>
+	  <h5>TOOLBOX</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-LANGUAGES'>
+	  <h5>LANGUAGES</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div id="searchBody" class="pBody">
+	    <form action="javascript:goToStatic(3)" id="searchform"><div>
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="Go" />
+	    </div></form>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
+	  	  	  <li id="f-credits">This page was last modified 15:59, 28 September 2008 by <a href="../../../../articles/c/y/a/User%7ECyaNox_4c16.html" title="User:CyaNox">Mark Sanders</a>. Based on work by <a href="../../../../articles/d/a/r/User%7EDarker_Dreams_6a0a.html" title="User:Darker Dreams">Ryan Robinson</a>, <a href="../../../../articles/j/e/k/User%7EJekkar_523e.html" title="User:Jekkar">Nick Bastin</a>, <a href="../../../../articles/i/n/d/User%7EInduane_ae61.html" title="User:Induane">Brant Watson</a>, <a href="../../../../articles/v/a/l/User%7EValbrandr_1532.html" title="User:Valbrandr">Jesse Duckworth</a>, Ties and <a href="../../../../articles/b/b/k/User%7EBbkiller_b215.html" title="User:Bbkiller">Gilbert Ismail</a>.</li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- headlinks removed -->
+	<link rel="shortcut icon" href="../../../../misc/favicon.ico"/>
+    <title>Inventory - Peragro Tempus Wiki</title>
+    <style type="text/css">/*<![CDATA[*/ @import "../../../../skins/offline/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="../../../../skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if IE 6]><style type="text/css">@import "../../../../skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="../../../../skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="../../../../skins/common/wikibits.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/md5.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/utf8.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/lookup.js"></script>
+    <script type="text/javascript" src="../../../../raw/gen.js"></script>        <style type="text/css">/*<![CDATA[*/
+@import "../../../../raw/MediaWiki%7ECommon.css";
+@import "../../../../raw/MediaWiki%7EMonobook.css";
+@import "../../../../raw/gen.css";
+/*]]>*/</style>          </head>
+  <body
+    class="page-Inventory">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	        <h1 class="firstHeading">Inventory</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <table align="center" cellspacing="3" width="100%">
+
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<p><a href="../../../../articles/s/e/t/Setting.html" title="Setting">Settings Home</a>
+</p>
+</td><td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<p><a href="../../../../articles/g/a/m/Game_Mechanics_488b.html" title="Game Mechanics">Game Mechanics Home</a>
+</p>
+</td><td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0">
+<div style="float: right; font-size: 80%; padding: 0px 5px 0px 5px;"><a href="../../../../articles/g/a/m/Template%7EGameplay_0647.html" title="Template:Gameplay">T</a></div>
+<p><a href="../../../../index.html" title="Main Page">Wiki Home</a>
+</p>
+</td></tr>
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0" colspan="3"><a href="../../../../articles/c/o/m/Combat.html" title="Combat">Combat</a> · <a href="../../../../articles/e/c/o/Economy.html" title="Economy">Economy</a> · <a href="../../../../articles/h/o/u/Housing.html" title="Housing">Housing</a> · <a href="../../../../articles/c/h/a/Character.html" title="Character">Character</a> (<a href="../../../../articles/s/k/i/Skills.html" class="mw-redirect" title="Skills">Skills</a>, <a href="../../../../articles/a/b/i/Abilities.html" title="Abilities">Abilities</a>, <a href="../../../../articles/p/r/o/Progression.html" title="Progression">Progression</a>, &amp; <strong class="selflink">Inventory</strong>) · <a href="../../../../articles/p/o/l/Category%7EPolitics_305d.html" title="Category:Politics">Politics</a> · <a href="../../../../articles/d/e/a/Death.html" title="Death">Death</a> · <a href="../../../../articles/w/a/r/War.html" title="War">War</a> · <a href="../../../../articles/m/a/g/Magic.html" title="Magic">Magic</a>
+</td></tr>
+<tr>
+<td align="center" width="33%" valign="center" style="border: 1px solid #c6c9ff; color: #000; background-color: #f0f0f0; padding: 0" colspan="3"><a href="../../../../articles/c/o/m/Communication.html" title="Communication">Communication</a>
+</td></tr></table>
+<p><br />
+Discussion of coding for inventory is found at <a href="../../../../articles/i/n/v/Inventory_code.html" title="Inventory code">Inventory code</a>.
+</p><p>The items about a character's person are measured in two ways- their location and their weight. Weight is used to determine the character's <a href="../../../../articles/e/n/c/Encumbrance.html" title="Encumbrance">Encumbrance</a>, and will be treated elsewhere. Unless placed otherwise an item is assumed to be carried in the character's hand or hands.
+</p><p>If a character <a href="../../../../articles/d/e/a/Death.html" title="Death">dies</a> their entire inventory generally remains with their body. If an item is spiritbound or otherwise transfers with a dead character it transfers to the character's new inventory after death. If an item is in a container which does not transfer (generally unless it is worn or in hand) it falls to the ground when the character becomes a ghost.
+</p>
+<table id="toc" class="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Locations"><span class="tocnumber">1</span> <span class="toctext">Locations</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Carried"><span class="tocnumber">1.1</span> <span class="toctext">Carried</span></a></li>
+<li class="toclevel-2"><a href="#Clothing"><span class="tocnumber">1.2</span> <span class="toctext">Clothing</span></a></li>
+<li class="toclevel-2"><a href="#Jewelry"><span class="tocnumber">1.3</span> <span class="toctext">Jewelry</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Piercings"><span class="tocnumber">1.3.1</span> <span class="toctext">Piercings</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Storage"><span class="tocnumber">1.4</span> <span class="toctext">Storage</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Containers"><span class="tocnumber">2</span> <span class="toctext">Containers</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Containers_Within_Containers"><span class="tocnumber">2.1</span> <span class="toctext">Containers Within Containers</span></a></li>
+<li class="toclevel-2"><a href="#Movement"><span class="tocnumber">2.2</span> <span class="toctext">Movement</span></a></li>
+<li class="toclevel-2"><a href="#Small_items"><span class="tocnumber">2.3</span> <span class="toctext">Small items</span></a></li>
+<li class="toclevel-2"><a href="#Special_Containers"><span class="tocnumber">2.4</span> <span class="toctext">Special Containers</span></a></li>
+<li class="toclevel-2"><a href="#Sheaths_vs_Packs"><span class="tocnumber">2.5</span> <span class="toctext">Sheaths vs Packs</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#Tanking"><span class="tocnumber">3</span> <span class="toctext">Tanking</span></a></li>
+<li class="toclevel-1"><a href="#Concept_Art"><span class="tocnumber">4</span> <span class="toctext">Concept Art</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Main_Inventory"><span class="tocnumber">4.1</span> <span class="toctext">Main Inventory</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_Options"><span class="tocnumber">4.2</span> <span class="toctext">Main Inventory Options</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Open_Backpack"><span class="tocnumber">4.3</span> <span class="toctext">Main Inventory with Open Backpack</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Belt"><span class="tocnumber">4.4</span> <span class="toctext">Main Inventory with Belt</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Ring"><span class="tocnumber">4.5</span> <span class="toctext">Main Inventory with Ring</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Gauntlets"><span class="tocnumber">4.6</span> <span class="toctext">Main Inventory with Gauntlets</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Cloak"><span class="tocnumber">4.7</span> <span class="toctext">Main Inventory with Cloak</span></a></li>
+<li class="toclevel-2"><a href="#Main_Inventory_with_Lots_of_Stuff"><span class="tocnumber">4.8</span> <span class="toctext">Main Inventory with Lots of Stuff</span></a></li>
+</ul>
+</li>
+</ul>
+</td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
+<a name="Locations"></a><h1> <span class="mw-headline">Locations</span></h1>
+<p>The basic management of inventory is done through locations about the body. There are several basic categories of inventory locations, these include;
+</p>
+<ul><li>Carried
+</li><li>Clothing locations
+</li><li>Jewelery locations
+</li><li>Storage locations
+</li></ul>
+<p>The vast majority of items require only one location to wear, though some require more. A particularly voluminous robe, for example, might occupy the Vest and Cloak locations. Similarly, gauntlets generally condense the ring locations of one hand into a single "Gauntlet" location.
+</p>
+<a name="Carried"></a><h2> <span class="mw-headline">Carried</span></h2>
+<p>Unlike virtually every other location, "carried" can contain any type of item. An item which is carried will automatically be wielded if combat begins. An item which takes two hands to wield is generally assumed to be carried in two hands or one with the balance leaned over the shoulder.
+</p>
+<ul><li>2 hands
+</li></ul>
+<a name="Clothing"></a><h2> <span class="mw-headline">Clothing</span></h2>
+<ul><li>1 pair gloves
+</li><li>1 Shirt
+</li><li>1 Vest/Breastplate/Robe
+</li><li>1 Cloak
+</li><li>1 Pants/kilt/skirt
+</li><li>1 Leggings/tights
+</li><li>1 Hat/helm
+</li><li>1 pair Boots
+</li></ul>
+<a name="Jewelry"></a><h2> <span class="mw-headline">Jewelry</span></h2>
+<ul><li>10 Rings/ 1 pair gauntlets
+</li><li>2 Bracelets/bracers
+</li><li>1 Necklace/brooch
+</li><li>1 Cloak pin (if wearing a cloak)
+</li><li>1 Belt
+</li><li>2 Greaves
+</li><li>(special) Piercings
+</li></ul>
+<a name="Piercings"></a><h3> <span class="mw-headline">Piercings</span></h3>
+<p>Piercings are a particular type of inventory location in that not every character has all of them. In fact, characters generally start out with no piercings at all, even in their ears. While some piercings, such as one's ears, are moderately easy to get, and get jewelery for, others require much more to obtain. All piercings involve a (skill~<a href="../../../../articles/s/k/i/Skinner.html" title="Skinner">skinner</a>?) times (ability) roll to perform successfully, and deal at least some (stamina or hit point) damage.
+</p><p>Piercings often alter a character in ways aside from simply "unlocking" a slot, including carry special stigma (or honor) among various societies and factions. For this reason, choosing to get a piercing should be treated as a long-term consideration.
+</p>
+<ul><li>Ears
+</li><li>Eyebrow
+</li><li>Nose
+</li><li>Lip
+</li><li>Bellybutton
+</li><li>(PG rated?)
+</li><li>(R rated?)
+</li><li>(X rated?)
+</li><li>(tattoos?)
+</li></ul>
+<a name="Storage"></a><h2> <span class="mw-headline">Storage</span></h2>
+<p>Storage locations are generally used for straps and other means by which containers may be attach to one's body. For example, the back location is where a shield might be slung or a backpack worn. A sword sheath might hang over a shoulder or from the belt. While items which fit in other types of location can have space for more items to be stored (for example, a pair of pants may have one or more small pockets as might a cloak or robe) these are the method by which a character generates the greatest amount of storage space about their body.
+</p>
+<ul><li> 2 shoulders
+</li><li> 1 back
+</li><li> (several) Belt (if worn)
+</li></ul>
+<p>Note that a belt is unusual in that it is an item which provides extra locations. Few other items do so, generally acting as containers (see below).
+</p><p>Note that a bandoleer is effectively as a belt worn over the shoulders, allowing a significant expansion of storage space by trading each shoulder location for a set of "Bandoleer" locations. However, bandoleers generally have fewer locations available than the same item used as a belt.
+</p>
+<a name="Containers"></a><h1> <span class="mw-headline">Containers</span></h1>
+<p>Some items act as containers. Generally, these exist in Storage locations, such as a backpack, duffel-bag, or attached to a belt- though others are possible. Unlike locations, however, space in a container is general in what can occupy it, but is also limited in quantity.
+</p><p>When a container is opened it presents a grid. The grid a given container presents is based on its internal space- this may be as small as a 1x1 slot, though generally items larger than (10x10 or 25x25?) are better treated as rooms. Other items may be placed into containers and occupy a variable amount of space, depending on their own size and shape- for example a dagger may occupy one or two squares, while a large sword might occupy a 10x2 square in a container.
+</p>
+<a name="Containers_Within_Containers"></a><h2> <span class="mw-headline">Containers Within Containers</span></h2>
+<p>Some containers have a fixed external size. In this case, they occupy the same amount of space regardless of other considerations.
+</p><p>Many containers, such as bags and pouches, greatly vary in size depending on their contents. While they have a maximum size to constrain what they contain, they cannot grow to exceed the size of whatever container they are placed within (nor can they be placed into a container that is too small for their contents). 
+</p>
+<a name="Movement"></a><h2> <span class="mw-headline">Movement</span></h2>
+<p>Items placed in a container tend to shift and move. Each time a container is opened the location of its contents may be randomized. All items will be present in a legal formation- it just may not be the formation you were expecting.
+</p>
+<a name="Small_items"></a><h2> <span class="mw-headline">Small items</span></h2>
+<p>For small items, you want to use a small bag- a pouch. Small containers have no more than 1 "normal" slot, and thus open directly to a maginified 10x10 grid. On this grid many items that normally take up a single space take up a different amount of space. For example an apple (normally 1 slot) occupies the entire 10 slot space, while coins occupy only a few squares and a bead occupies only 1. Sometimes, particularly small items (seed beads and sand) are still distributed in packets- but these are not divisible in inventory.
+</p>
+<a name="Special_Containers"></a><h2> <span class="mw-headline">Special Containers</span></h2>
+<p>Some containers, generally those imbued with some form of magic, have special properties. Perhaps they reduce the weight of the items inside, perhaps they accommodate a larger amount of material than they should (and thus allow the containers they are within to contain them with more items than normal). 
+</p><p>Suffice to say, special containers create their own special exceptions to the rules.
+</p>
+<a name="Sheaths_vs_Packs"></a><h2> <span class="mw-headline">Sheaths vs Packs</span></h2>
+<p>There is no particular difference between a sheath and a sack or pack except that generally sheaths are shaped to properly fit a weapon, not a random collection of stuff. However, there is no bar to using a sword which is shorter than its sheath and packing some items at the end, nor stuffing your sword's sheath with a random assortment of loot.
+</p><p><br />
+</p>
+<a name="Tanking"></a><h1> <span class="mw-headline">Tanking</span></h1>
+<p>A character who is particularly interested in combat will fill many of their locations with armor;
+</p>
+<table>
+<tr>
+<td>Clothing
+<ul><li>2 1 pair heavy gloves
+</li><li>1 Haubark (Shirt)
+</li><li>1 Breastplate (Vest)
+</li><li>1 Cloak
+</li><li>1 Cuisses, Poleyn, or Schynbalds (pants/kilt)
+</li><li>1 Chausses (leggings)
+</li><li>1 Helm
+</li><li>1 pair Boots or Sabaton
+</li></ul>
+</td><td>Jewelry
+<ul><li>1 pair Gauntlets
+</li><li>2 bracers
+</li><li>1 Aventail, Bevor, or Gorget (necklass)
+</li><li>1 Culet, Kidney Belt, or regular belt with Tassets.
+</li><li>2 Greaves
+</li></ul>
+</td><td>Storage
+<ul><li> 2 Pauldrons, Rerebraces, Spaulders (2 shoulders)
+</li><li> 1 "Extra" Shield or back plate (back)
+</li><li> (variable) Tassets (hung from Belt locations)
+</li></ul>
+</td></tr></table>
+<a name="Concept_Art"></a><h1> <span class="mw-headline">Concept Art</span></h1>
+<a name="Main_Inventory"></a><h2> <span class="mw-headline">Main Inventory</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory.jpg_d954.html" class="image" title="Image:Main Inventory.jpg"><img alt="Image:Main Inventory.jpg" src="../../../../../images/7/77/Main_Inventory.jpg" width="834" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_Options"></a><h2> <span class="mw-headline">Main Inventory Options</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_Options.jpg_a3c5.html" class="image" title="Image:Main Inventory Options.jpg"><img alt="Image:Main Inventory Options.jpg" src="../../../../../images/f/f6/Main_Inventory_Options.jpg" width="834" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Open_Backpack"></a><h2> <span class="mw-headline">Main Inventory with Open Backpack</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Open_Backpack.jpg_7136.html" class="image" title="Image:Main Inventory with Open Backpack.jpg"><img alt="Image:Main Inventory with Open Backpack.jpg" src="../../../../../images/1/1b/Main_Inventory_with_Open_Backpack.jpg" width="1096" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Belt"></a><h2> <span class="mw-headline">Main Inventory with Belt</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Belt.jpg_d672.html" class="image" title="Image:Main Inventory with Belt.jpg"><img alt="Image:Main Inventory with Belt.jpg" src="../../../../../images/b/b2/Main_Inventory_with_Belt.jpg" width="930" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Ring"></a><h2> <span class="mw-headline">Main Inventory with Ring</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Ring.jpg_4c84.html" class="image" title="Image:Main Inventory with Ring.jpg"><img alt="Image:Main Inventory with Ring.jpg" src="../../../../../images/8/84/Main_Inventory_with_Ring.jpg" width="834" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Gauntlets"></a><h2> <span class="mw-headline">Main Inventory with Gauntlets</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Gauntlets.jpg_1e48.html" class="image" title="Image:Main Inventory with Gauntlets.jpg"><img alt="Image:Main Inventory with Gauntlets.jpg" src="../../../../../images/6/6f/Main_Inventory_with_Gauntlets.jpg" width="635" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Cloak"></a><h2> <span class="mw-headline">Main Inventory with Cloak</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Cloak.jpg_a8dd.html" class="image" title="Image:Main Inventory with Cloak.jpg"><img alt="Image:Main Inventory with Cloak.jpg" src="../../../../../images/9/9f/Main_Inventory_with_Cloak.jpg" width="834" height="612" border="0" /></a>
+</p>
+<a name="Main_Inventory_with_Lots_of_Stuff"></a><h2> <span class="mw-headline">Main Inventory with Lots of Stuff</span></h2>
+<p><a href="../../../../articles/m/a/i/Image%7EMain_Inventory_with_Lots_of_Stuff.jpg_ca91.html" class="image" title="Image:Main Inventory with Lots of Stuff.jpg"><img alt="Image:Main Inventory with Lots of Stuff.jpg" src="../../../../../images/8/89/Main_Inventory_with_Lots_of_Stuff.jpg" width="756" height="612" border="0" /></a>
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 26/1000000
+Post-expand include size: 1160/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+<div class="printfooter">
+</div>
+	    <div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="../../../../articles/c/a/t/Special%7ECategories_101d.html" title="Special:Categories">Category</a>:&#32;<span dir='ltr'><a href="../../../../articles/c/h/a/Category%7ECharacters_98d3.html" title="Category:Characters">Characters</a></span></div></div></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="../../../../articles/i/n/v/Inventory.html">Page</a></li><li id="ca-talk"
+	       class="new"	       ><a href="../../../../articles/i/n/v/Talk%7EInventory_7622.html">Discussion</a></li><li id="ca-current"
+	       	       ><a href="http://localhost/index.php/Inventory">Current revision</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(../../../../misc/clock_half.png);"
+	    href="../../../../index.html"
+	    title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>Navigation</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
+	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
+	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
+	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
+	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-SEARCH'>
+	  <h5>SEARCH</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-TOOLBOX'>
+	  <h5>TOOLBOX</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-LANGUAGES'>
+	  <h5>LANGUAGES</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div id="searchBody" class="pBody">
+	    <form action="javascript:goToStatic(3)" id="searchform"><div>
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="Go" />
+	    </div></form>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
+	  	  	  <li id="f-credits">This page was last modified 04:45, 15 October 2008 by <a href="../../../../articles/d/a/r/User%7EDarker_Dreams_6a0a.html" title="User:Darker Dreams">Ryan Robinson</a>. Based on work by <a href="../../../../articles/c/y/a/User%7ECyaNox_4c16.html" title="User:CyaNox">Mark Sanders</a>.</li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+  </body>
+</html>

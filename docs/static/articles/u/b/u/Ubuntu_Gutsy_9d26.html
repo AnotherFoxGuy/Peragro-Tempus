@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<!-- headlinks removed -->
+	<link rel="shortcut icon" href="../../../../misc/favicon.ico"/>
+    <title>Ubuntu Gutsy - Peragro Tempus Wiki</title>
+    <style type="text/css">/*<![CDATA[*/ @import "../../../../skins/offline/main.css"; /*]]>*/</style>
+    <link rel="stylesheet" type="text/css" media="print" href="../../../../skins/common/commonPrint.css" />
+    <!--[if lt IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE50Fixes.css";</style><![endif]-->
+    <!--[if IE 5.5000]><style type="text/css">@import "../../../../skins/monobook/IE55Fixes.css";</style><![endif]-->
+    <!--[if IE 6]><style type="text/css">@import "../../../../skins/monobook/IE60Fixes.css";</style><![endif]-->
+    <!--[if IE]><script type="text/javascript" src="../../../../skins/common/IEFixes.js"></script>
+    <meta http-equiv="imagetoolbar" content="no" /><![endif]-->
+    <script type="text/javascript" src="../../../../skins/common/wikibits.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/md5.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/utf8.js"></script>
+    <script type="text/javascript" src="../../../../skins/offline/lookup.js"></script>
+    <script type="text/javascript" src="../../../../raw/gen.js"></script>        <style type="text/css">/*<![CDATA[*/
+@import "../../../../raw/MediaWiki%7ECommon.css";
+@import "../../../../raw/MediaWiki%7EMonobook.css";
+@import "../../../../raw/gen.css";
+/*]]>*/</style>          </head>
+  <body
+    class="page-Ubuntu_Gutsy">
+    <div id="globalWrapper">
+      <div id="column-content">
+	<div id="content">
+	  <a name="top" id="contentTop"></a>
+	        <h1 class="firstHeading">Ubuntu Gutsy</h1>
+	  <div id="bodyContent">
+	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
+	    <div id="contentSub"></div>
+	    	    	    <!-- start content -->
+	    <table id="toc" class="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Version_7.10"><span class="tocnumber">1</span> <span class="toctext">Version 7.10</span></a></li>
+<li class="toclevel-1"><a href="#Before_you_start"><span class="tocnumber">2</span> <span class="toctext">Before you start</span></a></li>
+<li class="toclevel-1"><a href="#Obtain_Necessary_Tools"><span class="tocnumber">3</span> <span class="toctext">Obtain Necessary Tools</span></a></li>
+<li class="toclevel-1"><a href="#Getting_source_files"><span class="tocnumber">4</span> <span class="toctext">Getting source files</span></a>
+<ul>
+<li class="toclevel-2"><a href="#Checking_out_sources_from_SVN_repositories"><span class="tocnumber">4.1</span> <span class="toctext">Checking out sources from SVN repositories</span></a></li>
+<li class="toclevel-2"><a href="#Building_Peragro_Tempus"><span class="tocnumber">4.2</span> <span class="toctext">Building Peragro Tempus</span></a>
+<ul>
+<li class="toclevel-3"><a href="#Build_the_Cal3D_library."><span class="tocnumber">4.2.1</span> <span class="toctext">Build the Cal3D library.</span></a></li>
+<li class="toclevel-3"><a href="#Build_CeGui"><span class="tocnumber">4.2.2</span> <span class="toctext">Build CeGui</span></a></li>
+<li class="toclevel-3"><a href="#Build_CrystalSpace."><span class="tocnumber">4.2.3</span> <span class="toctext">Build CrystalSpace.</span></a></li>
+<li class="toclevel-3"><a href="#Build_Crystal_Entity_Layer."><span class="tocnumber">4.2.4</span> <span class="toctext">Build Crystal Entity Layer.</span></a></li>
+<li class="toclevel-3"><a href="#Build_Peragro_Tempus."><span class="tocnumber">4.2.5</span> <span class="toctext">Build Peragro Tempus.</span></a></li>
+</ul>
+</li>
+<li class="toclevel-2"><a href="#Running_and_testing_with_a_local_server."><span class="tocnumber">4.3</span> <span class="toctext">Running and testing with a local server.</span></a></li>
+</ul>
+</li>
+<li class="toclevel-1"><a href="#The_End"><span class="tocnumber">5</span> <span class="toctext">The End</span></a></li>
+</ul>
+</td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
+<a name="Version_7.10"></a><h1> <span class="mw-headline"> Version 7.10 </span></h1>
+<a name="Before_you_start"></a><h1> <span class="mw-headline"> Before you start </span></h1>
+<p><br /><br /> Before you start building Peragro Tempus from source, you need to make sure that you have several development packages installed. The instructions here are tested using Ubuntu Gusty Linux.<br /><br /> Please Note, this guide is for Ubuntu Gusty though it should work as a reference guide for most linux distro's.<br /><br /> Since Gusty is installed by default with minimal packages, many required packages are not installed. This command should install all necessary packages. You will also need your universe and multiverse repositories enabled. To enable these do the following:<br /><br /> First open a terminal. This is located in Applications ---&gt; Accessories ---&gt; Terminal This will open a command prompt in which you are going to be typing the following commands. Don't close it accidentally like I do all the time!<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo gedit /etc/apt/sources.list</code>
+</pre>
+</div>
+<p><br /><br /> Delete everything in it that you haven't added yourself (which is often everything in the file), and paste the following into the file and save it:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre><code>
+ # Ubuntu supported packages
+ # GPG key: 437D05B5
+ deb http://us.archive.ubuntu.com/ubuntu gutsy main restricted
+ deb http://us.archive.ubuntu.com/ubuntu gutsy-updates main restricted
+ deb http://security.ubuntu.com/ubuntu gutsy-security main restricted
+ 
+ # Ubuntu community supported packages
+ # GPG key: 437D05B5
+ deb http://us.archive.ubuntu.com/ubuntu gutsy universe multiverse
+ deb http://us.archive.ubuntu.com/ubuntu gutsy-updates universe multiverse
+ deb http://security.ubuntu.com/ubuntu gutsy-security universe multiverse
+ 
+ # Ubuntu backports project
+ # GPG key: 437D05B5
+ deb http://us.archive.ubuntu.com/ubuntu gutsy-backports main restricted universe multiverse
+ 
+ </code>
+</pre>
+</div>
+<p><br /><br /> Now we need to double check that the gpg keys are added correctly to avoid gpg errors. Sounds scary, but worry not! All it takes is one simple command:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>gpg --keyserver hkp://subkeys.pgp.net --recv-keys 437D05B5 &amp;&amp;  gpg --export --armor 437D05B5 | sudo apt-key add -</code>
+</pre>
+</div>
+<p><br /><br /> After that we need to refresh our sources.list file like so:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo apt-get update</code>
+</pre>
+</div>
+<p><br /><br /> Once that is completed, we can now fetch all packages that are needed using the following command:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo apt-get --assume-yes install libjpeg62-dev x11proto-gl-dev autoconf jam bison flex-old automake1.9 libcurl4-openssl-dev libmng-dev libmikmod2-dev libogg-dev libvorbis-dev zlib1g-dev libpng12-dev build-essential libtool libglu1-mesa-dev libglu1-xorg-dev xserver-xorg-dev libxt-dev libopenal0a libopenal-dev subversion zlibc libttf2 libfreetype6-dev libfreetype6 libasound2-dev alsa-oss libxxf86vm-dev libxext-dev x11proto-xext-dev libboost-dev libboost-python-dev libxerces27-dev</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Obtain_Necessary_Tools"></a><h1> <span class="mw-headline"> Obtain Necessary Tools </span></h1>
+<p><br /><br /> You should use the toolkit from NVidia (no matter what card you have). You can find it at nvidia.com but I'll link you to the standard x86 since its the most commonly used. Do NOT use the following wget command unless you are on a regular 32 bit x86 processor (if you don't know what you have chances are its what you use). Please note that there are no cg libraries for PPC processors. If you are on a PPC processor it is safe to skip this step but you will possibly encounter a few graphics anomalies.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>wget <a href="http://developer.download.nvidia.com/cg/Cg_1.5/1.5.0/Cg-1.5_x86.tar.gz" class="external free" title="http://developer.download.nvidia.com/cg/Cg_1.5/1.5.0/Cg-1.5_x86.tar.gz" rel="nofollow">http://developer.download.nvidia.com/cg/Cg_1.5/1.5.0/Cg-1.5_x86.tar.gz</a></code>
+</pre>
+</div>
+<p><br /><br /> Next copy the file to your root directory.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo mv Cg-1.5_x86.tar.gz /</code>
+</pre>
+</div>
+<p><br /><br /> The next step is extracting it, then removing the old .gz file. Note change the filename if you are on a different architecture than x86<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>cd /</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo tar -zxf Cg-1.5_x86.tar.gz</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo rm Cg-1.5_x86.tar.gz</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Getting_source_files"></a><h1> <span class="mw-headline"> Getting source files </span></h1>
+<p><br /><br /> All the following commands are run as a normal user and Peragro Tempus will be built for that user only.<br /><br /> Choose a base directory for your installation. Peragro Tempus will be installed into a subdirectory <b>Peragro Tempus</b> in the base directory and it can be your home directory. I prefer to install in /opt and so the guide will reflect this. First create your directory using sudo, then give yourself permission to write there.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo mkdir /opt/peragro_svn</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>sudo chmod 700 /opt/peragro_svn</code>
+</pre>
+</div>
+<p><br /><br /> You should now change to your working directory.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>cd /opt/peragro_svn</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Checking_out_sources_from_SVN_repositories"></a><h2> <span class="mw-headline"> Checking out sources from SVN repositories </span></h2>
+<p><br /><br /> Get the Peragro Tempus sources.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>svn co <a href="https://cyanox.nl/peragro/" class="external free" title="https://cyanox.nl/peragro/" rel="nofollow">https://cyanox.nl/peragro/</a></code>
+</pre>
+</div>
+<p><br /><br /> Download Cal3D library sources.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>svn co -r 407 <a href="http://svn.gna.org/svn/cal3d/trunk" class="external free" title="http://svn.gna.org/svn/cal3d/trunk" rel="nofollow">http://svn.gna.org/svn/cal3d/trunk</a> cal3d</code>
+</pre>
+</div>
+<p><br /><br /> Download CrystalSpace sources.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>svn co <a href="https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk" class="external free" title="https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk" rel="nofollow">https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk</a> CS_latest</code>
+</pre>
+</div>
+<p><br /><br /> Download Crystal Entity Layer (CEL)<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>svn co <a href="https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk" class="external free" title="https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk" rel="nofollow">https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk</a> CEL_latest</code>
+</pre>
+</div>
+<p><br /><br /> Download CeGui sources.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>wget -c <a href="http://superb-east.dl.sourceforge.net/sourceforge/crayzedsgui/CEGUI-0.5.0b.tar.gz" class="external free" title="http://superb-east.dl.sourceforge.net/sourceforge/crayzedsgui/CEGUI-0.5.0b.tar.gz" rel="nofollow">http://superb-east.dl.sourceforge.net/sourceforge/crayzedsgui/CEGUI-0.5.0b.tar.gz</a></code>
+</pre>
+</div>
+<p><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>tar -xf CEGUI-0.5.0b.tar.gz</code>
+</pre>
+</div>
+<p><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>rm CEGUI-0.5.0b.tar.gz</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Building_Peragro_Tempus"></a><h2> <span class="mw-headline"> Building Peragro Tempus </span></h2>
+<p><br /><br /> Create a profile file that sets all the necessary environment variables. Save the file with the name <code>profile</code> in the <b>Peragro Tempus</b> directory. Make sure to change /opt/peragro_svn to whatever path you choose to make if you decided to go with a different directory than I did.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>gedit /opt/peragro_svn/profile</code>
+</pre>
+</div>
+<p><br /><br /> Then copy and paste the following line into the file then save it.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre><code>
+export LD_LIBRARY_PATH=/opt/peragro_svn/cal3d/cal3d/src/cal3d/.libs/:/opt/peragro_svn/CS_latest/:$LD_LIBRARY_PATH
+export CRYSTAL=/opt/peragro_svn/CS_latest
+export CEL=/opt/peragro_svn/CEL_latest
+export CSCONFPATH=/opt/peragro_svn/CEL_latest
+export CAL3D=/opt/peragro_svn/cal3d/cal3d
+</code>
+</pre>
+</div>
+<p><br /><br /><br /> Then load the profile. You have to reload the profile every time you exit the console and start another one.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>Peragro Tempus $ <code>source profile</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Build_the_Cal3D_library."></a><h3> <span class="mw-headline"> Build the Cal3D library. </span></h3>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn $ <code>cd /opt/peragro_svn/cal3d/cal3d</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/cal3d/cal3d $ <code>autoreconf --install --force</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/cal3d/cal3d $ <code>./configure --prefix=$CAL3D</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/cal3d/cal3d $ <code>make</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/cal3d/cal3d $ <code>make install</code>
+</pre>
+</div>
+<p><br /><br /> If the make command ends with an error then enter the following command <br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>Peragro Tempus $ <code>sed -i 's/all_libraries = @all_libraries@/#all_libraries = @all_libraries@/' /opt/Peragro Tempus_svn/Peragro Tempus/cal3d/cal3d/src/cal3d/Makefile.am</code>
+</pre>
+</div>
+<p><br /><br /> Then rerun <code>configure</code> and <code>make</code> and <code>make install</code>.<br /><br />
+</p>
+<a name="Build_CeGui"></a><h3> <span class="mw-headline"> Build CeGui </span></h3>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/cal3d/cal3d $ <code>cd /opt/peragro_svn/CEGUI-0.5.0</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEGUI-0.5.0 $ <code>./configure --disable-xerces-c</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEGUI-0.5.0 $ <code>make</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEGUI-0.5.0 $ <code>sudo make install</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Build_CrystalSpace."></a><h3> <span class="mw-headline"> Build CrystalSpace. </span></h3>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEGUI-0.5.0 $ <code>cd /opt/peragro_svn/CS_latest</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CS_latest $ <code>./configure --without-java --without-lib3ds --without-libaws --with-libcal3d=$CAL3D</code>
+</pre>
+</div>
+<p><br /><br /> Note: If you want to compile with optimizations for your specific processor, add the following tag to the configure command above. Be warned this may make things less stable.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre><code>--enable-cpu-specific-optimizations</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CS_latest $ <code>jam -aq libs plugins cs-config walktest</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Build_Crystal_Entity_Layer."></a><h3> <span class="mw-headline"> Build Crystal Entity Layer. </span></h3>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CS_latest $ <code>cd /opt/peragro_svn/CEL_latest</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEL_latest $ <code>./autogen.sh</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEL_latest $ <code>./configure</code>
+</pre>
+</div>
+<p><br /><br /> Note: If you want to compile with optimizations for your specific processor, add the following tag to the configure command above. Be warned this may make things less stable.<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre><code>--enable-cpu-specific-optimizations</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEL_latest $ <code>jam -aq libs plugins cel-config</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<a name="Build_Peragro_Tempus."></a><h3> <span class="mw-headline"> Build Peragro Tempus. </span></h3>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/CEL_latest $ <code>cd /opt/peragro_svn/peragro</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/peragro $ <code>./autogen.sh</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/peragro $ <code>./configure</code>
+</pre>
+</div>
+<p><br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/peragro $ <code>jam</code>
+</pre>
+</div>
+<p><br /><br /> If everything went right you should now have a fully compiled client rearing and ready to go!
+</p>
+<a name="Running_and_testing_with_a_local_server."></a><h2> <span class="mw-headline"> Running and testing with a local server. </span></h2>
+<p>In order to run the client simply make sure to load your profile variables in /opt/peragro_svn by running:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>source /opt/peragro_svn/profile</code>
+</pre>
+</div>
+<p><br /><br /> Then cd into the peragro directory like so:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>cd /opt/peragro_svn/peragro</code>
+</pre>
+</div>
+<p><br /><br /> Then to run the client run:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/peragro $ <code>./client</code>
+</pre>
+</div>
+<p><br /><br /> To test a local server you must launch one with:<br /><br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>peragro_svn/peragro $ <code>./server</code>
+</pre>
+</div>
+<p><br /><br /> Then open a new tab in your terminal and follow the steps to launching your client again. Instead of peragro.org in the server box enter <code>localhost</code> and voila!
+</p>
+<a name="The_End"></a><h1> <span class="mw-headline"> The End </span></h1>
+<p><br /><br /> If anyone has any suggestions for improving this guide or has noticed some mistakes, please email me at OldSpiceAP@gmail.com and I'll have a look. <br /><br />
+</p>
+<!-- 
+NewPP limit report
+Preprocessor node count: 337/1000000
+Post-expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Expensive parser function count: 0/100
+-->
+<div class="printfooter">
+</div>
+	    <div id="catlinks"><div id='catlinks' class='catlinks'><div id="mw-normal-catlinks"><a href="../../../../articles/c/a/t/Special%7ECategories_101d.html" title="Special:Categories">Category</a>:&#32;<span dir='ltr'><a href="../../../../articles/i/n/s/Category%7EInstallation_e986.html" title="Category:Installation">Installation</a></span></div></div></div>	    <!-- end content -->
+	    <div class="visualClear"></div>
+	  </div>
+	</div>
+      </div>
+      <div id="column-one">
+	<div id="p-cactions" class="portlet">
+	  <h5>Views</h5>
+	  <ul>
+	    <li id="ca-nstab-main"
+	       class="selected"	       ><a href="../../../../articles/u/b/u/Ubuntu_Gutsy_9d26.html">Page</a></li><li id="ca-talk"
+	       class="new"	       ><a href="../../../../articles/u/b/u/Talk%7EUbuntu_Gutsy_95e2.html">Discussion</a></li><li id="ca-current"
+	       	       ><a href="http://localhost/index.php/Ubuntu_Gutsy">Current revision</a></li>	  </ul>
+	</div>
+	<div class="portlet" id="p-logo">
+	  <a style="background-image: url(../../../../misc/clock_half.png);"
+	    href="../../../../index.html"
+	    title="Main Page"></a>
+	</div>
+	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
+		<div class='portlet' id='p-navigation'>
+	  <h5>Navigation</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
+	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
+	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
+	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
+	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
+	     	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-SEARCH'>
+	  <h5>SEARCH</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-TOOLBOX'>
+	  <h5>TOOLBOX</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div class='portlet' id='p-LANGUAGES'>
+	  <h5>LANGUAGES</h5>
+	  <div class='pBody'>
+	    <ul>
+	    	    </ul>
+	  </div>
+	</div>
+		<div id="p-search" class="portlet">
+	  <h5><label for="searchInput">Search</label></h5>
+	  <div id="searchBody" class="pBody">
+	    <form action="javascript:goToStatic(3)" id="searchform"><div>
+	      <input id="searchInput" name="search" type="text"
+	        accesskey="f" value="" />
+	      <input type='submit' name="go" class="searchButton" id="searchGoButton"
+	        value="Go" />
+	    </div></form>
+	  </div>
+	</div>
+	      </div><!-- end of the left (by default at least) column -->
+      <div class="visualClear"></div>
+      <div id="footer">
+    <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
+	  	  	  <li id="f-credits">This page was last modified 01:17, 10 January 2009 by Rolenun Derog. Based on work by <a href="../../../../articles/c/y/a/User%7ECyaNox_4c16.html" title="User:CyaNox">Mark Sanders</a> and <a href="../../../../articles/i/n/d/User%7EInduane_ae61.html" title="User:Induane">Brant Watson</a>.</li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+      </div>
+    </div>
+  </body>
+</html>
