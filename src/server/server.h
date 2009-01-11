@@ -82,8 +82,8 @@ public:
   Server() { server = this; }
   static Server* getServer() { return server; }
 
-  void setInteractionManager(InteractionManager* interactionMgr) { 
-    this->interactionMgr = interactionMgr; 
+  void setInteractionManager(InteractionManager* interactionMgr) {
+    this->interactionMgr = interactionMgr;
   }
   InteractionManager* getInteractionManager() { return this->interactionMgr; }
 

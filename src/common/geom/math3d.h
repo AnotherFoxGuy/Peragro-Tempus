@@ -30,9 +30,10 @@ bool Equal(double x1, double x2, double epsilon = PT_EPSILON)
   (void) frexp(fabs(x1) < fabs(x2) ? x1 : x2, &exponent);
   return fabs(x1 - x2) <= ldexp(epsilon, exponent);
 }
+
 // Avoid template, make sure floats are cast to doubles.
 inline bool Equal(float x1, float x2, double epsilon = PT_EPSILON)
-	{return Equal((double) x1, (double) x2, epsilon);}
+{ return Equal((double) x1, (double) x2, epsilon); }
 
 bool LessOrEqual(double x1, double x2)
 {
@@ -43,11 +44,11 @@ bool LessOrEqual(double x1, double x2)
 // std::max() and std::min().
 
 inline float FloatMax(float a, float b)
-	{return (a > b) ? a : b;}
+{ return (a > b) ? a : b; }
 inline float FloatMin(float a, float b)
-	{return (a < b) ? a : b;}
+{ return (a < b) ? a : b; }
 inline float FloatClamp(float val, float min, float max)
-	{return (min >= val) ? min : (max <= val ? max : val);}
+{ return (min >= val) ? min : (max <= val ? max : val); }
 
 /**
  * Some functions to perform squared distance calculations.
@@ -63,5 +64,5 @@ struct SquaredDist
   }
 };
 
-#endif // __CS_MATH3D_H__
+#endif // GEOM_MATH3D_H
 

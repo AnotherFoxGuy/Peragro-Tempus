@@ -50,7 +50,7 @@ namespace Geom
   {
     double dist = 0;
 
-    for(int i = 0; i < 3; ++i) 
+    for(int i = 0; i < 3; ++i)
     {
       double dist_i;
       if(center[i] < box.Min()[i])
@@ -69,7 +69,7 @@ namespace Geom
   {
     double sqr_dist = 0;
 
-    for(size_t i = 0; i < 3; ++i) 
+    for(size_t i = 0; i < 3; ++i)
     {
       float furthest = FloatMax(fabs(center[i] - box.Min()[i]), fabs(center[i] - box.Max()[i]));
       sqr_dist += furthest * furthest;

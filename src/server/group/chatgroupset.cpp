@@ -79,13 +79,13 @@ void ChatGroupSet::delUser (const PcEntity* user, const char* channel, bool prun
   ChatGroup* ch = FindChannel(channel);
   if (ch == NULL) return
   ch->delUser(user);
-  if (prune && !ch->getUserCount()) delChannel(channel);  
+  if (prune && !ch->getUserCount()) delChannel(channel);
 }
 
 void ChatGroupSet::addChannel (ChatGroup* group)
 {
   if (dynamic_cast<ChatGroup*> (group) == NULL) return;
-  const char* channel = group->getName(); 
+  const char* channel = group->getName();
   boost::shared_ptr<ChatGroup> gptr(group);
   if (channel) channels[channel] = gptr;
 }

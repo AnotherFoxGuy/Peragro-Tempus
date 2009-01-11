@@ -46,7 +46,7 @@ Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, csVector3 position, 
 } // end Effect()
 
 Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent)
-  : iCacheUser(obj_reg), 
+  : iCacheUser(obj_reg),
   effectType(ParentEffectType),
   parentMesh(parent),
   object_reg(obj_reg),
@@ -58,10 +58,10 @@ Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent
 
 Effect::~Effect()
 {
-  if (mesh) 
+  if (mesh)
   {
     // Effect is only ref holder, don't have to do anything.
-    if (mesh->GetRefCount() == 1) return; 
+    if (mesh->GetRefCount() == 1) return;
 
     // Remove from any collections.
     if (mesh->QueryObject())

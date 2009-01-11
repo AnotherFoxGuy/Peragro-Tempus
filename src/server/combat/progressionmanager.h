@@ -66,7 +66,7 @@ private:
                           int increase);
   void CheckAbilityProgress(Character* lockedCharacter,
                             const char* abilityName);
-    
+
 };
 
 #endif //PROGRESSIONMANAGER

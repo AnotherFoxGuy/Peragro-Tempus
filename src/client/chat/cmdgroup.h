@@ -32,7 +32,7 @@ namespace PT
     {
     protected:
       void SendMessage(const std::string& channel, const std::string& text);
-      
+
     public:
       cmdGroup ();
       virtual ~cmdGroup ();

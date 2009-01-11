@@ -23,7 +23,7 @@
 #include "common/network/chatmessages.h"
 #include "common/util/ptstring.h"
 
-ChatGroupSimple::ChatGroupSimple(const char* channelname) : 
+ChatGroupSimple::ChatGroupSimple(const char* channelname) :
   ChatGroup(channelname), userlist()
 {
 }
@@ -36,7 +36,7 @@ const ChatGroup::UserList& ChatGroupSimple::getUserList () const
 {
   return userlist;
 }
-  
+
 void ChatGroupSimple::delUser (const PcEntity* user)
 {
   size_t idx = userlist.find(user);
@@ -65,7 +65,7 @@ void ChatGroupSimple::broadcast(const PcEntity* user, const char* message) const
   const ptString channel = ptString::create(this->name);
   out_msg.setMessage(message);
   out_msg.setChannel(channel);
-  out_msg.setSpeakerName(name); 
+  out_msg.setSpeakerName(name);
 
   ByteStream bs;
   out_msg.serialise(&bs);

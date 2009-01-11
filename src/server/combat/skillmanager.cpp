@@ -49,10 +49,10 @@ SkillManager::CheckDeprecation(Character* lockedCharacter,
 }
 
 float
-SkillManager::GetTimeSkillUnused(Character* lockedCharacter, 
+SkillManager::GetTimeSkillUnused(Character* lockedCharacter,
                                  const char* skill)
 {
-  return GetTimeUnusedLastLogin(lockedCharacter, skill) + 
+  return GetTimeUnusedLastLogin(lockedCharacter, skill) +
          GetTimeUnusedThisLogin(lockedCharacter, skill);
 }
 

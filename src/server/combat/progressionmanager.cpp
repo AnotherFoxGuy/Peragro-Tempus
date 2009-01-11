@@ -55,7 +55,7 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
   if (randomNumber < successChance) {
     if (randomNumber >= (successChance - (failureChance / 10))) {
       AddXP(lockedAttacker, skillType, abilityName);
-    } 
+    }
   } else if (randomNumber > successChance) {
     if (randomNumber <= successChance + (failureChance / 10)) {
       AddXP(lockedAttacker, skillType, abilityName);
@@ -93,7 +93,7 @@ unsigned int
 GetXPNeededForNextAbilityLevel(unsigned int currentLevel)
 {
   unsigned int requiredXP = 0;
-  
+
   for (unsigned int i = 1; i <= currentLevel + 1; i++) {
     requiredXP += 10 * i;
   }
@@ -232,13 +232,13 @@ ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
   }
 }
 
-unsigned int 
+unsigned int
 ProgressionManager::RollDice(unsigned int lower, unsigned int higher)
 {
   return (rand() % (higher - lower + 1)) + lower;
 }
 
-unsigned int 
+unsigned int
 ProgressionManager::GetPenalty(Character* lockedCharacter,
                                const char* attackType)
 {

@@ -117,7 +117,7 @@ namespace PT
         csVector3 sunpos(solarsys->GetRelatveRootPos());
         if ( sunpos.x != 0 || sunpos.y !=0 || sunpos.z !=0)
         {
-          sunpos = sunpos.Unit(); 
+          sunpos = sunpos.Unit();
         }
         csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
         var->SetValue(sunpos);

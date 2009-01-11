@@ -75,7 +75,7 @@ bool CacheManager::UpdateOptions()
 {
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (object_reg);
   if (!app_cfg) return false;
-    
+
   // Convert from megabytes to bytes.
   cacheSize = app_cfg->GetInt("Peragro.CacheManager.CacheSize", 32) * 1048576;
 

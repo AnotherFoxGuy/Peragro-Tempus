@@ -32,7 +32,7 @@ unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
     return 0;
   }
   return item->getStats()->getAmount(stat);
-} 
+}
 
 unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
                                               const char* statName)

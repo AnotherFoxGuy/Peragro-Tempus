@@ -39,7 +39,7 @@ public:
   virtual const UserList& getUserList () const = 0;
   bool isUserIn (const PcEntity* user) const;
   size_t getUserCount () const;
-  
+
   virtual void delUser (const PcEntity* user) = 0;
   // addUser is expected to gracefully handle duplicates
   virtual void addUser (const PcEntity* user) = 0;

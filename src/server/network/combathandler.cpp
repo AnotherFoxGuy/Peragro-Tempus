@@ -30,7 +30,7 @@
  */
 void CombatHandler::handleAttackRequest(GenericMessage* msg)
 {
-  InteractionManager *interactionManager = 
+  InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;

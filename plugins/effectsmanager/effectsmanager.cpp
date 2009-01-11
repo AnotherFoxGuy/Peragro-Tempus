@@ -185,7 +185,7 @@ bool EffectsManager::LoadEffectTemplate(iDocumentNode* node)
   effect.AttachNew(new EffectTemplate(node));
 
   if (effectTemplates.In(effect->GetName()))
-    Report(CS_REPORTER_SEVERITY_WARNING, 
+    Report(CS_REPORTER_SEVERITY_WARNING,
             "EffectTemplate with name: '%s' already present, replaced!",
             effect->GetName().c_str());
 
@@ -227,7 +227,7 @@ void EffectsManager::HandleEffects (csTicks elapsed_ticks)
   size_t i = 0;
   while (i < effects.GetSize ())
   {
-    if (effects[i]->Handle (elapsed_ticks)) 
+    if (effects[i]->Handle (elapsed_ticks))
       i++;
     else
     {

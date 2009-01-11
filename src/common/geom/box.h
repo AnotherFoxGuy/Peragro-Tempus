@@ -127,7 +127,7 @@ namespace Geom
     /// Set the size of the box but keep the center intact.
     void SetSize (const Vector3& s);
 
-    /// Get the size of the box 
+    /// Get the size of the box
     inline Vector3 GetSize () const { return (maxbox-minbox); }
 
     /// Test if this box is empty.
@@ -174,7 +174,7 @@ namespace Geom
       -BOUNDINGBOX_MAXVALUE) {}
 
     /// Initialize this box with one point.
-    Box (const Vector3& v) : minbox (v), maxbox (v) 
+    Box (const Vector3& v) : minbox (v), maxbox (v)
     { }
 
     /// Initialize this box with two points.

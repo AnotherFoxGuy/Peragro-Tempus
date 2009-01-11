@@ -155,15 +155,15 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
   msg.setEntityId(lockedCharacter->getEntity()->getId());
   msg.serialise(&statsbs);
   // Report the death to everyone nearby.
-  NetworkHelper::distancecast(statsbs, 
-                              lockedCharacter->getEntity(), 
+  NetworkHelper::distancecast(statsbs,
+                              lockedCharacter->getEntity(),
                               GetNotificationDistance());
   DropAllItems(lockedCharacter);
 }
 
-void 
+void
 InteractionManager::DropAllItems(Character *lockedCharacter) {
-  
+
   int itemsToDrop = 0;
   int itemsDropped = 0;
 
@@ -247,8 +247,8 @@ InteractionManager::ReportDamage(Character *lockedCharacter)
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
   // Report the damage to everyone nearby.
-  NetworkHelper::distancecast(statsbs, 
-                              lockedCharacter->getEntity(), 
+  NetworkHelper::distancecast(statsbs,
+                              lockedCharacter->getEntity(),
                               GetNotificationDistance());
 }
 
@@ -380,7 +380,7 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
 
   PtVector3 difference = attackerPos - targetPos;
 
-  attackerRotation = 
+  attackerRotation =
     PT::Math::NormalizeAngle(lockedAttacker->getEntity()->getRotation());
 
   if (difference.x == 0.0f) difference.x = PT_EPSILON;
@@ -421,7 +421,7 @@ InteractionManager::SelectTarget(const PcEntity *sourceEntity,
     printf(IM "Unable to lock source.\n");
     return false;
   }
-     
+
   interactionQueue->RemoveAllInteractions(lockedSource);
   lockedSource->SetTargetID(targetID);
   return true;
@@ -494,7 +494,7 @@ unsigned int InteractionManager::GetBlock(Character* lockedCharacter)
   return InteractionUtility::GetStatValue(lockedCharacter, "Block") +
          InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
                                                             "Block");
-} 
+}
 
 unsigned int InteractionManager::GetDodge(Character* lockedCharacter)
 {
@@ -520,7 +520,7 @@ unsigned int InteractionManager::GetStrength(Character* lockedCharacter)
 unsigned int InteractionManager::GetReach(Character* lockedCharacter)
 {
   return InteractionUtility::GetStatValue(lockedCharacter, "Reach") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter, 
+         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
                                                             "Reach");
 }
 
@@ -571,7 +571,7 @@ unsigned int InteractionManager::GetSapience(Character* lockedCharacter)
 {
   return InteractionUtility::GetStatValue(lockedCharacter, "Sapience") +
          InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter, "Sapience");
-} 
+}
 
 unsigned int InteractionManager::GetWeaponHeft(Character* lockedCharacter)
 {
@@ -583,7 +583,7 @@ unsigned int InteractionManager::RollDice()
   return rand() % 101;
 }
 
-void 
+void
 InteractionManager::SendStatUpdate(const Stat* stat,
                                    const CharacterStats* stats,
                                    Character* lockedCharacter,

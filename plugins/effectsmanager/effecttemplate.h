@@ -62,7 +62,7 @@ private:
 public:
   EffectTemplate() : id(0), duration(0), offset(0.0f) {}
 
-  EffectTemplate(iDocumentNode* node) : id(0), duration(0), offset(0.0f) 
+  EffectTemplate(iDocumentNode* node) : id(0), duration(0), offset(0.0f)
   {
     SetId(node->GetNode("id")->GetContentsValueAsInt());
     SetName(node->GetNode("name")->GetContentsValue());

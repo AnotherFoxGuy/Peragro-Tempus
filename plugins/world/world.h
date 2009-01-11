@@ -55,26 +55,26 @@ struct iCacheEntry;
 
 #include <iengine/mesh.h>
 #include <iutil/object.h>
-struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>, 
+struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>,
   public Common::World::Object
 {
   iObjectRegistry* object_reg;
 
-  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* wrap) 
+  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* wrap)
     : scfImplementationType (this), Common::World::Object(object), object_reg(obj_reg)
   {
     wrap->GetMovable()->AddListener(this);
     wrap->QueryObject()->ObjAdd(this);
   }
 
-  void CommitChanges() 
+  void CommitChanges()
   {
     csRef<iWorld> world = csQueryRegistry<iWorld> (object_reg);
     world->CommitChanges(*this);
   }
 
   // iMovableListener
-  void MovableChanged (iMovable* movable) 
+  void MovableChanged (iMovable* movable)
   {
     position = movable->GetTransform().GetOrigin();
     CommitChanges();
@@ -82,7 +82,7 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   void MovableDestroyed (iMovable* movable) {}
 
   // iObject
-  void SetName (const char *iName) 
+  void SetName (const char *iName)
   { name = iName; CommitChanges(); }
   const char* GetName () const { return name.c_str(); }
   uint GetID () const { return (uint)id; }

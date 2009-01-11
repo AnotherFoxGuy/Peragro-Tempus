@@ -67,7 +67,7 @@ class EffectsManager : public scfImplementation3<EffectsManager,iEffectsManager,
 private:
   bool UpdateOptions();
 
-  // TODO: copies from event.h, 
+  // TODO: copies from event.h,
   // make some utils that don't rely on the PT reporter?
   std::string GetString(const iEvent* event, const char* name);
   csVector3 GetVector3(const iEvent* ev, const char* name);

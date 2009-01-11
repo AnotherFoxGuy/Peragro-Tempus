@@ -135,7 +135,7 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
     return;
   }
 
-  temp = queue->prev; 
+  temp = queue->prev;
   queue->prev = queueItem;
   queueItem->next = queue;
   if (!temp) {

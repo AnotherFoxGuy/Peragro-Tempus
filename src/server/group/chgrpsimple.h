@@ -31,7 +31,7 @@ public:
   virtual ~ChatGroupSimple();
 
   virtual const UserList& getUserList () const;
-  
+
   virtual void delUser (const PcEntity* user);
   virtual void addUser (const PcEntity* user);
 

@@ -83,7 +83,7 @@ namespace Geom
 
   public:
     /// Default constructor.
-    OcTree() {} 
+    OcTree() {}
     ~OcTree() {}
 
     typedef std::set<T> QueryResult;
@@ -93,7 +93,7 @@ namespace Geom
       return entries.size();
     }
 
-    bool Add(Geom g, T t) 
+    bool Add(Geom g, T t)
     {
       Entry entry(t, g);
       // Make sure there are no doubles!
@@ -102,7 +102,7 @@ namespace Geom
       return true;
     }
 
-    bool Remove(T t) 
+    bool Remove(T t)
     {
       Iterator it;
       for (it = entries.begin() ; it != entries.end(); it++ )
@@ -131,7 +131,7 @@ namespace Geom
 
     /// Get the union of two queries.
     // 2*(N+M)-1
-    QueryResult Union(const QueryResult& a, const QueryResult& b) 
+    QueryResult Union(const QueryResult& a, const QueryResult& b)
     {
       QueryResult c;
       std::set_union(a.begin(), a.end(), b.begin(), b.end(), std::inserter(c, c.begin()));
@@ -140,7 +140,7 @@ namespace Geom
 
     /// Get the difference of two queries.
     // 2*(N+M)-1
-    QueryResult Difference(const QueryResult& a, const QueryResult& b) 
+    QueryResult Difference(const QueryResult& a, const QueryResult& b)
     {
       QueryResult c;
       std::set_difference(a.begin(), a.end(), b.begin(), b.end(), std::inserter(c, c.begin()));
@@ -153,7 +153,7 @@ namespace Geom
      * @return a std::pair with .first a QueryResult with new entries
      * and .second a QueryResult with old entries
      */
-    std::pair<QueryResult,QueryResult> AddAndDiscard(const QueryResult& a, const QueryResult& b) 
+    std::pair<QueryResult,QueryResult> AddAndDiscard(const QueryResult& a, const QueryResult& b)
     {
       QueryResult c = Union(a, b);
 

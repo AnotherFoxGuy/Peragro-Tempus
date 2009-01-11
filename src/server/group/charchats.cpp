@@ -19,7 +19,7 @@
 #include "charchats.h"
 
 // TODO put this table in an XML file
-const char* PTCharDefaultChatsTable[] = 
+const char* PTCharDefaultChatsTable[] =
 {
   "#general",  // server-wide mainchat
   "#auction",  // trade channel

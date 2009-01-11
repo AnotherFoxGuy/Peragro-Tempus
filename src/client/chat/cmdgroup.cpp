@@ -36,8 +36,8 @@ cmdGroup::cmdGroup()
 {
 }
 
-cmdGroup::~cmdGroup() 
-{ 
+cmdGroup::~cmdGroup()
+{
 }
 
 bool cmdGroup::CommandHandled (const char* cmd) const
@@ -54,20 +54,20 @@ StringArray cmdGroup::GetAllCommands () const
 }
 
 std::string cmdGroup::HelpSynopsis (const char* cmd) const
-{ 
+{
   if (strlen(cmd) == 1) return "Send a message to all group members.";
-  return "Send a message to all members of the default group."; 
+  return "Send a message to all members of the default group.";
 }
 
 std::string cmdGroup::HelpUsage (const char* cmd) const
-{ 
+{
   if (strlen(cmd) == 1) return "Usage: '/g <channel name> <message>'";
-  return "Usage: '/group <message>'"; 
+  return "Usage: '/group <message>'";
 }
 
 std::string cmdGroup::HelpFull (const char* cmd) const
 {
-  if (strlen(cmd) == 1) 
+  if (strlen(cmd) == 1)
     return "Enter the name of a chat group, and a message, and the message "
            "will be sent to all members of that group.";
   return "Send the given message to all members of the default chat group.";
@@ -77,12 +77,12 @@ void cmdGroup::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is 'group'
   if (args.size() < 3) throw BadUsage();
-  
+
   std::string channel = PT_DEFAULT_CHAT_GROUP;
   std::string text = "";
   size_t i = 2;
 
-  if (args[1].size() == 1) 
+  if (args[1].size() == 1)
   {
     if (args.size() < 4) throw BadUsage();
     channel = args[2];
@@ -95,7 +95,7 @@ void cmdGroup::Execute (const StringArray& args)
     text += " ";
   }
 
-  SendMessage(channel, text); 
+  SendMessage(channel, text);
 }
 
 void cmdGroup::SendMessage(const std::string& channel, const std::string& text)

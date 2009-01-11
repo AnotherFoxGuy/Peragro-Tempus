@@ -50,9 +50,9 @@ private:
   csRef<iCacheManager> cacheManager;
   bool registered;
 
-  void Process(size_t amount = ~0) 
+  void Process(size_t amount = ~0)
   {
-    size_t am = std::min(loadingCacheEntries.GetSize(), amount); 
+    size_t am = std::min(loadingCacheEntries.GetSize(), amount);
     for (size_t i = 0; i < am; i++)
     {
       csRef<iCacheEntry> e = loadingCacheEntries.Get(i);
@@ -110,7 +110,7 @@ public:
     this->cacheManager = cacheManager;
   }
 
-  virtual ~iCacheUser () 
+  virtual ~iCacheUser ()
   {
     UnRegister();
   }

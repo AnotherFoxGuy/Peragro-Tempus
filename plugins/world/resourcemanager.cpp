@@ -178,7 +178,7 @@ void ResourceManager::ScanFactories(const std::string& path)
   csRef<iStringArray> paths = vfs->FindFiles(path.c_str());
   for (size_t i = 0; i < paths->GetSize(); i++ )
   {
-    std::string path = paths->Get(i);   
+    std::string path = paths->Get(i);
     if (EndsWith(path, "/")) // It's a directory
       if (EndsWith(path, ".svn/")) // Ignore;
         continue;
@@ -208,7 +208,7 @@ std::string GetFactoryName(iDocumentNode* node)
   csRef<iDocumentNode> params = node->GetNode ("params");
   if (!params) return "Error in node";
   csRef<iDocumentNode> factory = params->GetNode ("factory");
-  if (!factory) return "Error in node"; 
+  if (!factory) return "Error in node";
   return factory->GetContentsValue();
 }
 
@@ -301,7 +301,7 @@ void ResourceManager::ScanObjects(const std::string& path)
   csRef<iStringArray> paths = vfs->FindFiles(path.c_str());
   for (size_t i = 0; i < paths->GetSize(); i++ )
   {
-    std::string path = paths->Get(i);    
+    std::string path = paths->Get(i);
     if (EndsWith(path, "/")) // It's a directory
       if (EndsWith(path, ".svn/")) // Ignore;
         continue;

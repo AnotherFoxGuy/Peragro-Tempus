@@ -38,7 +38,7 @@ protected:
   const ChatGroup* FindChannel (const char* channel) const;
   ChatGroup* FindChannel (const char* channel);
 
-public: 
+public:
   ChatGroupSet() : channels() {}
   ~ChatGroupSet() {}
 

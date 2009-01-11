@@ -44,7 +44,7 @@ public:
                            const char* skill);
   void CharacterLogou(Character* lockedCharacter,
                       const char* skill);
-  void ResetTimeSkillLastUsed(Character* lockedCharacter, 
+  void ResetTimeSkillLastUsed(Character* lockedCharacter,
                               const char* skill);
   float GetTimeUnusedLastLogin(Character *lockedCharacter,
                                const char* skill);

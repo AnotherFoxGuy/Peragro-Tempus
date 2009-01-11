@@ -63,7 +63,7 @@ public:
     return false;
   }
 
-  /// Compact this hash by removing all weak references that have become 0. 
+  /// Compact this hash by removing all weak references that have become 0.
   void Compact()
   {
     GlobalIterator it(this->GetIterator());

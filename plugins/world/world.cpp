@@ -99,7 +99,7 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     iSector* s = engine->FindSector(sector.c_str());
     if (s) instance->QuerySceneNode()->GetMovable()->SetSector(s);
-    else csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world", 
+    else csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
       "Failed to get sector '%s' (object: '%s' has errors)!", sector.c_str(), name.c_str());
     instance->QuerySceneNode()->GetMovable()->UpdateMove();
 
@@ -108,7 +108,7 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
     csRef<EditorObject> edObj; edObj.AttachNew(new EditorObject(*this, object_reg, instance));
   }
   else
-    csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world", 
+    csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
       "Failed to create mesh '%s' (factory: '%s' has errors)!", name.c_str(), factoryFile.c_str());
 } // end Loaded()
 
@@ -206,7 +206,7 @@ bool WorldManager::UpdateOptions()
 } // end UpdateOptions()
 
 bool WorldManager::Loading()
-{ 
+{
   if (loading)
   {
     bool allLoaded = true;
@@ -263,13 +263,13 @@ void Move(iMeshWrapper* selectedMesh, iCamera* cam, const csVector3& v)
   }
 }
 
-bool WorldManager::HandleEvent(iEvent& ev) 
-{ 
+bool WorldManager::HandleEvent(iEvent& ev)
+{
   float f = 0.1f;
   if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
     Loading();
   else if (ev.GetName() == nameRegistry->GetID("interface.options.video"))
-    UpdateOptions(); 
+    UpdateOptions();
   else if (ev.GetName() == nameRegistry->GetID("input.Object+X"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
@@ -315,8 +315,8 @@ bool WorldManager::HandleEvent(iEvent& ev)
         Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s", selectedMesh->QueryObject()->GetName());
     }
   }
-  
-  return true; 
+
+  return true;
 } // end HandleEvent()
 
 void WorldManager::EnterWorld(Geom::Vector3 position)
