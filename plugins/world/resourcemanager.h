@@ -39,8 +39,8 @@ struct iDocumentNode;
 class ResourceManager
 {
 private:
-  Common::World::WorldManager* worldManager;
   iObjectRegistry* object_reg;
+  Common::World::WorldManager* worldManager;
 
   csRef<iVFS> vfs;
 

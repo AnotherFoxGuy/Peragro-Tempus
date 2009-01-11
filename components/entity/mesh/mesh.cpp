@@ -41,7 +41,7 @@ CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (Mesh, "peragro.entity.mesh")
 
 ComponentMesh::ComponentMesh(iObjectRegistry* object_reg) :
-  object_reg(object_reg), scfImplementationType (this, object_reg), iCacheUser(object_reg)
+  scfImplementationType (this, object_reg), iCacheUser(object_reg), object_reg(object_reg)
 {
 }
 

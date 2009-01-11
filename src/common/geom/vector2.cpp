@@ -26,3 +26,4 @@ namespace Geom
     return false;
   }
 } // namespace Geom
+

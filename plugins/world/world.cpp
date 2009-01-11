@@ -55,10 +55,10 @@ CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (WorldManager)
 
 //----------------------------------------------------------
-WorldManager::Instance::Instance (const Common::World::Object& object, 
-                                  iObjectRegistry* obj_reg) 
-                                  : Common::World::Object(object), 
-                                  object_reg(obj_reg), iCacheUser(obj_reg)
+WorldManager::Instance::Instance (const Common::World::Object& object,
+                                  iObjectRegistry* obj_reg)
+                                  : Common::World::Object(object),
+                                  iCacheUser(obj_reg), object_reg(obj_reg)
 {
   Load(factoryFile);
 }
@@ -66,10 +66,10 @@ WorldManager::Instance::Instance (const Common::World::Object& object,
 WorldManager::Instance::~Instance()
 {
   // TODO: fade instead of just removing.
-  if (instance) 
+  if (instance)
   {
     // Effect is only ref holder, don't have to do anything.
-    if (instance->GetRefCount() == 1) return; 
+    if (instance->GetRefCount() == 1) return;
 
     // Remove from any collections.
     if (instance->QueryObject())
@@ -123,7 +123,7 @@ void WorldManager::Report(int severity, const char* msg, ...)
 }
 
 WorldManager::WorldManager(iBase* iParent)
-  : scfImplementationType(this, iParent), object_reg(0), worldManager(0)
+  : scfImplementationType(this, iParent), worldManager(0), object_reg(0)
 {
   loading = false;
   position.Set(0.0f);

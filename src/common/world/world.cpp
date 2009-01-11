@@ -29,7 +29,7 @@ namespace Common
       return obj1.id < obj2.id;
     }
 
-    WorldManager::WorldManager() : db("world.sqlite"), factoryTable(&db), objectsTable(&db)
+    WorldManager::WorldManager() : db("world.sqlite"), objectsTable(&db), factoryTable(&db)
     {
       Array<Object> objs;
       objectsTable.GetObjects(objs);

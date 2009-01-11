@@ -35,12 +35,12 @@ void Effect::Report(int severity, const char* msg, ...)
 }
 
 Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, csVector3 position, iSector* sector)
-  : iCacheUser(obj_reg), 
+  : iCacheUser(obj_reg),
   effectType(PositionEffectType),
   pos(position), sec(sector),
   object_reg(obj_reg),
-  timeleft(t->GetDuration()), offset(t->GetOffset()),
-  fileName(t->GetMeshFile()), meshName(t->GetMeshName())
+  timeleft(t->GetDuration()), fileName(t->GetMeshFile()),
+  meshName(t->GetMeshName()), offset(t->GetOffset())
 {
   Load(fileName);
 } // end Effect()
@@ -50,8 +50,8 @@ Effect::Effect(iObjectRegistry* obj_reg, EffectTemplate* t, iMeshWrapper* parent
   effectType(ParentEffectType),
   parentMesh(parent),
   object_reg(obj_reg),
-  timeleft(t->GetDuration()), offset(t->GetOffset()),
-  fileName(t->GetMeshFile()), meshName(t->GetMeshName())
+  timeleft(t->GetDuration()), fileName(t->GetMeshFile()),
+  meshName(t->GetMeshName()), offset(t->GetOffset())
 {
   Load(fileName);
 } // end Effect()
