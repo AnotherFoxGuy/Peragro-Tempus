@@ -96,5 +96,5 @@ STATICPLUGIN.tiledworldloader.LFLAGS.release.8 = libpt_staticplugins.lib librepo
 STATICPLUGINS.AVAILABLE += worldloader ;
 STATICPLUGIN.worldloader.CFLAGS.debug.8 = "/D USE_CEL" ;
 STATICPLUGIN.worldloader.CFLAGS.release.8 = "/D USE_CEL" ;
-STATICPLUGIN.worldloader.LFLAGS.debug.8 = libpt_staticplugins_d.lib libreporter_d.lib libeventmanager-cs_d.lib libworld_d.lib  libcrystalspace_d.lib libceltool_d.lib ;
-STATICPLUGIN.worldloader.LFLAGS.release.8 = libpt_staticplugins.lib libreporter.lib libeventmanager-cs.lib libworld.lib libcrystalspace.lib libceltool.lib ;
+STATICPLUGIN.worldloader.LFLAGS.debug.8 = libpt_staticplugins_d.lib libworld_d.lib  libcrystalspace_d.lib libceltool_d.lib ;
+STATICPLUGIN.worldloader.LFLAGS.release.8 = libpt_staticplugins.lib libworld.lib libcrystalspace.lib libceltool.lib ;
