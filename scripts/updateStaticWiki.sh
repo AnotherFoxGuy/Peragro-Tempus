@@ -4,7 +4,12 @@ DEST=/home/peragro/peragro/docs/
 
 cd $DEST
 
-rm -rf $DEST/static
+FILES=`find static/ -type f -name .svn -prune -o -print|grep -v \.svn`
+svn add static -N
+for i in $FILES
+do
+  rm $i
+done
 rsync -r $DOCS $DEST
 FILES=`find static/ -name .svn -prune -o -print`
 svn add static -N
