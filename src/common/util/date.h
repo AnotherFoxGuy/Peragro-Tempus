@@ -37,6 +37,7 @@ namespace PT
     typedef std::vector<std::string> NameListType;
 
     struct Calendar;
+    struct DayTime;
 
     /**
      * The date split into the different units like hours and days.
@@ -46,15 +47,14 @@ namespace PT
     struct SplitDate
     {
       /// Default constructor.
-      SplitDate()
-        : second(0), minute(0), hour(0), day(0), month(0), year(0)
-      {}
+      SplitDate();
       /// Constructor.
       SplitDate(ShortType second, ShortType minute, ShortType hour,
-        ShortType day, ShortType month, ShortType year)
-        : second(second), minute(minute), hour(hour), day(day), month(month),
-        year(year)
-      {}
+        ShortType day, ShortType month, ShortType year);
+      /// Copy construct from time of day.
+      SplitDate(const DayTime& dayTime);
+      /// Assign a SplitDate a time of day.
+      SplitDate& operator=(const DayTime& dayTime);
 
       /**
        * Advance the date by the specified amount of seconds, using the
@@ -85,9 +85,7 @@ namespace PT
     struct IntegerDate
     {
       /// Default constructor.
-      IntegerDate(LongType date = 0)
-        : seconds(date)
-      {}
+      IntegerDate(LongType date = 0);
 
       /// Seconds since epoch.
       LongType seconds;
@@ -99,13 +97,14 @@ namespace PT
     struct DayTime
     {
       /// Default constructor.
-      DayTime()
-        : second(0), minute(0), hour(0)
-      {}
+      DayTime();
       /// Constructor.
-      DayTime(ShortType s, ShortType m, ShortType h)
-        : second(s), minute(m), hour(h)
-      {}
+      DayTime(ShortType s, ShortType m, ShortType h);
+      /// Copy construct from a SplitDate.
+      DayTime(const SplitDate& splitDate);
+
+      /// Assign from a SplitDate.
+      DayTime& operator=(const SplitDate& splitDate);
 
       /// Second of minute.
       ShortType second;
@@ -213,9 +212,48 @@ namespace PT
 
     /// Output the time of day to a stream.
     std::ostream& operator<<(std::ostream& os, const DayTime& d);
+    /// Input values into a time of day struct, converted from a stream.
+    std::istream& operator>>(std::istream& is, DayTime& d);
 
     /// Output the calendar parameters to a stream.
     std::ostream& operator<<(std::ostream& os, const Calendar& c);
+
+    inline SplitDate::SplitDate()
+      : second(0), minute(0), hour(0), day(0), month(0), year(0)
+    {}
+
+    inline SplitDate::SplitDate(ShortType second, ShortType minute,
+      ShortType hour, ShortType day, ShortType month, ShortType year)
+      : second(second), minute(minute), hour(hour), day(day), month(month),
+      year(year)
+    {}
+
+    inline SplitDate::SplitDate(const DayTime& dayTime)
+      : second(dayTime.second), minute(dayTime.minute), hour(dayTime.hour),
+      day(0), month(0), year(0)
+    {}
+
+    inline SplitDate& SplitDate::operator=(const DayTime& o)
+    { second = o.second; minute = o.minute; hour = o.hour; return (*this); }
+
+    inline IntegerDate::IntegerDate(LongType date)
+      : seconds(date)
+    {}
+
+    inline DayTime::DayTime()
+      : second(0), minute(0), hour(0)
+    {}
+
+    inline DayTime::DayTime(ShortType s, ShortType m, ShortType h)
+      : second(s), minute(m), hour(h)
+    {}
+
+    inline DayTime::DayTime(const SplitDate& o)
+      : second(o.second), minute(o.minute), hour(o.hour)
+    {}
+
+    inline DayTime& DayTime::operator=(const SplitDate& o)
+    { second = o.second; minute = o.minute; hour = o.hour; return (*this); }
 
     inline void SplitDate::Advance(const Calendar& cal, ShortType seconds)
     { cal.Advance(*this, seconds); }

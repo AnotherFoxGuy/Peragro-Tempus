@@ -49,6 +49,9 @@
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
 
+#include "client/environment/clock.h"
+#include "client/environment/environmentmanager.h"
+
 #include "include/world.h"
 
 namespace PT
@@ -73,7 +76,8 @@ namespace PT
           "  - Sector: '/dbg sector sectorname [x y z]'\n"
           "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
           "  - Remove: '/dbg rm entity #id'\n"
-          "  - World Size: '/dbg worldsize #tilesOnEdge'";
+          "  - World Size: '/dbg worldsize #tilesOnEdge'\n"
+          "  - Set Date: '/dbg date hh:mm [dd/mm/yyyy]'";
     }
 
     void cmdDbg::Execute (const StringArray& args)
@@ -407,6 +411,38 @@ namespace PT
               file->Write(data.str().c_str(), data.str().length());
               file->Flush();
             }
+          }
+          else if (args[2].compare("date") == 0)
+          {
+            if (args.size() < 4) throw BadUsage();
+
+            const Environment::Clock* clock =
+              ptr_lib->getEnvironmentManager()->GetClock();
+
+            Date::SplitDate newDate(clock->GetSplitDate());
+            std::stringstream ss;
+            ss << args[3];
+
+            if (args.size() > 4)
+            {
+              // Change the full date.
+              ss << " " << args[4];
+              ss >> newDate;
+            }
+            else
+            {
+              // Change only the time of day, keep the current date.
+              Date::DayTime dayTime;
+              ss >> dayTime;
+              newDate = dayTime;
+            }
+
+            Date::LongType seconds =
+              clock->GetCalendar()->ToIntegerDate(newDate).seconds;
+
+            SetDateMessage msg;
+            msg.setSeconds(seconds);
+            network->send(&msg);
           }
           return;
         }

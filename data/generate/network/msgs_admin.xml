@@ -92,4 +92,8 @@
 		</list>
 	</message>
 
+	<message type="Admin" name="SetDate">
+		<uint32>Seconds</uint32>
+	</message>
+
 </message-implementation>

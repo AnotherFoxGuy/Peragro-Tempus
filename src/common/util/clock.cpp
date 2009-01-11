@@ -48,14 +48,14 @@ namespace PT
       return splitDate;
     }
 
-    void Clock::SetDate(LongType date)
+    void Clock::SetDate(const IntegerDate& date)
     {
       ptScopedMutex lock(dateMutex);
-      integerDate.seconds = date;
+      integerDate = date;
       splitDate = calendar->ToSplitDate(integerDate);
     }
 
-    void Clock::SetDate(SplitDate date)
+    void Clock::SetDate(const SplitDate& date)
     {
       ptScopedMutex lock(dateMutex);
       integerDate = calendar->ToIntegerDate(date);

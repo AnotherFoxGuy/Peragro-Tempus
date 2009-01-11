@@ -66,9 +66,9 @@ namespace PT
       DayTime GetDayTime() const;
 
       /// Set the date in the integer format.
-      void SetDate(LongType integerDate);
+      void SetDate(const IntegerDate& integerDate);
       /// Set the date in the split format.
-      void SetDate(SplitDate date);
+      void SetDate(const SplitDate& date);
 
       /// Get a decimal representing the fraction of the current day.
       float GetFractionOfDay() const;

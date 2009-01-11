@@ -107,6 +107,8 @@
 		<!--message type="Admin" name="SpawnDoor" /-->
 		<!--message type="Admin" name="RemoveSpawnedEntity" /-->
 		<!--message type="Admin" name="ToggleFlashStep" /-->
+		<!--message type="Admin" name="CreateZone" /-->
+		<!--message type="Admin" name="SetDate" /-->
 
 		<message type="Player" name="InventoryList" />
 		<message type="Player" name="StatsList" />
@@ -223,6 +225,7 @@
 		<message type="Admin" name="RemoveSpawnedEntity" />
 		<message type="Admin" name="ToggleFlashStep" />
 		<message type="Admin" name="CreateZone" />
+		<message type="Admin" name="SetDate" />
 
 		<!--message type="Player" name="InventoryList" /-->
 		<!--message type="Player" name="StatsList" /-->

@@ -28,6 +28,8 @@
 
 #include "event.h"
 
+#include <boost/shared_ptr.hpp>
+
 #include "common/util/date.h"
 #include "common/reporter/reporter.h"
 

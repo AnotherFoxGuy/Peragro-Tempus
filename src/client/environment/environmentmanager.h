@@ -32,9 +32,6 @@
 
 #include "common/event/event.h"
 
-#include "client/environment/clock.h"
-#include "client/entity/player/playerentity.h"
-
 // Solarsystem plugins.
 #include "imystarbox.h"
 #include "isolarsys.h"
@@ -50,6 +47,8 @@ namespace PT
 {
   namespace Environment
   {
+    class Clock;
+
     /**
      * Changes the sky graphics as the time of day changes.
      */
@@ -124,7 +123,7 @@ namespace PT
        * Get a pointer to the clock object.
        * @return Clock*
        */
-      Clock* GetClock() { return clock; }
+      const Clock* GetClock() const { return clock; }
 
     };
   } // Environment namespace

@@ -34,6 +34,8 @@
 
 #include <iutil/object.h>
 
+#include "client/environment/clock.h"
+
 #include "client/entity/player/playerentity.h"
 
 namespace PT

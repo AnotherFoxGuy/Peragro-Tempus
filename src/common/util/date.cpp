@@ -59,7 +59,7 @@ namespace PT
     {
       is >> d.hour; is.ignore(256, ':');
       is >> d.minute; is.ignore(256, ':');
-      is >> d.second; is.ignore(256, ' ');
+      is >> d.second;
       // Convert day and month to zero based.
       is >> d.day; if (d.day > 0) d.day--; is.ignore(256, '/');
       is >> d.month; if (d.month > 0) d.month--; is.ignore(256, '/');
@@ -73,6 +73,14 @@ namespace PT
       os.width(2); os.fill('0'); os << d.minute << ':';
       os.width(2); os.fill('0'); os << d.second;
       return os;
+    }
+
+    std::istream& operator>>(std::istream& is, DayTime& d)
+    {
+      is >> d.hour; is.ignore(256, ':');
+      is >> d.minute; is.ignore(256, ':');
+      is >> d.second;
+      return is;
     }
 
     Calendar::Calendar(ShortType epoch, ShortType sPM, ShortType mPH,

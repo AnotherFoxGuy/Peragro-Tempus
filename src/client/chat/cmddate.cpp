@@ -23,6 +23,7 @@
 
 #include "client/pointer/pointer.h"
 
+#include "client/environment/clock.h"
 #include "client/environment/environmentmanager.h"
 
 #include "client/gui/guimanager.h"
@@ -62,7 +63,7 @@ namespace PT
 
       Environment::EnvironmentManager* envmanager = PointerLibrary::getInstance()->getEnvironmentManager();
       if(!envmanager) return;
-      Environment::Clock* clock = envmanager->GetClock();
+      const Environment::Clock* clock = envmanager->GetClock();
       if(!clock) return;
 
       std::stringstream ss;

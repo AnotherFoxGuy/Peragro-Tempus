@@ -364,3 +364,20 @@ void CreateZoneMessage::deserialise(ByteStream* bs)
 
 }
 
+bool SetDateMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(seconds);
+  return serial.isValid();
+}
+
+void SetDateMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  seconds = (unsigned int) serial.getInt32();
+}
+

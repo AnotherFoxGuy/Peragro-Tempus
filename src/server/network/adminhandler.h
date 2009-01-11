@@ -53,6 +53,7 @@ public:
     else if (id == ADMIN::REMOVESPAWNEDENTITY) handleRemoveSpawnedEntity(msg);
     else if (id == ADMIN::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
     else if (id == ADMIN::CREATEZONE) handleCreateZone(msg);
+    else if (id == ADMIN::SETDATE) handleSetDate(msg);
   }
 
   void handleRemoveAll(GenericMessage* msg);
@@ -66,6 +67,7 @@ public:
   void handleRemoveSpawnedEntity(GenericMessage* msg);
   void handleToggleFlashStep(GenericMessage* msg);
   void handleCreateZone(GenericMessage* msg);
+  void handleSetDate(GenericMessage* msg);
 };
 
 #endif // ADMINHANDLER_H

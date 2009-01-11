@@ -39,7 +39,8 @@ namespace ADMIN
     SPAWNDOOR=7,
     REMOVESPAWNEDENTITY=8,
     TOGGLEFLASHSTEP=9,
-    CREATEZONE=10
+    CREATEZONE=10,
+    SETDATE=11
   };
 }
 
@@ -585,6 +586,27 @@ public:
   void setZ(size_t i, float x) { nodes[i].z = x; }
 
   // --- end ListNodes Getter and Setter ---
+
+};
+
+class SetDateMessage : public NetMessage
+{
+  unsigned int seconds;
+
+public:
+  SetDateMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SETDATE)
+  {
+  }
+
+  ~SetDateMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getSeconds() const { return seconds; }
+  void setSeconds(unsigned int x) { seconds = x; }
 
 };
 

@@ -39,13 +39,22 @@
 
 #include "server/spawner.h"
 
-void AdminHandler::handleRemoveAll(GenericMessage* msg)
+#include "server/environment/clock.h"
+#include "server/environment/environmentmanager.h"
+
+bool CheckAdminLevel(GenericMessage* msg, size_t level)
 {
   const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
+  if (!user) return false;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (admin < level) return false;
+  else return true;
+}
+
+void AdminHandler::handleRemoveAll(GenericMessage* msg)
+{
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   RemoveAllMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
@@ -154,11 +163,7 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
 
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateSectorMessage sectormsg;
   sectormsg.deserialise(msg->getByteStream());
@@ -171,11 +176,7 @@ void AdminHandler::handleCreateSector(GenericMessage* msg)
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
@@ -197,11 +198,7 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
 
 void AdminHandler::handleCreateNpc(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateNpcMessage npcmsg;
   npcmsg.deserialise(msg->getByteStream());
@@ -258,11 +255,7 @@ void AdminHandler::handleCreateNpc(GenericMessage* msg)
 
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateSpawnPointMessage spawnmsg;
   spawnmsg.deserialise(msg->getByteStream());
@@ -288,11 +281,7 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
 void AdminHandler::handleSpawnItem(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 1) return;
+  if (CheckAdminLevel(msg, 1) == false) return;
 
   SpawnItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
@@ -310,11 +299,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
 
 void AdminHandler::handleSpawnMount(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 1) return;
+  if (CheckAdminLevel(msg, 1) == false) return;
 
   Server* server = Server::getServer();
 
@@ -322,7 +307,6 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   mountmsg.deserialise(msg->getByteStream());
 
   const Mesh* mesh = server->getMeshManager()->findByName(mountmsg.getMesh());
-  if (mesh == 0 && admin < 1) return;
   if (mesh == 0) mesh = server->getMeshManager()->addMeshUpdate(mountmsg.getMesh(), ptString::Null);
 
   MountEntity* mount_ent = new MountEntity();
@@ -339,11 +323,7 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   Server* server = Server::getServer();
 
@@ -371,11 +351,7 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 
 void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 1) return;
+  if (CheckAdminLevel(msg, 1) == false) return;
 
   RemoveSpawnedEntityMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
@@ -394,14 +370,10 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 
 void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 1) return;
+  if (CheckAdminLevel(msg, 1) == false) return;
 
   const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
-  if (!user) return;
+  if (!c_pcent) return;
 
   ptScopedMonitorable<PcEntity> pcent (c_pcent);
   pcent->toggleFlashStep();
@@ -409,11 +381,7 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)
 {
-  const User* user = NetworkHelper::getUser(msg);
-  if (!user) return;
-
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < 2) return;
+  if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateZoneMessage zonemsg;
   zonemsg.deserialise(msg->getByteStream());
@@ -432,3 +400,19 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
   }
   zonemgr->addZone(zone);
 }
+
+void AdminHandler::handleSetDate(GenericMessage* msg)
+{
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  SetDateMessage dateMsg;
+  dateMsg.deserialise(msg->getByteStream());
+
+  PT::Date::IntegerDate date(dateMsg.getSeconds());
+
+  PT::Server::Environment::Clock* clock =
+    Server::getServer()->getEnvironmentManager()->GetClock();
+  clock->SetDate(date);
+  clock->BroadcastTime();
+}
+

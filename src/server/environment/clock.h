@@ -54,10 +54,10 @@ namespace PT
          */
         void InitTime(const Entity* entity);
 
-      private:
         /// Broadcast the current game time to all clients.
         void BroadcastTime();
 
+      private:
         /// Timer implementation.
         void timeOut();
 
