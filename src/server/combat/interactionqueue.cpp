@@ -70,10 +70,12 @@ Interaction* InteractionQueue::GetInteraction()
 
   temp = head;
   head = head->next;
-  free(temp);
+  // TODO this is not correct...
+  // TODO need to free/delete somehow though, memleak!
+  //free(temp);
 
   mutex.unlock();
-  return NULL;
+  return interaction;
 }
 
 void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
@@ -110,19 +112,20 @@ void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
 void InteractionQueue::SetInteraction(Interaction* interaction)
 {
   // TODO One character cannot have more than X entries.
-  // TODO change code elsewhere to make sure old itneractions are
+  // TODO change code elsewhere to make sure old interactions are
   // removed when char dies, or when new target is selected.
   QueueItem* queue = NULL;
   QueueItem* temp = NULL;
   QueueItem* queueItem = new QueueItem();
 
   queueItem->interaction = interaction;
-  mutex.lock();
   queueItem->prev = queueItem->next = NULL;
+  interaction->time = time(0);
+
+  mutex.lock();
 
   // TODO If the same player already has interactions enqueued time
   // need to include those as well.
-  interaction->time = time(0);
 
   for (queue = head; queue && queue->next; queue = queue->next) {
     if (queue->interaction->time > interaction->time) {
