@@ -35,6 +35,7 @@
 #include "interactionutility.h"
 
 #define IM "InteractionManager: "
+#define DEBUG(arg) printf(IM #arg "\n");
 
 #ifdef WIN32
   // To support sleep()
@@ -43,7 +44,7 @@
     Sleep(arg);
 #endif
 
-#define SLEEP 10
+#define SLEEP 1
 
 extern "C" void __cxa_pure_virtual()
 {
@@ -73,20 +74,25 @@ void InteractionManager::shutdown()
 
 void InteractionManager::Run()
 {
-  Interaction *interaction = NULL;
-  // caller must free allocation
-  interaction = interactionQueue->GetInteraction();
-  if (!interaction) {
-    // No character have any outstanding interactions.
-    sleep(SLEEP);
+  while(true) { 
+    Interaction *interaction = NULL;
+    // caller must free allocation
+    interaction = interactionQueue->GetInteraction();
+    while (!interaction) {
+      // No character have any outstanding interactions.
+      sleep(SLEEP);
+      printf(IM "Polling for interactions in the interaction queue\n");
+      interaction = interactionQueue->GetInteraction();
+    }
+    PerformInteraction(interaction);
+    free(interaction);
   }
-  PerformInteraction(interaction);
-  free(interaction);
 }
 
 bool
 InteractionManager::NormalAttack(Interaction *interaction)
 {
+  DEBUG("NormalAttack");
   unsigned int targetID = 0;
   const Character* c_char = NULL;
   int damage = 0;
@@ -150,6 +156,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
 void
 InteractionManager::ReportDeath(Character *lockedCharacter)
 {
+  DEBUG("ReportDeath");
   DeathMessage msg;
   ByteStream statsbs;
   msg.setEntityId(lockedCharacter->getEntity()->getId());
@@ -163,6 +170,8 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
 
 void
 InteractionManager::DropAllItems(Character *lockedCharacter) {
+  
+  DEBUG("DropAllItems");
 
   int itemsToDrop = 0;
   int itemsDropped = 0;
@@ -235,6 +244,7 @@ unsigned int InteractionManager::GetNotificationDistance()
 void
 InteractionManager::ReportDamage(Character *lockedCharacter)
 {
+  DEBUG("ReportDamage");
   CharacterStats* stats = lockedCharacter->getStats();
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
@@ -256,6 +266,7 @@ bool
 InteractionManager::DeductStamina(Character* lockedCharacter,
                                   Interaction *interaction)
 {
+  DEBUG("DeductStamin");
   float currentStamina = 0;
   float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
                                             GetStrength(lockedCharacter) +
@@ -294,6 +305,7 @@ unsigned int
 InteractionManager::GetAttackChance(Character* lockedAttacker,
                                      Character* lockedTarget)
 {
+  DEBUG("GetAttackChance");
   return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
     PT::Math::MinUI(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
     PT::Math::MaxUI(PT::Math::MaxUI(GetBlock(lockedTarget),
@@ -304,6 +316,7 @@ int
 InteractionManager::CalculateDamage(Character* lockedAttacker,
                                          Character* lockedTarget)
 {
+  DEBUG("CalculateDamage");
 
   int damage = 0;
   const unsigned int attackResult = RollDice();
@@ -337,9 +350,13 @@ InteractionManager::CalculateDamage(Character* lockedAttacker,
 bool
 InteractionManager::PerformInteraction(Interaction* interaction)
 {
+  DEBUG("PerformInteraction");
   if (!interaction) {
+    printf(IM "BUG this should not have happened, interaction  == NULL\n");
     return false;
   }
+
+  printf("\nPerforming interaction with ID: %d\n", interaction->interactionID);
 
   switch(interaction->interactionID) {
     case InteractionID::NORMAL_ATTACK:
@@ -355,6 +372,7 @@ bool
 InteractionManager::TargetAttackable(Character* lockedAttacker,
                                      Character* lockedTarget)
 {
+  DEBUG("TargetAttackable");
   float maxAttackDistance = 0;
   float distance = 0;
   float attackerRotation = 0;
@@ -404,6 +422,7 @@ bool
 InteractionManager::SelectTarget(const PcEntity *sourceEntity,
                                       unsigned int targetID)
 {
+  DEBUG("SelectTarget");
   printf(IM "Got selection request, target: %d'n", targetID);
 
   if (!sourceEntity || !sourceEntity->getCharacter())
@@ -430,6 +449,7 @@ InteractionManager::SelectTarget(const PcEntity *sourceEntity,
 const Character*
 InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 {
+  DEBUG("GetTargetCharacter");
   const Character* c_char = NULL;
   const Entity* targetEntity = Server::getServer()->getEntityManager()->
                               findById(lockedCharacter->GetTargetID());
@@ -461,9 +481,10 @@ bool
 InteractionManager::QueueInteraction(const PcEntity *sourceEntity,
                                      unsigned int interactionID)
 {
+  DEBUG("QueueInteraction");
   Interaction *interaction = new Interaction();
 
-  printf(IM "Got queueInteraction request, interaction: %d'n", interactionID);
+  printf(IM "Got queueInteraction request, interaction: %d\n", interactionID);
 
   if (!sourceEntity || !sourceEntity->getCharacter())
   {
@@ -590,6 +611,7 @@ InteractionManager::SendStatUpdate(const Stat* stat,
                                    const char* name,
                                    int target)
 {
+  DEBUG("SendStatUpdate");
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(stat->getId());
