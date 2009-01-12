@@ -443,7 +443,8 @@ namespace PT
       RequestSkillUsageStart(targetId, skillId);
     } // end RequestSkillUsageStart()
 
-    void CombatManager::RequestSkillUsageStart(unsigned int targetId, unsigned int skillId)
+    void CombatManager::RequestSkillUsageStart(unsigned int targetId,
+                                               unsigned int skillId)
     {
       if (!skillId)
       {
@@ -491,12 +492,12 @@ namespace PT
       */
 
       // Prepare and send the network message.
-      SkillUsageStartRequestMessage msg;
-      msg.setTarget(targetId);
-      msg.setSkill(skillId);
+      AttackRequestMessage msg;
+      msg.setTargetID(targetId);
+      msg.setAttackType(skillId);
       network->send(&msg);
 
-      Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %.", targetId, skillId);
+      Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %d.", targetId, skillId);
     } // end RequestSkillUsageStart()
 
     bool CombatManager::ActionHit(iEvent& ev)
