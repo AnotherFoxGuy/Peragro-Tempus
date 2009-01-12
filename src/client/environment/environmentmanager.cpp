@@ -123,6 +123,23 @@ namespace PT
         }
         csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
         var->SetValue(sunpos);
+      } else 
+      {
+        //=[Fall Back Sun position ]===================================
+        float temp = step * 2.0f;
+        if (temp > 1.0f) temp = 2.0f - temp;
+
+        sun_theta = ((2.0f * temp) - 1.0f) * 0.85;
+
+        sun_alpha = 1.605f * sin(-step * 2.0f * PI) - 3.21f;
+
+        // Update the values.
+        csVector3 sun_vec;
+        sun_vec.x = cos(sun_theta) * sin(sun_alpha);
+        sun_vec.y = sin(sun_theta);
+        sun_vec.z = cos(sun_theta) * cos(sun_alpha);
+        csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
+        var->SetValue(sun_vec);
       }
 
       //=[ Sun brightness ]===================================
