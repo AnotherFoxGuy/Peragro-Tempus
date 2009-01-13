@@ -103,7 +103,16 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_
   dist = (dist/3.2616);
   // need to take into account the camera pos
   // m=M+5(log10(d)-1) where m = apr mag M=abs mag d=distance in parces's
-  float apr_lum = abs_lum + 5 * (log10(dist)-1);
+  
+  // log10(d) approximation
+  int p = 0;
+  int dist_t = (int)(dist*10);
+  while(dist_t>100) {
+    dist_t=dist_t/10;
+    p++;
+  }
+  // p+logtable[dist_t]-1 = log10(d)
+  float apr_lum = abs_lum + 5 * (p+logtable[dist_t]-2);
 
   // scale gives the size of star in screen px
   // visable range is less than 6.5
