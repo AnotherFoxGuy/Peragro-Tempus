@@ -180,8 +180,17 @@ float Star::GetStarScale (const float& dist, const float& base_star_size, const 
   //dist = (dist/3.2616);  // convert dist from light year to parsecs 
   // need to take into account the camera pos
   // m=M+5(log10(d)-1) where m = apr mag M=abs mag d=distance in parces's
-  float apr_lum = abs_lum + 5 * (log10(dist)-1);
+  //  float apr_lum = abs_lum + 5 * (log10(dist)-1);
 
+  // log10(d) approximation
+  int p = 0;
+  int dist_t = (int)(dist*10);
+  while(dist_t>100) {
+    dist_t=dist_t/10;
+    p++;
+  }
+
+  float apr_lum = abs_lum + 5 * (p+logtable[dist_t]-2);
   // scale gives the size of star in screen px
   // visable range is less than 6.5
   //if (apr_lum > 6.5 ) return;
