@@ -50,6 +50,8 @@
 
 #include "resourcemanager.h"
 
+#include "common/util/printhelper.h"
+
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (WorldManager)
@@ -84,7 +86,7 @@ WorldManager::Instance::~Instance()
       instance->GetMovable()->UpdateMove();
     }
   }
-  printf("REMOVED: %zd %s\n", id, name.c_str());
+  printf("REMOVED: %"SIZET" %s\n", id, name.c_str());
 }
 
 void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
@@ -377,7 +379,7 @@ void WorldManager::CameraMoved()
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;
-  if (objects.size()) printf("QUERY: %zd (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
+  if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
   for (it = objects.begin(); it != objects.end(); it++ )
   {
     size_t index = instances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
@@ -389,7 +391,7 @@ void WorldManager::CameraMoved()
     }
     else
     {
-      printf("OBJECT: %lu %s\n", (*it).id, (*it).name.c_str());
+      printf("OBJECT: %"SIZET" %s\n", (*it).id, (*it).name.c_str());
       // Instance was not found, make a new instance.
       csRef<Instance> in; in.AttachNew(new Instance(*it, object_reg));
       newInstances.InsertSorted(in, ptCompare);

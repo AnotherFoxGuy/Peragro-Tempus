@@ -41,6 +41,8 @@
 #include <imap/loader.h>
 #include <iengine/engine.h>
 
+#include "common/util/printhelper.h"
+
 void ResourceManager::Report(int severity, const char* msg, ...)
 {
   va_list arg;
@@ -323,7 +325,7 @@ void ResourceManager::ScanObjects(const std::string& path)
         {
           (*it).id = id;
           worldManager->AddLookUp(*it, false);
-          printf("ID: %zd\n", (*it).id);
+          printf("ID: %"SIZET"\n", (*it).id);
           id++;
         }
       }
