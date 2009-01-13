@@ -123,7 +123,8 @@ namespace PT
         }
         csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
         var->SetValue(sunpos);
-      } else 
+      }
+      else
       {
         //=[Fall Back Sun position ]===================================
         float temp = step * 2.0f;

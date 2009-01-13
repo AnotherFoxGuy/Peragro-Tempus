@@ -123,7 +123,7 @@ namespace PT
       else
         down = (csMouseEventHelper::GetEventType(&ev) == csMouseEventTypeDown);
 
-      if (!changeControl.get())
+      if (!changeControl)
       {
         // Search the control map.
         ControlMap::const_iterator itr = controls.find(eventCombo);

@@ -20,93 +20,97 @@
 #include "interactionqueue.h"
 
 InteractionQueue::InteractionQueue()
+  : head(0)
 {
-  head = NULL;
 }
 
 InteractionQueue::~InteractionQueue()
 {
-  mutex.lock();
-  QueueItem* temp = NULL;
-  if (!head) {
+  ptScopedMutex lock(mutex);
+  if (!head)
+  {
     return;
   }
 
-  while (1) {
+  QueueItem* temp = 0;
+
+  while (true)
+  {
     temp = head;
     head = head->next;
 
-    if (temp) {
-      free(temp->interaction);
-      free(temp);
-    } else {
+    if (temp)
+    {
+      delete temp->interaction;
+      delete temp;
+    }
+    else
+    {
       break;
     }
   }
-  mutex.unlock();
 }
 
 Interaction* InteractionQueue::GetInteraction()
 {
-  QueueItem* temp = NULL;
-  Interaction* interaction = NULL;
-
-  mutex.lock();
-  if (!head) {
-    mutex.unlock();
-    return NULL;
+  ptScopedMutex lock(mutex);
+  if (!head)
+  {
+    return 0;
   }
 
-  interaction = head->interaction;
+  Interaction* interaction = head->interaction;
   // Compare time of interaction with current time
-  if (interaction->time > time(0)) {
-    mutex.unlock();
-    return NULL;
+  if (interaction->time > time(0))
+  {
+    return 0;
   }
 
-  if (head->next) {
-    head->next->prev = NULL;
+  if (head->next)
+  {
+    head->next->prev = 0;
   }
 
-  temp = head;
+  QueueItem* temp = head;
   head = head->next;
-  // TODO this is not correct...
-  // TODO need to free/delete somehow though, memleak!
-  //free(temp);
+  delete temp;
 
-  mutex.unlock();
   return interaction;
 }
 
 void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
 {
-  QueueItem* queue = NULL;
-  mutex.lock();
+  ptScopedMutex lock(mutex);
 
-  for (queue = head; queue; queue = queue->next) {
-    if (queue->interaction->character->getId() == lockedCharacter->getId()) {
+  for (QueueItem* queue = head; queue; queue = queue->next)
+  {
+    if (queue->interaction->character->getId() == lockedCharacter->getId())
+    {
       RemoveInteractionEntry(queue);
     }
   }
-  mutex.unlock();
 
 }
 
 void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
 {
-  mutex.lock();
-  if (queue == head) {
+  ptScopedMutex lock(mutex);
+  if (queue == head)
+  {
     head = queue->next;
-  } else {
-    if (queue->prev) {
+  }
+  else
+  {
+    if (queue->prev)
+    {
       queue->prev->next = queue->next;
     }
-    if (queue->next) {
+    if (queue->next)
+    {
       queue->next->prev = queue->prev;
     }
   }
-  free(queue);
-  mutex.unlock();
+  delete queue;
 }
 
 void InteractionQueue::SetInteraction(Interaction* interaction)
@@ -114,46 +118,49 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
   // TODO One character cannot have more than X entries.
   // TODO change code elsewhere to make sure old interactions are
   // removed when char dies, or when new target is selected.
-  QueueItem* queue = NULL;
-  QueueItem* temp = NULL;
   QueueItem* queueItem = new QueueItem();
 
   queueItem->interaction = interaction;
-  queueItem->prev = queueItem->next = NULL;
+  queueItem->prev = queueItem->next = 0;
   interaction->time = time(0);
 
-  mutex.lock();
+  ptScopedMutex lock(mutex);
 
   // TODO If the same player already has interactions enqueued time
   // need to include those as well.
 
-  for (queue = head; queue && queue->next; queue = queue->next) {
-    if (queue->interaction->time > interaction->time) {
+  QueueItem* queue = 0;
+  for (queue = head; queue && queue->next; queue = queue->next)
+  {
+    if (queue->interaction->time > interaction->time)
+    {
       break;
     }
   }
-  if (!queue) {
+  if (!queue)
+  {
     head = queueItem;
-    mutex.unlock();
     return;
   }
 
-  temp = queue->prev;
+  QueueItem* temp = queue->prev;
   queue->prev = queueItem;
   queueItem->next = queue;
-  if (!temp) {
+  if (!temp)
+  {
     head = queueItem;
-  } else {
+  }
+  else
+  {
     temp->next = queueItem;
     queueItem->prev = temp;
   }
-  mutex.unlock();
 }
 
 InteractionQueue::QueueItem::QueueItem()
+  : prev(0), next(0), interaction(0)
 {
   // This queue item doesn't have any neighbours yet.
-  prev = next = NULL;
 }
 
 InteractionQueue::QueueItem::~QueueItem()
