@@ -83,6 +83,7 @@ class System
     float Get_Dec() { return declination; }
     float Get_Distance() { return distance; }  // distance from origin in light years
     float Get_Distance(const iCamera* c);  // distance from camera in light years
+    float GetDistanceOrigin(); // distance from origin in light years
     float Get_Luminosity();
     std::string Get_Classification() { return system_star->Get_Classification(); };
     float Get_Apr_Magnitude();
@@ -92,6 +93,7 @@ class System
     bool Has_Nebula() { if (tex_nebula) return true; return false; };
 
     void Set_Position(csVector3 new_pos);
+    void SetScale (const float& base_star_size,const float& apr_mag_exp );
     Star* Get_Star() { return system_star; }
 
     void DrawStar3D(iGraphics3D* g3d, const iCamera* c, const float& base_star_size,const float& apr_mag_exp);

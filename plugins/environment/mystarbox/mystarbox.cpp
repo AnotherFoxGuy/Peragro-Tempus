@@ -174,7 +174,6 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
     printf ("MyStarbox::BackgroundImage: No camera!\n");
     return false;
   }
-  //printf("MyStarbox::BackgroundImage:test begindraw.\n");
 
   g3d->BeginDraw(CSDRAW_CLEARSCREEN);
 
@@ -193,9 +192,6 @@ bool MyStarbox::BackgroundImage(const iCamera* c)
 
   if (startview < 0) startview = startview + 359;
   if (endview > 359) endview = endview - 359;
-
-//  printf("fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
-//  std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;
 
   for (std::vector<System*>::iterator itr = systems.begin();
     itr != systems.end();
@@ -218,7 +214,6 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
 {
   float fov;
 
-//  printf("MyStarbox::BackgroundImage:START\n");
   if (!g2d)
   {
     printf ("MyStarbox::BackgroundImage: No G2d\n");
@@ -245,10 +240,6 @@ bool MyStarbox::BackgroundImageNebula(const iCamera* c)
 
   if (startview < 0) startview = startview + 359;
   if (endview > 359) endview = endview - 359;
-
-
-  //printf("fov(%f) ViewAngle(%f) view(%i,%i)\n ", fov , viewangle , ra_systems[startview] , ra_systems[endview]);
-  //std::cout << "DEBUG: " << startview << "-" << endview << ":" << viewangle << std::endl;
 
   for (std::vector<System*>::iterator itr = systems.begin();
     itr != systems.end(); ++itr)
@@ -312,7 +303,7 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
   int seed = rand();
   int spokes = rand()%100;
   float roundness = base_star_roundness;
-//  printf("base_star_roundness %2.2f\n",roundness );
+
   int num_frames = 9;
   for (int n=0; n< STAR_ANAM_FRAMES ; n++)
   {
@@ -324,8 +315,6 @@ iTextureWrapper* MyStarbox::Create2dHaloTexture(int startype)
     seed = rand();
     spokes = rand()%100;
     roundness = base_star_roundness + (sin((n/10.0)*PI)/10.0);
-//    printf (" seed:%i spokes:%i roundness:%2.2f modifer:%3.4f\n ", seed, spokes,roundness, (sin((n/10.0)*PI)/10.0) );
-
     csImgMem = NovaImageRGB(seed, SB_STAR_TEX_SIZE , spokes, roundness , color);
 
 //    std::string filename = "starimages/";
@@ -480,9 +469,6 @@ csImageMemory* MyStarbox::NovaImageRGB
 return csImgMem;
 
 }
-
-
-
 
 csImageMemory* MyStarbox::HaloImageRGB
   (
@@ -780,17 +766,18 @@ bool MyStarbox::LoadStarCatalogue(const std::string& file_name)
     system = new System(id, name, ra, dec, distance);
 
     system->Calculate_Position();
+
     if (id==0) { current_sys = system; } // Keep a pointer to the start system
 
     // Loop through the systems Stars and create the star's
     // Note, only adding one star per system to start
     // Use the sys name + star type as temp name
     std::string tempName = name + star_classification;
-
+/*
     printf ("StarName:%s\n" , tempName.c_str() );
     printf ("Star classification:%s\n" , star_classification.c_str() );
     printf ("Star AbsMag:%4.10f\n" , AbsMag );
-
+*/
 
     syscount ++;
     system->Add_Star
@@ -918,6 +905,7 @@ newline 54      1       c1      newline (max final loc)
       name = line.substr(23,29);
       system = new System(id, name, ra, dec, distance);
       system->Calculate_Position();
+
       tempName = star_classification + ":" + line.substr(20,3) + name;
 
       system->Add_Star
@@ -928,6 +916,9 @@ newline 54      1       c1      newline (max final loc)
         StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
         star_tex[StarType(star_classification)*6]
       );
+      // Calculate a default scale for the star mesh 
+      system->SetScale ( base_star_size, star_apr_mag_exp );
+
 
       // Add star images to anaminate star
       for (int n=1; n< STAR_ANAM_FRAMES ; n++)

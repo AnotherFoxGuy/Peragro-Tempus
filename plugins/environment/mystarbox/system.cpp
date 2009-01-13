@@ -110,6 +110,14 @@ float System::Get_Distance(const iCamera* c)
   return dist;
 }
 
+float System::GetDistanceOrigin()
+{
+  csVector3 cs_unit_pos = system_pos * SB_LY_CSUNIT;   // conver the star pos into cs_unit position to match camera space
+  csVector3 cam_pos(0); // 0 as we have no-moving camera (or restricted as to be close to non moving)
+  // get the distance in CS_UNITS and conver to LY
+  float dist = (sqrt(csSquaredDist::PointPoint(cam_pos, cs_unit_pos))) / SB_LY_CSUNIT;
+  return dist;
+}
 
 // --------------------------------------------------------------------------------//
 // --------------------------------------------------------------------------------//
@@ -120,11 +128,14 @@ void System::Calculate_Position()
   system_pos.x = distance * sin(right_ascension*PI/180) * cos(declination*PI/180);
   system_pos.y = distance * sin(declination*PI/180);     // where dis = distance to star from Sun.
 
-/*  printf("ra:(%4.2f) dec:(%4.2f) dist:(%4.2f) :: x:(%4.2f) y:(%4.2f) z::(%4.2f) \n \n",
-    right_ascension, declination, distance, system_pos.x,system_pos.y,system_pos.z);
-  printf("/n");
-*/
   return ;
+}
+
+void System::SetScale (const float& base_star_size,const float& apr_mag_exp )
+{
+  float dist = GetDistanceOrigin()/3.2616;
+  float scale = system_star->GetStarScale(dist, base_star_size, apr_mag_exp);
+  system_star->SetScale(scale);
 }
 
 float System::Get_Apr_Magnitude()
