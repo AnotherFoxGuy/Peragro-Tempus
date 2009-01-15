@@ -28,6 +28,7 @@
 #include <set>
 #include <algorithm>
 
+#include "box.h"
 #include "sphere.h"
 
 namespace Geom
@@ -73,7 +74,7 @@ namespace Geom
     void Set(const G& v) 
     { 
       geom = v; 
-      std::list<Listener*>::iterator iter;
+      typename std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
       {
         (*iter)->Moved(this);
@@ -100,7 +101,7 @@ namespace Geom
   class OcTree
   {
   public:
-    typedef Shape<T, G> Shape;
+    typedef typename Geom::Shape<T, G> Shape;
     typedef std::set<T> QueryResult;
 
   private:
@@ -194,7 +195,7 @@ namespace Geom
         return result;
       }
 
-      bool IsPartitioned() const { return 0 != children_[0]; } 
+      bool IsPartitioned() const { return 0 != children[0]; } 
 
     };
 
