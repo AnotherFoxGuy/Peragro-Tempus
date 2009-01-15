@@ -920,11 +920,11 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
           break;
         }
       }
-      
+
       std::string indt = "  ";
       out << indt << "{\n";
       indt = "    ";
-      out << indt << "csRef<iEvent> pEvent = evmgr->CreateEvent("; 
+      out << indt << "csRef<iEvent> pEvent = evmgr->CreateEvent(";
       if(entSpecPar)
       {
         out << "EntityHelper::MakeEntitySpecific(";
@@ -970,7 +970,7 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
   // results in "paramName".
   std::string paramNameStr = "\"" + toFunction(param->name) + "\"";
 
-  if (param->type == nwParamType::STRING || param->type == nwParamType::COLOUR24) 
+  if (param->type == nwParamType::STRING || param->type == nwParamType::COLOUR24)
   {
     // if its a ptString or uchar*, derefrence it.
     std::string value = "*pmsg.";
@@ -994,17 +994,17 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     out << indt << "csRef<iEvent> list = evmgr->CreateEvent(" << listName  << ", true);\n"
         << indt << "for (unsigned char i = 0; i < pmsg.get" << param->name << "Count(); i++)\n"
         << indt << "{\n"
-        << indt << "  std::stringstream itemName;\n" 
+        << indt << "  std::stringstream itemName;\n"
         << indt << "  itemName << " << paramNameStr << " << \"_\" << i;\n"
         << indt << "  csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);\n";
     for (size_t j = 0; j < param->params.size(); j++)
     {
-      nwParams* listParam = param->params[j];   
+      nwParams* listParam = param->params[j];
       writeParam(out, listParam, "item", "i", indent + 1);
     }
     out << indt <<  "  list" << "->Add(itemName.str().c_str(), item);\n";
     out << indt << "}\n";
-    out << indt <<  eventname << "->Add(" << listName << ", list);\n"; 
+    out << indt <<  eventname << "->Add(" << listName << ", list);\n";
   }
   else
   {

@@ -71,9 +71,9 @@ namespace Geom
     { geom += o; Set(geom); return geom; }
 
     inline const G& Get() const { return geom; }
-    void Set(const G& v) 
-    { 
-      geom = v; 
+    void Set(const G& v)
+    {
+      geom = v;
       typename std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
       {
@@ -141,10 +141,10 @@ namespace Geom
         {
           //MoveUp();
         }
-        else 
-        { 
-          //MakeQuadTreeBigger(); 
-          //MoveUp(); 
+        else
+        {
+          //MakeQuadTreeBigger();
+          //MoveUp();
         }
       }
 
@@ -161,7 +161,7 @@ namespace Geom
       Node(const Box& size) : parent(0), box(size), children(8, (Node*)0) {}
 
       /** Destructor. */
-      ~Node() 
+      ~Node()
       {
         for (size_t i = 0; i < children.size(); ++i)
           delete children[i];
@@ -195,7 +195,7 @@ namespace Geom
         return result;
       }
 
-      bool IsPartitioned() const { return 0 != children[0]; } 
+      bool IsPartitioned() const { return 0 != children[0]; }
 
     };
 
@@ -209,12 +209,12 @@ namespace Geom
 
   public:
     /// Default constructor.
-    OcTree() 
+    OcTree()
     {
       rootNode = new Node(Box(Vector3(-100000.0f), Vector3(100000.0f)));
     }
 
-    ~OcTree() 
+    ~OcTree()
     {
       delete rootNode;
     }

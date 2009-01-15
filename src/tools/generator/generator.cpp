@@ -75,7 +75,7 @@ bool Generator::generateNetwork()
       for (size_t x = 0; x < network->peers[i]->recvMsg.size(); x++)
       {
         nwMessage* msg = network->peers[i]->recvMsg[x];
-        if (!msg || msg->type != network->types[j]) 
+        if (!msg || msg->type != network->types[j])
           continue;
         else
         {

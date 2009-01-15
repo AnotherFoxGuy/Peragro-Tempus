@@ -74,7 +74,7 @@ void InteractionManager::shutdown()
 
 void InteractionManager::Run()
 {
-  while(true) { 
+  while(true) {
     Interaction *interaction = NULL;
     // caller must free allocation
     interaction = interactionQueue->GetInteraction();
@@ -170,7 +170,7 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
 
 void
 InteractionManager::DropAllItems(Character *lockedCharacter) {
-  
+
   DEBUG("DropAllItems");
 
   int itemsToDrop = 0;

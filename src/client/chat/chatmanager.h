@@ -97,7 +97,7 @@ namespace PT
       bool Initialize ();
       void RegisterCommand (Commands::CommandInterface* cmd);
 
-      const std::vector<Commands::Commandp>& GetAllCommands() 
+      const std::vector<Commands::Commandp>& GetAllCommands()
       { return commands; }
     };
 
