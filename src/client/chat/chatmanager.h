@@ -30,8 +30,6 @@
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
 
-#include <boost/shared_ptr.hpp>
-
 struct iObjectRegistry;
 
 class Network;
@@ -45,7 +43,6 @@ namespace PT
 
   namespace Chat
   {
-    typedef boost::shared_ptr<CommandInterface> Commandp;
 
     class ChatManager
     {
@@ -55,7 +52,7 @@ namespace PT
       PT::GUI::GUIManager* guimanager;
       ChatLogger chatLogger;
 
-      std::vector<Commandp> commands;
+      std::vector<Commands::Commandp> commands;
       std::vector<CEGUI::String> history;
       int historypointer;
       std::map<unsigned int, std::string> playernames;
@@ -66,8 +63,8 @@ namespace PT
 
     private:
       void HandleOutput (const char* texti);
-      StringArray ParseString (const char* texti);
-      void Execute (const char* cmd, const StringArray& args);
+      Commands::StringArray ParseString (const char* texti);
+      void Execute (const char* cmd, const Commands::StringArray& args);
       void TabCompletion ();
 
     public: // CEGUI events.
@@ -98,9 +95,10 @@ namespace PT
       ~ChatManager ();
 
       bool Initialize ();
-      void RegisterCommand (CommandInterface* cmd);
+      void RegisterCommand (Commands::CommandInterface* cmd);
 
-      const std::vector<Commandp>& GetAllCommands() { return commands; }
+      const std::vector<Commands::Commandp>& GetAllCommands() 
+      { return commands; }
     };
 
   } // Chat namespace

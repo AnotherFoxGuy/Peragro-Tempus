@@ -24,7 +24,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
 
     cmdQuit::cmdQuit () : CommandDefault("quit") { }
@@ -48,5 +48,5 @@ namespace PT
     } // cmdQuit::Execute
 
 
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace

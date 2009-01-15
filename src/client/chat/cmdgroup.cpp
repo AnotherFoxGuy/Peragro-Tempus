@@ -26,7 +26,7 @@
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
-using namespace PT::Chat;
+using namespace PT::Commands;
 
 #ifdef SendMessage
   #undef SendMessage

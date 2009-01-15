@@ -54,10 +54,8 @@
 
 #include "include/world.h"
 
-namespace PT
-{
-  namespace Chat
-  {
+using namespace PT::Commands;
+
     cmdDbg::cmdDbg () : CommandDefault("dbg") { }
 
     cmdDbg::~cmdDbg () { }
@@ -447,7 +445,3 @@ namespace PT
           return;
         }
     }
-
-
-  } // Chat namespace
-} // PT namespace

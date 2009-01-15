@@ -18,10 +18,7 @@
 
 #include "commanddefault.h"
 
-namespace PT
-{
-  namespace Chat
-  {
+using namespace PT::Commands;
 
     CommandDefault::CommandDefault(const char* cmd)
      : CommandInterface(), cmdname(cmd)
@@ -50,5 +47,3 @@ namespace PT
 
     void CommandDefault::Execute (const StringArray& args) {}
 
-  } // Chat namespace
-} // PT namespace

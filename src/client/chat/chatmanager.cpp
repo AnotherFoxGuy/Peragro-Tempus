@@ -46,6 +46,8 @@
 
 namespace PT
 {
+  using namespace Commands;
+
   namespace Chat
   {
 

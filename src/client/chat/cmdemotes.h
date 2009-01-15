@@ -23,7 +23,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     //--------------------------------------------------------------------------
     class cmdEmote : public CommandInterface
@@ -45,7 +45,7 @@ namespace PT
       virtual void Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace
 
 #endif // CMDEMOTES_H

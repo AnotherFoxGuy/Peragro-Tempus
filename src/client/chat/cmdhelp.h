@@ -23,7 +23,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     //--------------------------------------------------------------------------
     class cmdHelp : public CommandDefault
@@ -39,7 +39,7 @@ namespace PT
       virtual void Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace
 
 #endif // CMDHELP_H

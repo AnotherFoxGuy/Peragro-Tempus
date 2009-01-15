@@ -33,7 +33,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     //--------------------------------------------------------------------------
     class cmdWhisper : public CommandDefault
@@ -94,7 +94,7 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace
 
 #endif // CMDWHISPER_H

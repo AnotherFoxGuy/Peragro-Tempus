@@ -29,7 +29,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     //--------------------------------------------------------------------------
     class cmdSay : public CommandDefault
@@ -113,7 +113,7 @@ namespace PT
       virtual void Execute (const StringArray& args) { Say(2, args, "/me"); }
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace
 
 #endif // CMDSAY_H

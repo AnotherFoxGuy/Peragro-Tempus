@@ -30,7 +30,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     //--------------------------------------------------------------------------
     class cmdRelocate : public CommandDefault
@@ -57,7 +57,7 @@ namespace PT
       }
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace
 
 #endif // CMDRELOCATE_H

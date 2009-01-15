@@ -26,7 +26,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
 
     cmdHelp::cmdHelp () : CommandDefault("help") { }
@@ -90,5 +90,5 @@ namespace PT
     } // cmdHelp::Execute
 
 
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace

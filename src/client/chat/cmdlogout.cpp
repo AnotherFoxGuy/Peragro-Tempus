@@ -24,7 +24,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
 
     cmdLogout::cmdLogout () : CommandDefault("logout") { }
@@ -48,5 +48,5 @@ namespace PT
     } // cmdLogout::Execute
 
 
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace

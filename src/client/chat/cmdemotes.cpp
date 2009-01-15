@@ -32,7 +32,7 @@
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
 
     struct Emotes
@@ -160,5 +160,5 @@ namespace PT
       network->send(&poseMsg);
     }
 
-  } // Chat namespace
+  } // Commands namespace
 } // PT namespace

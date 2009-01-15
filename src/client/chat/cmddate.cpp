@@ -31,10 +31,7 @@
 
 #include "common/util/printhelper.h"
 
-namespace PT
-{
-  namespace Chat
-  {
+using namespace PT::Commands;
 
     cmdDate::cmdDate () : CommandDefault("date") { }
 
@@ -94,7 +91,3 @@ namespace PT
 
       chatWindow->AddMessage(ss.str().c_str());
     } // cmdDate::Execute
-
-
-  } // Chat namespace
-} // PT namespace

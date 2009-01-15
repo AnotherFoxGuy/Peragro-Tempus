@@ -21,10 +21,11 @@
 
 #include <string>
 #include <vector>
+#include <boost/shared_ptr.hpp>
 
 namespace PT
 {
-  namespace Chat
+  namespace Commands
   {
     typedef std::vector<std::string> StringArray;
 
@@ -74,7 +75,9 @@ namespace PT
       virtual ~CommandInterface() { };
     };
 
-  } // Chat namespace
+    typedef boost::shared_ptr<CommandInterface> Commandp;
+
+  } // Commands namespace
 } // PT namespace
 
 #endif // COMMANDIFACE_H
