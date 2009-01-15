@@ -326,6 +326,9 @@
 				RelativePath="..\..\src\common\geom\octree.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\geom\queryhelper.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\geom\sphere.h">
 			</File>
 			<File
