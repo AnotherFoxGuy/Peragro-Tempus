@@ -420,5 +420,11 @@ void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
 void WorldManager::CommitChanges(Common::World::Object& object)
 {
   printf("CommitChanges: %s\n", object.name.c_str());
-  worldManager->AddLookUp(object, false);
+  worldManager->Update(object);
 } // end CommitChanges()
+
+void WorldManager::CommitNew(Common::World::Object& object)
+{
+  printf("CommitNew: %s\n", object.name.c_str());
+  worldManager->Add(object, false);
+} // end CommitNew()

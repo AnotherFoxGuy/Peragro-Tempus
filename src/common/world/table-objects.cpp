@@ -131,8 +131,8 @@ void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
   db->update(query, id, object.name.c_str(), object.factoryFile.c_str(), object.factoryName.c_str(),
     object.position.x, object.position.y, object.position.z,
     object.sector.c_str(),
-    object.worldBB.Min().x, object.worldBB.Min().y, object.worldBB.Min().z,
-    object.worldBB.Max().x, object.worldBB.Max().y, object.worldBB.Max().z,
+    object.worldBB.Get().Min().x, object.worldBB.Get().Min().y, object.worldBB.Get().Min().z,
+    object.worldBB.Get().Max().x, object.worldBB.Get().Max().y, object.worldBB.Get().Max().z,
     object.detailLevel);
 }
 

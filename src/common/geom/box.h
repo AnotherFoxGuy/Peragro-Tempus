@@ -189,6 +189,14 @@ namespace Geom
       maxbox = bmax;
     }
 
+    /// Add vector to the box.
+    inline Box& operator+=(const Vector3& v)
+    { minbox += v; maxbox+= v; return *this; }
+
+    /// Add vector to box.
+    inline friend Box operator+(const Box& b, const Vector3& v)
+    { return Box(b.Min()+v, b.Max()+v); }
+
     /// Test if the given coordinate is in this box.
     bool Contains (const Vector3& v) const;
 

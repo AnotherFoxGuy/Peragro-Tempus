@@ -36,7 +36,7 @@ namespace Common
       for (size_t i = 0; i < objs.getCount(); i++)
       {
         printf("WorldManager: %s\n", objs[i].name.c_str());
-        objects.Add(objs[i].worldBB, objs[i]);
+        octree.Add(objs[i]);
       }
     }
 
@@ -47,18 +47,24 @@ namespace Common
     bool WorldManager::Add(const Object& object, bool unique)
     {
       objectsTable.Insert(object, unique);
-      return objects.Add(object.worldBB, object);
+      return octree.Add(object);
     }
 
     bool WorldManager::AddLookUp(Object& object, bool unique)
     {
       object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
       // TODO: do proper transform.
-      object.worldBB = Geom::Box(object.worldBB.Min() + object.position, object.worldBB.Max() + object.position);
+      object.worldBB += object.position;
 
       object.detailLevel = factoryTable.GetDetailLevel(object.factoryFile, object.factoryName);
 
       return Add(object, unique);
+    }
+
+    bool WorldManager::Update(const Object& object)
+    {
+      objectsTable.Insert(object, false);
+      return true;
     }
 
     bool WorldManager::Remove(const Object& object)
@@ -79,7 +85,7 @@ namespace Common
 
     Octree::QueryResult WorldManager::Query(const Geom::Sphere& s)
     {
-      return objects.Query(s);
+      return octree.Query(s);
     }
 
   } // namespace World

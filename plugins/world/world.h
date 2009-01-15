@@ -59,9 +59,10 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   public Common::World::Object
 {
   iObjectRegistry* object_reg;
+  csWeakRef<iMeshWrapper> wrap;
 
-  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* wrap)
-    : scfImplementationType (this), Common::World::Object(object), object_reg(obj_reg)
+  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* mesh)
+    : scfImplementationType (this), Common::World::Object(object), object_reg(obj_reg), wrap(mesh)
   {
     wrap->GetMovable()->AddListener(this);
     wrap->QueryObject()->ObjAdd(this);
@@ -76,7 +77,9 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   // iMovableListener
   void MovableChanged (iMovable* movable)
   {
+    csBox3 box = wrap->GetWorldBoundingBox();
     position = movable->GetTransform().GetOrigin();
+    worldBB.Set(Geom::Box(box.Min(), box.Max())); 
     CommitChanges();
   }
   void MovableDestroyed (iMovable* movable) {}
@@ -224,6 +227,8 @@ public:
   void Report(int severity, const char* msg, ...);
 
   void CommitChanges(Common::World::Object& object);
+
+  void CommitNew(Common::World::Object& object);
 };
 
 

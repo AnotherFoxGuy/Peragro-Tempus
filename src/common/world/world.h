@@ -21,9 +21,11 @@
 
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
 #include "common/geom/octree.h"
 #include "common/geom/box.h"
-#include "common/geom/vector2.h"
+#include "common/geom/vector3.h"
 
 //class dbSQLite;
 #include "common/database/sqlite/sqlite.h"
@@ -39,7 +41,7 @@ namespace Common
   }
 }
 
-typedef Geom::OcTree<Geom::Box, Common::World::Object> Octree;
+typedef Geom::OcTree<Common::World::Object, Geom::Box> Octree;
 
 namespace Common
 {
@@ -56,13 +58,17 @@ namespace Common
 
     struct Object
     {
+      //Object() : worldBB(new Octree::Shape(this)) {}
+      Object() : worldBB(this) {}
+
       size_t id;
       std::string name;
       std::string factoryFile;
       std::string factoryName;
       Geom::Vector3 position;
       std::string sector;
-      Geom::Box worldBB;
+      //boost::shared_ptr<Octree::Shape> worldBB;
+      Octree::Shape worldBB;
       size_t detailLevel;
 
       /// For std::set
@@ -75,7 +81,8 @@ namespace Common
       dbSQLite db;
       ObjectsTable objectsTable;
       FactoriesTable factoryTable;
-      Octree objects;
+
+      Octree octree;
 
     public:
       WorldManager();
@@ -83,6 +90,7 @@ namespace Common
 
       bool Add(const Object& object, bool unique = true);
       bool AddLookUp(Object& object, bool unique = true);
+      bool Update(const Object& object);
       bool Remove(const Object& object);
 
       bool Add(const Factory& factory);

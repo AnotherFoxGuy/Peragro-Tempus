@@ -24,6 +24,7 @@
 #define GEOM_OCTREE_H
 
 #include <vector>
+#include <list>
 #include <set>
 #include <algorithm>
 
@@ -31,140 +32,210 @@
 
 namespace Geom
 {
+
+  template<typename T, typename G>
+  struct ShapeListener;
+
+  template<typename T, typename G>
+  class Shape
+  {
+  public:
+    struct Listener
+    {
+      virtual void Moved(Shape*) = 0;
+      virtual void Destroyed(Shape*) = 0;
+    };
+
+  private:
+    T* parent;
+    G geom;
+    std::list<Listener*> listeners;
+
+  public:
+    Shape(T* p) : parent(p) {}
+    ~Shape()
+    {
+      /*
+      std::list<Listener*>::iterator iter;
+      for( iter = listeners.begin(); iter != listeners.end(); iter++ )
+        (*iter)->Destroyed(this);
+        */
+    }
+
+    //inline operator T() const { return *parent; }
+    inline const T& GetParent() const { return *parent; }
+
+    template<typename O>
+    inline G& operator+=(const O& o)
+    { geom += o; Set(geom); return geom; }
+
+    inline const G& Get() const { return geom; }
+    void Set(const G& v) 
+    { 
+      geom = v; 
+      std::list<Listener*>::iterator iter;
+      for( iter = listeners.begin(); iter != listeners.end(); iter++ )
+      {
+        (*iter)->Moved(this);
+        printf("Shape::Moved: %d\n", iter);
+      }
+      printf("Shape::Moved: (%d)\n", listeners.size());
+    }
+
+    void operator=(const G& v) { Set(v); }
+
+    inline bool ContainedIn(const Sphere& s) const { return s.Intersect(geom); }
+
+    void AddListener(Listener* listener) { RemoveListener(listener); listeners.push_back(listener); }
+    void RemoveListener(Listener* listener) { listeners.remove(listener); }
+  };
+
   // TODO: Implement me!
   // It's just a basic vector now.
 
   /**
    * Octree class.
    */
-  template<typename Geom, typename T>
+  template<typename T, typename G>
   class OcTree
   {
+  public:
+    typedef Shape<T, G> Shape;
+    typedef std::set<T> QueryResult;
+
   private:
-    struct Entry
-    {
-      T _t;
-      Geom _g;
-      Entry(T t, const Geom& g)
-      {
-        _t = t;
-        _g = g;
-      }
-
-      Entry(const Entry& e) : _t(e._t), _g(e._g){}
-
-      operator T() const
-      {
-        return _t;
-      }
-
-      bool ContainedIn(const Sphere& s) const
-      {
-        return s.Intersect(_g);
-      }
-    };
 
     struct compare
     {
-      bool operator()(const Entry& obj1, const Entry& obj2) const
+      bool operator()(const T& obj1, const T& obj2) const
       {
-        return obj1._t < obj2._t;
+        return obj1 < obj2;
       }
     };
 
+    class Node : public Shape::Listener
+    {
+    private:
+      /// Copy constructor.
+      Node(const Node& o);
+      Node& operator=(const Node& o);
+
+      typedef typename std::set<T, compare> Shapes;
+      typedef typename Shapes::iterator Iterator;
+      typedef typename Shapes::const_iterator ConstIterator;
+
+    private:
+      Node* parent;
+      Box box;
+      Shapes shapes;
+      std::vector<Node*> children;
+
+    private:
+      virtual void Moved(Shape* s)
+      {
+        printf("Node::Moved: %s\n", s->GetParent().name.c_str());
+        if (box.Contains(s->Get()))
+          return;
+        else if (parent)
+        {
+          //MoveUp();
+        }
+        else 
+        { 
+          //MakeQuadTreeBigger(); 
+          //MoveUp(); 
+        }
+      }
+
+      virtual void Destroyed(Shape* s)
+      {
+        printf("Node::Destroyed: %s\n", s->GetParent().name.c_str());
+        shapes.erase(s->GetParent());
+      }
+
+    public:
+      /** Construct a node with a given volume and without children.
+       * @param size of the new node
+       */
+      Node(const Box& size) : parent(0), box(size), children(8, (Node*)0) {}
+
+      /** Destructor. */
+      ~Node() 
+      {
+        for (size_t i = 0; i < children.size(); ++i)
+          delete children[i];
+      }
+
+      bool Add(T shape)
+      {
+        // Make sure there are no doubles!
+        shapes.erase(shape);
+        shapes.insert(shape);
+        shape.worldBB.AddListener(this);
+        return true;
+      }
+
+      bool Remove(T shape)
+      {
+        shape.worldBB.RemoveListener(this);
+        return shapes.erase(shape);
+      }
+
+      QueryResult Query(const Sphere& s) const
+      {
+        QueryResult result;
+        ConstIterator it;
+        for (it = shapes.begin() ; it != shapes.end(); it++ )
+        {
+          if (it->worldBB.ContainedIn(s))
+            result.insert((*it));
+        }
+
+        return result;
+      }
+
+      bool IsPartitioned() const { return 0 != children_[0]; } 
+
+    };
 
   private:
     /// Copy constructor.
-    OcTree(const OcTree& o) {}
+    OcTree(const OcTree& o);
+    OcTree& operator=(const OcTree& o);
 
-    typedef typename std::set<Entry, compare>::iterator Iterator;
-    typedef typename std::set<Entry, compare>::const_iterator ConstIterator;
-    std::set<Entry, compare> entries;
+  private:
+    Node* rootNode;
 
   public:
     /// Default constructor.
-    OcTree() {}
-    ~OcTree() {}
+    OcTree() 
+    {
+      rootNode = new Node(Box(Vector3(-100000.0f), Vector3(100000.0f)));
+    }
 
-    typedef std::set<T> QueryResult;
+    ~OcTree() 
+    {
+      delete rootNode;
+    }
 
     size_t Size()
     {
       return entries.size();
     }
 
-    bool Add(Geom g, T t)
+    bool Add(T shape)
     {
-      Entry entry(t, g);
-      // Make sure there are no doubles!
-      entries.erase(entry);
-      entries.insert(entry);
-      return true;
+      return rootNode->Add(shape);
     }
 
-    bool Remove(T t)
+    bool Remove(T shape)
     {
-      Iterator it;
-      for (it = entries.begin() ; it != entries.end(); it++ )
-      {
-        if (*it == t)
-        {
-          entries.erase(it);
-          return true;
-        }
-      }
-      return false;
+      return rootNode->Remove(shape);
     }
 
     QueryResult Query(const Sphere& s) const
     {
-      QueryResult result;
-      ConstIterator it;
-      for (it = entries.begin() ; it != entries.end(); it++ )
-      {
-        if ((*it).ContainedIn(s))
-          result.insert((T)(*it));
-      }
-
-      return result;
-    }
-
-    /// Get the union of two queries.
-    // 2*(N+M)-1
-    QueryResult Union(const QueryResult& a, const QueryResult& b)
-    {
-      QueryResult c;
-      std::set_union(a.begin(), a.end(), b.begin(), b.end(), std::inserter(c, c.begin()));
-      return c;
-    }
-
-    /// Get the difference of two queries.
-    // 2*(N+M)-1
-    QueryResult Difference(const QueryResult& a, const QueryResult& b)
-    {
-      QueryResult c;
-      std::set_difference(a.begin(), a.end(), b.begin(), b.end(), std::inserter(c, c.begin()));
-      return c;
-    }
-
-    /*
-     * @param a The old query.
-     * @param b The new query.
-     * @return a std::pair with .first a QueryResult with new entries
-     * and .second a QueryResult with old entries
-     */
-    std::pair<QueryResult,QueryResult> AddAndDiscard(const QueryResult& a, const QueryResult& b)
-    {
-      QueryResult c = Union(a, b);
-
-      //Add: c - a
-      QueryResult add = Difference(c, a);
-
-      //Discard: c - b
-      QueryResult discard = Difference(c, b);
-
-      std::pair<QueryResult,QueryResult> addAndDiscard(add, discard);
-      return addAndDiscard;
+      return rootNode->Query(s);
     }
 
   };
