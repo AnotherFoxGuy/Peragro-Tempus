@@ -219,10 +219,12 @@ namespace Geom
       delete rootNode;
     }
 
+/*
     size_t Size()
     {
       return entries.size();
     }
+*/
 
     bool Add(T shape)
     {
