@@ -88,7 +88,7 @@ public:
     WaitForSingleObject(threadHandle, 1000);
 #else
     timespec timeout;
-    timeout.tv_sec = 1000;
+    timeout.tv_sec = 1;
     timeout.tv_nsec = 0;
 #ifdef HAVE_PTHREAD_TIMEDJOIN_NP
     pthread_timedjoin_np(threadHandle, NULL, &timeout);
@@ -96,10 +96,7 @@ public:
     printf("pthread_timedjoin_np_alt wait: %d\n", (int)threadHandle);
     ///@todo: I'm not entirely sure if threadHandle is a process id. It it is not then the line below is incorrect.
     while(::kill(threadHandle, 0) == -1){
-        struct timespec time;
-        time.tv_sec = 0;
-        time.tv_nsec = 0;
-        nanosleep(&time, NULL);
+      pt_sleep(1000);
     }
     printf("pthread_timedjoin_np_alt join: %d\n", (int)threadHandle);
     pthread_join(threadHandle, NULL);
