@@ -25,6 +25,7 @@
 #include "common/network/entitymessages.h"
 
 #include "common/util/math.h"
+#include "common/util/sleep.h"
 #include "common/network/playermessages.h"
 #include "common/network/combatmessages.h"
 #include "server/network/networkhelper.h"
@@ -37,14 +38,7 @@
 #define IM "InteractionManager: "
 #define DEBUG(arg) printf(IM #arg "\n");
 
-#ifdef WIN32
-  // To support sleep()
-  #include "Windows.h"
-  #define sleep(arg) \
-    Sleep(arg);
-#endif
-
-#define SLEEP 1
+#define SLEEP 100
 
 extern "C" void __cxa_pure_virtual()
 {
@@ -80,8 +74,7 @@ void InteractionManager::Run()
     interaction = interactionQueue->GetInteraction();
     while (!interaction) {
       // No character have any outstanding interactions.
-      sleep(SLEEP);
-      printf(IM "Polling for interactions in the interaction queue\n");
+      pt_sleep(SLEEP);
       interaction = interactionQueue->GetInteraction();
     }
     PerformInteraction(interaction);
