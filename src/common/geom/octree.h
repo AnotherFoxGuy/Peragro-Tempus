@@ -77,9 +77,9 @@ namespace Geom
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
       {
         (*iter)->Moved(this);
-        printf("Shape::Moved: %d\n", iter);
+        //printf("Shape::Moved: %d\n", iter);
       }
-      printf("Shape::Moved: (%d)\n", listeners.size());
+      //printf("Shape::Moved: (%d)\n", listeners.size());
     }
 
     void operator=(const G& v) { Set(v); }
