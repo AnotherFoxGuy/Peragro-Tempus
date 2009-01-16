@@ -43,6 +43,7 @@ namespace Geom
   public:
     struct Listener
     {
+      virtual ~Listener() {}
       virtual void Moved(Shape*) = 0;
       virtual void Destroyed(Shape*) = 0;
     };
