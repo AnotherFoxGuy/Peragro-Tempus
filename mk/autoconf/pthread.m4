@@ -36,6 +36,6 @@ AC_DEFUN([PTHREAD_TIMEDJOIN_NP],[
   if test $found != "no" ; then
 
     CS_EMIT_BUILD_FLAGS([if $found != "no"], [pt_cv_pthread_timedjoin_np],
-      [CS_CREATE_TUPLE([-DHAVE_PTHREAD_TIMEDJOIN_NP])], [C], [COMPILER.LFLAGS], [+])
+      [CS_CREATE_TUPLE([-DHAVE_PTHREAD_TIMEDJOIN_NP])], [C], [COMPILER.CFLAGS], [+])
   fi
 ])

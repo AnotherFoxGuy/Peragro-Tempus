@@ -32,6 +32,7 @@
   #include <time.h>
   #include <stdio.h>
 #endif /* HAVE_PTHREAD_TIMEDJOIN_NP */
+  #include "src/common/util/sleep.h"
   #define ThreadHandle pthread_t
   #define ThreadReturn void*
   #define QuitThread(); pthread_exit(NULL);
