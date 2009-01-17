@@ -446,11 +446,11 @@ namespace PT
     void CombatManager::RequestSkillUsageStart(unsigned int targetId,
                                                unsigned int skillId)
     {
-      if (!skillId)
-      {
-        Report(PT::Error, "CombatManager: skillId is 0!");
-        return;
-      }
+      // if (!skillId)
+      // {
+      //   Report(PT::Error, "CombatManager: skillId is 0!");
+      //   return;
+      // }
 
       if (!PT::Entity::PlayerEntity::Instance()) return;
 
@@ -467,6 +467,15 @@ namespace PT
         Report(PT::Error, "CombatManager: Couldn't find attacker entity!");
         return;
       }
+
+      // TODO clean this code up, the entire function...
+      SelectTargetMessage selectMsg;
+      selectMsg.setTargetID(targetId);
+      network->send(&selectMsg);
+
+      AttackRequestMessage requestMsg;
+      requestMsg.setAttackType(InteractionID::NORMAL_ATTACK);
+      network->send(&requestMsg);
 
       /* Next are a couple of checks to not stress the server/network
        * with attacks it will reject anyway.
