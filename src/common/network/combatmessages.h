@@ -34,7 +34,8 @@ namespace COMBAT
     UPDATEARMOR=3,
     UPDATEWEAPON=4,
     ATTACKRESULT=5,
-    DEATH=6
+    DEATH=6,
+    SELECTTARGET=7
   };
 }
 
@@ -165,6 +166,27 @@ public:
 
   unsigned short getEntityId() const { return entityid; }
   void setEntityId(unsigned short x) { entityid = x; }
+
+};
+
+class SelectTargetMessage : public NetMessage
+{
+  unsigned int targetid;
+
+public:
+  SelectTargetMessage() : NetMessage(MESSAGES::COMBAT,COMBAT::SELECTTARGET)
+  {
+  }
+
+  ~SelectTargetMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getTargetID() const { return targetid; }
+  void setTargetID(unsigned int x) { targetid = x; }
 
 };
 

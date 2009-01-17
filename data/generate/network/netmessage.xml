@@ -143,6 +143,7 @@
 			<message id="4" name="UpdateWeapon" />
 			<message id="5" name="AttackResult" />
 			<message id="6" name="Death" />
+			<message id="7" name="SelectTarget" />
 		</type>
 		<type id="13" name="Auth">
 			<message id="0" name="ClientLoginRequest" />

@@ -235,5 +235,6 @@
 		<!--message type="Player" name="InventoryMoveItem" /-->
 
 		<message type="Combat" name="AttackRequest" />
+		<message type="Combat" name="SelectTarget" />
 	</receive>
 </peer>

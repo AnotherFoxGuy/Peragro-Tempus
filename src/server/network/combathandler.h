@@ -43,9 +43,11 @@ public:
     char id = msg->getMsgId();
 
     if (id == COMBAT::ATTACKREQUEST) handleAttackRequest(msg);
+    else if (id == COMBAT::SELECTTARGET) handleSelectTarget(msg);
   }
 
   void handleAttackRequest(GenericMessage* msg);
+  void handleSelectTarget(GenericMessage* msg);
 };
 
 #endif // COMBATHANDLER_H

@@ -128,3 +128,20 @@ void DeathMessage::deserialise(ByteStream* bs)
   entityid = (unsigned short) serial.getInt16();
 }
 
+bool SelectTargetMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(targetid);
+  return serial.isValid();
+}
+
+void SelectTargetMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  targetid = (unsigned int) serial.getInt32();
+}
+

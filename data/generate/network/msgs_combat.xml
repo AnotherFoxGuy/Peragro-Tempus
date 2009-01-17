@@ -16,5 +16,8 @@
 	<message type="Combat" name="Death">
 		<uint16>EntityId</uint16>
 	</message>
+	<message type="Combat" name="SelectTarget">
+		<uint32>TargetID</uint32>
+	</message>
 
 </message-implementation>
