@@ -533,7 +533,7 @@ namespace PT
 
         // Send message to server requesting an attack
         AttackRequestMessage msg;
-        msg.setAttackType(STANDARD_ATTACK);
+        msg.setAttackType(InteractionID::NORMAL_ATTACK);
         msg.setTargetID(id);
         network->send(&msg);
 

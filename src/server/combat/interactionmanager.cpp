@@ -472,7 +472,8 @@ InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 
 bool
 InteractionManager::QueueInteraction(const PcEntity *sourceEntity,
-                                     unsigned int interactionID)
+                                     unsigned int interactionID,
+                                     unsigned int targetID)
 {
   DEBUG("QueueInteraction");
   Interaction *interaction = new Interaction();

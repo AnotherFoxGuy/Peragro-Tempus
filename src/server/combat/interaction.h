@@ -30,6 +30,7 @@
 #endif
 
 #include "src/server/entity/pcentity.h"
+#include "src/common/combat/combat.h"
 
 /**
  * Server interaction manager.
@@ -53,11 +54,4 @@ class Interaction
     ~Interaction();
 };
 
-namespace InteractionID {
-  /// Various sort of interactions.
-  enum action {
-    NORMAL_ATTACK =1 ,
-    HEAL,
-  };
-}
 #endif //INTERACTION

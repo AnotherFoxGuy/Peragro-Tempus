@@ -41,5 +41,7 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
   in_msg.deserialise(msg->getByteStream());
 
   // TODO this is slightly wrong.
-  interactionManager->QueueInteraction(ent1, in_msg.getTargetID());
+  interactionManager->QueueInteraction(ent1, 
+                                       in_msg.getAttackType(),
+                                       in_msg.getTargetID());
 }

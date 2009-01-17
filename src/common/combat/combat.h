@@ -19,7 +19,11 @@
 #ifndef COMBAT_DEFS_H
 #define COMBAT_DEFS_H
 
-enum {
-  STANDARD_ATTACK = 0,
+namespace InteractionID {
+  ///Various sort of interactions.
+  enum action {
+    NORMAL_ATTACK= 1,
+    HEAL,
+  };
 };
 #endif //COMBAT_DEFS_H

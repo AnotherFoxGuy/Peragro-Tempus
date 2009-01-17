@@ -56,7 +56,8 @@ public:
    * @return True upon sucess, otherwise false.
    */
   bool QueueInteraction(const PcEntity *sourceEntity,
-                        unsigned int interactionID);
+                        unsigned int interactionID,
+                        unsigned int targetID);
 
   void shutdown();
 
