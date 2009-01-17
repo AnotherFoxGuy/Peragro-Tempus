@@ -114,6 +114,11 @@ CS_EMIT_BUILD_PROPERTY([BOOST.LFLAGS], [$BOOST_LDFLAGS])
 CS_CHECK_BOOST_PYTHON([emit])
 
 #----------------------------------------------------------------------------
+# Check for pthread_timedjoin_np support in pthread
+#----------------------------------------------------------------------------
+PTHREAD_TIMEDJOIN_NP([emit])
+
+#----------------------------------------------------------------------------
 # Check for CEGUI.
 #----------------------------------------------------------------------------
 CS_CHECK_LIB_WITH([CEGUI],

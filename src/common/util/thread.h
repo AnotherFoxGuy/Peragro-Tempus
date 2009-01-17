@@ -19,11 +19,6 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-// Remove the 3 lines below if you do not have pthread_timedjoin_np. We'll add this fancy stuff to configure later if alternative is properly tested.
-#ifndef HAVE_PTHREAD_TIMEDJOIN_NP
-#define HAVE_PTHREAD_TIMEDJOIN_NP 1
-#endif
-
 #ifdef WIN32
   #define WIN32_LEAN_AND_MEAN
   #include "windows.h"
