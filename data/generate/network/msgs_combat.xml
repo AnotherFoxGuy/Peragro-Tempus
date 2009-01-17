@@ -1,6 +1,5 @@
 <message-implementation>
 	<message type="Combat" name="AttackRequest">
-		<uint32>TargetID</uint32>
 		<uint32>AttackType</uint32>
 	</message>
 

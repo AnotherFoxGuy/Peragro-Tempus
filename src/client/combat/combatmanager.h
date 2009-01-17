@@ -91,8 +91,8 @@ namespace PT
 
       /// Handler for the Hit event.
       bool ActionHit(iEvent& ev);
-      /// Will send attack request to the server.
-      bool ActionAttackTarget(iEvent& ev);
+      /// Will send selection request of target to the server.
+      bool ActionSelectTarget(iEvent& ev);
       /// Adds a stat for the player.
       bool AddStatPlayer(iEvent& ev);
       /// Updates a character stat.
@@ -172,6 +172,12 @@ namespace PT
        * @param skillId The skill ID.
        */
       void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
+
+      /**
+       * Used to request an attack against currently marked target.
+       * @param attackType The type of attack to perform.
+       */
+      void AttackRequest(int attackType);
     };
   } // Combat namespace
 } // PT namespace

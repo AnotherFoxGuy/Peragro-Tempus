@@ -40,17 +40,14 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
   AttackRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  // TODO this is slightly wrong.
-  interactionManager->QueueInteraction(ent1, 
-                                       in_msg.getAttackType(),
-                                       in_msg.getTargetID());
+  interactionManager->QueueInteraction(ent1, in_msg.getAttackType());
 }
 
 /**
  * Handler function for select target messages.
  * @param msg The select target message, not yet deserialized.
  */
-void CombatHandler::handleSelectTarget(GenericMessage*)
+void CombatHandler::handleSelectTarget(GenericMessage* msg)
 {
   InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
@@ -59,7 +56,7 @@ void CombatHandler::handleSelectTarget(GenericMessage*)
 
   ptScopedMonitorable<PcEntity> ent1 (ent);
 
-  AttackRequestMessage in_msg;
+  SelectTargetMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
   interactionManager->SelectTarget(ent1, in_msg.getTargetID());

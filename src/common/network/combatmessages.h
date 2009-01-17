@@ -41,7 +41,6 @@ namespace COMBAT
 
 class AttackRequestMessage : public NetMessage
 {
-  unsigned int targetid;
   unsigned int attacktype;
 
 public:
@@ -55,9 +54,6 @@ public:
 
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
-
-  unsigned int getTargetID() const { return targetid; }
-  void setTargetID(unsigned int x) { targetid = x; }
 
   unsigned int getAttackType() const { return attacktype; }
   void setAttackType(unsigned int x) { attacktype = x; }

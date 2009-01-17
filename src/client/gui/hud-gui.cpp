@@ -31,6 +31,8 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
+#include "client/combat/combatmanager.h"
+
 namespace PT
 {
   namespace GUI
@@ -245,7 +247,11 @@ namespace PT
           window->setAlpha(1.0f);
 
           // Set the new window as the selected one
-          selectedskill->SkillId     =  atoi( (window->getUserString("skillid")).c_str() );
+          selectedskill->SkillId = atoi((window->getUserString("skillid")).
+                                        c_str());
+
+          PointerLibrary::getInstance()->getCombatManager()->AttackRequest(
+                                         selectedskill->SkillId);
         }
       }
 

@@ -93,7 +93,7 @@ namespace PT
 
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(CombatManager, ActionHit, "input.Hit")
-      PT_REGISTER_LISTENER(CombatManager, ActionAttackTarget, "input.Attack")
+      PT_REGISTER_LISTENER(CombatManager, ActionSelectTarget, "input.Attack")
       PT_REGISTER_LISTENER(CombatManager, AddStatPlayer, "entity.stat.add.player")
       PT_REGISTER_LISTENER(CombatManager, UpdateStat, "entity.stat.change")
 
@@ -492,12 +492,12 @@ namespace PT
       */
 
       // Prepare and send the network message.
-      AttackRequestMessage msg;
-      msg.setTargetID(targetId);
-      msg.setAttackType(skillId);
-      network->send(&msg);
+      //AttackRequestMessage msg;
+      // msg.setTargetID(targetId);
+      // msg.setAttackType(skillId);
+      // network->send(&msg);
 
-      Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %d.", targetId, skillId);
+      // Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %d.", targetId, skillId);
     } // end RequestSkillUsageStart()
 
     bool CombatManager::ActionHit(iEvent& ev)
@@ -514,7 +514,15 @@ namespace PT
       return true;
     } // end ActionHit()
 
-    bool CombatManager::ActionAttackTarget(iEvent& ev)
+    void CombatManager::AttackRequest(int attackType)
+    {
+        // Send message to server requesting an attack
+        AttackRequestMessage msg;
+        msg.setAttackType(attackType);
+        network->send(&msg);
+    }
+
+    bool CombatManager::ActionSelectTarget(iEvent& ev)
     {
       using namespace PT::Events;
 
@@ -532,8 +540,7 @@ namespace PT
         Report(PT::Debug, "CombatManager: Sending AttackRequest, target: %u\n",id);
 
         // Send message to server requesting an attack
-        AttackRequestMessage msg;
-        msg.setAttackType(InteractionID::NORMAL_ATTACK);
+        SelectTargetMessage msg;
         msg.setTargetID(id);
         network->send(&msg);
 

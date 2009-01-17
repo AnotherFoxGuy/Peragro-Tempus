@@ -29,7 +29,6 @@ bool AttackRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(targetid);
   serial.setInt32(attacktype);
   return serial.isValid();
 }
@@ -39,7 +38,6 @@ void AttackRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  targetid = (unsigned int) serial.getInt32();
   attacktype = (unsigned int) serial.getInt32();
 }
 
