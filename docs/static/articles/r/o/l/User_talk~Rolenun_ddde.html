@@ -32,12 +32,332 @@
 	    <h3 id="siteSub">From Peragro Tempus Wiki</h3>
 	    <div id="contentSub"></div>
 	    	    	    <!-- start content -->
-	    <a name="Looking_for_the_Windows_Build_Guide_for_Peragro.3F"></a><h2> <span class="mw-headline"> Looking for the Windows Build Guide for Peragro? </span></h2>
-<p>The page has been published and moved to here:<a href="http://wiki.peragro.org/index.php/MSVC_Install" class="external autonumber" title="http://wiki.peragro.org/index.php/MSVC_Install" rel="nofollow">[1]</a>
+	    <p><br />
+</p>
+<table id="toc" class="toc" summary="Contents"><tr><td><div id="toctitle"><h2>Contents</h2></div>
+<ul>
+<li class="toclevel-1"><a href="#Introduction"><span class="tocnumber">1</span> <span class="toctext">Introduction</span></a></li>
+<li class="toclevel-1"><a href="#Install_Xcode"><span class="tocnumber">2</span> <span class="toctext">Install Xcode</span></a></li>
+<li class="toclevel-1"><a href="#Install_ftjam"><span class="tocnumber">3</span> <span class="toctext">Install ftjam</span></a></li>
+<li class="toclevel-1"><a href="#Install_zlib"><span class="tocnumber">4</span> <span class="toctext">Install zlib</span></a></li>
+<li class="toclevel-1"><a href="#Install_SVN"><span class="tocnumber">5</span> <span class="toctext">Install SVN</span></a></li>
+<li class="toclevel-1"><a href="#Setup_Environment_Variable_for_SVN"><span class="tocnumber">6</span> <span class="toctext">Setup Environment Variable for SVN</span></a></li>
+<li class="toclevel-1"><a href="#Get_the_Peragro_sources"><span class="tocnumber">7</span> <span class="toctext">Get the Peragro sources</span></a></li>
+<li class="toclevel-1"><a href="#Download_Cal3D_library_sources."><span class="tocnumber">8</span> <span class="toctext">Download Cal3D library sources.</span></a></li>
+<li class="toclevel-1"><a href="#Download_the_custom_CEGUI_library_sources"><span class="tocnumber">9</span> <span class="toctext">Download the custom CEGUI library sources</span></a></li>
+<li class="toclevel-1"><a href="#Download_CrystalSpace_sources."><span class="tocnumber">10</span> <span class="toctext">Download CrystalSpace sources.</span></a></li>
+<li class="toclevel-1"><a href="#Download_CEL_sources"><span class="tocnumber">11</span> <span class="toctext">Download CEL sources</span></a></li>
+<li class="toclevel-1"><a href="#Building_CrystalSpace_and_Peragro"><span class="tocnumber">12</span> <span class="toctext">Building CrystalSpace and Peragro</span></a></li>
+<li class="toclevel-1"><a href="#Build_Cal3D_library"><span class="tocnumber">13</span> <span class="toctext">Build Cal3D library</span></a></li>
+<li class="toclevel-1"><a href="#Install_and_Build_CEGUI"><span class="tocnumber">14</span> <span class="toctext">Install and Build CEGUI</span></a></li>
+<li class="toclevel-1"><a href="#Build_CrystalSpace"><span class="tocnumber">15</span> <span class="toctext">Build CrystalSpace</span></a></li>
+<li class="toclevel-1"><a href="#Build_Peragro"><span class="tocnumber">16</span> <span class="toctext">Build Peragro</span></a></li>
+<li class="toclevel-1"><a href="#Running_and_testing_with_a_local_server."><span class="tocnumber">17</span> <span class="toctext">Running and testing with a local server.</span></a></li>
+</ul>
+</td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
+<a name="Introduction"></a><h2> <span class="mw-headline"> Introduction </span></h2>
+<p>If you are just wanting to play the game, please look here 
+for the mac binary install: Note to self, create mac binary install&nbsp;:)<br />
+If you are wanting to build Peragro Tempus from scratch so you can play with the code,
+then this guide is for you!&nbsp;:)
+</p>
+<a name="Install_Xcode"></a><h2> <span class="mw-headline"> Install Xcode </span></h2>
+<p>Download and install Xcode from Apple. This is obtained for free from here., but requires a registration. After you have registered and logged in, it is located under Downloads, and then Development tools. You need this to get a compiler installed on your machine.
+Unfortunately, the download is huge (950MB), and contains a lot that you most likely never will use. Xcode also comes with an up to date version of cvs which it installs for you. This might not be useful anymore however since PS has switched to svn.
+Install fink
+It is downloaded from here.
+Note: Do not use darwinports if you are using fink. It can cause conflicts if they both have the same package installed.
+Open a terminal window and set the required environment variables for fink by issuing the following command:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>/sw/bin/pathsetup.sh</code>
+# <code>source /sw/bin/init.sh</code>
+</pre>
+</div>
+<p>Configure fink (Optional)
+We are going to configure fink to download and install packages from source only. (no binary packages)
+This step is optional, but has a better success rate for installing the fink dependencies.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>fink configure</code>
+</pre>
+<p>Provided below are the questions and the standard recommended answers for the configuration:
+Password:
+OK, I'll ask you some questions and update the configuration file in '/sw/etc/fink.conf'.
+In what additional directory should Fink look for downloaded tarballs? []
+Which directory should Fink use to build packages? (If you don't know what this means, it is safe to leave it at its default.) []
+</p><p>Should Fink try to download pre-compiled packages from the binary distribution if available? [y/N] n
+(1) Quiet (do not show download statistics)
+(2) Low (do not show tarballs being expanded)
+(3) Medium (will show almost everything)
+(4) High (will show everything)
+</p><p>How verbose should Fink be? [4] 4
+</p><p>Proxy/Firewall settings
+Enter the URL of the HTTP proxy to use, or 'none' for no proxy. The URL should start with http:// and may contain username, password, and/or port specifications. Note that this value will be visible to all users on your computer. Example, <a href="http://username:password@hostname:port" class="external free" title="http://username:password@hostname:port" rel="nofollow">http://username:password@hostname:port</a>
+Your proxy: [none]
+Enter the URL of the FTP proxy to use, or 'none' for no proxy. The URL should start with http:// and may contain username, password, and/or port specifications. Note that this value will be visible to all users on your computer.
+Example, <a href="http://username:password@hostname:port" class="external free" title="http://username:password@hostname:port" rel="nofollow">http://username:password@hostname:port</a>
+Your proxy: [none]
+Use passive mode FTP transfers (to get through a firewall)? [Y/n] y
+</p><p>Mirror selection
+All mirrors are set. Do you want to change them? [y/N] n
+</p><p>Writing updated configuration to '/sw/etc/fink.conf'...
+</p>
+</div>
+<a name="Install_ftjam"></a><h2> <span class="mw-headline"> Install ftjam </span></h2>
+<p>Download ftjam from here (Alternatively, search for ftjam on google. You should download the source code
+(I got ftjam-2.5.2.tar.gz) If you unpack it on the desktop, issue the following
+commands in the terminal window:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre># <code>cd Desktop/ftjam-2.5.2</code>
+# <code>./configure --prefix=/sw/</code>
+# <code>make</code>
+# <code>sudo make install</code>
+</pre>
+</div>
+<p>Once that is completed, we can now fetch all packages that are needed using the following command:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> <code>fink -y -v install libjpeg freetype freetype-shlibs freetype2 freetype2-dev freetype2-shlibs libogg libvorbis0 libvorbis0-shlibs libmng2 libpng3 autoconf2.5 automake1.9 libtool wget curl boost1.33</code>
+</pre>
+</div>
+<p>Note: If you are using darwinports (instead of fink), build the packages you can't find that are listed in the fink command from source.
+</p>
+<a name="Install_zlib"></a><h2> <span class="mw-headline"> Install zlib </span></h2>
+<p>Download the zlib sources here.
+Unpack zlib.1.2.3.tar.gz to the Desktop, and issue the following commands:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>cd Desktop/zlib-1.2.3</code>
+ $ <code>make</code>
+ $ <code>sudo make install prefix=/sw/</code>
+</pre>
+</div>
+<p><br />
+</p>
+<a name="Install_SVN"></a><h2> <span class="mw-headline"> Install SVN </span></h2>
+<p>Download SVN with SSL support from Fink with the following command
+fink -y -v install svn-client
+</p>
+<a name="Setup_Environment_Variable_for_SVN"></a><h2> <span class="mw-headline"> Setup Environment Variable for SVN </span></h2>
+<p>Because SVN will be installed into a directory that isn't in the PATH by default, there are two options.
+Please decide which you prefer using.
+</p><p>Option #1 - Storing the path permanently
+This option allows you to store the path once, and follow this guide "as-is".
+Create or modify your profile. Your profile stores commands that will be invoked every time you open a new terminal session.
+The single-user instructions allow you to modify only your terminal session. The multi-user instructions modify
+the terminal session of everyone when they open a terminal.
+</p><p>Bash Users Only - Please use either Single or Multiple User Instructions. This is the default shell for MacOSX.
+You can use other shells, but the instructions here are only for bash.
+</p><p>Single User Instructions:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>nano ~/.profile</code>
+</pre>
+</div>
+<p>Multiple User Instructions:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>nano /etc/profile</code>
+</pre>
+</div>
+<p>Paste the following lines into the file (for either Single or Multiple User Instructions).
+Note: To exit nano, press Ctrl-X, then y to save the file, then enter to save to same location.
+The path is initially set to "/bin:/sbin:/usr/bin:/usr/sbin"
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>export PATH=$PATH:/sw/bin/</code>
+</pre>
+</div>
+<p>For additional information please read the recommended bash tutorial.
+</p><p>Option #2 - Using a path to run the svn command
+If you prefer NOT to store environment variables permanently, you can run the svn command as follows:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>/sw/bin/svn co ...</code>
+</pre>
+</div>
+<p>Simply add /sw/bin/ to the start of every svn command in this guide to find and run the command.
+Obtain Necessary Tools
+You should use the toolkit from nvidia (regardless of your graphics card) to get some of the fancy particle effects
+needed by Peragro's magic department.
+Download and install the NVIDIA toolkit from here.
+To install, just download the appropriate installer, and click on the installation application.
+Getting source files
+All the following commands are run as a normal user and Peragro will be built for that user only.
+Commands that you enter are in such boxes:
+command
+Everything else is the expected output on the console.
+</p><p>Choose a base directory for your installation.
+peragro will be installed into a subdirectory peragro in the base directory and it can be your home directory. I prefer to install in $HOME/development and so the guide will reflect this.
+First create your directory using sudo, then give yourself permission to write there.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>sudo mkdir $HOME/development</code>
+ $ <code>sudo chmod 777 $HOME/development</code>
+</pre>
+</div>
+<p>You should now change to your working directory.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>cd $HOME/development</code>
+</pre>
+</div>
+<p>You can check out source files from SVN repositories or download a source snapshot.
+I'm not going to personally maintain any myself, but if you find one all you have to do is
+extract it into the directory you made earlier, and then skip the source download instructions below.
+</p><p>NOTE: When running SVN commands, if the download fails to complete. Try running the command again.
+Sometimes it takes 2 or 3 tries to get the entire download.
+</p>
+<a name="Get_the_Peragro_sources"></a><h2> <span class="mw-headline"> Get the Peragro sources </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>svn co <a href="http://cyanox.nl/peragro" class="external free" title="http://cyanox.nl/peragro" rel="nofollow">http://cyanox.nl/peragro</a> peragro</code>
+</pre>
+</div>
+<a name="Download_Cal3D_library_sources."></a><h2> <span class="mw-headline"> Download Cal3D library sources. </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>svn co -r 407 <a href="http://svn.gna.org/svn/cal3d/trunk/cal3d" class="external free" title="http://svn.gna.org/svn/cal3d/trunk/cal3d" rel="nofollow">http://svn.gna.org/svn/cal3d/trunk/cal3d</a> cal3d</code>
+</pre>
+</div>
+<a name="Download_the_custom_CEGUI_library_sources"></a><h2> <span class="mw-headline"> Download the custom CEGUI library sources </span></h2>
+<p>Please note, this version of CEGUI is not from the CEGUI website.<br />
+The public version of CEGUI does not build properly on a mac.<br />
+This version of CEGUI is highly experimental and is being developed by Rolenun.<br />
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>svn co <a href="http://cyanox.nl/peragro/branches/ceguibuildsystem" class="external free" title="http://cyanox.nl/peragro/branches/ceguibuildsystem" rel="nofollow">http://cyanox.nl/peragro/branches/ceguibuildsystem</a> ceguibuildsystem</code>
+</pre>
+</div>
+<a name="Download_CrystalSpace_sources."></a><h2> <span class="mw-headline"> Download CrystalSpace sources. </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>svn co <a href="https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk" class="external free" title="https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk" rel="nofollow">https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk</a> cs</code>
+</pre>
+</div>
+<a name="Download_CEL_sources"></a><h2> <span class="mw-headline"> Download CEL sources </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>svn co <a href="https://crystal.svn.sourceforge.net/svnroot/cel/cel/trunk" class="external free" title="https://crystal.svn.sourceforge.net/svnroot/cel/cel/trunk" rel="nofollow">https://crystal.svn.sourceforge.net/svnroot/cel/cel/trunk</a> cel</code>
+</pre>
+</div>
+<a name="Building_CrystalSpace_and_Peragro"></a><h2> <span class="mw-headline"> Building CrystalSpace and Peragro </span></h2>
+<p>Using Environment Variable Loading or Profiling
+There are two options here, please read through and choose the one most appropriate for you.
+</p><p>Option #1 - Environment Variable Loading on Terminal Startup
+This option allows the environment variables to automatically load when you open a terminal.
+</p><p>Advantages:
+Allows you to run the program commands without worrying about loading the variables first.
+It will allow you to ignore using the "source profile" statements throughout this document.
+</p><p>Disadvantages:
+Allows one Peragro install per user (using the single user instructions).
+Allows one Peragro install per machine (using the multiple user instructions).
+</p><p>Simply edit the same file you did in "Setup Environment Variable for SVN" near the beginning of this document.
+For example: (bash users only)
+Single User Instructions:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>nano ~/.profile</code>
+</pre>
+</div>
+<p>Multiple User Instructions:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>nano /etc/profile</code>
+</pre>
+</div>
+<p>Option #2 - Profiling
+This option does not restrict the number of installs for Peragro with the profile based on number of users or by machine.
+</p><p>Advantages:
+The number of installs is not restricted by your profile (as it is in Option #1).
+</p><p>Disadvantages:
+You will need to source the profile before running the commands as will be shown later.
+</p><p>Simply create a new profile that sets all the necessary environment variables. For example:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>nano $HOME/development/profile</code>
+</pre>
+</div>
+<p>For Option #1 and Option #2:
+Now that you have the file open that you'd like to use: Copy and paste the following lines into the file then save it.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> <code>export CRYSTAL=$HOME/development/cs</code>
+ <code>export CAL3D=$HOME/development/cal3d</code>
+ <code>export CEGUI=$HOME/development/CEGUI-0.6.1</code>
+</pre>
+</div>
+<p>Note: To exit nano, press Ctrl-X, then y to save the file, then enter to save to same location.
+</p><p>If you chose option #2, then load the profile. You have to reload the profile every time you exit the console and start another one.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>source profile</code>
+</pre>
+</div>
+<a name="Build_Cal3D_library"></a><h2> <span class="mw-headline"> Build Cal3D library </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development $ <code>cd $HOME/development/cal3d</code>
+ development/cal3d $ <code>autoreconf --install --force</code>
+ development/cal3d $ <code>./configure --prefix=$CAL3D</code>
+ development/cal3d $ <code>make</code>
+ development/cal3d $ <code>make install</code>
+</pre>
+</div>
+<a name="Install_and_Build_CEGUI"></a><h2> <span class="mw-headline"> Install and Build CEGUI </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/cal3d $ <code>cd ..</code>
+ development $ <code>cp -rf ceguibuildsystem/* .</code>
+ development $ <code>cd CEGUI-0.6.1</code>
+ development/CEGUI-0.6.1 $ <code>./autogen.sh</code>
+ development/CEGUI-0.6.1 $ <code>./configure --prefix=$CEGUI --without-xerces-c</code>
+ development/CEGUI-0.6.1 $ <code>jam -aq</code>
+</pre>
+</div>
+<a name="Build_CrystalSpace"></a><h2> <span class="mw-headline"> Build CrystalSpace </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/CEGUI-0.6.1 $ <code>cd ../cs</code>
+ development/cs $ <code>./bin/autogen.sh</code>
+ development/cs $ <code>./configure --without-python --without-java --with-cal3d=$CAL3D --with-cegui=$CEGUI</code>
+ development/cs $ <code>jam libs plugins walktest cs-config</code>
+</pre>
+</div>
+<a name="Build_Peragro"></a><h2> <span class="mw-headline"> Build Peragro </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/cs $ <code>cd ../peragro</code>
+ development/peragro $ <code>./autogen.sh</code>
+ development/peragro $ <code>./configure –-with-cal3d=$CAL3D --with-cegui=$CEGUI</code>
+ development/peragro $ <code>jam -aq pssetup psupdater client</code>
+</pre>
+</div>
+<a name="Running_and_testing_with_a_local_server."></a><h2> <span class="mw-headline"> Running and testing with a local server. </span></h2>
+<p>In order to run the client simply make sure to load your profile variables in $HOME/development by running:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>source $HOME/development/profile</code>
+</pre>
+</div>
+<p><br /> Then cd into the peragro directory like so:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> $ <code>cd $HOME/development/peragro</code>
+</pre>
+</div>
+<p><br /> Then to run the client run:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>development/peragro $ <code>./peragro</code>
+</pre>
+</div>
+<p><br /> To test a local server you must launch one with:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre>development/peragro $ <code>./peragro-server &amp;</code>
+</pre>
+</div>
+<p><br />This will open the server in the background.
+<br />Run ./peragro to launch the client then select localhost in the server list.
 </p>
 <!-- 
 NewPP limit report
-Preprocessor node count: 2/1000000
+Preprocessor node count: 130/1000000
 Post-expand include size: 0/2097152 bytes
 Template argument size: 0/2097152 bytes
 Expensive parser function count: 0/100
@@ -112,7 +432,7 @@ Expensive parser function count: 0/100
       <div class="visualClear"></div>
       <div id="footer">
     <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
-	  	  	  <li id="f-credits">This page was last modified 01:06, 11 February 2008 by Rolenun Derog. </li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+	  	  	  <li id="f-credits">This page was last modified 04:16, 16 January 2009 by Rolenun Derog. </li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
       </div>
     </div>
   </body>
