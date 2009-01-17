@@ -413,7 +413,7 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
 
 bool
 InteractionManager::SelectTarget(const PcEntity *sourceEntity,
-                                      unsigned int targetID)
+                                 unsigned int targetID)
 {
   DEBUG("SelectTarget");
   printf(IM "Got selection request, target: %d'n", targetID);

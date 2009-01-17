@@ -45,3 +45,22 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
                                        in_msg.getAttackType(),
                                        in_msg.getTargetID());
 }
+
+/**
+ * Handler function for select target messages.
+ * @param msg The select target message, not yet deserialized.
+ */
+void CombatHandler::handleSelectTarget(GenericMessage*)
+{
+  InteractionManager *interactionManager =
+    Server::getServer()->getInteractionManager();
+  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  if (!ent) return;
+
+  ptScopedMonitorable<PcEntity> ent1 (ent);
+
+  AttackRequestMessage in_msg;
+  in_msg.deserialise(msg->getByteStream());
+
+  interactionManager->SelectTarget(ent1, in_msg.getTargetID());
+}
