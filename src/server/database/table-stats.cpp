@@ -59,6 +59,8 @@ void StatTable::createTable()
   insert(ptString("Witness", strlen("Witness")));
   insert(ptString("Speed", strlen("Speed")));
   insert(ptString("Sapience", strlen("Sapience")));
+  ADD_TO_DB("Reach");
+  ADD_TO_DB("Stamina");
   // Skills (attack)
   ADD_TO_DB("OneHandedAxe")
   ADD_TO_DB("OneHandedBlunt")
@@ -80,7 +82,6 @@ void StatTable::createTable()
   // Skills (styles)
   ADD_TO_DB("DirtyTricks")
   ADD_TO_DB("SwiftnessOfTheWind")
-  ADD_TO_DB("StrengthOfTheMountain")
   ADD_TO_DB("StrengthOfTheMountain")
   ADD_TO_DB("TwoWeapons")
   // Skills (rogue)

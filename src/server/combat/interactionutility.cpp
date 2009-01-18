@@ -44,7 +44,7 @@ unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
 
   if (!stat) {
     server->getStatManager()->dumpAllStatNames();
-    printf("BUG: Unalbe to find stat: %s\n", statName);
+    printf("BUG: Unable to find stat: %s\n", statName);
     return 0;
   }
   return lockedCharacter->getStats()->getAmount(stat);

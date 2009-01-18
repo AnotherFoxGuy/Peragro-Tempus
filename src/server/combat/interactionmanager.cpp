@@ -535,7 +535,9 @@ unsigned int InteractionManager::GetReach(Character* lockedCharacter)
 {
   return InteractionUtility::GetStatValue(lockedCharacter, "Reach") +
          InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
-                                                            "Reach");
+                                                            "Reach") +
+         5;   // TODO This should not be here, just till the DB is setup
+              // to correctly set Reach to something...
 }
 
 unsigned int InteractionManager::GetWeaponDamage(Character* lockedCharacter)
