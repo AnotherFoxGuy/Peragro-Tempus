@@ -23,7 +23,7 @@ ApplicationIcon macosx : peragro : ../../data/art/icons/peragro_icon.icns ;
 Application peragro :
 [ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
-ExternalLibs peragro : CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
+ExternalLibs peragro : PTHREADNP CEGUI CRYSTAL CEL BOOST.FILESYSTEM ;
 LinkWith peragro : reporter client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util geom client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager ;
 
 MsvcExternalLibrary peragro : "wsock32.lib" ;

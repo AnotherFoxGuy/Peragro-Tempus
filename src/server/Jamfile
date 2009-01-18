@@ -15,6 +15,8 @@ SubInclude TOP src server reputation ;
 Description peragro-server : "Peragro Tempus Server" ;
 Application peragro-server : [ Wildcard *.h *.cpp ] : console ;
 
+ExternalLibs peragro-server : PTHREADNP ;
+
 LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp server-dbtables quest server-group tinyxml util geom server-combat server-zonemanager server-reputationmanager ;
 
 MsvcExternalLibrary peragro-server : "wsock32.lib" ;
