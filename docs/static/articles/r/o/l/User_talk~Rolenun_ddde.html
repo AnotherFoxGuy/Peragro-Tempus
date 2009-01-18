@@ -51,8 +51,13 @@
 <li class="toclevel-1"><a href="#Build_Cal3D_library"><span class="tocnumber">13</span> <span class="toctext">Build Cal3D library</span></a></li>
 <li class="toclevel-1"><a href="#Install_and_Build_CEGUI"><span class="tocnumber">14</span> <span class="toctext">Install and Build CEGUI</span></a></li>
 <li class="toclevel-1"><a href="#Build_CrystalSpace"><span class="tocnumber">15</span> <span class="toctext">Build CrystalSpace</span></a></li>
-<li class="toclevel-1"><a href="#Build_Peragro"><span class="tocnumber">16</span> <span class="toctext">Build Peragro</span></a></li>
-<li class="toclevel-1"><a href="#Running_and_testing_with_a_local_server."><span class="tocnumber">17</span> <span class="toctext">Running and testing with a local server.</span></a></li>
+<li class="toclevel-1"><a href="#Build_CEL"><span class="tocnumber">16</span> <span class="toctext">Build CEL</span></a></li>
+<li class="toclevel-1"><a href="#Build_Peragro"><span class="tocnumber">17</span> <span class="toctext">Build Peragro</span></a></li>
+<li class="toclevel-1"><a href="#Patch_bug_.231"><span class="tocnumber">18</span> <span class="toctext">Patch bug #1</span></a></li>
+<li class="toclevel-1"><a href="#Patch_bug_.232"><span class="tocnumber">19</span> <span class="toctext">Patch bug #2</span></a></li>
+<li class="toclevel-1"><a href="#Patch_bug_.233"><span class="tocnumber">20</span> <span class="toctext">Patch bug #3</span></a></li>
+<li class="toclevel-1"><a href="#Finish_Building_Peragro"><span class="tocnumber">21</span> <span class="toctext">Finish Building Peragro</span></a></li>
+<li class="toclevel-1"><a href="#Running_and_testing_with_a_local_server."><span class="tocnumber">22</span> <span class="toctext">Running and testing with a local server.</span></a></li>
 </ul>
 </td></tr></table><script type="text/javascript"> if (window.showTocToggle) { var tocShowText = "show"; var tocHideText = "hide"; showTocToggle(); } </script>
 <a name="Introduction"></a><h2> <span class="mw-headline"> Introduction </span></h2>
@@ -119,7 +124,7 @@ commands in the terminal window:
 <p>Once that is completed, we can now fetch all packages that are needed using the following command:
 </p>
 <div style="overflow: auto; width: 780px">
-<pre> <code>fink -y -v install libjpeg freetype freetype-shlibs freetype2 freetype2-dev freetype2-shlibs libogg libvorbis0 libvorbis0-shlibs libmng2 libpng3 autoconf2.5 automake1.9 libtool wget curl boost1.33</code>
+<pre> <code>fink -y -v install libjpeg freetype freetype-shlibs freetype2 freetype2-dev freetype2-shlibs libogg libvorbis0 libvorbis0-shlibs libmng2 libpng3 autoconf2.5 automake1.9 libtool wget curl boost1.33 pcre</code>
 </pre>
 </div>
 <p>Note: If you are using darwinports (instead of fink), build the packages you can't find that are listed in the fink command from source.
@@ -212,7 +217,7 @@ Sometimes it takes 2 or 3 tries to get the entire download.
 </p>
 <a name="Get_the_Peragro_sources"></a><h2> <span class="mw-headline"> Get the Peragro sources </span></h2>
 <div style="overflow: auto; width: 780px">
-<pre> development $ <code>svn co <a href="http://cyanox.nl/peragro" class="external free" title="http://cyanox.nl/peragro" rel="nofollow">http://cyanox.nl/peragro</a> peragro</code>
+<pre> development $ <code>svn co <a href="https://cyanox.nl/peragro/trunk" class="external free" title="https://cyanox.nl/peragro/trunk" rel="nofollow">https://cyanox.nl/peragro/trunk</a> peragro</code>
 </pre>
 </div>
 <a name="Download_Cal3D_library_sources."></a><h2> <span class="mw-headline"> Download Cal3D library sources. </span></h2>
@@ -226,7 +231,7 @@ The public version of CEGUI does not build properly on a mac.<br />
 This version of CEGUI is highly experimental and is being developed by Rolenun.<br />
 </p>
 <div style="overflow: auto; width: 780px">
-<pre> development $ <code>svn co <a href="http://cyanox.nl/peragro/branches/ceguibuildsystem" class="external free" title="http://cyanox.nl/peragro/branches/ceguibuildsystem" rel="nofollow">http://cyanox.nl/peragro/branches/ceguibuildsystem</a> ceguibuildsystem</code>
+<pre> development $ <code>svn co <a href="https://cyanox.nl/peragro/branches/ceguibuildsystem" class="external free" title="https://cyanox.nl/peragro/branches/ceguibuildsystem" rel="nofollow">https://cyanox.nl/peragro/branches/ceguibuildsystem</a> ceguibuildsystem</code>
 </pre>
 </div>
 <a name="Download_CrystalSpace_sources."></a><h2> <span class="mw-headline"> Download CrystalSpace sources. </span></h2>
@@ -281,6 +286,7 @@ Now that you have the file open that you'd like to use: Copy and paste the follo
 </p>
 <div style="overflow: auto; width: 780px">
 <pre> <code>export CRYSTAL=$HOME/development/cs</code>
+ <code>export CEL=$HOME/development/cel</code>
  <code>export CAL3D=$HOME/development/cal3d</code>
  <code>export CEGUI=$HOME/development/CEGUI-0.6.1</code>
 </pre>
@@ -307,7 +313,7 @@ Now that you have the file open that you'd like to use: Copy and paste the follo
  development $ <code>cp -rf ceguibuildsystem/* .</code>
  development $ <code>cd CEGUI-0.6.1</code>
  development/CEGUI-0.6.1 $ <code>./autogen.sh</code>
- development/CEGUI-0.6.1 $ <code>./configure --prefix=$CEGUI --without-xerces-c</code>
+ development/CEGUI-0.6.1 $ <code>./configure --prefix=$CEGUI --without-xercesc --with-pcre=/sw</code>
  development/CEGUI-0.6.1 $ <code>jam -aq</code>
 </pre>
 </div>
@@ -319,12 +325,54 @@ Now that you have the file open that you'd like to use: Copy and paste the follo
  development/cs $ <code>jam libs plugins walktest cs-config</code>
 </pre>
 </div>
+<p><br />
+</p>
+<a name="Build_CEL"></a><h2> <span class="mw-headline"> Build CEL </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/cs $ <code>cd ../cel</code>
+ development/cel $ <code>./autogen.sh</code>
+ development/cel $ <code>./configure</code>
+ development/cel $ <code>jam -aq libs plugins cel-config cel-config-1.9</code>
+</pre>
+</div>
 <a name="Build_Peragro"></a><h2> <span class="mw-headline"> Build Peragro </span></h2>
 <div style="overflow: auto; width: 780px">
-<pre> development/cs $ <code>cd ../peragro</code>
+<pre> development/cel $ <code>cd ../peragro</code>
  development/peragro $ <code>./autogen.sh</code>
- development/peragro $ <code>./configure –-with-cal3d=$CAL3D --with-cegui=$CEGUI</code>
- development/peragro $ <code>jam -aq pssetup psupdater client</code>
+ development/peragro $ <code>./configure --with-cal3d=$CAL3D --with-cegui=$CEGUI --with-boost=/sw</code>
+</pre>
+</div>
+<a name="Patch_bug_.231"></a><h2> <span class="mw-headline"> Patch bug #1 </span></h2>
+<p>Edit the src/common/util/thread.h file.<br />
+Delete (or comment) the following lines from the top of the file:
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> <code>#ifndef HAVE_PTHREAD_TIMEDJOIN_NP</code>
+ <code>#define HAVE_PTHREAD_TIMEDJOIN_NP 1</code>
+ <code>#endif</code>
+</pre>
+</div>
+<a name="Patch_bug_.232"></a><h2> <span class="mw-headline"> Patch bug #2 </span></h2>
+<p>Edit the Jamconfig file and add the following lines below "CEGUI.AVAILABLE&nbsp;?= yes&nbsp;;"<br />
+Keep in mind that anytime you run ./configure, it will remove the changes in the Jamconfig file.<br />
+Replace $CEGUI with your $CEGUI directory in the lines below.
+</p>
+<div style="overflow: auto; width: 780px">
+<pre> <code>CEGUI.VERSION&nbsp;?= 1.9&nbsp;;</code>
+ <code>CEGUI.CFLAGS&nbsp;?= -I/$CEGUI/BaseModules&nbsp;;</code>
+ <code>CEGUI.LFLAGS&nbsp;?= -L/$CEGUI/./out/macosxx86/optimize/libs -lCEGUITGAImageCodec -lCEGUIExpatParser -lCEGUIBase -lCEGUIFalagardWRBase -lCEGUIOpenGLRenderer -lz -lpthread -lc -lm -ldl -lnsl -L/sw/lib -DCS_DEBUG&nbsp;;</code>
+ <code>CEGUI.INCLUDE_DIR&nbsp;?= $CEGUI/BaseModules&nbsp;;</code>
+ <code>CEGUI.AVAILABLE_LIBS&nbsp;?= CEGUIOpenGLRenderer CEGUIFalagardWRBase CEGUIBase CEGUIExpatParser CEGUITGAImageCodec&nbsp;;</code>
+</pre>
+</div>
+<a name="Patch_bug_.233"></a><h2> <span class="mw-headline"> Patch bug #3 </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/peragro $ <code>cp -rf /sw/include/boost-1_33_1/boost .</code>
+</pre>
+</div>
+<a name="Finish_Building_Peragro"></a><h2> <span class="mw-headline"> Finish Building Peragro </span></h2>
+<div style="overflow: auto; width: 780px">
+<pre> development/peragro $ <code>jam -aq</code>
 </pre>
 </div>
 <a name="Running_and_testing_with_a_local_server."></a><h2> <span class="mw-headline"> Running and testing with a local server. </span></h2>
@@ -357,7 +405,7 @@ Now that you have the file open that you'd like to use: Copy and paste the follo
 </p>
 <!-- 
 NewPP limit report
-Preprocessor node count: 130/1000000
+Preprocessor node count: 158/1000000
 Post-expand include size: 0/2097152 bytes
 Template argument size: 0/2097152 bytes
 Expensive parser function count: 0/100
@@ -391,7 +439,6 @@ Expensive parser function count: 0/100
 	    	      <li id="n-mainpage-description"><a href="../../../../index.html">Main Page</a></li>
 	     	      <li id="n-portal"><a href="../../../../articles/c/o/m/Peragro_Tempus_Wiki%7ECommunity_Portal_9ca7.html">Community portal</a></li>
 	     	      <li id="n-currentevents"><a href="../../../../articles/c/u/r/Peragro_Tempus_Wiki%7ECurrent_events_57bd.html">Current events</a></li>
-	     	      <li id="n-recentchanges"><a href="../../../../articles/r/e/c/Special%7ERecentChanges_e0d0.html">Recent changes</a></li>
 	     	      <li id="n-help"><a href="../../../../articles/c/o/n/Help%7EContents_22de.html">Help</a></li>
 	     	    </ul>
 	  </div>
@@ -432,7 +479,7 @@ Expensive parser function count: 0/100
       <div class="visualClear"></div>
       <div id="footer">
     <div id="f-poweredbyico"><a href="http://www.mediawiki.org/"><img src="../../../../skins/common/images/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" /></a></div>		<ul id="f-list">
-	  	  	  <li id="f-credits">This page was last modified 04:16, 16 January 2009 by Rolenun Derog. </li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
+	  	  	  <li id="f-credits">This page was last modified 18:20, 17 January 2009 by Rolenun Derog. </li>	  	  <li id="f-about"><a href="../../../../articles/a/b/o/Peragro_Tempus_Wiki%7EAbout_5c7d.html" title="Peragro Tempus Wiki:About">About Peragro Tempus Wiki</a></li>	  <li id="f-disclaimer"><a href="../../../../articles/g/e/n/Peragro_Tempus_Wiki%7EGeneral_disclaimer_934d.html" title="Peragro Tempus Wiki:General disclaimer">Disclaimers</a></li>	  	</ul>
       </div>
     </div>
   </body>
