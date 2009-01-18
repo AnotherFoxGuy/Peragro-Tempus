@@ -48,11 +48,10 @@ namespace PT
        * @param event The event.
        * @return The hour as a number.
        */
-      static size_t GetSeconds(const iEvent* event)
+      static unsigned int GetSeconds(const iEvent* event)
       {
-        size_t seconds = 0;
-        const void* unused;
-        if (event->Retrieve("seconds", unused, seconds) != csEventErrNone)
+        unsigned int seconds = 0;
+        if (event->Retrieve("seconds", seconds) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetSeconds failed!");
 
         return seconds;
@@ -103,11 +102,10 @@ namespace PT
        * @param event The event.
        * @return The real time in tenths of seconds.
        */
-      static size_t GetGamePerReal(const iEvent* event)
+      static unsigned int GetGamePerReal(const iEvent* event)
       {
-        size_t gamePerReal = 1;
-        const void* unused;
-        if (event->Retrieve("gamePerReal", unused, gamePerReal) != csEventErrNone)
+        unsigned int gamePerReal = 1;
+        if (event->Retrieve("gamePerReal", gamePerReal) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetGamePerReal failed!");
 
         return gamePerReal;
