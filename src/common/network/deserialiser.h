@@ -105,6 +105,17 @@ public:
     pos += size + 1;
     return size;
   }
+
+// Strnlen is a gnu extension that certain versions of OSX do not support.
+#if defined(__APPLE_CC__)
+  int strnlen(const char *c, unsigned int len)
+  {
+    int n = 0;
+    while (*c++ && n < len)
+      n++;
+    return (n);
+  }
+#endif
 };
 
 #endif // DESERIALISER_H

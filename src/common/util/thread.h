@@ -91,7 +91,13 @@ public:
 #else
     printf("pthread_timedjoin_np_alt wait: %d\n", (int)threadHandle);
     ///@todo: I'm not entirely sure if threadHandle is a process id. It it is not then the line below is incorrect.
-    while(::kill(threadHandle, 0) == -1){
+    // The assumption that pthread_t == pid_t is a Linux-ism, where threads are actually
+    // processes.  Unfortunately, pthread_t should be treated as an opaque type, and should 
+    // not be assumed to be an unsigned long. On FreeBSD, pthread_t is a typedef for
+    // a pointer to struct pthread. struct pthread is a FreeBSD specific data structure.
+    // Therefore, we are using a typecast to unsigned long to make sure the  
+    // proper conversion is made and compatible on all linux-based OSes.
+    while(::kill((unsigned long)threadHandle, 0) == -1){
       pt_sleep(1000);
     }
     printf("pthread_timedjoin_np_alt join: %d\n", (int)threadHandle);
