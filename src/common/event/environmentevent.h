@@ -51,7 +51,8 @@ namespace PT
       static size_t GetSeconds(const iEvent* event)
       {
         size_t seconds = 0;
-        if (event->Retrieve("seconds", seconds) != csEventErrNone)
+        const void* unused;
+        if (event->Retrieve("seconds", unused, seconds) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetSeconds failed!");
 
         return seconds;
@@ -105,7 +106,8 @@ namespace PT
       static size_t GetGamePerReal(const iEvent* event)
       {
         size_t gamePerReal = 1;
-        if (event->Retrieve("gamePerReal", gamePerReal) != csEventErrNone)
+        const void* unused;
+        if (event->Retrieve("gamePerReal", unused, gamePerReal) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetGamePerReal failed!");
 
         return gamePerReal;
