@@ -108,7 +108,7 @@ public:
 
 // Strnlen is a gnu extension that certain versions of OSX do not support.
 #if defined(CS_PLATFORM_MACOSX)
-  int strnlen(const char *c, unsigned int len)
+  int strnlen(const char *c, int len)
   {
     int n = 0;
     while (*c++ && n < len)
