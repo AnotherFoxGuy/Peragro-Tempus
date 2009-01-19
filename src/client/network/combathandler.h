@@ -43,16 +43,10 @@ public:
     char id = msg->getMsgId();
 
     if (id == COMBAT::ATTACKNOTIFICATION) handleAttackNotification(msg);
-    else if (id == COMBAT::UPDATEARMOR) handleUpdateArmor(msg);
-    else if (id == COMBAT::UPDATEWEAPON) handleUpdateWeapon(msg);
-    else if (id == COMBAT::ATTACKRESULT) handleAttackResult(msg);
     else if (id == COMBAT::DEATH) handleDeath(msg);
   }
 
   void handleAttackNotification(GenericMessage* msg);
-  void handleUpdateArmor(GenericMessage* msg);
-  void handleUpdateWeapon(GenericMessage* msg);
-  void handleAttackResult(GenericMessage* msg);
   void handleDeath(GenericMessage* msg);
 };
 

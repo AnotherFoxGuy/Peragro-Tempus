@@ -137,13 +137,10 @@
 			<message id="7" name="MasteriesList" />
 		</type>
 		<type id="12" name="Combat">
-			<message id="1" name="AttackRequest" />
-			<message id="2" name="AttackNotification" />
-			<message id="3" name="UpdateArmor" />
-			<message id="4" name="UpdateWeapon" />
-			<message id="5" name="AttackResult" />
-			<message id="6" name="Death" />
-			<message id="7" name="SelectTarget" />
+			<message id="0" name="AttackRequest" />
+			<message id="1" name="AttackNotification" />
+			<message id="2" name="Death" />
+			<message id="3" name="SelectTarget" />
 		</type>
 		<type id="13" name="Auth">
 			<message id="0" name="ClientLoginRequest" />

@@ -29,13 +29,10 @@ namespace COMBAT
 {
   enum MESSAGES
   {
-    ATTACKREQUEST=1,
-    ATTACKNOTIFICATION=2,
-    UPDATEARMOR=3,
-    UPDATEWEAPON=4,
-    ATTACKRESULT=5,
-    DEATH=6,
-    SELECTTARGET=7
+    ATTACKREQUEST=0,
+    ATTACKNOTIFICATION=1,
+    DEATH=2,
+    SELECTTARGET=3
   };
 }
 
@@ -71,65 +68,6 @@ public:
   }
 
   ~AttackNotificationMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned int getPlayerID() const { return playerid; }
-  void setPlayerID(unsigned int x) { playerid = x; }
-
-  unsigned int getHealth() const { return health; }
-  void setHealth(unsigned int x) { health = x; }
-
-};
-
-class UpdateArmorMessage : public NetMessage
-{
-
-public:
-  UpdateArmorMessage() : NetMessage(MESSAGES::COMBAT,COMBAT::UPDATEARMOR)
-  {
-  }
-
-  ~UpdateArmorMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-};
-
-class UpdateWeaponMessage : public NetMessage
-{
-
-public:
-  UpdateWeaponMessage() : NetMessage(MESSAGES::COMBAT,COMBAT::UPDATEWEAPON)
-  {
-  }
-
-  ~UpdateWeaponMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-};
-
-class AttackResultMessage : public NetMessage
-{
-  unsigned int playerid;
-  unsigned int health;
-
-public:
-  AttackResultMessage() : NetMessage(MESSAGES::COMBAT,COMBAT::ATTACKRESULT)
-  {
-  }
-
-  ~AttackResultMessage()
   {
   }
 

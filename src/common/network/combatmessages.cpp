@@ -60,55 +60,6 @@ void AttackNotificationMessage::deserialise(ByteStream* bs)
   health = (unsigned int) serial.getInt32();
 }
 
-bool UpdateArmorMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  return serial.isValid();
-}
-
-void UpdateArmorMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
-bool UpdateWeaponMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  return serial.isValid();
-}
-
-void UpdateWeaponMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
-bool AttackResultMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt32(playerid);
-  serial.setInt32(health);
-  return serial.isValid();
-}
-
-void AttackResultMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  playerid = (unsigned int) serial.getInt32();
-  health = (unsigned int) serial.getInt32();
-}
-
 bool DeathMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);

@@ -866,6 +866,10 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
   out << "#include \"common/event/entityevent.h\"\n\n";
   out << "#include \"client/pointer/pointer.h\"\n\n";
 
+  if (type->name == "Combat") {
+    out << "#include \"client/network/combathandler.h\"\n\n";
+  }
+
   for (size_t i = 0; i < peer->recvMsg.size(); i++)
   {
     nwMessage* msg = peer->recvMsg[i];

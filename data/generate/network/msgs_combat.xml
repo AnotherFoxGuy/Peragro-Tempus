@@ -4,17 +4,18 @@
 	</message>
 
 	<message type="Combat" name="AttackNotification">
-		<uint32>PlayerID</uint32>
-		<uint32>Health</uint32>
+    <event name="combat.death" specific="None">
+      <uint32>PlayerID</uint32>
+      <uint32>Health</uint32>
+    </event>
 	</message>
 
-	<message type="Combat" name="AttackResult">
-		<uint32>PlayerID</uint32>
-		<uint32>Health</uint32>
-	</message>
 	<message type="Combat" name="Death">
-		<uint16>EntityId</uint16>
+    <event name="combat.death" specific="None">
+      <uint16>EntityId</uint16>
+    </event>
 	</message>
+
 	<message type="Combat" name="SelectTarget">
 		<uint32>TargetID</uint32>
 	</message>
