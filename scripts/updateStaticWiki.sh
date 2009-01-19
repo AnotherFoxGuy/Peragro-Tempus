@@ -1,6 +1,6 @@
 #!/bin/bash
 DOCS=/var/www/sites/peragro.nl_wiki/HTML/static
-DEST=/home/peragro/peragro/docs/
+DEST=/home/peragro_wiki/
 
 cd $DEST
 
