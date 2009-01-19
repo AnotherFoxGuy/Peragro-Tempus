@@ -115,6 +115,13 @@ public:
       n++;
     return (n);
   }
+  size_t strnlen(const char *c, size_t len)
+  {
+    size_t n = 0;
+    while (*c++ && n < len)
+      n++;
+    return (n);
+  }
 #endif
 };
 
