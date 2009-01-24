@@ -57,7 +57,7 @@ namespace Geom
     Shape(T* p) : parent(p) {}
     ~Shape()
     {
-      std::list<Listener*>::iterator iter;
+      typename std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
         (*iter)->Destroyed(this);
     }
