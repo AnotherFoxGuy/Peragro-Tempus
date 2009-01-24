@@ -23,12 +23,6 @@ namespace Common
 {
   namespace World
   {
-    /// For std::set
-    bool operator<(const Common::World::Object& obj1, const Common::World::Object& obj2)
-    {
-      return obj1.id < obj2.id;
-    }
-
     WorldManager::WorldManager() : db("world.sqlite"), objectsTable(&db), factoryTable(&db)
     {
       Array<Object> objs;
@@ -36,7 +30,9 @@ namespace Common
       for (size_t i = 0; i < objs.getCount(); i++)
       {
         printf("WorldManager: %s\n", objs[i].name.c_str());
-        octree.Add(objs[i]);
+        boost::shared_ptr<Object> object(new Object(objs[i]));
+        objects.push_back(object);
+        octree.Add(&object->worldBB);
       }
     }
 
@@ -44,30 +40,46 @@ namespace Common
     {
     }
 
-    bool WorldManager::Add(const Object& object, bool unique)
+    class SameId
+      {
+        Object* t;
+      public:
+        SameId(boost::shared_ptr<Object> _t) : t(_t.get()) {}
+        bool operator() (boost::shared_ptr<Object> o) { return t->id == o->id; }
+      };
+
+    bool WorldManager::Add(const Objectp object, bool unique)
     {
-      objectsTable.Insert(object, unique);
-      return octree.Add(object);
+      // If object is already present, just update the DB instead.
+      if (std::find(objects.begin(), objects.end(), object) != objects.end())
+        return Update(object.get());
+
+      // Remove any objects with the same ID.
+      objects.remove_if(SameId(object));
+
+      objectsTable.Insert(*object.get(), unique);
+      objects.push_back(object);
+      return octree.Add(&object->worldBB);
     }
 
-    bool WorldManager::AddLookUp(Object& object, bool unique)
+    bool WorldManager::AddLookUp(Objectp object, bool unique)
     {
-      object.worldBB = factoryTable.GetBB(object.factoryFile, object.factoryName);
+      object->worldBB = factoryTable.GetBB(object->factoryFile, object->factoryName);
       // TODO: do proper transform.
-      object.worldBB += object.position;
+      object->worldBB += object->position;
 
-      object.detailLevel = factoryTable.GetDetailLevel(object.factoryFile, object.factoryName);
+      object->detailLevel = factoryTable.GetDetailLevel(object->factoryFile, object->factoryName);
 
       return Add(object, unique);
     }
 
-    bool WorldManager::Update(const Object& object)
+    bool WorldManager::Update(const Object* object)
     {
-      objectsTable.Insert(object, false);
+      objectsTable.Insert(*object, false);
       return true;
     }
 
-    bool WorldManager::Remove(const Object& object)
+    bool WorldManager::Remove(const Objectp object)
     {
       return false;
     }

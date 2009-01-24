@@ -71,24 +71,25 @@ bool ResourceManager::Initialize()
 
 void ResourceManager::AddTestObjects()
 {
+  using namespace Common::World;
   {
-    Common::World::Object object;
-    object.id = 0;
-    object.name = "test1";
-    object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
-    object.factoryName = "genscythe001";
-    object.position = Geom::Vector3(642, 14, 371);
-    object.sector = "World";
+    boost::shared_ptr<Object> object(new Object());
+    object->id = 0;
+    object->name = "test1";
+    object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
+    object->factoryName = "genscythe001";
+    object->position = Geom::Vector3(642, 14, 371);
+    object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
   {
-    Common::World::Object object;
-    object.id = 1;
-    object.name = "test2";
-    object.factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
-    object.factoryName = "genscythe001";
-    object.position = Geom::Vector3(642, 14, 376);
-    object.sector = "World";
+    boost::shared_ptr<Object> object(new Object());
+    object->id = 1;
+    object->name = "test2";
+    object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
+    object->factoryName = "genscythe001";
+    object->position = Geom::Vector3(642, 14, 376);
+    object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
 } // end Initialize
@@ -300,6 +301,8 @@ std::vector<Common::World::Object> ResourceManager::FindMeshObjects(const std::s
 
 void ResourceManager::ScanObjects(const std::string& path)
 {
+  using namespace Common::World;
+
   csRef<iStringArray> paths = vfs->FindFiles(path.c_str());
   for (size_t i = 0; i < paths->GetSize(); i++ )
   {
@@ -317,15 +320,16 @@ void ResourceManager::ScanObjects(const std::string& path)
       csString csfile = file.c_str();
       if (csfile.StartsWith("tile-"))
       {
-        std::vector<Common::World::Object> objs = FindMeshObjects(path);
-        std::vector<Common::World::Object>::iterator it;
+        std::vector<Object> objs = FindMeshObjects(path);
+        std::vector<Object>::iterator it;
         //TODO: Get max id.
         static size_t id = 2;
         for (it = objs.begin(); it != objs.end(); it++ )
         {
-          (*it).id = id;
-          worldManager->AddLookUp(*it, false);
-          printf("ID: %"SIZET"\n", (*it).id);
+          boost::shared_ptr<Object> object(new Object(*it));
+          object->id = id;
+          worldManager->AddLookUp(object, false);
+          printf("ID: %"SIZET"\n", object->id);
           id++;
         }
       }

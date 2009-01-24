@@ -58,8 +58,20 @@ namespace Common
 
     struct Object
     {
-      //Object() : worldBB(new Octree::Shape(this)) {}
       Object() : worldBB(this) {}
+
+      Object(const Object& o) : worldBB(this)
+      {
+        id = o.id;
+        name = o.name;
+        factoryFile = o.factoryFile;
+        factoryName = o.factoryName;
+        position = o.position;
+        sector = o.sector;
+        worldBB = o.worldBB.Get();
+        worldBB.Set(o.worldBB.Get());
+        detailLevel = o.detailLevel;
+      }
 
       size_t id;
       std::string name;
@@ -67,12 +79,8 @@ namespace Common
       std::string factoryName;
       Geom::Vector3 position;
       std::string sector;
-      //boost::shared_ptr<Octree::Shape> worldBB;
       Octree::Shape worldBB;
       size_t detailLevel;
-
-      /// For std::set
-      friend bool operator<(const Object& obj1, const Object& obj2);
     };
 
     class WorldManager
@@ -82,16 +90,19 @@ namespace Common
       ObjectsTable objectsTable;
       FactoriesTable factoryTable;
 
+      typedef boost::shared_ptr<Object> Objectp;
+
       Octree octree;
+      std::list<Objectp> objects;
 
     public:
       WorldManager();
       ~WorldManager();
 
-      bool Add(const Object& object, bool unique = true);
-      bool AddLookUp(Object& object, bool unique = true);
-      bool Update(const Object& object);
-      bool Remove(const Object& object);
+      bool Add(const Objectp object, bool unique = true);
+      bool AddLookUp(Objectp object, bool unique = true);
+      bool Update(const Object* object);
+      bool Remove(const Objectp object);
 
       bool Add(const Factory& factory);
       bool Remove(const Factory& factory);

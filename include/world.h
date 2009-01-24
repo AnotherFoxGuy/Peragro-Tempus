@@ -68,7 +68,7 @@ struct iWorld : public virtual iBase
   /// Get the proximity range in units.
   virtual size_t GetRange() const = 0;
 
-  virtual void CommitChanges(Common::World::Object& object) = 0;
+  virtual void CommitChanges(Common::World::Object* object) = 0;
 
   //-[Tiled world]-----------------------------
   // TODO remove.

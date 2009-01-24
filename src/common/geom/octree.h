@@ -57,15 +57,14 @@ namespace Geom
     Shape(T* p) : parent(p) {}
     ~Shape()
     {
-      /*
       std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
         (*iter)->Destroyed(this);
-        */
     }
 
-    //inline operator T() const { return *parent; }
-    inline const T& GetParent() const { return *parent; }
+    inline T* GetParent() const { return parent; }
+
+    G* operator->() const { return (G*)&geom; }
 
     template<typename O>
     inline G& operator+=(const O& o)
@@ -103,18 +102,9 @@ namespace Geom
   {
   public:
     typedef typename Geom::Shape<T, G> Shape;
-    typedef std::set<T> QueryResult;
+    typedef std::list<T*> QueryResult;
 
   private:
-
-    struct compare
-    {
-      bool operator()(const T& obj1, const T& obj2) const
-      {
-        return obj1 < obj2;
-      }
-    };
-
     class Node : public Shape::Listener
     {
     private:
@@ -122,7 +112,7 @@ namespace Geom
       Node(const Node& o);
       Node& operator=(const Node& o);
 
-      typedef typename std::set<T, compare> Shapes;
+      typedef typename std::list<Shape*> Shapes;
       typedef typename Shapes::iterator Iterator;
       typedef typename Shapes::const_iterator ConstIterator;
 
@@ -133,10 +123,10 @@ namespace Geom
       std::vector<Node*> children;
 
     private:
-      virtual void Moved(Shape* s)
+      virtual void Moved(Shape* shape)
       {
-        printf("Node::Moved: %s\n", s->GetParent().name.c_str());
-        if (box.Contains(s->Get()))
+        printf("Node::Moved: %s\n", shape->GetParent()->name.c_str());
+        if (box.Contains(shape->Get()))
           return;
         else if (parent)
         {
@@ -144,15 +134,15 @@ namespace Geom
         }
         else
         {
-          //MakeQuadTreeBigger();
-          //MoveUp();
+          //MakeTreeBigger();
         }
       }
 
-      virtual void Destroyed(Shape* s)
+      virtual void Destroyed(Shape* shape)
       {
-        printf("Node::Destroyed: %s\n", s->GetParent().name.c_str());
-        shapes.erase(s->GetParent());
+        printf("Node::Destroyed: %s\n", shape->GetParent()->name.c_str());
+        //Remove(s);
+        shapes.remove(shape);
       }
 
     public:
@@ -168,19 +158,20 @@ namespace Geom
           delete children[i];
       }
 
-      bool Add(T shape)
+      bool Add(Shape* shape)
       {
         // Make sure there are no doubles!
-        shapes.erase(shape);
-        shapes.insert(shape);
-        shape.worldBB.AddListener(this);
+        Remove(shape);
+        shapes.push_back(shape);
+        shape->AddListener(this);
         return true;
       }
 
-      bool Remove(T shape)
+      bool Remove(Shape* shape)
       {
-        shape.worldBB.RemoveListener(this);
-        return shapes.erase(shape);
+        shape->RemoveListener(this);
+        shapes.remove(shape);
+        return true;
       }
 
       QueryResult Query(const Sphere& s) const
@@ -189,14 +180,16 @@ namespace Geom
         ConstIterator it;
         for (it = shapes.begin() ; it != shapes.end(); it++ )
         {
-          if (it->worldBB.ContainedIn(s))
-            result.insert((*it));
+          if ((*it)->ContainedIn(s))
+            result.push_back((*it)->GetParent());
         }
 
         return result;
       }
 
       bool IsPartitioned() const { return 0 != children[0]; }
+
+      size_t Size() { return shapes.size(); }
 
     };
 
@@ -220,19 +213,17 @@ namespace Geom
       delete rootNode;
     }
 
-/*
     size_t Size()
     {
-      return entries.size();
+      return rootNode->Size();
     }
-*/
 
-    bool Add(T shape)
+    bool Add(Shape* shape)
     {
       return rootNode->Add(shape);
     }
 
-    bool Remove(T shape)
+    bool Remove(Shape* shape)
     {
       return rootNode->Remove(shape);
     }

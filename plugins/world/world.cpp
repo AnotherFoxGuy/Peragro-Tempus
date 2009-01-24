@@ -57,12 +57,12 @@ CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (WorldManager)
 
 //----------------------------------------------------------
-WorldManager::Instance::Instance (const Common::World::Object& object,
+WorldManager::Instance::Instance (Common::World::Object* object,
                                   iObjectRegistry* obj_reg)
-                                  : Common::World::Object(object),
-                                  iCacheUser(obj_reg), object_reg(obj_reg)
+                                  : _object(object),
+                                  iCacheUser(obj_reg), object_reg(obj_reg), id(object->id)
 {
-  Load(factoryFile);
+  Load(_object->factoryFile);
 }
 
 WorldManager::Instance::~Instance()
@@ -86,32 +86,32 @@ WorldManager::Instance::~Instance()
       instance->GetMovable()->UpdateMove();
     }
   }
-  printf("REMOVED: %"SIZET" %s\n", id, name.c_str());
+  printf("REMOVED: %"SIZET" %s\n", _object->id, _object->name.c_str());
 }
 
 void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
 {
   if (cacheEntry->WasSuccessful())
   {
-    instance = cacheEntry->Create(name, factoryName);
+    instance = cacheEntry->Create(_object->name, _object->factoryName);
 
     csVector3 curpos = instance->QuerySceneNode()->GetMovable()->GetFullPosition();
-    instance->QuerySceneNode()->GetMovable()->SetPosition(curpos + (csVector3&)position);
+    instance->QuerySceneNode()->GetMovable()->SetPosition(curpos + (csVector3&)_object->position);
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
-    iSector* s = engine->FindSector(sector.c_str());
+    iSector* s = engine->FindSector(_object->sector.c_str());
     if (s) instance->QuerySceneNode()->GetMovable()->SetSector(s);
     else csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
-      "Failed to get sector '%s' (object: '%s' has errors)!", sector.c_str(), name.c_str());
+      "Failed to get sector '%s' (object: '%s' has errors)!", _object->sector.c_str(), _object->name.c_str());
     instance->QuerySceneNode()->GetMovable()->UpdateMove();
 
     csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
     csColliderHelper::InitializeCollisionWrapper (cdsys, instance);
-    csRef<EditorObject> edObj; edObj.AttachNew(new EditorObject(*this, object_reg, instance));
+    csRef<EditorObject> edObj; edObj.AttachNew(new EditorObject(_object, object_reg, instance));
   }
   else
     csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
-      "Failed to create mesh '%s' (factory: '%s' has errors)!", name.c_str(), factoryFile.c_str());
+      "Failed to create mesh '%s' (factory: '%s' has errors)!", _object->name.c_str(), _object->factoryFile.c_str());
 } // end Loaded()
 
 //----------------------------------------------------------
@@ -359,17 +359,10 @@ void WorldManager::UnSetMesh()
   playerMesh = 0;
 } // end UnSetCamera()
 
-static int Compare(const Common::World::Object* r1, const Common::World::Object* r2)
-{
-  if (r1->id < r2->id) return -1;
-  else if (r2->id < r1->id) return 1;
-  else return 0;
-}
-
 template <typename T, typename K>
 int ptCompare(T const& r1, K const& r2)
 {
-  return Compare(r1, r2);
+  return csComparator<size_t, size_t>::Compare(r1->id, r2->id);
 }
 
 void WorldManager::CameraMoved()
@@ -382,16 +375,16 @@ void WorldManager::CameraMoved()
   if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
   for (it = objects.begin(); it != objects.end(); it++ )
   {
-    size_t index = instances.FindSortedKey(csArrayCmp<Instance*, const Object*>(&(*it), ptCompare));
+    size_t index = instances.FindSortedKey(csArrayCmp<Instance*, Object*>(*it, ptCompare));
     if (index != csArrayItemNotFound)
     {
-      //printf("FOUND: %d %s\n", (*it).id, (*it).name.c_str());
+      //printf("FOUND: %d %s\n", (*it)->id, (*it)->name.c_str());
       // Instance was found, copy it to the new array.
       newInstances.InsertSorted(instances.Get(index), ptCompare);
     }
     else
     {
-      printf("OBJECT: %"SIZET" %s\n", (*it).id, (*it).name.c_str());
+      printf("OBJECT: %"SIZET" %s\n", (*it)->id, (*it)->name.c_str());
       // Instance was not found, make a new instance.
       csRef<Instance> in; in.AttachNew(new Instance(*it, object_reg));
       newInstances.InsertSorted(in, ptCompare);
@@ -417,14 +410,14 @@ void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
 
 } // end CameraMoved()
 
-void WorldManager::CommitChanges(Common::World::Object& object)
+void WorldManager::CommitChanges(Common::World::Object* object)
 {
-  printf("CommitChanges: %s\n", object.name.c_str());
+  printf("CommitChanges: %s\n", object->name.c_str());
   worldManager->Update(object);
 } // end CommitChanges()
 
-void WorldManager::CommitNew(Common::World::Object& object)
+void WorldManager::CommitNew(boost::shared_ptr<Common::World::Object> object)
 {
-  printf("CommitNew: %s\n", object.name.c_str());
+  printf("CommitNew: %s\n", object->name.c_str());
   worldManager->Add(object, false);
 } // end CommitNew()

@@ -60,9 +60,10 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
 {
   iObjectRegistry* object_reg;
   csWeakRef<iMeshWrapper> wrap;
+  Common::World::Object* _object;
 
-  EditorObject (const Common::World::Object& object, iObjectRegistry* obj_reg, iMeshWrapper* mesh)
-    : scfImplementationType (this), Common::World::Object(object), object_reg(obj_reg), wrap(mesh)
+  EditorObject (Common::World::Object* object, iObjectRegistry* obj_reg, iMeshWrapper* mesh)
+    : scfImplementationType (this), _object(object), object_reg(obj_reg), wrap(mesh)
   {
     wrap->GetMovable()->AddListener(this);
     wrap->QueryObject()->ObjAdd(this);
@@ -71,7 +72,7 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   void CommitChanges()
   {
     csRef<iWorld> world = csQueryRegistry<iWorld> (object_reg);
-    world->CommitChanges(*this);
+    world->CommitChanges(_object);
   }
 
   // iMovableListener
@@ -79,16 +80,16 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   {
     csBox3 box = wrap->GetWorldBoundingBox();
     position = movable->GetTransform().GetOrigin();
-    worldBB.Set(Geom::Box(box.Min(), box.Max())); 
+    _object->worldBB = Geom::Box(box.Min(), box.Max()); 
     CommitChanges();
   }
   void MovableDestroyed (iMovable* movable) {}
 
   // iObject
   void SetName (const char *iName)
-  { name = iName; CommitChanges(); }
-  const char* GetName () const { return name.c_str(); }
-  uint GetID () const { return (uint)id; }
+  { _object->name = iName; CommitChanges(); }
+  const char* GetName () const { return _object->name.c_str(); }
+  uint GetID () const { return (uint)_object->id; }
   void SetObjectParent (iObject *obj) {}
   iObject* GetObjectParent () const { return 0; }
   void ObjAdd (iObject *obj) {}
@@ -114,17 +115,22 @@ private:
   bool UpdateOptions();
 
 private:
-  struct Instance : public Common::World::Object, public csRefCount, public iCacheUser
+  struct Instance : public csRefCount, public iCacheUser
   {
   private:
     iObjectRegistry* object_reg;
     csRef<iMeshWrapper> instance;
+    Common::World::Object* _object;
+
     void Loaded(iCacheEntry* cacheEntry);
     void DoneLoading(bool success) {}
 
   public:
-    Instance (const Common::World::Object& object, iObjectRegistry* obj_reg);
-    ~Instance ();
+    size_t id;
+
+  public:
+    Instance (Common::World::Object* object, iObjectRegistry* obj_reg);
+    ~Instance ();   
   };
 
 private:
@@ -226,9 +232,9 @@ public:
   /// Handles reporting warnings and errors.
   void Report(int severity, const char* msg, ...);
 
-  void CommitChanges(Common::World::Object& object);
+  void CommitChanges(Common::World::Object* object);
 
-  void CommitNew(Common::World::Object& object);
+  void CommitNew(boost::shared_ptr<Common::World::Object> object);
 };
 
 
