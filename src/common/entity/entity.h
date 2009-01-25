@@ -50,13 +50,16 @@ namespace Common
     */
     class Entity
     {
+    public:
+      ///Name of the entity.
+      std::string name; // TODO: Remove after tree debug printfs are removed, uncomment the lower one.
     protected:
       ///Unique ID of the entity.
       unsigned int id;
       ///Type of the entity.
       EntityType type;
       ///Name of the entity.
-      std::string name;
+      //std::string name;
       ///Name of the mesh used for this entity.
       std::string meshName;
       /// The file in which this entity's mesh resides.

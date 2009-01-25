@@ -30,6 +30,8 @@
 
 namespace Geom
 {
+  class Sphere;
+
   /**
    * Simple convenience class representing 3D vector. Access the coordinates
    * directly via members called x, y, and z.
@@ -167,6 +169,9 @@ namespace Geom
 
     /// Get the vector formatted as a string.
     std::string ToString() const;
+
+    bool Intersect (const Vector3& v) const { return false; }
+    bool Intersect (const Sphere& sphere) const { return false; }
 
   };
 

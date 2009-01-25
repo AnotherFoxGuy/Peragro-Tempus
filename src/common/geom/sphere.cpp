@@ -29,8 +29,12 @@ T square(const T& value)
 
 namespace Geom
 {
-
   bool Sphere::Contains (const Vector3& vector) const
+  {
+    return false;
+  }
+
+  bool Sphere::Intersect (const Vector3& vector) const
   {
     return false;
   }

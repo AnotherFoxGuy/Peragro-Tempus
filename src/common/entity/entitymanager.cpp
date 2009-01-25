@@ -18,6 +18,7 @@
 
 #include "entitymanager.h"
 
+#include "entity.h"
 
 namespace Common
 {
@@ -37,7 +38,7 @@ namespace Common
       if (std::find(entities.begin(), entities.end(), entity) != entities.end())
         return false;
 
-      entity.push_back(object);
+      entities.push_back(entity);
       return octree.Add(&entity->position);
     }
 
