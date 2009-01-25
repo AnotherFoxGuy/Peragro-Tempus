@@ -47,7 +47,7 @@ namespace PT
      * manipulation. If you want to add a new entity type, inherit this class,
      * or one of its children. Overload the appropriate methods when doing so.
      */
-    class Entity : public PT::Common::Entity::Entity
+    class Entity : public Common::Entity::Entity
     {
     protected:
       /// List of components this entity has.
@@ -141,7 +141,7 @@ namespace PT
        * Changes the entity position and sector immediatelly
        * to the stored values.
        */
-      virtual void SetFullPosition() { SetFullPosition(position, rot, sectorName); }
+      virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
 
       /**
        * Changes the entity position and sector immediatelly.

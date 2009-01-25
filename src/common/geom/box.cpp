@@ -61,7 +61,7 @@ namespace Geom
     return true;
   }
 
-  bool Box::TestIntersect (const Box& box) const
+  bool Box::Intersect (const Box& box) const
   {
     if (box.minbox.x >= maxbox.x) return false;
     if (box.minbox.y >= maxbox.y) return false;
@@ -79,7 +79,7 @@ namespace Geom
       (box.minbox.z >= minbox.z && box.maxbox.z <= maxbox.z);
   }
 
-  bool Box::TestIntersect (const Sphere& sphere) const
+  bool Box::Intersect (const Sphere& sphere) const
   {
     return false;
   }

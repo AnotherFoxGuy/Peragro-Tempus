@@ -233,7 +233,7 @@ namespace PT
       if (damage > 0)
       {
         //effectsManager->CreateEffect("Blood", GetMesh(target));
-        if (target->GetType() == PT::Common::Entity::PCEntityType)
+        if (target->GetType() == Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 0.1f);
         }
@@ -365,8 +365,8 @@ namespace PT
       {
         //effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
         caststring = skill->GetStartString();
-        if (caster->GetType() == PT::Common::Entity::PlayerEntityType ||
-            caster->GetType() == PT::Common::Entity::PCEntityType)
+        if (caster->GetType() == Common::Entity::PlayerEntityType ||
+            caster->GetType() == Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)caster)->PlayAnimation(skill->GetEffects().castanim.c_str());
         }
@@ -411,8 +411,8 @@ namespace PT
       {
         //effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
         caststring = skill->GetCompleteString();
-        if (target->GetType() == PT::Common::Entity::PlayerEntityType ||
-            target->GetType() == PT::Common::Entity::PCEntityType)
+        if (target->GetType() == Common::Entity::PlayerEntityType ||
+            target->GetType() == Common::Entity::PCEntityType)
         {
           ((PT::Entity::PcEntity*)target)->PlayAnimation(skill->GetEffects().targetanim.c_str());
         }

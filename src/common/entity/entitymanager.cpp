@@ -15,28 +15,41 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/**
- * @file octree.h
- * @brief octree class.
- */
 
-#ifndef GEOM_OCTREE_H
-#define GEOM_OCTREE_H
+#include "entitymanager.h"
 
-#define TREE_H_NOT_INCLUDED_DIRECTLY
-#include "tree.h"
-#undef TREE_H_NOT_INCLUDED_DIRECTLY
 
-#include "box.h"
-
-namespace Geom
+namespace Common
 {
-  template<typename T, typename G, bool AllowCollission>
-  struct OcTree
+  namespace Entity
   {
-    typedef Tree<T, G, 2, 8, Box, AllowCollission> Type;
-  };
+    EntityManager::EntityManager()
+    {
+    }
 
-} // namespace Geom
+    EntityManager::~EntityManager()
+    {
+    }
 
-#endif // GEOM_OCTREE_H
+    bool EntityManager::Add(const Entityp entity)
+    {
+      // If object is already present return false.
+      if (std::find(entities.begin(), entities.end(), entity) != entities.end())
+        return false;
+
+      entity.push_back(object);
+      return octree.Add(&entity->position);
+    }
+
+    bool EntityManager::Remove(const Entityp entity)
+    {
+      return false;
+    }
+
+    Octree::QueryResult EntityManager::Query(const Geom::Sphere& s)
+    {
+      return octree.Query(s);
+    }
+
+  } // namespace World
+} // namespace Common

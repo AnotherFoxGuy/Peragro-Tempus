@@ -141,7 +141,7 @@ void ObjectsTable::DropTable()
   db->update("drop table objects;");
 }
 
-void ObjectsTable::GetObjects(Array<Common::World::Object>& objects)
+void ObjectsTable::GetAll(Array<Common::World::Object>& objects)
 {
   ResultSet* rs = db->query("select * from objects;");
   if (!rs) return;

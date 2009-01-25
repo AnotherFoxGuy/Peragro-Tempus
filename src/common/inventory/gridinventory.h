@@ -25,6 +25,8 @@
 
 #include "src/common/inventory/inventory.h"
 
+#include "common/geom/quadtree.h"
+
 namespace PT
 {
   namespace Common
@@ -38,8 +40,18 @@ namespace PT
       class GridInventory : public Inventory
       {
       private:
+        struct PositionedObject;
+        typedef Geom::QuadTree<PositionedObject, Geom::Rectangle, false>::Type Quadtree;
+        struct PositionedObject
+        {
+          std::string name;
+          Object* object;
+          Quadtree::Shape shape;
+        };
+
+      private:
         /// Thing that holds all the objects.
-        Slot*** container;
+        Quadtree container;
 
       public:
         /**

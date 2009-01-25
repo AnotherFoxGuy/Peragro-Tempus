@@ -76,7 +76,7 @@ public:
    * This function will load all objects from the database.
    * @param reputations An array that will contain all objects.
    */
-  void GetObjects(Array<Common::World::Object>& objects);
+  void GetAll(Array<Common::World::Object>& objects);
 };
 
 #endif //TABLE_OBJECT_H

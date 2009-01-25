@@ -26,7 +26,7 @@ namespace Common
     WorldManager::WorldManager() : db("world.sqlite"), objectsTable(&db), factoryTable(&db)
     {
       Array<Object> objs;
-      objectsTable.GetObjects(objs);
+      objectsTable.GetAll(objs);
       for (size_t i = 0; i < objs.getCount(); i++)
       {
         printf("WorldManager: %s\n", objs[i].name.c_str());
@@ -40,13 +40,23 @@ namespace Common
     {
     }
 
+    bool WorldManager::HasData()
+    {
+      Array<Factory> facts;
+      factoryTable.GetAll(facts);
+      Array<Object> objs;
+      objectsTable.GetAll(objs);
+
+      return facts.getCount() && objs.getCount();
+    }
+
     class SameId
-      {
-        Object* t;
-      public:
-        SameId(boost::shared_ptr<Object> _t) : t(_t.get()) {}
-        bool operator() (boost::shared_ptr<Object> o) { return t->id == o->id; }
-      };
+    {
+      Object* t;
+    public:
+      SameId(boost::shared_ptr<Object> _t) : t(_t.get()) {}
+      bool operator() (boost::shared_ptr<Object> o) { return t->id == o->id; }
+    };
 
     bool WorldManager::Add(const Objectp object, bool unique)
     {

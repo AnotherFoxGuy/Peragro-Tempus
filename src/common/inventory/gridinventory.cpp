@@ -31,27 +31,10 @@ namespace PT
       GridInventory::GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
         :Inventory(name, type, rows, columns)
       {
-        container = new Slot**[GetRowCount()];
-        for (unsigned int x = 0; x < GetRowCount(); x++)
-        {
-          container[x] = new Slot*[GetColumnCount()];
-          for (unsigned int y = 0; y < GetColumnCount(); y++)
-          {
-            container[x][y] = 0;
-          }
-        }
       }
 
       GridInventory::~GridInventory()
       {
-        if (container != 0)
-        {
-          for (unsigned int x = 0; x < GetColumnCount(); x++)
-          {
-            delete [] container[x];
-          }
-          delete [] container;
-        }
       }
 
 

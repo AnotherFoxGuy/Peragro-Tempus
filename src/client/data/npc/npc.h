@@ -72,7 +72,7 @@ namespace PT
      * Set/Get methods to access the npc properties.
      * @see NpcDataManager
      */
-    class Npc : public PT::Common::Entity::Entity
+    class Npc : public Common::Entity::Entity
     {
     private:
       std::string race;

@@ -55,8 +55,7 @@ struct iCacheEntry;
 
 #include <iengine/mesh.h>
 #include <iutil/object.h>
-struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>,
-  public Common::World::Object
+struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>
 {
   iObjectRegistry* object_reg;
   csWeakRef<iMeshWrapper> wrap;
@@ -79,7 +78,7 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   void MovableChanged (iMovable* movable)
   {
     csBox3 box = wrap->GetWorldBoundingBox();
-    position = movable->GetTransform().GetOrigin();
+    _object->position = movable->GetTransform().GetOrigin();
     _object->worldBB = Geom::Box(box.Min(), box.Max()); 
     CommitChanges();
   }

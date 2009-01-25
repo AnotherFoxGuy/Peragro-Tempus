@@ -1,0 +1,8 @@
+SubDir TOP src common entity ;
+
+Description entity : "Entity" ;
+Library entity :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs entity : BOOST ;
+LinkWith entity : geom ;
+

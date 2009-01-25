@@ -20,23 +20,23 @@
  * @brief octree class.
  */
 
-#ifndef GEOM_OCTREE_H
-#define GEOM_OCTREE_H
+#ifndef GEOM_QUADTREE_H
+#define GEOM_QUADTREE_H
 
 #define TREE_H_NOT_INCLUDED_DIRECTLY
 #include "tree.h"
 #undef TREE_H_NOT_INCLUDED_DIRECTLY
 
-#include "box.h"
+#include "rectangle.h"
 
 namespace Geom
 {
   template<typename T, typename G, bool AllowCollission>
-  struct OcTree
+  struct QuadTree
   {
-    typedef Tree<T, G, 2, 8, Box, AllowCollission> Type;
+    typedef Tree<T, G, 2, 4, Rectangle, AllowCollission> Type;
   };
 
 } // namespace Geom
 
-#endif // GEOM_OCTREE_H
+#endif // GEOM_QUADTREE_H

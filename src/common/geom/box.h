@@ -201,12 +201,12 @@ namespace Geom
     bool Contains (const Vector3& v) const;
 
     /// Test if the two boxes have an intersection.
-    bool TestIntersect (const Box& box) const;
+    bool Intersect (const Box& box) const;
 
     /// Test if this box contains the other box.
     bool Contains (const Box& box) const;
 
-    bool TestIntersect (const Sphere& sphere) const;
+    bool Intersect (const Sphere& sphere) const;
 
     bool Contains (const Sphere& sphere) const;
 

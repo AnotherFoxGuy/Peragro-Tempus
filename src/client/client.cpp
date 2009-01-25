@@ -645,7 +645,7 @@ namespace PT
         if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
         if (!pcprop) return false;
         long entType = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
-        if (entType == PT::Common::Entity::PlayerEntityType || entType == PT::Common::Entity::PCEntityType)
+        if (entType == Common::Entity::PlayerEntityType || entType == Common::Entity::PCEntityType)
         {
           combatManager->LevelUp(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         }

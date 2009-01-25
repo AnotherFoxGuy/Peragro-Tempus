@@ -173,9 +173,12 @@ bool WorldManager::Initialize(const std::string& name)
 
   ResourceManager resourceManager(object_reg, worldManager);
   resourceManager.Initialize();
-  resourceManager.ScanFactories("/peragro/art/3d_art/");
-  resourceManager.AddTestObjects();
-  resourceManager.ScanObjects("/peragro/art/tiles/");
+  if (!worldManager->HasData())
+  {
+    resourceManager.ScanFactories("/peragro/art/3d_art/");
+    resourceManager.AddTestObjects();
+    resourceManager.ScanObjects("/peragro/art/tiles/");
+  }
 
   // Editor.
   eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+X"));
@@ -265,6 +268,25 @@ void Move(iMeshWrapper* selectedMesh, iCamera* cam, const csVector3& v)
   }
 }
 
+void HighLightMesh(iObjectRegistry* object_reg, iMeshWrapper* mesh, bool state)
+{
+  csRef<iShaderVarStringSet> strings = 
+    csQueryRegistryTagInterface<iShaderVarStringSet> 
+    (object_reg, "crystalspace.shader.variablenameset");
+  CS::ShaderVarStringID ambient = strings->Request ("light ambient");
+  csRef<iShaderVariableContext> svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
+  if (svc)
+  {
+    if (state)
+    {
+      csRef<csShaderVariable> var = svc->GetVariableAdd(ambient);
+      var->SetValue(csVector3(2,2,2));
+    }
+    else
+      svc->RemoveVariable(ambient);
+  }
+}
+
 bool WorldManager::HandleEvent(iEvent& ev)
 {
   float f = 0.1f;
@@ -312,7 +334,9 @@ bool WorldManager::HandleEvent(iEvent& ev)
       ev.Retrieve("Y", y);
       csVector2 p(x, y);
       csScreenTargetResult st = csEngineTools::FindScreenTarget (p, 100.0f, cam);
+      HighLightMesh(object_reg, selectedMesh, false);
       selectedMesh = st.mesh;
+      HighLightMesh(object_reg, selectedMesh, true);
       if (selectedMesh)
         Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s", selectedMesh->QueryObject()->GetName());
     }

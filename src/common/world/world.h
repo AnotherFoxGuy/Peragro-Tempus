@@ -41,7 +41,7 @@ namespace Common
   }
 }
 
-typedef Geom::OcTree<Common::World::Object, Geom::Box> Octree;
+typedef Geom::OcTree<Common::World::Object, Geom::Box, true>::Type Octree;
 
 namespace Common
 {
@@ -98,6 +98,8 @@ namespace Common
     public:
       WorldManager();
       ~WorldManager();
+
+      bool HasData();
 
       bool Add(const Objectp object, bool unique = true);
       bool AddLookUp(Objectp object, bool unique = true);

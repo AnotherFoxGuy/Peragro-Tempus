@@ -180,7 +180,7 @@ namespace PT
         this->SetFullPosition();
 
         // TODO: Move this to playerentity instead?
-        if (GetType() == PT::Common::Entity::PlayerEntityType)
+        if (GetType() == Common::Entity::PlayerEntityType)
         {
           csRef<iObjectRegistry> object_reg =
              PointerLibrary::getInstance()->getObjectRegistry();

@@ -78,7 +78,7 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      SetFullPosition(position, rot, sectorName.c_str());
+      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
     }
 
     void MountEntity::Mount(Entity* player)

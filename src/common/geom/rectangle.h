@@ -15,28 +15,34 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/**
- * @file octree.h
- * @brief octree class.
- */
 
-#ifndef GEOM_OCTREE_H
-#define GEOM_OCTREE_H
+#ifndef GEOM_RECTANGLE_H
+#define GEOM_RECTANGLE_H
 
-#define TREE_H_NOT_INCLUDED_DIRECTLY
-#include "tree.h"
-#undef TREE_H_NOT_INCLUDED_DIRECTLY
+#include "vector2.h"
 
-#include "box.h"
+#include "vector3.h"
 
 namespace Geom
 {
-  template<typename T, typename G, bool AllowCollission>
-  struct OcTree
+  class Sphere;
+  
+  class Rectangle
   {
-    typedef Tree<T, G, 2, 8, Box, AllowCollission> Type;
+  protected:
+    Vector2 minbox;
+    Vector2 maxbox;
+
+  public:
+    Rectangle () {}
+
+    Rectangle (const Vector3& v1, const Vector3& v2) {}
+   
+    bool Contains (const Vector2& v) const { return false; }
+    bool Intersect (const Rectangle& rect) const { return false; }
+    bool Contains (const Rectangle& rect) const { return false; }
   };
 
 } // namespace Geom
 
-#endif // GEOM_OCTREE_H
+#endif // GEOM_RECTANGLE_H
