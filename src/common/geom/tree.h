@@ -21,7 +21,7 @@
  */
 
 #ifndef TREE_H_NOT_INCLUDED_DIRECTLY
-#error Don't include tree.h directly, include octree.h or quadtree.h instead!
+#error "Don't include tree.h directly, include octree.h or quadtree.h instead!"
 #endif
 
 #ifndef GEOM_TREE_H
