@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="libgeom"
-	ProjectGUID="{F1D39BCA-2873-BC83-03BC-8FF941ED7121}"
+	Name="libentity"
+	ProjectGUID="{9410B0F7-D07B-3D4A-1A73-F20755801F65}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libgeom\"
-			IntermediateDirectory="..\..\out\release71\build\libgeom\"
+			OutputDirectory="..\..\out\release71\build\libentity\"
+			IntermediateDirectory="..\..\out\release71\build\libentity\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -26,14 +26,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libgeom\geom.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libentity\entity.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\libgeom\libgeom.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libgeom\"
-				ObjectFile="..\..\out\release71\build\libgeom\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libentity\libentity.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libentity\"
+				ObjectFile="..\..\out\release71\build\libentity\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -56,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libgeom.lib"
+				OutputFile="..\..\out\release71\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libgeom\libgeom.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libentity\libentity.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\geom;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libgeom\"
-			IntermediateDirectory="..\..\out\release71\build\libgeom\"
+			OutputDirectory="..\..\out\release71\build\libentity\"
+			IntermediateDirectory="..\..\out\release71\build\libentity\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -98,14 +98,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libgeom\geom.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libentity\entity.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release71\build\libgeom\libgeom.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libgeom\"
-				ObjectFile="..\..\out\release71\build\libgeom\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libentity\libentity.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libentity\"
+				ObjectFile="..\..\out\release71\build\libentity\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -128,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libgeom.lib"
+				OutputFile="..\..\out\release71\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libgeom\libgeom.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libentity\libentity.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\geom;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libgeom\"
-			IntermediateDirectory="..\..\out\debug71\build\libgeom\"
+			OutputDirectory="..\..\out\debug71\build\libentity\"
+			IntermediateDirectory="..\..\out\debug71\build\libentity\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -170,14 +170,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libgeom\geom.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libentity\entity.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libgeom\libgeom.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libgeom\"
-				ObjectFile="..\..\out\debug71\build\libgeom\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libentity\libentity.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libentity\"
+				ObjectFile="..\..\out\debug71\build\libentity\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -198,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libgeom_d.lib"
+				OutputFile="..\..\out\debug71\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libgeom\libgeom.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libentity\libentity.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\geom;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libgeom\"
-			IntermediateDirectory="..\..\out\debug71\build\libgeom\"
+			OutputDirectory="..\..\out\debug71\build\libentity\"
+			IntermediateDirectory="..\..\out\debug71\build\libentity\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -240,14 +240,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libgeom\geom.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libentity\entity.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libgeom\libgeom.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libgeom\"
-				ObjectFile="..\..\out\debug71\build\libgeom\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libentity\libentity.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libentity\"
+				ObjectFile="..\..\out\debug71\build\libentity\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -268,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libgeom_d.lib"
+				OutputFile="..\..\out\debug71\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libgeom\libgeom.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libentity\libentity.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\geom;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -301,50 +301,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\geom\box.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\sphere.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\vector2.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\vector3.cpp">
+				RelativePath="..\..\src\common\entity\entitymanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\geom\box.h">
+				RelativePath="..\..\src\common\entity\entity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\geom\math3d.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\octree.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\quadtree.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\queryhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\rectangle.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\sphere.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\tree.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\vector2.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\geom\vector3.h">
+				RelativePath="..\..\src\common\entity\entitymanager.h">
 			</File>
 		</Filter>
 	</Files>

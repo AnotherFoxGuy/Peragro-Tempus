@@ -326,10 +326,19 @@
 				RelativePath="..\..\src\common\geom\octree.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\geom\quadtree.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\geom\queryhelper.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\geom\rectangle.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\geom\sphere.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\geom\tree.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\geom\vector2.h">

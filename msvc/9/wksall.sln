@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponentstats", "plgcom
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-combat", "libserver-combat.vcproj", "{44A00952-D3B8-FC27-D991-E0FC769A952D}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}" 
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libentity", "libentity.vcproj", "{9410B0F7-D07B-3D4A-1A73-F20755801F65}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-trademanager", "libclient-trademanager.vcproj", "{E46CB2FE-C7FC-8900-683B-79547F8D5A46}" 
 EndProject
@@ -60,6 +60,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgworldloader", "plgworldl
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-chatmanager", "libclient-chatmanager.vcproj", "{C007A05D-5A86-5DDF-1151-4D6C236BBF8F}" 
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgeom", "libgeom.vcproj", "{F1D39BCA-2873-BC83-03BC-8FF941ED7121}" 
 EndProject
@@ -173,7 +175,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-usermanager", "li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgeffectsmanager", "plgeffectsmanager.vcproj", "{9CBE8E1A-9CB7-7621-F3EC-77D8584F06CD}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-network", "libserver-network.vcproj", "{DF7FFAEE-0932-F5F0-2AA4-912F1A290E1B}" 
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnetwork", "libnetwork.vcproj", "{F5342C71-4E6F-72A9-E16A-9669A5A62054}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}" 
 EndProject
@@ -528,6 +530,14 @@ Global
 		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32

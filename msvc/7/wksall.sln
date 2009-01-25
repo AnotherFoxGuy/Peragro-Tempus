@@ -60,6 +60,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-usermanager", "li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.vcproj", "{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libentity", "libentity.vcproj", "{9410B0F7-D07B-3D4A-1A73-F20755801F65}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libeventmanager-cs", "libeventmanager-cs.vcproj", "{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcproj", "{E221859C-9445-1AA6-3E95-E33E77A8B396}"
@@ -489,6 +491,14 @@ Global
 		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{BC064E13-DAD5-1ECB-FDC6-9973C3C7E041}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{9410B0F7-D07B-3D4A-1A73-F20755801F65}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
