@@ -189,6 +189,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-tcp-network", "li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-environmentmanager", "libclient-environmentmanager.vcproj", "{589EADEF-AC27-72E3-0138-C9012FCA9F0B}" 
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwfmath", "libwfmath.vcproj", "{3EF9A570-0820-D1BC-F902-95454796C6F6}" 
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-data", "libclient-data.vcproj", "{5E112DF4-61D2-AA58-33BB-E2792810B156}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appgenerator", "appgenerator.vcproj", "{1431F632-071C-7C7D-F957-F6D72E248874}" 
@@ -754,6 +756,14 @@ Global
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{1020E648-2350-8556-4CD6-29FFD41D5DD6}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+  		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+  		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{3EF9A570-0820-D1BC-F902-95454796C6F6}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{F3CBFCDD-C03F-CEB1-3F11-28DD6D8A3F70}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{F3CBFCDD-C03F-CEB1-3F11-28DD6D8A3F70}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{F3CBFCDD-C03F-CEB1-3F11-28DD6D8A3F70}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
