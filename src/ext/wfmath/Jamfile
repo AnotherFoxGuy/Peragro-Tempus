@@ -1,0 +1,8 @@
+SubDir TOP src ext wfmath  ;
+
+Description wfmath : "WFMath library" ;
+Library wfmath :
+  [ Wildcard *.h *.cpp ] ;
+
+CFlags wfmath : "-DHAVE_SSTREAM" ;
+CFlags wfmath : "-I$(TOP)/src/ext/" ;
