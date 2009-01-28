@@ -62,7 +62,7 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   Common::World::Object* _object;
 
   EditorObject (Common::World::Object* object, iObjectRegistry* obj_reg, iMeshWrapper* mesh)
-    : scfImplementationType (this), _object(object), object_reg(obj_reg), wrap(mesh)
+    : scfImplementationType (this), object_reg(obj_reg), wrap(mesh), _object(object)
   {
     wrap->GetMovable()->AddListener(this);
     wrap->QueryObject()->ObjAdd(this);

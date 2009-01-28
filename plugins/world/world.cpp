@@ -59,8 +59,8 @@ SCF_IMPLEMENT_FACTORY (WorldManager)
 //----------------------------------------------------------
 WorldManager::Instance::Instance (Common::World::Object* object,
                                   iObjectRegistry* obj_reg)
-                                  : _object(object),
-                                  iCacheUser(obj_reg), object_reg(obj_reg), id(object->id)
+                                  : iCacheUser(obj_reg), object_reg(obj_reg),
+                                  _object(object), id(object->id)
 {
   Load(_object->factoryFile);
 }
@@ -445,3 +445,4 @@ void WorldManager::CommitNew(boost::shared_ptr<Common::World::Object> object)
   printf("CommitNew: %s\n", object->name.c_str());
   worldManager->Add(object, false);
 } // end CommitNew()
+
