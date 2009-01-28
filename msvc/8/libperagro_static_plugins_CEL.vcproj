@@ -30,7 +30,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\libperagro_static_plugins_CEL\libperagro_static_plugins_CEL.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libperagro_static_plugins_CEL\"
 				ObjectFile="..\..\out\release8\build\libperagro_static_plugins_CEL\"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -103,7 +103,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\libperagro_static_plugins_CEL\libperagro_static_plugins_CEL.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libperagro_static_plugins_CEL\"
 				ObjectFile="..\..\out\release8\build\libperagro_static_plugins_CEL\"
@@ -151,7 +151,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -177,7 +177,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libperagro_static_plugins_CEL\libperagro_static_plugins_CEL.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libperagro_static_plugins_CEL\"
 				ObjectFile="..\..\out\debug8\build\libperagro_static_plugins_CEL\"
@@ -221,7 +221,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -248,7 +248,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libperagro_static_plugins_CEL\libperagro_static_plugins_CEL.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libperagro_static_plugins_CEL\"
 				ObjectFile="..\..\out\debug8\build\libperagro_static_plugins_CEL\"
@@ -294,7 +294,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\client;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

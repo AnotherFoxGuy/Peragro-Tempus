@@ -29,7 +29,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\grpplugins_all\grpplugins_all.pch"
 				AssemblerListingLocation="..\..\out\release8\build\grpplugins_all\"
 				ObjectFile="..\..\out\release8\build\grpplugins_all\"
@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -100,7 +100,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\grpplugins_all\grpplugins_all.pch"
 				AssemblerListingLocation="..\..\out\release8\build\grpplugins_all\"
 				ObjectFile="..\..\out\release8\build\grpplugins_all\"
@@ -146,7 +146,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -171,7 +171,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\grpplugins_all\grpplugins_all.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\grpplugins_all\"
 				ObjectFile="..\..\out\debug8\build\grpplugins_all\"
@@ -215,7 +215,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -240,7 +240,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\grpplugins_all\grpplugins_all.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\grpplugins_all\"
 				ObjectFile="..\..\out\debug8\build\grpplugins_all\"
@@ -284,7 +284,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\components\entity\move\viewbob;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
