@@ -389,6 +389,9 @@
 				RelativePath="..\..\src\ext\wfmath\miniball_funcs.h">
 			</File>
 			<File
+				RelativePath="..\..\src\ext\wfmath\octree.h">
+			</File>
+			<File
 				RelativePath="..\..\src\ext\wfmath\point.h">
 			</File>
 			<File
@@ -405,6 +408,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\probability.h">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\wfmath\quadtree.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\quaternion.h">
@@ -438,6 +444,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\timestamp.h">
+			</File>
+			<File
+				RelativePath="..\..\src\ext\wfmath\tree.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\vector.h">
