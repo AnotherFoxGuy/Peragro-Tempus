@@ -122,7 +122,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      virtual void Teleport(const csVector3& pos, float rotation, const std::string& sector) {}
+      virtual void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector) {}
 
       /**
        * Method called when player wants to interact with an entity.
@@ -148,7 +148,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      virtual void SetFullPosition(const csVector3& pos,
+      virtual void SetFullPosition(const WFMath::Point<3>& pos,
                                    float rotation,
                                    const std::string& sector);
 

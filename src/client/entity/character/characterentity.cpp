@@ -92,13 +92,13 @@ namespace PT
         "peragro.entity.move.networkmove")
     }
 
-    void CharacterEntity::Teleport(const csVector3& pos,
+    void CharacterEntity::Teleport(const WFMath::Point<3>& pos,
                                    float rotation,
                                    const std::string& sector)
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
-      SetFullPosition(pos, rotation, sector.c_str());
+      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

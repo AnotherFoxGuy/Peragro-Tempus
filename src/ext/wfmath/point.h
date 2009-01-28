@@ -109,6 +109,13 @@ class Point
     }
     m_valid = true;
   }
+  /// Construct a point and initialize to the value passed.
+  Point(CoordType val) {
+    for (int i = 0; i < dim; ++i) {
+      m_elem[i] = val;
+    }
+    m_valid = true;
+  }
 
   /**
    * @brief Provides a global instance preset to zero.

@@ -158,7 +158,6 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
 
   unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);
-  csVector3 pos = EntityHelper::GetPosition(&ev);
 
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
@@ -173,7 +172,7 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
     "NetworkMove: Teleporting entity '%d' to %s(%d)",
     entityId, sectorName.c_str(), sectorId);
 
-  entity->Teleport(pos, rotation, sectorName.c_str());
+  entity->Teleport(EntityHelper::GetPosition(&ev), rotation, sectorName.c_str());
 
   return true;
 } // end Teleport()
@@ -191,7 +190,8 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
 
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);
-  csVector3 position = EntityHelper::GetPosition(&ev);
+
+  csVector3 position = PtVector3(EntityHelper::GetVector3(&ev, "from"));
 
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
@@ -226,7 +226,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
     pclinmove->SetDRData(onGround, speed, tempPos, tempRot, sector, vel,
       wvel, avel);
 
-    entity->SetFullPosition(position, rotation, sectorName);
+    entity->SetFullPosition(EntityHelper::GetPosition(&ev), rotation, sectorName);
   }
 
   return false;
@@ -242,8 +242,8 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
   if (moveTo) delete moveTo;
   moveTo = new MoveToData();
 
-  csVector3 pos_ori = EntityHelper::GetVector3(&ev, "from");
-  csVector3 pos_dst = EntityHelper::GetVector3(&ev, "to");
+  csVector3 pos_ori = PtVector3(EntityHelper::GetVector3(&ev, "from"));
+  csVector3 pos_dst = PtVector3(EntityHelper::GetVector3(&ev, "to"));
 
   float speed = 0.0f;
   ev.Retrieve("speed", speed);

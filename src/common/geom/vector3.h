@@ -69,7 +69,7 @@ namespace Geom
     /// Templated copy constructor.
     template<typename otherVector>
     Vector3(const otherVector& v)
-      : x(v.x), y(v.y), z(v.z)
+      : x(v[0]), y(v[1]), z(v[2])
     {}
 
     /// Templated conversion function.

@@ -34,7 +34,6 @@
     #error "template support. Please use at least version 7.0, where the"
     #error "template support is merely bad, or try a different compiler."
   #elif _MSC_VER > 1310 // MSVC >= 8
-    //#define WFMATH_NO_FORCED_TEMPLATE_INSTANTIATIONS 1
     #pragma warning (disable: 4661)
     #pragma warning (disable: 4667)
   #else // MSVC 7 and 7.1

@@ -244,7 +244,7 @@ namespace PT
       evmgr->AddEvent(interfaceEvent);
     }
 
-    void PlayerEntity::Teleport(const csVector3& pos,
+    void PlayerEntity::Teleport(const WFMath::Point<3>& pos,
                                 float rotation,
                                 const std::string& sector)
     {
@@ -254,10 +254,10 @@ namespace PT
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
       world->EnterWorld(pos);
-      this->SetFullPosition(pos, rotation, sector.c_str());
+      this->SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
     }
 
-    void PlayerEntity::SetFullPosition(const csVector3& pos,
+    void PlayerEntity::SetFullPosition(const WFMath::Point<3>& pos,
                                       float rotation,
                                       const std::string& sector)
     {

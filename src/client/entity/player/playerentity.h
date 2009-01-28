@@ -81,7 +81,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
+      void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
       /**
        * Changes the entity position and sector immediatelly.
@@ -89,7 +89,7 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      void SetFullPosition(const csVector3& pos,
+      void SetFullPosition(const WFMath::Point<3>& pos,
                            float rotation,
                            const std::string& sector);
 

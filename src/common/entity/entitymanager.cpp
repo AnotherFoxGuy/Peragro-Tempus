@@ -47,7 +47,7 @@ namespace Common
       return false;
     }
 
-    Octree::QueryResult EntityManager::Query(const Geom::Sphere& s)
+    Octree::QueryResult EntityManager::Query(const WFMath::Ball<3>& s)
     {
       return octree.Query(s);
     }

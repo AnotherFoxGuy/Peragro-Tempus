@@ -70,7 +70,7 @@ namespace PT
       bool hasMount;
 
     public:
-      void Teleport(const csVector3& pos, float rotation, const std::string& sector);
+      void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
       ///@todo Stats shouldn't be defined like this.
       float GetCurrentStamina() const { return currentStamina; }

@@ -73,6 +73,9 @@ template<const int dim>
 bool Contains(const Point<dim>& p, const RotBox<dim>& r, bool proper);
 
 template<const int dim>
+bool Intersect(const Point<dim>& p, const Point<dim>& r, bool proper);
+
+template<const int dim>
 bool Intersect(const AxisBox<dim>& b1, const AxisBox<dim>& b2, bool proper);
 template<const int dim>
 bool Contains(const AxisBox<dim>& outer, const AxisBox<dim>& inner, bool proper);

@@ -267,7 +267,7 @@ namespace PT
         return true;
       }
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPosition().ToString().c_str(), (playerId == id) ? " as me":"");
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (playerId == id) ? " as me":"");
       // Add our entity to the list.
       entities.Push(entity);
 

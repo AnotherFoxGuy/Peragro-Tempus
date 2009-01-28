@@ -35,6 +35,8 @@
 #include <string>
 #include <sstream>
 
+#include <wfmath/point.h>
+
 #include "common/geom/vector3.h"
 
 #include "common/reporter/reporter.h"
@@ -86,9 +88,9 @@ namespace PT
        * @param name The name of the event parameter to add the coordinates to.
        * @param pos The coordinates.
        */
-      static void SetVector3(iEvent* ev, const char* name, const csVector3& pos)
+      static void SetVector3(iEvent* ev, const char* name, const WFMath::Point<3>& pos)
       {
-        SetVector3(ev, name, PtVector3(pos.x, pos.y, pos.z));
+        SetVector3(ev, name, PtVector3(pos[0], pos[1], pos[2]));
       }
 
       /**
@@ -115,7 +117,7 @@ namespace PT
        * @param name The name of the event parameter to get the coordinates from.
        * @return The coordinates.
        */
-      static csVector3 GetVector3(const iEvent* ev, const char* name)
+      static WFMath::Point<3> GetVector3(const iEvent* ev, const char* name)
       {
         std::string nm = name;
         std::string nmX = nm + "_x";
@@ -132,7 +134,7 @@ namespace PT
         if (ev->Retrieve(nmZ.c_str(), z) != csEventErrNone)
           Report(PT::Error, "EntityHelper::GetVector3 failed! Z attribute not present!");
 
-        csVector3 pos(x, y, z);
+        WFMath::Point<3> pos(x, y, z);
         return pos;
       }
 
@@ -151,7 +153,7 @@ namespace PT
        * @param ev An entity event.
        * @return The coordinates.
        */
-      static csVector3 GetPosition(const iEvent* ev)
+      static WFMath::Point<3> GetPosition(const iEvent* ev)
       {
         return GetVector3(ev, "position");
       }

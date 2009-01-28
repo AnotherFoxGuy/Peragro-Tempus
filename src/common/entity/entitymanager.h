@@ -23,8 +23,8 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "common/geom/octree.h"
-#include "common/geom/vector3.h"
+#include "ext/wfmath/octree.h"
+#include "ext/wfmath/point.h"
 
 namespace Common
 {
@@ -34,7 +34,7 @@ namespace Common
   } // namespace Entity
 } // namespace Common
 
-typedef Geom::OcTree<Common::Entity::Entity, Geom::Vector3, true>::Type Octree;
+typedef WFMath::OcTree<Common::Entity::Entity, WFMath::Point<3>, true>::Type Octree;
 
 namespace Common
 {
@@ -55,7 +55,7 @@ namespace Common
       bool Add(const Entityp entity);
       bool Remove(const Entityp entity);
 
-      Octree::QueryResult Query(const Geom::Sphere& s);
+      Octree::QueryResult Query(const WFMath::Ball<3>& s);
     };
 
   } // namespace Entity

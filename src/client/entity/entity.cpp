@@ -103,7 +103,7 @@ namespace PT
       pcprop->SetProperty("Entity Name", name.c_str());
     }
 
-    void Entity::SetFullPosition(const csVector3& pos,
+    void Entity::SetFullPosition(const WFMath::Point<3>& pos,
                                  float rotation,
                                  const std::string& sector)
     {
@@ -136,7 +136,7 @@ namespace PT
             if (mov.IsValid())
             {
               mov->SetSector(sec);
-              mov->SetPosition(pos);
+              mov->SetPosition(Geom::Vector3(pos));
               mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
               mov->UpdateMove();
             }

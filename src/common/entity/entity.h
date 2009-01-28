@@ -20,9 +20,13 @@
 #define COMMON_ENTITY_H
 
 #include <string>
-#include "common/geom/vector3.h"
 
 #include "entitymanager.h"
+
+#include "common/geom/vector3.h"
+
+#include <wfmath/stream.h>
+
 
 namespace Common
 {
@@ -109,11 +113,16 @@ namespace Common
       void SetFileName (const std::string& value) { fileName = value; }
 
       ///@return Position of entity within a sector.
-      const Geom::Vector3& GetPosition() const { return position.Get(); }
+      const WFMath::Point<3>& GetPosition() const { return position.Get(); }
       ///Set the position of entity within a sector to a given value.
       void SetPosition(float x, float y, float z)
-      { position = Geom::Vector3(x,y,z); }
-      void SetPosition(const Geom::Vector3& value) { position = value;}
+      { position = WFMath::Point<3>(x,y,z); }
+      void SetPosition(const WFMath::Point<3>& value) { position = value;}
+
+      void SetPosition(const Geom::Vector3& v) { position = WFMath::Point<3>(v[0], v[1], v[2]); }
+
+      ///@return Position of entity within a sector.
+      std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }
 
       ///@return Name of the sector where entity resides.
       const std::string& GetSectorName() const { return sectorName; }
