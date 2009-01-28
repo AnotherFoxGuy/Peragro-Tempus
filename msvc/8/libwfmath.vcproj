@@ -30,7 +30,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\libwfmath\libwfmath.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libwfmath\"
 				ObjectFile="..\..\out\release8\build\libwfmath\"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -102,7 +102,7 @@
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release8\build\libwfmath\libwfmath.pch"
 				AssemblerListingLocation="..\..\out\release8\build\libwfmath\"
 				ObjectFile="..\..\out\release8\build\libwfmath\"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -174,7 +174,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libwfmath\libwfmath.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libwfmath\"
 				ObjectFile="..\..\out\debug8\build\libwfmath\"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -244,7 +244,7 @@
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug8\build\libwfmath\libwfmath.pch"
 				AssemblerListingLocation="..\..\out\debug8\build\libwfmath\"
 				ObjectFile="..\..\out\debug8\build\libwfmath\"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -307,22 +307,13 @@
 				RelativePath="..\..\src\ext\wfmath\const.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\const_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\int_to_string.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\intersect.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\intstring_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\point.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\point_test.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\polygon.cpp">
@@ -331,19 +322,10 @@
 				RelativePath="..\..\src\ext\wfmath\polygon_intersect.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\polygon_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\probability.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\probability_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\quaternion.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\quaternion_test.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\randgen.cpp">
@@ -352,25 +334,13 @@
 				RelativePath="..\..\src\ext\wfmath\rotmatrix.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\rotmatrix_test.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\shape_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\stream.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\timestamp.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\ext\wfmath\timestamp_test.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\ext\wfmath\vector.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\vector_test.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -399,9 +369,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\error.h">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\general_test.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\int_to_string.h">
@@ -462,9 +429,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\segment_funcs.h">
-			</File>
-			<File
-				RelativePath="..\..\src\ext\wfmath\shape_test.h">
 			</File>
 			<File
 				RelativePath="..\..\src\ext\wfmath\shuffle.h">

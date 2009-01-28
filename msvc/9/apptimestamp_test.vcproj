@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="grpapps_static"
-	ProjectGUID="{E52C45F7-9F93-B2E3-AEC6-7091557B118C}"
+	Name="apptimestamp_test"
+	ProjectGUID="{5852499D-38B3-6F7F-64EF-73B05C4FF523}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,9 +13,11 @@
 	<Configurations>
   		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\grpapps_static\"
-			IntermediateDirectory="..\..\out\release9\build\grpapps_static\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release9\build\apptimestamp_test\"
+			IntermediateDirectory="..\..\out\release9\build\apptimestamp_test\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -26,13 +28,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\release9\build\apptimestamp_test\timestamp_test.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release9\build\grpapps_static\grpapps_static.pch"
-				AssemblerListingLocation="..\..\out\release9\build\grpapps_static\"
-				ObjectFile="..\..\out\release9\build\grpapps_static\"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PrecompiledHeaderFile="..\..\out\release9\build\apptimestamp_test\apptimestamp_test.pch"
+				AssemblerListingLocation="..\..\out\release9\build\apptimestamp_test\"
+				ObjectFile="..\..\out\release9\build\apptimestamp_test\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -48,6 +51,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\timestamp_test.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\apptimestamp_test\timestamp_test.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -55,15 +61,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\grpapps_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\grpapps_static\grpapps_static.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\apptimestamp_test\apptimestamp_test.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -74,8 +79,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -84,9 +89,11 @@
 		</Configuration>
   		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\grpapps_static\"
-			IntermediateDirectory="..\..\out\release9\build\grpapps_static\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release9\build\apptimestamp_test\"
+			IntermediateDirectory="..\..\out\release9\build\apptimestamp_test\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -97,13 +104,14 @@
 				RuntimeLibrary="2"
 				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9\build\apptimestamp_test\timestamp_test.pdb"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\release9\build\grpapps_static\grpapps_static.pch"
-				AssemblerListingLocation="..\..\out\release9\build\grpapps_static\"
-				ObjectFile="..\..\out\release9\build\grpapps_static\"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PrecompiledHeaderFile="..\..\out\release9\build\apptimestamp_test\apptimestamp_test.pch"
+				AssemblerListingLocation="..\..\out\release9\build\apptimestamp_test\"
+				ObjectFile="..\..\out\release9\build\apptimestamp_test\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -119,6 +127,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\timestamp_test.exe"
+				ProgramDatabaseFile="..\..\out\release9\build\apptimestamp_test\timestamp_test.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -126,15 +137,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\grpapps_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\grpapps_static\grpapps_static.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\apptimestamp_test\apptimestamp_test.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -145,8 +155,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -155,9 +165,10 @@
 		</Configuration>
     		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\grpapps_static\"
-			IntermediateDirectory="..\..\out\debug9\build\grpapps_static\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug9\build\apptimestamp_test\"
+			IntermediateDirectory="..\..\out\debug9\build\apptimestamp_test\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -168,13 +179,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug9\build\apptimestamp_test\timestamp_test.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug9\build\grpapps_static\grpapps_static.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\grpapps_static\"
-				ObjectFile="..\..\out\debug9\build\grpapps_static\"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PrecompiledHeaderFile="..\..\out\debug9\build\apptimestamp_test\apptimestamp_test.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\apptimestamp_test\"
+				ObjectFile="..\..\out\debug9\build\apptimestamp_test\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -188,6 +200,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\timestamp_test.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\apptimestamp_test\timestamp_test.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -195,15 +210,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\grpapps_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\grpapps_static\grpapps_static.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\apptimestamp_test\apptimestamp_test.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -214,8 +228,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -224,9 +238,10 @@
 		</Configuration>
   		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\grpapps_static\"
-			IntermediateDirectory="..\..\out\debug9\build\grpapps_static\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug9\build\apptimestamp_test\"
+			IntermediateDirectory="..\..\out\debug9\build\apptimestamp_test\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -237,13 +252,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9\build\apptimestamp_test\timestamp_test.pdb"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src"
-				PrecompiledHeaderFile="..\..\out\debug9\build\grpapps_static\grpapps_static.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\grpapps_static\"
-				ObjectFile="..\..\out\debug9\build\grpapps_static\"
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PrecompiledHeaderFile="..\..\out\debug9\build\apptimestamp_test\apptimestamp_test.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\apptimestamp_test\"
+				ObjectFile="..\..\out\debug9\build\apptimestamp_test\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="TRUE"
@@ -257,6 +273,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\timestamp_test.exe"
+				ProgramDatabaseFile="..\..\out\debug9\build\apptimestamp_test\timestamp_test.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -264,15 +283,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\grpapps_static.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\grpapps_static\grpapps_static.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\apptimestamp_test\apptimestamp_test.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -283,8 +301,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -293,6 +311,20 @@
 		</Configuration>
   	</Configurations>
 	<Files>
+		<Filter
+			Name="Source Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\ext\wfmath\timestamp_test.cpp">
+			</File>
+		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\apptimestamp_test.rc">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
