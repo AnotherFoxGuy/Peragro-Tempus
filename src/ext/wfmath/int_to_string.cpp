@@ -34,9 +34,12 @@ const unsigned ul_max_digits = (unsigned)
 std::string WFMath::IntToString(unsigned long val)
 {
   const unsigned bufsize = ul_max_digits + 1; // add one for \0
-  char buffer[bufsize];
+  char* buffer = new char[bufsize];
 
-  return DoIntToString(val, buffer + bufsize);
+  std::string str(DoIntToString(val, buffer + bufsize));
+  delete buffer;
+
+  return str;
 }
 
 // Deals with the fact that while, e.g. 0x80000000 (in 32 bit),
@@ -60,12 +63,15 @@ static unsigned long SafeAbs(long val)
 std::string WFMath::IntToString(long val)
 {
   const unsigned bufsize = ul_max_digits + 2; // one for \0, one for minus sign
-  char buffer[bufsize];
+  char* buffer = new char[bufsize];
 
   char* bufhead = DoIntToString(SafeAbs(val), buffer + bufsize);
 
   if(val < 0)
     *(--bufhead) = '-';
 
-  return bufhead;
+  std::string str(bufhead);
+  delete buffer;
+
+  return str;
 }
