@@ -47,11 +47,9 @@ namespace PT
     GUIManager::~GUIManager ()
     {
       // Delete GUIWindows 
-      PT::GUI::GUIWindow* guiwin;
-      for (int i = 0 ; i < windows.GetSize () ; i++)
+      for (size_t i = 0; i < windows.GetSize(); ++i)
       {
-        guiwin = windows[i];
-        delete guiwin;
+        delete windows[i];
       }
       delete skinMgr;
       delete dlgConfig;
