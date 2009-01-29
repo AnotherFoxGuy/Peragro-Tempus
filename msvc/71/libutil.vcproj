@@ -332,6 +332,9 @@
 				RelativePath="..\..\src\common\util\flags.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\geomhelper.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\math.h">
 			</File>
 			<File
@@ -351,6 +354,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\pttime.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\queryhelper.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\queue.h">
