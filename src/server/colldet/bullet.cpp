@@ -174,10 +174,10 @@ void BulletCD::loadPosition(const Entity* entity)
 {
   btRigidBody* body = cobjs[entity];
 
-  const PtVector3 pos(entity->getPos());
+  const WFMath::Point<3> pos(entity->getPos());
 
   btTransform& t = body->getWorldTransform();
-  btVector3 p(pos.x, pos.y, pos.z);
+  btVector3 p(pos[0], pos[1], pos[2]);
   t.setOrigin(p);
   t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
   body->setWorldTransform(t);
@@ -196,7 +196,7 @@ void BulletCD::savePosition(const Entity* entity)
   e->setRotation(rot);
 }
 
-void BulletCD::moveEntity(const Entity* entity, const PtVector3& pos, float speed)
+void BulletCD::moveEntity(const Entity* entity, const WFMath::Point<3>& pos, float speed)
 {
   //TODO: Make entity walk from the current position to pos
 }

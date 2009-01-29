@@ -59,14 +59,14 @@ void EntityTable::createTable()
 
 void EntityTable::insert(int id, const ptString& name, int type, int item,
                          unsigned int variation, unsigned int mesh,
-                         const PtVector3& pos, float rot, const ptString& sector)
+                         const WFMath::Point<3>& pos, float rot, const ptString& sector)
 {
   if (item == -1) return;
 
   db->update("insert into entities (id, name, type, item, variation, mesh, "
     "pos_x, pos_y, pos_z, rot, sector) values "
     "('%d', '%q',%d,%d,%d,'%d',%.2f,%.2f,%.2f,%.2f,'%q');",
-    id, *name, type, item, variation, mesh, pos.x, pos.y, pos.z, rot, *sector);
+    id, *name, type, item, variation, mesh, pos[0], pos[1], pos[2], rot, *sector);
 }
 
 int EntityTable::getMaxId()

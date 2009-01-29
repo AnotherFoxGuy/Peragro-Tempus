@@ -23,8 +23,7 @@
 
 #include "entitymanager.h"
 
-#include "common/geom/vector3.h"
-
+#include <wfmath/point.h>
 #include <wfmath/stream.h>
 
 
@@ -118,8 +117,6 @@ namespace Common
       void SetPosition(float x, float y, float z)
       { position = WFMath::Point<3>(x,y,z); }
       void SetPosition(const WFMath::Point<3>& value) { position = value;}
-
-      void SetPosition(const Geom::Vector3& v) { position = WFMath::Point<3>(v[0], v[1], v[2]); }
 
       ///@return Position of entity within a sector.
       std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }

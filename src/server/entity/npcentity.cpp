@@ -16,6 +16,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include <wfmath/point.h>
+#include <wfmath/vector.h>
+
 #include "server/entity/user.h"
 #include "server/entity/character.h"
 #include "server/entity/npcentity.h"
@@ -30,11 +33,11 @@ void NpcEntity::setCharacter(Character* character)
   character->setEntity(e);
 }
 
-void NpcEntity::walkTo(const PtVector3& dst_pos, float speed)
+void NpcEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
 {
   final_dst = dst_pos;
 
-  PtVector3 pos = entity.get()->getPos();
+  WFMath::Point<3> pos = entity.get()->getPos();
 
   const float dist = Distance(final_dst, pos);
 
@@ -44,7 +47,7 @@ void NpcEntity::walkTo(const PtVector3& dst_pos, float speed)
   isWalking = true;
 }
 
-PtVector3 NpcEntity::getPos()
+WFMath::Point<3> NpcEntity::getPos()
 {
   if (!isWalking)
   {
@@ -62,10 +65,10 @@ PtVector3 NpcEntity::getPos()
     }
     else
     {
-      const PtVector3 pos = entity.get()->getPos();
+      const WFMath::Point<3> pos = entity.get()->getPos();
       //Not sure that's correct...
       size_t delta = t_stop - (size_t) time(0);
-      tmp_pos = (final_dst - pos) * (float)delta;
+      tmp_pos = WFMath::Point<3>((final_dst - pos) * (float)delta);
       return tmp_pos;
     }
   }

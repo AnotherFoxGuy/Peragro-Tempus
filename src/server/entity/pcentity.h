@@ -44,10 +44,10 @@ private:
 
   bool isWalking;
 
-  PtVector3 final_dst;
+  WFMath::Point<3> final_dst;
   size_t t_stop;
 
-  PtVector3 tmp_pos; //used only for temporary calculations!
+  WFMath::Point<3> tmp_pos; //used only for temporary calculations!
 
   unsigned char pose_id;
 
@@ -95,8 +95,8 @@ public:
   void setPose(unsigned char pose_id) { this->pose_id = pose_id; }
   const unsigned char getPose() const { return pose_id; }
 
-  void walkTo(const PtVector3& dst_pos, float speed);
-  PtVector3 getPos();
+  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
+  WFMath::Point<3> getPos();
 
   void toggleFlashStep() { flashStep = !flashStep; }
   bool usesFlashStep() const { return flashStep; }

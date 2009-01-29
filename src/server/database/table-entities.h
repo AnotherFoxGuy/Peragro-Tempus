@@ -27,7 +27,7 @@ class ResultSet;
 class Mesh;
 
 #include "common/util/ptstring.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class EntitiesTableVO
 {
@@ -56,7 +56,7 @@ public:
   void createTable();
   void insert(int id, const ptString& name, int type, int item,
               unsigned int variation, unsigned int mesh,
-              const PtVector3& pos, float rot, const ptString& sector);
+              const WFMath::Point<3>& pos, float rot, const ptString& sector);
   int getMaxId();
   void dropTable();
   void remove(int id);

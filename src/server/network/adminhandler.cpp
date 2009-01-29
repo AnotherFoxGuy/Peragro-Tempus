@@ -262,9 +262,9 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  const float x = spawnmsg.getPos().x;
-  const float y = spawnmsg.getPos().y;
-  const float z = spawnmsg.getPos().z;
+  const float x = spawnmsg.getPos()[0];
+  const float y = spawnmsg.getPos()[1];
+  const float z = spawnmsg.getPos()[2];
 
   SectorManager* sectormgr = server->getSectorManager();
 
@@ -396,7 +396,7 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
   for(int i=zonemsg.getNodesCount()-1; i>-1; i--)
   {
     tables->getZonenodesTable()->insert(new ZonenodesTableVO(zonemsg.getZoneId(), zonemsg.getX(i), zonemsg.getZ(i)));
-    zone.coords.push_back(PtVector2(zonemsg.getX(i), zonemsg.getZ(i)));
+    zone.coords.push_back(WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)));
   }
   zonemgr->addZone(zone);
 }

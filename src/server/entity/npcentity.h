@@ -35,10 +35,10 @@ private:
 
   bool isWalking;
 
-  PtVector3 final_dst;
+  WFMath::Point<3> final_dst;
   size_t t_stop;
 
-  PtVector3 tmp_pos; //used only for temporary calculations!
+  WFMath::Point<3> tmp_pos; //used only for temporary calculations!
 
   AI* ai;
 
@@ -72,8 +72,8 @@ public:
   void setCharacter(Character* character);
   const Character* getCharacter() const { return this->character.get(); }
 
-  void walkTo(const PtVector3& dst_pos, float speed);
-  PtVector3 getPos();
+  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
+  WFMath::Point<3> getPos();
 
   void pause(bool pause) { if (ai) ai->pause(pause); }
 };

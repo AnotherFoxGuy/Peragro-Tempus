@@ -20,7 +20,7 @@
 #define PT_DATAZONE_H
 
 #include <vector>
-#include "common/geom/vector2.h"
+#include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
 namespace PT
@@ -44,7 +44,7 @@ namespace PT
       ptString type;
 
       ///Nodes forming the zone.
-      std::vector<PtVector2> nodes;
+      std::vector<WFMath::Point<2>> nodes;
 
     public:
       ///Set the ID of the zone.
@@ -60,7 +60,7 @@ namespace PT
       ptString GetType(){ return type; }
 
       ///Add a node to the zone.
-      void AddNode(PtVector2 node)
+      void AddNode(WFMath::Point<2> node)
       {
         nodes.push_back(node);
       }
@@ -69,7 +69,7 @@ namespace PT
       size_t GetSize(){ return nodes.size(); }
 
       ///Get a node from the zone.
-      PtVector2 GetNode(size_t x){ return nodes[x]; }
+      WFMath::Point<2> GetNode(size_t x){ return nodes[x]; }
     };
   } // Data namespace
 } // PT namespace

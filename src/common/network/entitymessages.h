@@ -64,7 +64,7 @@ class AddNpcEntityMessage : public NetMessage
   unsigned short meshid;
   ptString meshname;
   ptString filename;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -110,16 +110,16 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -174,7 +174,7 @@ class AddItemEntityMessage : public NetMessage
   unsigned short meshid;
   ptString meshname;
   ptString filename;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -209,16 +209,16 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -295,7 +295,7 @@ class AddPlayerEntityMessage : public NetMessage
   unsigned short meshid;
   ptString meshname;
   ptString filename;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
@@ -344,16 +344,16 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -442,7 +442,7 @@ class AddMountEntityMessage : public NetMessage
   unsigned short meshid;
   ptString meshname;
   ptString filename;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -472,16 +472,16 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -591,8 +591,8 @@ public:
 
 class MoveToMessage : public NetMessage
 {
-  PtVector3 from;
-  PtVector3 to;
+  WFMath::Point<3> from;
+  WFMath::Point<3> to;
   float speed;
   unsigned int entityid;
   bool run;
@@ -611,28 +611,28 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  PtVector3 getFrom() { return from; }
-  void setFrom(const PtVector3& x)
+  WFMath::Point<3> getFrom() { return from; }
+  void setFrom(const WFMath::Point<3>& x)
   {
     from = x;
   }
   void setFrom(float x, float y, float z)
   {
-    from.x = x;
-    from.y = y;
-    from.z = z;
+    from[0] = x;
+    from[1] = y;
+    from[2] = z;
   }
 
-  PtVector3 getTo() { return to; }
-  void setTo(const PtVector3& x)
+  WFMath::Point<3> getTo() { return to; }
+  void setTo(const WFMath::Point<3>& x)
   {
     to = x;
   }
   void setTo(float x, float y, float z)
   {
-    to.x = x;
-    to.y = y;
-    to.z = z;
+    to[0] = x;
+    to[1] = y;
+    to[2] = z;
   }
 
   float getSpeed() const { return speed; }
@@ -654,7 +654,7 @@ public:
 
 class MoveToRequestMessage : public NetMessage
 {
-  PtVector3 to;
+  WFMath::Point<3> to;
   bool run;
   bool backwards;
   unsigned char turn;
@@ -672,16 +672,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  PtVector3 getTo() { return to; }
-  void setTo(const PtVector3& x)
+  WFMath::Point<3> getTo() { return to; }
+  void setTo(const WFMath::Point<3>& x)
   {
     to = x;
   }
   void setTo(float x, float y, float z)
   {
-    to.x = x;
-    to.y = y;
-    to.z = z;
+    to[0] = x;
+    to[1] = y;
+    to[2] = z;
   }
 
   bool getRun() const { return run; }
@@ -891,7 +891,7 @@ public:
 class TeleportRequestMessage : public NetMessage
 {
   unsigned int entityid;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
 
@@ -910,16 +910,16 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -933,7 +933,7 @@ public:
 class TeleportResponseMessage : public NetMessage
 {
   unsigned int entityid;
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
 
@@ -952,16 +952,16 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -974,7 +974,7 @@ public:
 
 class DrUpdateRequestMessage : public NetMessage
 {
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
 
@@ -990,16 +990,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }
@@ -1012,7 +1012,7 @@ public:
 
 class DrUpdateMessage : public NetMessage
 {
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
   unsigned short sectorid;
   unsigned int entityid;
@@ -1029,16 +1029,16 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  PtVector3 getPos() { return pos; }
-  void setPos(const PtVector3& x)
+  WFMath::Point<3> getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& x)
   {
     pos = x;
   }
   void setPos(float x, float y, float z)
   {
-    pos.x = x;
-    pos.y = y;
-    pos.z = z;
+    pos[0] = x;
+    pos[1] = y;
+    pos[2] = z;
   }
 
   float getRotation() const { return rotation; }

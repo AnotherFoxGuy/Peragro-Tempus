@@ -21,7 +21,7 @@
 
 #include <cstddef>
 #include "common/constants.h"
-#include "common/geom/vector2.h"
+#include <wfmath/point.h>
 
 namespace PT
 {
@@ -99,11 +99,11 @@ namespace PT
      * @return -1 if the point is left of the line, 1 if the point is right of
      *   the line, and 0 if the point is on the line.
      */
-    static int WhichSide2D (const PtVector2& v,
-                            const PtVector2& s1, const PtVector2& s2)
+    static int WhichSide2D (const WFMath::Point<2>& v,
+                            const WFMath::Point<2>& s1, const WFMath::Point<2>& s2)
     {
-      float k  = (s1.y - v.y)*(s2.x - s1.x);
-      float k1 = (s1.x - v.x)*(s2.y - s1.y);
+      float k  = (s1[1] - v[1])*(s2[0] - s1[0]);
+      float k1 = (s1[0] - v[0])*(s2[1] - s1[1]);
       if (k < k1) return -1;
       else if (k > k1) return 1;
       else return 0;
@@ -116,7 +116,7 @@ namespace PT
      * @param v The point.
      * @return True if the point is inside.
      */
-    static bool IsInArea (PtVector2 *poly, size_t num_poly, const PtVector2 &v)
+    static bool IsInArea (WFMath::Point<2> *poly, size_t num_poly, const WFMath::Point<2>& v)
     {
       if (num_poly > 0)
       {

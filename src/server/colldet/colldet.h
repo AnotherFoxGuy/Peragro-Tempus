@@ -20,7 +20,7 @@
 #define PT_COLLDET_H
 
 #include "common/util/thread.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class Entity;
 
@@ -46,7 +46,7 @@ public:
   virtual void savePosition(const Entity* entity) = 0;
 
   /// Simulates walking of an entity to the specified destination
-  virtual void moveEntity(const Entity* entity, const PtVector3& pos,
+  virtual void moveEntity(const Entity* entity, const WFMath::Point<3>& pos,
                           float speed) = 0;
 
   /// Simulates continuous walking of an entity without destination

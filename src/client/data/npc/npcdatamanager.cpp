@@ -68,10 +68,10 @@ namespace PT
 
       npc->SetMeshName(node->GetNode("mesh")->GetContentsValue());
 
-      PtVector3 pos;
-      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x");
-      pos.y = node->GetNode("position")->GetAttributeValueAsFloat("y");
-      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z");
+      WFMath::Point<3> pos;
+      pos[0] = node->GetNode("position")->GetAttributeValueAsFloat("x");
+      pos[1] = node->GetNode("position")->GetAttributeValueAsFloat("y");
+      pos[2] = node->GetNode("position")->GetAttributeValueAsFloat("z");
       npc->SetPosition(pos);
 
       npc->SetSectorName(node->GetNode("position")->GetAttributeValue("sector"));
@@ -157,10 +157,10 @@ namespace PT
       FOREACHNODE(node, occupation, occupations)
       {
         csRef<iDocumentNode> positionNode = occupation->GetNode("position");
-        PtVector3 pos;
-        pos.x = positionNode->GetAttributeValueAsFloat("x");
-        pos.y = positionNode->GetAttributeValueAsFloat("y");
-        pos.z = positionNode->GetAttributeValueAsFloat("z");
+        WFMath::Point<3> pos;
+        pos[0] = positionNode->GetAttributeValueAsFloat("x");
+        pos[1] = positionNode->GetAttributeValueAsFloat("y");
+        pos[2] = positionNode->GetAttributeValueAsFloat("z");
         std::string sector = positionNode->GetAttributeValue("sector");
       }
 

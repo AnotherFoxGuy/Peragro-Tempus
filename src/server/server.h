@@ -19,7 +19,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class CharacterManager;
 class Tables;
@@ -152,9 +152,9 @@ public:
 
   void addEntity(const Entity* entity, bool presistent);
   void delEntity(const Entity* entity);
-  void moveEntity(PcEntity* entity, const PtVector3& pos, float speed, bool run);
-  void moveEntity(MountEntity* entity, const PtVector3& pos, float speed, bool run);
-  void moveEntity(const NpcEntity* entity, const PtVector3& pos, float speed, bool run);
+  void moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
+  void moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
+  void moveEntity(const NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
   void broadCast(const ByteStream& bs);
 };
 

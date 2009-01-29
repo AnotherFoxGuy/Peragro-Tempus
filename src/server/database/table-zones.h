@@ -23,7 +23,7 @@ class Database;
 class ResultSet;
 
 #include "common/util/ptstring.h"
-#include "common/geom/vector2.h"
+#include <wfmath/point.h>
 #include "common/database/table.h"
 
 /**

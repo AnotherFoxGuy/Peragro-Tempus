@@ -41,7 +41,7 @@ private:
   //start sector
   ptString sector_id;
   //start pos
-  PtVector3 pos;
+  WFMath::Point<3> pos;
 
   RaceStats stats;
   RaceSkills skills;
@@ -72,8 +72,8 @@ public:
     return id;
   }
 
-  void setPos(const PtVector3& p) { pos = p; }
-  PtVector3 getPos() { return pos; }
+  void setPos(const WFMath::Point<3>& p) { pos = p; }
+  WFMath::Point<3> getPos() { return pos; }
 
   ptString& getName() { return name_id; }
   void setName(ptString name) { name_id = name; }

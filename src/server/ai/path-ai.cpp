@@ -28,7 +28,7 @@
 #include "server/entity/character.h"
 #include "server/entity/npcentity.h"
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 PathAI::~PathAI()
 {
@@ -46,19 +46,19 @@ void PathAI::setNPC(NpcEntity* npc)
     Server::getServer()->getTables()->getNpcAiSettingTable();
 
   pointCount = atoi(*table->getValue(id, ptString("waypoints",9)));
-  points = new PtVector3[pointCount];
+  points = new WFMath::Point<3>[pointCount];
   intervals = new unsigned int[pointCount];
   for (unsigned int i = 0; i < pointCount; i++)
   {
     std::stringstream strx;
     strx << "point_" << i << "_x";
-    points[i].x = (float) atof(*table->getValue(id, ptString::create(strx.str())));
+    points[i][0] = (float) atof(*table->getValue(id, ptString::create(strx.str())));
     std::stringstream stry;
     stry << "point_" << i << "_y";
-    points[i].y = (float) atof(*table->getValue(id, ptString::create(stry.str())));
+    points[i][1] = (float) atof(*table->getValue(id, ptString::create(stry.str())));
     std::stringstream strz;
     strz << "point_" << i << "_z";
-    points[i].z = (float) atof(*table->getValue(id, ptString::create(strz.str())));
+    points[i][2] = (float) atof(*table->getValue(id, ptString::create(strz.str())));
     std::stringstream stri;
     stri << "interval_" << i;
     intervals[i] = atoi(*table->getValue(id, ptString::create(stri.str())));

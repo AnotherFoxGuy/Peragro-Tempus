@@ -18,6 +18,9 @@
 
 #include <stdlib.h>
 
+#include <wfmath/point.h>
+#include <wfmath/vector.h>
+
 #include "stray-ai.h"
 
 #include "server/server.h"
@@ -36,13 +39,13 @@ void StrayAI::setNPC(NpcEntity* npc)
   NpcAiSettingTable* table =
     Server::getServer()->getTables()->getNpcAiSettingTable();
 
-  base.x = (float) atof(*table->getValue(id, ptString("base_x",6)));
-  base.y = (float) atof(*table->getValue(id, ptString("base_y",6)));
-  base.z = (float) atof(*table->getValue(id, ptString("base_z",6)));
+  base[0] = (float) atof(*table->getValue(id, ptString("base_x",6)));
+  base[1] = (float) atof(*table->getValue(id, ptString("base_y",6)));
+  base[2] = (float) atof(*table->getValue(id, ptString("base_z",6)));
 
-  radius.x = (float) atof(*table->getValue(id, ptString("radius_x",8)));
-  radius.y = (float) atof(*table->getValue(id, ptString("radius_y",8)));
-  radius.z = (float) atof(*table->getValue(id, ptString("radius_z",8)));
+  radius[0] = (float) atof(*table->getValue(id, ptString("radius_x",8)));
+  radius[1] = (float) atof(*table->getValue(id, ptString("radius_y",8)));
+  radius[2] = (float) atof(*table->getValue(id, ptString("radius_z",8)));
 
   interval_base = atoi(*table->getValue(id, ptString("interval_base", 13)));
   interval_rand = atoi(*table->getValue(id, ptString("interval_rand", 13)));
@@ -68,12 +71,12 @@ void StrayAI::think()
   float random = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
   setInterval((int) (interval_base + random * interval_rand));
 
-  PtVector3 pos;
-  pos.x = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
-  pos.y = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
-  pos.z = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  WFMath::Point<3> pos;
+  pos[0] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  pos[1] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
+  pos[2] = ( RAND_MAX / 2.0f - rand() ) / RAND_MAX;
 
-  pos = base + pos * radius;
+  pos = base + WFMath::Vector<3>(pos * radius);
 
   Server::getServer()->moveEntity(npc, pos, 3.0f, false);
 }

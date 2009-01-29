@@ -41,10 +41,10 @@ private:
 
   size_t charId;
 
-  //PtVector3 final_dst;
+  //WFMath::Point<3> final_dst;
   size_t t_stop;
 
-  //PtVector3 tmp_pos; //used only for temporary calculations!
+  //WFMath::Point<3> tmp_pos; //used only for temporary calculations!
 
 public:
 
@@ -142,7 +142,7 @@ public:
     return character;
   }
 
-  void walkTo(const PtVector3& dst_pos, float speed)
+  void walkTo(const WFMath::Point<3>& dst_pos, float speed)
   {
     final_dst = dst_pos;
 
@@ -154,7 +154,7 @@ public:
     state = stMoving;
   }
 
-  PtVector3 getPos()
+  WFMath::Point<3> getPos()
   {
     if (state != stMoving)
     {

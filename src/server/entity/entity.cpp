@@ -75,7 +75,7 @@ void Entity::setSector(unsigned short id)
   sector_id = id;
 }
 
-void Entity::setPos(const PtVector3& p)
+void Entity::setPos(const WFMath::Point<3>& p)
 {
   pos = p;
 
@@ -89,7 +89,7 @@ void Entity::setPos(const PtVector3& p)
     }
   }
 
-  const float dist_square = Distance2(pos, this->getLastSaved());
+  const float dist_square = WFMath::SquaredDistance<3>(pos, this->getLastSaved());
   if (dist_square > 100.0f)
   {
     const User* this_user = 0;

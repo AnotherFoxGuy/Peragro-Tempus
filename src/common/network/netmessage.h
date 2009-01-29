@@ -22,7 +22,7 @@
 #include "assert.h"
 #include "string.h"
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 //#include "common/network/socket.h"
 #include "deserialiser.h"

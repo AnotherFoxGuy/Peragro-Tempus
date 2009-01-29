@@ -162,7 +162,7 @@ namespace PT
         const char* mesh = doors[i]->GetMeshName().c_str();
         const char* sector = doors[i]->GetSectorName().c_str();
 
-        PtVector3 position = doors[i]->GetPosition();
+        WFMath::Point<3> position = doors[i]->GetPosition();
 
         const char* quest = doors[i]->GetQuestName().c_str();
 
@@ -185,7 +185,7 @@ namespace PT
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
         doormsg.setSectorId(sector_id);
-        doormsg.setPos(position.x, position.y, position.z);
+        doormsg.setPos(position);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 
         doormsg.setIsOpen(open);
@@ -235,7 +235,7 @@ namespace PT
         ptString name = ptString::create(npcs[i]->GetName());
         ptString file = ptString::create(npcs[i]->GetFileName());
         ptString mesh = ptString::create(npcs[i]->GetMeshName());
-        PtVector3 position = npcs[i]->GetPosition();
+        WFMath::Point<3> position = npcs[i]->GetPosition();
         const char* sector = npcs[i]->GetSectorName().c_str();
         ptString race = ptString::create(npcs[i]->GetRace());
         const unsigned char* hair = npcs[i]->GetHairColor();
@@ -262,7 +262,7 @@ namespace PT
         npcmsg.setName(name);
         npcmsg.setFileName(file);
         npcmsg.setMesh(mesh);
-        npcmsg.setPos(position.x, position.y, position.z);
+        npcmsg.setPos(position);
         npcmsg.setSectorId(sector_id);
         npcmsg.setRace(race);
         npcmsg.setHairColour(hair);
@@ -350,7 +350,7 @@ namespace PT
         unsigned int itemid = spawnpoints[i]->GetItem();
         unsigned int variation = spawnpoints[i]->GetVariation();
 
-        PtVector3 position = spawnpoints[i]->GetPosition();
+        WFMath::Point<3> position = spawnpoints[i]->GetPosition();
         const char* sector = spawnpoints[i]->GetSectorName().c_str();
 
         unsigned int interval = spawnpoints[i]->GetInterval();
@@ -363,13 +363,13 @@ namespace PT
 
         unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
 
-        Report(PT::Debug, "Loading spawnpoint, item=%d, var=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, variation, sector, position.x, position.y, position.z, interval);
+        Report(PT::Debug, "Loading spawnpoint, item=%d, var=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, variation, sector, position[0], position[1], position[2], interval);
 
         // Just send the data here, one spawnpoint/package
         CreateSpawnPointMessage spawnmsg;
         spawnmsg.setItemId(itemid);
         spawnmsg.setVariation(variation);
-        spawnmsg.setPos(position.x, position.y, position.z);
+        spawnmsg.setPos(position);
         spawnmsg.setSectorId(sector_id);
         spawnmsg.setInterval(interval);
 
@@ -394,8 +394,8 @@ namespace PT
         zonemsg.setNodesCount((unsigned char)zones[i]->GetSize());
         for(size_t a_i=0; a_i<zones[i]->GetSize(); a_i++)
         {
-          zonemsg.setX(a_i, zones[i]->GetNode(a_i).x);
-          zonemsg.setZ(a_i, zones[i]->GetNode(a_i).y);
+          zonemsg.setX(a_i, zones[i]->GetNode(a_i)[0]);
+          zonemsg.setZ(a_i, zones[i]->GetNode(a_i)[1]);
         }
 
         PointerLibrary::getInstance()->getNetwork()->send(&zonemsg);

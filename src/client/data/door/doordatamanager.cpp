@@ -58,10 +58,10 @@ namespace PT
       offsetX = node->GetNode("position")->GetAttributeValueAsInt("tileX") * (int)TILESIZE;
       offsetY = node->GetNode("position")->GetAttributeValueAsInt("tileY") * (int)TILESIZE;
 
-      PtVector3 pos;
-      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x") + offsetX;
-      pos.y = node->GetNode("position")->GetAttributeValueAsFloat("y");
-      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z") + offsetY;
+      WFMath::Point<3> pos;
+      pos[0] = node->GetNode("position")->GetAttributeValueAsFloat("x") + offsetX;
+      pos[1] = node->GetNode("position")->GetAttributeValueAsFloat("y");
+      pos[2] = node->GetNode("position")->GetAttributeValueAsFloat("z") + offsetY;
       door->SetPosition(pos);
 
       door->SetSectorName(node->GetNode("position")->GetAttributeValue("sector"));

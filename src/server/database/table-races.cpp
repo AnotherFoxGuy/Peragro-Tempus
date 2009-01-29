@@ -52,7 +52,7 @@ void RaceTable::createTable(MeshListTable* meshListTable)
     "sector TEXT, "
     "PRIMARY KEY (id) );");
 
-  PtVector3 pos(642.9f, 14.7f, 371.2f);
+  WFMath::Point<3> pos(642.9f, 14.7f, 371.2f);
   ptString test("test", 4);
   ptString room("World", 5);
 
@@ -61,11 +61,11 @@ void RaceTable::createTable(MeshListTable* meshListTable)
 }
 
 void RaceTable::insert(int id, const ptString& name, unsigned int mesh,
-                       const PtVector3& pos, const ptString& sector)
+                       const WFMath::Point<3>& pos, const ptString& sector)
 {
   const char* query = "insert into races (id, name, mesh, pos_x, pos_y, pos_z, "
     "sector) values ('%d','%q','%d',%.2f,%.2f,%.2f,'%q');";
-  db->update(query, id, *name, mesh, pos.x, pos.y, pos.z, *sector);
+  db->update(query, id, *name, mesh, pos[0], pos[1], pos[2], *sector);
 }
 
 int RaceTable::getMaxId()
@@ -116,7 +116,7 @@ Race* RaceTable::findRaceById(int id, MeshManager* meshmgr)
   race->setId(atoi(rs->GetData(0,0).c_str()));
   race->setName(ptString(rs->GetData(0,1).c_str(),rs->GetData(0,1).length()));
   race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
-  race->setPos(PtVector3((float) atof(rs->GetData(0,3).c_str()),
+  race->setPos(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
     (float) atof(rs->GetData(0,4).c_str()),
     (float) atof(rs->GetData(0,5).c_str())));
   race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
@@ -135,7 +135,7 @@ void RaceTable::getAllRaces(Array<Race*>& races, MeshManager* meshmgr)
     race->setId(atoi(rs->GetData(i,0).c_str()));
     race->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(0,1).length()));
     race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
-    race->setPos(PtVector3((float) atof(rs->GetData(0,3).c_str()),
+    race->setPos(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
       (float) atof(rs->GetData(0,4).c_str()),
       (float) atof(rs->GetData(0,5).c_str())));
     race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));

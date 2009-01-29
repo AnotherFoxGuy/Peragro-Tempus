@@ -22,7 +22,7 @@
 #include <math.h>
 
 #include "common/util/monitorable.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
 #include "mesh.h"
@@ -65,8 +65,8 @@ public:
 protected:
   EntityType type;
 
-  PtVector3 pos_last_saved;
-  PtVector3 pos;
+  WFMath::Point<3> pos_last_saved;
+  WFMath::Point<3> pos;
 
   float rot_last_saved;
   float rotation;
@@ -107,11 +107,11 @@ public:
   {
     pos_last_saved = pos;
   }
-  PtVector3 getLastSaved() const { return pos_last_saved; }
+  WFMath::Point<3> getLastSaved() const { return pos_last_saved; }
 
-  void setPos(float x, float y, float z) { setPos(PtVector3(x, y, z)); }
-  void setPos(const PtVector3& p);
-  PtVector3 getPos() const { return pos; }
+  void setPos(float x, float y, float z) { setPos(WFMath::Point<3>(x, y, z)); }
+  void setPos(const WFMath::Point<3>& p);
+  WFMath::Point<3> getPos() const { return pos; }
 
   void setRotation(float rot) { rotation = rot; }
   float getRotation() const { return rotation; }
@@ -129,14 +129,14 @@ public:
 
   EntityType getType() const { return type; }
 
-  float getDistanceTo(const PtVector3& target) const
-  { return Distance(pos, target); }
+  float getDistanceTo(const WFMath::Point<3>& target) const
+  { return WFMath::Distance<3>(pos, target); }
   float getDistanceTo(const Entity* target) const
-  { return Distance(pos, target->getPos()); }
-  float getDistanceTo2(const PtVector3& target) const
-  { return Distance2(pos, target); }
+  { return WFMath::Distance<3>(pos, target->getPos()); }
+  float getDistanceTo2(const WFMath::Point<3>& target) const
+  { return WFMath::SquaredDistance<3>(pos, target); }
   float getDistanceTo2(const Entity* target) const
-  { return Distance2(pos, target->getPos()); }
+  { return WFMath::SquaredDistance<3>(pos, target->getPos()); }
 
   const PcEntity* getPlayerEntity() const { return pc_entity.get(); }
   const NpcEntity* getNpcEntity() const { return npc_entity.get(); }

@@ -20,7 +20,7 @@
 #define CHARACTER_H
 
 #include "common/util/ptstring.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 #include "common/util/monitorable.h"
 
 #include "inventory.h"
@@ -51,7 +51,7 @@ private:
 
   ptMonitor<Entity> entity;
 
-  PtVector3 pos;
+  WFMath::Point<3> pos;
   float rotation;
 
   unsigned char haircolour[3]; //24bit color
@@ -81,8 +81,8 @@ public:
   void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
   unsigned int GetTargetID() { return targetID; }
 
-  void setPos(const PtVector3& newPos) { pos = newPos; }
-  PtVector3 getPos() const { return pos; }
+  void setPos(const WFMath::Point<3>& newPos) { pos = newPos; }
+  WFMath::Point<3> getPos() const { return pos; }
 
   void setRotation(float rot) { rotation = rot; }
   float getRotation() const { return rotation; }

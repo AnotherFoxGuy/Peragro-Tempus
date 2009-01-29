@@ -20,8 +20,11 @@
 
 #include <stdlib.h>
 
+#include <wfmath/stream.h>
+#include <wfmath/point.h>
+#include <wfmath/vector.h>
+
 #include "common/util/math.h"
-#include "common/geom/vector3.h"
 #include "common/network/playermessages.h"
 #include "common/network/entitymessages.h"
 
@@ -227,7 +230,7 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         // Release items in a circlular pattern
         const float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
         const float radius = 0.8f;
-        const PtVector3 delta(cos(radians) * radius, sin(radians) * radius,
+        const WFMath::Vector<3> delta(cos(radians) * radius, sin(radians) * radius,
           0.0f);
         ent->setPos(lockedTargetCharacter->getEntity()->getPos() + delta);
         ent->setSector(lockedTargetCharacter->getEntity()->getSector());
@@ -286,8 +289,8 @@ int CombatManager::CalculateAttack()
 bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
                                               Character* target)
 {
-  const PtVector3 attackerPos(attacker->getEntity()->getPos());
-  const PtVector3 targetPos(target->getEntity()->getPos());
+  const WFMath::Point<3> attackerPos(attacker->getEntity()->getPos());
+  const WFMath::Point<3> targetPos(target->getEntity()->getPos());
 
   // TODO should not be 200, but calculated by GetReach(attacker);
   const float maxAttackDistance = 2.0f;
@@ -296,8 +299,8 @@ bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
   const float distance = Distance(attackerPos, targetPos);
 
   printf("CombatManager: attackerPos: %s, targetPos: %s, distance %f, "
-    "maxAttackDistance: %f\n", attackerPos.ToString().c_str(),
-    targetPos.ToString().c_str(), distance, maxAttackDistance);
+    "maxAttackDistance: %f\n", WFMath::ToString(attackerPos).c_str(),
+    WFMath::ToString(targetPos).c_str(), distance, maxAttackDistance);
 
   if (distance > maxAttackDistance)
   {
@@ -306,11 +309,11 @@ bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
     return false;
   }
 
-  PtVector3 difference = attackerPos - targetPos;
+  WFMath::Point<3> difference = WFMath::Point<3>(attackerPos - targetPos);
   // TODO this should be made better, basically check
   // so the attacker and target is not differing too much
   // in height level.
-  if (fabs(difference.y) > 2.0f)
+  if (fabs(difference[1]) > 2.0f)
   {
     printf("CombatManager: To much height difference\n");
     return false;
@@ -319,9 +322,9 @@ bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
   const float attackerRotation =
     PT::Math::NormalizeAngle(attacker->getEntity()->getRotation());
 
-  if (difference.x == 0.0f) difference.x = PT_EPSILON;
+  if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
   const float attackAngle =
-    PT::Math::NormalizeAngle(atan2(difference.x, difference.z));
+    PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
 
   const float angleDiff = attackAngle - attackerRotation;
   static const float allowedAngle = PT_PI * 0.3f;

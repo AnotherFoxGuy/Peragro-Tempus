@@ -15,28 +15,14 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/**
- * @file octree.h
- * @brief octree class.
- */
 
-#ifndef GEOM_OCTREE_H
-#define GEOM_OCTREE_H
+#ifndef GEOMHELPER_H
+#define GEOMHELPER_H
 
-#define TREE_H_NOT_INCLUDED_DIRECTLY
-#include "tree.h"
-#undef TREE_H_NOT_INCLUDED_DIRECTLY
-
-#include "box.h"
-
-namespace Geom
+struct VectorHelper
 {
-  template<typename T, typename G, bool AllowCollission>
-  struct OcTree
-  {
-    typedef Tree<T, G, 2, 8, Box, AllowCollission> Type;
-  };
+    static WFMath::Point<3> Convert(const csVector3& v) { return WFMath::Point<3>(v[0], v[1], v[2]); }
+    static csVector3 Convert(const WFMath::Point<3>& v) { return csVector3(v[0], v[1], v[2]); }
+};
 
-} // namespace Geom
-
-#endif // GEOM_OCTREE_H
+#endif // GEOMHELPER_H

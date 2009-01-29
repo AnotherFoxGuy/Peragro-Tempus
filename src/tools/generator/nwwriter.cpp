@@ -152,7 +152,7 @@ void nwWriter::writeParamDeclaration(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  PtVector3 " << toVariable(param->name).c_str() << ";\n";
+    out <<  "  WFMath::Point<3> " << toVariable(param->name).c_str() << ";\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -209,9 +209,9 @@ void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".x);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".y);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << ".z);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[0]);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[1]);\n";
+    out <<  "  serial.setFloat(" << toVariable(param->name).c_str() << "[2]);\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -266,9 +266,9 @@ void nwWriter::writeParamDeserialisation(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  " << toVariable(param->name).c_str() << ".x = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name).c_str() << ".y = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name).c_str() << ".z = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << "[0] = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << "[1] = serial.getFloat();\n";
+    out <<  "  " << toVariable(param->name).c_str() << "[2] = serial.getFloat();\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -354,17 +354,17 @@ void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  PtVector3 get" << param->name.c_str() << "() { return "
+    out <<  "  WFMath::Point<3> get" << param->name.c_str() << "() { return "
         << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(const PtVector3& x)\n"
+        <<  "  void set" << param->name.c_str() << "(const WFMath::Point<3>& x)\n"
         <<  "  {\n"
         <<  "    " << toVariable(param->name).c_str() << " = x;\n"
         <<  "  }\n"
         <<  "  void set" << param->name.c_str() << "(float x, float y, float z)\n"
         <<  "  {\n"
-        <<  "    " << toVariable(param->name).c_str() << ".x = x;\n"
-        <<  "    " << toVariable(param->name).c_str() << ".y = y;\n"
-        <<  "    " << toVariable(param->name).c_str() << ".z = z;\n"
+        <<  "    " << toVariable(param->name).c_str() << "[0] = x;\n"
+        <<  "    " << toVariable(param->name).c_str() << "[1] = y;\n"
+        <<  "    " << toVariable(param->name).c_str() << "[2] = z;\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::LIST)
@@ -425,7 +425,7 @@ void nwWriter::writeParamListDefinition(std::ofstream& out, nwParams* param)
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    PtVector3 " << toVariable(param->name).c_str() << ";\n";
+    out <<  "    WFMath::Point<3> " << toVariable(param->name).c_str() << ";\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -471,9 +471,9 @@ void nwWriter::writeParamListSerialisation(std::ofstream& out, std::string listn
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0]);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1]);\n";
+    out <<  "    serial.setFloat(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2]);\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -519,9 +519,9 @@ void nwWriter::writeParamListDeserialisation(std::ofstream& out, std::string lis
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0] = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1] = serial.getFloat();\n";
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2] = serial.getFloat();\n";
   }
   else if (param->type == nwParamType::LIST)
   {
@@ -597,17 +597,17 @@ void nwWriter::writeParamListGetterSetter(std::ofstream& out, std::string listna
   }
   else if (param->type == nwParamType::VECTOR3F)
   {
-    out <<  "  PtVector3 get" << param->name.c_str() << "(size_t i) { return "
+    out <<  "  WFMath::Point<3> get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
-        <<  "  void set" << param->name.c_str() << "(size_t i, const PtVector3& x)\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, const WFMath::Point<3>& x)\n"
         <<  "  {\n"
         <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x;\n"
         <<  "  }\n"
         <<  "  void set" << param->name.c_str() << "(size_t i, float x, float y, float z)\n"
         <<  "  {\n"
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".x = x;\n"
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".y = y;\n"
-        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ".z = z;\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[0] = x;\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[1] = y;\n"
+        <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "[2] = z;\n"
         <<  "  }\n\n";
   }
   else if (param->type == nwParamType::LIST)

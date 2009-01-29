@@ -50,10 +50,10 @@ namespace PT
 
       spawnpoint->SetVariation(node->GetNode("item")->GetAttributeValueAsInt("variation"));
 
-      PtVector3 pos;
-      pos.x = node->GetNode("position")->GetAttributeValueAsFloat("x");
-      pos.y = node->GetNode("position")->GetAttributeValueAsFloat("y");
-      pos.z = node->GetNode("position")->GetAttributeValueAsFloat("z");
+      WFMath::Point<3> pos;
+      pos[0] = node->GetNode("position")->GetAttributeValueAsFloat("x");
+      pos[1] = node->GetNode("position")->GetAttributeValueAsFloat("y");
+      pos[2] = node->GetNode("position")->GetAttributeValueAsFloat("z");
       spawnpoint->SetPosition(pos);
 
       spawnpoint->SetSectorName(node->GetNode("position")->GetAttributeValue("sector"));

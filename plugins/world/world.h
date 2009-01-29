@@ -53,6 +53,8 @@ struct iCacheEntry;
 
 #include "common/world/world.h"
 
+#include "common/util/geomhelper.h"
+
 #include <iengine/mesh.h>
 #include <iutil/object.h>
 struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableListener>
@@ -78,8 +80,8 @@ struct EditorObject : public scfImplementation2<EditorObject, iObject, iMovableL
   void MovableChanged (iMovable* movable)
   {
     csBox3 box = wrap->GetWorldBoundingBox();
-    _object->position = movable->GetTransform().GetOrigin();
-    _object->worldBB = Geom::Box(box.Min(), box.Max()); 
+    _object->position = VectorHelper::Convert(movable->GetTransform().GetOrigin());
+    _object->worldBB = WFMath::AxisBox<3>(VectorHelper::Convert(box.Min()), VectorHelper::Convert(box.Max())); 
     CommitChanges();
   }
   void MovableDestroyed (iMovable* movable) {}
@@ -176,7 +178,7 @@ private:
   friend struct MovableCallBack;
   /// Callback to update the mesh coordinates.
   csRef<MovableCallBack> cb;
-  csVector3 position;
+  WFMath::Point<3> position;
 
   csWeakRef<iMeshWrapper> playerMesh;
 
@@ -217,7 +219,7 @@ public:
   * Enter the world at a coordinate in world space.
   * @param position coordinate.
   */
-  void EnterWorld(Geom::Vector3 position);
+  void EnterWorld(WFMath::Point<3> position);
 
   void SetMesh(iMeshWrapper* wrapper);
 

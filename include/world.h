@@ -34,9 +34,10 @@ class iPointerLibrary;
 struct iCamera;
 struct iMeshWrapper;
 
-namespace Geom
+namespace WFMath
 {
-  class Vector3;
+  template<const int Dim>
+  class Point;
 }
 
 namespace Common
@@ -57,7 +58,7 @@ struct iWorld : public virtual iBase
   * Enter the world at a coordinate in world space.
   * @param position coordinate.
   */
-  virtual void EnterWorld(Geom::Vector3 position) = 0;
+  virtual void EnterWorld(WFMath::Point<3> position) = 0;
 
   virtual void SetMesh(iMeshWrapper* wrapper) = 0;
 

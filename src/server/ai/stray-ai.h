@@ -20,15 +20,15 @@
 #define STRAY_AI_H
 
 #include "ai.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class StrayAI : public AI
 {
 private:
   NpcEntity* npc;
 
-  PtVector3 base;
-  PtVector3 radius;
+  WFMath::Point<3> base;
+  WFMath::Point<3> radius;
 
   unsigned int interval_base;
   unsigned int interval_rand;

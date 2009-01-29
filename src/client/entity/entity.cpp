@@ -46,6 +46,8 @@
 #include "client/component/componentmanager.h"
 #include "include/client/component/entity/stat/stats.h"
 
+#include "common/util/geomhelper.h"
+
 namespace PT
 {
   namespace Entity
@@ -136,7 +138,7 @@ namespace PT
             if (mov.IsValid())
             {
               mov->SetSector(sec);
-              mov->SetPosition(Geom::Vector3(pos));
+              mov->SetPosition(VectorHelper::Convert(pos));
               mov->GetTransform ().SetO2T (csYRotMatrix3(rotation));
               mov->UpdateMove();
             }

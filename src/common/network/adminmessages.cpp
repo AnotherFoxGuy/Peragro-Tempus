@@ -101,9 +101,9 @@ bool CreateNpcMessage::serialise(ByteStream* bs)
   serial.setString(name);
   serial.setString(filename);
   serial.setString(mesh);
-  serial.setFloat(pos.x);
-  serial.setFloat(pos.y);
-  serial.setFloat(pos.z);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
   serial.setString(race);
@@ -143,9 +143,9 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
   name = serial.getString();
   filename = serial.getString();
   mesh = serial.getString();
-  pos.x = serial.getFloat();
-  pos.y = serial.getFloat();
-  pos.z = serial.getFloat();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
   rotation = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
   race = serial.getString();
@@ -185,9 +185,9 @@ bool CreateSpawnPointMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(itemid);
   serial.setInt32(variation);
-  serial.setFloat(pos.x);
-  serial.setFloat(pos.y);
-  serial.setFloat(pos.z);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
   serial.setInt16(sectorid);
   serial.setInt32(interval);
   return serial.isValid();
@@ -200,9 +200,9 @@ void CreateSpawnPointMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   itemid = (unsigned int) serial.getInt32();
   variation = (unsigned int) serial.getInt32();
-  pos.x = serial.getFloat();
-  pos.y = serial.getFloat();
-  pos.z = serial.getFloat();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
   interval = (unsigned int) serial.getInt32();
 }
@@ -214,9 +214,9 @@ bool SpawnItemMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(itemid);
   serial.setInt32(variation);
-  serial.setFloat(pos.x);
-  serial.setFloat(pos.y);
-  serial.setFloat(pos.z);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
   serial.setInt16(sectorid);
   return serial.isValid();
 }
@@ -228,9 +228,9 @@ void SpawnItemMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   itemid = (unsigned int) serial.getInt32();
   variation = (unsigned int) serial.getInt32();
-  pos.x = serial.getFloat();
-  pos.y = serial.getFloat();
-  pos.z = serial.getFloat();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
 }
 
@@ -241,9 +241,9 @@ bool SpawnMountMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
-  serial.setFloat(pos.x);
-  serial.setFloat(pos.y);
-  serial.setFloat(pos.z);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
   serial.setFloat(rotation);
   serial.setInt16(sectorid);
   return serial.isValid();
@@ -256,9 +256,9 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
-  pos.x = serial.getFloat();
-  pos.y = serial.getFloat();
-  pos.z = serial.getFloat();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
   rotation = serial.getFloat();
   sectorid = (unsigned short) serial.getInt16();
 }
@@ -272,9 +272,9 @@ bool SpawnDoorMessage::serialise(ByteStream* bs)
   serial.setString(name);
   serial.setString(mesh);
   serial.setInt16(sectorid);
-  serial.setFloat(pos.x);
-  serial.setFloat(pos.y);
-  serial.setFloat(pos.z);
+  serial.setFloat(pos[0]);
+  serial.setFloat(pos[1]);
+  serial.setFloat(pos[2]);
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setString(animation);
@@ -290,9 +290,9 @@ void SpawnDoorMessage::deserialise(ByteStream* bs)
   name = serial.getString();
   mesh = serial.getString();
   sectorid = (unsigned short) serial.getInt16();
-  pos.x = serial.getFloat();
-  pos.y = serial.getFloat();
-  pos.z = serial.getFloat();
+  pos[0] = serial.getFloat();
+  pos[1] = serial.getFloat();
+  pos[2] = serial.getFloat();
   isopen = serial.getInt8() != 0;
   islocked = serial.getInt8() != 0;
   animation = serial.getString();

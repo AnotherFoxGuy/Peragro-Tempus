@@ -105,7 +105,7 @@ namespace Common
       return false;
     }
 
-    Octree::QueryResult WorldManager::Query(const Geom::Sphere& s)
+    Octree::QueryResult WorldManager::Query(const WFMath::Ball<3>& s)
     {
       return octree.Query(s);
     }

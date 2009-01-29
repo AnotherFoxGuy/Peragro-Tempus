@@ -27,9 +27,10 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 
+#include <wfmath/axisbox.h>
+
 #include <string>
 #include <map>
-#include "common/geom/box.h"
 #include "common/world/world.h"
 
 struct iObjectRegistry;
@@ -50,7 +51,7 @@ private:
 private:
   std::vector<Common::World::Factory> FindMeshFacts(const std::string& file, bool returnAll = false);
   std::vector<Common::World::Object> FindMeshObjects(const std::string& file);
-  Geom::Box GetBB(iDocumentNode* node);
+  WFMath::AxisBox<3> GetBB(iDocumentNode* node);
 
 public:
   /// Constructor.

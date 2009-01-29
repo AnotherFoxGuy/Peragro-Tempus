@@ -43,6 +43,8 @@
 
 #include "common/util/printhelper.h"
 
+#include "common/util/geomhelper.h"
+
 void ResourceManager::Report(int severity, const char* msg, ...)
 {
   va_list arg;
@@ -78,7 +80,7 @@ void ResourceManager::AddTestObjects()
     object->name = "test1";
     object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object->factoryName = "genscythe001";
-    object->position = Geom::Vector3(642, 14, 371);
+    object->position = WFMath::Point<3>(642, 14, 371);
     object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
@@ -88,7 +90,7 @@ void ResourceManager::AddTestObjects()
     object->name = "test2";
     object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object->factoryName = "genscythe001";
-    object->position = Geom::Vector3(642, 14, 376);
+    object->position = WFMath::Point<3>(642, 14, 376);
     object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
@@ -149,9 +151,9 @@ std::vector<Common::World::Factory> ResourceManager::FindMeshFacts(const std::st
   return meshFacts;
 }
 
-Geom::Box ResourceManager::GetBB(iDocumentNode* node)
+WFMath::AxisBox<3> ResourceManager::GetBB(iDocumentNode* node)
 {
-  Geom::Box bbox;
+  WFMath::AxisBox<3> bbox;
   std::string factoryName = node->GetAttributeValue("name");
 
   //-------------------------------------------------
@@ -168,7 +170,7 @@ Geom::Box ResourceManager::GetBB(iDocumentNode* node)
       {
         csRef<iObjectModel> obj = mfw->GetMeshObjectFactory()->GetObjectModel();
         csBox3 box = obj->GetObjectBoundingBox();
-        bbox = Geom::Box(box.Min(), box.Max());
+        bbox = WFMath::AxisBox<3>(VectorHelper::Convert(box.Min()), VectorHelper::Convert(box.Max()));
       }
   coll->ReleaseAllObjects();
   //-------------------------------------------------
@@ -195,9 +197,9 @@ void ResourceManager::ScanFactories(const std::string& path)
         std::vector<Common::World::Factory>::iterator it;
         for (it = facts.begin(); it != facts.end(); it++ )
         {
-          if ((*it).boundingBox.Empty())
+          if ((*it).boundingBox.isValid())
           {
-            (*it).boundingBox = Geom::Box(Geom::Vector3(0, 0, 0), Geom::Vector3(1, 1, 1));
+            (*it).boundingBox = WFMath::AxisBox<3>(WFMath::Point<3>(0, 0, 0), WFMath::Point<3>(1, 1, 1));
             printf("E: invalid boundingbox for %s (%s)\n", (*it).factoryName.c_str(), (*it).factoryFile.c_str());
           }
           worldManager->Add(*it);
@@ -226,21 +228,21 @@ std::string GetFactoryFile(const std::string& factoryName, const std::vector<Com
   return "Error: file for factname not found";
 }
 
-Geom::Vector3 GetPosition(iDocumentNode* node, float xOffset = 0, float zOffset = 0)
+WFMath::Point<3> GetPosition(iDocumentNode* node, float xOffset = 0, float zOffset = 0)
 {
-  Geom::Vector3 vec;
+  WFMath::Point<3> vec;
 
   csRef<iDocumentNode> move = node->GetNode ("move");
-  if (!move) return Geom::Vector3();
+  if (!move) return WFMath::Point<3>();
   csRef<iDocumentNode> v = move->GetNode ("v");
-  if (!v) return Geom::Vector3();
+  if (!v) return WFMath::Point<3>();
 
-  vec.x = v->GetAttributeValueAsFloat("x");
-  vec.y = v->GetAttributeValueAsFloat("y");
-  vec.z = v->GetAttributeValueAsFloat("z");
+  vec[0] = v->GetAttributeValueAsFloat("x");
+  vec[1] = v->GetAttributeValueAsFloat("y");
+  vec[2] = v->GetAttributeValueAsFloat("z");
 
-  vec.x += xOffset;
-  vec.z += zOffset;
+  vec[0] += xOffset;
+  vec[2] += zOffset;
 
   return vec;
 }

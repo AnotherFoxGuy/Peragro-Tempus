@@ -65,7 +65,7 @@ void CharacterTable::createTable()
   //unsigned char haircolour[3] = {255,255,255};
   //unsigned char skincolour[3] = {255,255,255};
   //unsigned char decalcolour[3] = {255,255,255};
-  //PtVector3 pos(0.0f);
+  //WFMath::Point<3> pos(0.0f);
   //insert(1, ptString("test-dummy", 10), 0, ptString("test",4), 1, haircolour,
   //          skincolour, decalcolour, pos, ptString("room",4));
   //insert(2, ptString("baby-dragonfly", 14), 0, ptString("test1",5), 1, haircolour,
@@ -87,7 +87,7 @@ void CharacterTable::insert(int id, const ptString& name, int user_id,
                             unsigned char haircolour[3],
                             unsigned char skincolour[3],
                             unsigned char decalcolour[3],
-                            const PtVector3& pos, const ptString& sector)
+                            const WFMath::Point<3>& pos, const ptString& sector)
 {
   db->update("insert into characters (id, name, user, mesh, race, "
              "haircolour_r, haircolour_g, haircolour_b, "
@@ -100,7 +100,7 @@ void CharacterTable::insert(int id, const ptString& name, int user_id,
              haircolour[0],haircolour[1],haircolour[2],
              skincolour[0],skincolour[1],skincolour[2],
              decalcolour[0],decalcolour[1],decalcolour[2],
-             pos.x, pos.y, pos.z, *sector);
+             pos[0], pos[1], pos[2], *sector);
 }
 
 int CharacterTable::getMaxId()
@@ -125,11 +125,11 @@ void CharacterTable::remove(int id)
   db->update("delete from characters where id = %d;", id);
 }
 
-void CharacterTable::update(const PtVector3& pos, float rotation,
+void CharacterTable::update(const WFMath::Point<3>& pos, float rotation,
                             const ptString& sector, int char_id)
 {
   db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector='%q' where id = %d;",
-    pos.x, pos.y, pos.z, rotation, *sector, char_id);
+    pos[0], pos[1], pos[2], rotation, *sector, char_id);
 }
 
 CharactersTableVO* CharacterTable::parseSingleResultSet(ResultSet* rs, size_t row)

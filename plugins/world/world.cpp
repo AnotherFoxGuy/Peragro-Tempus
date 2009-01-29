@@ -18,6 +18,8 @@
 
 #include "world.h"
 
+#include <wfmath/stream.h>
+
 #include <iengine/rview.h>
 #include <iengine/camera.h>
 #include <iengine/scenenode.h>
@@ -128,7 +130,7 @@ WorldManager::WorldManager(iBase* iParent)
   : scfImplementationType(this, iParent), worldManager(0), object_reg(0)
 {
   loading = false;
-  position.Set(0.0f);
+  position = WFMath::Point<3>(0.0f);
   radius = 30;
 
   worldManager = new Common::World::WorldManager();
@@ -345,7 +347,7 @@ bool WorldManager::HandleEvent(iEvent& ev)
   return true;
 } // end HandleEvent()
 
-void WorldManager::EnterWorld(Geom::Vector3 position)
+void WorldManager::EnterWorld(WFMath::Point<3> position)
 {
   Report(CS_REPORTER_SEVERITY_NOTIFY, "World loading...");
 
@@ -392,11 +394,11 @@ int ptCompare(T const& r1, K const& r2)
 void WorldManager::CameraMoved()
 {
   using namespace Common::World;
-  Octree::QueryResult objects = worldManager->Query(Geom::Sphere(position, radius));
+  Octree::QueryResult objects = worldManager->Query(WFMath::Ball<3>(position, radius));
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;
-  if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n", objects.size(), (float)radius, position.Description().GetData());
+  if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n", objects.size(), (float)radius, WFMath::ToString(position).c_str());
   for (it = objects.begin(); it != objects.end(); it++ )
   {
     size_t index = instances.FindSortedKey(csArrayCmp<Instance*, Object*>(*it, ptCompare));
@@ -428,7 +430,7 @@ void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
     return;
   }
 
-  world->position = movable->GetTransform().GetOrigin();
+  world->position = VectorHelper::Convert(movable->GetTransform().GetOrigin());
 
   world->CameraMoved();
 

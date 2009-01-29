@@ -37,19 +37,19 @@ std::string FactoriesTable::GetFactoryName(ResultSet* rs, size_t row)
   return rs->GetData(row, 1);
 }
 
-Geom::Vector3 FactoriesTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
+WFMath::Point<3> FactoriesTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
 {
   float x = (float)atof(rs->GetData(row, offset+0).c_str());
   float y = (float)atof(rs->GetData(row, offset+1).c_str());
   float z = (float)atof(rs->GetData(row, offset+2).c_str());
-  return Geom::Vector3(x, y, z);
+  return WFMath::Point<3>(x, y, z);
 }
 
-Geom::Box FactoriesTable::GetBoundingBox(ResultSet* rs, size_t row)
+WFMath::AxisBox<3> FactoriesTable::GetBoundingBox(ResultSet* rs, size_t row)
 {
-  Geom::Vector3 min = GetPosition(rs, row, 2);
-  Geom::Vector3 max = GetPosition(rs, row, 5);
-  return Geom::Box(min, max);
+  WFMath::Point<3> min = GetPosition(rs, row, 2);
+  WFMath::Point<3> max = GetPosition(rs, row, 5);
+  return WFMath::AxisBox<3>(min, max);
 }
 
 size_t FactoriesTable::GetDetailLevel(ResultSet* rs, size_t row)
@@ -104,12 +104,12 @@ void FactoriesTable::Insert(const Common::World::Factory& factory)
     ");" };
 
   db->update(query, factory.factoryFile.c_str(), factory.factoryName.c_str(),
-    factory.boundingBox.Min().x, factory.boundingBox.Min().y, factory.boundingBox.Min().z,
-    factory.boundingBox.Max().x, factory.boundingBox.Max().y, factory.boundingBox.Max().z,
+    factory.boundingBox.lowCorner()[0], factory.boundingBox.lowCorner()[1], factory.boundingBox.lowCorner()[2],
+    factory.boundingBox.highCorner()[0], factory.boundingBox.highCorner()[1], factory.boundingBox.highCorner()[2],
     factory.detailLevel, factory.hash.c_str());
 }
 
-Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
+WFMath::AxisBox<3> FactoriesTable::GetBB(const std::string& factoryFile, const std::string& factoryName)
 {
   const char* query = {"select * "
                        "from factories "
@@ -118,9 +118,9 @@ Geom::Box FactoriesTable::GetBB(const std::string& factoryFile, const std::strin
   if (!rs || rs->GetRowCount() == 0)
   {
     //printf("E: FactoriesTable::GetBB: No such factory '%s' - '%s'\n", factoryFile.c_str(), factoryName.c_str());
-    return Geom::Box();
+    return WFMath::AxisBox<3>();
   }
-  Geom::Box box = GetBoundingBox(rs, 0);
+  WFMath::AxisBox<3> box = GetBoundingBox(rs, 0);
   delete rs;
   return box;
 }

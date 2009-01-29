@@ -21,14 +21,14 @@
 
 #include "ai.h"
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class PathAI : public AI
 {
 private:
   NpcEntity* npc;
 
-  PtVector3* points;
+  WFMath::Point<3>* points;
   unsigned int* intervals;
   unsigned int pointCount;
 

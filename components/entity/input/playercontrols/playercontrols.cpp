@@ -54,6 +54,8 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
+#include "common/util/geomhelper.h"
+
 CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
@@ -313,7 +315,7 @@ bool ComponentPlayerControls::ActionMoveTo(iEvent& ev)
       csRef<iEvent> effectEvent = evmgr->CreateEvent("effect.atposition");
       effectEvent->Add("effect", "MoveMarker");
       PT::Events::EntityHelper::SetVector3(
-        effectEvent, "position", isect+csVector3(0,0.01f,0));
+        effectEvent, "position", VectorHelper::Convert(isect+csVector3(0,0.01f,0)));
       if (sector)
         effectEvent->Add("sector", sector->QueryObject()->GetName());
       evmgr->AddEvent(effectEvent);

@@ -47,12 +47,12 @@ std::string ObjectsTable::GetFactoryName(ResultSet* rs, size_t row)
   return rs->GetData(row, 3);
 }
 
-Geom::Vector3 ObjectsTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
+WFMath::Point<3> ObjectsTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
 {
   float x = (float)atof(rs->GetData(row, offset+0).c_str());
   float y = (float)atof(rs->GetData(row, offset+1).c_str());
   float z = (float)atof(rs->GetData(row, offset+2).c_str());
-  return Geom::Vector3(x, y, z);
+  return WFMath::Point<3>(x, y, z);
 }
 
 std::string ObjectsTable::GetSectorName(ResultSet* rs, size_t row)
@@ -60,11 +60,11 @@ std::string ObjectsTable::GetSectorName(ResultSet* rs, size_t row)
   return rs->GetData(row, 7);
 }
 
-Geom::Box ObjectsTable::GetWorldBB(ResultSet* rs, size_t row)
+WFMath::AxisBox<3> ObjectsTable::GetWorldBB(ResultSet* rs, size_t row)
 {
-  Geom::Vector3 min = GetPosition(rs, row, 8);
-  Geom::Vector3 max = GetPosition(rs, row, 11);
-  return Geom::Box(min, max);
+  WFMath::Point<3> min = GetPosition(rs, row, 8);
+  WFMath::Point<3> max = GetPosition(rs, row, 11);
+  return WFMath::AxisBox<3>(min, max);
 }
 
 ObjectsTable::ObjectsTable(Database* db) : Table(db)
@@ -129,10 +129,10 @@ void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
     id = getMaxId(db) + 1;
 
   db->update(query, id, object.name.c_str(), object.factoryFile.c_str(), object.factoryName.c_str(),
-    object.position.x, object.position.y, object.position.z,
+    object.position[0], object.position[1], object.position[2],
     object.sector.c_str(),
-    object.worldBB->Min().x, object.worldBB->Min().y, object.worldBB->Min().z,
-    object.worldBB->Max().x, object.worldBB->Max().y, object.worldBB->Max().z,
+    object.worldBB->lowCorner()[0], object.worldBB->lowCorner()[1], object.worldBB->lowCorner()[2],
+    object.worldBB->highCorner()[0], object.worldBB->highCorner()[1], object.worldBB->highCorner()[2],
     object.detailLevel);
 }
 

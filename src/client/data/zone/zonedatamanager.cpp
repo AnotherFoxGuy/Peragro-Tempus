@@ -19,6 +19,8 @@
 #include <cssysdef.h>
 #include <iutil/document.h>
 
+#include <wfmath/point.h>
+
 #include "zonedatamanager.h"
 
 namespace PT
@@ -52,7 +54,7 @@ namespace PT
       while (nodes->HasNext())
       {
         csRef<iDocumentNode> zonenode = nodes->Next();
-        zone->AddNode(PtVector2(zonenode->GetAttributeValueAsFloat("X"), zonenode->GetAttributeValueAsFloat("Z")));
+        zone->AddNode(WFMath::Point<2>(zonenode->GetAttributeValueAsFloat("X"), zonenode->GetAttributeValueAsFloat("Z")));
       }
 
       zones.push_back(zone);

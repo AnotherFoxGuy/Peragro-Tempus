@@ -33,11 +33,8 @@ namespace Common
   } // namespace World
 } // namespace Common
 
-namespace Geom
-{
-  class Box;
-  class Vector3;
-} // namespace Geom
+#include <wfmath/axisbox.h>
+#include <wfmath/point.h>
 
 /**
  * Provides an interface to the database to handle storage of reputations.
@@ -54,9 +51,9 @@ private:
   std::string GetName(ResultSet* rs, size_t row);
   std::string GetFactoryFile(ResultSet* rs, size_t row);
   std::string GetFactoryName(ResultSet* rs, size_t row);
-  Geom::Vector3 GetPosition(ResultSet* rs, size_t row, size_t offset = 4);
+  WFMath::Point<3> GetPosition(ResultSet* rs, size_t row, size_t offset = 4);
   std::string GetSectorName(ResultSet* rs, size_t row);
-  Geom::Box GetWorldBB(ResultSet* rs, size_t row);
+  WFMath::AxisBox<3> GetWorldBB(ResultSet* rs, size_t row);
 
 public:
   ObjectsTable(Database* db);

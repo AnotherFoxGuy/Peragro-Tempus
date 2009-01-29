@@ -20,7 +20,7 @@
 #define PT_DATASPAWNPOINT_H
 
 #include <string>
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 namespace PT
 {
@@ -43,7 +43,7 @@ namespace PT
       unsigned int variation;
 
       ///Position of the spawnpoint in a sector (ie x='20', y='30', z='40').
-      PtVector3 position;
+      WFMath::Point<3> position;
       ///Name of the sector where the spawnpoint resides (e.g. 'room').
       std::string sectorName;
 
@@ -59,9 +59,9 @@ namespace PT
       unsigned int GetVariation() const { return variation; }
 
       void SetPosition(float x, float y, float z)
-      { position = PtVector3(x,y,z); }
-      void SetPosition(const PtVector3& value) { position = value;}
-      const PtVector3& GetPosition() const { return position; }
+      { position = WFMath::Point<3>(x,y,z); }
+      void SetPosition(const WFMath::Point<3>& value) { position = value;}
+      const WFMath::Point<3>& GetPosition() const { return position; }
 
       void SetSectorName(const std::string& value) { sectorName = value; }
       const std::string& GetSectorName() const { return sectorName; }

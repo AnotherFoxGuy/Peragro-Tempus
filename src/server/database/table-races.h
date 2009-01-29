@@ -21,7 +21,7 @@
 
 #include "common/database/table.h"
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class Database;
 class MeshListTable;
@@ -55,7 +55,7 @@ public:
    * @param sector The sector in which the race is located.
    */
   void insert(int id, const ptString& name, unsigned int mesh,
-              const PtVector3& pos, const ptString& sector);
+              const WFMath::Point<3>& pos, const ptString& sector);
   /**
    * Returns the highest id any race have.
    * @return The highest race id.

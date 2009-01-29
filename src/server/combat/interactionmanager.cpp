@@ -17,6 +17,11 @@
 */
 
 #include <stdlib.h>
+
+#include <wfmath/point.h>
+#include <wfmath/vector.h>
+#include <wfmath/stream.h>
+
 #include "server/server.h"
 #include "interactionmanager.h"
 #include "interaction.h"
@@ -213,9 +218,9 @@ InteractionManager::DropAllItems(Character *lockedCharacter) {
       // Release items in a circlular pattern
       const float radians = (2.0f*3.14f / itemsToDrop) * itemsDropped;
       const float radius = 0.8f;
-      const PtVector3 delta(cos(radians) * radius, sin(radians) * radius,
+      const WFMath::Vector<3> delta(cos(radians) * radius, sin(radians) * radius,
         0.0f);
-      ent->setPos(lockedCharacter->getEntity()->getPos() + delta);
+      ent->setPos(WFMath::Point<3>(lockedCharacter->getEntity()->getPos() + delta));
       ent->setSector(lockedCharacter->getEntity()->getSector());
 
       itemsDropped++;
@@ -372,15 +377,15 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   float attackAngle = 0;
   float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
-  const PtVector3 attackerPos(lockedAttacker->getEntity()->getPos());
-  const PtVector3 targetPos(lockedTarget->getEntity()->getPos());
+  const WFMath::Point<3> attackerPos(lockedAttacker->getEntity()->getPos());
+  const WFMath::Point<3> targetPos(lockedTarget->getEntity()->getPos());
 
   maxAttackDistance = GetReach(lockedAttacker);
   distance = Distance(attackerPos, targetPos);
 
   printf(IM "attackerPos: %s, targetPos: %s, distance %f, "
-    "maxAttackDistance: %f\n", attackerPos.ToString().c_str(),
-    targetPos.ToString().c_str(), distance, maxAttackDistance);
+    "maxAttackDistance: %f\n", WFMath::ToString(attackerPos).c_str(),
+    WFMath::ToString(targetPos).c_str(), distance, maxAttackDistance);
 
   if (distance > maxAttackDistance)
   {
@@ -389,13 +394,13 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
     return false;
   }
 
-  PtVector3 difference = attackerPos - targetPos;
+  WFMath::Point<3> difference(attackerPos - targetPos);
 
   attackerRotation =
     PT::Math::NormalizeAngle(lockedAttacker->getEntity()->getRotation());
 
-  if (difference.x == 0.0f) difference.x = PT_EPSILON;
-  attackAngle = PT::Math::NormalizeAngle(atan2(difference.x, difference.z));
+  if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
+  attackAngle = PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
 
   angleDiff = attackAngle - attackerRotation;
 

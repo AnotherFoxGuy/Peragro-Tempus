@@ -191,7 +191,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);
   unsigned int sectorId = EntityHelper::GetSectorId(&ev);
 
-  csVector3 position = PtVector3(EntityHelper::GetVector3(&ev, "from"));
+  csVector3 position = VectorHelper::Convert(EntityHelper::GetVector3(&ev, "from"));
 
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
@@ -242,8 +242,8 @@ bool ComponentNetworkMove::MoveTo(iEvent& ev)
   if (moveTo) delete moveTo;
   moveTo = new MoveToData();
 
-  csVector3 pos_ori = PtVector3(EntityHelper::GetVector3(&ev, "from"));
-  csVector3 pos_dst = PtVector3(EntityHelper::GetVector3(&ev, "to"));
+  csVector3 pos_ori = VectorHelper::Convert(EntityHelper::GetVector3(&ev, "from"));
+  csVector3 pos_dst = VectorHelper::Convert(EntityHelper::GetVector3(&ev, "to"));
 
   float speed = 0.0f;
   ev.Retrieve("speed", speed);

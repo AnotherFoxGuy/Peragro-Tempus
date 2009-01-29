@@ -19,7 +19,7 @@
 #ifndef ZONEMANAGER_H
 #define ZONEMANAGER_H
 
-#include "common/geom/vector2.h"
+#include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
 #include <vector>
@@ -39,7 +39,7 @@ public:
   struct Zone
   {
     ptString type;
-    std::vector<PtVector2> coords;
+    std::vector<WFMath::Point<2> > coords;
   };
 private:
   Server* server;

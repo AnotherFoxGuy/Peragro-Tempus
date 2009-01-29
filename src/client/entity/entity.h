@@ -35,6 +35,8 @@
 
 #include "common/entity/entity.h"
 
+#include "common/util/geomhelper.h"
+
 struct iMeshWrapper;
 
 namespace PT
@@ -136,6 +138,10 @@ namespace PT
        * @param poseId ID of the pose.
        */
       virtual void Pose(unsigned int poseId) {}
+
+      ///Set the position of entity, an overload that takes csVector3.
+      void SetPosition(const csVector3& v) 
+        { Common::Entity::Entity::SetPosition(VectorHelper::Convert(v)); }
 
       /**
        * Changes the entity position and sector immediatelly

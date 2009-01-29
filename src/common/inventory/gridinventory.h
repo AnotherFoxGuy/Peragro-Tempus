@@ -25,7 +25,7 @@
 
 #include "src/common/inventory/inventory.h"
 
-#include "common/geom/quadtree.h"
+#include <wfmath/quadtree.h>
 
 namespace PT
 {
@@ -41,7 +41,7 @@ namespace PT
       {
       private:
         struct PositionedObject;
-        typedef Geom::QuadTree<PositionedObject, Geom::Rectangle, false>::Type Quadtree;
+        typedef WFMath::QuadTree<PositionedObject, WFMath::AxisBox<2>, false>::Type Quadtree;
         struct PositionedObject
         {
           std::string name;

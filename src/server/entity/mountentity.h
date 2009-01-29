@@ -41,8 +41,8 @@ private:
 
   bool isWalking;
 
-  PtVector3 final_dst;
-  PtVector3 tmp_pos;
+  WFMath::Point<3> final_dst;
+  WFMath::Point<3> tmp_pos;
   size_t t_stop;
   size_t t_org;
 
@@ -83,8 +83,8 @@ public:
   size_t getMaxPassengers() const { return max_passengers; }
   const PcEntity* getPassenger(size_t i) const;
 
-  void walkTo(const PtVector3& dst_pos, float speed);
-  PtVector3 getPos();
+  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
+  WFMath::Point<3> getPos();
 
   float getSpeed() const { return speed; }
 };

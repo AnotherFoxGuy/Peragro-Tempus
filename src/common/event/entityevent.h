@@ -37,7 +37,7 @@
 
 #include <wfmath/point.h>
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 #include "common/reporter/reporter.h"
 
@@ -83,32 +83,21 @@ namespace PT
       }
 
       /**
-       * Add coordinates to an event parameter, as a csVector3.
+       * Add coordinates to an event parameter, as a WFMath::Point<3>.
        * @param ev An entity event.
        * @param name The name of the event parameter to add the coordinates to.
        * @param pos The coordinates.
        */
       static void SetVector3(iEvent* ev, const char* name, const WFMath::Point<3>& pos)
       {
-        SetVector3(ev, name, PtVector3(pos[0], pos[1], pos[2]));
-      }
-
-      /**
-       * Add coordinates to an event parameter, as a PtVector3.
-       * @param ev An entity event.
-       * @param name The name of the event parameter to add the coordinates to.
-       * @param pos The coordinates.
-       */
-      static void SetVector3(iEvent* ev, const char* name, const PtVector3& pos)
-      {
         std::string nm = name;
         std::string nmX = nm + "_x";
         std::string nmY = nm + "_y";
         std::string nmZ = nm + "_z";
 
-        ev->Add(nmX.c_str(), pos.x);
-        ev->Add(nmY.c_str(), pos.y);
-        ev->Add(nmZ.c_str(), pos.z);
+        ev->Add(nmX.c_str(), pos[0]);
+        ev->Add(nmY.c_str(), pos[1]);
+        ev->Add(nmZ.c_str(), pos[2]);
       }
 
       /**
@@ -143,7 +132,7 @@ namespace PT
        * @param ev An entity event.
        * @param pos The coordinates.
        */
-      static void SetPosition(iEvent* ev, const PtVector3& pos)
+      static void SetPosition(iEvent* ev, const WFMath::Point<3>& pos)
       {
         SetVector3(ev, "position", pos);
       }

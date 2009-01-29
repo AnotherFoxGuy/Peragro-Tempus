@@ -20,7 +20,7 @@
 #define PT_DATADOOR_H
 
 #include <string>
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 namespace PT
 {
@@ -44,7 +44,7 @@ namespace PT
       ///(e.g. 'gate_north_gate').
       std::string meshName;
       ///Position of the door in a sector (e.g. x='20', y='30', z='40').
-      PtVector3 position;
+      WFMath::Point<3> position;
       ///Name of the sector where the door resides (e.g. 'room').
       std::string sectorName;
       ///ID of the key that locks/unlocks the door (e.g. '7').
@@ -69,9 +69,9 @@ namespace PT
       const std::string& GetMeshName() const { return meshName; }
 
       void SetPosition(float x, float y, float z)
-        { position = PtVector3(x,y,z); }
-      void SetPosition(const PtVector3& value) { position = value;}
-      const PtVector3& GetPosition() const { return position; }
+        { position = WFMath::Point<3>(x,y,z); }
+      void SetPosition(const WFMath::Point<3>& value) { position = value;}
+      const WFMath::Point<3>& GetPosition() const { return position; }
 
       void SetSectorName(const std::string& value) { sectorName = value; }
       const std::string& GetSectorName() const { return sectorName; }

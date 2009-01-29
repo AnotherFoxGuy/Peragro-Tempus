@@ -23,9 +23,10 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "common/geom/octree.h"
-#include "common/geom/box.h"
-#include "common/geom/vector3.h"
+#include <wfmath/octree.h>
+#include <wfmath/axisbox.h>
+#include <wfmath/point.h>
+#include <wfmath/ball.h>
 
 //class dbSQLite;
 #include "common/database/sqlite/sqlite.h"
@@ -41,7 +42,7 @@ namespace Common
   }
 }
 
-typedef Geom::OcTree<Common::World::Object, Geom::Box, true>::Type Octree;
+typedef WFMath::OcTree<Common::World::Object, WFMath::AxisBox<3>, true>::Type Octree;
 
 namespace Common
 {
@@ -51,7 +52,7 @@ namespace Common
     {
       std::string factoryFile;
       std::string factoryName;
-      Geom::Box boundingBox;
+      WFMath::AxisBox<3> boundingBox;
       size_t detailLevel;
       std::string hash;
     };
@@ -77,7 +78,7 @@ namespace Common
       std::string name;
       std::string factoryFile;
       std::string factoryName;
-      Geom::Vector3 position;
+      WFMath::Point<3> position;
       std::string sector;
       Octree::Shape worldBB;
       size_t detailLevel;
@@ -114,7 +115,7 @@ namespace Common
         return factoryTable.GetMD5(factoryFile, factoryName);
       }
 
-      Octree::QueryResult Query(const Geom::Sphere& s);
+      Octree::QueryResult Query(const WFMath::Ball<3>& s);
     };
 
   } // namespace World

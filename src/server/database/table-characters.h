@@ -28,7 +28,7 @@ class User;
 class Mesh;
 
 #include "common/util/ptstring.h"
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 class CharactersTableVO
 {
@@ -91,7 +91,7 @@ public:
   void insert(int id, const ptString& name, int user_id, const Mesh* mesh,
               int race_id, unsigned char haircolour[3],
               unsigned char skincolour[3], unsigned char decalcolour[3],
-              const PtVector3& pos, const ptString& sector);
+              const WFMath::Point<3>& pos, const ptString& sector);
   /**
    * Returns the highest ID any character has.
    * @return The maximum ID any character has, or zero if no character avaialbe.
@@ -113,7 +113,7 @@ public:
    * @param sector The new sector location.
    * @param char_id The id of the character for which to update the location.
    */
-  void update(const PtVector3& pos, float rot, const ptString& sector,
+  void update(const WFMath::Point<3>& pos, float rot, const ptString& sector,
               int char_id);
   /**
    * Checks if a character exists in the database based on its name.
