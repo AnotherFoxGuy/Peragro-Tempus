@@ -87,6 +87,9 @@ class AxisBox
   AxisBox& operator=(const AxisBox& a)
   {m_low = a.m_low; m_high = a.m_high; return *this;}
 
+  AxisBox& operator+=(const Point<dim>& v) { shift(Vector<dim>(v)); return *this; }
+  AxisBox& operator+=(const Vector<dim>& v) { shift(v); return *this; }
+
   bool isEqualTo(const AxisBox& b, double epsilon = WFMATH_EPSILON) const;
   bool operator==(const AxisBox& a) const	{return isEqualTo(a);}
   bool operator!=(const AxisBox& a) const	{return !isEqualTo(a);}

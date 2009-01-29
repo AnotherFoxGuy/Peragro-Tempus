@@ -31,6 +31,7 @@
 #include <algorithm>
 
 #include <wfmath/ball.h>
+#include <wfmath/intersect.h>
 
 namespace WFMath
 {

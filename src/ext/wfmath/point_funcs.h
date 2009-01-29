@@ -138,6 +138,20 @@ inline Point<dim> operator-(const Point<dim>& c, const Vector<dim>& v)
 }
 
 template<const int dim>
+inline Point<dim> operator*(const Point<dim>& c1, const Point<dim>& c2)
+{
+  Point<dim> out;
+
+  for(int i = 0; i < dim; ++i) {
+    out.m_elem[i] = c1.m_elem[i] * c2.m_elem[i];
+  }
+
+  out.m_valid = c1.m_valid && c2.m_valid;
+
+  return out;
+}
+
+template<const int dim>
 inline Point<dim>& Point<dim>::operator=(const Point<dim>& rhs)
 {
     // Compare pointer addresses

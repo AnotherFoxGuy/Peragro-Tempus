@@ -79,7 +79,7 @@ class Polygon<2>
 
   // Descriptive characteristics
 
-  int numCorners() const {return m_points.size();}
+  int numCorners() const {return (int)m_points.size();}
   Point<2> getCorner(int i) const
   {assert(i >= 0 && ((unsigned int) i) < m_points.size()); return m_points[i];}
 #ifndef WFMATH_NO_TEMPLATES_AS_TEMPLATE_PARAMETERS

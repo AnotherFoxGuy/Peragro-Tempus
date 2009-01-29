@@ -49,6 +49,9 @@ template<const int dim>
 Point<dim> operator-(const Point<dim>& c, const Vector<dim>& v);
 
 template<const int dim>
+Point<dim> operator*(const Point<dim>& c1, const Point<dim>& c2);
+
+template<const int dim>
 CoordType SquaredDistance(const Point<dim>& p1, const Point<dim>& p2);
 template<const int dim>
 CoordType Distance(const Point<dim>& p1, const Point<dim>& p2)
@@ -157,6 +160,8 @@ class Point
 
   friend Point& operator+=<dim>(Point& p, const Vector<dim>& rhs);
   friend Point& operator-=<dim>(Point& p, const Vector<dim>& rhs);
+
+  friend Point<dim> operator*<dim>(const Point& c1, const Point& c2);
 
   /// Rotate about point p
   Point& rotate(const RotMatrix<dim>& m, const Point& p)
