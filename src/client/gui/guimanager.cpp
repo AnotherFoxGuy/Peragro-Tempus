@@ -46,11 +46,20 @@ namespace PT
 
     GUIManager::~GUIManager ()
     {
+
+      if (!dlgConfig->SaveConfiguration("/peragro/config/dialog.cfg"))
+      {
+        Report(PT::Warning,"Failed saving dialog.cfg!\n");
+      } else {
+        Report(PT::Notify,"Saving dialog.cfg!\n");
+      }
+
       // Delete GUIWindows 
       for (size_t i = 0; i < windows.GetSize(); ++i)
       {
         delete windows[i];
       }
+
       delete skinMgr;
       delete dlgConfig;
       delete menuMgr;
@@ -201,10 +210,20 @@ namespace PT
         chat->Create();
         windows.Push(chat);
 
-        PT::GUI::Windows::HUDWindow* hud =
-          new PT::GUI::Windows::HUDWindow(this);
-        hud->Create();
-        windows.Push(hud);
+        PT::GUI::Windows::ChatInputWindow* chatinput =
+          new PT::GUI::Windows::ChatInputWindow(this);
+        chatinput->Create();
+        windows.Push(chatinput);
+
+        PT::GUI::Windows::StatsHUDWindow* statshud =
+          new PT::GUI::Windows::StatsHUDWindow(this);
+        statshud->Create();
+        windows.Push(statshud);
+
+        PT::GUI::Windows::SkillsHUDWindow* skillshud =
+          new PT::GUI::Windows::SkillsHUDWindow(this);
+        skillshud->Create();
+        windows.Push(skillshud);
 
         PT::GUI::Windows::SelectCharWindow* charsel =
           new PT::GUI::Windows::SelectCharWindow(this);
@@ -270,6 +289,27 @@ namespace PT
           new PT::GUI::Windows::BookWindow(this);
         bookWindow->Create();
         windows.Push(bookWindow);
+
+        // Dialogs to save position, size and visable properties
+        dlgConfig->AddDialog(server->GetName());
+        dlgConfig->AddDialog(buy->GetName());
+        dlgConfig->AddDialog(chat->GetName());
+        dlgConfig->AddDialog(chatinput->GetName());
+        dlgConfig->AddDialog(skillshud->GetName());
+        dlgConfig->AddDialog(statshud->GetName());
+        dlgConfig->AddDialog(status->GetName());
+        dlgConfig->AddDialog(sell->GetName());
+        dlgConfig->AddDialog(npcWindow->GetName());
+        dlgConfig->AddDialog(inventoryWindow->GetName());
+        dlgConfig->AddDialog(buddyWindow->GetName());
+        dlgConfig->AddDialog(interactDialogWindow->GetName());
+        dlgConfig->AddDialog(bookWindow->GetName());
+
+
+        if (!dlgConfig->LoadConfiguration("/peragro/config/dialog.cfg"))
+        {  
+          Report(PT::Warning, "Unable to load dialogs settings!");
+        }
 
         isInitialized = true;
       }
