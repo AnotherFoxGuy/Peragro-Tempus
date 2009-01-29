@@ -322,6 +322,9 @@
 				RelativePath="..\..\src\client\gui\chat-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\chatinput-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.cpp">
 			</File>
 			<File
@@ -435,6 +438,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\chat-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\chatinput-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.h">
