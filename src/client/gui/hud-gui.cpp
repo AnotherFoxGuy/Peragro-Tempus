@@ -17,6 +17,7 @@
 */
 
 #include "client/gui/gui.h"
+#include "client/gui/hud-gui.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"

@@ -212,12 +212,12 @@ namespace PT
             float maxStamina = player->GetMaxStamina();
             float ratio = currentStamina / maxStamina;
             using namespace PT::GUI::Windows;
-            HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
-            hudWindow->SetSP(ratio);
+            StatsHUDWindow* statshudWindow = guiManager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
+            statshudWindow->SetSP(ratio);
             char buffer[40];
             snprintf(buffer, 40, "            %d/%d", (int)currentStamina,
               (int)maxStamina);
-            hudWindow->SetText("PlayerHUD/SPValue", buffer);
+            statshudWindow->SetText("statsHUD/SPValue", buffer);
           }
         }
       }
@@ -817,8 +817,10 @@ namespace PT
 
       ChatWindow* chatWindow = guiManager->GetWindow<ChatWindow>(CHATWINDOW);
       chatWindow->ShowWindow();
-      HUDWindow* hudWindow = guiManager->GetWindow<HUDWindow>(HUDWINDOW);
-      hudWindow->ShowWindow();
+      StatsHUDWindow* statshudWindow = guiManager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
+      statshudWindow->ShowWindow();
+      SkillsHUDWindow* skillshudWindow = guiManager->GetWindow<SkillsHUDWindow>(SKILLSHUDWINDOW);
+      skillshudWindow->ShowWindow();
 
       // Hide the background.
       BackgroundWindow* bg = guiManager->GetWindow<BackgroundWindow>(BACKGROUNDWINDOW);

@@ -34,65 +34,59 @@ namespace PT
   {
     namespace Windows
     {
-      ChatWindow::ChatWindow(GUIManager* guimanager)
+      ChatInputWindow::ChatInputWindow(GUIManager* guimanager)
         : GUIWindow (guimanager)
       {
-        windowName = CHATWINDOW;
+        windowName = CHATINPUTWINDOW ;
         sumbitEventSubscriber = 0;
-      } // end ChatWindow()
+      } // end ChatInputWindow()
 
-      ChatWindow::~ChatWindow()
+      ChatInputWindow::~ChatInputWindow()
       {
         if (sumbitEventSubscriber)
           delete sumbitEventSubscriber;
-      } // end ~ChatWindow()
+      } // end ~ChatInputWindow()
 
-      void ChatWindow::HideWindow()
+      void ChatInputWindow::HideWindow()
       {
-        winMgr->getWindow("Chatlog/Frame")->setVisible(false);
- //       winMgr->getWindow("Chatinput/Frame")->setVisible(false);
-
+        winMgr->getWindow("Chatinput/Frame")->setVisible(false);
         visible = false;
       } // end HideWindow()
 
-      void ChatWindow::ShowWindow()
+      void ChatInputWindow::ShowWindow()
       {
-        winMgr->getWindow("Chatlog/Frame")->setVisible(true);
-        //winMgr->getWindow("Chatinput/Frame")->setVisible(true);
-
         visible = true;
       } // end ShowWindow()
 
-      bool ChatWindow::OnSlider(const CEGUI::EventArgs& e)
+      void ChatInputWindow::SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber)
       {
-        using namespace CEGUI;
+        sumbitEventSubscriber = subscriber;
 
-        // we know it's a slider.
-        Slider* s =
-          static_cast<Slider*>(static_cast<const WindowEventArgs&>(e).window);
+        // set up submitting message on enter
+        CEGUI::Window* btn = winMgr->getWindow("Chatinput/InputBox");
+        if (btn) btn->subscribeEvent(CEGUI::Editbox::EventKeyDown,
+            sumbitEventSubscriber);
+      } // end SetSubmitEvent()
 
-        // get value from slider and set it as the current alpha
-        float val = s->getCurrentValue();
-        winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(val);
-
-        // indicate the event was handled here.
+      bool ChatInputWindow::OnDropList(const CEGUI::EventArgs& e)
+      {
+        Report(PT::Debug, "success.");
         return true;
-      } // end OnSlider()
+      } // end OnDropList()
 
-      bool ChatWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
+      bool ChatInputWindow::OnRootKeyDown(const CEGUI::EventArgs& e)
       {
         using namespace CEGUI;
 
         const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
-        //Report(PT::Debug, "OnRootKeyDown: key %d pressed.", keyArgs.scancode);
+        Report(PT::Debug, "ChatInputWindow::OnRootKeyDown: key %d pressed.", keyArgs.scancode);
 
         switch (keyArgs.scancode)
         {
         case Key::Return:
           if (!visible) return false;
-            winMgr->getWindow("Chatinput/Frame")->setVisible(true);
-            winMgr->getWindow("Chatinput/InputBox")->activate();
+         // winMgr->getWindow("Chatinput/Frame")->setVisible(false);
           return true;
           break;
 
@@ -102,7 +96,22 @@ namespace PT
         return false;
       } // end OnRootKeyDown()
 
-      void ChatWindow::AddChatMessage(const char* nick, const char* msg)
+      void ChatInputWindow::CreateDropList()
+      {
+        btn = winMgr->getWindow("Chatinput/ChatDropList");
+        CEGUI::ListboxItem* charIdItem =
+          new CEGUI::ListboxTextItem((CEGUI::utf8*)"Say /s", 0);
+        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Shout /h", 1);
+        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+        charIdItem = new CEGUI::ListboxTextItem((CEGUI::utf8*)"Whisper /w", 1);
+        ((CEGUI::Combobox*)btn)->addItem(charIdItem);
+        ((CEGUI::Combobox*)btn)->setReadOnly(true);
+
+        ((CEGUI::Combobox*)btn)->setItemSelectState(charIdItem, true);
+      } // end CreateDropList()
+
+      void ChatInputWindow::AddChatMessage(const char* nick, const char* msg)
       {
         CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>
           (winMgr->getWindow("Chatlog/Chatlog"));
@@ -120,7 +129,7 @@ namespace PT
         }
       } // end AddChatMessage()
 
-      void ChatWindow::AddMessage(const char* msg)
+      void ChatInputWindow::AddMessage(const char* msg)
       {
         CEGUI::MultiLineEditbox* chatlog = static_cast<CEGUI::MultiLineEditbox*>
           (winMgr->getWindow("Chatlog/Chatlog"));
@@ -136,33 +145,29 @@ namespace PT
         }
       } // end AddMessage()
 
-      bool ChatWindow::Create()
+      bool ChatInputWindow::Create()
       {
         ReloadWindow();
         return true;
       } // end Create()
 
-      bool ChatWindow::ReloadWindow()
+      bool ChatInputWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/chatlog.xml");
+        window = GUIWindow::LoadLayout ("client/chatinput.xml");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
 
-        winMgr->getWindow("Chatlog/ChatlogWidget")->setAlpha(0.3f);
+        CreateDropList();
 
-        CEGUI::Slider* slider =
-          static_cast<CEGUI::Slider*>(winMgr->getWindow("Chatlog/Slider"));
-        // set up slider config
-        slider->setCurrentValue(0.3f);
-        slider->setClickStep(0.1f);
-        slider->subscribeEvent(CEGUI::Slider::EventValueChanged,
-          CEGUI::Event::Subscriber(&ChatWindow::OnSlider, this));
-
+        btn = winMgr->getWindow("Chatinput/ChatDropList");
+        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
+          CEGUI::Event::Subscriber(&ChatInputWindow::OnDropList, this));
+/*
         // input box enter button behaviour
-        btn = winMgr->getWindow("Root");
+        btn = winMgr->getWindow("Chatinput/InputBox");
         btn->subscribeEvent(CEGUI::Window::EventKeyDown,
-          CEGUI::Event::Subscriber(&ChatWindow::OnRootKeyDown, this));
-
+          CEGUI::Event::Subscriber(&ChatInputWindow::OnRootKeyDown, this));
+*/
         HideWindow();
         return true;
       } // end ReloadWindow()

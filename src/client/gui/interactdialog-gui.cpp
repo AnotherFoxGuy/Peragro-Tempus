@@ -185,9 +185,9 @@ namespace PT
 
           PT::Combat::CombatManager* combatmanager =
             PointerLibrary::getInstance()->getCombatManager();
-          HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
+          SkillsHUDWindow* skillshudWindow = guimanager->GetWindow<SkillsHUDWindow>(SKILLSHUDWINDOW);
           combatmanager->
-            RequestSkillUsageStart(interactId, hudWindow->GetActiveSkillId());
+            RequestSkillUsageStart(interactId, skillshudWindow->GetActiveSkillId());
         }
         else if (ddea.window->getName().compare(TALK_BUTTON) == 0)
         {

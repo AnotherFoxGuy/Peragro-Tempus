@@ -143,8 +143,8 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
-      hudWindow->SetHP(hp, maxhp);
+      StatsHUDWindow* statshudWindow = guimanager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
+      statshudWindow->SetHP(hp, maxhp);
 
       return true;
     } // end AddStatPlayer()
@@ -203,8 +203,8 @@ namespace PT
 
           GUIManager* guimanager =
             PointerLibrary::getInstance()->getGUIManager();
-          HUDWindow* hudWindow = guimanager->GetWindow<HUDWindow>(HUDWINDOW);
-          hudWindow->SetHP(stat->level, maxLife);
+          StatsHUDWindow* statshudWindow = guimanager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
+          statshudWindow->SetHP(stat->level, maxLife);
         }
 
         if (oldValue != 0 && stat->level != 0)

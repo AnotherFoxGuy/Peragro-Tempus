@@ -88,6 +88,7 @@ namespace PT
 
         DialogConfig dialogConfig;
         std::string windowName = child->GetAttributeValue("name");
+        printf("loading %s\n", windowName.c_str() );
         CEGUI::Window * window = 0;
         try
         {
@@ -172,15 +173,20 @@ namespace PT
 
         dialogConfigurations[window] = dialogConfig;
       }
-      return ApplyDialogConfiguration();
+
+      if (!ApplyDialogConfiguration()) return false;
+      HideAll();
+
+      return true;
     } // end LoadConfiguration()
 
     bool DialogConfiguration::SaveConfiguration(const std::string& fileName)
     {
-      csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
+      csRef<iDocumentSystem> docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
       if (!docsys)
       {
-        docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
+        printf("SaveConfiguration unable to load csTinyDocumentSystem!");
+        return false;
       }
 
       csRef<iDocument> doc = docsys->CreateDocument();
@@ -192,15 +198,18 @@ namespace PT
 
       WindowMap::iterator ppkNode = dialogConfigurations.begin();
       WindowMap::iterator ppkEnd = dialogConfigurations.end();
+
       for (; ppkNode != ppkEnd; ++ppkNode)
       {
         CEGUI::Window * wnd = (*ppkNode).first;
         DialogConfig dlgConfig = (*ppkNode).second;
 
-        if (!wnd->testClassName("FrameWindow"))
+        if (!wnd->testClassName("FrameWindow") && !wnd->testClassName("Listbox"))
         {
           continue;
         }
+
+printf("Saving %s dialog settings\n", wnd->getName().c_str());
         csRef<iDocumentNode> dialogNode =
           dialogs->CreateNodeBefore(CS_NODE_ELEMENT);
         dialogNode->SetValue("dialog");
@@ -213,11 +222,11 @@ namespace PT
         csRef<iDocumentNode> positionText =
           position->CreateNodeBefore(CS_NODE_TEXT);
 
-        std::stringstream str;
+        std::stringstream ss;
         CEGUI::UVector2 pos = wnd->getPosition();
-        str << pos.d_x.d_scale << "," << pos.d_x.d_offset << ","
+        ss << pos.d_x.d_scale << "," << pos.d_x.d_offset << ","
           << pos.d_y.d_scale << "," << pos.d_y.d_offset;
-        positionText->SetValue(str.str().c_str());
+        positionText->SetValue(ss.str().c_str());
 
         csRef<iDocumentNode> size =
           dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
@@ -227,10 +236,10 @@ namespace PT
           size->CreateNodeBefore(CS_NODE_TEXT);
 
         CEGUI::UVector2 sz = wnd->getSize();
-        str.str("");
-        str << sz.d_x.d_scale << "," << sz.d_x.d_offset << ","
+        ss.str("");
+        ss << sz.d_x.d_scale << "," << sz.d_x.d_offset << ","
           << sz.d_y.d_scale << "," << sz.d_y.d_offset;
-        sizeText->SetValue(str.str().c_str());
+        sizeText->SetValue(ss.str().c_str());
 
         csRef<iDocumentNode> visible =
           dialogNode->CreateNodeBefore(CS_NODE_ELEMENT);
@@ -247,19 +256,29 @@ namespace PT
           visibleText->SetValue("false");
         }
 
-      }
+      }  // end for 
 
-      iString * str = new scfString();
-      if (doc->Write(str) != 0)
+      iString * buf = new scfString();
+      const char *err = doc->Write (buf);
+      if (err)
       {
+        printf ("Error writing file '%s': %s", fileName.c_str(), err);
         return false;
       }
 
-      if (!vfs->WriteFile(fileName.c_str(), str->GetData(), str->Length()))
+      if (doc->Write(buf) != 0)
       {
+        delete buf;
         return false;
       }
 
+      if (!vfs->WriteFile(fileName.c_str(), buf->GetData(), buf->Length()))
+      {
+        delete buf;
+        return false;
+      }
+
+      delete buf;
       return true;
     } // end SaveConfiguration()
 
@@ -317,11 +336,12 @@ namespace PT
       {
         return false;
       }
+
       for (unsigned int i = 0; i != window->getChildCount(); ++i)
       {
         CEGUI::Window * child = window->getChildAtIdx(i);
-        // Check if its a FrameWindow.
-        if (child->testClassName("FrameWindow"))
+        // Check if its a FrameWindow or Listbox.
+        if (child->testClassName("FrameWindow") || child->testClassName("Listbox"))
         {
           DialogConfig cfg;
           cfg.defaultPosition = child->getPosition();
@@ -332,7 +352,7 @@ namespace PT
         }
       }
 
-      if (window->testClassName("FrameWindow"))
+      if (window->testClassName("FrameWindow") || window->testClassName("Listbox"))
       {
         DialogConfig defaults;
         defaults.defaultPosition = window->getPosition();
@@ -340,6 +360,11 @@ namespace PT
         defaults.windowName = window->getName().c_str();
         defaults.visible = window->isVisible();
         dialogConfigurations[window] = defaults;
+      }
+
+      if (!window->testClassName("FrameWindow") && !window->testClassName("Listbox"))
+      {
+        printf("DialogConfiguration::AddDialog: Unable to add dialog %s \n",window->getName().c_str());
       }
       return true;
     } // end AddDialog()
@@ -533,6 +558,19 @@ namespace PT
 
       return retvector;
     } // end split()
+
+    void DialogConfiguration::HideAll()
+    {
+
+      WindowMap::iterator ppkNode = dialogConfigurations.begin();
+      WindowMap::iterator ppkEnd = dialogConfigurations.end();
+
+      for (; ppkNode != ppkEnd; ++ppkNode)
+      {
+        CEGUI::Window * wnd = (*ppkNode).first;
+        wnd->hide();
+      }
+    } // end HideAll()
 
   } // GUI namespace
 } // PT namespace

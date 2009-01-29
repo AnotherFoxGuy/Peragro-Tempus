@@ -60,10 +60,10 @@ namespace PT
         virtual ~HUDWindow();
         bool Create();
         bool ReloadWindow();
-        void SetHP (int hp, int maxHp); // set the hp.
-        void SetMP (float mp);          // set the mp.
-        void SetXP (float xp);          // set the xp.
-        void SetSP (float sp);          // set the sp.
+        void SetHP (int hp, int maxHp); // set the Health points.
+        void SetMP (float mp);          // set the Mana points.
+        void SetXP (float xp);          // set the Experance points.
+        void SetSP (float sp);          // set the Skill points.
         void SetName (const char* name); // set the name;
         void SetText (const char* name, const char* test); // set the text;
         bool AddSkill(int skillid);

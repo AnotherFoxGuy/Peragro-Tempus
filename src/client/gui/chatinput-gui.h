@@ -16,12 +16,12 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CHAT_GUI_H
-#define CHAT_GUI_H
+#ifndef CHATINPUT_GUI_H
+#define CHATINPUT_GUI_H
 
 #include "base-gui.h"
 
-#define CHATWINDOW "Chatlog/Frame"
+#define CHATINPUTWINDOW "Chatinput/Frame"
 
 namespace PT
 {
@@ -29,25 +29,29 @@ namespace PT
   {
     namespace Windows
     {
-      class ChatWindow : public GUIWindow
+      class ChatInputWindow : public GUIWindow
       {
       private:
         bool OnDropList(const CEGUI::EventArgs& e);
         bool OnSlider(const CEGUI::EventArgs& e);
         bool OnRootKeyDown(const CEGUI::EventArgs& e);
+        void CreateDropList();
         bool HandleCommand(const char* texti);
 
         CEGUI::SlotFunctorBase* sumbitEventSubscriber;
         bool visible;
 
       public:
-        ChatWindow(GUIManager* guimanager);
-        virtual ~ChatWindow();
+        ChatInputWindow(GUIManager* guimanager);
+        virtual ~ChatInputWindow();
         bool Create();
         bool ReloadWindow();
 
         void AddChatMessage (const char* nick, const char* msg);
         void AddMessage (const char* msg);
+
+        /// Set the behaviour for the load button.
+        void SetSubmitEvent(CEGUI::SlotFunctorBase* subscriber);
 
         void HideWindow();
         void ShowWindow();
@@ -57,4 +61,4 @@ namespace PT
   } // GUI namespace
 } // PT namespace
 
-#endif // CHAT_GUI_H
+#endif // CHATINPUT_GUI_H

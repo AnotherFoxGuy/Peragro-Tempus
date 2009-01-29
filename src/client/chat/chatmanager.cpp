@@ -29,6 +29,7 @@
 
 #include "client/gui/guimanager.h"
 #include "client/gui/chat-gui.h"
+#include "client/gui/chatinput-gui.h"
 #include "client/gui/whisper-gui.h"
 
 #include "common/event/chatevent.h"
@@ -83,8 +84,8 @@ namespace PT
       CEGUI::SlotFunctorBase* function = new
         CEGUI::MemberFunctionSlot<ChatManager>(&ChatManager::OnSubmit, this);
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      ChatWindow* chatWindow = guimanager->GetWindow<ChatWindow>(CHATWINDOW);
-      chatWindow->SetSubmitEvent(function);
+      ChatInputWindow* chatinputWindow = guimanager->GetWindow<ChatInputWindow>(CHATINPUTWINDOW);
+      chatinputWindow->SetSubmitEvent(function);
 
       // Register commands.
       RegisterCommand(new cmdHelp());
@@ -199,7 +200,7 @@ namespace PT
       {
         CEGUI::WindowManager* winMgr =
           guimanager->GetCEGUI()->GetWindowManagerPtr();
-        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        CEGUI::Window* btn = winMgr->getWindow("Chatinput/InputBox");
         if (!btn)
         {
           Report(PT::Error, "Inputbox of Chat not found!");
@@ -211,7 +212,7 @@ namespace PT
         // If the submitted text is empty, hide the InputPanel.
         if (text.empty())
         {
-          winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+          winMgr->getWindow("Chatinput/Frame")->setVisible(false);
           winMgr->getWindow("Chatlog/Frame")->activate();
           return true;
         } // end if
@@ -227,7 +228,7 @@ namespace PT
 
         if (hideAfterSend)
         {
-          winMgr->getWindow("InputPanel/Frame")->setVisible(false);
+          winMgr->getWindow("Chatinput/Frame")->setVisible(false);
           winMgr->getWindow("Chatlog/Frame")->activate();
         } // end if
 
@@ -238,7 +239,7 @@ namespace PT
       {
         CEGUI::WindowManager* winMgr =
           guimanager->GetCEGUI()->GetWindowManagerPtr();
-        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        CEGUI::Window* btn = winMgr->getWindow("Chatinput/InputBox");
         if (!btn)
         {
           Report(PT::Error, "Inputbox of Chat not found!");
@@ -253,7 +254,7 @@ namespace PT
       {
         CEGUI::WindowManager* winMgr =
           guimanager->GetCEGUI()->GetWindowManagerPtr();
-        CEGUI::Window* btn = winMgr->getWindow("InputPanel/InputBox");
+        CEGUI::Window* btn = winMgr->getWindow("Chatinput/InputBox");
         if (!btn)
         {
           Report(PT::Error, "Inputbox of Chat not found!");

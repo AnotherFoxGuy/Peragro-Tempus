@@ -23,6 +23,7 @@
 
 #include <iutil/string.h>
 #include <iutil/vfs.h>
+#include <iutil/document.h>
 
 #include <CEGUI.h>
 #include <ivaria/icegui.h>

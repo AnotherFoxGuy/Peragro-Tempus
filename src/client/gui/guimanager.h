@@ -44,8 +44,9 @@ namespace PT
       class SelectCharWindow;
       class ServerSetupWindow;
       class ChatWindow;
+      class ChatInputWindow;
       class InventoryWindow;
-      class HUDWindow;
+//      class HUDWindow;
       class OptionsWindow;
       class StatusWindow;
       class BuddyWindow;
