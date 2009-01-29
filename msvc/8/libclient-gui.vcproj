@@ -403,7 +403,13 @@
 				RelativePath="..\..\src\client\gui\serversetup-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\skillshud-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\skinmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\statshud-gui.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.cpp">
@@ -527,7 +533,13 @@
 				RelativePath="..\..\src\client\gui\serversetup-gui.h">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\skillshud-gui.h">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\skinmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\statshud-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\status-gui.h">
