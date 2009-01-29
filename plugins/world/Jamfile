@@ -3,5 +3,5 @@ SubDir TOP plugins world ;
 Description worldloader : "World loader" ;
 Plugin worldloader : [ Wildcard *.cpp *.h ] ;
 ExternalLibs worldloader : CRYSTAL CEL BOOST ;
-LinkWith worldloader : world geom database sqlite_adp sqlite_lib ;
+LinkWith worldloader : world wfmath database sqlite_adp sqlite_lib ;
 

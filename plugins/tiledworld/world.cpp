@@ -28,7 +28,7 @@
 
 #include <iengine/mesh.h>
 
-#include "common/geom/vector3.h"
+#include <wfmath/point.h>
 
 #include "maptile.h"
 #include "modelmanager.h"
@@ -440,13 +440,13 @@ void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
 
 } // end StartFrame()
 
-void WorldManager::EnterWorld(Geom::Vector3 position)
+void WorldManager::EnterWorld(WFMath::Point<3> position)
 {
-  camera.x = position.x;
-  camera.z = position.z;
+  camera.x = position[0];
+  camera.z = position[2];
 
-  float x = position.x;
-  float z = position.z;
+  float x = position[0];
+  float z = position[2];
 
   // This is so the int cast below rounds to the correct value.
   if (x < 0)

@@ -198,7 +198,7 @@ public:
   * Enter the world at a coordinate in world space.
   * @param position coordinate.
   */
-  void EnterWorld(Geom::Vector3 position);
+  void EnterWorld(WFMath::Point<3> position);
 
   /// Set the loaded tile grid size.
   void SetGridSize(size_t size);
