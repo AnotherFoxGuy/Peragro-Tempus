@@ -17,6 +17,8 @@
 */
 
 #include "dialogconfiguration.h"
+#include "common/reporter/reporter.h"
+
 #include <iutil/vfs.h>
 #include <iutil/objreg.h>
 #include <iutil/string.h>
@@ -88,7 +90,6 @@ namespace PT
 
         DialogConfig dialogConfig;
         std::string windowName = child->GetAttributeValue("name");
-        printf("loading %s\n", windowName.c_str() );
         CEGUI::Window * window = 0;
         try
         {
@@ -185,7 +186,7 @@ namespace PT
       csRef<iDocumentSystem> docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
       if (!docsys)
       {
-        printf("SaveConfiguration unable to load csTinyDocumentSystem!");
+        Report(PT::Warning, "SaveConfiguration unable to load csTinyDocumentSystem!");
         return false;
       }
 
@@ -209,7 +210,6 @@ namespace PT
           continue;
         }
 
-printf("Saving %s dialog settings\n", wnd->getName().c_str());
         csRef<iDocumentNode> dialogNode =
           dialogs->CreateNodeBefore(CS_NODE_ELEMENT);
         dialogNode->SetValue("dialog");
@@ -262,7 +262,7 @@ printf("Saving %s dialog settings\n", wnd->getName().c_str());
       const char *err = doc->Write (buf);
       if (err)
       {
-        printf ("Error writing file '%s': %s", fileName.c_str(), err);
+        Report(PT::Warning,"Error writing file '%s': %s", fileName.c_str(), err);
         return false;
       }
 
@@ -364,7 +364,8 @@ printf("Saving %s dialog settings\n", wnd->getName().c_str());
 
       if (!window->testClassName("FrameWindow") && !window->testClassName("Listbox"))
       {
-        printf("DialogConfiguration::AddDialog: Unable to add dialog %s \n",window->getName().c_str());
+        Report(PT::Warning,"DialogConfiguration::AddDialog: Unable to add dialog %s \n",
+               window->getName().c_str());
       }
       return true;
     } // end AddDialog()
