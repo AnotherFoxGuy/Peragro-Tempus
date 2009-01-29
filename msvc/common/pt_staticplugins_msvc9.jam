@@ -96,5 +96,5 @@ STATICPLUGIN.tiledworldloader.LFLAGS.release.9 = libpt_staticplugins.lib librepo
 STATICPLUGINS.AVAILABLE += worldloader ;
 STATICPLUGIN.worldloader.CFLAGS.debug.9 = "/D USE_CEL" ;
 STATICPLUGIN.worldloader.CFLAGS.release.9 = "/D USE_CEL" ;
-STATICPLUGIN.worldloader.LFLAGS.debug.9 = libpt_staticplugins_d.lib libworld_d.lib libgeom_d.lib libdatabase_d.lib libsqlite_adp_d.lib libsqlite_lib_d.lib  libcrystalspace_d.lib libceltool_d.lib ;
-STATICPLUGIN.worldloader.LFLAGS.release.9 = libpt_staticplugins.lib libworld.lib libgeom.lib libdatabase.lib libsqlite_adp.lib libsqlite_lib.lib libcrystalspace.lib libceltool.lib ;
+STATICPLUGIN.worldloader.LFLAGS.debug.9 = libpt_staticplugins_d.lib libworld_d.lib libwfmath_d.lib libdatabase_d.lib libsqlite_adp_d.lib libsqlite_lib_d.lib  libcrystalspace_d.lib libceltool_d.lib ;
+STATICPLUGIN.worldloader.LFLAGS.release.9 = libpt_staticplugins.lib libworld.lib libwfmath.lib libdatabase.lib libsqlite_adp.lib libsqlite_lib.lib libcrystalspace.lib libceltool.lib ;
