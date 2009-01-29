@@ -44,7 +44,7 @@ namespace PT
       ptString type;
 
       ///Nodes forming the zone.
-      std::vector<WFMath::Point<2>> nodes;
+      std::vector<WFMath::Point<2> > nodes;
 
     public:
       ///Set the ID of the zone.

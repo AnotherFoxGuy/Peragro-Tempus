@@ -17,7 +17,8 @@ Application peragro-server : [ Wildcard *.h *.cpp ] : console ;
 
 ExternalLibs peragro-server : PTHREADNP ;
 
-LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp server-dbtables quest server-group tinyxml util geom server-combat server-zonemanager server-reputationmanager ;
+LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp 
+server-dbtables quest server-group tinyxml util wfmath server-combat server-zonemanager server-reputationmanager ;
 
 MsvcExternalLibrary peragro-server : "wsock32.lib" ;
 
@@ -30,7 +31,9 @@ if [ Property build : projgen_version ] != 6
   SubVariant static ;
 
   Application peragro-server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
-  LinkWith peragro-server_static : server-network server-entity server-environment server-ai server-colldet sqlite_adp server-dbtables quest server-group tinyxml util geom server-combat server-zonemanager server-reputationmanager ;
+  LinkWith peragro-server_static : server-network server-entity server-environment server-ai server-colldet 
+sqlite_adp server-dbtables quest server-group tinyxml util wfmath server-combat server-zonemanager 
+server-reputationmanager ;
   MsvcExternalLibrary peragro-server_static : "wsock32.lib" ;
   if $(WSOCK32.LFLAGS) {
       LFlags peragro-server_static : $(WSOCK32.LFLAGS) ;
