@@ -4,5 +4,5 @@ Description world : "World" ;
 Library world :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs world : BOOST ;
-LinkWith world : geom database sqlite_adp ;
+LinkWith world : wfmath database sqlite_adp ;
 
