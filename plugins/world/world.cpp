@@ -138,7 +138,7 @@ void WorldManager::Report(int severity, const char* msg, ...)
 WorldManager::WorldManager(iBase* iParent)
   : scfImplementationType(this, iParent), object_reg(0),
   worldManager(new Common::World::WorldManager()),
-  position(0.0f), loading(false), radius(1500), editStepSize(0.1f)
+  position(0.0f), loading(false), loadRadius(1500), editStepSize(0.1f)
 {
 } // end World() :P
 
@@ -175,10 +175,19 @@ bool WorldManager::Initialize(const std::string& name)
 
   loadingId = nameRegistry->GetID("world.loading");
   loadedId = nameRegistry->GetID("world.loaded");
+  updateOptionsId = nameRegistry->GetID("interface.options.view");
+  objectPXId = nameRegistry->GetID("input.Object+X");
+  objectMXId = nameRegistry->GetID("input.Object-X");
+  objectPYId = nameRegistry->GetID("input.Object+Y");
+  objectMYId = nameRegistry->GetID("input.Object-Y");
+  objectPZId = nameRegistry->GetID("input.Object+Z");
+  objectMZId = nameRegistry->GetID("input.Object-Z");
+  interactId = nameRegistry->GetID("input.Interact");
+  objectStepPId = nameRegistry->GetID("input.ObjectStep+");
+  objectStepMId = nameRegistry->GetID("input.ObjectStep-");
 
   // Register an event for UpdateOptions.
-  eventQueue->RegisterListener(this,
-    nameRegistry->GetID("interface.options.view"));
+  eventQueue->RegisterListener(this, updateOptionsId);
 
   ResourceManager resourceManager(object_reg, worldManager.get());
   resourceManager.Initialize();
@@ -190,13 +199,15 @@ bool WorldManager::Initialize(const std::string& name)
   }
 
   // Editor.
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+X"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-X"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+Y"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-Y"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object+Z"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Object-Z"));
-  eventQueue->RegisterListener (this, nameRegistry->GetID("input.Interact"));
+  eventQueue->RegisterListener (this, objectPXId);
+  eventQueue->RegisterListener (this, objectMXId);
+  eventQueue->RegisterListener (this, objectPYId);
+  eventQueue->RegisterListener (this, objectMYId);
+  eventQueue->RegisterListener (this, objectPZId);
+  eventQueue->RegisterListener (this, objectMZId);
+  eventQueue->RegisterListener (this, interactId);
+  eventQueue->RegisterListener (this, objectStepPId);
+  eventQueue->RegisterListener (this, objectStepMId);
 
   return true;
 } // end Initialize()
@@ -212,8 +223,12 @@ bool WorldManager::UpdateOptions()
 
   if (app_cfg)
   {
-    radius = static_cast<size_t>(app_cfg->GetInt("Peragro.World.ProximityRange",
-      static_cast<int>(radius)));
+    loadRadius = static_cast<size_t>(app_cfg->
+      GetInt("Peragro.World.LoadRadius", static_cast<int>(loadRadius)));
+    // Pretend the camera moved to recheck the load radius.
+    CameraMoved();
+
+    editStepSize = app_cfg->GetFloat("Peragro.World.EditStepSize", editStepSize);
   }
 
   return true;
@@ -312,63 +327,89 @@ bool WorldManager::HandleEvent(iEvent& ev)
   if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
   {
     Loading();
+    return true;
   }
-  else if (ev.GetName() == nameRegistry->GetID("interface.options.video"))
+  else if (ev.GetName() == updateOptionsId)
   {
     UpdateOptions();
+    return true;
   }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object+X"))
+
+  bool down = false;
+  if (ev.Retrieve("buttonState", down) != csEventErrNone)
   {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(editStepSize, 0, 0));
+    Report(CS_REPORTER_SEVERITY_ERROR, "Failed to get buttonState from event.");
+    return true;
   }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object-X"))
+
+  // For these events, only act on button down.
+  if (down)
   {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(-editStepSize, 0, 0));
-  }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object+Y"))
-  {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, editStepSize, 0));
-  }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object-Y"))
-  {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, -editStepSize, 0));
-  }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object+Z"))
-  {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, 0, editStepSize));
-  }
-  else if (ev.GetName() == nameRegistry->GetID("input.Object-Z"))
-  {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, 0, -editStepSize));
-  }
-  else if (ev.GetName() == nameRegistry->GetID("input.Interact"))
-  {
-    iCamera* cam = GetCamera(object_reg, playerMesh);
-    if (cam)
+    if (ev.GetName() == objectPXId)
     {
-      int x, y = 0;
-      ev.Retrieve("X", x);
-      ev.Retrieve("Y", y);
-      csVector2 p(x, y);
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(editStepSize, 0, 0));
+    }
+    else if (ev.GetName() == objectMXId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(-editStepSize, 0, 0));
+    }
+    else if (ev.GetName() == objectPYId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(0, editStepSize, 0));
+    }
+    else if (ev.GetName() == objectMYId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(0, -editStepSize, 0));
+    }
+    else if (ev.GetName() == objectPZId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(0, 0, editStepSize));
+    }
+    else if (ev.GetName() == objectMZId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      Move(selectedMesh, cam, csVector3(0, 0, -editStepSize));
+    }
+    else if (ev.GetName() == interactId)
+    {
+      iCamera* cam = GetCamera(object_reg, playerMesh);
+      if (cam)
+      {
+        int x, y = 0;
+        ev.Retrieve("X", x);
+        ev.Retrieve("Y", y);
+        csVector2 p(x, y);
 
-      csScreenTargetResult st =
-        csEngineTools::FindScreenTarget (p, 100.0f, cam);
+        csScreenTargetResult st =
+          csEngineTools::FindScreenTarget (p, 100.0f, cam);
 
-      // Unhighlight the previous mesh.
-      HighLightMesh(object_reg, selectedMesh, false);
+        // Unhighlight the previous mesh.
+        HighLightMesh(object_reg, selectedMesh, false);
 
-      // Highlight the new mesh.
-      selectedMesh = st.mesh;
-      HighLightMesh(object_reg, selectedMesh, true);
+        // Highlight the new mesh.
+        selectedMesh = st.mesh;
+        HighLightMesh(object_reg, selectedMesh, true);
 
-      if (selectedMesh) Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s",
-        selectedMesh->QueryObject()->GetName());
+        if (selectedMesh) Report(CS_REPORTER_SEVERITY_NOTIFY,
+          "Selected mesh %s", selectedMesh->QueryObject()->GetName());
+      }
+    }
+    else if (ev.GetName() == objectStepPId)
+    {
+      editStepSize *= 10.0f;
+      Report(CS_REPORTER_SEVERITY_NOTIFY, "New edit step size: %f",
+        editStepSize);
+    }
+    else if (ev.GetName() == objectStepMId)
+    {
+      editStepSize /= 10.0f;
+      Report(CS_REPORTER_SEVERITY_NOTIFY, "New edit step size: %f",
+        editStepSize);
     }
   }
 
@@ -423,10 +464,10 @@ void WorldManager::CameraMoved()
 {
   using namespace Common::World;
   Octree::QueryResult objects =
-    worldManager->Query(WFMath::Ball<3>(position, radius));
+    worldManager->Query(WFMath::Ball<3>(position, loadRadius));
 
   if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n",
-    objects.size(), (float)radius, WFMath::ToString(position).c_str());
+    objects.size(), (float)loadRadius, WFMath::ToString(position).c_str());
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;

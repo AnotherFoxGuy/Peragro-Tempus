@@ -115,10 +115,19 @@ private:
   csRef<iEventQueue> eventQueue;
   /// The name registry.
   csRef<iEventNameRegistry> nameRegistry;
-  /// Event ID for "world loading".
+
   csEventID loadingId;
-  /// Event ID for "world loaded".
   csEventID loadedId;
+  csEventID updateOptionsId;
+  csEventID objectPXId;
+  csEventID objectMXId;
+  csEventID objectPYId;
+  csEventID objectMYId;
+  csEventID objectPZId;
+  csEventID objectMZId;
+  csEventID interactId;
+  csEventID objectStepPId;
+  csEventID objectStepMId;
 
   CS_EVENTHANDLER_NAMES ("peragro.world")
   CS_EVENTHANDLER_NIL_CONSTRAINTS
@@ -136,7 +145,7 @@ private:
   /// Whether more meshes need to be loaded.
   bool loading;
   /// The proximity range in units.
-  size_t radius;
+  size_t loadRadius;
   /// The distance objects are moved while editing.
   float editStepSize;
 
@@ -261,10 +270,10 @@ inline iObjectRegistry* WorldManager::GetObjectRegistry()
 { return object_reg; }
 
 inline void WorldManager::SetRange(size_t radius)
-{ WorldManager::radius = radius; }
+{ WorldManager::loadRadius = radius; }
 
 inline size_t WorldManager::GetRange() const
-{ return radius; }
+{ return loadRadius; }
 
 inline EditorObject::EditorObject(Common::World::Object* object,
   iObjectRegistry* obj_reg, iMeshWrapper* mesh)
