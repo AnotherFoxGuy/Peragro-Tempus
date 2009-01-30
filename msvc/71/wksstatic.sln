@@ -104,10 +104,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsqlite_lib", "libsqlite_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtcp-network", "libtcp-network.vcproj", "{5D81170B-D994-4363-9EE9-459ABA845686}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedfactoryloader", "libthreadedfactoryloader.vcproj", "{AC9316D6-5785-368F-3337-B6031603A76E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libthreadedlevelloader", "libthreadedlevelloader.vcproj", "{0F74695C-6C54-5C9B-EEA9-D592215FA071}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libtinyxml", "libtinyxml.vcproj", "{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}"
@@ -636,22 +632,6 @@ Global
 		{5D81170B-D994-4363-9EE9-459ABA845686}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
   		{5D81170B-D994-4363-9EE9-459ABA845686}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
 		{5D81170B-D994-4363-9EE9-459ABA845686}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
-    		{AC9316D6-5785-368F-3337-B6031603A76E}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
-		{AC9316D6-5785-368F-3337-B6031603A76E}.Release (with static libs).Build.0 = Release (with static libs)|Win32
-  		{AC9316D6-5785-368F-3337-B6031603A76E}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
-		{AC9316D6-5785-368F-3337-B6031603A76E}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
-    		{AC9316D6-5785-368F-3337-B6031603A76E}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
-		{AC9316D6-5785-368F-3337-B6031603A76E}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
-  		{AC9316D6-5785-368F-3337-B6031603A76E}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
-		{AC9316D6-5785-368F-3337-B6031603A76E}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
-    		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
-		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Release (with static libs).Build.0 = Release (with static libs)|Win32
-  		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
-		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
-    		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
-		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
-  		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
-		{0F74695C-6C54-5C9B-EEA9-D592215FA071}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Release (with static libs).Build.0 = Release (with static libs)|Win32
   		{7678893D-AC1B-3E14-6B8B-3C45D5FD4FFA}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
