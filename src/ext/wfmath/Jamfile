@@ -4,65 +4,44 @@ Description wfmath : "WFMath library" ;
 Library wfmath :
   [ Filter [ Wildcard *.h *.cpp ] : [ Wildcard *_test.cpp *_test.h ] ] ;
 CFlags wfmath : "-DHAVE_SSTREAM" ;
-CFlags wfmath : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs wfmath : [ ConcatDirs .. .. src ext ] ;
+MsvcDefine wfmath : __WIN32__ : 1 ;
 
 Description const_test : "Const Test" ;
 Application const_test : const_test.cpp : console ;
 LinkWith const_test : wfmath ;
-CFlags const_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs const_test : [ ConcatDirs .. .. src ext ] ;
 
 Description intstring_test : "intstring Test" ;
 Application intstring_test : intstring_test.cpp : console ;
 LinkWith intstring_test : wfmath ;
-CFlags intstring_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs intstring_test : [ ConcatDirs .. .. src ext ] ;
 
 Description point_test : "point Test" ;
 Application point_test : point_test.cpp : console ;
 LinkWith point_test : wfmath ;
-CFlags point_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs point_test : [ ConcatDirs .. .. src ext ] ;
 
 Description polygon_test : "polygon Test" ;
 Application polygon_test : polygon_test.cpp : console ;
 LinkWith polygon_test : wfmath ;
-CFlags polygon_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs polygon_test : [ ConcatDirs .. .. src ext ] ;
 
 Description probability_test : "probability Test" ;
 Application probability_test : probability_test.cpp : console ;
 LinkWith probability_test : wfmath ;
-CFlags probability_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs probability_test : [ ConcatDirs .. .. src ext ] ;
 
 Description quaternion_test : "quaternion Test" ;
 Application quaternion_test : quaternion_test.cpp : console ;
 LinkWith quaternion_test : wfmath ;
-CFlags quaternion_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs quaternion_test : [ ConcatDirs .. .. src ext ] ;
 
 Description rotmatrix_test : "rotmatrix Test" ;
 Application rotmatrix_test : rotmatrix_test.cpp : console ;
 LinkWith rotmatrix_test : wfmath ;
-CFlags rotmatrix_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs rotmatrix_test : [ ConcatDirs .. .. src ext ] ;
 
 Description shape_test : "shape Test" ;
 Application shape_test : shape_test.h shape_test.cpp : console ;
 LinkWith shape_test : wfmath ;
-CFlags shape_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs shape_test : [ ConcatDirs .. .. src ext ] ;
 
 Description timestamp_test : "timestamp Test" ;
 Application timestamp_test : timestamp_test.cpp : console ;
 LinkWith timestamp_test : wfmath ;
-CFlags timestamp_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs timestamp_test : [ ConcatDirs .. .. src ext ] ;
 
 Description vector_test : "vector Test" ;
 Application vector_test : vector_test.cpp : console ;
 LinkWith vector_test : wfmath ;
-CFlags vector_test : "-I$(TOP)/src/ext/" ;
-MsvcIncDirs vector_test : [ ConcatDirs .. .. src ext ] ;
