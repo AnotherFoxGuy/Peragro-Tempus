@@ -31,6 +31,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include "common/reporter/reporter.h"
+
 namespace PT
 {
   namespace GUI
@@ -102,7 +104,6 @@ namespace PT
         dialogConfig.defaultPosition = window->getPosition();
         dialogConfig.defaultSize = window->getSize();
         dialogConfig.windowName = windowName;
-
 
         csRef<iDocumentNode> position = child->GetNode("position");
         csRef<iDocumentNode> size = child->GetNode("size");
@@ -183,11 +184,12 @@ namespace PT
 
     bool DialogConfiguration::SaveConfiguration(const std::string& fileName)
     {
-      csRef<iDocumentSystem> docsys = csPtr<iDocumentSystem>(new csTinyDocumentSystem());
+      csRef<iDocumentSystem> docsys = csPtr<iDocumentSystem>(
+        new csTinyDocumentSystem());
       if (!docsys)
       {
-        Report(PT::Warning, "SaveConfiguration unable to load csTinyDocumentSystem!");
-        return false;
+        return Report(PT::Warning,
+          "SaveConfiguration unable to load csTinyDocumentSystem!");
       }
 
       csRef<iDocument> doc = docsys->CreateDocument();
@@ -258,27 +260,20 @@ namespace PT
 
       }  // end for 
 
-      iString * buf = new scfString();
-      const char *err = doc->Write (buf);
+      csRef<iString> buf;
+      buf.AttachNew(new scfString());
+      const char *err = doc->Write(buf);
       if (err)
       {
-        Report(PT::Warning,"Error writing file '%s': %s", fileName.c_str(), err);
-        return false;
-      }
-
-      if (doc->Write(buf) != 0)
-      {
-        delete buf;
-        return false;
+        return Report(PT::Warning, "Error writing to buffer: %s", err);
       }
 
       if (!vfs->WriteFile(fileName.c_str(), buf->GetData(), buf->Length()))
       {
-        delete buf;
-        return false;
+        return Report(PT::Warning, "Error writing to file '%s'",
+          fileName.c_str());
       }
 
-      delete buf;
       return true;
     } // end SaveConfiguration()
 
@@ -315,11 +310,13 @@ namespace PT
       return true;
     } // end ApplyDialogConfiguration()
 
-    bool DialogConfiguration::ApplyDialogConfiguration(const std::string& windowName)
+    bool DialogConfiguration::ApplyDialogConfiguration(
+      const std::string& windowName)
     {
       try
       {
-        return ApplyDialogConfiguration(cegui->GetWindowManagerPtr()->getWindow(windowName));
+        return ApplyDialogConfiguration(cegui->GetWindowManagerPtr()->
+          getWindow(windowName));
       }
       catch (CEGUI::Exception)
       {
@@ -341,7 +338,8 @@ namespace PT
       {
         CEGUI::Window * child = window->getChildAtIdx(i);
         // Check if its a FrameWindow or Listbox.
-        if (child->testClassName("FrameWindow") || child->testClassName("Listbox"))
+        if (child->testClassName("FrameWindow") ||
+          child->testClassName("Listbox"))
         {
           DialogConfig cfg;
           cfg.defaultPosition = child->getPosition();
@@ -352,7 +350,8 @@ namespace PT
         }
       }
 
-      if (window->testClassName("FrameWindow") || window->testClassName("Listbox"))
+      if (window->testClassName("FrameWindow") ||
+        window->testClassName("Listbox"))
       {
         DialogConfig defaults;
         defaults.defaultPosition = window->getPosition();
@@ -362,9 +361,10 @@ namespace PT
         dialogConfigurations[window] = defaults;
       }
 
-      if (!window->testClassName("FrameWindow") && !window->testClassName("Listbox"))
+      if (!window->testClassName("FrameWindow") &&
+        !window->testClassName("Listbox"))
       {
-        Report(PT::Warning,"DialogConfiguration::AddDialog: Unable to add dialog %s \n",
+        Report(PT::Warning,"DialogConfiguration::AddDialog: Unable to add dialog %s",
                window->getName().c_str());
       }
       return true;
@@ -439,7 +439,8 @@ namespace PT
     {
       try
       {
-        return SetDialogToDefault(cegui->GetWindowManagerPtr()->getWindow(windowName), position, size);
+        return SetDialogToDefault(
+          cegui->GetWindowManagerPtr()->getWindow(windowName), position, size);
       }
       catch (CEGUI::Exception)
       {
@@ -479,7 +480,6 @@ namespace PT
     void DialogConfiguration::SavePositions()
     {
       WindowMap tempMap;
-
 
       WindowMap::iterator ppkNode = dialogConfigurations.begin();
       WindowMap::iterator ppkEnd = dialogConfigurations.end();
