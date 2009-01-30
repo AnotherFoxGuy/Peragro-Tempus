@@ -22,7 +22,7 @@
 #include "doordatamanager.h"
 #include "door.h"
 
-#include "plugins/tiledworld/maptile.h"
+#define TILESIZE 512
 
 namespace PT
 {
