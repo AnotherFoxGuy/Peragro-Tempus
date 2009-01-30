@@ -53,6 +53,7 @@
 #include "resourcemanager.h"
 
 #include "common/util/printhelper.h"
+#include "common/util/geomhelper.h"
 
 CS_IMPLEMENT_PLUGIN
 
@@ -65,7 +66,7 @@ WorldManager::Instance::Instance (Common::World::Object* object,
                                   _object(object), id(object->id)
 {
   Load(_object->factoryFile);
-}
+} // end Instance()
 
 WorldManager::Instance::~Instance()
 {
@@ -78,7 +79,8 @@ WorldManager::Instance::~Instance()
     // Remove from any collections.
     if (instance->QueryObject())
       if (instance->QueryObject()->GetObjectParent())
-        instance->QueryObject()->GetObjectParent()->ObjRemove(instance->QueryObject());
+        instance->QueryObject()->GetObjectParent()->ObjRemove(
+          instance->QueryObject());
 
     // Remove from sectors and any parent meshes.
     if (instance->GetMovable())
@@ -89,7 +91,7 @@ WorldManager::Instance::~Instance()
     }
   }
   printf("REMOVED: %"SIZET" %s\n", _object->id, _object->name.c_str());
-}
+} // end ~Instance()
 
 void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
 {
@@ -97,23 +99,30 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
   {
     instance = cacheEntry->Create(_object->name, _object->factoryName);
 
-    csVector3 curpos = instance->QuerySceneNode()->GetMovable()->GetFullPosition();
-    instance->QuerySceneNode()->GetMovable()->SetPosition(curpos + (csVector3&)_object->position);
+    csVector3 curpos =
+      instance->QuerySceneNode()->GetMovable()->GetFullPosition();
+    instance->QuerySceneNode()->GetMovable()->
+      SetPosition(curpos + VectorHelper::Convert(_object->position));
 
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     iSector* s = engine->FindSector(_object->sector.c_str());
     if (s) instance->QuerySceneNode()->GetMovable()->SetSector(s);
     else csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
-      "Failed to get sector '%s' (object: '%s' has errors)!", _object->sector.c_str(), _object->name.c_str());
+      "Failed to get sector '%s' (object: '%s' has errors)!",
+      _object->sector.c_str(), _object->name.c_str());
     instance->QuerySceneNode()->GetMovable()->UpdateMove();
 
     csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
     csColliderHelper::InitializeCollisionWrapper (cdsys, instance);
-    csRef<EditorObject> edObj; edObj.AttachNew(new EditorObject(_object, object_reg, instance));
+    csRef<EditorObject> edObj;
+    edObj.AttachNew(new EditorObject(_object, object_reg, instance));
   }
   else
+  {
     csReport(object_reg, CS_REPORTER_SEVERITY_ERROR, "peragro.world",
-      "Failed to create mesh '%s' (factory: '%s' has errors)!", _object->name.c_str(), _object->factoryFile.c_str());
+      "Failed to create mesh '%s' (factory: '%s' has errors)!",
+      _object->name.c_str(), _object->factoryFile.c_str());
+  }
 } // end Loaded()
 
 //----------------------------------------------------------
@@ -124,17 +133,13 @@ void WorldManager::Report(int severity, const char* msg, ...)
   va_start (arg, msg);
   csReportV(object_reg, severity, "peragro.world", msg, arg);
   va_end (arg);
-}
+} // end Report()
 
 WorldManager::WorldManager(iBase* iParent)
-  : scfImplementationType(this, iParent), worldManager(0), object_reg(0)
+  : scfImplementationType(this, iParent), object_reg(0),
+  worldManager(new Common::World::WorldManager()),
+  position(0.0f), loading(false), radius(1500), editStepSize(0.1f)
 {
-  loading = false;
-  position = WFMath::Point<3>(0.0f);
-  radius = 30;
-
-  worldManager = new Common::World::WorldManager();
-
 } // end World() :P
 
 bool WorldManager::Initialize(iObjectRegistry* obj_reg)
@@ -142,7 +147,7 @@ bool WorldManager::Initialize(iObjectRegistry* obj_reg)
   object_reg = obj_reg;
 
   return true;
-}
+} // end Initialize()
 
 bool WorldManager::Initialize(const std::string& name)
 {
@@ -152,6 +157,7 @@ bool WorldManager::Initialize(const std::string& name)
 
   csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
   if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
+
   csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
   if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
@@ -171,9 +177,10 @@ bool WorldManager::Initialize(const std::string& name)
   loadedId = nameRegistry->GetID("world.loaded");
 
   // Register an event for UpdateOptions.
-  eventQueue->RegisterListener (this, nameRegistry->GetID("interface.options.video"));
+  eventQueue->RegisterListener(this,
+    nameRegistry->GetID("interface.options.view"));
 
-  ResourceManager resourceManager(object_reg, worldManager);
+  ResourceManager resourceManager(object_reg, worldManager.get());
   resourceManager.Initialize();
   if (!worldManager->HasData())
   {
@@ -192,14 +199,11 @@ bool WorldManager::Initialize(const std::string& name)
   eventQueue->RegisterListener (this, nameRegistry->GetID("input.Interact"));
 
   return true;
-} // end Initialize
+} // end Initialize()
 
 WorldManager::~WorldManager()
 {
   Report(CS_REPORTER_SEVERITY_NOTIFY, "Unloading world %s", basename.c_str());
-
-  delete worldManager;
-
 } // end ~World()
 
 bool WorldManager::UpdateOptions()
@@ -207,7 +211,10 @@ bool WorldManager::UpdateOptions()
   csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> (object_reg);
 
   if (app_cfg)
-    radius = (size_t)app_cfg->GetInt("Peragro.World.ProximityRange", (int)radius);
+  {
+    radius = static_cast<size_t>(app_cfg->GetInt("Peragro.World.ProximityRange",
+      static_cast<int>(radius)));
+  }
 
   return true;
 } // end UpdateOptions()
@@ -220,16 +227,15 @@ bool WorldManager::Loading()
     float itemsLoaded = 0.0f;
     for (size_t i = 0; i < instances.GetSize(); i++)
     {
-      if ( !instances.Get(i)->IsReady() )
+      if (!instances.Get(i)->IsReady())
+      {
         allLoaded = false;
+      }
       else
+      {
         itemsLoaded += 1;
+      }
     }
-
-    csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
-    worldEvent->Add("progress",
-      itemsLoaded/static_cast<float>(instances.GetSize()));
-    eventQueue->Post(worldEvent);
 
     if (allLoaded)
     {
@@ -238,6 +244,13 @@ bool WorldManager::Loading()
       eventQueue->Post(worldEvent);
       loading = false;
       eventQueue->Unsubscribe(this, nameRegistry->GetID("crystalspace.frame"));
+    }
+    else
+    {
+      csRef<iEvent> worldEvent = eventQueue->CreateBroadcastEvent(loadingId);
+      worldEvent->Add("progress",
+        itemsLoaded/static_cast<float>(instances.GetSize()));
+      eventQueue->Post(worldEvent);
     }
   }
 
@@ -252,13 +265,15 @@ iCamera* GetCamera(iObjectRegistry* object_reg, iMeshWrapper* wrap)
     iCelEntity* entity = pl->FindAttachedEntity(wrap->QueryObject());
     if (entity)
     {
-      csRef<iPcDefaultCamera> camera = CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+      csRef<iPcDefaultCamera> camera =
+        CEL_QUERY_PROPCLASS_ENT(entity, iPcDefaultCamera);
+
       if (camera) return camera->GetCamera();
     }
   }
 
   return 0;
-}
+} // end GetGamera()
 
 void Move(iMeshWrapper* selectedMesh, iCamera* cam, const csVector3& v)
 {
@@ -268,15 +283,16 @@ void Move(iMeshWrapper* selectedMesh, iCamera* cam, const csVector3& v)
     tr.Translate (cam->GetTransform().This2OtherRelative(v));
     selectedMesh->GetMovable()->UpdateMove();
   }
-}
+} // end Move()
 
 void HighLightMesh(iObjectRegistry* object_reg, iMeshWrapper* mesh, bool state)
 {
-  csRef<iShaderVarStringSet> strings = 
-    csQueryRegistryTagInterface<iShaderVarStringSet> 
+  csRef<iShaderVarStringSet> strings =
+    csQueryRegistryTagInterface<iShaderVarStringSet>
     (object_reg, "crystalspace.shader.variablenameset");
   CS::ShaderVarStringID ambient = strings->Request ("light ambient");
-  csRef<iShaderVariableContext> svc = scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
+  csRef<iShaderVariableContext> svc =
+    scfQueryInterfaceSafe<iShaderVariableContext> (mesh);
   if (svc)
   {
     if (state)
@@ -285,62 +301,74 @@ void HighLightMesh(iObjectRegistry* object_reg, iMeshWrapper* mesh, bool state)
       var->SetValue(csVector3(2,2,2));
     }
     else
+    {
       svc->RemoveVariable(ambient);
+    }
   }
-}
+} // end HighLightMesh()
 
 bool WorldManager::HandleEvent(iEvent& ev)
 {
-  float f = 0.1f;
   if (ev.GetName() == nameRegistry->GetID("crystalspace.frame"))
+  {
     Loading();
+  }
   else if (ev.GetName() == nameRegistry->GetID("interface.options.video"))
+  {
     UpdateOptions();
+  }
   else if (ev.GetName() == nameRegistry->GetID("input.Object+X"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(f, 0, 0));
+    Move(selectedMesh, cam, csVector3(editStepSize, 0, 0));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Object-X"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(-f, 0, 0));
+    Move(selectedMesh, cam, csVector3(-editStepSize, 0, 0));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Object+Y"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, f, 0));
+    Move(selectedMesh, cam, csVector3(0, editStepSize, 0));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Object-Y"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, -f, 0));
+    Move(selectedMesh, cam, csVector3(0, -editStepSize, 0));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Object+Z"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, 0, f));
+    Move(selectedMesh, cam, csVector3(0, 0, editStepSize));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Object-Z"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
-    Move(selectedMesh, cam, csVector3(0, 0, -f));
+    Move(selectedMesh, cam, csVector3(0, 0, -editStepSize));
   }
   else if (ev.GetName() == nameRegistry->GetID("input.Interact"))
   {
     iCamera* cam = GetCamera(object_reg, playerMesh);
     if (cam)
     {
-      int x, y; x = y = 0;
+      int x, y = 0;
       ev.Retrieve("X", x);
       ev.Retrieve("Y", y);
       csVector2 p(x, y);
-      csScreenTargetResult st = csEngineTools::FindScreenTarget (p, 100.0f, cam);
+
+      csScreenTargetResult st =
+        csEngineTools::FindScreenTarget (p, 100.0f, cam);
+
+      // Unhighlight the previous mesh.
       HighLightMesh(object_reg, selectedMesh, false);
+
+      // Highlight the new mesh.
       selectedMesh = st.mesh;
       HighLightMesh(object_reg, selectedMesh, true);
-      if (selectedMesh)
-        Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s", selectedMesh->QueryObject()->GetName());
+
+      if (selectedMesh) Report (CS_REPORTER_SEVERITY_NOTIFY, "Selected mesh %s",
+        selectedMesh->QueryObject()->GetName());
     }
   }
 
@@ -359,10 +387,10 @@ void WorldManager::EnterWorld(WFMath::Point<3> position)
   eventQueue->Post(worldEvent);
 
   // Register an event for Loading().
-  eventQueue->RegisterListener (this, nameRegistry->GetID("crystalspace.frame"));
+  eventQueue->RegisterListener(this, nameRegistry->GetID("crystalspace.frame"));
 
   loading = true;
-}
+} // end EnterWorld()
 
 void WorldManager::SetMesh(iMeshWrapper* wrapper)
 {
@@ -375,7 +403,7 @@ void WorldManager::SetMesh(iMeshWrapper* wrapper)
   cb.AttachNew(new MovableCallBack(this));
 
   wrapper->GetMovable()->AddListener(cb);
-} // end SetCamera()
+} // end SetMesh()
 
 void WorldManager::UnSetMesh()
 {
@@ -383,34 +411,40 @@ void WorldManager::UnSetMesh()
     cb.Invalidate();
 
   playerMesh = 0;
-} // end UnSetCamera()
+} // end UnSetMesh()
 
 template <typename T, typename K>
 int ptCompare(T const& r1, K const& r2)
 {
   return csComparator<size_t, size_t>::Compare(r1->id, r2->id);
-}
+} // end ptCompare()
 
 void WorldManager::CameraMoved()
 {
   using namespace Common::World;
-  Octree::QueryResult objects = worldManager->Query(WFMath::Ball<3>(position, radius));
+  Octree::QueryResult objects =
+    worldManager->Query(WFMath::Ball<3>(position, radius));
+
+  if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n",
+    objects.size(), (float)radius, WFMath::ToString(position).c_str());
 
   csRefArray<Instance> newInstances;
   Octree::QueryResult::iterator it;
-  if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n", objects.size(), (float)radius, WFMath::ToString(position).c_str());
   for (it = objects.begin(); it != objects.end(); it++ )
   {
-    size_t index = instances.FindSortedKey(csArrayCmp<Instance*, Object*>(*it, ptCompare));
+    size_t index = instances.FindSortedKey(
+      csArrayCmp<Instance*, Object*>(*it, ptCompare));
     if (index != csArrayItemNotFound)
     {
       //printf("FOUND: %d %s\n", (*it)->id, (*it)->name.c_str());
+
       // Instance was found, copy it to the new array.
       newInstances.InsertSorted(instances.Get(index), ptCompare);
     }
     else
     {
       printf("OBJECT: %"SIZET" %s\n", (*it)->id, (*it)->name.c_str());
+
       // Instance was not found, make a new instance.
       csRef<Instance> in; in.AttachNew(new Instance(*it, object_reg));
       newInstances.InsertSorted(in, ptCompare);
@@ -422,7 +456,7 @@ void WorldManager::CameraMoved()
 
 } // end CameraMoved()
 
-void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
+void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
 {
   if (!world)
   {
@@ -434,17 +468,19 @@ void WorldManager::MovableCallBack::MovableChanged (iMovable* movable)
 
   world->CameraMoved();
 
-} // end CameraMoved()
+} // end MovableChanged()
 
 void WorldManager::CommitChanges(Common::World::Object* object)
 {
   printf("CommitChanges: %s\n", object->name.c_str());
+
   worldManager->Update(object);
 } // end CommitChanges()
 
 void WorldManager::CommitNew(boost::shared_ptr<Common::World::Object> object)
 {
   printf("CommitNew: %s\n", object->name.c_str());
+
   worldManager->Add(object, false);
 } // end CommitNew()
 
