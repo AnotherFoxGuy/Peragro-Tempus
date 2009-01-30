@@ -133,12 +133,6 @@ namespace PT
         btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionUpdateIntervalSliderChanged, this));
 
-        // Set up the reflection toggle drop list.
-        CreateDropListTerrainViewDistance();
-        btn = winMgr->getWindow("Options/Video/TerrainViewDistance/DropList");
-        btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
-          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnDropListTerrainViewDistance, this));
-
         return true;
       } // end ReloadWindow()
 
@@ -468,66 +462,6 @@ namespace PT
         CEGUI::EventArgs e;
         OnReflectionUpdateIntervalSliderChanged(e);
       } // end CreateReflectionSkipSlider()
-
-      bool VideoOptionsWindow::OnDropListTerrainViewDistance(const CEGUI::EventArgs& e)
-      {
-        btn = winMgr->getWindow("Options/Video/TerrainViewDistance/DropList");
-        uint id = ((CEGUI::Combobox*)btn)->getSelectedItem()->getID();
-
-        int size = 3;
-        switch(id)
-        {
-        case 3: // 3x3
-          size = 3;
-          break;
-        case 5: // 5x5
-          size = 5;
-          break;
-        case 7: // 7x7
-          size = 7;
-          break;
-
-        default:
-          Report(PT::Error, "OnDropListTerrainViewDistance: failed %d", id);
-        }
-
-        app_cfg->SetInt("Peragro.Terrain.GridSize", size);
-        SaveConfig();
-        return true;
-      } // end OnDropListReflections()
-
-      void VideoOptionsWindow::CreateDropListTerrainViewDistance()
-      {
-        btn = winMgr->getWindow("Options/Video/TerrainViewDistance/DropList");
-
-        int size = app_cfg->GetInt("Peragro.Terrain.GridSize", 3);
-
-        switch(size)
-        {
-        case 3:
-          ((CEGUI::Combobox*)btn)->setText("3x3");
-          break;
-        case 5:
-          ((CEGUI::Combobox*)btn)->setText("5x5");
-          break;
-        case 7:
-          ((CEGUI::Combobox*)btn)->setText("7x7");
-          break;
-        default:
-          size= 3;
-          ((CEGUI::Combobox*)btn)->setText("3x3");
-        }
-
-        ((CEGUI::Combobox*)btn)->addItem(
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"3x3", 3));
-        ((CEGUI::Combobox*)btn)->addItem(
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"5x5", 5));
-        ((CEGUI::Combobox*)btn)->addItem(
-          new CEGUI::ListboxTextItem((CEGUI::utf8*)"7x7", 7));
-
-        ((CEGUI::Combobox*)btn)->setReadOnly(true);
-
-      } // end CreateDropListReflections()
 
     } // Windows namespace
   } // GUI namespace

@@ -48,6 +48,9 @@ namespace PT
         bool OnMaxFPSSliderChanged(const CEGUI::EventArgs &e);
         bool OnMinDistanceSliderChanged(const CEGUI::EventArgs &e);
 
+        void CreateLoadRadiusSlider();
+        bool OnLoadRadiusSliderChanged(const CEGUI::EventArgs &e);
+
       public:
         CameraOptionsWindow(GUIManager* guiManager);
         virtual ~CameraOptionsWindow();

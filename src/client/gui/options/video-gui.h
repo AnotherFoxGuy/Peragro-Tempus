@@ -62,9 +62,6 @@ namespace PT
         bool OnReflectionUpdateIntervalSliderChanged(const CEGUI::EventArgs &e);
         void CreateReflectionUpdateIntervalSlider();
 
-        bool OnDropListTerrainViewDistance(const CEGUI::EventArgs& e);
-        void CreateDropListTerrainViewDistance();
-
       public:
         VideoOptionsWindow(GUIManager* guiManager);
         virtual ~VideoOptionsWindow();
