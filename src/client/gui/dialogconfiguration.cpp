@@ -31,7 +31,6 @@
 #include <algorithm>
 #include <iostream>
 
-#include "common/reporter/reporter.h"
 
 namespace PT
 {
