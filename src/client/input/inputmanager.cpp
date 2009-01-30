@@ -152,73 +152,77 @@ namespace PT
       }
       else
       {
-        // Change the control mapping.
-        using namespace PT::Events;
-        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-        if (down)
-        {
-          // Control press, update.
-          csRef<iEvent> updateEvent =
-            evmgr->CreateEvent("input.options.controlupdate");
-          updateEvent->Add("action", changeControl->action.c_str());
-          updateEvent->Add("control", eventCombo.ConfigString().c_str());
-          evmgr->AddEvent(updateEvent);
-        }
-        else
-        {
-          // Control release, set.
-          csRef<iEvent> setEvent =
-            evmgr->CreateEvent("input.options.controlset");
-
-          // Try insert pressed control and action being set.
-          std::pair<ControlMap::iterator, bool> boundControl(
-            controls.insert(std::make_pair(eventCombo, changeControl->action)));
-
-          // True if the control was not already in the map.
-          if (boundControl.second == true)
-          {
-            // Successful, remove any previous binding.
-            if (changeControl->itr != controls.end())
-            {
-              controls.erase(changeControl->itr);
-              Report(PT::Debug, "Removing control combo '%s %s'.",
-                changeControl->action.c_str(),
-                changeControl->itr->first.ConfigString().c_str());
-            }
-
-            Report(PT::Debug, "Control combo %s bound to %s.",
-              boundControl.first->first.ConfigString().c_str(),
-              boundControl.first->second.c_str());
-
-            setEvent->Add("action", boundControl.first->second.c_str());
-            setEvent->Add("control",
-              boundControl.first->first.ConfigString().c_str());
-          }
-          else
-          {
-            // Unsuccessful, set to previous binding, report error only if it's
-            // different.
-            if (eventCombo != changeControl->itr->first)
-            {
-              Report(PT::Error, "Control combo %s is already bound to %s.",
-                boundControl.first->first.ConfigString().c_str(),
-                boundControl.first->second.c_str());
-            }
-
-            setEvent->Add("action", changeControl->action.c_str());
-            setEvent->Add("control", changeControl->itr->first.
-              ConfigString().c_str());
-          }
-
-          evmgr->AddEvent(setEvent);
-          // Reset the control change data.
-          changeControl.reset();
-        }
+        if (down) HandleUpdateControl(eventCombo);
+        else HandleSetControl(eventCombo);
       }
 
       return true;
     } // end HandleControlEvents()
+
+    void InputManager::HandleUpdateControl(const ControlCombo& eventCombo)
+    {
+      using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
+      csRef<iEvent> updateEvent =
+        evmgr->CreateEvent("input.options.controlupdate");
+      updateEvent->Add("action", changeControl->action.c_str());
+      updateEvent->Add("control", eventCombo.ConfigString().c_str());
+      evmgr->AddEvent(updateEvent);
+    } // end HandleUpdateControl()
+
+    void InputManager::HandleSetControl(const ControlCombo& eventCombo)
+    {
+      using namespace PT::Events;
+      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+
+      csRef<iEvent> setEvent =
+        evmgr->CreateEvent("input.options.controlset");
+
+      // Try insert pressed control and action being set.
+      std::pair<ControlMap::iterator, bool> boundControl(
+        controls.insert(std::make_pair(eventCombo, changeControl->action)));
+
+      // True if the control was not already in the map.
+      if (boundControl.second == true)
+      {
+        // Successful, remove any previous binding.
+        if (changeControl->itr != controls.end())
+        {
+          controls.erase(changeControl->itr);
+          Report(PT::Debug, "Removing control combo '%s %s'.",
+            changeControl->action.c_str(),
+            changeControl->itr->first.ConfigString().c_str());
+        }
+
+        Report(PT::Debug, "Control combo %s bound to %s.",
+          boundControl.first->first.ConfigString().c_str(),
+          boundControl.first->second.c_str());
+
+        setEvent->Add("action", boundControl.first->second.c_str());
+        setEvent->Add("control",
+          boundControl.first->first.ConfigString().c_str());
+      }
+      else
+      {
+        // Unsuccessful, set to previous binding, report error only if it's
+        // different.
+        if (eventCombo != changeControl->itr->first)
+        {
+          Report(PT::Error, "Control combo %s is already bound to %s.",
+            boundControl.first->first.ConfigString().c_str(),
+            boundControl.first->second.c_str());
+        }
+
+        setEvent->Add("action", changeControl->action.c_str());
+        setEvent->Add("control", changeControl->itr->first.
+          ConfigString().c_str());
+      }
+
+      evmgr->AddEvent(setEvent);
+      // Reset the control change data.
+      changeControl.reset();
+    } // end HandleSetControl()
 
     bool InputManager::OnKeyboard(iEvent &ev)
     {

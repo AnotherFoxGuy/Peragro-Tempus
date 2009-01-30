@@ -110,6 +110,18 @@ namespace PT
        */
       bool HandleControlEvents(const iEvent &ev, const bool keyboard);
 
+      /**
+       * Handle updating the control combo being changed.
+       * @param eventCombo The control combo.
+       */
+      void HandleUpdateControl(const ControlCombo& eventCombo);
+
+      /**
+       * Handle finalizing the control combo being changed.
+       * @param eventCombo The control combo.
+       */
+      void HandleSetControl(const ControlCombo& eventCombo);
+
     public:
       /// Constructor.
       InputManager();
