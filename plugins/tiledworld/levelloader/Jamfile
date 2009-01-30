@@ -1,6 +1,0 @@
-SubDir TOP plugins tiledworld levelloader ;
-
-Description threadedlevelloader : "Threaded level loader" ;
-Library threadedlevelloader :
-  [ Wildcard *.h *.cpp ] ;
-ExternalLibs threadedlevelloader : CRYSTAL CEL ;

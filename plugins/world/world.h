@@ -159,12 +159,6 @@ private:
   /// Called when the camera moves to update visible objects.
   void CameraMoved();
 
-  // TODO remove.
-  void SetGridSize(size_t size) {}
-  size_t GetGridSize() const { return 0; }
-  void SetCacheSize(size_t size) {}
-  size_t GetCacheSize() const { return 0; }
-
 public:
   /// The name of the world.
   std::string basename;

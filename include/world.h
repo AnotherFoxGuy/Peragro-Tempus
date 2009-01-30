@@ -71,20 +71,6 @@ struct iWorld : public virtual iBase
 
   virtual void CommitChanges(Common::World::Object* object) = 0;
 
-  //-[Tiled world]-----------------------------
-  // TODO remove.
-  /// Set the loaded tile grid size.
-  virtual void SetGridSize(size_t size) = 0;
-  /// Get the loaded tile grid size.
-  virtual size_t GetGridSize() const = 0;
-
-  /// Set the cached tile grid size.
-  virtual void SetCacheSize(size_t size) = 0;
-  /// Get the cached tile grid size.
-  virtual size_t GetCacheSize() const = 0;
-  //---------------------------------------------
-
-
   /// Set the resource path.
   //virtual void SetResourcePath(const std::string& path) = 0;
 };
