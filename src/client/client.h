@@ -175,6 +175,7 @@ namespace PT
     //csRef<FrameBegin3DDraw> drawer;
     csRef<FramePrinter> printer;
 
+    bool MountUserData();
     bool InitializeCEL();
     void checkConnection();
     void handleStates();

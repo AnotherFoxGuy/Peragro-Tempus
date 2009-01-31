@@ -75,7 +75,7 @@ namespace PT
 
           Report (PT::Debug, "Creating new logfile", message);
 
-          filename.Format ("~/.peragro/log/%s-%s", ownnick.c_str(), logFilename[log]);
+          filename.Format ("/UserData/log/%s-%s", ownnick.c_str(), logFilename[log]);
 
           logFile[log] = vfs->Open (filename, VFS_FILE_APPEND);
           if (logFile[log])

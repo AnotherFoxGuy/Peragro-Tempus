@@ -99,6 +99,9 @@
 
 #include "imystarbox.h"
 
+const char* const appConfigFile = "/peragro/config/client.cfg";
+const char* const userConfigFile = "/UserData/client.cfg";
+
 CS_IMPLEMENT_APPLICATION
 
 namespace PT
@@ -235,8 +238,17 @@ namespace PT
     CS::Utility::setenv("APPDIR", csInstallationPathsHelper::GetAppDir(argv[0]).GetData(), true);
 
     if (!csInitializer::SetupConfigManager(GetObjectRegistry(),
-      "/peragro/config/client.cfg", GetApplicationName()))
+      appConfigFile, GetApplicationName()))
       return ReportError("Failed to initialize configuration manager!");
+
+    app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
+    if (!app_cfg) return ReportError("Can't find the config manager!");
+
+    vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
+    if (!vfs) return ReportError("Failed to locate VFS!");
+
+    // Load the user configuration files as early as possible.
+    if (!MountUserData()) return ReportError("Failed to mount user data!");
 
     cmdline = csQueryRegistry<iCommandLineParser> (GetObjectRegistry());
     if (!cmdline) return ReportError("Failed to locate CommandLineParser plugin");
@@ -252,6 +264,36 @@ namespace PT
       return ReportError("Failed to initialize plugins!");
 
     csBaseEventHandler::Initialize(GetObjectRegistry());
+
+    return true;
+  }
+
+  bool Client::MountUserData()
+  {
+    csString userDataPath(csGetPlatformConfigPath("peragro"));
+
+    // Move out of the ~/.crystalspace dir, where it goes with unixes.
+    userDataPath.FindReplace("/.crystalspace/", "/.");
+
+    ReportInfo("User data path: %s", userDataPath.GetData());
+
+    // We want a directory, not a file.
+    userDataPath.Append(CS_PATH_SEPARATOR);
+
+    if (!vfs->Mount("/UserData/", userDataPath.GetData()))
+    {
+      return false;
+    }
+
+    // VFS apparently can't create a file in a dir that doesnt exists but the
+    // immediate parent does. So let's create a dir, to create all dirs in the
+    // path.
+    csRef<iFile> path = vfs->Open("/UserData/.keep/", VFS_FILE_WRITE);
+
+    // Load the user client configuration.
+    csRef<iConfigFile> userCfg = app_cfg->AddDomain(userConfigFile, vfs,
+      iConfigManager::ConfigPriorityUserApp);
+    app_cfg->SetDynamicDomain(userCfg);
 
     return true;
   }
@@ -277,9 +319,6 @@ namespace PT
 #else
     reporter->SetLoggingLevel(PT::Insane);
 #endif
-
-    vfs = csQueryRegistry<iVFS> (GetObjectRegistry());
-    if (!vfs) return Report(PT::Error, "Failed to locate VFS!");
 
     g3d = csQueryRegistry<iGraphics3D> (GetObjectRegistry());
     if (!g3d) return Report(PT::Error, "Failed to locate 3D renderer!");
@@ -363,9 +402,6 @@ namespace PT
 
     vc = csQueryRegistry<iVirtualClock> (GetObjectRegistry());
     if (!vc) return Report(PT::Error, "Failed to locate Virtual Clock!");
-
-    app_cfg = csQueryRegistry<iConfigManager> (GetObjectRegistry());
-    if (!app_cfg) return Report(PT::Error, "Can't find the config manager!");
 
     limitFPS = app_cfg->GetInt("Peragro.Video.MaxFPS", limitFPS);
 

@@ -34,6 +34,8 @@
 
 #include "common/reporter/reporter.h"
 
+const char* const dialogConfigFile = "/UserConfig/dialog.cfg";
+
 namespace PT
 {
   namespace GUI
@@ -47,10 +49,12 @@ namespace PT
     GUIManager::~GUIManager ()
     {
 
-      if (!dlgConfig->SaveConfiguration("/peragro/config/dialog.cfg"))
+      if (!dlgConfig->SaveConfiguration(dialogConfigFile))
       {
         Report(PT::Warning,"Failed saving dialog.cfg!\n");
-      } else {
+      }
+      else
+      {
         Report(PT::Notify,"Saving dialog.cfg!\n");
       }
 
@@ -69,7 +73,9 @@ namespace PT
     CEGUI::Window* GUIManager::GetCeguiWindow(const char* name)
     {
       if (winMgr->isWindowPresent(name))
+      {
         return winMgr->getWindow(name);
+      }
       else
       {
         Report(PT::Error, "Couldn't find CEGUI window: '%s'", name);
@@ -306,8 +312,8 @@ namespace PT
         dlgConfig->AddDialog(bookWindow->GetName());
 
 
-        if (!dlgConfig->LoadConfiguration("/peragro/config/dialog.cfg"))
-        {  
+        if (!dlgConfig->LoadConfiguration(dialogConfigFile))
+        {
           Report(PT::Warning, "Unable to load dialogs settings!");
         }
 
