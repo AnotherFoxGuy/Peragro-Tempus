@@ -41,6 +41,7 @@ LinkWith shape_test : wfmath ;
 Description timestamp_test : "timestamp Test" ;
 Application timestamp_test : timestamp_test.cpp : console ;
 LinkWith timestamp_test : wfmath ;
+MsvcDefine wfmath : __WIN32__ : 1 ;
 
 Description vector_test : "vector Test" ;
 Application vector_test : vector_test.cpp : console ;
