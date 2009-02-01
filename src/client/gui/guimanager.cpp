@@ -34,7 +34,7 @@
 
 #include "common/reporter/reporter.h"
 
-const char* const dialogConfigFile = "/UserConfig/dialog.cfg";
+const char* const dialogConfigFile = "/UserData/dialog.cfg";
 
 namespace PT
 {
