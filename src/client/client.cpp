@@ -147,7 +147,6 @@ namespace PT
     // Shut down the event handlers we spawned earlier.
     printer.Invalidate();
 
-    delete reporter;
     delete network;
     delete cursor;
 
@@ -170,6 +169,8 @@ namespace PT
 
     delete userManager;
     delete questManager;
+
+    delete reporter;
 
     // Don't delete world;
   }
