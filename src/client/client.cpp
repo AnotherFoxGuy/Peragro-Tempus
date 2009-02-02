@@ -221,7 +221,7 @@ namespace PT
             char buffer[40];
             snprintf(buffer, 40, "            %d/%d", (int)currentStamina,
               (int)maxStamina);
-            statshudWindow->SetText("statsHUD/SPValue", buffer);
+            statshudWindow->SetText("StatsHUD/SPValue", buffer);
           }
         }
       }
