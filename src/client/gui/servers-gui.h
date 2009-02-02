@@ -24,7 +24,7 @@
 #include "iutil/cfgmgr.h"
 #include "iutil/cfgfile.h"
 
-#define SERVERWINDOW "ServerWindow"
+#define SERVERWINDOW "ServerList/Frame"
 
 namespace PT
 {

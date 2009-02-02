@@ -21,7 +21,7 @@
 
 #include "base-gui.h"
 
-#define SKILLSHUDWINDOW "SkillsHUD/Frame"
+#define SKILLSHUDWINDOW "SkillHUD/Frame"
 
 namespace PT
 {
