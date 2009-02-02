@@ -197,7 +197,7 @@ void ResourceManager::ScanFactories(const std::string& path)
         std::vector<Common::World::Factory>::iterator it;
         for (it = facts.begin(); it != facts.end(); it++ )
         {
-          if ((*it).boundingBox.isValid())
+          if (!(*it).boundingBox.isValid())
           {
             (*it).boundingBox = WFMath::AxisBox<3>(WFMath::Point<3>(0, 0, 0), WFMath::Point<3>(1, 1, 1));
             printf("E: invalid boundingbox for %s (%s)\n", (*it).factoryName.c_str(), (*it).factoryFile.c_str());
