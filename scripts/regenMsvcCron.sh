@@ -1,28 +1,35 @@
-#!/bin/sh
-echo -----------------------------------------------------------------------------
-echo `date`
-echo -----------------------------------------------------------------------------
-cd /home/peragro/
+cd /home/sueastside/dev
 if [ -d msvcregenAuto ]
 then
   cd msvcregenAuto
   echo "--> Updating working repository."
-  svn up --ignore-externals
+  svn up --ignore-externals 
   echo "--> Reverting potential conflicts."
-  svn revert . -R
-  echo "--> Jam maintiner cleaning."
+  svn revert . -R >/dev/null 2>&1
+  echo "--> Jam maintainer cleaning."
   jam maintainerclean > /dev/null
-  echo "--> Generating configure scripts."
-  ./autogen.sh
 else
-  echo "--> Making temporary folder."
+  echo "--> Making temporary directory."
   mkdir msvcregenAuto
   cd msvcregenAuto
   echo "Checking out repository."
-  svn co --ignore-externals https://cyanox.nl/peragro/trunk/ . > /dev/null
-  echo "--> Generating configure scripts."
-  ./autogen.sh
+  svn co --ignore-externals https://cyanox.nl/peragro/trunk/ . >/dev/null 2>&1
 fi
+
+echo "--> Updating buildsystem files from CS."
+cd mk/autoconf
+wget -erobots=off -r -l1 --no-parent -A'.m4,config.*,install-sh' -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/autoconf/'  >/dev/null 2>&1
+svn add * >/dev/null 2>&1
+cd ../jam
+wget -erobots=off -r -l1 --no-parent -A.jam -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/jam/' >/dev/null 2>&1
+svn add * >/dev/null 2>&1
+cd ../msvcgen
+wget -erobots=off -r -l1 --no-parent -A'*.tlib,custom.cslib' -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/msvcgen/' >/dev/null 2>&1
+svn add * >/dev/null 2>&1
+cd ../..
+
+echo "--> Generating configure scripts."
+./autogen.sh
 echo "--> Configuring source tree."
 ./configure --without-cs --without-cel --without-CEGUI --without-pthread --without-boost > /dev/null
 echo "--> Generating project files."
