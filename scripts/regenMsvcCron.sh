@@ -1,4 +1,4 @@
-cd /home/sueastside/dev
+cd /home/peragro/
 if [ -d msvcregenAuto ]
 then
   cd msvcregenAuto
