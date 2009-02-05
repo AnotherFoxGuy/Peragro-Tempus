@@ -35,6 +35,24 @@ public:
   Deserialiser(ByteStream* bs) : data(bs->getData()), len(bs->getSize()), pos(2) {}
   ~Deserialiser() {}
 
+// Strnlen is a gnu extension that certain versions of OSX do not support.
+#if defined(CS_PLATFORM_MACOSX)
+  int strnlen(const char *c, int len)
+  {
+    int n = 0;
+    while (*c++ && n < len)
+      n++;
+    return (n);
+  }
+  size_t strnlen(const char *c, size_t len)
+  {
+    size_t n = 0;
+    while (*c++ && n < len)
+      n++;
+    return (n);
+  }
+#endif
+
   unsigned short getSize()
   {
     short value = data[0];
@@ -106,23 +124,6 @@ public:
     return size;
   }
 
-// Strnlen is a gnu extension that certain versions of OSX do not support.
-#if defined(CS_PLATFORM_MACOSX)
-  int strnlen(const char *c, int len)
-  {
-    int n = 0;
-    while (*c++ && n < len)
-      n++;
-    return (n);
-  }
-  size_t strnlen(const char *c, size_t len)
-  {
-    size_t n = 0;
-    while (*c++ && n < len)
-      n++;
-    return (n);
-  }
-#endif
 };
 
 #endif // DESERIALISER_H
