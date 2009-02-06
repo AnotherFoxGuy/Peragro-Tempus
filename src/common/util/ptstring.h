@@ -19,6 +19,7 @@
 #ifndef PTSTRING_H
 #define PTSTRING_H
 
+#include <stdio.h>
 #include "stringstore.h"
 
 class ptString

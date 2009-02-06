@@ -26,6 +26,8 @@
 #ifndef WFMATH_TREE_H
 #define WFMATH_TREE_H
 
+#include <stdio.h>
+
 #include <vector>
 #include <list>
 #include <algorithm>
