@@ -1,5 +1,0 @@
-SubDir TOP src ext ;
-
-SubInclude TOP src ext bullet ;
-SubInclude TOP src ext sqlite ;
-SubInclude TOP src ext tinyxml ;
