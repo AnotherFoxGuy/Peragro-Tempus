@@ -18,7 +18,6 @@
 
 #include "server/combat/combatmanager.h"
 
-#include <stdlib.h>
 
 #include <wfmath/stream.h>
 #include <wfmath/point.h>

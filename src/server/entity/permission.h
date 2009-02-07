@@ -21,7 +21,6 @@
 
 #define PT_PERMISSION_COUNT 1
 
-#include <stdlib.h>
 
 namespace Permission
 {

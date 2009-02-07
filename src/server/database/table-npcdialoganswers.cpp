@@ -17,6 +17,7 @@
 */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "common/database/database.h"
 #include "table-npcdialoganswers.h"
