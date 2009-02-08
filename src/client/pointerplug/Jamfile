@@ -1,0 +1,6 @@
+SubDir TOP src client pointerplug ;
+
+Description client-pointerplug : "pointer library interface plugin" ;
+Library client-pointerplug :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-pointerplug : CRYSTAL ;

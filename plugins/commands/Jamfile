@@ -1,0 +1,12 @@
+SubDir TOP plugins commands ;
+
+SubInclude TOP plugins commands manager ;
+SubInclude TOP plugins commands cmddate ;
+SubInclude TOP plugins commands cmdhelp ;
+SubInclude TOP plugins commands cmdlogout ;
+SubInclude TOP plugins commands cmdquit ;
+SubInclude TOP plugins commands cmdrelocate ;
+
+Description plugins-commands : "command plugin lib" ;
+Library plugins-commands : [ Wildcard *.h *.cpp ] ;
+ExternalLibs plugins-commands : CRYSTAL ;

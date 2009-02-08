@@ -1,0 +1,6 @@
+SubDir TOP plugins commands manager ;
+
+Description cmdmanager : "Command Manager" ;
+Plugin cmdmanager : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmdmanager : CRYSTAL ;
+#LinkWith cmdmanager :  ;

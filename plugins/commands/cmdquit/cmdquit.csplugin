@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmdquit.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.quit</name>
+        <implementation>cmdQuit</implementation>
+        <description>Quit Command</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

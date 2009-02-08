@@ -1,0 +1,7 @@
+SubDir TOP plugins commands cmdhelp ;
+
+Description cmdhelp : "Help Command" ;
+Plugin cmdhelp : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmdhelp : CRYSTAL ;
+LinkWith cmdhelp : plugins-commands ;
+

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmdrelocate.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.relocate</name>
+        <implementation>cmdRelocate</implementation>
+        <description>Relocate Command</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

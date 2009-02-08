@@ -1,0 +1,6 @@
+SubDir TOP plugins commands cmddate ;
+
+Description cmddate : "Date Command" ;
+Plugin cmddate : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmddate : CRYSTAL ;
+LinkWith cmddate : plugins-commands ;

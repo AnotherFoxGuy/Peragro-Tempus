@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmdmanager.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.manager</name>
+        <implementation>CommandManager</implementation>
+        <description>Command Manager</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>
