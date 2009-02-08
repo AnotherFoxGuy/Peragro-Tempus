@@ -6,4 +6,3 @@ Description database : "database" ;
 Library database :
   [ Wildcard *.h *.cpp ] ;
 
-

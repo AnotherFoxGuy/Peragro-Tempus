@@ -19,14 +19,19 @@
 
 AC_DEFUN([PTHREAD_TIMEDJOIN_NP],[
 
+
   CS_CHECK_BUILD([if pthread_timedjoin_np available],
                  [pt_cv_pthread_timedjoin_np],
                  [AC_LANG_PROGRAM([#include <pthread.h>],
                                   [pthread_timedjoin_np(NULL, NULL, NULL);])],
-                 [CS_CREATE_TUPLE([-DHAVE_PTHREAD_TIMEDJOIN_NP],[],
-                                  [-lpthread])], [C++],
+                 [CS_CREATE_TUPLE([-DHAVE_PTHREAD_TIMEDJOIN_NP],[], [-lpthread])],
+                                  [C++],
                                   [], [], [],
                                   [], [], [])
 
-  CS_EMIT_BUILD_RESULT([pt_cv_pthread_timedjoin_np], [PTHREADNP],[])
+  AS_IF([test $pt_cv_pthread_timedjoin_np = yes],
+	      [CS_EMIT_BUILD_PROPERTY([COMPILER.C++FLAGS.PTHREADNP],
+                                [-DHAVE_PTHREAD_TIMEDJOIN_NP],
+                                [+])])
+
 ])
