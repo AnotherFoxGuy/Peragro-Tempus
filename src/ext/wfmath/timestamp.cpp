@@ -32,7 +32,7 @@
 
 #include "timestamp.h"
 
-#ifdef WIN32
+#ifdef __WIN32__
 #include <winsock2.h> 
 #endif
 
@@ -128,7 +128,7 @@ bool WFMath::operator==(const TimeDiff &a, const TimeDiff &b)
 WFMath::TimeStamp WFMath::TimeStamp::now()
 {
     TimeStamp ret;
-#ifndef WIN32
+#ifndef __WIN32__
     gettimeofday(&ret._val, NULL);
 #else
   SYSTEMTIME sysTime;
