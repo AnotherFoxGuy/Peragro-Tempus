@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "common/events/engine.h"
 #include "dummyhandler.h"
 #include "common/util/wincrashdump.h"
