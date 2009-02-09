@@ -22,6 +22,11 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
+#include <iutil/plugin.h>
+#include <iutil/objreg.h>
+
+#define PT_POINTERLIBRARY_PLUGNAME "peragro.pointerlibrary"
+
 class PointerLibrary;
 
 struct iPointerPlug : public virtual iBase
@@ -32,5 +37,18 @@ struct iPointerPlug : public virtual iBase
   virtual PointerLibrary* getPointerLibrary() const;
 
 };
+
+namespace PT
+{
+
+  inline PointerLibrary* getPointerLibrary (iObjectRegistry* objreg)
+  {
+    csRef<iPointerPlug> ptrplug = csLoadPluginCheck<iPointerPlug> (objreg, PT_POINTERLIBRARY_PLUGNAME);
+
+    if (!ptrplug) return NULL;
+    return ptrplug->getPointerLibrary();
+  }
+
+}; // PT namespace
 
 #endif // IPOINTERPLUG_H

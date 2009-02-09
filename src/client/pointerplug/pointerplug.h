@@ -29,8 +29,6 @@
 #include <iutil/comp.h>
 #include "include/ipointerplug.h"
 
-#define PT_POINTERLIBRARY_PLUGNAME "peragro.pointerlibrary"
-
 class PointerLibrary;
 
 class PointerPlug : public scfImplementation2<PointerPlug, iPointerPlug, iComponent>
@@ -47,8 +45,6 @@ public:
 
   // from iPointerPlug.
   virtual PointerLibrary* getPointerLibrary () const;
-
-  static PointerLibrary* getPointerLibrary (iObjectRegistry*);
 
 };
 

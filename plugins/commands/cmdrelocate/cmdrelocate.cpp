@@ -20,7 +20,7 @@
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
 
-#include "client/pointerplug/pointerplug.h"
+#include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"
 #include "common/network/entitymessages.h"
 //#include "client/network/network.h"
@@ -49,7 +49,7 @@ std::string cmdRelocate::Execute (const StringArray& args)
   // Element 0 is '/', 1 is 'relocate'
   if (args.size() < 2) throw BadUsage();
 
-  PointerLibrary* ptrlib = PointerPlug::getPointerLibrary(object_reg);
+  PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
   if (!ptrlib) return "";
 //  Network* network = ptrlib->getNetwork();
 //  if(!network) return "";

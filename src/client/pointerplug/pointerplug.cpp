@@ -44,11 +44,3 @@ PointerLibrary* PointerPlug::getPointerLibrary () const
 {
   return PointerLibrary::getInstance();
 }
-
-PointerLibrary* PointerPlug::getPointerLibrary (iObjectRegistry* objreg)
-{
-  csRef<iPointerPlug> ptrplug = csLoadPluginCheck<iPointerPlug> (objreg, PT_POINTERLIBRARY_PLUGNAME);
-
-  if (!ptrplug) return NULL;
-  return ptrplug->getPointerLibrary();
-}
