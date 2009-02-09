@@ -59,6 +59,11 @@ wfmath ;
    worldloader
    cachemanager
    effectsmanager
+   cmdmanager
+   cmdhelp
+   cmdlogout
+   cmdquit
+   cmdrelocate
   ;
 
   LinkStaticPlugins peragro_static :
