@@ -19,7 +19,12 @@ projtofix = [["plgcomponent_networkmove", ["libclient-component",
              ["plgcomponentstats", ["libclient-component", "libeventmanager-cs", "libreporter"]],
              ["plgcomponent_viewcontrols", ["libclient-component", "libeventmanager-cs", "libreporter"]],
              ["plgcomponentmesh", ["libclient-component", "libeventmanager-cs", "libreporter"]],  
-             ["plgworldloader", ["libworld", "libwfmath"]]                     
+             ["plgworldloader", ["libworld", "libwfmath"]], 
+             ["plgcmddate", ["libplugins-commands"]],
+             ["plgcmdhelp", ["libplugins-commands"]],
+             ["plgcmdlogout", ["libplugins-commands"]],
+             ["plgcmdquit", ["libplugins-commands"]],
+             ["plgcmdrelocate", ["libplugins-commands"]]
              ]
 
 class Project:
