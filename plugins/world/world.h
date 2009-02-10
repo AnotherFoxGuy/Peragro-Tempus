@@ -142,6 +142,8 @@ private:
   csWeakRef<iMeshWrapper> playerMesh;
   /// The currently selected mesh.
   csWeakRef<iMeshWrapper> selectedMesh;
+  /// Wether EnterWorld() has been called.
+  bool hasEnteredWorld;
   /// Whether more meshes need to be loaded.
   bool loading;
   /// The proximity range in units.

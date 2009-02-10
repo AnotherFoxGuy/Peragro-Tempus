@@ -138,7 +138,7 @@ void WorldManager::Report(int severity, const char* msg, ...)
 WorldManager::WorldManager(iBase* iParent)
   : scfImplementationType(this, iParent), object_reg(0),
   worldManager(new Common::World::WorldManager()),
-  position(0.0f), loading(false), loadRadius(1500), editStepSize(0.1f)
+  position(0.0f), hasEnteredWorld(false), loading(false), loadRadius(1500), editStepSize(0.1f)
 {
 } // end World() :P
 
@@ -226,7 +226,7 @@ bool WorldManager::UpdateOptions()
     loadRadius = static_cast<size_t>(app_cfg->
       GetInt("Peragro.World.LoadRadius", static_cast<int>(loadRadius)));
     // Pretend the camera moved to recheck the load radius.
-    CameraMoved();
+    if (hasEnteredWorld) CameraMoved();
 
     editStepSize = app_cfg->GetFloat("Peragro.World.EditStepSize", editStepSize);
   }
@@ -431,6 +431,7 @@ void WorldManager::EnterWorld(WFMath::Point<3> position)
   eventQueue->RegisterListener(this, nameRegistry->GetID("crystalspace.frame"));
 
   loading = true;
+  hasEnteredWorld = true;
 } // end EnterWorld()
 
 void WorldManager::SetMesh(iMeshWrapper* wrapper)
