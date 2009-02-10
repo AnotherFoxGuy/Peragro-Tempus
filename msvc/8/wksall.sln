@@ -38,6 +38,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcsclipboard", "plgcsclipboard.vcproj", "{9C172335-623B-ADD5-E9C6-A8D78257C581}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdlogout", "plgcmdlogout.vcproj", "{29C6B479-3713-B427-48E9-105324AC4D71}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{49375580-84C4-B089-3EA3-EEBDC8AE4B79} = {49375580-84C4-B089-3EA3-EEBDC8AE4B79}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdmanager", "plgcmdmanager.vcproj", "{9B1F1ABD-3D4B-4168-C570-B77F05A6F5AA}" 
 EndProject
@@ -77,6 +80,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdrelocate", "plgcmdrelocate.vcproj", "{7DF02FE0-6AFB-4BF3-7686-BE7741836379}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{49375580-84C4-B089-3EA3-EEBDC8AE4B79} = {49375580-84C4-B089-3EA3-EEBDC8AE4B79}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appintstring_test", "appintstring_test.vcproj", "{8AECBFB0-0D29-0EF3-FB99-1B2F188493AF}" 
 EndProject
@@ -93,6 +99,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgmybody", "plgmybody.vcproj", "{0CBDAE2E-35E2-BBC1-E36C-C96CE1092715}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdquit", "plgcmdquit.vcproj", "{10A12585-0A91-B9AC-01E8-9C3DEA65EE7B}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{49375580-84C4-B089-3EA3-EEBDC8AE4B79} = {49375580-84C4-B089-3EA3-EEBDC8AE4B79}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgterrained", "plgterrained.vcproj", "{6BE33C78-BE04-A94A-8F64-53B3F70C133C}" 
 EndProject
@@ -187,6 +196,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libserver-zonemanager", "libserver-zonemanager.vcproj", "{C4C34842-F7D7-F14F-130D-27865148B777}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdhelp", "plgcmdhelp.vcproj", "{0E37B065-233D-2A6F-6443-01A833219A8C}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{49375580-84C4-B089-3EA3-EEBDC8AE4B79} = {49375580-84C4-B089-3EA3-EEBDC8AE4B79}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libevents", "libevents.vcproj", "{E221859C-9445-1AA6-3E95-E33E77A8B396}" 
 EndProject
@@ -205,6 +217,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appcolldettest", "appcolldettest.vcproj", "{94546E23-6D3A-A231-26D7-FE6AAEE9A15C}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmddate", "plgcmddate.vcproj", "{5F32E92E-ED04-DA22-9C27-ADCD58CCB149}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{49375580-84C4-B089-3EA3-EEBDC8AE4B79} = {49375580-84C4-B089-3EA3-EEBDC8AE4B79}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "appconst_test", "appconst_test.vcproj", "{39344D90-7A12-C89D-ADF2-BADDF23A4187}" 
 EndProject
