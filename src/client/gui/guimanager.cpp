@@ -61,7 +61,7 @@ namespace PT
         Report(PT::Notify,"Saving dialog.cfg!\n");
       }
 
-      // Delete GUIWindows 
+      // Delete GUIWindows
       for (size_t i = 0; i < windows.GetSize(); ++i)
       {
         delete windows[i];
@@ -111,7 +111,7 @@ namespace PT
 
       try
       {
-        
+
         // Initialize CEGUI wrapper
         cegui->Initialize ();
 
@@ -119,12 +119,12 @@ namespace PT
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
         // Register our own window factories.
-        CEGUI::WindowFactoryManager* wfMgr = cegui->GetWindowFactoryManagerPtr(); 
+        CEGUI::WindowFactoryManager* wfMgr = cegui->GetWindowFactoryManagerPtr();
         wfMgr->addFactory(&CEGUI_WINDOW_FACTORY(SettingSlider));
         //wfMgr->addFactory<SettingSliderFactory>();
-        wfMgr->addFalagardWindowMapping("Peragro/SettingSlider", 
-                                        "CEGUI/SettingSlider", 
-                                        "Peragro/SettingSlider", 
+        wfMgr->addFalagardWindowMapping("Peragro/SettingSlider",
+                                        "CEGUI/SettingSlider",
+                                        "Peragro/SettingSlider",
                                         "Falagard/Default");
 
         // Initialize the skin manager.

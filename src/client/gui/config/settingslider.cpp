@@ -84,7 +84,7 @@ namespace CEGUI
     Slider* slider = getSliderW();
     float val = slider->getCurrentValue();
     val = ScaleMinMax(val, getMinimumValue(), slider->getMaxValue());
-    if (setting) 
+    if (setting)
     {
       setting.Set(val);
       Window* value = getValueW();
@@ -94,47 +94,47 @@ namespace CEGUI
     return true;
   }
 
-  const String& SettingSlider::getConfigType() const 
-  { 
-    return configType; 
+  const String& SettingSlider::getConfigType() const
+  {
+    return configType;
   }
 
   void SettingSlider::setConfigType(const String& value)
-  { 
-    configType = value; 
+  {
+    configType = value;
     Update();
   }
 
-  const String& SettingSlider::getConfigName() const 
-  { 
-    return configName; 
+  const String& SettingSlider::getConfigName() const
+  {
+    return configName;
   }
 
   void SettingSlider::setConfigName(const String& value)
-  { 
-    configName = value; 
+  {
+    configName = value;
     Update();
   }
-  const String& SettingSlider::getEventName() const 
-  { 
-    return configName; 
+  const String& SettingSlider::getEventName() const
+  {
+    return configName;
   }
 
   void SettingSlider::setEventName(const String& value)
-  { 
-    eventName = value; 
+  {
+    eventName = value;
     Update();
   }
 
 
-  float SettingSlider::getMinimumValue() const 
-  { 
+  float SettingSlider::getMinimumValue() const
+  {
     return minVal;
   }
 
-  void SettingSlider::setMinimumValue(const float& value) 
-  { 
-    minVal = value; 
+  void SettingSlider::setMinimumValue(const float& value)
+  {
+    minVal = value;
     Update();
   }
 

@@ -42,8 +42,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application peragro_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
-  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs 
-client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup 
+  LinkWith peragro_static : reporter client-network client-gui client-entitymanager eventmanager-cs
+client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup
 client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager client-pointerplug
 wfmath ;
   LinkStaticPlugins peragro_static :

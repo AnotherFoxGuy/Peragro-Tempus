@@ -14,8 +14,8 @@
 
 
 #if defined(_MSC_VER)
-#	pragma warning(push)
-#	pragma warning(disable : 4251)
+#  pragma warning(push)
+#  pragma warning(disable : 4251)
 #endif
 
 namespace CEGUI
@@ -50,19 +50,19 @@ namespace CEGUI
   protected:
     virtual bool testClassName_impl(const String& class_name) const
     {
-      if (class_name=="SettingSlider")	return true;
+      if (class_name=="SettingSlider") return true;
       return Window::testClassName_impl(class_name);
     }
 
     Window* getNameW() const;
-    Slider* getSliderW() const; 
+    Slider* getSliderW() const;
     Window* getValueW() const;
 
   public:
     /// Namespace for global events
-    static const String EventNamespace;	
+    static const String EventNamespace;
     /// Window factory name
-    static const String WidgetTypeName; 
+    static const String WidgetTypeName;
 
     static const String NameNameSuffix;
     static const String SliderNameSuffix;
@@ -94,7 +94,7 @@ namespace CEGUI
 } // end CEGUI
 
 #if defined(_MSC_VER)
-#	pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
-#endif	// SETTINGSLIDER_H
+#endif // SETTINGSLIDER_H

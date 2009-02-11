@@ -19,8 +19,8 @@ namespace SettingProperties
                             "")
     {}
 
-    String	get(const PropertyReceiver* receiver) const;
-    void	set(PropertyReceiver* receiver, const String& value);
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
   };
 
   class ConfigName : public Property
@@ -31,8 +31,8 @@ namespace SettingProperties
                             "")
     {}
 
-    String	get(const PropertyReceiver* receiver) const;
-    void	set(PropertyReceiver* receiver, const String& value);
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
   };
 
   class EventName : public Property
@@ -43,8 +43,8 @@ namespace SettingProperties
                             "")
     {}
 
-    String	get(const PropertyReceiver* receiver) const;
-    void	set(PropertyReceiver* receiver, const String& value);
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
   };
 
   class MinimumValue : public Property
@@ -55,8 +55,8 @@ namespace SettingProperties
                             "0.0")
     {}
 
-    String	get(const PropertyReceiver* receiver) const;
-    void	set(PropertyReceiver* receiver, const String& value);
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
   };
 
 
@@ -64,4 +64,4 @@ namespace SettingProperties
 } // end CEGUI
 
 
-#endif	// SETTING_PROPERTIES_H
+#endif // SETTING_PROPERTIES_H

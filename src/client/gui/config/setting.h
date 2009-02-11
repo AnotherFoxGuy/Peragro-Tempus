@@ -38,7 +38,7 @@
 namespace PT
 {
   namespace GUI
-  {    
+  {
     class Setting
     {
     public:

@@ -257,7 +257,7 @@ namespace PT
           visibleText->SetValue("false");
         }
 
-      }  // end for 
+      }  // end for
 
       csRef<iString> buf;
       buf.AttachNew(new scfString());

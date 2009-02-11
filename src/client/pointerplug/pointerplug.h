@@ -19,7 +19,7 @@
 /*
   the pointer plugin is a pseudo-plugin (meaning, it registers itself
   from the main app, rather than being loaded as a plugin), which lets
-  other plugins interface with the PointerLibrary, by being able to 
+  other plugins interface with the PointerLibrary, by being able to
   request it from the object registry.
 */
 
