@@ -87,11 +87,6 @@ namespace PT
         btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
           CEGUI::Event::Subscriber(&CameraOptionsWindow::OnMinDistanceSliderChanged, this));
 
-        CreateLoadRadiusSlider();
-        btn = winMgr->getWindow("Options/Camera/Load_Radius/Slider");
-        btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
-          CEGUI::Event::Subscriber(&CameraOptionsWindow::OnLoadRadiusSliderChanged, this));
-
         // Register listener for distance clipping shortcut.
         PT_SETUP_HANDLER
         PT_REGISTER_LISTENER(CameraOptionsWindow, ToggleDistClip, "input.DistanceClipping")
@@ -206,37 +201,6 @@ namespace PT
         OnMaxFPSSliderChanged(e);
         OnMinDistanceSliderChanged(e);
       } // end CreateAdaptiveSliders()
-
-      bool CameraOptionsWindow::OnLoadRadiusSliderChanged(const CEGUI::EventArgs &e)
-      {
-        btn = winMgr->getWindow("Options/Camera/Load_Radius/Slider");
-        size_t value = static_cast<size_t>(
-          ceil(((CEGUI::Slider*)btn)->getCurrentValue()));
-
-        std::stringstream ss;
-        ss.setf(std::ios_base::dec);
-        ss << value;
-
-        btn = winMgr->getWindow("Options/Camera/Load_Radius/Value");
-        btn->setText(ss.str());
-
-        app_cfg->SetInt("Peragro.World.LoadRadius", value);
-        SendUpdateEvent();
-        SaveConfig();
-
-        return true;
-      } // end OnLoadRadiusSliderChanged()
-
-      void CameraOptionsWindow::CreateLoadRadiusSlider()
-      {
-        btn = winMgr->getWindow("Options/Camera/Load_Radius/Slider");
-        ((CEGUI::Slider*)btn)->
-          setCurrentValue(app_cfg->GetInt("Peragro.World.LoadRadius", 100));
-
-        // To show the values.
-        CEGUI::EventArgs e;
-        OnLoadRadiusSliderChanged(e);
-      } // end CreateLoadRadiusSlider()
 
     } // Windows namespace
   } // GUI namespace

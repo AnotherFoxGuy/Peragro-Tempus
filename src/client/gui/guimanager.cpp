@@ -34,6 +34,9 @@
 
 #include "common/reporter/reporter.h"
 
+//Custom windows
+#include "config/slidersetting.h"
+
 const char* const dialogConfigFile = "/UserData/dialog.cfg";
 
 namespace PT
@@ -98,6 +101,8 @@ namespace PT
 
     bool GUIManager::Initialize()
     {
+      using namespace CEGUI;
+
       obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       if (!obj_reg) return Report(PT::Error, "Failed to locate ObjectRegistry!");
 
@@ -106,11 +111,21 @@ namespace PT
 
       try
       {
+        
         // Initialize CEGUI wrapper
         cegui->Initialize ();
 
         // Set the logging level
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+
+        // Register our own window factories.
+        CEGUI::WindowFactoryManager* wfMgr = cegui->GetWindowFactoryManagerPtr(); 
+        wfMgr->addFactory(&CEGUI_WINDOW_FACTORY(SettingSlider));
+        //wfMgr->addFactory<SettingSliderFactory>();
+        wfMgr->addFalagardWindowMapping("Peragro/SettingSlider", 
+                                        "CEGUI/SettingSlider", 
+                                        "Peragro/SettingSlider", 
+                                        "Falagard/Default");
 
         // Initialize the skin manager.
         skinMgr = new SkinManager(this);
