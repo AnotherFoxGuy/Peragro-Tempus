@@ -34,19 +34,12 @@ namespace PT
       private:
         csRef<iConfigManager> app_cfg;
 
-        void SaveConfig();
-
         void SendUpdateEvent();
         bool ToggleDistClip(iEvent& e);
 
       private:
         void CreateAdaptiveClippingCheckBox();
         bool OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e);
-
-        void CreateAdaptiveSliders();
-        bool OnMinFPSSliderChanged(const CEGUI::EventArgs &e);
-        bool OnMaxFPSSliderChanged(const CEGUI::EventArgs &e);
-        bool OnMinDistanceSliderChanged(const CEGUI::EventArgs &e);
 
       public:
         CameraOptionsWindow(GUIManager* guiManager);

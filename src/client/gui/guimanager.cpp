@@ -35,7 +35,7 @@
 #include "common/reporter/reporter.h"
 
 //Custom windows
-#include "config/slidersetting.h"
+#include "config/settingslider.h"
 
 const char* const dialogConfigFile = "/UserData/dialog.cfg";
 
