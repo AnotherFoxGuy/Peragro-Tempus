@@ -19,27 +19,26 @@
 #ifndef CMDDBG_H
 #define CMDDBG_H
 
-#include "commanddefault.h"
+#include "plugins/commands/cmddefault.h"
 
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
     //--------------------------------------------------------------------------
-    class cmdDbg : public CommandDefault
+    class cmdDbg : public ptCommandDefault
     {
     public:
-      cmdDbg ();
+      cmdDbg (iBase* parent);
       virtual ~cmdDbg ();
 
       virtual std::string HelpSynopsis (const char*) const;
-
       virtual std::string HelpUsage (const char*) const;
 
-      virtual void Execute (const StringArray& args);
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Command namespace
 } // PT namespace
 
 #endif // CMDDBG_H

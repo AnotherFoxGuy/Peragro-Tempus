@@ -19,22 +19,22 @@
 #ifndef CMDGROUP_H
 #define CMDGROUP_H
 
-#include "commandiface.h"
+#include "plugins/commands/clientcmd.h"
 
 #define PT_DEFAULT_CHAT_GROUP "#general"
 
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
     //--------------------------------------------------------------------------
-    class cmdGroup : public CommandInterface
+    class cmdGroup : public ptClientCommand
     {
     protected:
       void SendMessage(const std::string& channel, const std::string& text);
       
     public:
-      cmdGroup ();
+      cmdGroup (iBase* parent);
       virtual ~cmdGroup ();
 
       virtual bool CommandHandled (const char* cmd) const;
@@ -44,10 +44,10 @@ namespace PT
       virtual std::string HelpSynopsis (const char* cmd) const;
       virtual std::string HelpFull (const char* cmd) const;
 
-      virtual void Execute (const StringArray& args);
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Command namespace
 } // PT namespace
 
 #endif // CMDGROUP_H

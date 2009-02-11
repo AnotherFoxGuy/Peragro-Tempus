@@ -50,6 +50,7 @@ namespace PT
       /// Handlers.
       bool Connected(iEvent& ev);
       bool LoginResponse(iEvent& ev);
+      bool LogoutResponse(iEvent& ev);
       bool RegisterResponse(iEvent& ev);
       bool CharacterList(iEvent& ev);
       bool CharacterCreateResponse(iEvent& ev);

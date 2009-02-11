@@ -1,0 +1,6 @@
+SubDir TOP plugins commands cmdemotes ;
+
+Description cmdemotes : "Emote Commands" ;
+Plugin cmdemotes : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmdemotes : CRYSTAL CEL ;
+LinkWith cmdemotes : plugins-commands network util tcp-network ;

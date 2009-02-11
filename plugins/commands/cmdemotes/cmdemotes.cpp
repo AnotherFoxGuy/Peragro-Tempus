@@ -19,20 +19,22 @@
 #include <algorithm>
 
 #include <cssysdef.h>
+#include <iutil/objreg.h>
+#include <iutil/plugin.h>
 
-#include "cmdemotes.h"
-
+#include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"
-#include "common/reporter/reporter.h"
-
+#include "common/network/chatmessages.h"
+#include "common/network/entitymessages.h"
 #include "client/network/network.h"
-#include "common/network/netmessage.h"
 
 #include "client/entity/entitymanager.h"
 
+#include "cmdemotes.h"
+
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
 
     struct Emotes
@@ -51,114 +53,125 @@ namespace PT
       {"tentacle", "Flex a tentacle.", 3, true}
     };
 
-    #define EMOTELISTSIZE ( sizeof(emotelist) / sizeof (struct Emotes) )
+#define EMOTELISTSIZE ( sizeof(emotelist) / sizeof (struct Emotes) )
 
-    cmdEmote::cmdEmote () : emotes()
+  } //namespace Command
+} // namespace PT
+
+using namespace PT::Command;
+
+CS_IMPLEMENT_PLUGIN
+SCF_IMPLEMENT_FACTORY(cmdEmote)
+
+cmdEmote::cmdEmote (iBase* parent) 
+  : ptClientCommand(parent), emotes()
+{
+  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
+    emotes.push_back(emotelist[i].emote);
+}
+
+cmdEmote::~cmdEmote ()
+{
+}
+
+bool cmdEmote::CommandHandled (const char* cmd) const
+{
+  for (unsigned i = 0;  i < emotes.size();  i++)
+  {
+    if (emotes[i].compare(cmd) == 0)
+      return true;
+  }
+  return false;
+}
+
+StringArray cmdEmote::GetAllCommands () const
+{ return emotes; }
+
+std::string cmdEmote::HelpSynopsis (const char* cmd) const
+{
+  if (!cmd) cmd = "";
+  std::string scmd = cmd;
+  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
+    if ( emotelist[i].emote == scmd )
+      return emotelist[i].synopsis;
+  return "";
+}
+
+std::string cmdEmote::HelpUsage (const char* cmd) const
+{
+  if (!cmd) return "";
+  std::string s = "'/";
+  s += cmd;
+  s += " [<target>]'";
+  return s;
+}
+
+std::string cmdEmote::HelpFull (const char* cmd) const
+{
+  return  "Lets your character emote.  You may specify a target, which"
+    " would direct the emote at a target, or leave out the target, which"
+    " would allow you to emote at the world at large.";
+}
+
+
+std::string cmdEmote::Execute (const StringArray& args)
+{
+  // Element 0 is '/', 1 is emote
+  if (args.size() < 2 || args.size() > 3) throw BadUsage();
+
+  std::string emote = args[1];
+  std::string target = "";
+  std::string text = "/" + emote;
+  if (args.size() == 3)
+  {
+    target = args[2];
+    text += " " + target;
+  }
+
+  //Magic number - bad developer!
+  int poseid = 0;
+  bool echoOnChat = false;
+  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
+    if ( emotelist[i].emote == emote )
     {
-      for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
-        emotes.push_back(emotelist[i].emote);
+      poseid = emotelist[i].pose;
+      echoOnChat = emotelist[i].echoOnChat;
+      break;
     }
 
-    cmdEmote::~cmdEmote ()
-    {
-    }
+  PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
+  if (!ptrlib) return "";
+  Network* network = ptrlib->getNetwork();
+  if (!network) return "";
 
-    bool cmdEmote::CommandHandled (const char* cmd) const
-    {
-      for (unsigned i = 0;  i < emotes.size();  i++)
-      {
-        if (emotes[i].compare(cmd) == 0)
-          return true;
-      }
-      return false;
-    }
+  if (echoOnChat)
+  {
+    ChatMessage msg;
+    msg.setVolume(2);
+    msg.setMessage(text.c_str());
+    network->send(&msg);
+  }
 
-    StringArray cmdEmote::GetAllCommands () const
-    { return emotes; }
+  //We want to send a pose request to server as well.
+  //TODO: If we decide to introduce more poses, replacing this by some
+  //"PoseManager" might be nice (ie we wouldn't need to hard-code those
+  //commands like now).
+  PoseRequestMessage poseMsg;
+  poseMsg.setPoseId(poseid);
+  network->send(&poseMsg);
 
-    std::string cmdEmote::HelpSynopsis (const char* cmd) const
-    {
-      if (!cmd) cmd = "";
-      std::string scmd = cmd;
-      for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
-        if ( emotelist[i].emote == scmd )
-          return emotelist[i].synopsis;
-      return "";
-    }
+  // TODO: Turn and wave to target.
+  /*
+    PT::Entity::EntityManager* entmgr = ptrlib->getEntityManager();
+    if(!entmgr) return;
 
-    std::string cmdEmote::HelpUsage (const char* cmd) const
-    {
-      if (!cmd) return "";
-      std::string s = "'/";
-      s += cmd;
-      s += " [<target>]'";
-      return s;
-    }
+    PtEntity* targetent = entmgr->findPtEntByName(target);
+    PtEntity* ownent = entmgr->getOwnPtEntity();
+    ownent->Target(targetent);
+    ownent->PlayAction("wave");
+  */
 
-    std::string cmdEmote::HelpFull (const char* cmd) const
-    {
-      return  "Lets your character emote.  You may specify a target, which"
-        " would direct the emote at a target, or leave out the target, which"
-        " would allow you to emote at the world at large.";
-    }
+  //Report(PT::Debug, "emoting at %s", target.c_str());
 
-
-    void cmdEmote::Execute (const StringArray& args)
-    {
-      Network* network = PointerLibrary::getInstance()->getNetwork();
-      if(!network) return;
-      PT::Entity::EntityManager* entmgr = PointerLibrary::getInstance()->getEntityManager();
-      if(!entmgr) return;
-
-      // Element 0 is '/', 1 is emote
-      if (args.size() < 2 || args.size() > 3) throw BadUsage();
-
-      std::string emote = args[1];
-      std::string target = "";
-      std::string text = "/" + emote;
-      if (args.size() == 3)
-      {
-        target = args[2];
-        text += " " + target;
-      }
-
-      //Magic number - bad developer!
-      int poseid = 0;
-      bool echoOnChat = false;
-      for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
-        if ( emotelist[i].emote == emote )
-        {
-          poseid = emotelist[i].pose;
-          echoOnChat = emotelist[i].echoOnChat;
-          break;
-        }
-
-      // TODO: Turn and wave to target.
-      /*
-        PtEntity* targetent = entmgr->findPtEntByName(target);
-        PtEntity* ownent = entmgr->getOwnPtEntity();
-        ownent->Target(targetent);
-        ownent->PlayAction("wave");
-      */
-
-      Report(PT::Debug, "emoting at %s", target.c_str());
-
-      if (echoOnChat)
-      {
-        ChatMessage msg;
-        msg.setVolume(2);
-        msg.setMessage(text.c_str());
-        network->send(&msg);
-      }
-
-      //We want to send a pose request to server as well.
-      //TODO: If we decide to introduce more poses, replacing this by some
-      //"PoseManager" might be nice (ie we wouldn't need to hard-code those
-      //commands like now).
-      PoseRequestMessage poseMsg;
-      poseMsg.setPoseId(poseid);
-      network->send(&poseMsg);
-    }
-
-  } // Chat namespace
-} // PT namespace
+  return "";
+}

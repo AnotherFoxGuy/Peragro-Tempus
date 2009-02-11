@@ -3,4 +3,4 @@ SubDir TOP plugins commands cmdrelocate ;
 Description cmdrelocate : "Relocate Command" ;
 Plugin cmdrelocate : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmdrelocate : CRYSTAL ;
-LinkWith cmdrelocate : plugins-commands ;
+LinkWith cmdrelocate : plugins-commands network util tcp-network ;

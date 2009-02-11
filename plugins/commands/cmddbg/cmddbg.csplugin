@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmddbg.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.debug</name>
+        <implementation>cmdDbg</implementation>
+        <description>debug commands</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

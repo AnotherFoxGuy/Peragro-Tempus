@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmdgroup.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.group</name>
+        <implementation>cmdGroup</implementation>
+        <description>group chat command</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -34,7 +34,7 @@ struct iPointerPlug : public virtual iBase
   SCF_INTERFACE(iPointerPlug, 1,0,0);
 
   /** Returns a reference to the client's PointerLibrary instance */
-  virtual PointerLibrary* getPointerLibrary() const;
+  virtual PointerLibrary* getPointerLibrary() const = 0;
 
 };
 

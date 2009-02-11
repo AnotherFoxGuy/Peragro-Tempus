@@ -44,11 +44,8 @@ std::string cmdEventLaunch::Execute (const StringArray& args)
 
   csEventID eventID = nameReg->GetID(eventname.c_str());
 
-  /* TODO: should this be csRef, csPtr, or something different? */
   csRef<iEvent> event = evQueue->CreateBroadcastEvent(eventID);
   if (!event) return "";
-
-  event->IncRef(); // ??? should this be done?
   evQueue->Post(event);
 
   return "";

@@ -81,6 +81,7 @@
 #include "client/component/componentmanager.h"
 #include "client/trade/trademanager.h"
 #include "client/state/statemanager.h"
+#include "client/pointerplug/pointerplug.h"
 
 #include "client/user/usermanager.h"
 #include "client/quest/questmanager.h"
@@ -499,6 +500,9 @@ namespace PT
     // Register listener for ActionQuit.
     PT_REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
+    // Register listener for Quit
+    PT_REGISTER_LISTENER(Client, UserQuit, "user.quit")
+
     // Create the world.
     csRef<iWorld> world = csQueryRegistry<iWorld>(object_reg);
     if (world.IsValid())
@@ -515,6 +519,10 @@ namespace PT
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
     pointerlib.setEnvironmentManager(environmentManager);
 
+    // Register the PointerPlug pseudo-plugin
+    csRef<PointerPlug> ptrplug = new PointerPlug(NULL);
+    if (ptrplug)
+      object_reg->Register(ptrplug, PT_POINTERLIBRARY_PLUGNAME);
 
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.
@@ -722,6 +730,12 @@ namespace PT
         return true;
       }
     }
+    return true;
+  }
+
+  bool Client::UserQuit(iEvent& ev)
+  {
+    Quit();
     return true;
   }
 

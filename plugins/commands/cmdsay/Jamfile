@@ -1,0 +1,6 @@
+SubDir TOP plugins commands cmdsay ;
+
+Description cmdsay : "Say Commands" ;
+Plugin cmdsay : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmdsay : CRYSTAL ;
+LinkWith cmdsay : plugins-commands network util tcp-network ;

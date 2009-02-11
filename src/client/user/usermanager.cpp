@@ -48,6 +48,7 @@ namespace PT
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(UserManager, Connected, "state.connected")
       PT_REGISTER_LISTENER(UserManager, LoginResponse, "user.login")
+      PT_REGISTER_LISTENER(UserManager, LogoutResponse, "user.logout")
       PT_REGISTER_LISTENER(UserManager, RegisterResponse, "user.register")
 
       PT_REGISTER_LISTENER(UserManager, CharacterList, "user.character.list")
@@ -176,6 +177,12 @@ namespace PT
 
       return true;
     } // end LoginResponse()
+
+    bool UserManager::LogoutResponse(iEvent& ev)
+    {
+      Logout();
+      return true;
+    }
 
     bool UserManager::RegisterResponse(iEvent& ev)
     {

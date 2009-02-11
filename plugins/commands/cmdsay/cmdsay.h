@@ -19,101 +19,55 @@
 #ifndef CMDSAY_H
 #define CMDSAY_H
 
-#include "commanddefault.h"
-
-#include "client/pointer/pointer.h"
-#include "common/reporter/reporter.h"
-
-#include "client/network/network.h"
-#include "common/network/netmessage.h"
+#include "plugins/commands/cmddefault.h"
 
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
     //--------------------------------------------------------------------------
-    class cmdSay : public CommandDefault
+    class cmdSay : public ptCommandDefault
     {
     public:
-      cmdSay (const char* cmd="say") : CommandDefault(cmd) { }
-      virtual ~cmdSay () { }
+      cmdSay (iBase* parent, const char* cmd="say");
+      virtual ~cmdSay ();
 
-      virtual std::string HelpUsage(const char*) const
-      { return "'/say <message>'"; }
+      virtual std::string HelpUsage(const char*) const;
+      virtual std::string HelpSynopsis (const char*) const;
+      virtual std::string HelpFull (const char*) const;
 
-      virtual std::string HelpSynopsis (const char*) const
-      { return "Say something to the world."; }
-
-      virtual std::string HelpFull (const char*) const
-      { return "Use this command to enter a full message to say to others around you."; }
-
-      virtual void Execute (const StringArray& args) { Say(2, args); }
+      virtual std::string Execute (const StringArray& args);
 
     protected:
-      void Say(unsigned char volume, const StringArray& args, const char* pre="")
-      {
-        Network* network = PointerLibrary::getInstance()->getNetwork();
-        if(!network) return;
-
-        // determine start of text string, depending on whether the
-        // command was invoked with a '/' or not
-        size_t i = 0;
-        if (args.size() > 0 && args[0].compare("/") == 0) i = 2;
-
-        if (args.size() <= i) throw BadUsage();
-
-        std::string text = pre;
-        for(; i < args.size(); i++)
-        {
-          text += args[i];
-          text += " ";
-        }
-
-        Report(PT::Debug, "Say: %s", text.c_str());
-        ChatMessage msg;
-        msg.setVolume(volume);
-        msg.setMessage(text.c_str());
-        network->send(&msg);
-
-        return;
-      }
+      void Say(unsigned char volume, const StringArray& args, const char* pre="");
     };
     //--------------------------------------------------------------------------
     class cmdShout : public cmdSay
     {
     public:
-      cmdShout () : cmdSay("shout") { }
-      virtual ~cmdShout () { }
+      cmdShout (iBase* parent);
+      virtual ~cmdShout ();
 
-      virtual std::string HelpSynopsis (const char*) const
-      { return "Shout something to the world."; }
-      virtual std::string HelpUsage (const char*) const
-      { return "Usage: '/shout <message>'"; }
+      virtual std::string HelpSynopsis (const char*) const;
+      virtual std::string HelpUsage (const char*) const;
 
-      virtual void Execute (const StringArray& args) { Say(20, args); }
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
     class cmdSayMe : public cmdSay
     {
     public:
-      cmdSayMe () : cmdSay("me") { }
-      virtual ~cmdSayMe () { }
+      cmdSayMe (iBase* parent);
+      virtual ~cmdSayMe ();
 
-      virtual std::string HelpSynopsis (const char*) const
-      { return "Say something in third person to the world."; }
-      virtual std::string HelpUsage (const char*) const
-      { return "Usage: '/me <message>'"; }
-      virtual std::string HelpFull (const char*) const
-      {
-        return "Use this command to enter a full message to say to those"
-          " around you.  The /me at the beginning will be replaced by the"
-          " name of the speaker.";
-      }
+      virtual std::string HelpSynopsis (const char*) const;
+      virtual std::string HelpUsage (const char*) const;
+      virtual std::string HelpFull (const char*) const;
 
-      virtual void Execute (const StringArray& args) { Say(2, args, "/me"); }
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Command namespace
 } // PT namespace
 
 #endif // CMDSAY_H

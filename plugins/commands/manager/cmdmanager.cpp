@@ -47,7 +47,7 @@ bool CommandManager::Initialize (iObjectRegistry* objreg)
 
   while (classlist && classlist->GetSize())
   {
-    char const* classname = classlist->Get(0);
+    const char* classname = classlist->Get(0);
     if (classname && classname[0] && strcasecmp(classname, PT_COMMAND_MANAGER_NAME))
     {
       csRef<iClientCommand> plugin = csLoadPluginCheck<iClientCommand> (objreg, classname);

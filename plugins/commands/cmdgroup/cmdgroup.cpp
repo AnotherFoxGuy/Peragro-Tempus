@@ -17,22 +17,27 @@
 */
 
 #include <cssysdef.h>
+#include <iutil/objreg.h>
+#include <iutil/plugin.h>
+
+#include "include/ipointerplug.h"
+#include "client/pointer/pointer.h"
+#include "common/network/chatmessages.h"
+#include "client/network/network.h"
 
 #include "cmdgroup.h"
 
-#include "client/pointer/pointer.h"
-#include "common/reporter/reporter.h"
+using namespace PT::Command;
 
-#include "client/network/network.h"
-#include "common/network/netmessage.h"
-
-using namespace PT::Chat;
+CS_IMPLEMENT_PLUGIN
+SCF_IMPLEMENT_FACTORY(cmdGroup)
 
 #ifdef SendMessage
   #undef SendMessage
 #endif
 
-cmdGroup::cmdGroup()
+cmdGroup::cmdGroup(iBase* parent)
+  : ptClientCommand(parent)
 {
 }
 
@@ -61,8 +66,8 @@ std::string cmdGroup::HelpSynopsis (const char* cmd) const
 
 std::string cmdGroup::HelpUsage (const char* cmd) const
 { 
-  if (strlen(cmd) == 1) return "Usage: '/g <channel name> <message>'";
-  return "Usage: '/group <message>'"; 
+  if (strlen(cmd) == 1) return "'/g <channel name> <message>'";
+  return "'/group <message>'"; 
 }
 
 std::string cmdGroup::HelpFull (const char* cmd) const
@@ -73,7 +78,7 @@ std::string cmdGroup::HelpFull (const char* cmd) const
   return "Send the given message to all members of the default chat group.";
 }
 
-void cmdGroup::Execute (const StringArray& args)
+std::string cmdGroup::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is 'group'
   if (args.size() < 3) throw BadUsage();
@@ -82,6 +87,7 @@ void cmdGroup::Execute (const StringArray& args)
   std::string text = "";
   size_t i = 2;
 
+  // if invoked as /g, then extract the channel name from the command line
   if (args[1].size() == 1) 
   {
     if (args.size() < 4) throw BadUsage();
@@ -89,6 +95,7 @@ void cmdGroup::Execute (const StringArray& args)
     i = 3;
   }
 
+  // construct the text string to be sent
   for(; i < args.size(); i++)
   {
     text += args[i];
@@ -96,14 +103,18 @@ void cmdGroup::Execute (const StringArray& args)
   }
 
   SendMessage(channel, text); 
+  return "";
 }
 
 void cmdGroup::SendMessage(const std::string& channel, const std::string& text)
 {
-  Network* network = PointerLibrary::getInstance()->getNetwork();
+  PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
+  if (!ptrlib) return;
+  Network* network = ptrlib->getNetwork();
   if(!network) return;
 
-  Report(PT::Debug, "Group: %s", text.c_str());
+//  Report(PT::Debug, "Group: %s", text.c_str());
+
   GroupMessage msg;
   msg.setMessage(text.c_str());
   msg.setChannel(ptString::create(channel.c_str()));

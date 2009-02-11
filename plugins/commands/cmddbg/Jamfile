@@ -1,0 +1,6 @@
+SubDir TOP plugins commands cmddbg ;
+
+Description cmddbg : "Debug Commands" ;
+Plugin cmddbg : [ Wildcard *.cpp *.h ] ;
+ExternalLibs cmddbg : CRYSTAL CEL ;
+LinkWith cmddbg : plugins-commands network util tcp-network client-entitymanager client-cursor eventmanager-cs reporter client-component client-data ;

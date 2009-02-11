@@ -19,82 +19,27 @@
 #ifndef CMDWHISPER_H
 #define CMDWHISPER_H
 
-#include <cssysdef.h>
-
-#include "commanddefault.h"
-
-#include "client/pointer/pointer.h"
-#include "common/reporter/reporter.h"
-
-#include "client/network/network.h"
-#include "common/network/netmessage.h"
-
-#include "client/gui/whisper-gui.h"
+#include "plugins/commands/cmddefault.h"
 
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
     //--------------------------------------------------------------------------
-    class cmdWhisper : public CommandDefault
+    class cmdWhisper : public ptCommandDefault
     {
     public:
-      cmdWhisper () : CommandDefault("whisper") { }
-      virtual ~cmdWhisper () { }
+      cmdWhisper (iBase* parent);
+      virtual ~cmdWhisper ();
 
-      virtual std::string HelpSynopsis (const char*) const
-      { return "Start a private conversation with the target."; }
+      virtual std::string HelpSynopsis (const char*) const;
+      virtual std::string HelpUsage (const char*) const;
+      virtual std::string HelpFull (const char*) const;
 
-      virtual std::string HelpUsage (const char*) const
-      { return "Usage: '/whisper <target> <message>'"; }
-
-      virtual std::string HelpFull (const char*) const
-      {
-         return "Enter the name of a person to speak to, and a message to send"
-          " to them, and a private conversation will open up with them, if"
-          " they are available.";
-      }
-
-      virtual void Execute (const StringArray& args)
-      {
-        using namespace PT::GUI;
-        using namespace PT::GUI::Windows;
-
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if(!guimanager) return;
-        Network* network = PointerLibrary::getInstance()->getNetwork();
-        if(!network) return;
-
-        // Element 0 is '/', 1 is 'whisper'
-        if (args.size() < 4) throw BadUsage();
-        else
-        {
-          std::string nick = args[2];
-
-          std::string text;
-          for(size_t i = 3; i < args.size(); i++)
-          {
-            text += args[i];
-            text += " ";
-          }
-
-          // Get your own nickname.
-          std::string ownnick = Entity::PlayerEntity::Instance()->GetName();
-          // Add your own text to the whisper.
-          WhisperWindow* whisperWindow = guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
-          whisperWindow->AddWhisper(nick.c_str(), text.c_str(), ownnick.c_str());
-          // Send the whisper to the network.
-          WhisperToMessage nmsg;
-          nmsg.setListenerName(ptString(nick.c_str(), nick.size())); //<-- name of who you want to talk to...
-          nmsg.setMessage(text.c_str());
-          network->send(&nmsg);
-
-          return;
-        }
-      }
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Command namespace
 } // PT namespace
 
 #endif // CMDWHISPER_H

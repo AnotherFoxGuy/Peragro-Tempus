@@ -19,20 +19,20 @@
 #ifndef CMDEMOTES_H
 #define CMDEMOTES_H
 
-#include "commandiface.h"
+#include "plugins/commands/clientcmd.h"
 
 namespace PT
 {
-  namespace Chat
+  namespace Command
   {
     //--------------------------------------------------------------------------
-    class cmdEmote : public CommandInterface
+    class cmdEmote : public ptClientCommand
     {
     protected:
       StringArray emotes;
 
     public:
-      cmdEmote ();
+      cmdEmote (iBase* parent);
       virtual ~cmdEmote ();
 
       virtual bool CommandHandled (const char* cmd) const;
@@ -42,10 +42,10 @@ namespace PT
       virtual std::string HelpSynopsis (const char* cmd) const;
       virtual std::string HelpFull (const char* cmd) const;
 
-      virtual void Execute (const StringArray& args);
+      virtual std::string Execute (const StringArray& args);
     };
     //--------------------------------------------------------------------------
-  } // Chat namespace
+  } // Command namespace
 } // PT namespace
 
 #endif // CMDEMOTES_H

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- cmdsay.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.say</name>
+        <implementation>cmdSay</implementation>
+        <description>Say Command</description>
+      </class>
+      <class>
+        <name>peragro.commands.shout</name>
+        <implementation>cmdShout</implementation>
+        <description>Shout Command</description>
+      </class>
+      <class>
+        <name>peragro.commands.sayme</name>
+        <implementation>cmdSayMe</implementation>
+        <description>Third-Person Say Command</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

@@ -22,13 +22,12 @@
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
 
-#include "cmddate.h"
-
-/*
+#include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"
 #include "client/environment/clock.h"
 #include "client/environment/environmentmanager.h"
-*/
+
+#include "cmddate.h"
 
 using namespace PT::Command;
 
@@ -53,23 +52,24 @@ std::string cmdDate::Execute (const StringArray& args)
   // Element 0 is '/', 1 is 'date'
   if (args.size() != 2 && args.size() != 3) throw BadUsage();
 
-/*
-  Environment::EnvironmentManager* envmanager = PointerLibrary::getInstance()->getEnvironmentManager();
+  PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
+  if (!ptrlib) return "";
+  Environment::EnvironmentManager* envmanager = ptrlib->getEnvironmentManager();
   if(!envmanager) return "";
   const Environment::Clock* clock = envmanager->GetClock();
   if(!clock) return "";
-*/
 
   std::stringstream ss;
 
   if (args.size() == 3)
   {
     if (args[2].compare("short") == 0)
-      ss << "short";//clock->GetDayTime();
+      ss << clock->GetDayTime();
     else if (args[2].compare("long") == 0)
-      ss << "long";//clock->GetSplitDate();
+      ss << clock->GetSplitDate();
     else if (args[2].compare("full") == 0)
     {
+      // not yet implemented in PT::Date::Clock
       //ss << clock->GetFullDate();
     }
     else
@@ -77,7 +77,7 @@ std::string cmdDate::Execute (const StringArray& args)
   }
   else
   {
-    ss << "default";//clock->GetDayTime();
+    ss << clock->GetDayTime();
   }
 
   return ss.str();

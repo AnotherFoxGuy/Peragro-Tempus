@@ -16,32 +16,18 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <cssysdef.h>
-#include <iutil/objreg.h>
-#include <iutil/plugin.h>
+/* Dummy variable, used only to get the plugin to link successfully.
+
+   The plugin uses calls from the EntityManager class, which
+   calls PointerLibrary::getInstance() in the constructor.  The constructor
+   isn't used by the plugin, but nevertheless causes a link problem
+   if this isn't here.
+
+   TODO: linking is beastly... linking the EntityManager for anything
+   requires linking in most of the project.  EntityManager probably should 
+   use an abstract interface, and derive from that.
+*/
 
 #include "client/pointer/pointer.h"
 
-#include "pointerplug.h"
-
-SCF_REGISTER_STATIC_CLASS(PointerPlug, PT_POINTERLIBRARY_PLUGNAME, "Pointer Library interface", NULL)
-SCF_IMPLEMENT_FACTORY(PointerPlug)
-
-PointerPlug::PointerPlug(iBase* parent) :
-  scfImplementationType(this, parent), object_reg(0)
-{
-}
-
-PointerPlug::~PointerPlug()
-{ }
-
-bool PointerPlug::Initialize (iObjectRegistry* r)
-{
-  object_reg = r;
-  return true;
-}
-
-PointerLibrary* PointerPlug::getPointerLibrary () const
-{
-  return PointerLibrary::getInstance();
-}
+PointerLibrary* PointerLibrary::pointerlib;

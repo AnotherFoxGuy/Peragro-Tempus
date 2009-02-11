@@ -23,7 +23,7 @@
 #include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"
 #include "common/network/entitymessages.h"
-//#include "client/network/network.h"
+#include "client/network/network.h"
 
 #include "cmdrelocate.h"
 
@@ -51,10 +51,10 @@ std::string cmdRelocate::Execute (const StringArray& args)
 
   PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
   if (!ptrlib) return "";
-//  Network* network = ptrlib->getNetwork();
-//  if(!network) return "";
+  Network* network = ptrlib->getNetwork();
+  if(!network) return "";
 
-//  RelocateMessage msg;
-//  network->send(&msg);
+  RelocateMessage msg;
+  network->send(&msg);
   return "";
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- cmdwhisper.csplugin -->
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.commands.whisper</name>
+        <implementation>cmdWhisper</implementation>
+        <description>whisper command</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

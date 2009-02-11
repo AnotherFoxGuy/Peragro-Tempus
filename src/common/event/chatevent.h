@@ -54,6 +54,21 @@ namespace PT
       }
 
       /**
+       * Gets the target's nickname from a chat event.
+       * @param event The event.
+       * @return The nickname.
+       */
+      static std::string GetTargetNick(const iEvent* event)
+      {
+        const char* nickstr = "";
+        if (event->Retrieve("targetName", nickstr) != csEventErrNone)
+          Report(PT::Error, "ChatHelper::GetTargetNick failed!");
+
+        std::string nick = nickstr;
+        return nick;
+      }
+
+      /**
        * Gets the message content of a chat event.
        * @param event The event.
        * @return The message.
