@@ -20,11 +20,16 @@ projtofix = [["plgcomponent_networkmove", ["libclient-component",
              ["plgcomponent_viewcontrols", ["libclient-component", "libeventmanager-cs", "libreporter"]],
              ["plgcomponentmesh", ["libclient-component", "libeventmanager-cs", "libreporter"]],  
              ["plgworldloader", ["libworld", "libwfmath"]], 
-             ["plgcmddate", ["libplugins-commands"]],
+             ["plgcmddate", ["libplugins-commands", "libutil", "libclient-environmentmanager"]],
+             ["plgcmddbg", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network", "libclient-entitymanager", "libclient-cursor", "libeventmanager-cs", "libreporter", "libclient-component", "libclient-data"]],
+             ["plgcmdemotes", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network"]],
+             ["plgcmdgroup", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network"]],
              ["plgcmdhelp", ["libplugins-commands"]],
              ["plgcmdlogout", ["libplugins-commands"]],
              ["plgcmdquit", ["libplugins-commands"]],
-             ["plgcmdrelocate", ["libplugins-commands"]]
+             ["plgcmdrelocate", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network"]],
+             ["plgcmdsay", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network"]],
+             ["plgcmdwhisper", ["libplugins-commands", "libnetwork", "libutil", "libtcp-network"]]
              ]
 
 class Project:
