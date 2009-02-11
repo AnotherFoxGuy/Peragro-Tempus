@@ -501,6 +501,81 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libcmddbg_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libcmdemotes_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libcmdgroup_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libcmdhelp_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -623,6 +698,56 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libcmdsay_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\msvc\common\libcmdwhisper_staticreg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1126,6 +1251,106 @@
 					</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\plugins\commands\cmddbg\cmddbg.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmddbg\dummy.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdemotes\cmdemotes.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdgroup\cmdgroup.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
 				RelativePath="..\..\plugins\commands\cmdhelp\cmdhelp.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
@@ -1223,6 +1448,56 @@
 						<Tool
 							Name="VCCLCompilerTool"
 							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdsay\cmdsay.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+					</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdwhisper\cmdwhisper.cpp">
+                                  					<FileConfiguration
+						Name="Release (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Release (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\release9\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+					</FileConfiguration>
+                                  					<FileConfiguration
+						Name="Debug (with static libs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+					</FileConfiguration>					<FileConfiguration
+						Name="Debug (with DLLs)|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							ObjectFile="..\..\out\debug9\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1760,6 +2035,15 @@
 				RelativePath="..\..\plugins\commands\cmddate\cmddate.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\commands\cmddbg\cmddbg.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdemotes\cmdemotes.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdgroup\cmdgroup.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\commands\cmdhelp\cmdhelp.h">
 			</File>
 			<File
@@ -1770,6 +2054,12 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\commands\cmdrelocate\cmdrelocate.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdsay\cmdsay.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\commands\cmdwhisper\cmdwhisper.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\commands\manager\cmdmanager.h">
