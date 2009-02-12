@@ -58,10 +58,10 @@ const char* ComponentF##name::GetName() const                                 \
 {                                                                             \
   return strname;                                                             \
 }                                                                             \
-csPtr<ComponentInterface> ComponentF##name::CreateComponent(const char* name) \
+csPtr<ComponentInterface> ComponentF##name::CreateComponent(const char* name_)\
 {                                                                             \
   ComponentInterface* c = new Component##name (object_reg);                   \
-  c->SetName (name);                                                          \
+  c->SetName (name_);                                                         \
   return csPtr<ComponentInterface> (c);                                       \
 }                                                                             \
 
