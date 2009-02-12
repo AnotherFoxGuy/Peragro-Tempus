@@ -337,6 +337,15 @@
 				RelativePath="..\..\src\client\gui\common\slot.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\config\setting.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingproperties.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingslider.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.cpp">
 			</File>
 			<File
@@ -459,6 +468,15 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\common\slot.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\setting.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingproperties.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingslider.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\confirmdialog-gui.h">
