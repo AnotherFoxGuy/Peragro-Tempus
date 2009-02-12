@@ -1,6 +1,6 @@
 
 #include "settingproperties.h"
-#include "slidersetting.h"
+#include "settingslider.h"
 #include "CEGUIPropertyHelper.h"
 
 

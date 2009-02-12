@@ -32,8 +32,7 @@
 
 #include <string>
 
-#include "ceguistring.h"
-
+#include "CEGUIString.h"
 
 namespace PT
 {

@@ -17,6 +17,7 @@
 */
 
 #include "setting.h"
+
 #include "CEGUIPropertyHelper.h"
 
 namespace PT

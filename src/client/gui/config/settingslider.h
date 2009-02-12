@@ -7,9 +7,9 @@
 #include <CEGUIWindow.h>
 #include <CEGUIWindowFactory.h>
 
+#include "setting.h"
 #include "settingproperties.h"
 
-#include "setting.h"
 #include <boost/shared_ptr.hpp>
 
 
