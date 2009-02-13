@@ -323,7 +323,6 @@ namespace PT
         dlgConfig->AddDialog(npcWindow->GetName());
         dlgConfig->AddDialog(inventoryWindow->GetName());
         dlgConfig->AddDialog(buddyWindow->GetName());
-        dlgConfig->AddDialog(interactDialogWindow->GetName());
         dlgConfig->AddDialog(bookWindow->GetName());
 
 
