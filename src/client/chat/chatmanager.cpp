@@ -19,6 +19,7 @@
 #include "chatmanager.h"
 
 #include <iutil/objreg.h>
+#include <iutil/plugin.h>
 
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
@@ -34,20 +35,12 @@
 
 #include "common/event/chatevent.h"
 
-#include "cmdhelp.h"
-#include "cmddbg.h"
-#include "cmdsay.h"
-#include "cmdwhisper.h"
-#include "cmdgroup.h"
-#include "cmdrelocate.h"
-#include "cmdemotes.h"
-#include "cmddate.h"
-#include "cmdquit.h"
-#include "cmdlogout.h"
+// to determine the identity of the player character
+#include "client/entity/player/playerentity.h"
 
 namespace PT
 {
-  using namespace Commands;
+  using namespace Command;
 
   namespace Chat
   {
@@ -87,22 +80,8 @@ namespace PT
       ChatInputWindow* chatinputWindow = guimanager->GetWindow<ChatInputWindow>(CHATINPUTWINDOW);
       chatinputWindow->SetSubmitEvent(function);
 
-      // Register commands.
-      RegisterCommand(new cmdHelp());
-      RegisterCommand(new cmdSay());
-      RegisterCommand(new cmdShout());
-      RegisterCommand(new cmdSayMe());
-      RegisterCommand(new cmdWhisper());
-      RegisterCommand(new cmdGroup());
-      RegisterCommand(new cmdRelocate());
-      RegisterCommand(new cmdEmote());
-      //RegisterCommand(new cmdGreet());
-      //RegisterCommand(new cmdSit());
-      RegisterCommand(new cmdDbg());
-      RegisterCommand(new cmdDate());
-      RegisterCommand(new cmdQuit());
-      RegisterCommand(new cmdLogout());
-
+      cmd_mgr = csLoadPluginCheck<iCommandManager> (obj_reg, PT_COMMAND_MANAGER_NAME);
+      
       historypointer = 0;
 
       return true;
@@ -156,9 +135,19 @@ namespace PT
 
       WhisperWindow* whisperWindow =
         guimanager->GetWindow<WhisperWindow>(WHISPERWINDOW);
-      whisperWindow->AddWhisper(nick.c_str(), message.c_str());
-      chatLogger.LogMessage (CHATLOGGER_MESSAGE_WHISPER, nick.c_str(),
-        message.c_str());
+
+      if (nick != "")
+      {
+        whisperWindow->AddWhisper(nick.c_str(), message.c_str());
+        chatLogger.LogMessage (CHATLOGGER_MESSAGE_WHISPER, nick.c_str(),
+          message.c_str());
+      }
+      else
+      {
+        nick = ChatHelper::GetTargetNick(&ev);
+        std::string ownnick = Entity::PlayerEntity::Instance()->GetName();
+        whisperWindow->AddWhisper(nick.c_str(), message.c_str(), ownnick.c_str());
+      }
 
       return true;
     } // end HandleWhisper ()
@@ -186,6 +175,7 @@ namespace PT
     bool ChatManager::OnSubmit (const CEGUI::EventArgs& e)
     {
       using namespace CEGUI;
+      using namespace PT::GUI::Windows;
 
       const KeyEventArgs& keyArgs = static_cast<const KeyEventArgs&>(e);
 
@@ -218,7 +208,13 @@ namespace PT
         } // end if
 
         // Handle submitted text.
-        HandleOutput(text.c_str());
+        if (cmd_mgr)
+        {
+          std::string resultstr = cmd_mgr->ProcessString(text.c_str());
+          ChatWindow* chatWindow =
+            guimanager->GetWindow<ChatWindow>(CHATWINDOW);
+          chatWindow->AddMessage(resultstr.c_str());
+        }
 
         history.push_back(text);
         historypointer=0; // Reset pointer
@@ -287,98 +283,6 @@ namespace PT
       return history[history.size() - historypointer].c_str();
     }
 
-    StringArray ChatManager::ParseString (const char* texti)
-    {
-      std::string text = texti;
-      StringArray arg;
-      size_t beginPos = 0;
-
-
-      // Push the special character on the array and set the offset.
-      if ((strncmp (texti,"/",1) == 0) ||
-        (strncmp (texti,"!",1) == 0))
-      {
-        arg.push_back(text.substr(0, 1));
-        beginPos = 1;
-      } // end if
-
-      std::string args = text.substr(beginPos, text.size());
-      std::string tail = args;
-
-      // Push the seperate words on an array.
-      while (tail.size() > 0)
-      {
-        size_t pos = tail.find_first_of(" ");
-        if ( pos == std::string::npos )
-        {
-          arg.push_back(tail.substr(0, tail.size()+1));
-          Report(PT::Notify, "ParseString: Added argument: %s",
-            tail.substr(0, tail.size()).c_str() );
-          tail.clear();
-        }
-        else
-        {
-          // Don't add an empty string, happens with double spaces.
-          if (pos != 0)
-          {
-            arg.push_back(tail.substr(0, pos));
-            Report(PT::Notify, "ParseString: Added argument: %s",
-              tail.substr(0, pos).c_str());
-          }
-          tail = tail.substr(pos+1, tail.size());
-        } // end if
-      } // end while
-
-      return arg;
-
-    } // end ParseString ()
-
-    void ChatManager::Execute (const char* cmd, const StringArray& args)
-    {
-      std::vector<Commandp>::iterator it;
-      for (it = commands.begin(); it != commands.end(); ++it)
-      {
-        if (it->get()->CommandHandled(cmd))
-        {
-          try{ it->get()->Execute(args); }
-          catch (BadUsage& /*err*/)
-          {
-            using namespace PT::GUI;
-            using namespace PT::GUI::Windows;
-
-            std::string usage = "Usage: "+it->get()->Help(cmd, CMD_HELP_USAGE);
-            ChatWindow* chatWindow =
-              guimanager->GetWindow<ChatWindow>(CHATWINDOW);
-            chatWindow->AddMessage(usage.c_str());
-          }
-          return;
-        } // end if
-      } // end for
-
-      Report(PT::Warning, "Unknown command '%s'!", cmd);
-
-    } // end Execute ()
-
-    void ChatManager::RegisterCommand (CommandInterface* cmd)
-    {
-      Commandp cmdp(cmd);
-      commands.push_back(cmdp);
-    } // end RegisterCommand ()
-
-    void ChatManager::HandleOutput (const char* texti)
-    {
-      StringArray arg = ParseString (texti);
-
-      // It's a command.
-      if (arg.size() > 1 && arg[0].compare("/") == 0)
-      {
-        Execute(arg[1].c_str(), arg);
-      } // end if
-      else
-        Execute("say", arg); // Special case.
-
-    } // end HandleOutput ()
-
     void ChatManager::TabCompletion ()
     {
       CEGUI::WindowManager* winMgr =
@@ -393,9 +297,11 @@ namespace PT
       CEGUI::String text = btn->getText();
       if (text.empty()) return;
 
-      StringArray words = ParseString(text.c_str());
+      const char* text_str = text.c_str();
+      const char* textword;
+      for (textword = text_str + text.size(); textword > text_str && (isalnum(*textword) || !(*textword)); textword--);
 
-      std::string incompleteWord = words[words.size() - 1];
+      std::string incompleteWord = textword;
 
       Report(PT::Error, "INCOMPLETE WORD: %s", incompleteWord.c_str());
 

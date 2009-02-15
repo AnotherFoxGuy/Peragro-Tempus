@@ -24,7 +24,7 @@
 
 #include "common/event/eventmanager.h"
 
-#include "commandiface.h"
+#include "include/icommandmanager.h"
 #include "chatlogger.h"
 
 #include <CEGUI.h>
@@ -52,7 +52,7 @@ namespace PT
       PT::GUI::GUIManager* guimanager;
       ChatLogger chatLogger;
 
-      std::vector<Commands::Commandp> commands;
+      csRef<Command::iCommandManager> cmd_mgr;
       std::vector<CEGUI::String> history;
       int historypointer;
       std::map<unsigned int, std::string> playernames;
@@ -62,9 +62,6 @@ namespace PT
       void UpdateOptions();
 
     private:
-      void HandleOutput (const char* texti);
-      Commands::StringArray ParseString (const char* texti);
-      void Execute (const char* cmd, const Commands::StringArray& args);
       void TabCompletion ();
 
     public: // CEGUI events.
@@ -95,10 +92,6 @@ namespace PT
       ~ChatManager ();
 
       bool Initialize ();
-      void RegisterCommand (Commands::CommandInterface* cmd);
-
-      const std::vector<Commands::Commandp>& GetAllCommands()
-      { return commands; }
     };
 
   } // Chat namespace
