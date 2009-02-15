@@ -4,3 +4,5 @@ Description cmdrelocate : "Relocate Command" ;
 Plugin cmdrelocate : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmdrelocate : CRYSTAL ;
 LinkWith cmdrelocate : plugins-commands network util tcp-network ;
+
+MsvcExternalLibrary peragro : "wsock32.lib" ;
