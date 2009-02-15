@@ -306,30 +306,6 @@
 			<File
 				RelativePath="..\..\src\client\chat\chatmanager.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmddate.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmddbg.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdemotes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdgroup.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdhelp.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdlogout.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdquit.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\commanddefault.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -339,42 +315,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\chat\chatmanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmddate.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmddbg.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdemotes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdgroup.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdhelp.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdlogout.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdquit.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdrelocate.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdsay.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\cmdwhisper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\commanddefault.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\chat\commandiface.h">
 			</File>
 		</Filter>
 	</Files>
