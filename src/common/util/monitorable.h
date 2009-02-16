@@ -37,7 +37,7 @@ private:
   PT::Thread::ThreadID threadID;
 
 protected:
-  ptMonitorable() { ref.set((T*)this); isLocked = false; threadID = -1; }
+  ptMonitorable() { ref.set((T*)this); isLocked = false; }
   virtual ~ptMonitorable() {};
 
   T* getLock() const
@@ -51,7 +51,6 @@ protected:
 
   void freeLock()
   {
-    threadID = -1;
     isLocked = false;
     T* const me = (T*) this;
     me->mutex.unlock();
