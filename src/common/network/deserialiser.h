@@ -36,7 +36,7 @@ public:
   ~Deserialiser() {}
 
 // Strnlen is a gnu extension that certain versions of OSX do not support.
-#if defined(CS_PLATFORM_MACOSX)
+#ifdef __APPLE__
   int strnlen(const char *c, int len)
   {
     int n = 0;
