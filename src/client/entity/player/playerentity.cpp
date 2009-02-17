@@ -90,7 +90,7 @@ namespace PT
     {
 // TODO ... looks like this will only get run when the program is shutting
 // down, and by then its moot.  Is there a better way?
-      if (instance.get() == this) instance = PLENT_NULL; 
+      if (instance.get() == this) instance.reset();
       PointerLibrary::getInstance()->setPlayer(0);
     }
 
