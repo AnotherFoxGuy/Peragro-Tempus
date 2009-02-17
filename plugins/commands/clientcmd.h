@@ -19,6 +19,7 @@
 #ifndef CLIENTCMD_H
 #define CLIENTCMD_H
 
+#include <cssysdef.h>
 #include <iutil/comp.h>
 
 #include "include/iclientcommand.h"

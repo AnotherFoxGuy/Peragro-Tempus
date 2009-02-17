@@ -32,10 +32,6 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdGroup)
 
-#ifdef SendMessage
-  #undef SendMessage
-#endif
-
 cmdGroup::cmdGroup(iBase* parent)
   : ptClientCommand(parent)
 {

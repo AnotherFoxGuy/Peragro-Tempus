@@ -19,6 +19,7 @@
 #ifndef CMDGROUP_H
 #define CMDGROUP_H
 
+#include <cssysdef.h>
 #include "plugins/commands/clientcmd.h"
 
 #define PT_DEFAULT_CHAT_GROUP "#general"
