@@ -26,7 +26,6 @@
 #include <wfmath/point.h>
 #include <wfmath/stream.h>
 
-
 namespace Common
 {
   namespace Entity
@@ -124,12 +123,23 @@ namespace Common
       ///@return Name of the sector where entity resides.
       const std::string& GetSectorName() const { return sectorName; }
       ///Set the name of sector where the entity resides.
-      void SetSectorName (std::string value) { sectorName = value; }
+      void SetSectorName (const std::string& value) { sectorName = value; }
 
       ///@return Rotation of entity.
-      const float GetRotation() const { return rot; }
+      float GetRotation() const { return rot; }
       ///Set the rotation of entity to a given value.
       void SetRotation (float value) { rot = value; }
+
+      ///Ensure that the Entity's position is a valid position in the world
+      virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
+      ///Set the Entity's position, ensuring that the position is valid
+      virtual void SetFullPosition(const WFMath::Point<3>& pos, 
+                                   float rotation,
+                                   const std::string& sector)
+      { position = pos;  rot = rotation;  sectorName = sector; }
+
+      ///Reset the entity do its default state
+      virtual void Reset() {}
 
     };
   } // Entity namespace

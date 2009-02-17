@@ -27,6 +27,7 @@
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
+#include "client/pointer/pointer.h"
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"

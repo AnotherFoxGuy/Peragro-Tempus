@@ -1,0 +1,5 @@
+SubDir TOP src client entity base ;
+
+Description client-entitybase : "client base entitymanager" ;
+Library client-entitybase : [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-entitybase : CRYSTAL CEL BOOST ;

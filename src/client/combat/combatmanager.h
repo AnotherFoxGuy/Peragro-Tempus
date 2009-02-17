@@ -27,13 +27,13 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <iutil/vfs.h>
+#include <iutil/event.h>
 #include <iengine/engine.h>
 
 #include "physicallayer/pl.h"
 
-#include "client/entity/entity.h"
-
 #include "common/util/mutex.h"
+#include "common/event/eventhandler.h"
 
 #include "client/network/network.h"
 
@@ -44,6 +44,14 @@ class Network;
 
 struct iObjectRegistry;
 struct iLoader;
+
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
 
 namespace PT
 {
@@ -87,7 +95,7 @@ namespace PT
        * @param entity The PT entity.
        * @return The mesh wrapper.
        */
-      iMeshWrapper* GetMesh(PT::Entity::Entity* entity);
+      iMeshWrapper* GetMesh(::Client::Entity::Entity* entity);
 
       /// Handler for the Hit event.
       bool ActionHit(iEvent& ev);
@@ -119,13 +127,13 @@ namespace PT
        * @param target The target entity.
        * @param damage The amount of damage to deal.
        */
-      void Hit(PT::Entity::Entity* target, int damage);
+      void Hit(::Client::Entity::Entity* target, int damage);
 
       /**
        * Make an entity die.
        * @param target The entity to kill.
        */
-      void Die(PT::Entity::Entity* target);
+      void Die(::Client::Entity::Entity* target);
 
       /**
        * Show the level up effect.

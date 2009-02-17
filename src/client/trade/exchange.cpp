@@ -27,6 +27,12 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
+#include "client/network/network.h"
+#include "common/network/trademessages.h"
+
+#include "client/entity/base/entitymanager.h"
+#include "common/entity/entity.h"
+
 
 namespace PT
 {
@@ -122,7 +128,7 @@ namespace PT
 
       EntityManager* entityManager = PointerLibrary::getInstance()->getEntityManager();
       if (!entityManager) return true;
-      PT::Entity::Entity* ent = entityManager->findPtEntById(entityId);
+      Common::Entity::Entityp ent = entityManager->findEntById(entityId);
       if (!ent) return true;
 
       std::stringstream out;

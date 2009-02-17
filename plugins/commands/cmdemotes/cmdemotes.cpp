@@ -28,7 +28,7 @@
 #include "common/network/entitymessages.h"
 #include "client/network/network.h"
 
-#include "client/entity/entitymanager.h"
+//#include "client/entity/entitymanager.h"
 
 #include "cmdemotes.h"
 

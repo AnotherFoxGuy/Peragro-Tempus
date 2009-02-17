@@ -25,6 +25,7 @@ namespace Common
   namespace Entity
   {
     EntityManager::EntityManager()
+      : entities(), world_loaded(false), primaryId(0)
     {
     }
 
@@ -32,6 +33,7 @@ namespace Common
     {
     }
 
+/*
     bool EntityManager::Add(const Entityp entity)
     {
       // If object is already present return false.
@@ -41,16 +43,45 @@ namespace Common
       entities.push_back(entity);
       return octree.Add(&entity->position);
     }
+*/
 
-    bool EntityManager::Remove(const Entityp entity)
+    void EntityManager::Remove(const Entityp entity)
     {
-      return false;
+      std::vector<Entityp>::iterator i;
+      for (i = entities.begin();  i < entities.end();  i++)
+      {
+        if (*i == entity) 
+        {
+          entities.erase(i);
+          break;
+        }
+      }
     }
 
+    Entityp EntityManager::findEntById(unsigned int id)
+    {
+      //TODO if (id == 0) return 0;
+      std::vector<Entityp>::iterator i;
+      for (i = entities.begin();  i < entities.end();  i++)
+      {
+        if ((*i) && (*i)->GetId() == id) return *i;
+      }
+      return Entityp();
+    }
+
+    void EntityManager::Reset()
+    {
+      world_loaded = false;
+      primaryId = 0;
+      RemoveAll();
+    }
+
+/*
     Octree::QueryResult EntityManager::Query(const WFMath::Ball<3>& s)
     {
       return octree.Query(s);
     }
+*/
 
   } // namespace World
 } // namespace Common

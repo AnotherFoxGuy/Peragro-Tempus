@@ -37,15 +37,19 @@ struct iObjectRegistry;
 struct iEvent;
 struct iPcDefaultCamera;
 
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
+
 namespace PT
 {
   namespace Events
   {
     struct EventHandlerCallback;
-  }
-  namespace Entity
-  {
-    class Entity;
   }
 } //PT namespace
 
@@ -63,7 +67,7 @@ private:
   PointerLibrary* pointerlib;
 
   /// The player entity.
-  PT::Entity::Entity* entity;
+  Client::Entity::Entity* entity;
   ///Player entity's camera.
   csWeakRef<iPcDefaultCamera> camera;
   /// The event handlers.
@@ -130,7 +134,7 @@ public:
      * @param ent The entity to handle control events for.
      * @return True, indicating success.
      */
-    virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
+    virtual bool Initialize (PointerLibrary* pl, Client::Entity::Entity* ent);
 };
 
 #endif

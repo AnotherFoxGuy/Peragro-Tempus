@@ -30,8 +30,6 @@
 #include <propclass/mesh.h>
 #include <propclass/actormove.h>
 
-#include "client/entity/entitymanager.h"
-
 #include "common/event/entityevent.h"
 
 #include "common/reporter/reporter.h"
@@ -48,7 +46,7 @@ namespace PT
   {
 
     CharacterEntity::CharacterEntity(const iEvent& ev) :
-      Entity(ev), equipment(this)
+      ::Client::Entity::Entity(ev), equipment(this)
     {
       maxStamina = 100;
       currentStamina = 100;
@@ -98,7 +96,7 @@ namespace PT
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
-      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      SetFullPosition();
     }
 
     void CharacterEntity::SetCurrentStamina(float x)

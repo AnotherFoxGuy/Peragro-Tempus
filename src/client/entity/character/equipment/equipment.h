@@ -33,7 +33,7 @@ namespace PT
     {
     private:
       csPDelArray<EquipedItem> equipment;
-      Entity* entity;
+      ::Client::Entity::Entity* entity;
       /*
       Checks if an item with the slotname exists,
       if so delete it and add the new item.
@@ -42,12 +42,12 @@ namespace PT
       void RemoveItem(unsigned int slotid);
 
     public:
-      Equipment(Entity* entity);
+      Equipment(::Client::Entity::Entity* entity);
       ~Equipment() {}
       void Equip(unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile);
       void UnEquip(unsigned int slotId);
 
-      Entity* GetEntity() { return entity; }
+      ::Client::Entity::Entity* GetEntity() { return entity; }
       void ClearAll(); // Destructs all meshes and wipes the array.
       void ConstructMeshes(); // Constructs meshes for all equiped items.
       void DestructMeshes(); // Handy for LOD purposes.

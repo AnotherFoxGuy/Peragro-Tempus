@@ -177,7 +177,7 @@ namespace PT
     void EnvironmentManager::UpdateSolarsys(iCamera* cam)
     {
       if (!solarsys) return;
-      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+      boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
       if (player)
       {
         if (cam->GetSector() == solarsys->GetSector()) return;

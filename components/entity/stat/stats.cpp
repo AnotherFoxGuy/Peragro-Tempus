@@ -51,7 +51,7 @@ ComponentStats::~ComponentStats()
 {
 }
 
-bool ComponentStats::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentStats::Initialize (PointerLibrary* pl, Client::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;

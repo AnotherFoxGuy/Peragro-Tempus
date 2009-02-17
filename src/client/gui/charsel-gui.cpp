@@ -26,7 +26,6 @@
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
-#include "client/entity/entitymanager.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"

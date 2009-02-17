@@ -37,15 +37,19 @@
 struct iObjectRegistry;
 struct iEvent;
 
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
+
 namespace PT
 {
   namespace Events
   {
     struct EventHandlerCallback;
-  }
-  namespace Entity
-  {
-    class Entity;
   }
 } //PT namespace
 
@@ -85,7 +89,7 @@ private:
   PointerLibrary* pointerlib;
 
   /// The entity this component moves.
-  PT::Entity::Entity* entity;
+  Client::Entity::Entity* entity;
   /// The event handlers.
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
@@ -158,7 +162,7 @@ public:
      * @param pl The pointer library.
      * @param ent The entity to handle movement of.
      */
-    virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
+    virtual bool Initialize (PointerLibrary* pl, Client::Entity::Entity* ent);
 };
 
 #endif

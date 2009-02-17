@@ -63,6 +63,14 @@ namespace CEGUI
   class EventArgs;
 }
 
+namespace Client
+{
+  namespace Entity
+  {
+    class EntityManager;
+  } // Entity namespace
+}
+
 namespace PT
 {
   class Reporter;
@@ -105,11 +113,6 @@ namespace PT
   {
     class EnvironmentManager;
   } // Environment namespace
-
-  namespace Entity
-  {
-    class EntityManager;
-  } // Entity namespace
 
   namespace Combat
   {
@@ -218,7 +221,7 @@ namespace PT
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;
 
-    PT::Entity::EntityManager* entityManager;
+    ::Client::Entity::EntityManager* entityManager;
     PT::Combat::CombatManager* combatManager;
     PT::Chat::ChatManager* chatManager;
     PT::Trade::TradeManager* tradeManager;

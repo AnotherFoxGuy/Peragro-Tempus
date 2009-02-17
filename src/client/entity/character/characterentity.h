@@ -33,7 +33,7 @@ namespace PT
      * players, NPCs, horses, or even boats). These entities have in common that
      * they can have equipment, can move etc.
      */
-    class CharacterEntity : public Entity
+    class CharacterEntity : public ::Client::Entity::Entity
     {
     protected:
       ///Equipment that character entity carries/owns.

@@ -34,15 +34,19 @@ struct iObjectRegistry;
 struct iEvent;
 struct iPcDefaultCamera;
 
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
+
 namespace PT
 {
   namespace Events
   {
     struct EventHandlerCallback;
-  }
-  namespace Entity
-  {
-    class Entity;
   }
 } //PT namespace
 
@@ -54,7 +58,7 @@ private:
   iObjectRegistry* object_reg;
   PointerLibrary* pointerlib;
 
-  PT::Entity::Entity* entity;
+  Client::Entity::Entity* entity;
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
   std::vector<Stat> stats;
@@ -72,7 +76,7 @@ public:
     ComponentStats (iObjectRegistry*);
     virtual ~ComponentStats();
 
-    virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
+    virtual bool Initialize (PointerLibrary*, Client::Entity::Entity*);
 
     virtual Stat* GetStat(unsigned int id);
     virtual Stat* GetStat(const char* name);

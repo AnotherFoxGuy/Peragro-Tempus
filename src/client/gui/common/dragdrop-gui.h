@@ -33,8 +33,6 @@
 #include "client/data/item/itemdatamanager.h"
 #include "client/gui/common/slot.h"
 
-#include "client/entity/entitymanager.h"
-
 
 class Network;
 

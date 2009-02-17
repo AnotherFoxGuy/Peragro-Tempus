@@ -19,6 +19,8 @@
 #ifndef PT_ENTITYPLAYERENTITY_H
 #define PT_ENTITYPLAYERENTITY_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "client/entity/pc/pcentity.h"
 #include "common/event/event.h"
 
@@ -47,6 +49,8 @@ namespace PT
     class PlayerEntity : public PcEntity
     {
     public:
+      virtual ~PlayerEntity();
+
       void Interact();
 
       /**
@@ -58,7 +62,7 @@ namespace PT
        * @return 0 if an error occured, or if no instance was created yet.
        * Otherwise returns a pointer to an instance of the class.
        */
-      static PlayerEntity* Instance(const iEvent* ev = 0);
+      static boost::shared_ptr<PlayerEntity> Instance(const iEvent* ev = 0);
 
       /**
        * @return Returns the player entity's camera.
@@ -83,6 +87,7 @@ namespace PT
        */
       void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
+      using ::Client::Entity::Entity::SetFullPosition;
       /**
        * Changes the entity position and sector immediatelly.
        * This also updates the camera.
@@ -94,7 +99,7 @@ namespace PT
                            const std::string& sector);
 
     private:
-      static PlayerEntity* instance;
+      static boost::shared_ptr<PlayerEntity> instance;
 
       void ReInit(const iEvent& ev);
 
@@ -112,7 +117,6 @@ namespace PT
        * @param ev Event used for initialising the player properties.
        */
       PlayerEntity(const iEvent& ev);
-      virtual ~PlayerEntity();
 
       void Create();
 

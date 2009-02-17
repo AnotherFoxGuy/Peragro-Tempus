@@ -64,7 +64,7 @@ ComponentViewBob::~ComponentViewBob()
 {
 }
 
-bool ComponentViewBob::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentViewBob::Initialize (PointerLibrary* pl, Client::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;

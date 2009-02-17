@@ -33,7 +33,7 @@ namespace PT
      * @ingroup entities
      * Implements doors and door-like objects, such as gates etc.
      */
-    class DoorEntity : public Entity
+    class DoorEntity : public ::Client::Entity::Entity
     {
     private:
       ///Unique ID of the door.

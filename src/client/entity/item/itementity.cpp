@@ -41,7 +41,7 @@ namespace PT
   namespace Entity
   {
 
-    ItemEntity::ItemEntity(const iEvent& ev) : Entity(ev)
+    ItemEntity::ItemEntity(const iEvent& ev) : ::Client::Entity::Entity(ev)
     {
       ev.Retrieve("itemId", itemId);
 
@@ -73,7 +73,7 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      SetFullPosition();
     }
 
     void ItemEntity::Interact()

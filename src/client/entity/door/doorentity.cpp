@@ -42,7 +42,7 @@ namespace PT
   namespace Entity
   {
 
-    DoorEntity::DoorEntity(const iEvent& ev) : Entity(ev)
+    DoorEntity::DoorEntity(const iEvent& ev) : ::Client::Entity::Entity(ev)
     {
       ev.Retrieve("open", open);
       ev.Retrieve("locked", locked);
@@ -79,7 +79,7 @@ namespace PT
       {
         pcmesh->SetMesh(doormesh);
         trans = doormesh->GetMovable()->GetTransform();
-        Entity::SetPosition(doormesh->GetMovable()->GetFullPosition());
+        ::Client::Entity::Entity::SetPosition(doormesh->GetMovable()->GetFullPosition());
       }
       else
       {

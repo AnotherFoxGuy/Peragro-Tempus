@@ -72,7 +72,7 @@ namespace PT
     {
     } // end ~CombatManager()
 
-    iMeshWrapper* CombatManager::GetMesh(PT::Entity::Entity* entity)
+    iMeshWrapper* CombatManager::GetMesh(::Client::Entity::Entity* entity)
     {
       iCelEntity* celentity = entity->GetCelEntity();
       if (!celentity) return 0;
@@ -159,7 +159,8 @@ namespace PT
       unsigned int entityid = -1;
       ev.Retrieve("entityid", entityid);
 
-      PT::Entity::Entity* target = entityManager->findPtEntById(entityid);
+      ::Client::Entity::Entity* target = dynamic_cast< ::Client::Entity::Entity*>
+        (entityManager->findEntById(entityid).get());
       if (!target)
       {
         Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
@@ -225,7 +226,7 @@ namespace PT
 
     } // end UpdateStat()
 
-    void CombatManager::Hit(PT::Entity::Entity* target, int damage)
+    void CombatManager::Hit(::Client::Entity::Entity* target, int damage)
     {
       using namespace PT::Entity;
 
@@ -255,7 +256,7 @@ namespace PT
 
     } // end Hit()
 
-    void CombatManager::Die(PT::Entity::Entity* target)
+    void CombatManager::Die(::Client::Entity::Entity* target)
     {
       using namespace Entity;
       CharacterEntity *character;
@@ -272,7 +273,7 @@ namespace PT
     void CombatManager::LevelUp(int targetId)
     {
       // Lookup the ID to get the actual entity.
-      PT::Entity::Entity* target = entityManager->findPtEntById(targetId);
+      Common::Entity::Entityp target = entityManager->findEntById(targetId);
 
       if (!target)
       {
@@ -292,7 +293,7 @@ namespace PT
     {
       if (!PT::Entity::PlayerEntity::Instance()) return;
       // Lookup the ID to get the actual entity.
-      PT::Entity::Entity* entity = PT::Entity::PlayerEntity::Instance();
+      boost::shared_ptr< ::Client::Entity::Entity> entity = PT::Entity::PlayerEntity::Instance();
 
       if (!entity)
       {
@@ -343,8 +344,8 @@ namespace PT
       }
 
       // Lookup the IDs to get the actual entities.
-      PT::Entity::Entity* caster = entityManager->findPtEntById(casterId);
-      PT::Entity::Entity* target = entityManager->findPtEntById(targetId);
+      Common::Entity::Entityp caster = entityManager->findEntById(casterId);
+      Common::Entity::Entityp target = entityManager->findEntById(targetId);
 
       if (!target)
       {
@@ -368,7 +369,7 @@ namespace PT
         if (caster->GetType() == Common::Entity::PlayerEntityType ||
             caster->GetType() == Common::Entity::PCEntityType)
         {
-          ((PT::Entity::PcEntity*)caster)->PlayAnimation(skill->GetEffects().castanim.c_str());
+          ((PT::Entity::PcEntity*)caster.get())->PlayAnimation(skill->GetEffects().castanim.c_str());
         }
       }
       else
@@ -389,8 +390,8 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       // Lookup the IDs to get the actual entities.
-      PT::Entity::Entity* caster = entityManager->findPtEntById(casterId);
-      PT::Entity::Entity* target = entityManager->findPtEntById(targetId);
+      Common::Entity::Entityp caster = entityManager->findEntById(casterId);
+      Common::Entity::Entityp target = entityManager->findEntById(targetId);
 
       if (!target)
       {
@@ -414,7 +415,7 @@ namespace PT
         if (target->GetType() == Common::Entity::PlayerEntityType ||
             target->GetType() == Common::Entity::PCEntityType)
         {
-          ((PT::Entity::PcEntity*)target)->PlayAnimation(skill->GetEffects().targetanim.c_str());
+          ((PT::Entity::PcEntity*)target.get())->PlayAnimation(skill->GetEffects().targetanim.c_str());
         }
       }
       else
@@ -455,7 +456,7 @@ namespace PT
       if (!PT::Entity::PlayerEntity::Instance()) return;
 
       // Get your own entity.
-      PT::Entity::Entity* attacker = PT::Entity::PlayerEntity::Instance();
+      boost::shared_ptr< ::Client::Entity::Entity> attacker = PT::Entity::PlayerEntity::Instance();
 
       if (!targetId)
       {
@@ -517,7 +518,7 @@ namespace PT
       {
         if (InputHelper::GetButtonDown(&ev))
         {
-          Hit(PT::Entity::PlayerEntity::Instance(), 20);
+          Hit(PT::Entity::PlayerEntity::Instance().get(), 20);
         }
       }
       return true;

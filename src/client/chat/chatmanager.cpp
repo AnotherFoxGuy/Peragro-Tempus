@@ -34,6 +34,7 @@
 #include "client/gui/whisper-gui.h"
 
 #include "common/event/chatevent.h"
+#include "common/event/entityevent.h"
 
 // to determine the identity of the player character
 #include "client/entity/player/playerentity.h"

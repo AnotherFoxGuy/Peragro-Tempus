@@ -49,7 +49,7 @@ ComponentMesh::~ComponentMesh()
 {
 }
 
-bool ComponentMesh::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentMesh::Initialize (PointerLibrary* pl, Client::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;

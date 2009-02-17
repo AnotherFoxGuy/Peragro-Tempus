@@ -37,15 +37,19 @@ struct iEvent;
 
 struct iCacheEntry;
 
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
+
 namespace PT
 {
   namespace Events
   {
     struct EventHandlerCallback;
-  }
-  namespace Entity
-  {
-    class Entity;
   }
 } //PT namespace
 
@@ -57,7 +61,7 @@ private:
   iObjectRegistry* object_reg;
   PointerLibrary* pointerlib;
 
-  PT::Entity::Entity* entity;
+  Client::Entity::Entity* entity;
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
 private:
@@ -69,7 +73,7 @@ public:
     ComponentMesh (iObjectRegistry*);
     virtual ~ComponentMesh();
 
-    virtual bool Initialize (PointerLibrary*, PT::Entity::Entity*);
+    virtual bool Initialize (PointerLibrary*, Client::Entity::Entity*);
 };
 
 #endif // COMPONENT_MESH_H

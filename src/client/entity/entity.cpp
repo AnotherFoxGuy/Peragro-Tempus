@@ -48,11 +48,11 @@
 
 #include "common/util/geomhelper.h"
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
-    Entity::Entity(const iEvent& ev)
+    Entity::Entity(const iEvent& ev) : ::PT::Entity::Entity()
     {
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
@@ -88,7 +88,7 @@ namespace PT
     {
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (obj_reg);
+      pl = csQueryRegistry<iCelPlLayer> (obj_reg);
 
       celEntity = pl->CreateEntity();
 
@@ -195,4 +195,4 @@ namespace PT
     }
 
   } // Entity namespace
-} // PT namespace
+} // Client namespace

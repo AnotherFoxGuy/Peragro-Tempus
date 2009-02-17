@@ -61,7 +61,7 @@ ComponentNetworkMove::~ComponentNetworkMove()
 }
 
 bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
-                                       PT::Entity::Entity* ent)
+                                       Client::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;

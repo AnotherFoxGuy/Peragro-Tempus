@@ -33,6 +33,8 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
+#include "client/entity/base/entitymanager.h"
+
 #include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
 #include "client/entity/player/playerentity.h"
@@ -47,21 +49,18 @@
 #include "common/event/stateevent.h"
 #include "common/event/inputevent.h"
 
-
 class Effect;
 
 struct iObjectRegistry;
 struct iLoader;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
-    class EntityManager
+    class EntityManager : public ::PT::Entity::EntityManager
     {
     private:
-      csPDelArray<Entity> entities;
-
       csRef<iEngine> engine;
       csRef<iVFS> vfs;
       csRef<iStringSet> stringset;
@@ -70,7 +69,7 @@ namespace PT
       csRef<iCelPlLayer> pl;
       csRef<iObjectRegistry> obj_reg;
 
-      Client* client;
+      ::PT::Client* client;
 
     private:
       csRefArray<iEvent> events;
@@ -80,12 +79,6 @@ namespace PT
 
       // A default sector for entities to be added in.
       csRef<iSector> defaultSector;
-
-    private:
-      unsigned int playerId;
-
-    private:
-      bool world_loaded;
 
     private:
       PT_CALLBACK_HANDLER_LISTENERS
@@ -120,23 +113,13 @@ namespace PT
       ~EntityManager ();
 
       bool Initialize ();
-      void Reset();
       void Handle();
 
       void DrUpdateOwnEntity();
 
-      iCelEntity* findCelEntById(unsigned int id);
-
-      Entity* findPtEntById(unsigned int id);
-
-      unsigned int GetPlayerId() { return playerId; }
-
-      void setWorldloaded(bool value) { world_loaded = value; }
-
-      void delAllEntities();
     };
 
   } // Entity namespace
-} // PT namespace
+} // Client namespace
 
 #endif // PTENTITYMANAGER_H

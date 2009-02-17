@@ -47,6 +47,7 @@
 #include "include/client/component/entity/move/viewbob.h"
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
+#define PLENT_NULL boost::shared_ptr<PlayerEntity>()
 
 namespace PT
 {
@@ -54,7 +55,7 @@ namespace PT
   namespace Entity
   {
 
-    PlayerEntity* PlayerEntity::instance = 0;
+    boost::shared_ptr<PlayerEntity> PlayerEntity::instance = PLENT_NULL;
 
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
@@ -87,11 +88,13 @@ namespace PT
 
     PlayerEntity::~PlayerEntity()
     {
-      instance=0;
+// TODO ... looks like this will only get run when the program is shutting
+// down, and by then its moot.  Is there a better way?
+      if (instance.get() == this) instance = PLENT_NULL; 
       PointerLibrary::getInstance()->setPlayer(0);
     }
 
-    PlayerEntity* PlayerEntity::Instance(const iEvent* ev)
+    boost::shared_ptr<PlayerEntity> PlayerEntity::Instance(const iEvent* ev)
     {
       //If the instance already exists, and we're not
       //requesting a reinitialization.
@@ -105,9 +108,10 @@ namespace PT
       }
 
       //We can't initialize without a valid event
-      if (!ev) return 0;
+      if (!ev) return PLENT_NULL;
 
-      instance = new PlayerEntity(*ev);
+      PlayerEntity* plent = new PlayerEntity(*ev);
+      instance = boost::shared_ptr<PlayerEntity>(plent);
       return instance;
     }
 
@@ -158,7 +162,7 @@ namespace PT
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
       world->EnterWorld(GetPosition());
-      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      SetFullPosition();
     }
 
     iCamera* GetCam(iPcDefaultCamera* camera)
@@ -194,7 +198,7 @@ namespace PT
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
       world->EnterWorld(GetPosition());
-      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      SetFullPosition();
 
 #ifdef _MOVEMENT_DEBUG_CHARACTER_
       other_self = pl->CreateEntity();
@@ -254,7 +258,7 @@ namespace PT
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
       world->EnterWorld(pos);
-      this->SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      this->SetFullPosition();
     }
 
     void PlayerEntity::SetFullPosition(const WFMath::Point<3>& pos,
@@ -286,7 +290,7 @@ namespace PT
         */
       }
 
-      Entity::SetFullPosition(pos, rotation, sector);
+      ::Client::Entity::Entity::SetFullPosition(pos, rotation, sector);
 
     } // end SetFullPosition()
 

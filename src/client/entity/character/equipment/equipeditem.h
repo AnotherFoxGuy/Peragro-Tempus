@@ -37,11 +37,11 @@ namespace PT
       std::string meshname;
       std::string meshfile;
       iCelEntity* itementity;
-      Entity* entity;
+      ::Client::Entity::Entity* entity;
       std::string GetSocketName(unsigned int slotid);
 
     public:
-      EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile);
+      EquipedItem(::Client::Entity::Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile);
       ~EquipedItem(){}
       unsigned int GetId(){ return id; }
       unsigned int GetSlotId() { return slotId; }

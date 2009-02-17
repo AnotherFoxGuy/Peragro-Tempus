@@ -22,12 +22,14 @@
 #include <cssysdef.h>
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
+#include <iutil/object.h>
 
 // for the "dump" command
 #include <csgeom/tri.h>
 #include <igeom/trimesh.h>
 #include <imesh/objmodel.h>
 #include <imesh/object.h>
+#include <iengine/engine.h>
 #include <iengine/mesh.h>
 #include <iengine/sector.h>
 #include <iengine/movable.h>
@@ -35,9 +37,6 @@
 #include <physicallayer/propclas.h>
 #include <physicallayer/entity.h>
 #include <propclass/linmove.h>
-//#include <physicallayer/persist.h>
-//#include <physicallayer/propfact.h>
-//#include <physicallayer/pl.h>
 
 #include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"
@@ -47,7 +46,8 @@
 #include "common/network/bookmessages.h"
 #include "common/network/entitymessages.h"
 
-#include "client/entity/entitymanager.h"
+#include "client/entity/base/entity.h"
+#include "client/entity/base/entitymanager.h"
 
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
@@ -224,7 +224,7 @@ std::string cmdDbg::Execute (const StringArray& args)
     {
       if (args.size() < 4) throw BadUsage();
 
-      PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->findPtEntById(ent_mgr->GetPlayerId())->GetSectorName());
+      PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->findEntById(ent_mgr->GetPlayerId())->GetSectorName());
       if(!sector) return "Invalid sector!";
 
       std::string result;

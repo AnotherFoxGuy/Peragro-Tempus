@@ -1,5 +1,6 @@
 SubDir TOP src client entity ;
 
+SubInclude TOP src client entity base ;
 SubInclude TOP src client entity character ;
 SubInclude TOP src client entity door ;
 SubInclude TOP src client entity item ;
@@ -20,3 +21,4 @@ Library client-entitymanager :
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ] ;
 ExternalLibs client-entitymanager : CEGUI CRYSTAL CEL BOOST ;
+LinkWith client-entitymanager : client-entitybase ;

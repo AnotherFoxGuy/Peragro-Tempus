@@ -50,13 +50,16 @@ else                                                                            
 
 class PointerLibrary;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
     class Entity;
-  } // Entity namespace
+  }
+}
 
+namespace PT
+{
   namespace Component
   {
     /**
@@ -108,7 +111,7 @@ namespace PT
        * @return The component interface.
        */
       template<class Interface>
-      csRef<Interface> CreateComponent(PT::Entity::Entity* entity, const char* name);
+      csRef<Interface> CreateComponent(::Client::Entity::Entity* entity, const char* name);
 
       /**
        * Check if a component factory is in the hash table, and load it if not.
@@ -122,7 +125,7 @@ namespace PT
     // Template implementations must reside in the header, both its declaration
     // and definition must be available in every translation unit that uses it.
     template<class Interface>
-    csRef<Interface> ComponentManager::CreateComponent(PT::Entity::Entity * entity, const char* name)
+    csRef<Interface> ComponentManager::CreateComponent(::Client::Entity::Entity * entity, const char* name)
     {
       csRef<ComponentInterface> comp = CreateComponent(name);
       if (!comp.IsValid()) return 0;

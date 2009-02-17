@@ -26,6 +26,9 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 
+#include "client/entity/base/entitymanager.h"
+#include "client/network/network.h"
+
 #include "common/event/eventmanager.h"
 #include "common/event/event.h"
 

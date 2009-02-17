@@ -78,10 +78,10 @@ namespace PT
       pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
         csVector3(0,0,0));
 
-      SetFullPosition(GetPosition(), GetRotation(), GetSectorName());
+      SetFullPosition();
     }
 
-    void MountEntity::Mount(Entity* player)
+    void MountEntity::Mount(::Client::Entity::Entity* player)
     {
       if (mounted) return;
       if (!player->GetCelEntity()) return;
@@ -112,7 +112,7 @@ namespace PT
       ptplayer->SetHasMount(true);
     }
 
-    void MountEntity::UnMount(Entity* player)
+    void MountEntity::UnMount(::Client::Entity::Entity* player)
     {
       if (!mounted) return;
       if (!player->GetCelEntity()) return;

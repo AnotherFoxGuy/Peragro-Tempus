@@ -20,6 +20,7 @@
 #define COMMON_ENTITYMANAGER_H
 
 #include <string>
+#include <vector>
 
 #include <boost/shared_ptr.hpp>
 
@@ -40,22 +41,35 @@ namespace Common
 {
   namespace Entity
   {
+    typedef boost::shared_ptr<Entity> Entityp;
+
     class EntityManager
     {
-    private:
-      typedef boost::shared_ptr<Entity> Entityp;
+    protected:
+      std::vector<Entityp> entities;
+      bool world_loaded;
+      unsigned int primaryId; // for example, player ID
 
-      Octree octree;
-      std::list<Entityp> entities;
+//      Octree octree;
 
     public:
       EntityManager();
-      ~EntityManager();
+      virtual ~EntityManager();
 
-      bool Add(const Entityp entity);
-      bool Remove(const Entityp entity);
+      void Remove(const Entityp entity);
+      void RemoveAll() { entities.clear(); }
 
-      Octree::QueryResult Query(const WFMath::Ball<3>& s);
+      Entityp findEntById(unsigned int id);
+
+      /// the following two commands are synonymous
+      unsigned int GetPrimaryId() { return primaryId; }
+      unsigned int GetPlayerId() { return primaryId; }
+
+      virtual void setWorldloaded(bool value) { world_loaded = value; }
+
+      virtual void Reset();
+
+//      Octree::QueryResult Query(const WFMath::Ball<3>& s);
     };
 
   } // namespace Entity

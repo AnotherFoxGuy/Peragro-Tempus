@@ -32,6 +32,7 @@
 #include <CEGUILogger.h>
 #include <ivaria/icegui.h>
 
+#include "client/pointer/pointer.h"
 #include "client/gui/options/skin-gui.h"
 
 namespace PT

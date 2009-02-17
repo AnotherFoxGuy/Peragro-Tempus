@@ -25,6 +25,8 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 #include "client/cursor/cursor.h"
+#include "client/entity/base/entitymanager.h"
+#include "client/entity/door/doorentity.h"
 
 #include "common/reporter/reporter.h"
 
@@ -139,12 +141,12 @@ namespace PT
         }
         else if (ddea.window->getName().compare(DOOR_BUTTON) == 0)
         {
-          PT::Entity::Entity* ent = PointerLibrary::getInstance()->
-            getEntityManager()->findPtEntById(interactId);
+          Common::Entity::Entityp ent = PointerLibrary::getInstance()->
+            getEntityManager()->findEntById(interactId);
           if (!ent) return true;
           if (ent->GetType() == 2)// door
           {
-            if (((PT::Entity::DoorEntity*)ent)->GetOpen())
+            if (((PT::Entity::DoorEntity*)ent.get())->GetOpen())
             {
               Report(PT::Notify, "OnAction: Requesting open of: %d.",
                 interactId);

@@ -58,7 +58,7 @@ ComponentViewControls::~ComponentViewControls()
 {
 }
 
-bool ComponentViewControls::Initialize (PointerLibrary* pl, PT::Entity::Entity* ent)
+bool ComponentViewControls::Initialize (PointerLibrary* pl, Client::Entity::Entity* ent)
 {
   pointerlib = pl;
   entity = ent;

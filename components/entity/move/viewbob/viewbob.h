@@ -41,15 +41,19 @@ struct iObjectRegistry;
 struct iEvent;
 struct iPcDefaultCamera;
 
+namespace Client
+{
+  namespace Entity
+  {
+    class Entity;
+  }
+}
+
 namespace PT
 {
   namespace Events
   {
     struct EventHandlerCallback;
-  }
-  namespace Entity
-  {
-    class Entity;
   }
 } //PT namespace
 
@@ -72,7 +76,7 @@ private:
   csTicks lastTicks;
 
   /// The player entity.
-  PT::Entity::Entity* entity;
+  Client::Entity::Entity* entity;
   /// The event handlers.
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
@@ -123,7 +127,7 @@ public:
    * @param pl The pointer library.
    * @param ent The entity to apply the effect to.
    */
-  virtual bool Initialize (PointerLibrary* pl, PT::Entity::Entity* ent);
+  virtual bool Initialize (PointerLibrary* pl, Client::Entity::Entity* ent);
 
   // TODO: add functions or events to change the range and time period,
   // currently the effect is not changed when you run. Might be a good idea

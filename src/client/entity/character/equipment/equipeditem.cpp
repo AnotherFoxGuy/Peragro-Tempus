@@ -44,7 +44,7 @@ namespace PT
   namespace Entity
   {
 
-    EquipedItem::EquipedItem(Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile)
+    EquipedItem::EquipedItem(::Client::Entity::Entity* entity, unsigned int slotId, unsigned int itemId, const std::string& meshname, const std::string& meshfile)
     {
       this->id         = itemId;
       this->slotId     = slotId;

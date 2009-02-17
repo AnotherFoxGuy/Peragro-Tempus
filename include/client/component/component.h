@@ -24,13 +24,13 @@
 
 class PointerLibrary;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
     class Entity;
   }
-} //PT namespace
+} //Client namespace
 
 struct ComponentInterface;
 

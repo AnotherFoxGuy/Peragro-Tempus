@@ -22,9 +22,12 @@
 #include <CEGUIWindowManager.h>
 #include <CEGUILogger.h>
 
+#include "client/pointer/pointer.h"
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
+#include "client/entity/base/entitymanager.h"
 
+#include "common/entity/entity.h"
 #include "common/reporter/reporter.h"
 
 namespace PT
@@ -96,8 +99,8 @@ namespace PT
         {
           unsigned int entid = EntityHelper::GetEntityID(&ev);
 
-          PT::Entity::Entity* ent = PointerLibrary::getInstance()->
-            getEntityManager()->findPtEntById(entid);
+          Common::Entity::Entityp ent = PointerLibrary::getInstance()->
+            getEntityManager()->findEntById(entid);
           if (!ent) return false;
 
           if (ent->GetType() == Common::Entity::PCEntityType)

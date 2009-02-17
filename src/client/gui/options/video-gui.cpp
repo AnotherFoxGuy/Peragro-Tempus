@@ -19,6 +19,7 @@
 #include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
 #include "client/gui/skinmanager.h"
+#include "client/pointer/pointer.h"
 
 #include <CEGUI.h>
 #include <CEGUIWindowManager.h>

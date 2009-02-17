@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2008 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,31 +16,29 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef INETWORKMOVE_H
-#define INETWORKMOVE_H
+#ifndef PT_BASE_ENTITYMANAGER_H
+#define PT_BASE_ENTITYMANAGER_H
 
-#include <csutil/scf.h>
-#include <csutil/scf_implementation.h>
+#include "common/entity/entitymanager.h"
 
-#include "include/client/component/component.h"
+struct iCelEntity;
 
-class PointerLibrary;
-
-namespace Client
+namespace PT
 {
   namespace Entity
   {
-    class Entity;
-  }
-} //Client namespace
+    class EntityManager : public Common::Entity::EntityManager
+    {
+    protected:
 
-struct iNetworkMove : public virtual iBase
-{
-    SCF_INTERFACE(iNetworkMove, 1,0,0);
+    public:
+      EntityManager() : Common::Entity::EntityManager() {}
+      virtual ~EntityManager() {}
 
-    virtual bool Initialize(PointerLibrary*, Client::Entity::Entity*) = 0;
+      iCelEntity* findCelEntById(unsigned int id);
+    };
 
-};
+  } // namespace Entity
+} // namespace PT
 
-
-#endif // INETWORKMOVE_H
+#endif // PT_BASE_ENTITYMANAGER_H

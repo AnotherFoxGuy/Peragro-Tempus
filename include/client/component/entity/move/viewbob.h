@@ -26,19 +26,19 @@
 
 class PointerLibrary;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
     class Entity;
   }
-} //PT namespace
+} //Client namespace
 
 struct iViewBob : public virtual iBase
 {
     SCF_INTERFACE(iViewBob, 1,0,0);
 
-    virtual bool Initialize(PointerLibrary*, PT::Entity::Entity*) = 0;
+    virtual bool Initialize(PointerLibrary*, Client::Entity::Entity*) = 0;
 
 };
 

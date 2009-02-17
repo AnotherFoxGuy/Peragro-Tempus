@@ -22,11 +22,13 @@
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
+#include "client/pointer/pointer.h"
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
-#include "client/entity/entitymanager.h"
 
 #include "common/reporter/reporter.h"
+
+#include "client/entity/player/playerentity.h"
 
 namespace PT
 {

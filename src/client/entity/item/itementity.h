@@ -31,7 +31,7 @@ namespace PT
      * @todo At this time we only have this class for representing items.
      * Possibly to change in future.
      */
-    class ItemEntity : public Entity
+    class ItemEntity : public ::Client::Entity::Entity
     {
     private:
       ///Represents the ID of item type. Not to be confused with entity ID.

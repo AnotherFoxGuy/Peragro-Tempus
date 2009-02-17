@@ -45,12 +45,12 @@
 
 #include "client/cursor/cursor.h"
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
 
-    EntityManager::EntityManager ()
+    EntityManager::EntityManager () : ::PT::Entity::EntityManager()
     {
       this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
@@ -73,7 +73,7 @@ namespace PT
     bool EntityManager::Initialize ()
     {
       world_loaded = false;
-      playerId = 0;
+      primaryId = 0;
 
       // Create a default sector for entities to be added in.
       defaultSector = engine->CreateSector("Default_Sector");
@@ -100,13 +100,6 @@ namespace PT
       return true;
     }
 
-    void EntityManager::Reset()
-    {
-      world_loaded = false;
-      playerId = 0;
-      delAllEntities();
-    }
-
     void EntityManager::ProcessEvents()
     {
       using namespace PT::Events;
@@ -118,12 +111,12 @@ namespace PT
       {
         csRef<iEvent> ev = events.Pop();
         csStringID id = ev->GetName();
-        if (playerId != 0)
+        if (primaryId != 0)
         {
           if (evmgr->IsKindOf(id, "entity.add"))
             AddEntity(*ev);
         }
-        bool statePlay = (PointerLibrary::getInstance()->getStateManager()->GetState() == STATE_PLAY);
+        bool statePlay = (PointerLibrary::getInstance()->getStateManager()->GetState() == PT::STATE_PLAY);
         if (world_loaded && statePlay)
         {
           if (evmgr->IsKindOf(id, "entity.remove"))
@@ -136,10 +129,10 @@ namespace PT
             UnMount(*ev);
           else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
-          else if (PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.list.player"))
+          else if (::PT::Entity::PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.list.player"))
             evmgr->AddEvent(ev);
         }
-        if (world_loaded && statePlay && !PlayerEntity::Instance())
+        if (world_loaded && statePlay && !::PT::Entity::PlayerEntity::Instance())
             unhandledEvents.Push(ev);
       } // while
 
@@ -149,14 +142,12 @@ namespace PT
     bool EntityManager::WorldLoaded(iEvent& ev)
     {
 
-      for (size_t i = 0; i < entities.GetSize(); i++)
+      std::vector<Common::Entity::Entityp>::iterator i;
+      for (i = entities.begin();  i < entities.end();  i++)
       {
-        if (entities.Get(i))
-        {
-          entities.Get(i)->SetFullPosition();
-        }
+        if (*i) (*i)->SetFullPosition();
       }
-
+  
       return true;
     }
 
@@ -174,7 +165,7 @@ namespace PT
         if (!entity) continue;
         csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
         if (!pcprop) continue;
-        Entity* ptent = findPtEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        Common::Entity::Entityp ptent = findEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         if (!ptent) continue;
 
         iSector* sector = engine->FindSector(ptent->GetSectorName().c_str());
@@ -193,32 +184,6 @@ namespace PT
       ProcessLostEntities();
     }
 
-    Entity* EntityManager::findPtEntById(unsigned int id)
-    {
-      // TODO if id == 0 return 0;
-      for (size_t i = 0; i < entities.GetSize(); i++)
-      {
-        if (entities.Get(i)->GetId() == id)
-        {
-          return entities.Get(i);
-        }
-      }
-      return 0;
-    }
-
-    iCelEntity* EntityManager::findCelEntById(unsigned int id)
-    {
-      // TODO if id == 0 return 0;
-      for (size_t i = 0; i < entities.GetSize(); i++)
-      {
-        if (entities.Get(i)->GetId() == id)
-        {
-          return entities.Get(i)->GetCelEntity();
-        }
-      }
-      return 0;
-    }
-
     bool EntityManager::GetEntityEvents(iEvent& ev)
     {
       using namespace PT::Events;
@@ -232,7 +197,7 @@ namespace PT
     {
       using namespace PT::Events;
 
-      ev.Retrieve("entityId", playerId);
+      ev.Retrieve("entityId", primaryId);
 
       return true;
     }
@@ -247,29 +212,36 @@ namespace PT
       std::string name = Helper::GetString(&ev, "entityName");
       unsigned int type = EntityHelper::GetEntityType(&ev, evmgr);
 
-      if ( findPtEntById(id) )
+      if ( findEntById(id) )
       {
         Report(PT::Warning, "AddEntity: Skipping already existing entity '%s(%d)'", name.c_str(), id);
         return true;
       }
 
-      Entity* entity;
+      PT::Entity::Entity* entity = NULL;
+      boost::shared_ptr<PT::Entity::Entity> entityp;
 
-      if (type == Common::Entity::DoorEntityType) entity = new DoorEntity(ev);
-      else if (type == Common::Entity::ItemEntityType) entity = new ItemEntity(ev);
-      else if (type == Common::Entity::MountEntityType) entity = new MountEntity(ev);
-      else if (type == Common::Entity::NPCEntityType) entity = new NpcEntity(ev);
-      else if (type == Common::Entity::PCEntityType && playerId == id) entity = PlayerEntity::Instance(&ev);
-      else if (type == Common::Entity::PCEntityType) entity = new PcEntity(ev);
+      if (type == Common::Entity::DoorEntityType) entity = new PT::Entity::DoorEntity(ev);
+      else if (type == Common::Entity::ItemEntityType) entity = new PT::Entity::ItemEntity(ev);
+      else if (type == Common::Entity::MountEntityType) entity = new PT::Entity::MountEntity(ev);
+      else if (type == Common::Entity::NPCEntityType) entity = new PT::Entity::NpcEntity(ev);
+      else if (type == Common::Entity::PCEntityType && primaryId == id) 
+        entityp = PT::Entity::PlayerEntity::Instance(&ev);
+      else if (type == Common::Entity::PCEntityType) entity = new PT::Entity::PcEntity(ev);
       else
       {
         Report(PT::Error, "Invalid entity type: %d !", type);
         return true;
       }
+      if (!entityp) entityp = boost::shared_ptr<PT::Entity::Entity>(entity);
+      entity = entityp.get();
 
-      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (playerId == id) ? " as me":"");
+      // set the entity's pl
+      ((Entity*)entity)->pl = pl;
+
+      Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (primaryId == id) ? " as me":"");
       // Add our entity to the list.
-      entities.Push(entity);
+      entities.push_back(entityp);
 
       return true;
     }
@@ -278,14 +250,14 @@ namespace PT
     {
       unsigned int id = PT::Events::EntityHelper::GetEntityID(&ev);
 
-      for (size_t i = 0; i < entities.GetSize(); i++)
+      std::vector<Common::Entity::Entityp>::iterator i;
+      for (i = entities.begin();  i < entities.end();  i++)
       {
-        if (entities[i]->GetId() == id)
+        if ((*i)->GetId() == id)
         {
-          Report(PT::Notify, "Removing Entity '%s(%d)'.", entities[i]->GetName().c_str(), id);
-          entities[i]->Reset();
-          pl->RemoveEntity(entities[i]->GetCelEntity());
-          entities.DeleteIndex(i);
+          Report(PT::Notify, "Removing Entity '%s(%d)'.", (*i)->GetName().c_str(), id);
+          (*i)->Reset();
+          entities.erase(i);
         }
       }
 
@@ -315,7 +287,7 @@ namespace PT
 
       Report(PT::Debug, "Equip for '%d': item %d in slot %d with mesh %s from file %s", id, itemId, slotId, mesh, file);
 
-      Entity* entity = findPtEntById(id);
+      Common::Entity::Entityp entity = findEntById(id);
       if (entity)
       {
         if (entity->GetType() == Common::Entity::PlayerEntityType ||
@@ -324,11 +296,11 @@ namespace PT
         {
           if (!itemId == 0)
           {
-            ((PcEntity*) entity)->GetEquipment().Equip(slotId, itemId, mesh, file);
+            ((PT::Entity::PcEntity*) entity.get())->GetEquipment().Equip(slotId, itemId, mesh, file);
           }
           else
           {
-            ((PcEntity*) entity)->GetEquipment().UnEquip(slotId);
+            ((PT::Entity::PcEntity*) entity.get())->GetEquipment().UnEquip(slotId);
           }
         }
       }
@@ -348,19 +320,19 @@ namespace PT
       bool canControl = false;
       ev.Retrieve("canControl", canControl);
 
-      Entity* entity = findPtEntById(entityId);
-      Entity* mount = findPtEntById(mountId);
+      Common::Entity::Entityp entity = findEntById(entityId);
+      Common::Entity::Entityp mount = findEntById(mountId);
       if (entity && mount)
       {
         if ((entity->GetType() == Common::Entity::PlayerEntityType ||
           entity->GetType() == Common::Entity::PCEntityType) &&
           mount->GetType() == Common::Entity::MountEntityType)
         {
-          MountEntity* m = static_cast<MountEntity*>(mount);
-          m->Mount(entity);
+          PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
+          m->Mount(static_cast<Entity*>(entity.get()));
           //Set camera to follow the mount after mounting. Only done for player's mount.
           //TODO: This is just a temporary solution. It will not work nicely with boats etc.
-          if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
+          if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
         }
       }
 
@@ -376,18 +348,18 @@ namespace PT
       unsigned int mountId = -1;
       ev.Retrieve("mountId", mountId);
 
-      Entity* entity = findPtEntById(entityId);
-      Entity* mount = findPtEntById(mountId);
+      Common::Entity::Entityp entity = findEntById(entityId);
+      Common::Entity::Entityp mount = findEntById(mountId);
       if (entity && mount)
       {
         if ((entity->GetType() == Common::Entity::PlayerEntityType ||
           entity->GetType() == Common::Entity::PCEntityType) &&
           mount->GetType() == Common::Entity::MountEntityType)
         {
-          MountEntity* m = static_cast<MountEntity*>(mount);
-          m->UnMount(entity);
+          PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
+          m->UnMount(static_cast<Entity*>(entity.get()));
           //Set camera to follow the player. See the TODO comment above.
-          if (playerId == entity->GetId()) PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PlayerEntity::Instance()->GetCelEntity());
+          if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PT::Entity::PlayerEntity::Instance()->GetCelEntity());
         }
       }
 
@@ -406,7 +378,7 @@ namespace PT
         if (!pcprop) return false;
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
-        Entity* ptEnt = findPtEntById(id);
+        Entity* ptEnt = dynamic_cast<Entity*> (findEntById(id).get());
         if (!ptEnt) return false;
 
         ptEnt->Interact();
@@ -415,27 +387,13 @@ namespace PT
       return true;
     }
 
-    void EntityManager::delAllEntities()
-    {
-      while (!entities.IsEmpty())
-      {
-        Entity* ent = entities.Pop();
-        if (ent->GetId() != playerId)
-        {
-          pl->RemoveEntity(ent->GetCelEntity());
-          delete ent;
-        }
-      }
-      Report(PT::Debug, "Deleted all Entities! %d remain...", pl->GetEntityCount() );
-    }
-
     void EntityManager::DrUpdateOwnEntity()
     {
       DrUpdateRequestMessage drmsg;
 
-      if (!PlayerEntity::Instance()) return;
+      if (!PT::Entity::PlayerEntity::Instance()) return;
 
-      csWeakRef<iCelEntity> playerCelEnt = PlayerEntity::Instance()->GetCelEntity();
+      csWeakRef<iCelEntity> playerCelEnt = PT::Entity::PlayerEntity::Instance()->GetCelEntity();
       if (playerCelEnt.IsValid())
       {
         csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(playerCelEnt, iPcLinearMovement);
@@ -496,11 +454,11 @@ namespace PT
       unsigned int poseId = -1;
       ev.Retrieve("poseId", poseId);
 
-      Entity* entity = findPtEntById(id);
+      Entity* entity = dynamic_cast<Entity*>(findEntById(id).get());
       if (entity) entity->Pose(poseId);
 
       return true;
     }
 
   } // Entity namespace
-} // PT namespace
+} // Client namespace

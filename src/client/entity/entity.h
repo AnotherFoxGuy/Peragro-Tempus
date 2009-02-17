@@ -23,23 +23,18 @@
 
 #include <csutil/ref.h>
 
-#include <physicallayer/entity.h>
-#include <physicallayer/pl.h>
-
-#include <string>
-
 #include "common/event/event.h"
 #include "common/event/eventmanager.h"
 
 #include "include/client/component/component.h"
 
-#include "common/entity/entity.h"
+#include "client/entity/base/entity.h"
 
 #include "common/util/geomhelper.h"
 
 struct iMeshWrapper;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
@@ -49,23 +44,22 @@ namespace PT
      * manipulation. If you want to add a new entity type, inherit this class,
      * or one of its children. Overload the appropriate methods when doing so.
      */
-    class Entity : public Common::Entity::Entity
+    class Entity : public PT::Entity::Entity
     {
+    friend class EntityManager;
+
     protected:
       /// List of components this entity has.
       csRefArray<ComponentInterface> components;
 
       /// List of listeners this entity has.
-      csRefArray<Events::EventHandlerCallback> eventHandlers;
+      csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
       /**
        * This is a convenience constructor possibly needed for children classes.
        * @todo Recheck if this is actually needed.
        */
-      Entity() : celEntity(0) {}
-
-      ///CEL entity of the entity. See the CEL documentation for more info.
-      csWeakRef<iCelEntity> celEntity;
+      Entity() : PT::Entity::Entity() {}
 
       /**
        * Initialises the object's CEL entity. This includes creation of CEL
@@ -96,12 +90,6 @@ namespace PT
        * Virtual destructor.
        */
       virtual ~Entity() {}
-
-      ///@return Entity's CEL entity.
-      iCelEntity* GetCelEntity () const { return celEntity; }
-      ///Make entity use some other CEL entity instead of its own.
-      ///@todo Should we really be allowed to do this?
-      void SetCelEntity (iCelEntity* value) { celEntity = value; }
 
       template<class Interface>
       csRef<Interface> GetComponent(const char* name)
@@ -143,12 +131,7 @@ namespace PT
       void SetPosition(const csVector3& v)
         { Common::Entity::Entity::SetPosition(VectorHelper::Convert(v)); }
 
-      /**
-       * Changes the entity position and sector immediatelly
-       * to the stored values.
-       */
-      virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
-
+      using Common::Entity::Entity::SetFullPosition;
       /**
        * Changes the entity position and sector immediatelly.
        * @param pos New position of an entity.
@@ -159,16 +142,11 @@ namespace PT
                                    const std::string& sector);
 
       /**
-       * Reset any changes this entity might have caused.
-       */
-      virtual void Reset() {}
-
-      /**
        * Set the mesh this entity uses.
        */
       virtual void SetMesh(iMeshWrapper* mesh);
     };
   } // Entity namespace
-} // PT namespace
+} // Client namespace
 
 #endif // PTENTITY_H

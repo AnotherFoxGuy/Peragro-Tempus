@@ -26,20 +26,20 @@
 
 class PointerLibrary;
 
-namespace PT
+namespace Client
 {
   namespace Entity
   {
     class Entity;
   }
-} //PT namespace
+} //Client namespace
 
 
 struct iMesh : public virtual iBase
 {
     SCF_INTERFACE(iMesh, 1,0,0);
 
-    virtual bool Initialize(PointerLibrary*, PT::Entity::Entity*) = 0;
+    virtual bool Initialize(PointerLibrary*, Client::Entity::Entity*) = 0;
 };
 
 

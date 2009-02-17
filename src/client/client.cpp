@@ -202,7 +202,7 @@ namespace PT
 
     if (entityManager)
     {
-      PT::Entity::PlayerEntity *player = Entity::PlayerEntity::Instance();
+      boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
       if (player)
       {
         // Draw the player camera manually.
@@ -415,7 +415,7 @@ namespace PT
     pointerlib.setCursor(cursor);
 
     // Create and Initialize the EntityManager.
-    entityManager = new PT::Entity::EntityManager ();
+    entityManager = new ::Client::Entity::EntityManager ();
     if (!entityManager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
     pointerlib.setEntityManager(entityManager);
@@ -651,7 +651,7 @@ namespace PT
       Report(PT::Warning, "Disconnect!");
 
       //TODO: Make it actually delete all entities like it claims to do...
-      entityManager->delAllEntities();
+      entityManager->RemoveAll();
 
       entityManager->Handle();
 
