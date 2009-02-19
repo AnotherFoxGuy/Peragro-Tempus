@@ -340,6 +340,12 @@
 				RelativePath="..\..\src\client\gui\config\setting.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\config\settingbase.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingcombobox.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\config\settingproperties.cpp">
 			</File>
 			<File
@@ -471,6 +477,12 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\config\setting.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingbase.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\config\settingcombobox.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\config\settingproperties.h">
