@@ -4,7 +4,7 @@
 #include "elements/CEGUICombobox.h"
 #include "elements/CEGUIComboDropList.h"
 #include "elements/CEGUIEditbox.h"
-#include "elements/CEGUIListboxtextItem.h"
+#include "elements/CEGUIListboxTextItem.h"
 #include "elements/CEGUIScrollbar.h"
 #include "CEGUIWindowManager.h"
 
