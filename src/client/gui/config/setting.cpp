@@ -27,7 +27,7 @@ namespace PT
     template<typename T>
     void Setting::FireEvent()
     {
-      if (evName.empty()) return;
+      if (evName.empty() || evName == "None" || evName == "none") return;
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEventQueue> eventQueue = csQueryRegistry<iEventQueue> (object_reg);
       csRef<iEventNameRegistry> nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
@@ -35,6 +35,20 @@ namespace PT
       csRef<iEvent> ev = eventQueue->CreateBroadcastEvent(evNameId);
       T v; Get(v);
       ev->Add(name.c_str(), v);
+      eventQueue->Post(ev);
+    }
+
+    template<>
+    void Setting::FireEvent<CEGUI::String>()
+    {
+      if (evName.empty() || evName == "None" || evName == "none") return;
+      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEventQueue> eventQueue = csQueryRegistry<iEventQueue> (object_reg);
+      csRef<iEventNameRegistry> nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
+      csEventID evNameId = nameRegistry->GetID(evName.c_str());
+      csRef<iEvent> ev = eventQueue->CreateBroadcastEvent(evNameId);
+      CEGUI::String v; Get(v);
+      ev->Add(name.c_str(), v.c_str());
       eventQueue->Post(ev);
     }
 
@@ -57,6 +71,11 @@ namespace PT
           float v; Get(v);
           return CEGUI::PropertyHelper::floatToString(v);
         } break;
+      case String:
+        {
+          CEGUI::String v; Get(v);
+          return v;
+        } break;
       default:
         return "ERROR";
       } // end switch
@@ -70,6 +89,8 @@ namespace PT
         settingType = Int;
       else if (value == "float")
         settingType = Float;
+      else if (value == "string")
+        settingType = String;
       else
         settingType = Undefined;
     }
@@ -77,6 +98,31 @@ namespace PT
 #define GETAPP_CFG                                                  \
     csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager> \
           (PointerLibrary::getInstance()->getObjectRegistry());     \
+
+    //--[Generic]---------------------------
+    void Setting::SetFromString(const CEGUI::String& value)
+    {
+      GETAPP_CFG;
+      switch (settingType)
+      {
+      case Bool:
+        {
+          Set<bool>(CEGUI::PropertyHelper::stringToBool(value));
+        } break;
+      case Int:
+        {
+          Set<int>(CEGUI::PropertyHelper::stringToInt(value));
+        } break;
+      case Float:
+        {
+          Set<float>(CEGUI::PropertyHelper::stringToFloat(value));
+        } break;
+      case String:
+        {
+          Set<CEGUI::String>(value);
+        } break;
+      }
+    }
 
     //--[Bool]------------------------------
     template<>
@@ -127,6 +173,23 @@ namespace PT
       app_cfg->SetFloat(name.c_str(), value);
       app_cfg->Save();
       FireEvent<float>();
+    }
+
+    //--[String]------------------------------
+    template<>
+    void Setting::Get<CEGUI::String>(CEGUI::String& value)
+    {
+      GETAPP_CFG;
+      value = app_cfg->GetStr(name.c_str(), "");
+    }
+
+    template<>
+    void Setting::Set<CEGUI::String>(const CEGUI::String& value)
+    {
+      GETAPP_CFG;
+      app_cfg->SetStr(name.c_str(), value.c_str());
+      app_cfg->Save();
+      FireEvent<CEGUI::String>();
     }
 
   } // GUI namespace

@@ -36,6 +36,7 @@
 
 //Custom windows
 #include "config/settingslider.h"
+#include "config/settingcombobox.h"
 
 const char* const dialogConfigFile = "/UserData/dialog.cfg";
 
@@ -125,6 +126,13 @@ namespace PT
         wfMgr->addFalagardWindowMapping("Peragro/SettingSlider",
                                         "CEGUI/SettingSlider",
                                         "Peragro/SettingSlider",
+                                        "Falagard/Default");
+
+        wfMgr->addFactory(&CEGUI_WINDOW_FACTORY(SettingComboBox));
+        //wfMgr->addFactory<SettingSliderFactory>();
+        wfMgr->addFalagardWindowMapping("Peragro/SettingComboBox",
+                                        "CEGUI/SettingComboBox",
+                                        "Peragro/SettingComboBox",
                                         "Falagard/Default");
 
         // Initialize the skin manager.

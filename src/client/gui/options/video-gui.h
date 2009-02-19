@@ -41,15 +41,6 @@ namespace PT
         bool OnDropListResolution(const CEGUI::EventArgs& e);
         void CreateDropListResolution();
 
-        void CreateFullScreenCheckBox();
-        bool OnFullScreenCheckBox(const CEGUI::EventArgs& e);
-
-        bool OnDropListTextureQuality(const CEGUI::EventArgs& e);
-        void CreateDropListTextureQuality();
-
-        bool OnDropListTextureFiltering(const CEGUI::EventArgs& e);
-        void CreateDropListTextureFiltering();
-
         bool OnMultisampleSliderChanged(const CEGUI::EventArgs &e);
         void CreateMultisampleSlider();
 

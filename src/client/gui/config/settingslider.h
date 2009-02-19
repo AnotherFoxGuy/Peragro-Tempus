@@ -2,15 +2,7 @@
 #ifndef SETTINGSLIDER_H
 #define SETTINGSLIDER_H
 
-//#include <CEGUI.h>
-#include <CEGUIBase.h>
-#include <CEGUIWindow.h>
-#include <CEGUIWindowFactory.h>
-
-#include "setting.h"
-#include "settingproperties.h"
-
-#include <boost/shared_ptr.hpp>
+#include "settingbase.h"
 
 
 #if defined(_MSC_VER)
@@ -24,27 +16,19 @@ namespace CEGUI
   \brief
     Base class for the SettingSlider widget
   */
-  class /*CEGUIEXPORT*/ SettingSlider : public Window
+  class /*CEGUIEXPORT*/ SettingSlider : public SettingBase
   {
   private:
-    static SettingProperties::ConfigType d_ConfigType;
-    static SettingProperties::ConfigName d_ConfigName;
-    static SettingProperties::EventName d_EventName;
     static SettingProperties::MinimumValue d_MinimumValue;
 
   private:
-    virtual void onTextChanged(WindowEventArgs& e);
     virtual void onFontChanged(WindowEventArgs& e);
 
   private:
     bool onSliderChanged(const EventArgs& e);
 
   private:
-    void Update();
-    PT::GUI::Setting setting;
-    String configType;
-    String configName;
-    String eventName;
+    virtual void Update();
     float minVal;
 
   protected:
@@ -54,7 +38,6 @@ namespace CEGUI
       return Window::testClassName_impl(class_name);
     }
 
-    Window* getNameW() const;
     Slider* getSliderW() const;
     Window* getValueW() const;
 
@@ -64,26 +47,15 @@ namespace CEGUI
     /// Window factory name
     static const String WidgetTypeName;
 
-    static const String NameNameSuffix;
     static const String SliderNameSuffix;
     static const String ValueNameSuffix;
 
   public:
-    virtual bool isHit(const Point& position) const {return false;}
     virtual void initialiseComponents(void);
 
   public:
     SettingSlider(const String& type, const String& name);
     virtual ~SettingSlider(void);
-
-    const String& getConfigType() const;
-    void setConfigType(const String& value);
-
-    const String& getConfigName() const;
-    void setConfigName(const String& value);
-
-    const String& getEventName() const;
-    void setEventName(const String& value);
 
     float getMinimumValue() const;
     void setMinimumValue(const float& value);

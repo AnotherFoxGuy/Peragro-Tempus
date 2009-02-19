@@ -26,9 +26,6 @@
 #include <CEGUILogger.h>
 #include <ivaria/icegui.h>
 
-#include "common/reporter/reporter.h"
-#include "common/event/eventmanager.h"
-#include "common/event/interfaceevent.h"
 
 namespace PT
 {
@@ -58,59 +55,9 @@ namespace PT
         // Load the layout.
         window = GUIWindow::LoadLayout("client/options/camera.xml");
 
-        app_cfg = csQueryRegistry<iConfigManager>
-          (PointerLibrary::getInstance()->getObjectRegistry());
-        if (!app_cfg)
-        {
-          Report(PT::Error, "Can't find the config manager!");
-          return false;
-        }
-
-        // Set up the Adaptive distance clipping checkbox and spinners.
-        CreateAdaptiveClippingCheckBox();
-        btn = winMgr->getWindow("Options/Camera/Distance_Clipping");
-        btn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged,
-          CEGUI::Event::Subscriber(&CameraOptionsWindow::OnAdaptiveClippingCheckBox, this));
-
-        // Register listener for distance clipping shortcut.
-        PT_SETUP_HANDLER
-        PT_REGISTER_LISTENER(CameraOptionsWindow, ToggleDistClip, "input.DistanceClipping")
-
         return true;
       } // end ReloadWindow()
 
-      void CameraOptionsWindow::SendUpdateEvent()
-      {
-        PT::Events::EventManager* evmgr =
-          PointerLibrary::getInstance()->getEventManager();
-        evmgr->AddEvent(evmgr->CreateEvent("interface.options.view"));
-      } // end SendUpdateEvent()
-
-      bool CameraOptionsWindow::ToggleDistClip(iEvent& e)
-      {
-        CreateAdaptiveClippingCheckBox();
-        return false;
-      } // end ToggleDistClip()
-
-      bool CameraOptionsWindow::OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e)
-      {
-        btn = winMgr->getWindow("Options/Camera/Distance_Clipping");
-        bool dc = ((CEGUI::Checkbox*)btn)->isSelected();
-
-        app_cfg->SetBool("Peragro.Video.DistanceClipping", dc);
-        SendUpdateEvent();
-        app_cfg->Save();
-        return true;
-      } // end OnAdaptiveClippingCheckBox()
-
-      void CameraOptionsWindow::CreateAdaptiveClippingCheckBox()
-      {
-        btn = winMgr->getWindow("Options/Camera/Distance_Clipping");
-
-        bool dc = app_cfg->GetBool("Peragro.Video.DistanceClipping", false);
-
-        ((CEGUI::Checkbox*)btn)->setSelected(dc);
-      } // end CreateAdaptiveClippingCheckBox()
 
     } // Windows namespace
   } // GUI namespace

@@ -59,6 +59,18 @@ namespace SettingProperties
     void set(PropertyReceiver* receiver, const String& value);
   };
 
+  class Values : public Property
+  {
+  public:
+    Values() : Property("Values",
+                        "Value is a ; seperated list of Name:value pairs.",
+                        "")
+    {}
+
+    String get(const PropertyReceiver* receiver) const;
+    void set(PropertyReceiver* receiver, const String& value);
+  };
+
 
 } // end SettingProperties
 } // end CEGUI

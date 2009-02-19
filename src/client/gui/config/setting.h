@@ -74,11 +74,18 @@ namespace PT
       void Set(const T& value);
 
       CEGUI::String GetAsString();
+      void SetFromString(const CEGUI::String& value);
     };
 
     template<> void Setting::Get<bool>(bool& value);
     template<> void Setting::Get<int>(int& value);
     template<> void Setting::Get<float>(float& value);
+    template<> void Setting::Get<CEGUI::String>(CEGUI::String& value);
+
+    template<> void Setting::Set<bool>(const bool& value);
+    template<> void Setting::Set<int>(const int& value);
+    template<> void Setting::Set<float>(const float& value);
+    template<> void Setting::Set<CEGUI::String>(const CEGUI::String& value);
 
   } // GUI namespace
 } // PT namespace

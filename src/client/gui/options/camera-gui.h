@@ -31,22 +31,11 @@ namespace PT
     {
       class CameraOptionsWindow : public GUIWindow
       {
-      private:
-        csRef<iConfigManager> app_cfg;
-
-        void SendUpdateEvent();
-        bool ToggleDistClip(iEvent& e);
-
-      private:
-        void CreateAdaptiveClippingCheckBox();
-        bool OnAdaptiveClippingCheckBox(const CEGUI::EventArgs& e);
-
       public:
         CameraOptionsWindow(GUIManager* guiManager);
         virtual ~CameraOptionsWindow();
         bool Create();
         bool ReloadWindow();
-
       };
 
     } // Windows namespace

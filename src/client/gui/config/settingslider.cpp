@@ -11,23 +11,16 @@ namespace CEGUI
   const String SettingSlider::EventNamespace("SettingSlider");
   const String SettingSlider::WidgetTypeName("CEGUI/SettingSlider");
 
-  SettingProperties::ConfigType SettingSlider::d_ConfigType;
-  SettingProperties::ConfigName SettingSlider::d_ConfigName;
-  SettingProperties::EventName SettingSlider::d_EventName;
   SettingProperties::MinimumValue SettingSlider::d_MinimumValue;
 
   //Child Widget name suffix constants
-  const String SettingSlider::NameNameSuffix( "__auto_name__" );
   const String SettingSlider::SliderNameSuffix( "__auto_slider__" );
   const String SettingSlider::ValueNameSuffix( "__auto_value__" );
 
 
   CEGUI_DEFINE_WINDOW_FACTORY(SettingSlider)
-  SettingSlider::SettingSlider(const String& type, const String& name) : Window(type, name), minVal(0.0f)
+  SettingSlider::SettingSlider(const String& type, const String& name) : SettingBase(type, name), minVal(0.0f)
   {
-    addProperty(&d_ConfigType);
-    addProperty(&d_ConfigName);
-    addProperty(&d_EventName);
     addProperty(&d_MinimumValue);
   }
 
@@ -63,12 +56,6 @@ namespace CEGUI
     }
   }
 
-  void SettingSlider::onTextChanged(WindowEventArgs& e)
-  {
-    Window* name = getNameW();
-    name->setText(Window::getText());
-  }
-
   void SettingSlider::onFontChanged(WindowEventArgs& e)
   {
     Window* name = getNameW();
@@ -94,39 +81,6 @@ namespace CEGUI
     return true;
   }
 
-  const String& SettingSlider::getConfigType() const
-  {
-    return configType;
-  }
-
-  void SettingSlider::setConfigType(const String& value)
-  {
-    configType = value;
-    Update();
-  }
-
-  const String& SettingSlider::getConfigName() const
-  {
-    return configName;
-  }
-
-  void SettingSlider::setConfigName(const String& value)
-  {
-    configName = value;
-    Update();
-  }
-  const String& SettingSlider::getEventName() const
-  {
-    return configName;
-  }
-
-  void SettingSlider::setEventName(const String& value)
-  {
-    eventName = value;
-    Update();
-  }
-
-
   float SettingSlider::getMinimumValue() const
   {
     return minVal;
@@ -136,11 +90,6 @@ namespace CEGUI
   {
     minVal = value;
     Update();
-  }
-
-  Window* SettingSlider::getNameW() const
-  {
-    return WindowManager::getSingleton().getWindow(getName() + NameNameSuffix);
   }
 
   Slider* SettingSlider::getSliderW() const
