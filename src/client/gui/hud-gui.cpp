@@ -382,15 +382,15 @@ namespace PT
 
       bool HUDWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/playerhud.xml");
+        window = GUIWindow::LoadLayout ("client/playerhud.layout");
         GUIWindow::AddToRoot(window);
-        window = GUIWindow::LoadLayout ("client/entityhud.xml");
+        window = GUIWindow::LoadLayout ("client/entityhud.layout");
         GUIWindow::AddToRoot(window);
-        window = GUIWindow::LoadLayout ("client/skillhud.xml");
+        window = GUIWindow::LoadLayout ("client/skillhud.layout");
         GUIWindow::AddToRoot(window);
-        //GUIWindow::CreateGUIWindow ("playerhud.xml");
-        //GUIWindow::CreateGUIWindow ("entityhud.xml");
-        //GUIWindow::CreateGUIWindow ("skillhud.xml");
+        //GUIWindow::CreateGUIWindow ("playerhud.layout");
+        //GUIWindow::CreateGUIWindow ("entityhud.layout");
+        //GUIWindow::CreateGUIWindow ("skillhud.layout");
         winMgr = cegui->GetWindowManagerPtr ();
 
         selectedskill = new SelectedSkill();

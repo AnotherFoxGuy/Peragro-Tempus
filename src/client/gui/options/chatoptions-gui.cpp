@@ -80,7 +80,7 @@ namespace PT
       bool ChatOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout ("client/options/chat.xml");
+        window = GUIWindow::LoadLayout ("client/options/chat.layout");
 
         // Set up the "hide input field after sending" checkbox.
         CreateHideAfterSendCheckBox();

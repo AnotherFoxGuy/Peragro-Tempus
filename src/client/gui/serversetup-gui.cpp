@@ -76,7 +76,7 @@ namespace PT
 
       bool ServerSetupWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/serversetup.xml");
+        window = GUIWindow::LoadLayout ("client/serversetup.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

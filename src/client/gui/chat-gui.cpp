@@ -143,7 +143,7 @@ namespace PT
 
       bool ChatWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/chatlog.xml");
+        window = GUIWindow::LoadLayout ("client/chatlog.layout");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
 

@@ -107,7 +107,7 @@ namespace PT
 
       bool SellWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/sell.xml");
+        window = GUIWindow::LoadLayout ("client/sell.layout");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
 

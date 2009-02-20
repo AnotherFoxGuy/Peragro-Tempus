@@ -301,7 +301,7 @@ namespace PT
       {
         numberOfSlots = 16;
 
-        window = GUIWindow::LoadLayout ("client/trade-pc.xml");
+        window = GUIWindow::LoadLayout ("client/trade-pc.layout");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
 

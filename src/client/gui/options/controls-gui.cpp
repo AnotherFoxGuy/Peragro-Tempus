@@ -249,7 +249,7 @@ namespace PT
       bool ControlOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout("client/options/controls.xml");
+        window = GUIWindow::LoadLayout("client/options/controls.layout");
 
         // Set up the controls list.
         btn = winMgr->getWindow("Options/Controls/List");

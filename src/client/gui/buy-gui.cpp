@@ -240,7 +240,7 @@ namespace PT
 
       bool BuyWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/buy.xml");
+        window = GUIWindow::LoadLayout ("client/buy.layout");
         GUIWindow::AddToRoot(window);
 
         dragdrop = guimanager->GetDragDrop();

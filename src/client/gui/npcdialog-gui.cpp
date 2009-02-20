@@ -141,7 +141,7 @@ namespace PT
 
       bool NpcDialogWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/npcdialog.xml");
+        window = GUIWindow::LoadLayout ("client/npcdialog.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

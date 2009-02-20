@@ -60,7 +60,7 @@ namespace PT
       bool MovementOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout ("client/options/movement.xml");
+        window = GUIWindow::LoadLayout ("client/options/movement.layout");
 
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getObjectRegistry());

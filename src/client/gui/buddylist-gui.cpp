@@ -121,7 +121,7 @@ namespace PT
 
       bool BuddyWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/buddylist.xml");
+        window = GUIWindow::LoadLayout ("client/buddylist.layout");
         GUIWindow::AddToRoot(window);
 
         // Create the UserTab

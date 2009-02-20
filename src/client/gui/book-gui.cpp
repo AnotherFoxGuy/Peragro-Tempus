@@ -128,7 +128,7 @@ namespace PT
         using namespace PT::Events;
 
         // Load the layout and parent it to the root window.
-        window = GUIWindow::LoadLayout ("client/book.xml");
+        window = GUIWindow::LoadLayout ("client/book.layout");
         GUIWindow::AddToRoot(window);
 
         //Register the close event.

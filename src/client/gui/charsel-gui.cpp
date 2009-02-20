@@ -240,9 +240,9 @@ namespace PT
 
       bool SelectCharWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/charselect.xml");
+        window = GUIWindow::LoadLayout ("client/charselect.layout");
         GUIWindow::AddToRoot(window);
-        window = GUIWindow::LoadLayout ("client/charselectnew.xml");
+        window = GUIWindow::LoadLayout ("client/charselectnew.layout");
         GUIWindow::AddToRoot(window);
 
         // Register the button events.

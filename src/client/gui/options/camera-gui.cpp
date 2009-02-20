@@ -53,7 +53,7 @@ namespace PT
       bool CameraOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout("client/options/camera.xml");
+        window = GUIWindow::LoadLayout("client/options/camera.layout");
 
         return true;
       } // end ReloadWindow()

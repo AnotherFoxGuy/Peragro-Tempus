@@ -156,7 +156,7 @@ namespace PT
         {
           vfs->ChDir ("/peragro/gui/client/");
           CEGUI::Window* root = winMgr->getWindow("Root");
-          btn = winMgr->loadWindowLayout("whisper.xml", nickstr);
+          btn = winMgr->loadWindowLayout("whisper.layout", nickstr);
           root->addChildWindow(btn);
           btn->setUserString("Nickname",nickstr);
           btn->setText(nickstr);

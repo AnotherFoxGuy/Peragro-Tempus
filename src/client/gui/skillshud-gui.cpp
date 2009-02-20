@@ -339,9 +339,9 @@ namespace PT
 
       bool SkillsHUDWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/entityhud.xml");
+        window = GUIWindow::LoadLayout ("client/entityhud.layout");
         GUIWindow::AddToRoot(window);
-        window = GUIWindow::LoadLayout ("client/skillhud.xml");
+        window = GUIWindow::LoadLayout ("client/skillhud.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

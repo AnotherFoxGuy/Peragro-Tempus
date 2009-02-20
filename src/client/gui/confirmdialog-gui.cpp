@@ -76,7 +76,7 @@ namespace PT
       {
         winMgr = cegui->GetWindowManagerPtr ();
 
-        window = GUIWindow::LoadLayout ("client/okdialog.xml");
+        window = GUIWindow::LoadLayout ("client/okdialog.layout");
         GUIWindow::AddToRoot(window);
 
         // Get the Ok Button
@@ -150,7 +150,7 @@ namespace PT
       {
         if (!winMgr->isWindowPresent("ConfirmDialog/Frame"))
         {
-          window = GUIWindow::LoadLayout ("client/confirmdialog.xml");
+          window = GUIWindow::LoadLayout ("client/confirmdialog.layout");
           GUIWindow::AddToRoot(window);
         }
 

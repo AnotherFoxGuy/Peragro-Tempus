@@ -282,7 +282,7 @@ namespace PT
 
       bool LoginWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/login.xml");
+        window = GUIWindow::LoadLayout ("client/login.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

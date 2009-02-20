@@ -150,7 +150,7 @@ namespace PT
 
       bool OptionsWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/options.xml");
+        window = GUIWindow::LoadLayout ("client/options.layout");
         GUIWindow::AddToRoot(window);
 
         // Hide the Option menu.

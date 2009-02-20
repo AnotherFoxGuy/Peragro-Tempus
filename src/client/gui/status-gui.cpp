@@ -137,7 +137,7 @@ namespace PT
       {
         using namespace CEGUI;
 
-        window = GUIWindow::LoadLayout ("client/status.xml");
+        window = GUIWindow::LoadLayout ("client/status.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

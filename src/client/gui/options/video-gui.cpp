@@ -76,7 +76,7 @@ namespace PT
       bool VideoOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout("client/options/video.xml");
+        window = GUIWindow::LoadLayout("client/options/video.layout");
 
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getObjectRegistry());

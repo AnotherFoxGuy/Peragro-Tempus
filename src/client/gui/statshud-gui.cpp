@@ -133,7 +133,7 @@ namespace PT
 
       bool StatsHUDWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/statshud.xml");
+        window = GUIWindow::LoadLayout ("client/statshud.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();

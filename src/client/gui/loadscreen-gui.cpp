@@ -57,7 +57,7 @@ namespace PT
 
       bool LoadScreenWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/loadscreen.xml");
+        window = GUIWindow::LoadLayout ("client/loadscreen.layout");
         GUIWindow::AddToRoot(window);
 
         if (!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen"))

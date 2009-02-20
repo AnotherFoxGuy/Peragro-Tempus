@@ -152,7 +152,7 @@ namespace PT
 
       bool ChatInputWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/chatinput.xml");
+        window = GUIWindow::LoadLayout ("client/chatinput.layout");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();
 

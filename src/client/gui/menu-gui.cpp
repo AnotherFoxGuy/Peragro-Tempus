@@ -86,7 +86,7 @@ namespace PT
         CEGUI::Window* btn;
 
         // Load the layout and parent it to the root window.
-        window = GUIWindow::LoadLayout ("client/menu.xml");
+        window = GUIWindow::LoadLayout ("client/menu.layout");
         GUIWindow::AddToRoot(window);
 
         // Register the menu button event.

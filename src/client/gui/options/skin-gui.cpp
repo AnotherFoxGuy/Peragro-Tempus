@@ -71,7 +71,7 @@ namespace PT
       bool SkinOptionsWindow::ReloadWindow()
       {
         // Load the layout.
-        window = GUIWindow::LoadLayout ("client/options/skin.xml");
+        window = GUIWindow::LoadLayout ("client/options/skin.layout");
 
         // Readd the skins.
         for (size_t i = 0; i < skinList.GetSize();i++)

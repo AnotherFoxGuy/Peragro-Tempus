@@ -171,7 +171,7 @@ namespace PT
         app_cfg = csQueryRegistry<iConfigManager>
           (PointerLibrary::getInstance()->getClient()->GetObjectRegistry());
 
-        window = GUIWindow::LoadLayout ("client/servers.xml");
+        window = GUIWindow::LoadLayout ("client/servers.layout");
         GUIWindow::AddToRoot(window);
 
         winMgr = cegui->GetWindowManagerPtr ();
