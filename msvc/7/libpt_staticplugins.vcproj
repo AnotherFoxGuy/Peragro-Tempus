@@ -7,11 +7,10 @@
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
-		<Platform
-			Name="Win32"/>
-	</Platforms>
+  		<Platform Name="Win32"/>
+    	</Platforms>
 	<Configurations>
-  		<Configuration
+            		<Configuration
 			Name="Release (with static libs)|Win32"
 			OutputDirectory="..\..\out\release7\build\libpt_staticplugins\"
 			IntermediateDirectory="..\..\out\release7\build\libpt_staticplugins\"
@@ -24,10 +23,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libpt_staticplugins\pt_staticplugins.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\release7\build\libpt_staticplugins\Win32\pt_staticplugins.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -36,9 +34,10 @@
 				ObjectFile="..\..\out\release7\build\libpt_staticplugins\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="false"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -50,7 +49,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
+				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release7\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -60,7 +59,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -75,7 +74,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -83,7 +82,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-  		<Configuration
+      		<Configuration
 			Name="Release (with DLLs)|Win32"
 			OutputDirectory="..\..\out\release7\build\libpt_staticplugins\"
 			IntermediateDirectory="..\..\out\release7\build\libpt_staticplugins\"
@@ -96,10 +95,9 @@
 				StringPooling="TRUE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
-				DebugInformationFormat="3"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release7\build\libpt_staticplugins\pt_staticplugins.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release7\build\libpt_staticplugins\Win32\pt_staticplugins.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -108,9 +106,10 @@
 				ObjectFile="..\..\out\release7\build\libpt_staticplugins\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="false"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -122,7 +121,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
+				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release7\libs;$(CEL)\out\release7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -132,7 +131,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -147,7 +146,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -155,7 +154,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-    		<Configuration
+                		<Configuration
 			Name="Debug (with static libs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\libpt_staticplugins\"
 			IntermediateDirectory="..\..\out\debug7\build\libpt_staticplugins\"
@@ -166,12 +165,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
-				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libpt_staticplugins\pt_staticplugins.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libpt_staticplugins\Win32\pt_staticplugins.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -180,9 +178,10 @@
 				ObjectFile="..\..\out\debug7\build\libpt_staticplugins\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="false"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -192,7 +191,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug7\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -202,7 +201,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -217,7 +216,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -225,7 +224,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-  		<Configuration
+      		<Configuration
 			Name="Debug (with DLLs)|Win32"
 			OutputDirectory="..\..\out\debug7\build\libpt_staticplugins\"
 			IntermediateDirectory="..\..\out\debug7\build\libpt_staticplugins\"
@@ -236,12 +235,11 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				MinimalRebuild="TRUE"
-				DebugInformationFormat="4"
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug7\build\libpt_staticplugins\pt_staticplugins.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug7\build\libpt_staticplugins\Win32\pt_staticplugins.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -250,9 +248,10 @@
 				ObjectFile="..\..\out\debug7\build\libpt_staticplugins\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="false"
 				TreatWChar_tAsBuiltInType="false"
 				ForceConformanceInForLoopScope="true"
+				DebugInformationFormat="4"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -262,7 +261,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
+				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug7\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug7\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug7\libs;$(CEL)\out\debug7\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -272,7 +271,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -287,7 +286,7 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;CS_STATIC_LINKED;USE_CEL;PROJECTGEN_VERSION=7"
 				AdditionalIncludeDirectories=".;..\..\plugins;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
@@ -295,7 +294,7 @@
 			<Tool
 				Name="VCWebDeploymentTool"/>
 		</Configuration>
-  	</Configurations>
+              	</Configurations>
 	<Files>
 		<Filter
 			Name="Source Files"
@@ -306,23 +305,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_input_playercontrols_playercontrols.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -331,23 +330,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_input_viewcontrols_viewcontrols.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -356,23 +355,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_mesh_mesh.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -381,23 +380,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_move_networkmove.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -406,23 +405,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_move_viewbob_viewbob.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -431,23 +430,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -456,23 +455,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcachemanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -481,23 +480,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmddate_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -506,23 +505,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmddbg_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -531,23 +530,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdemotes_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -556,23 +555,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdgroup_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -581,23 +580,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdhelp_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -606,23 +605,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdlogout_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -631,23 +630,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -656,23 +655,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdquit_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -681,23 +680,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdrelocate_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -706,23 +705,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdsay_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -731,23 +730,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcmdwhisper_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -756,23 +755,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_networkmove_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -781,23 +780,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_playercontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -806,23 +805,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewbob_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -831,23 +830,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponent_viewcontrols_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -856,23 +855,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentmesh_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -881,23 +880,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -906,23 +905,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcsclipboard_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -931,23 +930,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libeffectsmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -956,23 +955,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_mybody_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -981,23 +980,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_solarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1006,23 +1005,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libloader_starbox_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1031,23 +1030,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libmybody_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1056,23 +1055,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libmystarbox_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1081,23 +1080,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libsolarsys_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1106,23 +1105,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libsoundmanager_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1131,23 +1130,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libterrained_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1156,23 +1155,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libworldloader_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1181,23 +1180,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_cachemanager_cacheentry.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1206,23 +1205,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_cachemanager_cachemanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1231,23 +1230,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddate_cmddate.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1256,23 +1255,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_cmddbg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1281,23 +1280,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1306,23 +1305,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdemotes_cmdemotes.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1331,23 +1330,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdgroup_cmdgroup.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1356,23 +1355,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdhelp_cmdhelp.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1381,23 +1380,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdlogout_cmdlogout.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1406,23 +1405,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdquit_cmdquit.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1431,23 +1430,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdrelocate_cmdrelocate.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1456,23 +1455,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdsay_cmdsay.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1481,23 +1480,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_cmdwhisper_cmdwhisper.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1506,23 +1505,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_commands_manager_cmdmanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1531,23 +1530,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_effectsmanager_effect.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1556,23 +1555,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_effectsmanager_effectsmanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1581,23 +1580,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_mybody_loader_mybody.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1606,23 +1605,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_solarsys_loader_solarsys.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1631,23 +1630,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_loader_starbox_loader_starbox.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1656,23 +1655,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_body.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1681,23 +1680,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybody.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1706,23 +1705,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_mybodyfact.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1731,23 +1730,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mybody_orbit.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1756,23 +1755,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_halogen2.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1781,23 +1780,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_mystarbox.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1806,23 +1805,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_star.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1831,23 +1830,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_mystarbox_system.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1856,23 +1855,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_environment_solarsys_solarsys.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1881,23 +1880,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_gui_clipboard_win32_clipboard.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1906,23 +1905,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_sound_soundmanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1931,23 +1930,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_terrained_terrained.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1956,23 +1955,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_world_resourcemanager.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1981,23 +1980,23 @@
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\plugins_world_world.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 		</Filter>
