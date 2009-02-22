@@ -110,7 +110,7 @@ builds = [
   {
     tag => 'release',
     name => 'Release',
-    defines => ['NDEBUG','_CRT_SECURE_NO_DEPRECATE'],
+    defines => ['NDEBUG'],
     defineskey => 'define',
     cflagskey => 'cflags',
     incdirskey => 'include',
@@ -122,7 +122,7 @@ builds = [
   {
     tag => 'debug',
     name => 'Debug',
-    defines => ['_DEBUG','_CRT_SECURE_NO_DEPRECATE'],
+    defines => ['_DEBUG'],
     defineskey => 'definedebug',
     cflagskey => 'cflagsdebug',
     incdirskey => 'includedebug',
@@ -189,6 +189,28 @@ mutators = [
     namesuffix => ' (with DLLs)',
     defines => ['CS_BUILD_SHARED_LIBS'],
     library_static => 'library'
+  }
+];
+
+#------------------------------------------------------------------------------
+# "Platforms" create seperate platform configurations.
+#------------------------------------------------------------------------------
+platforms = [
+  {
+    name => 'Win32',
+    suffix => '',
+    targetmachine => 1,
+    min_vc_version => 70,
+    debugformat_debug => 4,
+    debugformat_release => 3
+  },
+  {
+    name => 'x64',
+    suffix => '-x64',
+    targetmachine => 17,
+    min_vc_version => 80,
+    debugformat_debug => 3,
+    debugformat_release => 3
   }
 ];
 

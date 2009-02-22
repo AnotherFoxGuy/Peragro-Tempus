@@ -4,3 +4,5 @@ Description cmdwhisper : "Whisper Command" ;
 Plugin cmdwhisper : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmdwhisper : CRYSTAL ;
 LinkWith cmdwhisper : plugins-commands network util tcp-network ;
+#MsvcExternalLibrary cmdwhisper : "wsock32.lib" ;
+

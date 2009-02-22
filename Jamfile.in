@@ -61,8 +61,8 @@ MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
 MsvcGenConfig CRYSTAL.DEFINES ;
 MsvcGenConfig CRYSTAL.CFLAGS ;
 MsvcGenConfig CRYSTAL.LFLAGS ;
-MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
-MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
+MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib wsock32.lib" ;
+MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib wsock32.lib" ;
 MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs .. .. .. CS include ]
   [ ConcatDirs .. .. .. CS include csutil win32 ]

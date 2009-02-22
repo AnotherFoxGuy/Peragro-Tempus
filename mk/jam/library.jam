@@ -160,6 +160,11 @@ rule LibraryStatic
   if ! $(target:D)
   {
     MakeLocate $(target) $(target)($(objects:BS)) : $(LOCATE.OBJECTS)/libs ;
+    SEARCH on $(target) = $(LOCATE.OBJECTS)/libs ;
+  }
+  else
+  {
+    SEARCH on $(target) = $(target:D) ;
   }
 
   if $(NOARSCAN)
@@ -222,6 +227,11 @@ rule LibraryStatic
   if ! ( $(NOARSCAN) || $(NOARUPDATE) || $(KEEPOBJS) )
   {
     RmTemps $(target) : $(objects) ;
+  }
+
+  if ! [ IsElem noinstall : $(options) ]
+  {
+    Depends filelists : [ DoFileListEntries $(target) : : libs-static ] ;
   }
 
   $(<)_CLEANEXTRA += $(target) ;
@@ -289,11 +299,21 @@ rule LibraryShared
   Depends $(target) : $(objects) ;
   $(libname)_CLEANEXTRA += $(target) ;
   Depends $(target) : $(deplibs) ;
-    
-  CFlags $(libname) : [ FDefines CS_$(libname:U)_LIB  ] ;
+  
+  local lib_define_prefix = $(LIBRARY_BUILD_DEFINE_PREFIX:E=$(PACKAGE_NAME:U)) ;
+  CFlags $(libname) : [ FDefines $(lib_define_prefix)_$(libname:U)_LIB  ] ;
   LFlags $(libname) : $(LINKLIBS) ;
     
   SystemLinkSharedLibrary $(libname) : $(target) : $(objects) $(deplibs) : $(linklib) ;
+  
+  if ! [ IsElem noinstall : $(options) ]
+  {
+    Depends filelists : [ DoFileListEntries $(target) : : libs-shared ] ;
+    if $(linklib) != $(target)
+    {
+      Depends filelists : [ DoFileListEntries $(linklib) : : libs-static ] ;
+    }
+  }
   
   if $(LINK.DEBUG.INFO.SEPARATE) = "yes"
   {
@@ -303,6 +323,7 @@ rule LibraryShared
     {
       NoCare $(debugfile) ;
       Depends install_lib : [ DoInstall $(debugfile) : $(libdir) : $(INSTALL_DATA) ] ;
+      Depends filelists : [ DoFileListEntries $(debugfile) : : debug-libs-shared ] ;
     }
     if $(linklib) = $(target)
     {

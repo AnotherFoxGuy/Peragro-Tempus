@@ -412,6 +412,12 @@ rule SystemLinkApplication
   local target = $($(<)_TARGET) ;
 
   Depends $(target) : $(>) ;
+  if ! [ IsElem console : $(3) ] && $(MODE) = optimize
+  {
+    # Like the MSVC projects build GUI applications as such in optimize builds.
+    # In debug mode, let everything be console apps.
+    EXTRALFLAGS on $(target) += -mwindows ;
+  }
   LinkApplication $(target) : $(>) ;
   # setup clean rules
   Clean clean : $(target) ;
@@ -441,10 +447,39 @@ rule SystemInstallApplication
   }
 }
 
+rule SystemDoFileListEntryApplications
+{
+  local target = $($(<)_TARGET) ;
+  local entries = [ DoFileListEntries $(target) : : $(2) ] ;
+  if $(LINK.DEBUG.INFO.SEPARATE) = "yes"
+  {
+    local debugfile = $($(target)_DEBUGFILE) ;
+    entries += [ DoFileListEntries $(debugfile) : : debug-$(2) ] ;
+  }
+  return $(entries) ;
+}
+
+
 rule SystemInstallPlugin
 {
   Depends install_plugin : [ DoInstall $(<) : $(plugindir) $(2) :
       $(INSTALL_PROGRAM) ] ;
+}
+
+rule SystemDoFileListEntryPlugin
+{
+  local target = $($(<)_TARGET) ;
+  local entries = [ DoFileListEntries $(target) : : $(2) ] ;
+  if $(LINK.DEBUG.INFO.SEPARATE) = "yes"
+  {
+    local debugfile = $($(target)_DEBUGFILE) ;
+    entries += [ DoFileListEntries $(debugfile) : : debug-$(2) ] ;
+  }
+  if $(EMBED_META) != "yes" || $(OBJCOPY.AVAILABLE) != "yes"
+  {
+    entries += [ DoFileListEntries $($(<)_METAFILE) : : $(2) ] ;
+  }
+  return $(entries) ;
 }
 
 # SystemLinkPlugin target : objects : options
@@ -579,7 +614,7 @@ actions GenerateImportLib
 
 actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
-  $(CMD.LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS)
+  $(CMD.LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LINKLIBS) $(EXTRALFLAGS)
 }
 
 if $(USE_DLLWRAP) != "yes"
