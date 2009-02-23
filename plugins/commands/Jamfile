@@ -1,5 +1,9 @@
 SubDir TOP plugins commands ;
 
+Description plugins-commands : "command plugin lib" ;
+Library plugins-commands : [ Wildcard *.h *.cpp ] ;
+ExternalLibs plugins-commands : CRYSTAL ;
+
 SubInclude TOP plugins commands manager ;
 SubInclude TOP plugins commands cmddate ;
 SubInclude TOP plugins commands cmddbg ;
@@ -12,6 +16,3 @@ SubInclude TOP plugins commands cmdrelocate ;
 SubInclude TOP plugins commands cmdsay ;
 SubInclude TOP plugins commands cmdwhisper ;
 
-Description plugins-commands : "command plugin lib" ;
-Library plugins-commands : [ Wildcard *.h *.cpp ] ;
-ExternalLibs plugins-commands : CRYSTAL ;

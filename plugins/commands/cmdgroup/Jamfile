@@ -4,5 +4,5 @@ Description cmdgroup : "Group Command" ;
 Plugin cmdgroup : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmdgroup : CRYSTAL ;
 LinkWith cmdgroup : plugins-commands network util tcp-network ;
-#MsvcExternalLibrary cmdgroup : "wsock32.lib" ;
+MsvcExternalLibrary cmdgroup : "wsock32.lib" ;
 

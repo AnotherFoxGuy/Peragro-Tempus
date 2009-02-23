@@ -4,5 +4,5 @@ Description cmdsay : "Say Commands" ;
 Plugin cmdsay : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmdsay : CRYSTAL ;
 LinkWith cmdsay : plugins-commands network util tcp-network ;
-#MsvcExternalLibrary cmdsay : "wsock32.lib" ;
+MsvcExternalLibrary cmdsay : "wsock32.lib" ;
 

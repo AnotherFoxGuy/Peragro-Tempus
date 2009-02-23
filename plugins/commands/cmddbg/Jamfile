@@ -4,5 +4,5 @@ Description cmddbg : "Debug Commands" ;
 Plugin cmddbg : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmddbg : CRYSTAL CEL ;
 LinkWith cmddbg : plugins-commands network util tcp-network client-entitybase entity client-data reporter ;
-# MsvcExternalLibrary cmddbg : "wsock32.lib" ;
+MsvcExternalLibrary cmddbg : "wsock32.lib" ;
 

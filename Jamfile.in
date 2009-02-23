@@ -61,8 +61,8 @@ MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
 MsvcGenConfig CRYSTAL.DEFINES ;
 MsvcGenConfig CRYSTAL.CFLAGS ;
 MsvcGenConfig CRYSTAL.LFLAGS ;
-MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib wsock32.lib" ;
-MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib wsock32.lib" ;
+MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
+MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
 MsvcGenConfig CRYSTAL.INCDIRS :
   [ ConcatDirs .. .. .. CS include ]
   [ ConcatDirs .. .. .. CS include csutil win32 ]
@@ -129,7 +129,11 @@ MsvcGenConfig WX.LIBS : wxbase26.lib wxmsw26_core.lib wxmsw26_gl.lib opengl32.li
 MsvcGenConfig WX.DEFINES.DEBUG : wxUSE_GUI=1 WXUSINGDLL=1 WXDEBUG=1 ;
 MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib opengl32.lib ;
 
-SubInclude TOP components ;
+# The order for the directories below is extremely important for msvc.
+# They must be in order by dependency for the msvc project files to correctly link them.
+# For example, plugins are dependent on libs, therefore, src must be done first.
 SubInclude TOP docs ;
-SubInclude TOP plugins ;
 SubInclude TOP src ;
+SubInclude TOP components ;
+SubInclude TOP plugins ;
+
