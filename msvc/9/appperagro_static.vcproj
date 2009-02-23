@@ -55,7 +55,7 @@
 				ProgramDatabaseFile="..\..\out\release9\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9.lib libjpeg.lib libpng.lib cal3d-vc9.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -131,7 +131,7 @@
 				ProgramDatabaseFile="..\..\out\release9\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9.lib libjpeg.lib libpng.lib cal3d-vc9.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -204,7 +204,7 @@
 				ProgramDatabaseFile="..\..\out\debug9\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="1"
 				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9_d.lib libjpeg.lib libpng.lib cal3d-vc9_d.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -277,7 +277,7 @@
 				ProgramDatabaseFile="..\..\out\debug9\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="1"
 				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9_d.lib libjpeg.lib libpng.lib cal3d-vc9_d.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -353,7 +353,7 @@
 				ProgramDatabaseFile="..\..\out\release9-x64\build\appperagro_static\x64\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9.lib libjpeg.lib libpng.lib cal3d-vc9.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
@@ -429,7 +429,7 @@
 				ProgramDatabaseFile="..\..\out\release9-x64\build\appperagro_static\x64\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9.lib libjpeg.lib libpng.lib cal3d-vc9.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib wsock32.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
@@ -502,7 +502,7 @@
 				ProgramDatabaseFile="..\..\out\debug9-x64\build\appperagro_static\x64\peragro_static.pdb"
 				SubSystem="1"
 				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9_d.lib libjpeg.lib libpng.lib cal3d-vc9_d.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
@@ -575,7 +575,7 @@
 				ProgramDatabaseFile="..\..\out\debug9-x64\build\appperagro_static\x64\peragro_static.pdb"
 				SubSystem="1"
 				AdditionalOptions=" libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc9_d.lib libjpeg.lib libpng.lib cal3d-vc9_d.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx_d.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins_d.lib libcrystalspace_windows_d.lib libcrystalspace_opengl_d.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace_d.lib wsock32.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="17"/>

@@ -54,7 +54,7 @@
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro\Win32\peragro.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib libcrystalspace.lib wsock32.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -130,7 +130,7 @@
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro\Win32\peragro.pdb"
 				SubSystem="2"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib libcrystalspace.lib wsock32.lib libceltool.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib libcrystalspace.lib libceltool.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -203,7 +203,7 @@
 				ProgramDatabaseFile="..\..\out\debug71\build\appperagro\Win32\peragro.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib libcrystalspace_d.lib wsock32.lib libceltool_d.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -276,7 +276,7 @@
 				ProgramDatabaseFile="..\..\out\debug71\build\appperagro\Win32\peragro.pdb"
 				SubSystem="1"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib libcrystalspace_d.lib wsock32.lib libceltool_d.lib wsock32.lib"
+				AdditionalDependencies="CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib libcrystalspace_d.lib libceltool_d.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
