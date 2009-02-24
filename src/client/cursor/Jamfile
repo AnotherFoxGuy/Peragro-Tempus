@@ -4,3 +4,4 @@ Description client-cursor : "client cursor" ;
 Library client-cursor :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-cursor : CEGUI CRYSTAL CEL ;
+MsvcCFlags client-cursor : /wd4396 ;

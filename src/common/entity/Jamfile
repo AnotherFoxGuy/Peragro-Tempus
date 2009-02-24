@@ -5,4 +5,4 @@ Library entity :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs entity : BOOST ;
 LinkWith entity : wfmath ;
-
+MsvcCFlags entity : /wd4396 ;

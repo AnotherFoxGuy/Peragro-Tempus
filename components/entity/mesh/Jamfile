@@ -4,4 +4,4 @@ Description componentmesh : "mesh component" ;
 Plugin componentmesh : [ Wildcard *.cpp *.h ] ;
 ExternalLibs componentmesh : CRYSTAL CEL BOOST CEGUI ;
 LinkWith componentmesh : reporter eventmanager-cs client-component ;
-
+MsvcCFlags componentmesh : /wd4396 ;

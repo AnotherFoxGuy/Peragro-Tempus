@@ -4,3 +4,4 @@ Description client-combatmanager : "client combatmanager" ;
 Library client-combatmanager :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-combatmanager : CRYSTAL CEL CEGUI ;
+MsvcCFlags client-combatmanager : /wd4396 ;

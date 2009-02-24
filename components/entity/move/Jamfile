@@ -6,4 +6,5 @@ Description component_networkmove : "networkmove" ;
 Plugin component_networkmove : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_networkmove : CRYSTAL CEL BOOST ;
 LinkWith component_networkmove : reporter eventmanager-cs client-component client-data wfmath ;
+MsvcCFlags component_networkmove : /wd4396 ;
 

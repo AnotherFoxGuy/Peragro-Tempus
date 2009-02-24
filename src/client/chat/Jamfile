@@ -4,3 +4,4 @@ Description client-chatmanager : "client chatmanager" ;
 Library client-chatmanager :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-chatmanager : CRYSTAL CEGUI CEL ;
+MsvcCFlags client-chatmanager : /wd4396 ;

@@ -5,3 +5,4 @@ Plugin component_playercontrols : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_playercontrols : CRYSTAL CEL BOOST CEGUI ;
 LinkWith component_playercontrols : reporter eventmanager-cs client-component client-data network client-cursor util tcp-network ;
 MsvcExternalLibrary component_playercontrols : "wsock32.lib" ;
+MsvcCFlags component_playercontrols : /wd4396 ;

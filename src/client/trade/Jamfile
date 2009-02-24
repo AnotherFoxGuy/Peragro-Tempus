@@ -4,3 +4,4 @@ Description client-trademanager : "client trademanager" ;
 Library client-trademanager :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-trademanager : CEGUI CRYSTAL CEL BOOST ;
+MsvcCFlags client-trademanager : /wd4396 ;

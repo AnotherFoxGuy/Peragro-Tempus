@@ -4,4 +4,4 @@ Description component_viewcontrols : "viewcontrols" ;
 Plugin component_viewcontrols : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_viewcontrols : CRYSTAL CEL ;
 LinkWith component_viewcontrols : reporter eventmanager-cs client-component ;
-
+MsvcCFlags component_viewcontrols : /wd4396 ;

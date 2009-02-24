@@ -5,6 +5,7 @@ Library wfmath :
   [ Filter [ Wildcard *.h *.cpp ] : [ Wildcard *_test.cpp *_test.h ] ] ;
 CFlags wfmath : "-DHAVE_SSTREAM" ;
 MsvcDefine wfmath : __WIN32__ : 1 ;
+MsvcCFlags wfmath : /wd4396 ;
 
 Description const_test : "Const Test" ;
 Application const_test : const_test.cpp : console ;
@@ -17,10 +18,12 @@ LinkWith intstring_test : wfmath ;
 Description point_test : "point Test" ;
 Application point_test : point_test.cpp : console ;
 LinkWith point_test : wfmath ;
+MsvcCFlags point_test : /wd4396 ;
 
 Description polygon_test : "polygon Test" ;
 Application polygon_test : polygon_test.cpp : console ;
 LinkWith polygon_test : wfmath ;
+MsvcCFlags polygon_test : /wd4396 ;
 
 Description probability_test : "probability Test" ;
 Application probability_test : probability_test.cpp : console ;
@@ -29,14 +32,17 @@ LinkWith probability_test : wfmath ;
 Description quaternion_test : "quaternion Test" ;
 Application quaternion_test : quaternion_test.cpp : console ;
 LinkWith quaternion_test : wfmath ;
+MsvcCFlags quaternion_test : /wd4396 ;
 
 Description rotmatrix_test : "rotmatrix Test" ;
 Application rotmatrix_test : rotmatrix_test.cpp : console ;
 LinkWith rotmatrix_test : wfmath ;
+MsvcCFlags rotmatrix_test : /wd4396 ;
 
 Description shape_test : "shape Test" ;
 Application shape_test : shape_test.h shape_test.cpp : console ;
 LinkWith shape_test : wfmath ;
+MsvcCFlags shape_test : /wd4396 ;
 
 Description timestamp_test : "timestamp Test" ;
 Application timestamp_test : timestamp_test.cpp : console ;
@@ -46,3 +52,4 @@ MsvcDefine wfmath : __WIN32__ : 1 ;
 Description vector_test : "vector Test" ;
 Application vector_test : vector_test.cpp : console ;
 LinkWith vector_test : wfmath ;
+MsvcCFlags vector_test : /wd4396 ;

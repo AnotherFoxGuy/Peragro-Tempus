@@ -4,3 +4,4 @@ Description inventory : "inventory" ;
 Library inventory :
   [ Wildcard *.h *.cpp ] ;
 # ExternalLibs inventory : ;
+MsvcCFlags inventory : /wd4396 ;

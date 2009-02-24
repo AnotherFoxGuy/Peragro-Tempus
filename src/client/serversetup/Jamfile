@@ -5,3 +5,4 @@ Library client-serversetup :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-serversetup : CEGUI CRYSTAL CEL BOOST ;
 LinkWith client-serversetup : client-network client-data util ;
+MsvcCFlags client-serversetup : /wd4396 ;

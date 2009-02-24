@@ -21,3 +21,4 @@ Library client-data :
   [ Wildcard [ ConcatDirs spawn ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs zone ] : *.h *.cpp ] ;
 ExternalLibs client-data : CRYSTAL CEL BOOST ;
+MsvcCFlags client-data : /wd4396 ;
