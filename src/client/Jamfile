@@ -19,8 +19,8 @@ SubInclude TOP src client quest ;
 SubInclude TOP src client user ;
 
 Description peragro : "Peragro Tempus Client" ;
-ApplicationIcon win32 : peragro : ../../data/art/icons/peragro_icon.ico ;
-ApplicationIcon macosx : peragro : ../../data/art/icons/peragro_icon.icns ;
+ApplicationIcon win32 : peragro : peragro_icon.ico : $(TOP)/data/art/icons ;
+ApplicationIcon macosx : peragro : peragro_icon.icns : $(TOP)/data/art/icons ;
 Application peragro :
 [ Wildcard *.h *.cpp ]
 [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] ;
@@ -37,8 +37,8 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
 {
   SubVariant static ;
 
-  ApplicationIcon win32 : peragro_static : ../../data/art/icons/peragro_icon.ico ;
-  ApplicationIcon macosx : peragro_static : ../../data/art/icons/peragro_icon.icns ;
+  ApplicationIcon win32 : peragro_static : peragro_icon.ico : $(TOP)/data/art/icons ;
+  ApplicationIcon macosx : peragro_static : peragro_icon.icns : $(TOP)/data/art/icons ;
   Application peragro_static : [ Wildcard *.h *.cpp ] [ Wildcard [ ConcatDirs pointer ] : *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
