@@ -39,4 +39,4 @@ FILEFLAGS 0x0
 #if !defined(PROJECTGEN_VERSION) || (PROJECTGEN_VERSION < 8)
 1 24 "appperagro_static.manifest"
 #endif
-1 ICON "../../src/client/.../data/art/icons/peragro_icon.ico"
+1 ICON "../../data/art/icons/peragro_icon.ico"
