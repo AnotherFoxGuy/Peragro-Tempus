@@ -23,7 +23,6 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
-
 #include "ext/wfmath/octree.h"
 #include "ext/wfmath/point.h"
 
@@ -70,6 +69,16 @@ namespace Common
       virtual void Reset();
 
 //      Octree::QueryResult Query(const WFMath::Ball<3>& s);
+    };
+
+    ///Compare the entity's unique ID to a give value.
+    struct CompareId { 
+	    CompareId(unsigned int id):id(id){} 
+	    template<typename T> bool operator()(T const& t) 
+            { return t->GetId() == id; } 
+    
+    private:
+	   unsigned int id; 
     };
 
   } // namespace Entity

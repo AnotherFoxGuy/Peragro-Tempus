@@ -15,6 +15,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+#include <boost/lexical_cast.hpp>
 
 #include "client/entity/entitymanager.h"
 #include "client/data/sector/sectordatamanager.h"
@@ -250,17 +251,37 @@ namespace Client
     {
       unsigned int id = PT::Events::EntityHelper::GetEntityID(&ev);
 
+      std::string a = "";
       std::vector<Common::Entity::Entityp>::iterator i;
+
       for (i = entities.begin();  i < entities.end();  i++)
       {
-        if ((*i)->GetId() == id)
-        {
-          Report(PT::Notify, "Removing Entity '%s(%d)'.", (*i)->GetName().c_str(), id);
-          (*i)->Reset();
-          entities.erase(i);
-        }
+          a += boost::lexical_cast<std::string>((*i)->GetId());
+          a += " ";
       }
+      Report(PT::Debug, "Showing entities before removal: '%s'.", a.c_str());
 
+      //Display the entity being removed
+      for (i = entities.begin();  i < entities.end();  i++)
+      {
+          if ((*i)->GetId() == id)
+              Report(PT::Debug, "Removing Entity '%s(%d)'.", (*i)->GetName().c_str(), id);
+      }
+     
+      // Mark all entities for removal where entity->GetId() == id
+      std::vector<Common::Entity::Entityp>::iterator new_end = std::remove_if(
+          entities.begin(), entities.end(), Common::Entity::CompareId(id));
+
+      // Perform the removal
+      entities.erase(new_end, entities.end());
+
+      //Display the results
+      a = "";
+      for (i = entities.begin();  i < entities.end();  i++)
+      {
+          a += boost::lexical_cast<std::string>((*i)->GetId()) + " ";
+      }
+      Report(PT::Debug, "Showing entities after removal: '%s'.", a.c_str());
       return true;
     }
 
