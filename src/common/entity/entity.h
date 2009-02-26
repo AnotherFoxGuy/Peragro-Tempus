@@ -81,7 +81,7 @@ namespace Common
       /**
       * Virtual destructor.
       */
-      virtual ~Entity() {}
+      virtual ~Entity() { Reset(); }
 
       ///@return Entity's unique ID.
       unsigned int GetId () const { return id; }
