@@ -99,6 +99,9 @@ namespace PT
                            const std::string& sector);
 
     private:
+/* TODO - the static shared pointer seems to be causing a crash at shutdown 
+   because shared ptrs and csRefs don't play nicely - order of destruction
+   matters */
       static boost::shared_ptr<PlayerEntity> instance;
 
       void ReInit(const iEvent& ev);
