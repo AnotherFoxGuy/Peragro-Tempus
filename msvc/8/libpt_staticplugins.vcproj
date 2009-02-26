@@ -1560,31 +1560,6 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\plugins\commands\cmddbg\dummy.cpp">
-                                  					<FileConfiguration
-						Name="Release (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Release (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release8-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
-					</FileConfiguration>
-                                  					<FileConfiguration
-						Name="Debug (with static libs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
-					</FileConfiguration>					<FileConfiguration
-						Name="Debug (with DLLs)|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug8-x64\build\libpt_staticplugins\plugins_commands_cmddbg_dummy.cpp.obj"/>
-					</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\plugins\commands\cmdemotes\cmdemotes.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">

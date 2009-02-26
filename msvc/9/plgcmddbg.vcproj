@@ -623,9 +623,6 @@
 			<File
 				RelativePath="..\..\plugins\commands\cmddbg\cmddbg.cpp">
 			</File>
-			<File
-				RelativePath="..\..\plugins\commands\cmddbg\dummy.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
