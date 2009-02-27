@@ -39,8 +39,8 @@ BooksTableVO* BooksTable::parseSingleResultSet(ResultSet* rs, size_t row)
   BooksTableVO* vo = new BooksTableVO();
   vo->id = atoi(rs->GetData(row,0).c_str());
   vo->itemId = atoi(rs->GetData(row,1).c_str());
-  vo->name = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,1).length());
-  vo->text = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,2).length());
+  vo->name = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
+  vo->text = ptString(rs->GetData(row,3).c_str(), rs->GetData(row,3).length());
   return vo;
 }
 
