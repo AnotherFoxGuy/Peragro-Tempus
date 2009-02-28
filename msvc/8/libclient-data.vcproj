@@ -597,13 +597,7 @@
 				RelativePath="..\..\src\client\data\item\itemdatamanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\npc\npcdatamanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\sector\sectordatamanager.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\skill\skilldatamanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\spawn\spawnpointdatamanager.cpp">
@@ -637,22 +631,10 @@
 				RelativePath="..\..\src\client\data\item\itemdatamanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\data\npc\npc.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\npc\npcdatamanager.h">
-			</File>
-			<File
 				RelativePath="..\..\src\client\data\sector\sector.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\sector\sectordatamanager.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\skill\skill.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\data\skill\skilldatamanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\data\spawn\spawnpoint.h">
