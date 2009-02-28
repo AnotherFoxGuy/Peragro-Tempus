@@ -582,20 +582,10 @@
             	</Configurations>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\client\entity\base\entitymanager.cpp">
-			</File>
-		</Filter>
-		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\..\src\client\entity\base\entity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\entity\base\entitymanager.h">
 			</File>
 		</Filter>
 	</Files>
