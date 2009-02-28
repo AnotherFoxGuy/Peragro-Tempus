@@ -104,8 +104,7 @@
 
 	<message type="Entity" name="Move">
           <event name="entity.move" specific="EntityId">
-		<float>TurnDirection</float>
-		<float>WalkDirection</float>
+		<vector3f>MoveDirection</vector3f>
 		<uint32>EntityId</uint32>
 		<bool>Run</bool>
 		<bool>Jump</bool>
@@ -113,8 +112,7 @@
 	</message>
 
 	<message type="Entity" name="MoveRequest">
-		<uint8>TurnDirection</uint8>
-		<uint8>WalkDirection</uint8>
+		<vector3f>MoveDirection</vector3f>
 		<bool>Run</bool>
 		<bool>Jump</bool>
 	</message>

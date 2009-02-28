@@ -93,21 +93,6 @@ void CreateItemMessage::deserialise(ByteStream* bs)
   equiptype = serial.getString();
 }
 
-bool CreateNpcMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  return serial.isValid();
-}
-
-void CreateNpcMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
 bool CreateSpawnPointMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);

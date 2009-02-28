@@ -295,8 +295,9 @@ bool MoveMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(turndirection);
-  serial.setFloat(walkdirection);
+  serial.setFloat(movedirection[0]);
+  serial.setFloat(movedirection[1]);
+  serial.setFloat(movedirection[2]);
   serial.setInt32(entityid);
   serial.setInt8(run?1:0);
   serial.setInt8(jump?1:0);
@@ -308,8 +309,9 @@ void MoveMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  turndirection = serial.getFloat();
-  walkdirection = serial.getFloat();
+  movedirection[0] = serial.getFloat();
+  movedirection[1] = serial.getFloat();
+  movedirection[2] = serial.getFloat();
   entityid = (unsigned int) serial.getInt32();
   run = serial.getInt8() != 0;
   jump = serial.getInt8() != 0;
@@ -320,8 +322,9 @@ bool MoveRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(turndirection);
-  serial.setInt8(walkdirection);
+  serial.setFloat(movedirection[0]);
+  serial.setFloat(movedirection[1]);
+  serial.setFloat(movedirection[2]);
   serial.setInt8(run?1:0);
   serial.setInt8(jump?1:0);
   return serial.isValid();
@@ -332,8 +335,9 @@ void MoveRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  turndirection = (unsigned char) serial.getInt8();
-  walkdirection = (unsigned char) serial.getInt8();
+  movedirection[0] = serial.getFloat();
+  movedirection[1] = serial.getFloat();
+  movedirection[2] = serial.getFloat();
   run = serial.getInt8() != 0;
   jump = serial.getInt8() != 0;
 }

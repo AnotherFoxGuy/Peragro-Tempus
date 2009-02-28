@@ -197,8 +197,7 @@ void EntityHandler::handleMove(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.move", pmsg.getEntityId()), true);
-    pEvent->Add("turnDirection", pmsg.getTurnDirection());
-    pEvent->Add("walkDirection", pmsg.getWalkDirection());
+    PT::Events::EntityHelper::SetVector3(pEvent, "moveDirection", pmsg.getMoveDirection());
     pEvent->Add("entityId", pmsg.getEntityId());
     pEvent->Add("run", pmsg.getRun());
     pEvent->Add("jump", pmsg.getJump());

@@ -75,8 +75,10 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
     response_msg.setRun(false);
   }
 
-  response_msg.setWalkDirection((float)(request_msg.getWalkDirection()-1)*speed*acc);
-  response_msg.setTurnDirection((float)(request_msg.getTurnDirection()-1));
+  float move_x = (float)(request_msg.getMoveDirection().x()-1)*speed*acc;
+  float move_z = (float)(request_msg.getMoveDirection().z()-1);
+  response_msg.setMoveDirection(move_x, 0, move_z);
+
   response_msg.setJump(request_msg.getJump());
   response_msg.setEntityId(name_id);
   ByteStream bs;
@@ -487,8 +489,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   // Don't run into the horse!
   MoveMessage mmsg;
   mmsg.setEntityId(user_ent->getId());
-  mmsg.setWalkDirection(0);
-  mmsg.setTurnDirection(0);
+  mmsg.setMoveDirection(0, 0, 0);
   mmsg.setJump(false);
   mmsg.setRun(false);
 

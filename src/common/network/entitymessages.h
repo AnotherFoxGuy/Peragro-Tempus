@@ -521,8 +521,7 @@ public:
 
 class MoveMessage : public NetMessage
 {
-  float turndirection;
-  float walkdirection;
+  WFMath::Point<3> movedirection;
   unsigned int entityid;
   bool run;
   bool jump;
@@ -539,11 +538,17 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  float getTurnDirection() const { return turndirection; }
-  void setTurnDirection(float x) { turndirection = x; }
-
-  float getWalkDirection() const { return walkdirection; }
-  void setWalkDirection(float x) { walkdirection = x; }
+  WFMath::Point<3> getMoveDirection() { return movedirection; }
+  void setMoveDirection(const WFMath::Point<3>& x)
+  {
+    movedirection = x;
+  }
+  void setMoveDirection(float x, float y, float z)
+  {
+    movedirection[0] = x;
+    movedirection[1] = y;
+    movedirection[2] = z;
+  }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -558,8 +563,7 @@ public:
 
 class MoveRequestMessage : public NetMessage
 {
-  unsigned char turndirection;
-  unsigned char walkdirection;
+  WFMath::Point<3> movedirection;
   bool run;
   bool jump;
 
@@ -575,11 +579,17 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getTurnDirection() const { return turndirection; }
-  void setTurnDirection(unsigned char x) { turndirection = x; }
-
-  unsigned char getWalkDirection() const { return walkdirection; }
-  void setWalkDirection(unsigned char x) { walkdirection = x; }
+  WFMath::Point<3> getMoveDirection() { return movedirection; }
+  void setMoveDirection(const WFMath::Point<3>& x)
+  {
+    movedirection = x;
+  }
+  void setMoveDirection(float x, float y, float z)
+  {
+    movedirection[0] = x;
+    movedirection[1] = y;
+    movedirection[2] = z;
+  }
 
   bool getRun() const { return run; }
   void setRun(bool x) { run = x; }

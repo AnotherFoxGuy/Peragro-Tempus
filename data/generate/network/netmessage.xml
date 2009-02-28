@@ -117,7 +117,7 @@
 			<message id="0" name="RemoveAll" />
 			<message id="1" name="CreateSector" />
 			<message id="2" name="CreateItem" />
-			<message id="3" name="CreateNpc" />
+			<!-- <message id="3" name="CreateNpc" /> -->
 			<message id="4" name="CreateSpawnPoint" />
 			<message id="5" name="SpawnItem" />
 			<message id="6" name="SpawnMount" />

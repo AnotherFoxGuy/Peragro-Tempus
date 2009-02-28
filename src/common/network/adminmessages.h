@@ -32,7 +32,6 @@ namespace ADMIN
     REMOVEALL=0,
     CREATESECTOR=1,
     CREATEITEM=2,
-    CREATENPC=3,
     CREATESPAWNPOINT=4,
     SPAWNITEM=5,
     SPAWNMOUNT=6,
@@ -140,23 +139,6 @@ public:
 
   ptString getEquipType() const { return equiptype; }
   void setEquipType(ptString x) { equiptype = x; }
-
-};
-
-class CreateNpcMessage : public NetMessage
-{
-
-public:
-  CreateNpcMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATENPC)
-  {
-  }
-
-  ~CreateNpcMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
 
 };
 
