@@ -26,9 +26,6 @@
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
 
-#include "client/data/skill/skill.h"
-#include "client/data/skill/skilldatamanager.h"
-
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
@@ -146,55 +143,6 @@ namespace PT
         return slot;
       }
 
-      CEGUI::Window* HUDWindow::CreateSkillIcon(int skillid)
-      {
-        char uniquename[1024];
-        counter += 1;
-        snprintf(uniquename, 1024, "SkillHUD/%d_%d_skillicon", skillid, counter);
-
-        // create a drag/drop item
-        CEGUI::DragContainer* skill = static_cast<CEGUI::DragContainer*>(
-          winMgr->createWindow("DragContainer", uniquename));
-        skill->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-        skill->setSize(CEGUI::UVector2(CEGUI::UDim(0.9f,0.0f), CEGUI::UDim(0.9f,0.0f)));
-        skill->setHorizontalAlignment(CEGUI::HA_CENTRE);
-        skill->setVerticalAlignment(CEGUI::VA_CENTRE);
-        // Set the itemID.
-        char itemtypestr[1024];
-        snprintf(itemtypestr, 1024, "%d", skillid);
-        skill->setUserString("skillid" , itemtypestr);
-
-        // set a static image as drag container's contents
-        CEGUI::Window* skillIcon = winMgr->createWindow("Peragro/StaticImage");
-        skill->addChildWindow(skillIcon);
-        skillIcon->setPosition(CEGUI::UVector2(CEGUI::UDim(0.0f,0.0f), CEGUI::UDim(0.0f,0.0f)));
-        skillIcon->setSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0.0f), CEGUI::UDim(1.0f,0.0f)));
-        skillIcon->setHorizontalAlignment(CEGUI::HA_CENTRE);
-        skillIcon->setVerticalAlignment(CEGUI::VA_CENTRE);
-        skillIcon->setProperty("FrameEnabled", "False");
-
-        // disable to allow inputs to pass through.
-        skillIcon->disable();
-
-        skill->subscribeEvent(CEGUI::DragContainer::EventMouseButtonDown, CEGUI::Event::Subscriber(&HUDWindow::HandleSkillSelected, this));
-        skill->subscribeEvent(CEGUI::Window::EventDragDropItemDropped, CEGUI::Event::Subscriber(&HUDWindow::HandleDragDroppedOnSkill, this));
-
-        // Set alpha
-        skill->setAlpha(0.5f);
-        skill->setInheritsAlpha(false);
-
-        PT::Data::SkillDataManager* skillmgr = PointerLibrary::getInstance()->getSkillDataManager();
-        PT::Data::Skill* skilld = skillmgr->GetSkillById(skillid);
-        if (skilld)
-        {
-          skill->setTooltipText(skilld->GetName().c_str());
-          skillIcon->setProperty("Image", skilld->GetIconName().c_str());
-        }
-
-
-        return skill;
-      }
-
       bool HUDWindow::HandleSkillSelected(const CEGUI::EventArgs& args)
       {
         using namespace CEGUI;
@@ -275,7 +223,7 @@ namespace PT
               {
                 Report(PT::Debug, "AddSkill: slot %s is empty: Item added to slot.", slot->getName().c_str());
                 freeslot = slot;
-                freeslot->addChildWindow(CreateSkillIcon(skillid));
+                //freeslot->addChildWindow(CreateSkillIcon(skillid));
                 return true;
               }
             }

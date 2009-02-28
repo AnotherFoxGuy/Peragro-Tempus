@@ -20,29 +20,6 @@
 		<string>EquipType</string>
 	</message>
 
-	<message type="Admin" name="CreateNpc">
-		<string>Name</string>
-                <string>FileName</string>
-		<string>Mesh</string>
-		<vector3f>Pos</vector3f>
-		<float>Rotation</float>
-		<uint16>SectorId</uint16>
-		<string>Race</string>
-		<colour24>HairColour</colour24>
-		<colour24>SkinColour</colour24>
-		<colour24>DecalColour</colour24>
-		<string>Ai</string>
-		<list name="AiSetting">
-			<string>Key</string>
-			<string>Value</string>
-		</list>
-		<list name="Inventory">
-			<uint8>SlotId</uint8>
-			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
-		</list>
-	</message>
-
 	<message type="Admin" name="CreateSpawnPoint">
 		<uint32>ItemId</uint32>
 		<uint32>Variation</uint32>

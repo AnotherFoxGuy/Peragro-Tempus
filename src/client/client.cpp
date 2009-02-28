@@ -72,7 +72,6 @@
 #include "client/data/connection/connectiondatamanager.h"
 #include "client/serversetup/serversetupmanager.h"
 #include "client/combat/combatmanager.h"
-#include "client/data/skill/skilldatamanager.h"
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
 #include "client/entity/entitymanager.h"
@@ -154,7 +153,6 @@ namespace PT
     // Don't delete eventManager, that is taken care of by the boost::shared_ptr
     // in struct PT:Events::EventManager::Listener
     delete sectorDataManager;
-    delete skillDataManager;
     delete connectionDataManager;
     delete serverSetupManager;
     delete guiManager;
@@ -362,12 +360,6 @@ namespace PT
     if (!sectorDataManager->parse())
       return Report(PT::Error, "Failed to initialize SectorManager!");
     pointerlib.setSectorDataManager(sectorDataManager);
-
-    // Create and Initialize the SkillDataManager.
-    skillDataManager = new PT::Data::SkillDataManager (&pointerlib);
-    if (!skillDataManager->parse())
-      return Report(PT::Error, "Failed to initialize SkillDataManager!");
-    pointerlib.setSkillDataManager(skillDataManager);
 
     // Create and Initialize the ConnectionDataManager.
     connectionDataManager = new PT::Data::ConnectionDataManager (&pointerlib);

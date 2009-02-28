@@ -44,9 +44,7 @@ namespace PT
   namespace Data
   {
     class SectorDataManager;
-    class SkillDataManager;
     class ConnectionDataManager;
-    class TeleportDataManager;
   } // Data namespace
 
   namespace Misc
@@ -104,9 +102,7 @@ private:
 
   PT::Events::EventManager* eventManager;
   PT::Data::SectorDataManager* sectorDataManager;
-  PT::Data::SkillDataManager* skillDataManager;
   PT::Data::ConnectionDataManager* connectionDataManager;
-  PT::Data::TeleportDataManager* teleportDataManager;
   PT::Misc::ServerSetupManager* serverSetupManager;
   PT::GUI::GUIManager* guiManager;
   PT::StateManager* stateManager;
@@ -133,7 +129,6 @@ public:
 
     eventManager = 0;
     sectorDataManager = 0;
-    skillDataManager = 0;
     connectionDataManager = 0;
     serverSetupManager = 0;
     guiManager = 0;
@@ -168,14 +163,8 @@ public:
   void setSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
   PT::Data::SectorDataManager* getSectorDataManager() { return this->sectorDataManager; }
 
-  void setSkillDataManager(PT::Data::SkillDataManager* skillDataManager) { this->skillDataManager = skillDataManager; }
-  PT::Data::SkillDataManager* getSkillDataManager() { return this->skillDataManager; }
-
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }
-
-  void setTeleportDataManager(PT::Data::TeleportDataManager* teleportDataManager) { this->teleportDataManager = teleportDataManager; }
-  PT::Data::TeleportDataManager* getTeleportDataManager() { return this->teleportDataManager; }
 
   void setServerSetupManager(PT::Misc::ServerSetupManager* serverSetupManager) { this->serverSetupManager = serverSetupManager; }
   PT::Misc::ServerSetupManager* getServerSetupManager() { return this->serverSetupManager; }

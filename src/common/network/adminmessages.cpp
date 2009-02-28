@@ -98,40 +98,6 @@ bool CreateNpcMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setString(name);
-  serial.setString(filename);
-  serial.setString(mesh);
-  serial.setFloat(pos[0]);
-  serial.setFloat(pos[1]);
-  serial.setFloat(pos[2]);
-  serial.setFloat(rotation);
-  serial.setInt16(sectorid);
-  serial.setString(race);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[1]);
-  serial.setInt8(haircolour[2]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[1]);
-  serial.setInt8(skincolour[2]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[1]);
-  serial.setInt8(decalcolour[2]);
-  serial.setString(ai);
-  serial.setInt24(aisettingcount);
-  for ( size_t i = 0; i < aisettingcount ; i++ )
-  {
-    serial.setString(aisetting[i].key);
-    serial.setString(aisetting[i].value);
-  };
-
-  serial.setInt24(inventorycount);
-  for ( size_t i = 0; i < inventorycount ; i++ )
-  {
-    serial.setInt8(inventory[i].slotid);
-    serial.setInt32(inventory[i].itemid);
-    serial.setInt32(inventory[i].variation);
-  };
-
   return serial.isValid();
 }
 
@@ -140,42 +106,6 @@ void CreateNpcMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
-  filename = serial.getString();
-  mesh = serial.getString();
-  pos[0] = serial.getFloat();
-  pos[1] = serial.getFloat();
-  pos[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  sectorid = (unsigned short) serial.getInt16();
-  race = serial.getString();
-  haircolour[0] = (unsigned char) serial.getInt8();
-  haircolour[1] = (unsigned char) serial.getInt8();
-  haircolour[2] = (unsigned char) serial.getInt8();
-  skincolour[0] = (unsigned char) serial.getInt8();
-  skincolour[1] = (unsigned char) serial.getInt8();
-  skincolour[2] = (unsigned char) serial.getInt8();
-  decalcolour[0] = (unsigned char) serial.getInt8();
-  decalcolour[1] = (unsigned char) serial.getInt8();
-  decalcolour[2] = (unsigned char) serial.getInt8();
-  ai = serial.getString();
-  aisettingcount = (unsigned int) serial.getInt24();
-  setAiSettingCount(aisettingcount);
-  for ( size_t i = 0; i < aisettingcount ; i++ )
-  {
-    aisetting[i].key = serial.getString();
-    aisetting[i].value = serial.getString();
-  };
-
-  inventorycount = (unsigned int) serial.getInt24();
-  setInventoryCount(inventorycount);
-  for ( size_t i = 0; i < inventorycount ; i++ )
-  {
-    inventory[i].slotid = (unsigned char) serial.getInt8();
-    inventory[i].itemid = (unsigned int) serial.getInt32();
-    inventory[i].variation = (unsigned int) serial.getInt32();
-  };
-
 }
 
 bool CreateSpawnPointMessage::serialise(ByteStream* bs)

@@ -142,10 +142,12 @@ namespace PT
 
     bool EntityManager::WorldLoaded(iEvent& ev)
     {
+      /*
       for (ConstIterator i = entities.begin();  i != entities.end();  i++)
       {
         //if (i->second) i->second->SetFullPosition();
       }
+      */
       return true;
     }
 

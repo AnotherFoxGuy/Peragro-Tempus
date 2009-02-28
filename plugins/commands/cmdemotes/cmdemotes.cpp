@@ -39,8 +39,8 @@ namespace PT
 
     struct Emotes
     {
-      const char* emote;
-      const char* synopsis;
+      std::string emote;
+      std::string synopsis;
       int pose;
       bool echoOnChat;
     };
@@ -65,9 +65,11 @@ SCF_IMPLEMENT_FACTORY(cmdEmote)
 
 cmdEmote::cmdEmote (iBase* parent) 
   : ptClientCommand(parent), emotes()
-{
-  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
-    emotes.push_back(emotelist[i].emote);
+{/*
+  printf("blaah %d\n", EMOTELISTSIZE);
+  printf("blaah %s\n", emotelist[0].emote);
+  for (unsigned int i = 0;  i < EMOTELISTSIZE;  i++)
+    emotes.push_back(emotelist[i].emote);*/
 }
 
 cmdEmote::~cmdEmote ()
@@ -76,7 +78,7 @@ cmdEmote::~cmdEmote ()
 
 bool cmdEmote::CommandHandled (const char* cmd) const
 {
-  for (unsigned i = 0;  i < emotes.size();  i++)
+  for (unsigned int i = 0;  i < emotes.size();  i++)
   {
     if (emotes[i].compare(cmd) == 0)
       return true;
@@ -91,7 +93,7 @@ std::string cmdEmote::HelpSynopsis (const char* cmd) const
 {
   if (!cmd) cmd = "";
   std::string scmd = cmd;
-  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
+  for (unsigned int i = 0;  i < EMOTELISTSIZE;  i++)
     if ( emotelist[i].emote == scmd )
       return emotelist[i].synopsis;
   return "";
@@ -131,7 +133,7 @@ std::string cmdEmote::Execute (const StringArray& args)
   //Magic number - bad developer!
   int poseid = 0;
   bool echoOnChat = false;
-  for (unsigned i = 0;  i < EMOTELISTSIZE;  i++)
+  for (unsigned int i = 0;  i < EMOTELISTSIZE;  i++)
     if ( emotelist[i].emote == emote )
     {
       poseid = emotelist[i].pose;

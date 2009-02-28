@@ -85,8 +85,6 @@ namespace PT
       PT::Entity::EntityManager* entityManager;
       /// The gui manager.
       PT::GUI::GUIManager* guiManager;
-      /// The skill manager.
-      PT::Data::SkillDataManager* skillManager;
       /// The network.
       Network* network;
 

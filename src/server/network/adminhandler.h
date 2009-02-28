@@ -45,7 +45,6 @@ public:
     if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
     else if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
-    else if (id == ADMIN::CREATENPC) handleCreateNpc(msg);
     else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
     else if (id == ADMIN::SPAWNITEM) handleSpawnItem(msg);
     else if (id == ADMIN::SPAWNMOUNT) handleSpawnMount(msg);
@@ -59,7 +58,6 @@ public:
   void handleRemoveAll(GenericMessage* msg);
   void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
-  void handleCreateNpc(GenericMessage* msg);
   void handleCreateSpawnPoint(GenericMessage* msg);
   void handleSpawnItem(GenericMessage* msg);
   void handleSpawnMount(GenericMessage* msg);

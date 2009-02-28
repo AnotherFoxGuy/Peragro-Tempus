@@ -15,9 +15,7 @@ Library client-data :
   [ Wildcard [ ConcatDirs connection ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs npc ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs sector ] : *.h *.cpp ]
-  [ Wildcard [ ConcatDirs skill ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs spawn ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs zone ] : *.h *.cpp ] ;
 ExternalLibs client-data : CRYSTAL CEL BOOST ;

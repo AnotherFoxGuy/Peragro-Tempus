@@ -43,7 +43,6 @@ namespace PT
         int counter;
         CEGUI::Window* CreateSkillSlot(CEGUI::Window* parent,
                                        const CEGUI::UVector2& position, int id);
-        CEGUI::Window* CreateSkillIcon(int skillid);
         bool HandleSkillSelected(const CEGUI::EventArgs& args);
         bool HandleDragDropped(const CEGUI::EventArgs& args);
         bool HandleDragDroppedOnSkill(const CEGUI::EventArgs& args);

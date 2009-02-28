@@ -42,9 +42,6 @@
 
 #include "client/cursor/cursor.h"
 
-#include "client/data/skill/skill.h"
-#include "client/data/skill/skilldatamanager.h"
-
 #include "include/effectsmanager.h"
 
 #include "client/entity/entity.h"
@@ -88,7 +85,6 @@ namespace PT
     {
       entityManager = PointerLibrary::getInstance()->getEntityManager();
       guiManager = PointerLibrary::getInstance()->getGUIManager();
-      skillManager = PointerLibrary::getInstance()->getSkillDataManager();
       network = PointerLibrary::getInstance()->getNetwork();
 
       PT_SETUP_HANDLER
@@ -102,9 +98,6 @@ namespace PT
 
       if (!guiManager) return Report(PT::Bug,
         "CombatManager: Failed to locate GUIManager plugin");
-
-      if (!skillManager) return Report(PT::Bug,
-        "CombatManager: Failed to locate SkillDataManager plugin");
 
       if (!network) return Report(PT::Bug,
         "CombatManager: Failed to locate Network plugin");
@@ -359,21 +352,6 @@ namespace PT
       }
 
       std::string caststring;
-      PT::Data::SkillDataManager* skillManager = PointerLibrary::getInstance()->getSkillDataManager();
-      PT::Data::Skill* skill = skillManager->GetSkillById(skillId);
-
-      if (skill)
-      {
-        //effectsManager->CreateEffect(skill->GetEffects().caster.c_str(), GetMesh(caster));
-        caststring = skill->GetStartString();
-        if (caster->GetType() == Common::Entity::PlayerEntityType ||
-            caster->GetType() == Common::Entity::PCEntityType)
-        {
-          ((PT::Entity::PcEntity*)caster.get())->PlayAnimation(skill->GetEffects().castanim.c_str());
-        }
-      }
-      else
-        Report(PT::Error, "CombatManager: Unknown skill with ID %d !", skillId);
 
       char msg[1024];
       snprintf(msg, 1024, "%s %s %s.", caster->GetName().c_str(),
@@ -405,21 +383,6 @@ namespace PT
       }
 
       std::string caststring;
-      PT::Data::SkillDataManager* skillManager = PointerLibrary::getInstance()->getSkillDataManager();
-      PT::Data::Skill* skill = skillManager->GetSkillById(skillId);
-
-      if (skill)
-      {
-        //effectsManager->CreateEffect(skill->GetEffects().target.c_str(), GetMesh(target));
-        caststring = skill->GetCompleteString();
-        if (target->GetType() == Common::Entity::PlayerEntityType ||
-            target->GetType() == Common::Entity::PCEntityType)
-        {
-          ((PT::Entity::PcEntity*)target.get())->PlayAnimation(skill->GetEffects().targetanim.c_str());
-        }
-      }
-      else
-        Report(PT::Error, "CombatManager: Unknown skill with ID %d !", skillId);
 
       char msg[1024];
       snprintf(msg, 1024, "%s %s %s.", caster->GetName().c_str(),

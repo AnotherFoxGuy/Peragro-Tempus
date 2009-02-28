@@ -33,7 +33,6 @@ namespace PT
   {
     class DoorDataManager;
     class ItemDataManager;
-    class NpcDataManager;
     class SpawnPointDataManager;
     class ZoneDataManager;
   } // Data namespace
@@ -52,7 +51,6 @@ namespace PT
     private:
       PT::Data::DoorDataManager* doorDataManager;
       PT::Data::ItemDataManager* itemDataManager;
-      PT::Data::NpcDataManager* npcDataManager;
       PT::Data::SpawnPointDataManager* spawnpointDataManager;
       PT::Data::ZoneDataManager* zoneDataManager;
 

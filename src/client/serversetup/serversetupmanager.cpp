@@ -35,9 +35,6 @@
 #include "client/data/item/item.h"
 #include "client/data/item/itemdatamanager.h"
 
-#include "client/data/npc/npc.h"
-#include "client/data/npc/npcdatamanager.h"
-
 #include "client/data/spawn/spawnpoint.h"
 #include "client/data/spawn/spawnpointdatamanager.h"
 
@@ -65,11 +62,6 @@ namespace PT
       if (!itemDataManager->parseItems())
         Report(PT::Error, "Failed to initialize ItemDataManager!");
 
-      // Create and Initialize the NpcDataManager.
-      npcDataManager = new PT::Data::NpcDataManager (ptrlib);
-      if (!npcDataManager->parseNPCs())
-        Report(PT::Error, "Failed to initialize NpcDataManager!");
-
       // Create and Initialize the SpawnpointDataManager.
       spawnpointDataManager = new PT::Data::SpawnPointDataManager (ptrlib);
       if (!spawnpointDataManager->parse())
@@ -85,7 +77,6 @@ namespace PT
     {
       delete doorDataManager;
       delete itemDataManager;
-      delete npcDataManager;
       delete spawnpointDataManager;
       delete zoneDataManager;
     }
@@ -95,11 +86,6 @@ namespace PT
       // Be careful about the order!
 
       RemoveAllMessage rmmsg;
-      rmmsg.setDataType(ptString::create("npc-dialogs"));
-      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
-
-      rmmsg.setDataType(ptString::create("npc-entities"));
-      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
       rmmsg.setDataType(ptString::create("item-entities"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
@@ -223,121 +209,6 @@ namespace PT
         itemmsg.setWeight(weight);
         itemmsg.setEquipType(equiptype);
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
-      }
-
-      // ==[ NPCs ]============================================================
-      std::vector<PT::Data::Npc*> npcs;
-
-      npcDataManager->GetAllNpcs(npcs);
-
-      for (size_t i = 0; i < npcs.size(); i++ )
-      {
-        ptString name = ptString::create(npcs[i]->GetName());
-        ptString file = ptString::create(npcs[i]->GetFileName());
-        ptString mesh = ptString::create(npcs[i]->GetMeshName());
-        WFMath::Point<3> position = npcs[i]->GetPosition();
-        const char* sector = npcs[i]->GetSectorName().c_str();
-        ptString race = ptString::create(npcs[i]->GetRace());
-        const unsigned char* hair = npcs[i]->GetHairColor();
-        const unsigned char* skin = npcs[i]->GetSkinColor();
-        const unsigned char* decal = npcs[i]->GetDecalColor();
-        ptString ai = ptString::create(npcs[i]->GetAi());
-
-        const std::map<std::string, std::string>& settings =
-          npcs[i]->GetAllSetting();
-
-        const std::map<int, std::pair<int, int> >& inventory =
-          npcs[i]->GetAllInventory();
-
-        if (!secmgr->GetSectorByName(sector))
-        {
-          Report(PT::Debug, "Failed to load NPC, couldn't find sector \"%s\"", sector);
-          continue;
-        }
-
-        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
-
-        CreateNpcMessage npcmsg;
-
-        npcmsg.setName(name);
-        npcmsg.setFileName(file);
-        npcmsg.setMesh(mesh);
-        npcmsg.setPos(position);
-        npcmsg.setSectorId(sector_id);
-        npcmsg.setRace(race);
-        npcmsg.setHairColour(hair);
-        npcmsg.setSkinColour(skin);
-        npcmsg.setDecalColour(decal);
-        npcmsg.setAi(ai);
-
-        size_t j = 0;
-
-        npcmsg.setAiSettingCount((unsigned char)settings.size());
-        std::map<std::string, std::string>::const_iterator it_s;
-        for (it_s = settings.begin(); it_s != settings.end(); ++it_s)
-        {
-          npcmsg.setKey(j, ptString::create(it_s->first));
-          npcmsg.setValue(j, ptString::create(it_s->second));
-          j++;
-        }
-
-        j = 0;
-
-        // TODO: Inventory
-        npcmsg.setInventoryCount((unsigned char)inventory.size());
-        std::map<int, std::pair<int, int> >::const_iterator it_i;
-        for (it_i = inventory.begin(); it_i != inventory.end(); ++it_i)
-        {
-          npcmsg.setSlotId(j, it_i->first);
-          npcmsg.setItemId(j, it_i->second.first);
-          npcmsg.setVariation(j, it_i->second.second);
-          j++;
-        }
-        PointerLibrary::getInstance()->getNetwork()->send(&npcmsg);
-
-
-        // TODO : reputations
-        const std::map<std::string, int >& reputations = npcs[i]->GetReputations();
-        std::map<std::string, int >::const_iterator it;
-        for (it = reputations.begin(); it != reputations.end(); ++it)
-        {
-        }
-
-
-        // TODO : shop
-        Array<PT::Data::ShopItem*> buyItems = npcs[i]->GetBuyShopItems();
-        Array<PT::Data::ShopItem*> sellItems = npcs[i]->GetSellShopItems();
-        for (size_t d_i=0; d_i<buyItems.getCount(); d_i++)
-        {
-        }
-        for (size_t d_i=0; d_i<sellItems.getCount(); d_i++)
-        {
-        }
-
-
-        SetupDialogsMessage dialogsmsg;
-        dialogsmsg.setDeleteExisting(i==0);
-        Array<PT::Data::NpcDialog*> dialogs = npcs[i]->GetDialogs();
-        dialogsmsg.setDialogsCount((unsigned char)dialogs.getCount());
-        for (size_t d_i=0; d_i<dialogs.getCount(); d_i++)
-        {
-          dialogsmsg.setNpcName(d_i, name);
-          dialogsmsg.setDialogId(d_i, dialogs[d_i]->id);
-          dialogsmsg.setAction(d_i, dialogs[d_i]->action);
-          dialogsmsg.setValue(d_i, dialogs[d_i]->value.c_str());
-        }
-        Array<PT::Data::NpcAnswer*> answers = npcs[i]->GetDialogAnswers();
-        dialogsmsg.setAnswersCount((unsigned char)answers.getCount());
-        for (size_t a_i=0; a_i<answers.getCount(); a_i++)
-        {
-          dialogsmsg.setAnswerNpcName(a_i, name);
-          dialogsmsg.setAnswerId(a_i, answers[a_i]->id);
-          dialogsmsg.setAnswerDialogId(a_i, answers[a_i]->dialogId);
-          dialogsmsg.setAnswerText(a_i, answers[a_i]->value.c_str());
-          dialogsmsg.setAnswerLink(a_i, answers[a_i]->nextDialog);
-          dialogsmsg.setIsEndAnswer(a_i, answers[a_i]->isEnd);
-        }
-        PointerLibrary::getInstance()->getNetwork()->send(&dialogsmsg);
       }
 
       // ==[ SpawnPoints ]=====================================================

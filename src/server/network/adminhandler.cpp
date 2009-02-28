@@ -196,63 +196,6 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   items->addItem(item);
 }
 
-void AdminHandler::handleCreateNpc(GenericMessage* msg)
-{
-  if (CheckAdminLevel(msg, 2) == false) return;
-
-  CreateNpcMessage npcmsg;
-  npcmsg.deserialise(msg->getByteStream());
-
-  Server* server = Server::getServer();
-
-  CharacterManager* charmgr = server->getCharacterManager();
-
-  Race* race = server->getRaceManager()->findByName(npcmsg.getRace());
-
-  int charid = -1;
-  ptString error = charmgr->createCharacter(npcmsg.getName(), 0, charid, race,
-    npcmsg.getHairColour(), npcmsg.getSkinColour(), npcmsg.getDecalColour());
-
-  if (! error.isNull())
-  {
-    printf(*error);
-    return;
-  }
-
-  Tables* tables = Server::getServer()->getTables();
-
-  Character* character = charmgr->getCharacter(charid, 0);
-  character->getInventory()->loadFromDatabase(tables->getInventoryTable(), charid);
-
-  for (unsigned char i = 0; i < npcmsg.getInventoryCount(); i++)
-  {
-    InventoryEntry entry(npcmsg.getItemId(i), npcmsg.getVariation(i));
-    character->getInventory()->addItem(entry, npcmsg.getSlotId(i));
-  }
-
-  NpcEntity* npcentity = new NpcEntity();
-  npcentity->setCharacter(character);
-
-  ptScopedMonitorable<Entity> entity (npcentity->getEntity());
-  entity->setSector(npcmsg.getSectorId());
-  entity->setPos(npcmsg.getPos());
-  entity->setRotation(npcmsg.getRotation());
-
-  const Mesh* mesh = server->getMeshManager()->addMeshUpdate(npcmsg.getMesh(), npcmsg.getFileName());
-  entity->setMesh(mesh);
-  entity->setName(npcmsg.getName());
-
-  server->addEntity(npcentity->getEntity(), true);
-
-  tables->getNpcEntitiesTable()->insert(entity->getId(), charid, npcmsg.getAi());
-
-  for (unsigned char i = 0; i < npcmsg.getAiSettingCount(); i++)
-  {
-    tables->getNpcAiSettingTable()->insert(charid, npcmsg.getKey(i), *npcmsg.getValue(i));
-  }
-  npcentity->setAI(AI::createAI(npcmsg.getAi()));
-}
-
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
   if (CheckAdminLevel(msg, 2) == false) return;
