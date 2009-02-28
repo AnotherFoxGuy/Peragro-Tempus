@@ -47,15 +47,13 @@
 #include "include/client/component/entity/move/viewbob.h"
 
 //#define _MOVEMENT_DEBUG_CHARACTER_
-#define PLENT_NULL boost::shared_ptr<PlayerEntity>()
 
 namespace PT
 {
 
   namespace Entity
   {
-
-    boost::shared_ptr<PlayerEntity> PlayerEntity::instance = PLENT_NULL;
+    PlayerEntity* PlayerEntity::instance;
 
 
     PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
@@ -88,31 +86,30 @@ namespace PT
 
     PlayerEntity::~PlayerEntity()
     {
-// TODO ... looks like this will only get run when the program is shutting
-// down, and by then its moot.  Is there a better way?
-      if (instance.get() == this) instance.reset();
       PointerLibrary::getInstance()->setPlayer(0);
+      delete instance;
     }
+
+    void DontDelete(PlayerEntity*){}
 
     boost::shared_ptr<PlayerEntity> PlayerEntity::Instance(const iEvent* ev)
     {
       //If the instance already exists, and we're not
       //requesting a reinitialization.
-      if (instance && !ev) return instance;
+      if (instance && !ev) return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
       //If the instance already exists, and we're requesting
       //a reinitialization
       else if (instance && ev)
       {
         instance->ReInit(*ev);
-        return instance;
+        return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
       }
 
       //We can't initialize without a valid event
-      if (!ev) return PLENT_NULL;
+      if (!ev) return boost::shared_ptr<PlayerEntity>();
 
-      PlayerEntity* plent = new PlayerEntity(*ev);
-      instance = boost::shared_ptr<PlayerEntity>(plent);
-      return instance;
+      instance = new PlayerEntity(*ev);
+      return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
     }
 
     void PlayerEntity::ReInit(const iEvent& ev)

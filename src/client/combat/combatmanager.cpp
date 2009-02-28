@@ -160,7 +160,7 @@ namespace PT
       ev.Retrieve("entityid", entityid);
 
       ::Client::Entity::Entity* target = dynamic_cast< ::Client::Entity::Entity*>
-        (entityManager->findEntById(entityid).get());
+        (entityManager->FindById(entityid).get());
       if (!target)
       {
         Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
@@ -273,7 +273,7 @@ namespace PT
     void CombatManager::LevelUp(int targetId)
     {
       // Lookup the ID to get the actual entity.
-      Common::Entity::Entityp target = entityManager->findEntById(targetId);
+      Common::Entity::Entityp target = entityManager->FindById(targetId);
 
       if (!target)
       {
@@ -344,8 +344,8 @@ namespace PT
       }
 
       // Lookup the IDs to get the actual entities.
-      Common::Entity::Entityp caster = entityManager->findEntById(casterId);
-      Common::Entity::Entityp target = entityManager->findEntById(targetId);
+      Common::Entity::Entityp caster = entityManager->FindById(casterId);
+      Common::Entity::Entityp target = entityManager->FindById(targetId);
 
       if (!target)
       {
@@ -390,8 +390,8 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       // Lookup the IDs to get the actual entities.
-      Common::Entity::Entityp caster = entityManager->findEntById(casterId);
-      Common::Entity::Entityp target = entityManager->findEntById(targetId);
+      Common::Entity::Entityp caster = entityManager->FindById(casterId);
+      Common::Entity::Entityp target = entityManager->FindById(targetId);
 
       if (!target)
       {

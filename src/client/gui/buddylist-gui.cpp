@@ -25,7 +25,7 @@
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"
-#include "client/entity/base/entitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "common/entity/entity.h"
 #include "common/reporter/reporter.h"
@@ -100,7 +100,7 @@ namespace PT
           unsigned int entid = EntityHelper::GetEntityID(&ev);
 
           Common::Entity::Entityp ent = PointerLibrary::getInstance()->
-            getEntityManager()->findEntById(entid);
+            getEntityManager()->FindById(entid);
           if (!ent) return false;
 
           if (ent->GetType() == Common::Entity::PCEntityType)

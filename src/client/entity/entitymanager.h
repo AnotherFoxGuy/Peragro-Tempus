@@ -33,7 +33,7 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
-#include "client/entity/base/entitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
@@ -54,11 +54,11 @@ class Effect;
 struct iObjectRegistry;
 struct iLoader;
 
-namespace Client
+namespace PT
 {
   namespace Entity
   {
-    class EntityManager : public ::PT::Entity::EntityManager
+    class EntityManager : public Common::Entity::EntityManager
     {
     private:
       csRef<iEngine> engine;
@@ -69,7 +69,7 @@ namespace Client
       csRef<iCelPlLayer> pl;
       csRef<iObjectRegistry> obj_reg;
 
-      ::PT::Client* client;
+      bool world_loaded;
 
     private:
       csRefArray<iEvent> events;
@@ -115,11 +115,15 @@ namespace Client
       bool Initialize ();
       void Handle();
 
+      void SetWorldloaded(bool value) { world_loaded = value; }
+
+      iCelEntity* findCelEntById(unsigned int id);
+
       void DrUpdateOwnEntity();
 
     };
 
   } // Entity namespace
-} // Client namespace
+} // PT namespace
 
 #endif // PTENTITYMANAGER_H

@@ -36,6 +36,8 @@ namespace PT
     */
     class Entity : public Common::Entity::Entity
     {
+      friend class EntityManager;
+
     protected:
       ///CEL entity of the entity.  See the CEL documentation for more info.
       csWeakRef<iCelEntity> celEntity;

@@ -415,7 +415,7 @@ namespace PT
     pointerlib.setCursor(cursor);
 
     // Create and Initialize the EntityManager.
-    entityManager = new ::Client::Entity::EntityManager ();
+    entityManager = new PT::Entity::EntityManager ();
     if (!entityManager->Initialize())
       return Report(PT::Error, "Failed to initialize EntityManager!");
     pointerlib.setEntityManager(entityManager);
@@ -616,7 +616,7 @@ namespace PT
     case STATE_INTRO: // Introduction screen already loaded. Once user connects switch to STATE_CONNECTED.
       {
         world_loaded = false;
-        entityManager->setWorldloaded(false);
+        entityManager->SetWorldloaded(false);
       }
     case STATE_CONNECTED: // Just connected. Wait asking for login and switch to STATE_LOGGED_IN
     case STATE_LOGGED_IN: // Login completed. Load items and switch to STATE_SELECTING_CHAR
@@ -890,7 +890,7 @@ namespace PT
     loadScreenWindow->HideWindow();
 
     world_loaded = true;
-    PointerLibrary::getInstance()->getEntityManager()->setWorldloaded(true);
+    PointerLibrary::getInstance()->getEntityManager()->SetWorldloaded(true);
 
     return true;
   }

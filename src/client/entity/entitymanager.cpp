@@ -46,12 +46,12 @@
 
 #include "client/cursor/cursor.h"
 
-namespace Client
+namespace PT
 {
   namespace Entity
   {
 
-    EntityManager::EntityManager () : ::PT::Entity::EntityManager()
+    EntityManager::EntityManager () : Common::Entity::EntityManager(), world_loaded(false)
     {
       this->obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
 
@@ -142,13 +142,10 @@ namespace Client
 
     bool EntityManager::WorldLoaded(iEvent& ev)
     {
-
-      std::vector<Common::Entity::Entityp>::iterator i;
-      for (i = entities.begin();  i < entities.end();  i++)
+      for (ConstIterator i = entities.begin();  i != entities.end();  i++)
       {
-        if (*i) (*i)->SetFullPosition();
+        //if (i->second) i->second->SetFullPosition();
       }
-  
       return true;
     }
 
@@ -166,7 +163,7 @@ namespace Client
         if (!entity) continue;
         csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
         if (!pcprop) continue;
-        Common::Entity::Entityp ptent = findEntById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
+        Common::Entity::Entityp ptent = FindById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
         if (!ptent) continue;
 
         iSector* sector = engine->FindSector(ptent->GetSectorName().c_str());
@@ -213,13 +210,13 @@ namespace Client
       std::string name = Helper::GetString(&ev, "entityName");
       unsigned int type = EntityHelper::GetEntityType(&ev, evmgr);
 
-      if ( findEntById(id) )
+      if ( FindById(id) )
       {
         Report(PT::Warning, "AddEntity: Skipping already existing entity '%s(%d)'", name.c_str(), id);
         return true;
       }
 
-      PT::Entity::Entity* entity = NULL;
+      PT::Entity::Entity* entity = 0;
       boost::shared_ptr<PT::Entity::Entity> entityp;
 
       if (type == Common::Entity::DoorEntityType) entity = new PT::Entity::DoorEntity(ev);
@@ -234,15 +231,17 @@ namespace Client
         Report(PT::Error, "Invalid entity type: %d !", type);
         return true;
       }
+
       if (!entityp) entityp = boost::shared_ptr<PT::Entity::Entity>(entity);
       entity = entityp.get();
 
       // set the entity's pl
-      ((Entity*)entity)->pl = pl;
+      ((::Client::Entity::Entity*)entity)->pl = pl;
 
       Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (primaryId == id) ? " as me":"");
+      
       // Add our entity to the list.
-      entities.push_back(entityp);
+      Add(entityp);
 
       return true;
     }
@@ -250,38 +249,9 @@ namespace Client
     bool EntityManager::RemoveEntity(iEvent& ev)
     {
       unsigned int id = PT::Events::EntityHelper::GetEntityID(&ev);
-
-      std::string a = "";
-      std::vector<Common::Entity::Entityp>::iterator i;
-
-      for (i = entities.begin();  i < entities.end();  i++)
-      {
-          a += boost::lexical_cast<std::string>((*i)->GetId());
-          a += " ";
-      }
-      Report(PT::Debug, "Showing entities before removal: '%s'.", a.c_str());
-
-      //Display the entity being removed
-      for (i = entities.begin();  i < entities.end();  i++)
-      {
-          if ((*i)->GetId() == id)
-              Report(PT::Debug, "Removing Entity '%s(%d)'.", (*i)->GetName().c_str(), id);
-      }
      
-      // Mark all entities for removal where entity->GetId() == id
-      std::vector<Common::Entity::Entityp>::iterator new_end = std::remove_if(
-          entities.begin(), entities.end(), Common::Entity::CompareId(id));
+      Remove(id);
 
-      // Perform the removal
-      entities.erase(new_end, entities.end());
-
-      //Display the results
-      a = "";
-      for (i = entities.begin();  i < entities.end();  i++)
-      {
-          a += boost::lexical_cast<std::string>((*i)->GetId()) + " ";
-      }
-      Report(PT::Debug, "Showing entities after removal: '%s'.", a.c_str());
       return true;
     }
 
@@ -308,7 +278,7 @@ namespace Client
 
       Report(PT::Debug, "Equip for '%d': item %d in slot %d with mesh %s from file %s", id, itemId, slotId, mesh, file);
 
-      Common::Entity::Entityp entity = findEntById(id);
+      Common::Entity::Entityp entity = FindById(id);
       if (entity)
       {
         if (entity->GetType() == Common::Entity::PlayerEntityType ||
@@ -341,8 +311,8 @@ namespace Client
       bool canControl = false;
       ev.Retrieve("canControl", canControl);
 
-      Common::Entity::Entityp entity = findEntById(entityId);
-      Common::Entity::Entityp mount = findEntById(mountId);
+      Common::Entity::Entityp entity = FindById(entityId);
+      Common::Entity::Entityp mount = FindById(mountId);
       if (entity && mount)
       {
         if ((entity->GetType() == Common::Entity::PlayerEntityType ||
@@ -350,7 +320,7 @@ namespace Client
           mount->GetType() == Common::Entity::MountEntityType)
         {
           PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
-          m->Mount(static_cast<Entity*>(entity.get()));
+          m->Mount(static_cast<::Client::Entity::Entity*>(entity.get()));
           //Set camera to follow the mount after mounting. Only done for player's mount.
           //TODO: This is just a temporary solution. It will not work nicely with boats etc.
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
@@ -369,8 +339,8 @@ namespace Client
       unsigned int mountId = -1;
       ev.Retrieve("mountId", mountId);
 
-      Common::Entity::Entityp entity = findEntById(entityId);
-      Common::Entity::Entityp mount = findEntById(mountId);
+      Common::Entity::Entityp entity = FindById(entityId);
+      Common::Entity::Entityp mount = FindById(mountId);
       if (entity && mount)
       {
         if ((entity->GetType() == Common::Entity::PlayerEntityType ||
@@ -378,7 +348,7 @@ namespace Client
           mount->GetType() == Common::Entity::MountEntityType)
         {
           PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
-          m->UnMount(static_cast<Entity*>(entity.get()));
+          m->UnMount(static_cast<::Client::Entity::Entity*>(entity.get()));
           //Set camera to follow the player. See the TODO comment above.
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PT::Entity::PlayerEntity::Instance()->GetCelEntity());
         }
@@ -399,13 +369,19 @@ namespace Client
         if (!pcprop) return false;
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
-        Entity* ptEnt = dynamic_cast<Entity*> (findEntById(id).get());
+        ::Client::Entity::Entity* ptEnt = dynamic_cast<::Client::Entity::Entity*> (FindById(id).get());
         if (!ptEnt) return false;
 
         ptEnt->Interact();
       }
 
       return true;
+    }
+
+    iCelEntity* EntityManager::findCelEntById(unsigned int id)
+    {
+      Entity* entity = dynamic_cast<Entity*>(FindById(id).get());
+      return entity ? entity->GetCelEntity() : 0;
     }
 
     void EntityManager::DrUpdateOwnEntity()
@@ -475,11 +451,11 @@ namespace Client
       unsigned int poseId = -1;
       ev.Retrieve("poseId", poseId);
 
-      Entity* entity = dynamic_cast<Entity*>(findEntById(id).get());
+      ::Client::Entity::Entity* entity = dynamic_cast<::Client::Entity::Entity*>(FindById(id).get());
       if (entity) entity->Pose(poseId);
 
       return true;
     }
 
   } // Entity namespace
-} // Client namespace
+} // PT namespace

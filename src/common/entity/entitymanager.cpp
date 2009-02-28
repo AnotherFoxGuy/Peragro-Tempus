@@ -25,7 +25,7 @@ namespace Common
   namespace Entity
   {
     EntityManager::EntityManager()
-      : entities(), world_loaded(false), primaryId(0)
+      : entities(), primaryId(0)
     {
     }
 
@@ -33,55 +33,51 @@ namespace Common
     {
     }
 
-/*
     bool EntityManager::Add(const Entityp entity)
     {
       // If object is already present return false.
-      if (std::find(entities.begin(), entities.end(), entity) != entities.end())
+      if (entities.count(entity->GetId()) > 0) 
         return false;
 
-      entities.push_back(entity);
-      return octree.Add(&entity->position);
+      bool succes = octree.Add(&entity->position);
+      if (succes) entities[entity->GetId()] = entity;
+      return succes;
     }
-*/
 
     void EntityManager::Remove(const Entityp entity)
     {
-      std::vector<Entityp>::iterator i;
-      for (i = entities.begin();  i < entities.end();  i++)
-      {
-        if (*i == entity) 
-        {
-          entities.erase(i);
-          break;
-        }
-      }
+      // TODO: throw when the entity hasn't been found?
+      entities.erase(entity->GetId()); 
+      // Entity will automatically be removed from the octree.
     }
 
-    Entityp EntityManager::findEntById(unsigned int id)
+    void EntityManager::Remove(size_t entityId)
     {
-      //TODO if (id == 0) return 0;
-      std::vector<Entityp>::iterator i;
-      for (i = entities.begin();  i < entities.end();  i++)
-      {
-        if ((*i) && (*i)->GetId() == id) return *i;
-      }
-      return Entityp();
+      // TODO: throw when the entity hasn't been found?
+      entities.erase(entityId);
+      // Entity will automatically be removed from the octree.
+    }
+
+    Entityp EntityManager::FindById(size_t id)
+    {
+      Iterator it;
+      it = entities.find(id);
+      if (it != entities.end()) 
+         return it->second;
+      else
+        return Entityp();
     }
 
     void EntityManager::Reset()
     {
-      world_loaded = false;
       primaryId = 0;
       RemoveAll();
     }
 
-/*
     Octree::QueryResult EntityManager::Query(const WFMath::Ball<3>& s)
     {
       return octree.Query(s);
     }
-*/
 
   } // namespace World
 } // namespace Common

@@ -20,7 +20,7 @@
 #define COMMON_ENTITYMANAGER_H
 
 #include <string>
-#include <vector>
+#include <map>
 
 #include <boost/shared_ptr.hpp>
 #include "ext/wfmath/octree.h"
@@ -45,40 +45,31 @@ namespace Common
     class EntityManager
     {
     protected:
-      std::vector<Entityp> entities;
-      bool world_loaded;
-      unsigned int primaryId; // for example, player ID
+      std::map<size_t, Entityp> entities;
+      typedef std::map<size_t, Entityp>::iterator Iterator;
+      typedef std::map<size_t, Entityp>::const_iterator ConstIterator;
+      size_t primaryId; // for example, player ID
 
-//      Octree octree;
+      Octree octree;
 
     public:
       EntityManager();
       virtual ~EntityManager();
 
+      bool Add(const Entityp entity);
       void Remove(const Entityp entity);
+      void Remove(size_t entityId);
       void RemoveAll() { entities.clear(); }
 
-      Entityp findEntById(unsigned int id);
+      Entityp FindById(size_t id);
 
       /// the following two commands are synonymous
-      unsigned int GetPrimaryId() { return primaryId; }
-      unsigned int GetPlayerId() { return primaryId; }
-
-      virtual void setWorldloaded(bool value) { world_loaded = value; }
+      size_t GetPrimaryId() { return primaryId; }
+      size_t GetPlayerId() { return primaryId; }
 
       virtual void Reset();
 
-//      Octree::QueryResult Query(const WFMath::Ball<3>& s);
-    };
-
-    ///Compare the entity's unique ID to a give value.
-    struct CompareId { 
-	    CompareId(unsigned int id):id(id){} 
-	    template<typename T> bool operator()(T const& t) 
-            { return t->GetId() == id; } 
-    
-    private:
-	   unsigned int id; 
+      Octree::QueryResult Query(const WFMath::Ball<3>& s);
     };
 
   } // namespace Entity

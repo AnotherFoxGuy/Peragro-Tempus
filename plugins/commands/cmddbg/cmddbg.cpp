@@ -47,7 +47,7 @@
 #include "common/network/entitymessages.h"
 
 #include "client/entity/base/entity.h"
-#include "client/entity/base/entitymanager.h"
+#include "client/entity/entitymanager.h"
 
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
@@ -224,7 +224,7 @@ std::string cmdDbg::Execute (const StringArray& args)
     {
       if (args.size() < 4) throw BadUsage();
 
-      PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->findEntById(ent_mgr->GetPlayerId())->GetSectorName());
+      PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->FindById(ent_mgr->GetPlayerId())->GetSectorName());
       if(!sector) return "Invalid sector!";
 
       std::string result;

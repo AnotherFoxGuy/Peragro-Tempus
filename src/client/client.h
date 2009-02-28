@@ -221,7 +221,7 @@ namespace PT
     PT::StateManager* stateManager;
     PT::Environment::EnvironmentManager* environmentManager;
 
-    ::Client::Entity::EntityManager* entityManager;
+    PT::Entity::EntityManager* entityManager;
     PT::Combat::CombatManager* combatManager;
     PT::Chat::ChatManager* chatManager;
     PT::Trade::TradeManager* tradeManager;

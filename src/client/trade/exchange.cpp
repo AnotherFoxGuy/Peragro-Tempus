@@ -30,7 +30,7 @@
 #include "client/network/network.h"
 #include "common/network/trademessages.h"
 
-#include "client/entity/base/entitymanager.h"
+#include "client/entity/entitymanager.h"
 #include "common/entity/entity.h"
 
 
@@ -128,7 +128,7 @@ namespace PT
 
       EntityManager* entityManager = PointerLibrary::getInstance()->getEntityManager();
       if (!entityManager) return true;
-      Common::Entity::Entityp ent = entityManager->findEntById(entityId);
+      Common::Entity::Entityp ent = entityManager->FindById(entityId);
       if (!ent) return true;
 
       std::stringstream out;
