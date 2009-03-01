@@ -90,7 +90,7 @@ std::string cmdDbg::Execute (const StringArray& args)
     Network* network = ptrlib->getNetwork();
     if(!network) return "Error: Network object not found!";
 
-    PT::Data::SectorDataManager* sectorDataMgr = ptrlib->getSectorDataManager();
+    PT::Data::SectorDataManager* sectorDataMgr = ptrlib->GetSectorDataManager();
     if (!sectorDataMgr) return "Error: SectorDataManager not found!";
 
     Entity::EntityManager* ent_mgr = ptrlib->getEntityManager();
@@ -166,8 +166,8 @@ std::string cmdDbg::Execute (const StringArray& args)
         SpawnItemMessage itemmsg;
         itemmsg.setItemId(atoi(args[4].c_str()));
         itemmsg.setVariation(atoi(args[5].c_str()));
-        itemmsg.setPos(pos.x, pos.y, pos.z);
-        itemmsg.setSectorId(sectorId);
+        itemmsg.SetPosition(pos.x, pos.y, pos.z);
+        itemmsg.SetSectorId(sectorId);
         network->send(&itemmsg);
       }
       else if(args[3].compare("mount") == 0)
@@ -175,9 +175,9 @@ std::string cmdDbg::Execute (const StringArray& args)
         SpawnMountMessage mountmsg;
         mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
         mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
-        mountmsg.setPos(pos.x, pos.y, pos.z);
-        mountmsg.setRotation(rotation);
-        mountmsg.setSectorId(sectorId);
+        mountmsg.SetPosition(pos.x, pos.y, pos.z);
+        mountmsg.SetRotation(rotation);
+        mountmsg.SetSectorId(sectorId);
         network->send(&mountmsg);
       }
     }
@@ -212,9 +212,9 @@ std::string cmdDbg::Execute (const StringArray& args)
 
       TeleportRequestMessage msg;
       msg.setEntityId(ent_mgr->GetPlayerId());
-      msg.setPos(pos.x, pos.y, pos.z);
-      msg.setRotation(pclinmove->GetYRotation());
-      msg.setSectorId(sector->GetId());
+      msg.SetPosition(pos.x, pos.y, pos.z);
+      msg.SetRotation(pclinmove->GetYRotation());
+      msg.SetSectorId(sector->GetId());
       network->send(&msg);
     }
 
@@ -298,9 +298,9 @@ std::string cmdDbg::Execute (const StringArray& args)
 
       TeleportRequestMessage msg;
       msg.setEntityId(ent_mgr->GetPlayerId());
-      msg.setPos(pos.x, pos.y, pos.z);
-      msg.setRotation(rot);
-      msg.setSectorId(sector->GetId());
+      msg.SetPosition(pos.x, pos.y, pos.z);
+      msg.SetRotation(rot);
+      msg.SetSectorId(sector->GetId());
       network->send(&msg);
     }
 

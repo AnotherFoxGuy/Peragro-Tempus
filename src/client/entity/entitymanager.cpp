@@ -322,7 +322,7 @@ namespace PT
           mount->GetType() == Common::Entity::MountEntityType)
         {
           PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
-          m->Mount(static_cast<::Client::Entity::Entity*>(entity.get()));
+          m->Mount(static_cast< ::Client::Entity::Entity*>(entity.get()));
           //Set camera to follow the mount after mounting. Only done for player's mount.
           //TODO: This is just a temporary solution. It will not work nicely with boats etc.
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
@@ -350,7 +350,7 @@ namespace PT
           mount->GetType() == Common::Entity::MountEntityType)
         {
           PT::Entity::MountEntity* m = static_cast<PT::Entity::MountEntity*>(mount.get());
-          m->UnMount(static_cast<::Client::Entity::Entity*>(entity.get()));
+          m->UnMount(static_cast< ::Client::Entity::Entity*>(entity.get()));
           //Set camera to follow the player. See the TODO comment above.
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(PT::Entity::PlayerEntity::Instance()->GetCelEntity());
         }
@@ -371,7 +371,7 @@ namespace PT
         if (!pcprop) return false;
 
         unsigned int id = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
-        ::Client::Entity::Entity* ptEnt = dynamic_cast<::Client::Entity::Entity*> (FindById(id).get());
+        ::Client::Entity::Entity* ptEnt = dynamic_cast< ::Client::Entity::Entity*> (FindById(id).get());
         if (!ptEnt) return false;
 
         ptEnt->Interact();
@@ -453,7 +453,7 @@ namespace PT
       unsigned int poseId = -1;
       ev.Retrieve("poseId", poseId);
 
-      ::Client::Entity::Entity* entity = dynamic_cast<::Client::Entity::Entity*>(FindById(id).get());
+      ::Client::Entity::Entity* entity = dynamic_cast< ::Client::Entity::Entity*>(FindById(id).get());
       if (entity) entity->Pose(poseId);
 
       return true;

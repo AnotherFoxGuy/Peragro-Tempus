@@ -140,7 +140,7 @@ bool ComponentPlayerControls::PerformMovementAction()
 
   MoveRequestMessage msg;
 
-  if (walk == -1 && msg.setMoveDirection(walk + 1, 0, -turn + 1);
+  if (walk == -1 && backwardReverse) msg.setMoveDirection(walk + 1, 0, -turn + 1);
   else msg.setMoveDirection(walk + 1, 0, turn + 1);
   msg.setRun(run);
   msg.setJump(jump);
