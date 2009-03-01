@@ -142,7 +142,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   Race* race = server->getRaceManager()->findByName(char_msg.getRaceName());
 
   // Register the new char
-  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->getId(), char_id, race, haircolour, skincolour, decalcolour);
+  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->GetId(), char_id, race, haircolour, skincolour, decalcolour);
 
   // Send response message
   CharCreateResponseMessage response_msg;
@@ -179,7 +179,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     entity = user->getEntity();
     character = entity->getCharacter();
 
-    if (character->getId() != request_msg.getCharId())
+    if (character->GetId() != request_msg.getCharId())
     {
       // User tries to login with a new character, remove the old.
       Server::getServer()->delEntity(entity->getEntity());
@@ -207,20 +207,20 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
     {
       ptScopedMonitorable<Entity> ent (entity->getEntity());
-      ent->setName(character->getName());
+      ent->SetName(*character->getName());
       ent->setMesh(character->getMesh());
 
-      printf("Adding Character '%s' with entity '%s'\n", *user->getName(), *entity->getEntity()->getName());
+      printf("Adding Character '%s' with entity '%s'\n", *user->getName(), entity->getEntity()->GetName().c_str());
       user->setEntity(newEntity);
 
-      ent->setRotation(character->getRotation());
-      ent->setSector(character->getSector());
-      ent->setPos(character->getPos());
+      ent->SetRotation(character->GetRotation());
+      ent->SetSectorName(*character->GetSector());
+      ent->SetPosition(character->GetPosition());
 
-      newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->getId());
-      newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->getId());
-      newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->getId());
-      newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->getId());
+      newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->GetId());
+      newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->GetId());
+      newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->GetId());
+      newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->GetId());
     } // Release lock on ent.
 
     server->addEntity(entity->getEntity(), false);
@@ -228,7 +228,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
   CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
-  response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->GetId());
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
@@ -256,7 +256,7 @@ void UserHandler::handleMeshListRequest(GenericMessage* msg)
   for (size_t i=0; i < meshes.size(); i++)
   {
     const Mesh* mesh = meshes[i];
-    response.setMeshId(i, mesh->getId());
+    response.setMeshId(i, mesh->GetId());
     response.setMeshName(i, mesh->getName());
     response.setFileName(i, mesh->getFile());
   }
@@ -278,9 +278,9 @@ void UserHandler::handleRaceListRequest(GenericMessage* msg)
   for (size_t i=0; i< raceCount; i++)
   {
     Race* race = server->getRaceManager()->getRace(i);
-    response.setRaceId(i, race->getId());
+    response.setRaceId(i, race->GetId());
     response.setRaceName(i, race->getName());
-    response.setMeshId(i, race->getMesh()->getId());
+    response.setMeshId(i, race->getMesh()->GetId());
   }
 
   ByteStream bs;

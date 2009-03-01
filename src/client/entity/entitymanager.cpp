@@ -419,11 +419,11 @@ namespace PT
           rot = acos (rotv.z);
           if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
 
-          drmsg.setRotation(rot);
-          drmsg.setPos(pos.x, pos.y, pos.z);
+          drmsg.SetRotation(rot);
+          drmsg.SetPosition(pos.x, pos.y, pos.z);
           if (sector && sector->QueryObject()->GetName())
           {
-            PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->getSectorDataManager();
+            PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->GetSectorDataManager();
             PT::Data::Sector* dataSector = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName());
             if (!dataSector)
             {
@@ -431,12 +431,12 @@ namespace PT
               return;
             }
             //Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
-            drmsg.setSectorId(dataSector->GetId());
+            drmsg.SetSectorId(dataSector->GetId());
           }
           else
           {
             return; // no sector? something odd, isn't it?
-            //drmsg.setSectorId(0);
+            //drmsg.SetSectorId(0);
           }
 
           PointerLibrary::getInstance()->getNetwork()->send(&drmsg);

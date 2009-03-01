@@ -50,7 +50,7 @@ public:
   User(unsigned int id) : id(id), pwhash(0), permissions(id) { }
   ~User() { delete [] pwhash; }
 
-  unsigned int getId() const { return id; }
+  unsigned int GetId() const { return id; }
 
   const ptString& getName() const { return name; }
   void setName(ptString name) { this->name = name; }

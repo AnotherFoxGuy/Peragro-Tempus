@@ -83,11 +83,11 @@ bool CombatManager::AttackRequest(const PcEntity *attackerEntity,
   }
 
   const Character* c_char;
-  if (targetEntity->getType() == Entity::PlayerEntityType)
+  if (targetEntity->GetType() == Common::Entity::PlayerEntityType)
   {
     c_char = targetEntity->getPlayerEntity()->getCharacter();
   }
-  else if (targetEntity->getType() == Entity::NPCEntityType)
+  else if (targetEntity->GetType() == Common::Entity::NPCEntityType)
   {
     c_char = targetEntity->getNpcEntity()->getCharacter();
   }
@@ -166,8 +166,8 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
 
   StatsChangeMessage msg;
   ByteStream statsbs;
-  msg.setStatId(hp->getId());
-  msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
+  msg.setStatId(hp->GetId());
+  msg.setEntityId(lockedTargetCharacter->getEntity()->GetId());
   msg.setName(ptString("Health", strlen("Health")));
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
@@ -206,12 +206,12 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         //{
         //  continue;
         //}
-        //printf("\n\n\nIn place %c, type %u\n\n", slot, entry->getId());
+        //printf("\n\n\nIn place %c, type %u\n\n", slot, entry->GetId());
         // TODO
         // Remove all items from the players slot
         // Make sure to send those updates
         EquipMessage unequip_msg;
-        unequip_msg.setEntityId(lockedTargetCharacter->getEntity()->getId());
+        unequip_msg.setEntityId(lockedTargetCharacter->getEntity()->GetId());
         unequip_msg.setSlotId(slot);
         unequip_msg.setItemId(Item::NoItem); // No Item!
         unequip_msg.setMeshId(0); // Not used yet!
@@ -231,8 +231,8 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
         const float radius = 0.8f;
         const WFMath::Vector<3> delta(cos(radians) * radius, sin(radians) * radius,
           0.0f);
-        ent->setPos(lockedTargetCharacter->getEntity()->getPos() + delta);
-        ent->setSector(lockedTargetCharacter->getEntity()->getSector());
+        ent->SetPosition(lockedTargetCharacter->getEntity()->GetPosition() + delta);
+        ent->SetSector(lockedTargetCharacter->getEntity()->GetSector());
 
         itemsDropped++;
         Server::getServer()->addEntity(ent, true);
@@ -250,7 +250,7 @@ bool CombatManager::AttackRequest(Character* lockedAttackerCharacter,
   else
   {
     // Only report the damage to the affected player
-    if (lockedTargetCharacter->getEntity()->getType() == Entity::PlayerEntityType)
+    if (lockedTargetCharacter->getEntity()->GetType() == Common::Entity::PlayerEntityType)
     {
       NetworkHelper::sendMessage(lockedTargetCharacter, statsbs);
       //TODO: Send a hurt message to the surrounding players for animation purposes??
@@ -288,18 +288,18 @@ int CombatManager::CalculateAttack()
 bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
                                               Character* target)
 {
-  const WFMath::Point<3> attackerPos(attacker->getEntity()->getPos());
-  const WFMath::Point<3> targetPos(target->getEntity()->getPos());
+  const WFMath::Point<3> attackerPos(attacker->getEntity()->GetPosition());
+  const WFMath::Point<3> tarGetPosition(target->getEntity()->GetPosition());
 
   // TODO should not be 200, but calculated by GetReach(attacker);
   const float maxAttackDistance = 2.0f;
   //const float maxAttackDistance = GetReach(attacker);
 
-  const float distance = Distance(attackerPos, targetPos);
+  const float distance = Distance(attackerPos, tarGetPosition);
 
-  printf("CombatManager: attackerPos: %s, targetPos: %s, distance %f, "
+  printf("CombatManager: attackerPos: %s, tarGetPosition: %s, distance %f, "
     "maxAttackDistance: %f\n", WFMath::ToString(attackerPos).c_str(),
-    WFMath::ToString(targetPos).c_str(), distance, maxAttackDistance);
+    WFMath::ToString(tarGetPosition).c_str(), distance, maxAttackDistance);
 
   if (distance > maxAttackDistance)
   {
@@ -308,7 +308,7 @@ bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
     return false;
   }
 
-  WFMath::Point<3> difference = WFMath::Point<3>(attackerPos - targetPos);
+  WFMath::Point<3> difference = WFMath::Point<3>(attackerPos - tarGetPosition);
   // TODO this should be made better, basically check
   // so the attacker and target is not differing too much
   // in height level.
@@ -319,7 +319,7 @@ bool CombatManager::CheckIfTargetIsAttackable(Character* attacker,
   }
 
   const float attackerRotation =
-    PT::Math::NormalizeAngle(attacker->getEntity()->getRotation());
+    PT::Math::NormalizeAngle(attacker->getEntity()->GetRotation());
 
   if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
   const float attackAngle =
@@ -529,8 +529,8 @@ void CombatManager::SendStatUpdate(const Stat* stat, const CharacterStats* stats
 {
   StatsChangeMessage msg;
   ByteStream statsbs;
-  msg.setStatId(stat->getId());
-  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setStatId(stat->GetId());
+  msg.setEntityId(lockedCharacter->getEntity()->GetId());
   msg.setName(ptString(name, strlen(name)));
   msg.setLevel(stats->getAmount(stat));
   msg.serialise(&statsbs);

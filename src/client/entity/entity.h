@@ -59,7 +59,7 @@ namespace Client
        * This is a convenience constructor possibly needed for children classes.
        * @todo Recheck if this is actually needed.
        */
-      Entity() : PT::Entity::Entity() {}
+      Entity(Common::Entity::EntityType type) : PT::Entity::Entity(type) {}
 
       /**
        * Initialises the object's CEL entity. This includes creation of CEL
@@ -84,7 +84,7 @@ namespace Client
        * duplication.
        * @param ev Event used for initialising the entity properties.
        */
-      Entity(const iEvent& ev);
+      Entity(Common::Entity::EntityType type, const iEvent& ev);
 
       /**
        * Virtual destructor.

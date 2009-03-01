@@ -71,12 +71,15 @@ namespace Common
       ///Name of the sector where the npc resides (e.g. 'room').
       std::string sectorName;
       ///Rotation of the entity.
-      float rot;
+      float rotation;
 
       friend class EntityManager;
 
     public:
-      Entity() : id(-1), position(this) {}
+#pragma warning( push)
+#pragma warning( disable : 4355 )
+      Entity(EntityType type) : id(0), type(type), position(this), rotation(0.0f) {}
+#pragma warning( pop )
 
       /**
       * Virtual destructor.
@@ -84,59 +87,56 @@ namespace Common
       virtual ~Entity() { Reset(); }
 
       ///@return Entity's unique ID.
-      unsigned int GetId () const { return id; }
+      virtual unsigned int GetId () const { return id; }
       ///Set the entity's unique ID to a given value.
       ///@todo Should we really be allowed to do this?
-      void SetId (unsigned int value) { id = value; }
+      virtual void SetId (unsigned int value) { id = value; }
 
       ///@return Entity's type.
-      int GetType () const { return type; }
-      ///Set the entity's type to a given value.
-      ///@todo Should we really be allowed to do this?
-      void SetType (EntityType value)  { type = value; }
+      virtual int GetType () const { return type; }
 
       ///@return Entity's name.
-      const std::string& GetName () const { return name; }
+      virtual const std::string& GetName () const { return name; }
       ///Set the entity's name to a given value.
-      void SetName (const std::string& value) { name = value; }
+      virtual void SetName (const std::string& value) { name = value; }
 
       ///@return Entity's mesh name.
-      const std::string& GetMeshName () const { return meshName; }
+      virtual const std::string& GetMeshName () const { return meshName; }
       ///Set the entity's mesh name to a given value.
-      void SetMeshName (const std::string& value) { meshName = value; }
+      virtual void SetMeshName (const std::string& value) { meshName = value; }
 
       ///@return Entity's mesh name.
-      const std::string& GetFileName () const { return fileName; }
+      virtual const std::string& GetFileName () const { return fileName; }
       ///Set the entity's mesh name to a given value.
-      void SetFileName (const std::string& value) { fileName = value; }
+      virtual void SetFileName (const std::string& value) { fileName = value; }
 
       ///@return Position of entity within a sector.
-      const WFMath::Point<3>& GetPosition() const { return position.Get(); }
+      virtual const WFMath::Point<3>& GetPosition() const { return position.Get(); }
       ///Set the position of entity within a sector to a given value.
-      void SetPosition(float x, float y, float z)
+      virtual void SetPosition(float x, float y, float z)
       { position = WFMath::Point<3>(x,y,z); }
-      void SetPosition(const WFMath::Point<3>& value) { position = value;}
+      virtual void SetPosition(const WFMath::Point<3>& value) { position = value;}
 
       ///@return Position of entity within a sector.
-      std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }
+      virtual std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }
 
       ///@return Name of the sector where entity resides.
-      const std::string& GetSectorName() const { return sectorName; }
+      virtual const std::string& GetSectorName() const { return sectorName; }
       ///Set the name of sector where the entity resides.
-      void SetSectorName (const std::string& value) { sectorName = value; }
+      virtual void SetSectorName (const std::string& value) { sectorName = value; }
 
       ///@return Rotation of entity.
-      float GetRotation() const { return rot; }
+      virtual float GetRotation() const { return rotation; }
       ///Set the rotation of entity to a given value.
-      void SetRotation (float value) { rot = value; }
+      virtual void SetRotation (float value) { rotation = value; }
 
       ///Ensure that the Entity's position is a valid position in the world
       virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
       ///Set the Entity's position, ensuring that the position is valid
       virtual void SetFullPosition(const WFMath::Point<3>& pos, 
-                                   float rotation,
+                                   float rot,
                                    const std::string& sector)
-      { position = pos;  rot = rotation;  sectorName = sector; }
+      { position = pos;  rotation = rotation;  sectorName = sector; }
 
       ///Reset the entity do its default state
       virtual void Reset() {}

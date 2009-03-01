@@ -42,69 +42,69 @@ void User::sendAddEntity(const Entity* entity)
   if (ent_list.exists(entity))
     return;
 
-  if (!entity || !*(entity->getName()))
+  if (!entity || entity->GetName().empty())
     return;
 
   if (!getEntity())
     return;
 
-  SectorManager* sectormanager = Server::getServer()->getSectorManager();
+  SectorManager* sectormanager = Server::getServer()->GetSectorManager();
   const ptString& entity_region =
-    sectormanager->getRegionName( entity->getSector() );
+    sectormanager->getRegionName( entity->GetSector() );
   const ptString& player_region =
-    sectormanager->getRegionName(getEntity()->getEntity()->getSector());
+    sectormanager->getRegionName(getEntity()->getEntity()->GetSector());
 
   if (!(player_region == entity_region)) return;
 
-  printf("send addentity '%s' to '%s'\n", *entity->getName(), *this->getName());
+  printf("send addentity '%s' to '%s'\n", entity->GetName().c_str(), *this->getName());
 
   ent_list.addEntity(entity);
   ByteStream bs;
-  if (entity->getType() == Entity::DoorEntityType)
+  if (entity->GetType() == Common::Entity::DoorEntityType)
   {
     AddDoorEntityMessage msg;
     msg.setDoorId(entity->getDoorEntity()->getDoorId());
-    msg.setEntityId(entity->getId());
+    msg.setEntityId(entity->GetId());
     msg.setIsOpen(entity->getDoorEntity()->getOpen());
     msg.setIsLocked(entity->getDoorEntity()->getLocked());
     msg.setAnimationName(entity->getDoorEntity()->getAnimation());
-    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
+    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(entity->getMesh()->getName());
     msg.setFileName(entity->getMesh()->getFile());
-    msg.setSectorId(entity->getSector());
-    msg.setEntityName(entity->getName());
+    msg.SetSectorId(entity->GetSector());
+    msg.setEntityName(entity->GetNameId());
     msg.serialise(&bs);
   }
-  else if (entity->getType() == Entity::ItemEntityType)
+  else if (entity->GetType() == Common::Entity::ItemEntityType)
   {
     const Item* item = entity->getItemEntity()->getItem();
 
     AddItemEntityMessage msg;
-    msg.setEntityId(entity->getId());
-    msg.setItemId(item->getId());
-    msg.setPos(entity->getPos());
-    msg.setRotation(entity->getRotation());
-    msg.setSectorId(entity->getSector());
+    msg.setEntityId(entity->GetId());
+    msg.setItemId(item->GetId());
+    msg.SetPosition(entity->GetPosition());
+    msg.SetRotation(entity->GetRotation());
+    msg.SetSectorId(entity->GetSector());
 
     msg.setEntityName(item->getName());
-    msg.setMeshId(item->getMesh()->getId()); // Not used yet!
+    msg.setMeshId(item->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(item->getMesh()->getName());
     msg.setFileName(item->getMesh()->getFile());
 
     msg.serialise(&bs);
   }
-  else if (entity->getType() == Entity::PlayerEntityType)
+  else if (entity->GetType() == Common::Entity::PlayerEntityType)
   {
     AddPlayerEntityMessage msg;
-    msg.setEntityName(entity->getName());
-    msg.setEntityId(entity->getId());
-    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
+    msg.setEntityName(entity->GetNameId());
+    msg.setEntityId(entity->GetId());
+    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(entity->getMesh()->getName());
     msg.setFileName(entity->getMesh()->getFile());
-    msg.setPos(entity->getPos());
-    msg.setRotation(entity->getRotation());
-    msg.setSectorId(entity->getSector());
-    msg.setPoseId(entity->getPlayerEntity()->getPose());
+    msg.SetPosition(entity->GetPosition());
+    msg.SetRotation(entity->GetRotation());
+    msg.SetSectorId(entity->GetSector());
+    msg.setPoseId(entity->getPlayerEntity()->getPoseId());
 
     ptScopedMonitorable<Character> character (entity->getPlayerEntity()->getCharacter());
 
@@ -115,34 +115,33 @@ void User::sendAddEntity(const Entity* entity)
     inv->addEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
   }
-  else if (entity->getType() == Entity::NPCEntityType)
+  else if (entity->GetType() == Common::Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;
-    msg.setEntityName(entity->getName());
-    msg.setEntityId(entity->getId());
-    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
+    msg.setEntityName(entity->GetNameId());
+    msg.setEntityId(entity->GetId());
+    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(entity->getMesh()->getName());
     msg.setFileName(entity->getMesh()->getFile());
-    msg.setPos(entity->getPos());
-    msg.setRotation(entity->getRotation());
-    msg.setSectorId(entity->getSector());
+    msg.SetPosition(entity->GetPosition());
+    msg.SetRotation(entity->GetRotation());
+    msg.SetSectorId(entity->GetSector());
     ptScopedMonitorable<Character> character (entity->getNpcEntity()->getCharacter());
     Inventory* inv = character->getInventory();
     inv->addEquipment(msg);
     msg.serialise(&bs);
   }
-  else if (entity->getType() == Entity::MountEntityType)
+  else if (entity->GetType() == Common::Entity::MountEntityType)
   {
     AddMountEntityMessage msg;
-    msg.setEntityName(entity->getName());
-    msg.setEntityId(entity->getId());
-    msg.setMeshId(entity->getMesh()->getId()); // Not used yet!
+    msg.setEntityName(entity->GetNameId());
+    msg.setEntityId(entity->GetId());
+    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(entity->getMesh()->getName());
     msg.setFileName(entity->getMesh()->getFile());
-    msg.setPos(entity->getPos());
-    msg.setPos(entity->getPos());
-    msg.setRotation(entity->getRotation());
-    msg.setSectorId(entity->getSector());
+    msg.SetPosition(entity->GetPosition());
+    msg.SetRotation(entity->GetRotation());
+    msg.SetSectorId(entity->GetSector());
     msg.serialise(&bs);
   }
   else
@@ -158,13 +157,13 @@ void User::sendRemoveEntity(const Entity* entity)
   if (!ent_list.exists(entity))
     return;
 
-  printf("send delentity '%s' to '%s'\n", *entity->getName(), *this->getName());
+  printf("send delentity '%s' to '%s'\n", entity->GetName().c_str(), *this->getName());
 
   ent_list.removeEntity(entity);
 
   RemoveEntityMessage msg;
   //msg.setName(entity->getName());
-  msg.setEntityId(entity->getId());
+  msg.setEntityId(entity->GetId());
   //msg.setType((char)entity->getType());
   ByteStream bs;
   msg.serialise(&bs);

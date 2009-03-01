@@ -61,7 +61,7 @@ public:
 
   unsigned int getAmount(Stat* stat)
   {
-    RaceStat* entry = findEntry(stat->getId());
+    RaceStat* entry = findEntry(stat->GetId());
     return (entry?entry->level:0);
   }
 

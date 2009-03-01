@@ -37,7 +37,7 @@ void NpcEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
 {
   final_dst = dst_pos;
 
-  WFMath::Point<3> pos = entity.get()->getPos();
+  WFMath::Point<3> pos = entity.get()->GetPosition();
 
   const float dist = Distance(final_dst, pos);
 
@@ -47,25 +47,25 @@ void NpcEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
   isWalking = true;
 }
 
-WFMath::Point<3> NpcEntity::getPos()
+WFMath::Point<3> NpcEntity::GetPosition()
 {
   if (!isWalking)
   {
-    return entity.get()->getPos();
+    return entity.get()->GetPosition();
   }
   else
   {
     if ((size_t)time(0) >= t_stop)
     {
       ptScopedMonitorable<Entity> ent (entity.get());
-      ent->setPos(final_dst);
+      ent->SetPosition(final_dst);
 
       isWalking = false;
       return final_dst;
     }
     else
     {
-      const WFMath::Point<3> pos = entity.get()->getPos();
+      const WFMath::Point<3> pos = entity.get()->GetPosition();
       //Not sure that's correct...
       size_t delta = t_stop - (size_t) time(0);
       tmp_pos = WFMath::Point<3>((final_dst - pos) * (float)delta);

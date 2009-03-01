@@ -34,7 +34,7 @@ public:
   ~Stat() {}
 
   void setId(int id) { this->id = id; }
-  int getId() const { return id; }
+  int GetId() const { return id; }
 
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }

@@ -56,7 +56,7 @@ public:
     for (size_t i = 0; i<stats.getCount(); i++)
     {
       Stat* _stat = stats.get(i);
-      if (_stat->getId() == stat->getId())
+      if (_stat->GetId() == stat->GetId())
       {
         stats.remove(i);
         return;
@@ -71,7 +71,7 @@ public:
     {
       Stat* _stat = stats.get(i);
 
-      if (_stat->getId() == stat->getId())
+      if (_stat->GetId() == stat->GetId())
         return true;
     }
     return false;
@@ -96,7 +96,7 @@ public:
     for (size_t i = 0; i<stats.getCount(); i++)
     {
       Stat* stat = stats.get(i);
-      if (stat->getId() == id)
+      if (stat->GetId() == id)
       {
         return stat;
       }

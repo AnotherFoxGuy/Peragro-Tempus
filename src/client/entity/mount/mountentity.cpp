@@ -44,7 +44,7 @@ namespace PT
   {
 
     MountEntity::MountEntity(const iEvent& ev) :
-      CharacterEntity(ev)
+      CharacterEntity(Common::Entity::MountEntityType, ev)
     {
       mounted = false;
 

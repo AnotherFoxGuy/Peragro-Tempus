@@ -80,14 +80,14 @@ private:
       if (timeCounter - sp->pickTime > sp->spawnInterval)
       {
         ItemEntity* item_ent = new ItemEntity();
-        item_ent->createFromItem(sp->item->getId(), sp->variation);
+        item_ent->createFromItem(sp->item->GetId(), sp->variation);
 
         ptScopedMonitorable<Entity> e (item_ent->getEntity());
-        e->setPos(sp->x, sp->y, sp->z);
-        e->setSector(sp->sector_id);
+        e->SetPosition(sp->x, sp->y, sp->z);
+        e->SetSectorName(*sp->sector_id);
 
         Server::getServer()->addEntity(e, false);
-        sp->entity_id = e->getId();
+        sp->entity_id = e->GetId();
         sp->pickTime = 0;
       }
     }

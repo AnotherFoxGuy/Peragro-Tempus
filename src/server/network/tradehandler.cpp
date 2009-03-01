@@ -47,7 +47,7 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
 
   unsigned int ent_id = message.getEntityId();
 
-  if (pc->getEntity()->getId() == ent_id)
+  if (pc->getEntity()->GetId() == ent_id)
   {
     ExchangeResponseMessage resp;
     ptString error("You can't trade with yourself.", strlen("You can't trade with yourself."));
@@ -72,7 +72,7 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
   EntityManager* ent_mgr = server->getEntityManager();
   const Entity* peer_ent = ent_mgr->findById(ent_id);
 
-  if (peer_ent && peer_ent->getType() == Entity::PlayerEntityType)
+  if (peer_ent && peer_ent->GetType() == Common::Entity::PlayerEntityType)
   {
     ptScopedMonitorable<PcEntity> peer_pc (peer_ent->getPlayerEntity());
     TradePeer* other_peer = peer_pc->getTradePeer();
@@ -103,7 +103,7 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
     other_peer->debugPrint();
 #endif
 
-    message.setEntityId(pc->getEntity()->getId());
+    message.setEntityId(pc->getEntity()->GetId());
 
     ByteStream bs;
     message.serialise(&bs);

@@ -34,7 +34,7 @@ public:
   ~Reputation() {}
 
   void setId(int id) { this->id = id; }
-  int getId() { return id; }
+  int GetId() { return id; }
 
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }

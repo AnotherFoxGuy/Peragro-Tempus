@@ -110,23 +110,23 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -161,8 +161,8 @@ public:
 
   // --- end ListEquipment Getter and Setter ---
 
-  unsigned char getPoseId() const { return poseid; }
-  void setPoseId(unsigned char x) { poseid = x; }
+  unsigned char GetPositioneId() const { return poseid; }
+  void SetPositioneId(unsigned char x) { poseid = x; }
 
 };
 
@@ -209,23 +209,23 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -281,8 +281,8 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   ptString getAnimationName() const { return animationname; }
   void setAnimationName(ptString x) { animationname = x; }
@@ -344,20 +344,20 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)
@@ -395,8 +395,8 @@ public:
     setDecalColour(x[0], x[1], x[2]);
   }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -472,23 +472,23 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -920,23 +920,23 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -962,23 +962,23 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -1000,23 +1000,23 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -1039,23 +1039,23 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }

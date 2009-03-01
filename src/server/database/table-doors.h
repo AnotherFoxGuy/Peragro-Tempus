@@ -37,13 +37,13 @@ public:
   /// The id of the door.
   unsigned short id;
   /// The name of the door.
-  ptString name;
+  std::string name;
   /// The locked state.
   unsigned char islocked;
   /// The open state.
   unsigned char isopen;
   /// The sector the door exists in
-  ptString sector;
+  std::string sector;
   /// The mesh of the door
   unsigned int mesh;
   /// Animation, or CEL Quest
@@ -127,7 +127,7 @@ public:
    * @param name The name of the door table to search for.
    * @return The door table VO class, or 0 if not found.
    */
-  DoorsTableVO* getByName(ptString name);
+  DoorsTableVO* getByName(const std::string& name);
   /**
    * Returns a door table given its name.
    * The caller is responsible for freeing the returned door table.

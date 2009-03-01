@@ -62,13 +62,13 @@ void RaceSkillsTable::insert(int raceskill, int skill)
 
 void RaceSkillsTable::set(int raceskill, Skill* skill)
 {
-  insert(raceskill, skill->getId());
+  insert(raceskill, skill->GetId());
 }
 
 int RaceSkillsTable::get(int raceskill, Skill* skill)
 {
   ResultSet* rs = db->query("select * from raceskill where id = '%d' and skill = '%d';",
-    raceskill, skill->getId());
+    raceskill, skill->GetId());
 
   int level = 0;
 

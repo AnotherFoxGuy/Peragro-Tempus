@@ -52,7 +52,7 @@ private:
 public:
   MountEntity()
   {
-    entity = (new Entity(Entity::MountEntityType))->getRef();
+    entity = (new Entity(Common::Entity::MountEntityType))->getRef();
 
     ptScopedMonitorable<Entity> e (entity.get());
     e->setMountEntity(this);
@@ -84,7 +84,7 @@ public:
   const PcEntity* getPassenger(size_t i) const;
 
   void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> getPos();
+  WFMath::Point<3> GetPosition();
 
   float getSpeed() const { return speed; }
 };

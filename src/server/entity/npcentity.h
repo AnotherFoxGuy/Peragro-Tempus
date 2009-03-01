@@ -47,7 +47,7 @@ private:
 public:
   NpcEntity()
   {
-    entity = (new Entity(Entity::NPCEntityType))->getRef();
+    entity = (new Entity(Common::Entity::NPCEntityType))->getRef();
 
     ptScopedMonitorable<Entity> e (entity.get());
     e->setNpcEntity(this);
@@ -73,7 +73,7 @@ public:
   const Character* getCharacter() const { return this->character.get(); }
 
   void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> getPos();
+  WFMath::Point<3> GetPosition();
 
   void pause(bool pause) { if (ai) ai->pause(pause); }
 };

@@ -113,7 +113,7 @@ public:
    * @param sector The new sector location.
    * @param char_id The id of the character for which to update the location.
    */
-  void update(const WFMath::Point<3>& pos, float rot, const ptString& sector,
+  void update(const WFMath::Point<3>& pos, float rot, const std::string& sector,
               int char_id);
   /**
    * Checks if a character exists in the database based on its name.

@@ -117,10 +117,10 @@ Race* RaceTable::findRaceById(int id, MeshManager* meshmgr)
   race->setId(atoi(rs->GetData(0,0).c_str()));
   race->setName(ptString(rs->GetData(0,1).c_str(),rs->GetData(0,1).length()));
   race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
-  race->setPos(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
+  race->SetPosition(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
     (float) atof(rs->GetData(0,4).c_str()),
     (float) atof(rs->GetData(0,5).c_str())));
-  race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
+  race->SetSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
   delete rs;
 
   return race;
@@ -136,10 +136,10 @@ void RaceTable::getAllRaces(Array<Race*>& races, MeshManager* meshmgr)
     race->setId(atoi(rs->GetData(i,0).c_str()));
     race->setName(ptString(rs->GetData(i,1).c_str(),rs->GetData(0,1).length()));
     race->setMesh(meshmgr->findById(atoi(rs->GetData(0,2).c_str())));
-    race->setPos(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
+    race->SetPosition(WFMath::Point<3>((float) atof(rs->GetData(0,3).c_str()),
       (float) atof(rs->GetData(0,4).c_str()),
       (float) atof(rs->GetData(0,5).c_str())));
-    race->setSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
+    race->SetSector(ptString(rs->GetData(0,6).c_str(),rs->GetData(0,6).length()));
     races.add(race);
   }
   delete rs;

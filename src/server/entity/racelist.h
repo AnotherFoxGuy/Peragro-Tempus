@@ -110,7 +110,7 @@ public:
     for (size_t i = 0; i<races.getCount(); i++)
     {
       Race* race = races.get(i);
-      if (race->getId() == id)
+      if (race->GetId() == id)
       {
         return race;
       }

@@ -112,12 +112,12 @@ namespace PT
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
 
 
-      PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->getSectorDataManager();
+      PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->GetSectorDataManager();
 
       // ==[ Sectors ]=========================================================
       std::vector<PT::Data::Sector*> sectors;
 
-      PointerLibrary::getInstance()->getSectorDataManager()->GetAllSectors(sectors);
+      PointerLibrary::getInstance()->GetSectorDataManager()->GetAllSectors(sectors);
 
       for (size_t i = 0; i < sectors.size(); i++ )
       {
@@ -129,7 +129,7 @@ namespace PT
 
         // Just send the data here, one sector/package
         CreateSectorMessage sectormsg;
-        sectormsg.setSectorId(sector_id);
+        sectormsg.SetSectorId(sector_id);
         sectormsg.setName(name);
         sectormsg.setRegion(region);
 
@@ -170,8 +170,8 @@ namespace PT
         doormsg.setDoorId(door_id);
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
-        doormsg.setSectorId(sector_id);
-        doormsg.setPos(position);
+        doormsg.SetSectorId(sector_id);
+        doormsg.SetPosition(position);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 
         doormsg.setIsOpen(open);
@@ -240,8 +240,8 @@ namespace PT
         CreateSpawnPointMessage spawnmsg;
         spawnmsg.setItemId(itemid);
         spawnmsg.setVariation(variation);
-        spawnmsg.setPos(position);
-        spawnmsg.setSectorId(sector_id);
+        spawnmsg.SetPosition(position);
+        spawnmsg.SetSectorId(sector_id);
         spawnmsg.setInterval(interval);
 
         PointerLibrary::getInstance()->getNetwork()->send(&spawnmsg);

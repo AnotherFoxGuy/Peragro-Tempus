@@ -148,12 +148,12 @@ namespace PT
       ///@todo This is an ugly hack. The server seems to send some impossible
       ///sector id from time to time.
       PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        getSectorDataManager()->GetSectorById(sectorId);
+        GetSectorDataManager()->GetSectorById(sectorId);
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
 
       position = PT::Events::EntityHelper::GetPosition(&ev);
-      ev.Retrieve("rotation", rot);
+      ev.Retrieve("rotation", rotation);
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);

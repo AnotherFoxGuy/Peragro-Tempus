@@ -53,14 +53,14 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   {
     const MountEntity* mount = c_entity->getMount();
     speed = mount->getSpeed();
-    name_id = mount->getEntity()->getId();
+    name_id = mount->getEntity()->GetId();
   }
   else
   {
     ptScopedMonitorable<Character> character (c_char);
     Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
     speed = (float)character->getStats()->getAmount(speed_stat);
-    name_id = c_entity->getEntity()->getId();
+    name_id = c_entity->getEntity()->GetId();
   }
 
   MoveMessage response_msg;
@@ -106,35 +106,35 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   int name_id;
   if (ent->getPlayerEntity()->getMount())
   {
-    WFMath::Point<3> pos = request_msg.getPos();
+    WFMath::Point<3> pos = request_msg.GetPosition();
 
     // Make sure the character is up in the saddle
     // TODO: Maybe use a confirmation message from the client instead
-    //WFMath::Point<3> mountpos = ent->getPlayerEntity()->getMount()->getEntity()->getPos();
+    //WFMath::Point<3> mountpos = ent->getPlayerEntity()->getMount()->getEntity()->GetPosition();
     //if (pos.y < mountpos.y + 0.5f){ return; }
 
     pos[1] -= 1.0f; // Adjust the offset from the rider
     ptScopedMonitorable<Entity> user_ent (ent->getPlayerEntity()->getMount()->getEntity());
-    user_ent->setPos(pos);
-    user_ent->setRotation(request_msg.getRotation());
-    user_ent->setSector(request_msg.getSectorId());
+    user_ent->SetPosition(pos);
+    user_ent->SetRotation(request_msg.GetRotation());
+    user_ent->SetSector(request_msg.GetSectorId());
 
-    name_id = ent->getPlayerEntity()->getMount()->getEntity()->getId();
+    name_id = ent->getPlayerEntity()->getMount()->getEntity()->GetId();
   }
   else
   {
-    name_id = ent->getId();
+    name_id = ent->GetId();
   }
 
   ptScopedMonitorable<Entity> user_ent (ent);
-  user_ent->setPos(request_msg.getPos());
-  user_ent->setRotation(request_msg.getRotation());
-  user_ent->setSector(request_msg.getSectorId());
+  user_ent->SetPosition(request_msg.GetPosition());
+  user_ent->SetRotation(request_msg.GetRotation());
+  user_ent->SetSector(request_msg.GetSectorId());
 
   DrUpdateMessage response_msg;
-  response_msg.setRotation(request_msg.getRotation());
-  response_msg.setPos(request_msg.getPos());
-  response_msg.setSectorId(request_msg.getSectorId());
+  response_msg.SetRotation(request_msg.GetRotation());
+  response_msg.SetPosition(request_msg.GetPosition());
+  response_msg.SetSectorId(request_msg.GetSectorId());
   response_msg.setEntityId(name_id);
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -147,14 +147,14 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
-  ptString name = user_ent->getName();
+  std::string name = user_ent->GetName();
 
   PickRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  printf("Received PickRequest from: '%s' -> '%d' \n", *name, request_msg.getItemEntityId());
+  printf("Received PickRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getItemEntityId());
 
   const Entity* e = server->getEntityManager()->findById(request_msg.getItemEntityId());
 
@@ -163,11 +163,11 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   {
     response_msg.setError(ptString("Entity doesn't exist",20)); // <-- TODO: Error Message Storage
   }
-  else if (e->getType() == Entity::ItemEntityType)
+  else if (e->GetType() == Common::Entity::ItemEntityType)
   {
     response_msg.setError(ptString(0,0));
   }
-  else if (e->getType() == Entity::PlayerEntityType)
+  else if (e->GetType() == Common::Entity::PlayerEntityType)
   {
     response_msg.setError(ptString("Don't pick on others!",21)); // <-- TODO: Error Message Storage
   }
@@ -192,7 +192,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
     if (c_char->getInventory()->getItem(slot)->id == Item::NoItem)
     {
-      const InventoryEntry entry(item->getId(), item_entity->variation);
+      const InventoryEntry entry(item->GetId(), item_entity->variation);
 
       ptScopedMonitorable<Character> character (c_char);
       bool retval = character->getInventory()->addItem(entry, slot);
@@ -203,10 +203,10 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         if (equip && response_msg.getError() == ptString::Null)
         {
           EquipMessage equip_msg;
-          equip_msg.setEntityId(user_ent->getId());
-          if (item) equip_msg.setItemId(item->getId());
+          equip_msg.setEntityId(user_ent->GetId());
+          if (item) equip_msg.setItemId(item->GetId());
           equip_msg.setSlotId(slot);
-          equip_msg.setMeshId(item->getMesh()->getId()); // Not used yet!
+          equip_msg.setMeshId(item->getMesh()->GetId()); // Not used yet!
           equip_msg.setFileName(item->getMesh()->getFile());
           equip_msg.setMeshName(item->getMesh()->getName());
 
@@ -215,7 +215,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
           Server::getServer()->broadCast(bs);
         }
 
-        response_msg.setItemId(item->getId());
+        response_msg.setItemId(item->GetId());
         response_msg.setVariation(item_entity->variation);
         response_msg.setSlotId(slot);
 
@@ -245,10 +245,10 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
-  ptString name = user_ent->getName();
+  std::string name = user_ent->GetName();
   DropRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", *name, request_msg.getSlot());
+  printf("Received DropRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getSlot());
 
   DropResponseMessage response_msg;
   unsigned char slot_id = request_msg.getSlot();
@@ -291,7 +291,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     printf("Dropped an equiped item, so unequip it!\n");
     // Tell the world to unequip it!
     EquipMessage unequip_msg;
-    unequip_msg.setEntityId(user_ent->getId());
+    unequip_msg.setEntityId(user_ent->GetId());
     unequip_msg.setSlotId(slot_id);
     unequip_msg.setItemId(Item::NoItem); // No Item!
     unequip_msg.setMeshId(0); // Not used yet!
@@ -307,9 +307,9 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   e->createFromItem(item.id, item.variation);
 
   ptScopedMonitorable<Entity> ent (e->getEntity());
-  ent->setPos(user_ent->getPos());
-  ent->setRotation(user_ent->getRotation());
-  ent->setSector(user_ent->getSector());
+  ent->SetPosition(user_ent->GetPosition());
+  ent->SetRotation(user_ent->GetRotation());
+  ent->SetSector(user_ent->GetSector());
 
   Server::getServer()->addEntity(ent, true);
 }
@@ -345,13 +345,13 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   else if (entity->usesFlashStep())
   {
     ptScopedMonitorable<Entity> ent (entity->getEntity());
-    ent->setPos(request_msg.getTo());
+    ent->SetPosition(request_msg.getTo());
 
     TeleportResponseMessage telemsg;
-    telemsg.setEntityId(ent->getId());
-    telemsg.setSectorId(ent->getSector());
-    telemsg.setPos(ent->getPos());
-    telemsg.setRotation(ent->getRotation());
+    telemsg.setEntityId(ent->GetId());
+    telemsg.SetSectorId(ent->GetSector());
+    telemsg.SetPosition(ent->GetPosition());
+    telemsg.SetRotation(ent->GetRotation());
 
     ByteStream bs;
     telemsg.serialise(&bs);
@@ -393,17 +393,17 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
     c_ent = user_ent;
   }
   ptScopedMonitorable<Entity> ent (c_ent);
-  int ent_id = ent->getId();
-  ent->setSector(race->getSector());
-  ent->setPos(race->getPos());
+  unsigned int ent_id = ent->GetId();
+  ent->SetSectorName(*race->GetSector());
+  ent->SetPosition(race->GetPosition());
 
   server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
 
   telemsg.setEntityId(ent_id);
-  unsigned short sector_id = server->getSectorManager()->getSectorId(race->getSector());
-  telemsg.setSectorId(sector_id);
-  telemsg.setPos(race->getPos());
-  telemsg.setRotation(ent->getRotation());
+  unsigned short sector_id = server->GetSectorManager()->GetSectorId(race->GetSector());
+  telemsg.SetSectorId(sector_id);
+  telemsg.SetPosition(race->GetPosition());
+  telemsg.SetRotation(ent->GetRotation());
 
   ByteStream bs;
   telemsg.serialise(&bs);
@@ -436,17 +436,17 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
     c_ent = target_ent;
   }
   ptScopedMonitorable<Entity> ent (c_ent);
-  ent->setSector(request_msg.getSectorId());
-  ent->setPos(request_msg.getPos());
-  ent->setRotation(request_msg.getRotation());
+  ent->SetSector(request_msg.GetSectorId());
+  ent->SetPosition(request_msg.GetPosition());
+  ent->SetRotation(request_msg.GetRotation());
 
   server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
 
   TeleportResponseMessage response_msg;
-  response_msg.setEntityId(ent->getId());
-  response_msg.setSectorId(ent->getSector());
-  response_msg.setPos(ent->getPos());
-  response_msg.setRotation(ent->getRotation());
+  response_msg.setEntityId(ent->GetId());
+  response_msg.SetSectorId(ent->GetSector());
+  response_msg.SetPosition(ent->GetPosition());
+  response_msg.SetRotation(ent->GetRotation());
 
   ByteStream bs;
   response_msg.serialise(&bs);
@@ -488,7 +488,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
 
   // Don't run into the horse!
   MoveMessage mmsg;
-  mmsg.setEntityId(user_ent->getId());
+  mmsg.setEntityId(user_ent->GetId());
   mmsg.setMoveDirection(0, 0, 0);
   mmsg.setJump(false);
   mmsg.setRun(false);
@@ -499,8 +499,8 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   NetworkHelper::localcast(bs1, user_ent);
 
   MountMessage umount_msg;
-  umount_msg.setMountEntityId(mount_ent->getId());
-  umount_msg.setPlayerEntityId(user_ent->getId());
+  umount_msg.setMountEntityId(mount_ent->GetId());
+  umount_msg.setPlayerEntityId(user_ent->GetId());
   umount_msg.setCanControl(true);
 
   ByteStream bs;
@@ -530,7 +530,7 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   const Entity* mount_ent = c_mount->getEntity();
   if (!mount_ent) return;
 
-  if (mount_ent->getId() != mount_id) return;
+  if (mount_ent->GetId() != mount_id) return;
 
   printf("Remove player from mount!\n");
   ptScopedMonitorable<MountEntity> mount (c_mount);
@@ -543,8 +543,8 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   printf("Unmount finished\n");
 
   UnmountMessage umount_msg;
-  umount_msg.setMountEntityId(mount_ent->getId());
-  umount_msg.setPlayerEntityId(user_ent->getId());
+  umount_msg.setMountEntityId(mount_ent->GetId());
+  umount_msg.setPlayerEntityId(user_ent->GetId());
 
   ByteStream bs;
   umount_msg.serialise(&bs);
@@ -566,11 +566,11 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
   unsigned char pose_id = request_msg.getPoseId();
 
   ptScopedMonitorable<PcEntity> e (pc_ent);
-  e->setPose(pose_id);
+  e->setPoseId(pose_id);
 
   PoseMessage pose_msg;
-  pose_msg.setEntityId(user_ent->getId());
-  pose_msg.setPoseId(e->getPose());
+  pose_msg.setEntityId(user_ent->GetId());
+  pose_msg.setPoseId(e->getPoseId());
 
   ByteStream bs;
   pose_msg.serialise(&bs);

@@ -359,7 +359,7 @@ namespace PT
     sectorDataManager = new PT::Data::SectorDataManager (&pointerlib);
     if (!sectorDataManager->parse())
       return Report(PT::Error, "Failed to initialize SectorManager!");
-    pointerlib.setSectorDataManager(sectorDataManager);
+    pointerlib.SetSectorDataManager(sectorDataManager);
 
     // Create and Initialize the ConnectionDataManager.
     connectionDataManager = new PT::Data::ConnectionDataManager (&pointerlib);

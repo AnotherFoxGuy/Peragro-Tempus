@@ -48,21 +48,21 @@ void EntityManager::loadFromDB(EntityTable* et)
 
     switch (vo->type)
     {
-      case Entity::ItemEntityType:
+    case Common::Entity::ItemEntityType:
       {
         ItemEntity* ent = new ItemEntity();
         Item* item = Server::getServer()->getItemManager()->findById(vo->item);
         assert(item);
-        ent->createFromItem(item->getId(), vo->variation);
+        ent->createFromItem(item->GetId(), vo->variation);
         entity = ent->getEntity();
         break;
       }
-      case Entity::PlayerEntityType:
+      case Common::Entity::PlayerEntityType:
       {
         entity = (new PcEntity())->getEntity();
         break;
       }
-      case Entity::NPCEntityType:
+      case Common::Entity::NPCEntityType:
       {
         Tables* tables = Server::getServer()->getTables();
         NpcEntitiesTableVO* npc_vo =
@@ -74,7 +74,7 @@ void EntityManager::loadFromDB(EntityTable* et)
         CharacterManager* cmgr = Server::getServer()->getCharacterManager();
         Character* character = cmgr->getCharacter(npc_vo->character, 0 /* npc */);
 
-        character->getInventory()->loadFromDatabase(tables->getInventoryTable(), character->getId());
+        character->getInventory()->loadFromDatabase(tables->getInventoryTable(), character->GetId());
 
         NpcEntity* npc = new NpcEntity();
         npc->setCharacter(character);
@@ -85,7 +85,7 @@ void EntityManager::loadFromDB(EntityTable* et)
         delete npc_vo;
         break;
       }
-      case Entity::DoorEntityType:
+      case Common::Entity::DoorEntityType:
       {
         int packeddata = vo->item;
         DoorEntity* ent = new DoorEntity();
@@ -94,7 +94,7 @@ void EntityManager::loadFromDB(EntityTable* et)
         entity = ent->getEntity();
         break;
       }
-      case Entity::MountEntityType:
+      case Common::Entity::MountEntityType:
       {
         MountEntity* ent = new MountEntity();
         entity = ent->getEntity();
@@ -108,13 +108,13 @@ void EntityManager::loadFromDB(EntityTable* et)
     };
 
     ptScopedMonitorable<Entity> l_ent (entity);
-    l_ent->setId(vo->id);
-    l_ent->setName(vo->name);
+    l_ent->SetId(vo->id);
+    l_ent->SetName(*vo->name);
     const Mesh* mesh = Server::getServer()->getMeshManager()->findById(vo->mesh);
     l_ent->setMesh(mesh);
-    l_ent->setPos(vo->pos_x, vo->pos_y, vo->pos_z);
-    l_ent->setRotation(vo->rotation);
-    l_ent->setSector(vo->sector);
+    l_ent->SetPosition(vo->pos_x, vo->pos_y, vo->pos_z);
+    l_ent->SetRotation(vo->rotation);
+    l_ent->SetSectorName(*vo->sector);
 
     entity_list.addEntity(entity);
   }

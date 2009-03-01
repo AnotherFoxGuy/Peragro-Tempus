@@ -123,15 +123,15 @@ void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
 void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
 {
   Server* server = Server::getServer();
-  SectorManager* sm = server->getSectorManager();
-  ptString region = sm->getRegionName(entity->getSector());
+  SectorManager* sm = server->GetSectorManager();
+  ptString region = sm->getRegionName(entity->GetSector());
 
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
     User* user = server->getUserManager()->getUser(i);
     if (user && user->getConnection() && user->getEntity())
     {
-      unsigned short sector = user->getEntity()->getEntity()->getSector();
+      unsigned short sector = user->getEntity()->getEntity()->GetSector();
       if (sm->getRegionName(sector) == region)
       {
         user->getConnection()->send(bs);
@@ -155,7 +155,7 @@ void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, uns
     if (user && user->getConnection())
     {
       const Entity* other_ent = user->getEntity()->getEntity();
-      if (other_ent && entity->getSector() == other_ent->getSector() &&
+      if (other_ent && entity->GetSector() == other_ent->GetSector() &&
           entity->getDistanceTo2(other_ent) < sqdist)
         user->getConnection()->send(bs);
     }

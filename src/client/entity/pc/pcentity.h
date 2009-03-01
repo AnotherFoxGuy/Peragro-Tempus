@@ -35,7 +35,7 @@ namespace PT
       /**
        * Convenience constructor used for PlayerEntity class.
        */
-      PcEntity() {}
+      PcEntity() : CharacterEntity(Common::Entity::PCEntityType) {}
       virtual void Create();
 
     public:

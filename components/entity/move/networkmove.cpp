@@ -162,7 +162,7 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
 
-  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->getSectorDataManager();
+  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
   PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
   std::string sectorName = "Default_Sector";
   if (dataSector)
@@ -196,7 +196,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
 
-  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->getSectorDataManager();
+  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
   std::string sectorName = sectorDataMgr->GetSectorById(sectorId)->GetName();
 
   csRef<iObjectRegistry> obj_reg = pointerlib->getObjectRegistry();

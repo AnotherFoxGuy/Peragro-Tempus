@@ -142,7 +142,7 @@ void BulletCD::Run()
 
 void BulletCD::addEntity(const Entity* entity)
 {
-  printf("Adding entity %d to colldet", entity->getId());
+  printf("Adding entity %d to colldet", entity->GetId());
 
   btBoxShape* box = new btBoxShape(btVector3(1,2,1));
 
@@ -158,10 +158,10 @@ void BulletCD::addEntity(const Entity* entity)
 
 void BulletCD::removeEntity(const Entity* entity)
 {
-  printf("Removing entity %d from colldet\n", entity->getId());
+  printf("Removing entity %d from colldet\n", entity->GetId());
   if (!cobjs[entity])
   {
-    printf("Error: entity %d was not in colldet.\n", entity->getId());
+    printf("Error: entity %d was not in colldet.\n", entity->GetId());
     return;
   }
 
@@ -174,12 +174,12 @@ void BulletCD::loadPosition(const Entity* entity)
 {
   btRigidBody* body = cobjs[entity];
 
-  const WFMath::Point<3> pos(entity->getPos());
+  const WFMath::Point<3> pos(entity->GetPosition());
 
   btTransform& t = body->getWorldTransform();
   btVector3 p(pos[0], pos[1], pos[2]);
   t.setOrigin(p);
-  t.setRotation(btQuaternion(entity->getRotation(), 0, 0));
+  t.setRotation(btQuaternion(entity->GetRotation(), 0, 0));
   body->setWorldTransform(t);
 }
 
@@ -192,8 +192,8 @@ void BulletCD::savePosition(const Entity* entity)
   float rot = 0; // TODO: t.getRotation().getYaw();
 
   ptScopedMonitorable<Entity> e (entity);
-  e->setPos(p.getX(), p.getY(), p.getZ());
-  e->setRotation(rot);
+  e->SetPosition(p.getX(), p.getY(), p.getZ());
+  e->SetRotation(rot);
 }
 
 void BulletCD::moveEntity(const Entity* entity, const WFMath::Point<3>& pos, float speed)

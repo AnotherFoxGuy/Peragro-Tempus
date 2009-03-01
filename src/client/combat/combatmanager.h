@@ -135,9 +135,9 @@ namespace PT
 
       /**
        * Show the level up effect.
-       * @param targetId The ID of the entity.
+       * @param tarGetId The ID of the entity.
        */
-      void LevelUp(int targetId);
+      void LevelUp(int tarGetId);
 
       /**
        * Add experience to the player character.
@@ -148,25 +148,25 @@ namespace PT
      /**
       * Start using a skill, so we create an effect on the caster.
       * @param casterId The entity ID of the skill user.
-      * @param targetId The entity ID of the skill target.
+      * @param tarGetId The entity ID of the skill target.
       * @param skillId The skill ID.
       * @param error If an error happened, the message.
       */
-      void SkillUsageStart(unsigned int casterId, unsigned int targetId,
+      void SkillUsageStart(unsigned int casterId, unsigned int tarGetId,
                            int skillId, ptString error);
 
       /**
        * Skill completed succesfully, so we create the effect on the target.
        * @param casterId The entity ID of the skill user.
-       * @param targetId The entity ID of the skill target.
+       * @param tarGetId The entity ID of the skill target.
        * @param skillId The skill ID.
        */
-      void SkillUsageComplete(unsigned int casterId, unsigned int targetId,
+      void SkillUsageComplete(unsigned int casterId, unsigned int tarGetId,
                               int skillId);
 
       /**
        * Lookup the PT entity ID from a CEL entity and call
-       * RequestSkillUsageStart(targetId, skillId).
+       * RequestSkillUsageStart(tarGetId, skillId).
        * @param target The target CEL entity.
        * @param skillId The skill ID.
        */
@@ -174,10 +174,10 @@ namespace PT
 
       /**
        * Request the server to start the using a skill on the supplied target.
-       * @param targetId The entity ID of the skill target.
+       * @param tarGetId The entity ID of the skill target.
        * @param skillId The skill ID.
        */
-      void RequestSkillUsageStart(unsigned int targetId, unsigned int skillId);
+      void RequestSkillUsageStart(unsigned int tarGetId, unsigned int skillId);
 
       /**
        * Used to request an attack against currently marked target.

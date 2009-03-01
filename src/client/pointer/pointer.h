@@ -160,8 +160,8 @@ public:
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
 
-  void setSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
-  PT::Data::SectorDataManager* getSectorDataManager() { return this->sectorDataManager; }
+  void SetSectorDataManager(PT::Data::SectorDataManager* sectorDataManager) { this->sectorDataManager = sectorDataManager; }
+  PT::Data::SectorDataManager* GetSectorDataManager() { return this->sectorDataManager; }
 
   void setConnectionDataManager(PT::Data::ConnectionDataManager* connectionDataManager) { this->connectionDataManager = connectionDataManager; }
   PT::Data::ConnectionDataManager* getConnectionDataManager() { return this->connectionDataManager; }

@@ -70,11 +70,11 @@ public:
 
   void addStat(const Stat* stat, int level)
   {
-    CharStat* entry = findEntry(stat->getId());
+    CharStat* entry = findEntry(stat->GetId());
     if (!entry)
     {
       entry = new CharStat();
-      entry->stat_id = stat->getId();
+      entry->stat_id = stat->GetId();
       entry->level = level;
       entries.add(entry);
     }
@@ -87,7 +87,7 @@ public:
 
   bool takeStat(const Stat* stat, int level)
   {
-    CharStat* entry = findEntry(stat->getId());
+    CharStat* entry = findEntry(stat->GetId());
     if (!entry)
       return false;
     if (entry->level < level)
@@ -105,11 +105,11 @@ public:
 
   void setStat(const Stat* stat, int level)
   {
-    CharStat* entry = findEntry(stat->getId());
+    CharStat* entry = findEntry(stat->GetId());
     if (!entry)
     {
       entry = new CharStat();
-      entry->stat_id = stat->getId();
+      entry->stat_id = stat->GetId();
       entry->level = level;
       entries.add(entry);
     }
@@ -122,7 +122,7 @@ public:
 
   unsigned int getAmount(const Stat* stat) const
   {
-    const CharStat* entry = findEntry(stat->getId());
+    const CharStat* entry = findEntry(stat->GetId());
     return (entry?entry->level:0);
   }
 

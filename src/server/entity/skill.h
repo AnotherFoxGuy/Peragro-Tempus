@@ -95,7 +95,7 @@ public:
   ~Skill() {}
 
   void setId(unsigned short id) { this->id = id; }
-  unsigned short getId() { return id; }
+  unsigned short GetId() { return id; }
 
   ptString& getName() { return name_id; }
   void setName(ptString id) { name_id = id; }

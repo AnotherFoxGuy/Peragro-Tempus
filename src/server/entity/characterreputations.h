@@ -58,11 +58,11 @@ public:
 
   void addReputation(Reputation* reputation, int level)
   {
-    CharReputation* entry = findEntry(reputation->getId());
+    CharReputation* entry = findEntry(reputation->GetId());
     if (!entry)
     {
       entry = new CharReputation();
-      entry->reputation_id = reputation->getId();
+      entry->reputation_id = reputation->GetId();
       entry->level = level;
       entries.add(entry);
     }
@@ -75,11 +75,11 @@ public:
 
   bool takeReputation(Reputation* reputation, int level)
   {
-    CharReputation* entry = findEntry(reputation->getId());
+    CharReputation* entry = findEntry(reputation->GetId());
     if (!entry)
     {
       entry = new CharReputation();
-      entry->reputation_id = reputation->getId();
+      entry->reputation_id = reputation->GetId();
       entry->level = -level;
       entries.add(entry);
     }
@@ -94,11 +94,11 @@ public:
 
   bool setReputation(Reputation* reputation, int level)
   {
-    CharReputation* entry = findEntry(reputation->getId());
+    CharReputation* entry = findEntry(reputation->GetId());
     if (!entry)
     {
       entry = new CharReputation();
-      entry->reputation_id = reputation->getId();
+      entry->reputation_id = reputation->GetId();
       entry->level = level;
       entries.add(entry);
     }
@@ -113,7 +113,7 @@ public:
 
   unsigned int getAmount(Reputation* reputation)
   {
-    CharReputation* entry = findEntry(reputation->getId());
+    CharReputation* entry = findEntry(reputation->GetId());
     return (entry?entry->level:0);
   }
 

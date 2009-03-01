@@ -110,7 +110,7 @@ public:
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       const Entity* entity = entities.get(i);
-      if (entity->getName() == name)
+      if (entity->GetNameId() == name)
       {
         mutex.unlock();
         return entity;
@@ -126,7 +126,7 @@ public:
     for (size_t i = 0; i<entities.getCount(); i++)
     {
       const Entity* entity = entities.get(i);
-      if (entity->getId() == id)
+      if (entity->GetId() == id)
       {
         mutex.unlock();
         return entity;

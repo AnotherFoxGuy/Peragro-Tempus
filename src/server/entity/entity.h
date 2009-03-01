@@ -21,6 +21,8 @@
 
 #include <math.h>
 
+#include "common/entity/entity.h"
+
 #include "common/util/monitorable.h"
 #include <wfmath/point.h>
 #include "common/util/ptstring.h"
@@ -33,48 +35,27 @@ class ItemEntity;
 class DoorEntity;
 class MountEntity;
 
-class Entity : public ptMonitorable<Entity>
+class Entity : public Common::Entity::Entity, public ptMonitorable<Entity>
 {
 public:
   static const unsigned int NoEntity = 0;
 
 private:
-  unsigned int id;
-
-  ptString name_id;
-  ptString file_id;
-  const Mesh* mesh;
-  unsigned short sector_id;
-
   ptMonitor<PcEntity> pc_entity;
   ptMonitor<NpcEntity> npc_entity;
   ptMonitor<ItemEntity> item_entity;
   ptMonitor<DoorEntity> door_entity;
   ptMonitor<MountEntity> mount_entity;
 
-public:
-  enum EntityType
-  {
-    PlayerEntityType=0,
-    NPCEntityType=1,
-    DoorEntityType=2,
-    ItemEntityType=3,
-    MountEntityType=4
-  };
-
 protected:
-  EntityType type;
-
+  const Mesh* mesh;
   WFMath::Point<3> pos_last_saved;
-  WFMath::Point<3> pos;
-
   float rot_last_saved;
-  float rotation;
 
 public:
-  Entity(EntityType type)
-    : id(0), name_id(0, 0), mesh(0), sector_id(0), type(type),
-    pos_last_saved(0.0f), pos(0.0f), rot_last_saved(0.0f), rotation(0.0f)
+  Entity(Common::Entity::EntityType type)
+    : Common::Entity::Entity(type), mesh(0),
+    pos_last_saved(0.0f), rot_last_saved(0.0f)
   {
   }
 
@@ -88,55 +69,42 @@ public:
     if (this->type != other->type)
       return false;
 
-    if (this->type == Entity::ItemEntityType)
+    if (this->type == Common::Entity::ItemEntityType)
     {
       return this->id == other->id;
     }
-    else if (this->type == Entity::PlayerEntityType)
+    else if (this->type == Common::Entity::PlayerEntityType)
     {
-      return (this->name_id == other->name_id);
+      return (this->name == other->name);
     }
 
     return false;
   }
 
-  void setId(unsigned int id) { this->id = id; }
-  unsigned int getId() const { return id; }
+  ptString GetNameId () const { return ptString(name.c_str(), strlen(name.c_str())); }
 
-  void resetSavePos()
-  {
-    pos_last_saved = pos;
-  }
+  void resetSavePos() { pos_last_saved = GetPosition(); }
   WFMath::Point<3> getLastSaved() const { return pos_last_saved; }
-
-  void setPos(float x, float y, float z) { setPos(WFMath::Point<3>(x, y, z)); }
-  void setPos(const WFMath::Point<3>& p);
-  WFMath::Point<3> getPos() const { return pos; }
-
-  void setRotation(float rot) { rotation = rot; }
-  float getRotation() const { return rotation; }
-
-  const ptString& getName() const { return name_id; }
-  void setName(ptString id) { name_id = id; }
+  virtual void SetPosition(const WFMath::Point<3>& p);
+  virtual void SetPosition(float x, float y, float z)
+  { SetPosition(WFMath::Point<3>(x,y,z)); }
 
   const Mesh* getMesh() const { return mesh; }
   void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
-  const unsigned short getSector() const { return sector_id; }
-  const ptString& getSectorName() const;
-  void setSector(unsigned short id);
-  void setSector(ptString name);
+  unsigned short GetSector() const;
+  void SetSector(unsigned short id);
 
-  EntityType getType() const { return type; }
+  virtual void SetSectorName(const std::string& value);
 
   float getDistanceTo(const WFMath::Point<3>& target) const
-  { return WFMath::Distance<3>(pos, target); }
+  { return WFMath::Distance<3>(GetPosition(), target); }
   float getDistanceTo(const Entity* target) const
-  { return WFMath::Distance<3>(pos, target->getPos()); }
+  { return WFMath::Distance<3>(GetPosition(), target->GetPosition()); }
   float getDistanceTo2(const WFMath::Point<3>& target) const
-  { return WFMath::SquaredDistance<3>(pos, target); }
+  { return WFMath::SquaredDistance<3>(GetPosition(), target); }
   float getDistanceTo2(const Entity* target) const
-  { return WFMath::SquaredDistance<3>(pos, target->getPos()); }
+  { return WFMath::SquaredDistance<3>(GetPosition(), target->GetPosition()); }
 
   const PcEntity* getPlayerEntity() const { return pc_entity.get(); }
   const NpcEntity* getNpcEntity() const { return npc_entity.get(); }

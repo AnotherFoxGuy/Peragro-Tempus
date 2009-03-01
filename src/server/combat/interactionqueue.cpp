@@ -83,7 +83,7 @@ void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
 
   for (QueueItem* queue = head; queue; queue = queue->next)
   {
-    if (queue->interaction->character->getId() == lockedCharacter->getId())
+    if (queue->interaction->character->GetId() == lockedCharacter->GetId())
     {
       RemoveInteractionEntry(queue);
     }

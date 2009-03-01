@@ -54,7 +54,7 @@ public:
     ItemTable* it = Server::getServer()->getTables()->getItemTable();
     Item* item = getItem(index);
     items.remove(index);
-    it->remove(item->getId());
+    it->remove(item->GetId());
   }
 
   void delItem(Item* item)
@@ -63,14 +63,14 @@ public:
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* _item = items.get(i);
-      if (_item->getId() == item->getId())
+      if (_item->GetId() == item->GetId())
       {
         items.remove(i);
         return;
       }
     }
     ItemTable* it = Server::getServer()->getTables()->getItemTable();
-    it->remove(item->getId());
+    it->remove(item->GetId());
   }
 
   bool exists(Item* item)
@@ -80,7 +80,7 @@ public:
     {
       Item* _item = items.get(i);
 
-      if (_item->getId() == item->getId())
+      if (_item->GetId() == item->GetId())
         return true;
     }
     return false;
@@ -106,7 +106,7 @@ public:
     for (size_t i = 0; i<items.getCount(); i++)
     {
       Item* item = items.get(i);
-      if (item->getId() == id)
+      if (item->GetId() == id)
       {
         return item;
       }

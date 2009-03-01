@@ -54,9 +54,9 @@ private:
 public:
   EntityTable(Database* db);
   void createTable();
-  void insert(int id, const ptString& name, int type, int item,
+  void insert(int id, const std::string& name, int type, int item,
               unsigned int variation, unsigned int mesh,
-              const WFMath::Point<3>& pos, float rot, const ptString& sector);
+              const WFMath::Point<3>& pos, float rot, const std::string& sector);
   int getMaxId();
   void dropTable();
   void remove(int id);

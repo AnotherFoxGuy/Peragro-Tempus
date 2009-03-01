@@ -60,7 +60,7 @@ public:
   }
 
   void setId(unsigned int id) { this->id = id; }
-  unsigned int getId() const { return id; }
+  unsigned int GetId() const { return id; }
 
   void setRevision(unsigned int revision) { this->revision = revision; }
   unsigned int getRevision() const { return revision; }

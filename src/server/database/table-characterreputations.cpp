@@ -55,13 +55,13 @@ void CharacterReputationsTable::insert(int characterreputation, int reputation, 
 
 void CharacterReputationsTable::set(int characterreputation, Reputation* reputation, int level)
 {
-  insert(characterreputation, reputation->getId(), level);
+  insert(characterreputation, reputation->GetId(), level);
 }
 
 int CharacterReputationsTable::get(int characterreputation, Reputation* reputation)
 {
   ResultSet* rs = db->query("select * from characterreputation where id = '%d' and reputation = '%d';",
-    characterreputation, reputation->getId());
+    characterreputation, reputation->GetId());
 
   int level = 0;
 

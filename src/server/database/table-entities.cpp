@@ -57,16 +57,16 @@ void EntityTable::createTable()
     "PRIMARY KEY (id) );");
 }
 
-void EntityTable::insert(int id, const ptString& name, int type, int item,
+void EntityTable::insert(int id, const std::string& name, int type, int item,
                          unsigned int variation, unsigned int mesh,
-                         const WFMath::Point<3>& pos, float rot, const ptString& sector)
+                         const WFMath::Point<3>& pos, float rot, const std::string& sector)
 {
   if (item == -1) return;
 
   db->update("insert into entities (id, name, type, item, variation, mesh, "
     "pos_x, pos_y, pos_z, rot, sector) values "
     "('%d', '%q',%d,%d,%d,'%d',%.2f,%.2f,%.2f,%.2f,'%q');",
-    id, *name, type, item, variation, mesh, pos[0], pos[1], pos[2], rot, *sector);
+    id, name.c_str(), type, item, variation, mesh, pos[0], pos[1], pos[2], rot, sector.c_str());
 }
 
 int EntityTable::getMaxId()

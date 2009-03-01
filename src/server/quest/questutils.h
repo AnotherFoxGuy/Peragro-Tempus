@@ -138,7 +138,7 @@ namespace QuestUtils
       npc_entity->pause(false);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
       ByteStream bs;
       endmsg.serialise(&bs);
       server->broadCast(bs);
@@ -314,7 +314,7 @@ namespace QuestUtils
             success = character->getReputation()->takeReputation(reputation, val);
           if (args[2].compare("set") == 0)
             character->getReputation()->setReputation(reputation, val);
-          printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->getId(), character->getReputation()->getAmount(reputation));
+          printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->GetId(), character->getReputation()->getAmount(reputation));
           return success ? val:0;
         }
         else
@@ -370,7 +370,7 @@ namespace QuestUtils
         {
           const Entity* user_ent = character->getEntity();
           PickResponseMessage response_msg;
-          response_msg.setItemId(item->getId());
+          response_msg.setItemId(item->GetId());
           response_msg.setVariation(0);
           response_msg.setSlotId(slot);
 
@@ -415,7 +415,7 @@ namespace QuestUtils
       if (args.size() < 1) {printf("ERROR: Not enough params for operation 'dialog'\n"); return 0;}
       unsigned int id = Parse(character, args[0]);
       NPCDialogState* dia_state = character->getNPCDialogState();
-      const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->getEntity()->getId(), id);
+      const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->getEntity()->GetId(), id);
 
       if (dialog->getAction() == NPCDialog::SHOW_TEXT)
       {
@@ -462,7 +462,7 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+          endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           Server::getServer()->broadCast(bs2);
@@ -497,7 +497,7 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+          endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           Server::getServer()->broadCast(bs2);
@@ -512,23 +512,23 @@ namespace QuestUtils
         sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
         ptScopedMonitorable<Entity> ent (character->getEntity());
-        ent->setSector(sector);
-        ent->setPos(x, y, z);
+        ent->SetSector(sector);
+        ent->SetPosition(x, y, z);
 
         Server::getServer()->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
         TeleportResponseMessage telemsg;
-        telemsg.setEntityId(ent->getId());
-        telemsg.setPos(ent->getPos());
-        telemsg.setRotation(ent->getRotation());
-        telemsg.setSectorId(ent->getSector());
+        telemsg.setEntityId(ent->GetId());
+        telemsg.SetPosition(ent->GetPosition());
+        telemsg.SetRotation(ent->GetRotation());
+        telemsg.SetSectorId(ent->GetSector());
 
         ByteStream bs;
         telemsg.serialise(&bs);
         Server::getServer()->broadCast(bs);
 
         NpcEndDialogMessage endmsg;
-        endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+        endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
         ByteStream bs2;
         endmsg.serialise(&bs2);
         Server::getServer()->broadCast(bs2);

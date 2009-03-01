@@ -66,7 +66,7 @@ public:
     mutex.lock();
     ent_id++;
 
-    locked_entity->setId(ent_id);
+    locked_entity->SetId(ent_id);
 
     entity_list.addEntity(locked_entity);
     mutex.unlock();

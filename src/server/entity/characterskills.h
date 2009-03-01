@@ -51,11 +51,11 @@ public:
 
   void addSkill(Skill* skill)
   {
-    CharSkill* entry = findEntry(skill->getId());
+    CharSkill* entry = findEntry(skill->GetId());
     if (!entry)
     {
       entry = new CharSkill();
-      entry->skill_id = skill->getId();
+      entry->skill_id = skill->GetId();
       entries.add(entry);
     }
     if (cstab) cstab->set(cs_id, entry->skill_id);

@@ -263,15 +263,15 @@ namespace PT
       }
     } // end Die()
 
-    void CombatManager::LevelUp(int targetId)
+    void CombatManager::LevelUp(int tarGetId)
     {
       // Lookup the ID to get the actual entity.
-      Common::Entity::Entityp target = entityManager->FindById(targetId);
+      Common::Entity::Entityp target = entityManager->FindById(tarGetId);
 
       if (!target)
       {
         Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
-          targetId);
+          tarGetId);
         return;
       }
 
@@ -315,7 +315,7 @@ namespace PT
     } // end Experience()
 
     void CombatManager::SkillUsageStart(unsigned int casterId,
-                                        unsigned int targetId,
+                                        unsigned int tarGetId,
                                         int skillId, ptString error)
     {
       using namespace PT::GUI;
@@ -324,7 +324,7 @@ namespace PT
       if (ptString(0,0) == error)
       {
         Report(PT::Debug, "CombatManager: %d cast %d on %d, error: %s\n",
-          casterId, targetId, skillId, *error);
+          casterId, tarGetId, skillId, *error);
       }
       else
       {
@@ -338,11 +338,11 @@ namespace PT
 
       // Lookup the IDs to get the actual entities.
       Common::Entity::Entityp caster = entityManager->FindById(casterId);
-      Common::Entity::Entityp target = entityManager->FindById(targetId);
+      Common::Entity::Entityp target = entityManager->FindById(tarGetId);
 
       if (!target)
       {
-        Report(PT::Error, "CombatManager: Couldn't find target with ID %d !", targetId);
+        Report(PT::Error, "CombatManager: Couldn't find target with ID %d !", tarGetId);
         return;
       }
       if (!caster)
@@ -362,18 +362,18 @@ namespace PT
 
     } // end SkillUsageStart()
 
-    void CombatManager::SkillUsageComplete(unsigned int casterId, unsigned int targetId, int skillId)
+    void CombatManager::SkillUsageComplete(unsigned int casterId, unsigned int tarGetId, int skillId)
     {
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
       // Lookup the IDs to get the actual entities.
       Common::Entity::Entityp caster = entityManager->FindById(casterId);
-      Common::Entity::Entityp target = entityManager->FindById(targetId);
+      Common::Entity::Entityp target = entityManager->FindById(tarGetId);
 
       if (!target)
       {
-        Report(PT::Error, "CombatManager: Couldn't find target with ID %d !", targetId);
+        Report(PT::Error, "CombatManager: Couldn't find target with ID %d !", tarGetId);
         return;
       }
       if (!caster)
@@ -402,12 +402,12 @@ namespace PT
         return;
       }
 
-      unsigned int targetId = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
+      unsigned int tarGetId = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID"));
 
-      RequestSkillUsageStart(targetId, skillId);
+      RequestSkillUsageStart(tarGetId, skillId);
     } // end RequestSkillUsageStart()
 
-    void CombatManager::RequestSkillUsageStart(unsigned int targetId,
+    void CombatManager::RequestSkillUsageStart(unsigned int tarGetId,
                                                unsigned int skillId)
     {
       // if (!skillId)
@@ -421,7 +421,7 @@ namespace PT
       // Get your own entity.
       boost::shared_ptr< ::Client::Entity::Entity> attacker = PT::Entity::PlayerEntity::Instance();
 
-      if (!targetId)
+      if (!tarGetId)
       {
         Report(PT::Error, "CombatManager: Couldn't find ID for target!");
         return;
@@ -434,7 +434,7 @@ namespace PT
 
       // TODO clean this code up, the entire function...
       SelectTargetMessage selectMsg;
-      selectMsg.setTargetID(targetId);
+      selectMsg.setTargetID(tarGetId);
       network->send(&selectMsg);
 
       AttackRequestMessage requestMsg;
@@ -466,11 +466,11 @@ namespace PT
 
       // Prepare and send the network message.
       //AttackRequestMessage msg;
-      // msg.setTargetID(targetId);
+      // msg.setTargetID(tarGetId);
       // msg.setAttackType(skillId);
       // network->send(&msg);
 
-      // Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %d.", targetId, skillId);
+      // Report(PT::Debug, "CombatManager: Sent SkillUsageStartRequestMessage target: %d skillid: %d.", tarGetId, skillId);
     } // end RequestSkillUsageStart()
 
     bool CombatManager::ActionHit(iEvent& ev)

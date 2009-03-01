@@ -58,5 +58,5 @@ void SkillHandler::handleSkillUsageStopRequest(GenericMessage* msg)
   Server* server = Server::getServer();
 
   Skill* skill = server->getSkillManager()->findById(request_msg.getSkill());
-  skill->castInterrupt(character->getSkills()->findSkill(skill->getId()));
+  skill->castInterrupt(character->getSkills()->findSkill(skill->GetId()));
 }

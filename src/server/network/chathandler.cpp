@@ -28,13 +28,13 @@ void ChatHandler::handleChat(GenericMessage* msg)
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
-  const ptString name = ent->getEntity()->getName();
+  const std::string name = ent->getEntity()->GetName();
 
   ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
   ChatMessage out_msg;
-  out_msg.setSpeakerName(name);
+  out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str())));
   out_msg.setVolume(in_msg.getVolume());
   out_msg.setMessage(in_msg.getMessage());
 
@@ -54,7 +54,7 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
-  const ptString name = ent->getEntity()->getName();
+  const std::string name = ent->getEntity()->GetName();
 
   WhisperToMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
@@ -62,12 +62,12 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   Server* server = Server::getServer();
 
   const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
-  if (!entity || entity->getType() != Entity::PlayerEntityType) return;
+  if (!entity || entity->GetType() != Common::Entity::PlayerEntityType) return;
 
   ChatMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
   out_msg.setVolume(0); /* whisper */
-  out_msg.setSpeakerName(name);
+  out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str())));
 
   ByteStream bs;
   out_msg.serialise(&bs);

@@ -40,10 +40,10 @@ DoorsTableVO* DoorsTable::parseSingleResultSet(ResultSet* rs, size_t row)
 
   DoorsTableVO* vo = new DoorsTableVO();
   vo->id = (unsigned short) atoi(rs->GetData(row,0).c_str());
-  vo->name = ptString(rs->GetData(row,1).c_str(), rs->GetData(row,1).length());
+  vo->name = rs->GetData(row,1);
   vo->islocked = (unsigned char) atoi(rs->GetData(row,2).c_str());
   vo->isopen = (unsigned char) atoi(rs->GetData(row,3).c_str());
-  vo->sector = ptString(rs->GetData(row,4).c_str(), rs->GetData(row,4).length());
+  vo->sector = rs->GetData(row,4).c_str();
   vo->mesh  = atoi(rs->GetData(row,5).c_str());
   vo->animation = ptString(rs->GetData(row,6).c_str(), rs->GetData(row,6).length());
   vo->x = (float) atof(rs->GetData(row,7).c_str());
@@ -101,7 +101,7 @@ void DoorsTable::insert(DoorsTableVO* vo)
     return;
   }
 
-  db->update(query, vo->id, *vo->name, vo->islocked, vo->isopen, *vo->sector, vo->mesh, *vo->animation, vo->x, vo->y, vo->z);
+  db->update(query, vo->id, vo->name.c_str(), vo->islocked, vo->isopen, vo->sector.c_str(), vo->mesh, *vo->animation, vo->x, vo->y, vo->z);
 }
 
 void DoorsTable::remove(int id)
@@ -145,9 +145,9 @@ bool DoorsTable::existsById(int id)
   return existence;
 }
 
-DoorsTableVO* DoorsTable::getByName(ptString name)
+DoorsTableVO* DoorsTable::getByName(const std::string& name)
 {
-  ResultSet* rs = db->query("select * from doors where name like '%s';", *name);
+  ResultSet* rs = db->query("select * from doors where name like '%s';", name.c_str());
   DoorsTableVO* vo = parseSingleResultSet(rs);
   delete rs;
   return vo;

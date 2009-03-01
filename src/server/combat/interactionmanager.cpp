@@ -28,6 +28,8 @@
 #include "server/entity/statmanager.h"
 #include "common/network/entitymessages.h"
 
+#include "common/entity/entity.h"
+
 #include "common/util/math.h"
 #include "common/util/sleep.h"
 #include "common/network/playermessages.h"
@@ -114,7 +116,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
   ptScopedMonitorable<Character> lockedTarget(c_char);
 
   // For normal attack it is not legal to attack the own character.
-  if (lockedAttacker->getId() == lockedTarget->getId()) {
+  if (lockedAttacker->GetId() == lockedTarget->GetId()) {
     return false;
   }
 
@@ -156,7 +158,7 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
   DEBUG("ReportDeath");
   DeathMessage msg;
   ByteStream statsbs;
-  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setEntityId(lockedCharacter->getEntity()->GetId());
   msg.serialise(&statsbs);
   // Report the death to everyone nearby.
   NetworkHelper::distancecast(statsbs,
@@ -200,7 +202,7 @@ InteractionManager::DropAllItems(Character *lockedCharacter) {
       // Remove all items from the players slot
       // Make sure to send those updates
       EquipMessage unequip_msg;
-      unequip_msg.setEntityId(lockedCharacter->getEntity()->getId());
+      unequip_msg.setEntityId(lockedCharacter->getEntity()->GetId());
       unequip_msg.setSlotId(slot);
       unequip_msg.setItemId(Item::NoItem); // No Item!
       unequip_msg.setFileName(ptString::Null);
@@ -219,8 +221,8 @@ InteractionManager::DropAllItems(Character *lockedCharacter) {
       const float radius = 0.8f;
       const WFMath::Vector<3> delta(cos(radians) * radius, sin(radians) * radius,
         0.0f);
-      ent->setPos(WFMath::Point<3>(lockedCharacter->getEntity()->getPos() + delta));
-      ent->setSector(lockedCharacter->getEntity()->getSector());
+      ent->SetPosition(WFMath::Point<3>(lockedCharacter->getEntity()->GetPosition() + delta));
+      ent->SetSector(lockedCharacter->getEntity()->GetSector());
 
       itemsDropped++;
       Server::getServer()->addEntity(ent, true);
@@ -248,8 +250,8 @@ InteractionManager::ReportDamage(Character *lockedCharacter)
 
   StatsChangeMessage msg;
   ByteStream statsbs;
-  msg.setStatId(hp->getId());
-  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setStatId(hp->GetId());
+  msg.setEntityId(lockedCharacter->getEntity()->GetId());
   msg.setName(ptString("Health", strlen("Health")));
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
@@ -376,15 +378,15 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   float attackAngle = 0;
   float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
-  const WFMath::Point<3> attackerPos(lockedAttacker->getEntity()->getPos());
-  const WFMath::Point<3> targetPos(lockedTarget->getEntity()->getPos());
+  const WFMath::Point<3> attackerPos(lockedAttacker->getEntity()->GetPosition());
+  const WFMath::Point<3> tarGetPosition(lockedTarget->getEntity()->GetPosition());
 
   maxAttackDistance = GetReach(lockedAttacker);
-  distance = Distance(attackerPos, targetPos);
+  distance = Distance(attackerPos, tarGetPosition);
 
-  printf(IM "attackerPos: %s, targetPos: %s, distance %f, "
+  printf(IM "attackerPos: %s, tarGetPosition: %s, distance %f, "
     "maxAttackDistance: %f\n", WFMath::ToString(attackerPos).c_str(),
-    WFMath::ToString(targetPos).c_str(), distance, maxAttackDistance);
+    WFMath::ToString(tarGetPosition).c_str(), distance, maxAttackDistance);
 
   if (distance > maxAttackDistance)
   {
@@ -393,10 +395,10 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
     return false;
   }
 
-  WFMath::Point<3> difference(attackerPos - targetPos);
+  WFMath::Point<3> difference(attackerPos - tarGetPosition);
 
   attackerRotation =
-    PT::Math::NormalizeAngle(lockedAttacker->getEntity()->getRotation());
+    PT::Math::NormalizeAngle(lockedAttacker->getEntity()->GetRotation());
 
   if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
   attackAngle = PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
@@ -456,11 +458,11 @@ InteractionManager::GetTargetCharacter(Character* lockedCharacter)
     return NULL;
   }
 
-  if (targetEntity->getType() == Entity::PlayerEntityType)
+  if (targetEntity->GetType() == Common::Entity::PlayerEntityType)
   {
     c_char = targetEntity->getPlayerEntity()->getCharacter();
   }
-  else if (targetEntity->getType() == Entity::NPCEntityType)
+  else if (targetEntity->GetType() == Common::Entity::NPCEntityType)
   {
     c_char = targetEntity->getNpcEntity()->getCharacter();
   }
@@ -613,8 +615,8 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   DEBUG("SendStatUpdate");
   StatsChangeMessage msg;
   ByteStream statsbs;
-  msg.setStatId(stat->getId());
-  msg.setEntityId(lockedCharacter->getEntity()->getId());
+  msg.setStatId(stat->GetId());
+  msg.setEntityId(lockedCharacter->getEntity()->GetId());
   msg.setName(ptString(name, strlen(name)));
   msg.setLevel(stats->getAmount(stat));
   msg.serialise(&statsbs);

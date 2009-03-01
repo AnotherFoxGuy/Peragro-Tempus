@@ -76,16 +76,16 @@ public:
   }
 
   void setId(unsigned int id) { this->id = id; }
-  unsigned int getId() const { return id; }
+  unsigned int GetId() const { return id; }
 
   void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
   unsigned int GetTargetID() { return targetID; }
 
-  void setPos(const WFMath::Point<3>& newPos) { pos = newPos; }
-  WFMath::Point<3> getPos() const { return pos; }
+  void SetPosition(const WFMath::Point<3>& newPos) { pos = newPos; }
+  WFMath::Point<3> GetPosition() const { return pos; }
 
-  void setRotation(float rot) { rotation = rot; }
-  float getRotation() const { return rotation; }
+  void SetRotation(float rot) { rotation = rot; }
+  float GetRotation() const { return rotation; }
 
   const ptString& getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }
@@ -93,8 +93,8 @@ public:
   const Mesh* getMesh() const { return mesh; }
   void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
-  const ptString& getSector() const { return sector_id; }
-  void setSector(ptString id) { sector_id = id; }
+  const ptString& GetSector() const { return sector_id; }
+  void SetSector(ptString id) { sector_id = id; }
 
   void setUser(User* user);
   const User* getUser() const { return user.get(); }

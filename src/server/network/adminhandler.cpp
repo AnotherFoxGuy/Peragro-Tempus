@@ -83,10 +83,10 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
       server->getCharacterManager()->delCharacter(c);
 
       NpcEntitiesTable* net = server->getTables()->getNpcEntitiesTable();
-      net->remove(npcs.get(i)->getId());
+      net->remove(npcs.get(i)->GetId());
 
       NpcAiSettingTable* nast = server->getTables()->getNpcAiSettingTable();
-      nast->removeAll(npcs.get(i)->getId());
+      nast->removeAll(npcs.get(i)->GetId());
 
       server->delEntity(npcs.get(i));
     }
@@ -151,7 +151,7 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   }
   else if (rmmsg.getDataType() == ptString::create("sectors"))
   {
-    SectorManager* sectors = server->getSectorManager();
+    SectorManager* sectors = server->GetSectorManager();
     sectors->delAll();
   }
   else if (rmmsg.getDataType() == ptString::create("zones"))
@@ -170,8 +170,8 @@ void AdminHandler::handleCreateSector(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  SectorManager* sectors = server->getSectorManager();
-  sectors->addSector(sectormsg.getSectorId(), sectormsg.getName(), sectormsg.getRegion());
+  SectorManager* sectors = server->GetSectorManager();
+  sectors->addSector(sectormsg.GetSectorId(), sectormsg.getName(), sectormsg.getRegion());
 }
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
@@ -188,7 +188,7 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   ItemManager* items = server->getItemManager();
   ItemTable* it = server->getTables()->getItemTable();
   it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
-             itemmsg.getDescription(), mesh->getId(),
+             itemmsg.getDescription(), mesh->GetId(),
              itemmsg.getWeight(), itemmsg.getEquipType());
 
   Item* item = it->getItem(itemmsg.getName(), server->getMeshManager());
@@ -205,13 +205,13 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  const float x = spawnmsg.getPos()[0];
-  const float y = spawnmsg.getPos()[1];
-  const float z = spawnmsg.getPos()[2];
+  const float x = spawnmsg.GetPosition()[0];
+  const float y = spawnmsg.GetPosition()[1];
+  const float z = spawnmsg.GetPosition()[2];
 
-  SectorManager* sectormgr = server->getSectorManager();
+  SectorManager* sectormgr = server->GetSectorManager();
 
-  ptString sector = sectormgr->getSectorName(spawnmsg.getSectorId());
+  ptString sector = sectormgr->GetSectorName(spawnmsg.GetSectorId());
 
   unsigned int item = spawnmsg.getItemId();
   //unsigned int variation = spawnmsg.getVariation();
@@ -233,9 +233,9 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   item_ent->createFromItem(itemmsg.getItemId(), itemmsg.getVariation());
 
   ptScopedMonitorable<Entity> e (item_ent->getEntity());
-  e->setPos(itemmsg.getPos());
-  e->setSector(itemmsg.getSectorId());
-  e->setRotation(0);
+  e->SetPosition(itemmsg.GetPosition());
+  e->SetSector(itemmsg.GetSectorId());
+  e->SetRotation(0.0f);
 
   Server::getServer()->addEntity(item_ent->getEntity(), true);
 }
@@ -255,11 +255,11 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   MountEntity* mount_ent = new MountEntity();
 
   ptScopedMonitorable<Entity> e (mount_ent->getEntity());
-  e->setName(mountmsg.getName());
+  e->SetName(*mountmsg.getName());
   e->setMesh(mesh);
-  e->setPos(mountmsg.getPos());
-  e->setRotation(mountmsg.getRotation());
-  e->setSector(mountmsg.getSectorId());
+  e->SetPosition(mountmsg.GetPosition());
+  e->SetRotation(mountmsg.GetRotation());
+  e->SetSector(mountmsg.GetSectorId());
 
   Server::getServer()->addEntity(mount_ent->getEntity(), true);
 }
@@ -283,11 +283,11 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
   door_ent->setAnimation(doormsg.getAnimation());
 
   ptScopedMonitorable<Entity> e (door_ent->getEntity());
-  e->setName(doormsg.getName());
+  e->SetName(*doormsg.getName());
   e->setMesh(mesh);
-  e->setPos(doormsg.getPos());
-  e->setRotation(0.0f);
-  e->setSector(doormsg.getSectorId());
+  e->SetPosition(doormsg.GetPosition());
+  e->SetRotation(0.0f);
+  e->SetSector(doormsg.GetSectorId());
 
   Server::getServer()->addEntity(door_ent->getEntity(), true);
 }
@@ -304,8 +304,8 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
   unsigned int entid = rmmsg.getEntityId();
   const Entity* e = server->getEntityManager()->findById(entid);
   if (e == 0) return;
-  if (e->getType() == Entity::ItemEntityType ||
-      e->getType() == Entity::MountEntityType)
+  if (e->GetType() == Common::Entity::ItemEntityType ||
+      e->GetType() == Common::Entity::MountEntityType)
   {
     server->delEntity(e);
   }

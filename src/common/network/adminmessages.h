@@ -82,8 +82,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
@@ -168,20 +168,20 @@ public:
   unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getInterval() const { return interval; }
   void setInterval(unsigned int x) { interval = x; }
@@ -213,20 +213,20 @@ public:
   unsigned int getVariation() const { return variation; }
   void setVariation(unsigned int x) { variation = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -256,23 +256,23 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;
     pos[2] = z;
   }
 
-  float getRotation() const { return rotation; }
-  void setRotation(float x) { rotation = x; }
+  float GetRotation() const { return rotation; }
+  void SetRotation(float x) { rotation = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -308,15 +308,15 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short getSectorId() const { return sectorid; }
-  void setSectorId(unsigned short x) { sectorid = x; }
+  unsigned short GetSectorId() const { return sectorid; }
+  void SetSectorId(unsigned short x) { sectorid = x; }
 
-  WFMath::Point<3> getPos() { return pos; }
-  void setPos(const WFMath::Point<3>& x)
+  WFMath::Point<3> GetPosition() { return pos; }
+  void SetPosition(const WFMath::Point<3>& x)
   {
     pos = x;
   }
-  void setPos(float x, float y, float z)
+  void SetPosition(float x, float y, float z)
   {
     pos[0] = x;
     pos[1] = y;

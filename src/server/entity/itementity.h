@@ -33,7 +33,7 @@ private:
 public:
   ItemEntity()
   {
-    entity = (new Entity(Entity::ItemEntityType))->getRef();
+    entity = (new Entity(Common::Entity::ItemEntityType))->getRef();
 
     ptScopedMonitorable<Entity> e (entity.get());
     e->setItemEntity(this);

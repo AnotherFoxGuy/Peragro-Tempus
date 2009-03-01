@@ -45,14 +45,14 @@ namespace PT
       /**
        * Convenience constructor for use in children classes.
        */
-      CharacterEntity() : equipment(this) {}
+      CharacterEntity(Common::Entity::EntityType type) : ::Client::Entity::Entity(type), equipment(this) {}
       /**
        * Constructor that sets up the character using the information provided
        * by EntityAddEvent event.
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the character properties.
        */
-      CharacterEntity(const iEvent& ev);
+      CharacterEntity(Common::Entity::EntityType type, const iEvent& ev);
 
       ///@todo Stats shouldn't be defined like this.
       float maxStamina;

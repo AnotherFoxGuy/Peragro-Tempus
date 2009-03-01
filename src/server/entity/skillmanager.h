@@ -55,7 +55,7 @@ public:
     for (size_t i = 0; i<skills.getCount(); i++)
     {
       Skill* _skill = skills.get(i);
-      if (_skill->getId() == skill->getId())
+      if (_skill->GetId() == skill->GetId())
       {
         skills.remove(i);
         return;
@@ -70,7 +70,7 @@ public:
     {
       Skill* _skill = skills.get(i);
 
-      if (_skill->getId() == skill->getId())
+      if (_skill->GetId() == skill->GetId())
         return true;
     }
     return false;
@@ -95,7 +95,7 @@ public:
     for (size_t i = 0; i<skills.getCount(); i++)
     {
       Skill* skill = skills.get(i);
-      if (skill->getId() == id)
+      if (skill->GetId() == id)
       {
         return skill;
       }

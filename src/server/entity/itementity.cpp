@@ -29,7 +29,7 @@ void ItemEntity::createFromItem(unsigned int item_id, unsigned int variation)
 
   Item* item = Server::getServer()->getItemManager()->findById(item_id);
   ptScopedMonitorable<Entity> e (entity.get());
-  e->setName(item->getName());
+  e->SetName(*item->getName());
   e->setMesh(item->getMesh());
 
   this->item = item->getRef();

@@ -41,7 +41,7 @@ namespace PT
   namespace Entity
   {
 
-    ItemEntity::ItemEntity(const iEvent& ev) : ::Client::Entity::Entity(ev)
+    ItemEntity::ItemEntity(const iEvent& ev) : ::Client::Entity::Entity(Common::Entity::ItemEntityType, ev)
     {
       ev.Retrieve("itemId", itemId);
 

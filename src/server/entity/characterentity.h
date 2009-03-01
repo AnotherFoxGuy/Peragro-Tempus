@@ -154,7 +154,7 @@ public:
     state = stMoving;
   }
 
-  WFMath::Point<3> getPos()
+  WFMath::Point<3> GetPosition()
   {
     if (state != stMoving)
     {
@@ -164,7 +164,7 @@ public:
     {
       if ((size_t)time(0) >= t_stop)
       {
-        setPos(final_dst);
+        SetPosition(final_dst);
         state = stIdle;
         return final_dst;
       }

@@ -47,7 +47,7 @@ void MeshListTable::parseMultiResultSet(ResultSet* rs, std::vector<const Mesh*>&
   for (size_t i = 0; i < rs->GetRowCount(); i++)
   {
     const Mesh* obj = parseSingleResultSet(rs, i);
-    while (obj->getId() > list.size())
+    while (obj->GetId() > list.size())
     {
       list.push_back(0);
     }
@@ -76,7 +76,7 @@ void MeshListTable::createTable()
 void MeshListTable::insert(const Mesh* vo)
 {
   const char* query = { "insert into meshlist(id, revision, name, file) values (%d, %d, '%s', '%s');" };
-  db->update(query, vo->getId(), vo->getRevision(), *vo->getName(), *vo->getFile());
+  db->update(query, vo->GetId(), vo->getRevision(), *vo->getName(), *vo->getFile());
 }
 
 void MeshListTable::remove(int id)

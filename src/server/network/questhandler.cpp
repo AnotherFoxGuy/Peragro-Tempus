@@ -58,7 +58,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     npc_entity->pause(false);
 
     NpcEndDialogMessage endmsg;
-    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
     ByteStream bs;
     endmsg.serialise(&bs);
     server->broadCast(bs);
@@ -111,7 +111,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       NetworkHelper::sendMessage(character, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
       server->broadCast(bs2);
@@ -146,7 +146,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       NetworkHelper::sendMessage(character, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
       server->broadCast(bs2);
@@ -161,23 +161,23 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
     sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
     ptScopedMonitorable<Entity> ent (character->getEntity());
-    ent->setSector(sector);
-    ent->setPos(x, y, z);
+    ent->SetSector(sector);
+    ent->SetPosition(x, y, z);
 
     server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
     TeleportResponseMessage telemsg;
-    telemsg.setEntityId(ent->getId());
-    telemsg.setPos(ent->getPos());
-    telemsg.setRotation(ent->getRotation());
-    telemsg.setSectorId(ent->getSector());
+    telemsg.setEntityId(ent->GetId());
+    telemsg.SetPosition(ent->GetPosition());
+    telemsg.SetRotation(ent->GetRotation());
+    telemsg.SetSectorId(ent->GetSector());
 
     ByteStream bs;
     telemsg.serialise(&bs);
     server->broadCast(bs);
 
     NpcEndDialogMessage endmsg;
-    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
     ByteStream bs2;
     endmsg.serialise(&bs2);
     server->broadCast(bs2);
@@ -205,7 +205,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   unsigned int npc_id = message.getNpcId();
   const Entity* npc_ent = server->getEntityManager()->findById(npc_id);
 
-  if (!npc_ent || npc_ent->getType() != Entity::NPCEntityType)
+  if (!npc_ent || npc_ent->GetType() != Common::Entity::NPCEntityType)
     return;
 
   // TODO: NPC will be unpaused when its done with the chat.
@@ -274,7 +274,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
       NetworkHelper::sendMessage(character, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
       server->broadCast(bs2);
@@ -309,7 +309,7 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
       NetworkHelper::sendMessage(character, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
       server->broadCast(bs2);
@@ -324,23 +324,23 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
     sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
     ptScopedMonitorable<Entity> ent (character->getEntity());
-    ent->setSector(sector);
-    ent->setPos(x, y, z);
+    ent->SetSector(sector);
+    ent->SetPosition(x, y, z);
 
     server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
     TeleportResponseMessage telemsg;
-    telemsg.setEntityId(ent->getId());
-    telemsg.setPos(ent->getPos());
-    telemsg.setRotation(ent->getRotation());
-    telemsg.setSectorId(ent->getSector());
+    telemsg.setEntityId(ent->GetId());
+    telemsg.SetPosition(ent->GetPosition());
+    telemsg.SetRotation(ent->GetRotation());
+    telemsg.SetSectorId(ent->GetSector());
 
     ByteStream bs;
     telemsg.serialise(&bs);
     server->broadCast(bs);
 
     NpcEndDialogMessage endmsg;
-    endmsg.setNpcId(dia_state->getNpc()->getEntity()->getId());
+    endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
     ByteStream bs2;
     endmsg.serialise(&bs2);
     server->broadCast(bs2);

@@ -44,7 +44,7 @@ namespace PT
   namespace Entity
   {
 
-    PcEntity::PcEntity(const iEvent& ev) : CharacterEntity(ev)
+    PcEntity::PcEntity(const iEvent& ev) : CharacterEntity(Common::Entity::PCEntityType, ev)
     {
       Create();
     }

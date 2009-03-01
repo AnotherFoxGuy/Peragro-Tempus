@@ -132,8 +132,8 @@ public:
   void setSpawner(Spawner* spawner) { this->spawner = spawner; }
   Spawner* getSpawner() { return this->spawner; }
 
-  void setSectorManager(SectorManager* sectormanager) { this->sectormanager = sectormanager; }
-  SectorManager* getSectorManager() { return this->sectormanager; }
+  void SetSectorManager(SectorManager* sectormanager) { this->sectormanager = sectormanager; }
+  SectorManager* GetSectorManager() { return this->sectormanager; }
 
   void setCollisionDetection(CollisionDetection* colldet) { this->colldet = colldet; }
   CollisionDetection* getCollisionDetection() { return this->colldet; }

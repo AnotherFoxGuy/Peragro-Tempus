@@ -57,7 +57,7 @@ private:
 public:
   PcEntity()
   {
-    entity = (new Entity(Entity::PlayerEntityType))->getRef();
+    entity = (new Entity(Common::Entity::PlayerEntityType))->getRef();
 
     ptScopedMonitorable<Entity> e (entity.get());
     e->setPlayerEntity(this);
@@ -92,11 +92,11 @@ public:
 
   TradePeer* getTradePeer() { return &tradepeer; }
 
-  void setPose(unsigned char pose_id) { this->pose_id = pose_id; }
-  const unsigned char getPose() const { return pose_id; }
+  void setPoseId(unsigned char pose_id) { this->pose_id = pose_id; }
+  const unsigned char getPoseId() const { return pose_id; }
 
   void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> getPos();
+  WFMath::Point<3> GetPosition();
 
   void toggleFlashStep() { flashStep = !flashStep; }
   bool usesFlashStep() const { return flashStep; }

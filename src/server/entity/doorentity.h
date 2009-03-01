@@ -44,7 +44,7 @@ private:
 public:
   DoorEntity() : open(false), locked(false)
   {
-    entity = (new Entity(Entity::DoorEntityType))->getRef();
+    entity = (new Entity(Common::Entity::DoorEntityType))->getRef();
 
     ptScopedMonitorable<Entity> e (entity.get());
     e->setDoorEntity(this);

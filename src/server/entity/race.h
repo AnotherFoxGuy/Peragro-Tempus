@@ -67,13 +67,13 @@ public:
   {
     this->id = id;
   }
-  int getId()
+  int GetId()
   {
     return id;
   }
 
-  void setPos(const WFMath::Point<3>& p) { pos = p; }
-  WFMath::Point<3> getPos() { return pos; }
+  void SetPosition(const WFMath::Point<3>& p) { pos = p; }
+  WFMath::Point<3> GetPosition() { return pos; }
 
   ptString& getName() { return name_id; }
   void setName(ptString name) { name_id = name; }
@@ -81,8 +81,8 @@ public:
   const Mesh* getMesh() const { return mesh; }
   void setMesh(const Mesh* mesh) { this->mesh = mesh; }
 
-  ptString& getSector() { return sector_id; }
-  void setSector(ptString name) { sector_id = name; }
+  ptString& GetSector() { return sector_id; }
+  void SetSector(ptString name) { sector_id = name; }
 
   RaceStats* getStats() { return &stats; }
   RaceSkills* getSkills() { return &skills; }

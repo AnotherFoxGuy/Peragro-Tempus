@@ -52,7 +52,7 @@ public:
   ~Item() {}
 
   void setId(unsigned int id) { this->id = id; }
-  unsigned int getId() const { return id; }
+  unsigned int GetId() const { return id; }
 
   ptString getName() const { return name_id; }
   void setName(ptString id) { name_id = id; }

@@ -42,7 +42,7 @@ namespace PT
   namespace Entity
   {
 
-    DoorEntity::DoorEntity(const iEvent& ev) : ::Client::Entity::Entity(ev)
+    DoorEntity::DoorEntity(const iEvent& ev) : ::Client::Entity::Entity(Common::Entity::DoorEntityType, ev)
     {
       ev.Retrieve("open", open);
       ev.Retrieve("locked", locked);

@@ -191,7 +191,7 @@ int main(int argc, char ** argv)
   server.setSkillManager(&skill_mgr);
 
   SectorManager sector_mgr;
-  server.setSectorManager(&sector_mgr);
+  server.SetSectorManager(&sector_mgr);
 
   ZoneManager zone_mgr;
   server.setZoneManager(&zone_mgr);
@@ -222,9 +222,9 @@ int main(int argc, char ** argv)
   {
     Race* race = race_mgr.getRace(i);
     race->getStats()->loadFromDatabase(tables.getRaceStatsTable(),
-      race->getId());
+      race->GetId());
     race->getSkills()->loadFromDatabase(tables.getRaceSkillsTable(),
-      race->getId());
+      race->GetId());
   }
 
   zone_mgr.loadFromDB(tables.getZonesTable(), tables.getZonenodesTable());

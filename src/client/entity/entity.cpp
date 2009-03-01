@@ -52,7 +52,7 @@ namespace Client
 {
   namespace Entity
   {
-    Entity::Entity(const iEvent& ev) : ::PT::Entity::Entity()
+    Entity::Entity(Common::Entity::EntityType type, const iEvent& ev) : ::PT::Entity::Entity(type)
     {
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
@@ -63,11 +63,11 @@ namespace Client
       meshName = Helper::GetString(&ev, "meshName");
       fileName = Helper::GetString(&ev, "fileName");
       position = PT::Events::EntityHelper::GetPosition(&ev);
-      ev.Retrieve("rotation", rot);
+      ev.Retrieve("rotation", rotation);
 
       unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
       PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        getSectorDataManager()->GetSectorById(sectorId);
+        GetSectorDataManager()->GetSectorById(sectorId);
       if (sector)
       {
         sectorName = sector->GetName();
@@ -115,7 +115,7 @@ namespace Client
 
       if (sector != "Default_Sector") Entity::sectorName = sector;
       Entity::position = pos;
-      Entity::rot = rotation;
+      Entity::rotation = rotation;
 
       if (celEntity.IsValid())
       {

@@ -42,7 +42,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
   printf("Add Entity\n");
   ent_mgr->addEntity(entity);
 
-  printf("Added %s with id: %d, mesh: %s\n", *entity->getName(), entity->getId(), *entity->getMesh()->getName());
+  printf("Added %s with id: %d, mesh: %s\n", entity->GetName().c_str(), entity->GetId(), *entity->getMesh()->getName());
 
   if (persistent)
   {
@@ -50,7 +50,7 @@ void Server::addEntity(const Entity* entity, bool persistent)
     const DoorEntity* de = entity->getDoorEntity();
     if (ie)
     {
-      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), ie->getItem()->getId(), ie->variation, entity->getMesh()->getId(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->GetId(), entity->GetName(), entity->GetType(), ie->getItem()->GetId(), ie->variation, entity->getMesh()->GetId(), entity->GetPosition(), entity->GetRotation(), entity->GetSectorName());
     }
     else if (de)
     {
@@ -59,18 +59,18 @@ void Server::addEntity(const Entity* entity, bool persistent)
       vo.id = de->getDoorId();
       vo.islocked = de->getLocked();
       vo.isopen = de->getOpen();
-      vo.mesh = entity->getMesh()->getId();
+      vo.mesh = entity->getMesh()->GetId();
       vo.animation = de->getAnimation();
-      vo.name = entity->getName();
-      vo.sector = entity->getSectorName();
-      vo.x = entity->getPos()[0];
-      vo.y = entity->getPos()[1];
-      vo.z = entity->getPos()[2];
+      vo.name = entity->GetName();
+      vo.sector = entity->GetSectorName();
+      vo.x = entity->GetPosition()[0];
+      vo.y = entity->GetPosition()[1];
+      vo.z = entity->GetPosition()[2];
       tables->getDoorsTable()->insert(&vo);
     }
     else
     {
-      tables->getEntityTable()->insert(entity->getId(), entity->getName(), entity->getType(), 0, 0, entity->getMesh()->getId(), entity->getPos(), entity->getRotation(), entity->getSectorName());
+      tables->getEntityTable()->insert(entity->GetId(), entity->GetName(), entity->GetType(), 0, 0, entity->getMesh()->GetId(), entity->GetPosition(), entity->GetRotation(), entity->GetSectorName());
     }
   }
 
@@ -91,15 +91,15 @@ void Server::delEntity(const Entity* entity)
 
   ent_mgr->removeEntity(entity);
 
-  if (entity->getType() == Entity::ItemEntityType)
+  if (entity->GetType() == Common::Entity::ItemEntityType)
   {
-    tables->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->GetId());
   }
-  if (entity->getType() == Entity::NPCEntityType)
+  if (entity->GetType() == Common::Entity::NPCEntityType)
   {
-    tables->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->GetId());
   }
-  if (entity->getType() == Entity::MountEntityType)
+  if (entity->GetType() == Common::Entity::MountEntityType)
   {
     // check if player was on mount
     const MountEntity* c_mount = entity->getMountEntity();
@@ -112,13 +112,13 @@ void Server::delEntity(const Entity* entity)
       e->setMount(0);
       mount->delPassenger(e);
     }
-    tables->getEntityTable()->remove(entity->getId());
+    tables->getEntityTable()->remove(entity->GetId());
   }
-  if (entity->getType() == Entity::PlayerEntityType)
+  if (entity->GetType() == Common::Entity::PlayerEntityType)
   {
     const PcEntity* pc_ent = entity->getPlayerEntity();
-    int id = pc_ent->getCharacter()->getId();
-    tables->getCharacterTable()->update(entity->getPos(), entity->getRotation(), entity->getSectorName(), id);
+    int id = pc_ent->getCharacter()->GetId();
+    tables->getCharacterTable()->update(entity->GetPosition(), entity->GetRotation(), entity->GetSectorName(), id);
 
     // check if player was on mount
     const MountEntity* c_mount = pc_ent->getMount();
@@ -155,9 +155,9 @@ void Server::moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float spe
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->getPos());
+  response_msg.setFrom(entity->getEntity()->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
@@ -173,9 +173,9 @@ void Server::moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float 
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->getPos());
+  response_msg.setFrom(entity->getEntity()->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
@@ -193,9 +193,9 @@ void Server::moveEntity(const NpcEntity* entity, const WFMath::Point<3>& pos, fl
 
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->getPos());
+  response_msg.setFrom(entity->getEntity()->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->getId());
+  response_msg.setEntityId(entity->getEntity()->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);

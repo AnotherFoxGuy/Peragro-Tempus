@@ -97,7 +97,7 @@ void CharacterTable::insert(int id, const ptString& name, int user_id,
              "pos_x, pos_y, pos_z, rot, sector)"
              "values ('%d','%q',%d,'%d',%d,"
              "%d,%d,%d,"  "%d,%d,%d,"  "%d,%d,%d,"
-             "%.2f,%.2f,%.2f,0,'%q');", id, *name, user_id, mesh->getId(), race_id,
+             "%.2f,%.2f,%.2f,0,'%q');", id, *name, user_id, mesh->GetId(), race_id,
              haircolour[0],haircolour[1],haircolour[2],
              skincolour[0],skincolour[1],skincolour[2],
              decalcolour[0],decalcolour[1],decalcolour[2],
@@ -127,10 +127,10 @@ void CharacterTable::remove(int id)
 }
 
 void CharacterTable::update(const WFMath::Point<3>& pos, float rotation,
-                            const ptString& sector, int char_id)
+                            const std::string& sector, int char_id)
 {
   db->update("update characters set pos_x=%.2f, pos_y=%.2f, pos_z=%.2f, rot=%.2f, sector='%q' where id = %d;",
-    pos[0], pos[1], pos[2], rotation, *sector, char_id);
+    pos[0], pos[1], pos[2], rotation, sector.c_str(), char_id);
 }
 
 CharactersTableVO* CharacterTable::parseSingleResultSet(ResultSet* rs, size_t row)
@@ -213,7 +213,7 @@ CharactersTableVO* CharacterTable::FindCharacterByName(const char* name)
 
 Array<CharactersTableVO*> CharacterTable::getAllCharacters(User* user)
 {
-  ResultSet* rs = db->query("select * from characters where user = '%d';", user->getId());
+  ResultSet* rs = db->query("select * from characters where user = '%d';", user->GetId());
   Array<CharactersTableVO*> characters = parseMultiResultSet(rs);
   delete rs;
   return characters;

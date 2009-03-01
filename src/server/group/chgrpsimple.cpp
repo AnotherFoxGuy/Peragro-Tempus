@@ -61,11 +61,11 @@ void ChatGroupSimple::broadcast(const PcEntity* user, const char* message) const
   if (!user || !message) return;
 
   GroupMessage out_msg;
-  const ptString name = user->getEntity()->getName();
+  const std::string name = user->getEntity()->GetName();
   const ptString channel = ptString::create(this->name);
   out_msg.setMessage(message);
   out_msg.setChannel(channel);
-  out_msg.setSpeakerName(name);
+  out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str()) ));
 
   ByteStream bs;
   out_msg.serialise(&bs);

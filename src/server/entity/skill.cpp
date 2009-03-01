@@ -51,11 +51,11 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
   SkillUsageStartResponseMessage response_msg;
   response_msg.setSkill(id);
   response_msg.setTarget(0);
-  response_msg.setCaster(caster->getEntity()->getId());
+  response_msg.setCaster(caster->getEntity()->GetId());
 
-  skilldata->caster_id = caster->getEntity()->getId();
+  skilldata->caster_id = caster->getEntity()->GetId();
 
-  printf("Casting: %s starts to cast %s on %s\n", *caster->getName(), *this->getName(), *target->getName());
+  printf("Casting: %s starts to cast %s on %s\n", *caster->getName(), *this->getName(), target->GetName().c_str());
   printf("Casting: Skill State: %d \n", skilldata->state);
 
   Stat* mp = Server::getServer()->getStatManager()->findByName(ptString("Mana", strlen("Mana")));
@@ -82,10 +82,10 @@ void Skill::castPrepare(Character* caster, unsigned int target_id)
   else
   {
     skilldata->skill = this;
-    skilldata->target_id = target->getId();
+    skilldata->target_id = target->GetId();
 
     response_msg.setError(ptString());
-    response_msg.setTarget(target->getId());
+    response_msg.setTarget(target->GetId());
     response_msg.setMpCost(mpCost);
 
     caster->getStats()->takeStat(mp, mpCost);
@@ -117,7 +117,7 @@ void Skill::castInterrupt(CharSkill* skilldata)
   }
 
   SkillUsageInterruptMessage response_msg;
-  response_msg.setSkill(skilldata->skill->getId());
+  response_msg.setSkill(skilldata->skill->GetId());
   response_msg.setCaster(skilldata->caster_id);
   response_msg.setTarget(skilldata->target_id);
 
@@ -137,7 +137,7 @@ void Skill::castExecute(CharSkill* skilldata)
   }
 
   SkillUsageCompletionMessage response_msg;
-  response_msg.setSkill(skilldata->skill->getId());
+  response_msg.setSkill(skilldata->skill->GetId());
   response_msg.setCaster(skilldata->caster_id);
   response_msg.setTarget(skilldata->target_id);
 
@@ -157,19 +157,19 @@ void Skill::castExecute(CharSkill* skilldata)
     {
       // target took damage
       stats->takeStat(hp, power);
-      printf("Hitting %s with %d damage => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+      printf("Hitting %s with %d damage => %d HP remaining\n", target->GetName().c_str(), power, stats->getAmount(hp));
     }
     else
     {
       // target died
       stats->takeStat(hp, health);
-      printf("Hitting %s with %d damage => Target Died => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+      printf("Hitting %s with %d damage => Target Died => %d HP remaining\n", target->GetName().c_str(), power, stats->getAmount(hp));
     }
   }
   else if (type == TYPE_HEAL)
   {
     stats->addStat(hp, power);
-    printf("Healing %s with %d Health => %d HP remaining\n", *target->getName(), power, stats->getAmount(hp));
+    printf("Healing %s with %d Health => %d HP remaining\n", target->GetName().c_str(), power, stats->getAmount(hp));
     //no upper stats limit for now...
   }
 

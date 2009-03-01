@@ -45,8 +45,8 @@ namespace PT
   namespace Entity
   {
 
-    CharacterEntity::CharacterEntity(const iEvent& ev) :
-      ::Client::Entity::Entity(ev), equipment(this)
+    CharacterEntity::CharacterEntity(Common::Entity::EntityType type, const iEvent& ev) :
+      ::Client::Entity::Entity(type, ev), equipment(this)
     {
       maxStamina = 100;
       currentStamina = 100;

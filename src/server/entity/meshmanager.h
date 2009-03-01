@@ -115,7 +115,7 @@ public:
       Mesh* updateMesh = (Mesh*) mesh;
       updateMesh->setRevision(revision + 1);
       updateMesh->setFile(file);
-      mlt->remove(mesh->getId());
+      mlt->remove(mesh->GetId());
     }
 
     mlt->insert(mesh);
@@ -132,7 +132,7 @@ public:
     if (id < list.size())
     {
       const Mesh* mesh = list[id];
-      if (mesh != 0 && mesh->getId() == id)
+      if (mesh != 0 && mesh->GetId() == id)
       {
         return mesh;
       }

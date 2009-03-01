@@ -118,7 +118,7 @@ void RaceStatsTable::set(int race, Stat* stat, int level)
   {
     return;
   }
-  insert(race, stat->getId(), level);
+  insert(race, stat->GetId(), level);
 }
 
 int RaceStatsTable::get(int race, Stat* stat)
@@ -128,7 +128,7 @@ int RaceStatsTable::get(int race, Stat* stat)
     return 0;
   }
   ResultSet* rs = db->query("select * from racestat where id = '%d' and stat = '%d';",
-    race, stat->getId());
+    race, stat->GetId());
 
   int level = 0;
 

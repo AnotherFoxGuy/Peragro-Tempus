@@ -50,7 +50,7 @@ ptString CharacterManager::createCharacter(ptString name, int user_id, int& char
   if (!race) return ptString::create("Race not found!");  // <-- TODO: Error Message Container
 
   this->charId++;
-  ct->insert(this->charId, name, user_id, race->getMesh(), race->getId(), haircolour, skincolour, decalcolour, race->getPos(), race->getSector()); // <-- TODO: Keep those ptString as class members
+  ct->insert(this->charId, name, user_id, race->getMesh(), race->GetId(), haircolour, skincolour, decalcolour, race->GetPosition(), race->GetSector()); // <-- TODO: Keep those ptString as class members
 
   char_id = this->charId;
 
@@ -64,7 +64,7 @@ Character* CharacterManager::getCharacter(int id, User* user)
 {
   CharacterTable* ct = server->getTables()->getCharacterTable();
 
-  unsigned int userid = (user ? user->getId() : 0 );
+  unsigned int userid = (user ? user->GetId() : 0 );
 
   CharactersTableVO* vo = ct->findCharacterById(id, userid);
   if (vo)
@@ -81,9 +81,9 @@ Character* CharacterManager::getCharacter(int id, User* user)
     character->setHairColour(vo->hair_r, vo->hair_g, vo->hair_b);
     character->setSkinColour(vo->skin_r, vo->skin_g, vo->skin_b);
     character->setDecalColour(vo->decal_r, vo->decal_g, vo->decal_b);
-    character->setPos(WFMath::Point<3>(vo->pos_x, vo->pos_y, vo->pos_z));
-    character->setRotation(vo->rotation);
-    character->setSector(vo->sector);
+    character->SetPosition(WFMath::Point<3>(vo->pos_x, vo->pos_y, vo->pos_z));
+    character->SetRotation(vo->rotation);
+    character->SetSector(vo->sector);
     delete vo;
     return character;
   }
@@ -99,13 +99,14 @@ void CharacterManager::checkForSave(const PcEntity* e)
   {
     ptScopedMonitorable<Entity> l_ent (ent);
     l_ent->resetSavePos();
-    printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", *ent->getName(), e->getCharacter()->getId(),ent->getId(), ent->getPos()[0], ent->getPos()[1], ent->getPos()[2], ent->getRotation());
-    server->getTables()->getCharacterTable()->update(ent->getPos(), ent->getRotation(), ent->getSectorName(), e->getCharacter()->getId());
+    WFMath::Point<3> pos = ent->GetPosition();
+    printf("Save entity %s (%d / %d) at <%.2f,%.2f,%.2f> %f\n", ent->GetName().c_str(), e->getCharacter()->GetId(),ent->GetId(), pos[0], pos[1], pos[2], ent->GetRotation());
+    server->getTables()->getCharacterTable()->update(ent->GetPosition(), ent->GetRotation(), ent->GetSectorName(), e->getCharacter()->GetId());
   }
 }
 
 void CharacterManager::delCharacter(const Character* character)
 {
   CharacterTable* ct = server->getTables()->getCharacterTable();
-  ct->remove(character->getId());
+  ct->remove(character->GetId());
 }

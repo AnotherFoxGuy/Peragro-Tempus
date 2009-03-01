@@ -65,94 +65,43 @@ void Entity::setMountEntity(const MountEntity* mount)
   mount_entity = mount->getRef();
 }
 
-const ptString& Entity::getSectorName() const
+unsigned short Entity::GetSector() const
 {
-  return Server::getServer()->getSectorManager()->getSectorName(sector_id);
+  return Server::getServer()->GetSectorManager()->
+    GetSectorId(ptString(sectorName.c_str(), strlen(sectorName.c_str()) ));
 }
 
-void Entity::setSector(unsigned short id)
+void Entity::SetSector(unsigned short id)
 {
-  sector_id = id;
+  sectorName = *(Server::getServer()->GetSectorManager()->GetSectorName(id));
 }
 
-void Entity::setPos(const WFMath::Point<3>& p)
+void Entity::SetPosition(const WFMath::Point<3>& p)
 {
-  pos = p;
+  Common::Entity::Entity::SetPosition(p);
 
+  // If this is a mount, update passengers aswell.
   if (getMountEntity())
   {
     ptScopedMonitorable<MountEntity> me (getMountEntity());
     for (size_t i = 0; i < me->getPassengerCount(); i++)
     {
       ptScopedMonitorable<Entity> entity (me->getPassenger(i)->getEntity());
-      entity->setPos(pos);
-    }
-  }
-
-  const float dist_square = WFMath::SquaredDistance<3>(pos, this->getLastSaved());
-  if (dist_square > 100.0f)
-  {
-    const User* this_user = 0;
-    if (this->getPlayerEntity() != 0)
-    {
-      this_user = this->getPlayerEntity()->getUser();
-    }
-
-    EntityManager* ent_mgr = Server::getServer()->getEntityManager();
-    ent_mgr->lock();
-    for (size_t i = 0; i < ent_mgr->getEntityCount(); i++)
-    {
-      const Entity* other_ent = ent_mgr->getEntity(i);
-      const User* other_user = 0;
-      if (other_ent->getPlayerEntity() != 0)
-      {
-        other_user = other_ent->getPlayerEntity()->getUser();
-      }
-
-      if (this_user == 0 && other_user == 0)
-        continue;
-
-      if (this->getSector() == other_ent->getSector() &&
-         (this->getDistanceTo2(other_ent) < 10000.0f))
-      {
-        if (this_user)
-        {
-          ptScopedMonitorable<User> user (this_user);
-          user->sendAddEntity(other_ent);
-        }
-        if (other_user)
-        {
-          ptScopedMonitorable<User> user (other_user);
-          user->sendAddEntity(this);
-        }
-      }
-      else
-      {
-        if (this_user)
-        {
-          ptScopedMonitorable<User> user (this_user);
-          user->sendRemoveEntity(other_ent);
-        }
-        if (other_user)
-        {
-          ptScopedMonitorable<User> user (other_user);
-          user->sendRemoveEntity(this);
-        }
-      }
-    }
-    ent_mgr->unlock();
-  }
+      entity->SetPosition(GetPosition());
+    } // end for
+  } // end if
 }
 
-void Entity::setSector(ptString name)
+void Entity::SetSectorName(const std::string& value)
 {
-  unsigned short id = Server::getServer()->getSectorManager()->getSectorId(name);
+  unsigned short id = Server::getServer()->
+    GetSectorManager()->GetSectorId(ptString(value.c_str(), strlen(value.c_str()) ));
   if (id == Sector::NoSector)
   {
-    printf("Player %s is trying to get to a non existing sector!\n", *name_id);
+    printf("Player %s is trying to get to a non existing sector %s!\n", name.c_str(), value.c_str());
   }
   else
   {
-    setSector(id);
+    Common::Entity::Entity::SetSectorName(value);
   }
 }

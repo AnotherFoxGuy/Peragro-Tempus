@@ -140,10 +140,10 @@ bool ComponentPlayerControls::PerformMovementAction()
 
   MoveRequestMessage msg;
 
-  msg.setWalkDirection(walk + 1);
+  msg.setMoveDirection(walk + 1, 0, 0);
 
-  if (walk == -1 && backwardReverse) msg.setTurnDirection(-turn + 1);
-  else msg.setTurnDirection(turn + 1);
+  if (walk == -1 && backwardReverse) msg.setMoveDirection(0, 0, -turn + 1);
+  else msg.setMoveDirection(0, 0, turn + 1);
   msg.setRun(run);
   msg.setJump(jump);
   // Jumping is not a constant action, so we need to turn it off once we've

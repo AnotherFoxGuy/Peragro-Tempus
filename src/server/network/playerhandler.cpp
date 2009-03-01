@@ -35,7 +35,7 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
 
   const char* error = 0;
 
-  ptString name = user_ent->getName();
+  std::string name = user_ent->GetName();
 
   InventoryMoveItemRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -45,7 +45,7 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
   unsigned char equip_slot = request_msg.getNewSlot();
   unsigned char invent_slot = request_msg.getOldSlot();
 
-  printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", *name, invent_slot, equip_slot);
+  printf("Received EquipRequest from: '%s' | '%d' to '%d' \n", name.c_str(), invent_slot, equip_slot);
 
   bool equip = false;
   if (equip_slot < 10 || invent_slot < 10)
@@ -105,10 +105,10 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     if (invent_slot < 10)
     {
       EquipMessage response_msg;
-      response_msg.setEntityId(user_ent->getId());
+      response_msg.setEntityId(user_ent->GetId());
       response_msg.setItemId(old_item.id);
       response_msg.setSlotId(invent_slot);
-      response_msg.setMeshId(old?old->getMesh()->getId():0); // Not used yet!
+      response_msg.setMeshId(old?old->getMesh()->GetId():0); // Not used yet!
       response_msg.setFileName(old?old->getMesh()->getFile():ptString::Null);
       response_msg.setMeshName(old?old->getMesh()->getName():ptString::Null);
 
@@ -120,10 +120,10 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
     if (equip_slot < 10)
     {
       EquipMessage response_msg;
-      response_msg.setEntityId(user_ent->getId());
+      response_msg.setEntityId(user_ent->GetId());
       response_msg.setItemId(new_item.id);
       response_msg.setSlotId(equip_slot);
-      response_msg.setMeshId(item->getMesh()->getId()); // Not used yet!
+      response_msg.setMeshId(item->getMesh()->GetId()); // Not used yet!
       response_msg.setFileName(item->getMesh()->getFile());
       response_msg.setMeshName(item->getMesh()->getName());
 

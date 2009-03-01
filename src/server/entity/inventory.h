@@ -137,7 +137,7 @@ public:
   //  if (slot >= entries.getCount()) return false; // invalid slot;
 
   //  unsigned int& item_id = entries.get(slot);
-  //  if (item_id != item->getId())
+  //  if (item_id != item->GetId())
   //    return false;
 
   //  return 1;

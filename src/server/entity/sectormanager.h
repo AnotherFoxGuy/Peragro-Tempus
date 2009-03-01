@@ -61,12 +61,12 @@ public:
 
   ~SectorManager() {}
 
-  unsigned short getSectorCount()
+  unsigned short GetSectorCount() const
   {
     return (unsigned short) sectors.getCount();
   }
 
-  unsigned short getSectorId(ptString name)
+  unsigned short GetSectorId(ptString name) const
   {
     for (size_t i = 0; i < sectors.getCount(); i++)
     {
@@ -75,13 +75,13 @@ public:
     return Sector::NoSector;
   }
 
-  const ptString& getSectorName(unsigned short id)
+  const ptString& GetSectorName(unsigned short id) const
   {
     if (id > sectors.getCount()) return ptString::Null;
     else return sectors.get(id);
   }
 
-  const ptString& getRegionName(unsigned short id)
+  const ptString& getRegionName(unsigned short id) const
   {
     if (id > regions.getCount()) return ptString::Null;
     else return regions.get(id);

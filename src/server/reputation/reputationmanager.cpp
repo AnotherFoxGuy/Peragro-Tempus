@@ -57,7 +57,7 @@ void ReputationManager::delReputation(Reputation* reputation)
   for (size_t i = 0; i<reputations.getCount(); i++)
   {
     Reputation* _reputation = reputations.get(i);
-    if (_reputation->getId() == reputation->getId())
+    if (_reputation->GetId() == reputation->GetId())
     {
       reputations.remove(i);
       return;
@@ -72,7 +72,7 @@ bool ReputationManager::exists(Reputation* reputation)
   {
     Reputation* _reputation = reputations.get(i);
 
-    if (_reputation->getId() == reputation->getId())
+    if (_reputation->GetId() == reputation->GetId())
       return true;
   }
   return false;
@@ -97,7 +97,7 @@ Reputation* ReputationManager::findById(int id)
   for (size_t i = 0; i<reputations.getCount(); i++)
   {
     Reputation* reputation = reputations.get(i);
-    if (reputation->getId() == id)
+    if (reputation->GetId() == id)
     {
       return reputation;
     }

@@ -55,13 +55,13 @@ void ItemStatsTable::insert(int itemstat, int stat, int level)
 
 void ItemStatsTable::set(int itemstat, Stat* stat, int level)
 {
-  insert(itemstat, stat->getId(), level);
+  insert(itemstat, stat->GetId(), level);
 }
 
 int ItemStatsTable::get(int itemstat, Stat* stat)
 {
   ResultSet* rs = db->query("select * from itemstat where id = '%d' and stat = '%d';",
-    itemstat, stat->getId());
+    itemstat, stat->GetId());
 
   int level = 0;
 
