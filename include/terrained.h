@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ISOUNDMANAGER_H
-#define ISOUNDMANAGER_H
+#ifndef ITERRAINED_H
+#define ITERRAINED_H
 
 #include <cssysdef.h>
 #include <csutil/scf.h>
@@ -29,4 +29,4 @@ struct iTerrainEd : public virtual iBase
   SCF_INTERFACE(iTerrainEd, 1,0,0);
 };
 
-#endif // ISOUNDMANAGER_H
+#endif // ITERRAINED_H
