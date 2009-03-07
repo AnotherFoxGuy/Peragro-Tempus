@@ -51,7 +51,7 @@ namespace PT
       { if (pl && celEntity) pl->RemoveEntity(celEntity); }
 
       ///@return Entity's CEL entity.
-      iCelEntity* GetCelEntity () const { return celEntity; }
+      iCelEntity* GetCelEntity () const;
       ///Make entity use some other CEL entity instead of its own.
       ///@todo Should we really be allowed to do this?
       void SetCelEntity (iCelEntity* value) { celEntity = value; }
