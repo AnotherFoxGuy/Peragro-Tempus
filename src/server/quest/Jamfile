@@ -3,3 +3,4 @@ SubDir TOP src server quest ;
 Description quest : "quest" ;
 Library quest :
   [ Wildcard *.h *.cpp ] ;
+MsvcCFlags quest : /wd4396 ;

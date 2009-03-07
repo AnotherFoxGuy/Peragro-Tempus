@@ -4,3 +4,4 @@ Description server-entity : "entity" ;
 Library server-entity :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-entity : util ;
+MsvcCFlags server-entity : /wd4396 ;

@@ -3,3 +3,5 @@ SubDir TOP src server ai ;
 Description server-ai : "ai" ;
 Library server-ai :
   [ Wildcard *.h *.cpp ] ;
+
+MsvcCFlags server-ai : /wd4396 ;

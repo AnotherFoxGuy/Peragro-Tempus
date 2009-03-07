@@ -4,3 +4,4 @@ Description server-group : "group" ;
 Library server-group :
   [ Wildcard *.h *.cpp ] ;
 #LinkWith server-group :  ;
+MsvcCFlags server-group : /wd4396 ;

@@ -5,3 +5,4 @@ Library server-tcp-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith server-tcp-network : tcp-network ;
+MsvcCFlags server-tcp-network : /wd4396 ;

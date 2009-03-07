@@ -4,3 +4,4 @@ Description server-environment : "environment" ;
 Library server-environment :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-environment : network ;
+MsvcCFlags server-environment : /wd4396 ;
