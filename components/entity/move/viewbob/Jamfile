@@ -3,6 +3,6 @@ SubDir TOP components entity move viewbob ;
 Description component_viewbob : "viewbob" ;
 Plugin component_viewbob : [ Wildcard *.cpp *.h ] ;
 ExternalLibs component_viewbob : CRYSTAL CEL BOOST ;
-LinkWith component_viewbob : reporter eventmanager-cs client-component client-data ;
+LinkWith component_viewbob : reporter eventmanager-cs client-component client-data client-entitybase ;
 MsvcCFlags component_viewbob : /wd4396 ;
 
