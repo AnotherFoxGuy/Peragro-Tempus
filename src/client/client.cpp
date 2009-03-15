@@ -160,7 +160,7 @@ namespace PT
     delete stateManager;
     // Don't delete environmentManager;
 
-    delete entityManager;
+    // Don't delete entityManager;
     delete combatManager;
     delete chatManager;
     delete tradeManager;

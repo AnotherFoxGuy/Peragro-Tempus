@@ -33,8 +33,6 @@
 #include <physicallayer/datatype.h>
 #include <propclass/quest.h>
 
-#include "client/entity/entitymanager.h"
-
 #include "client/entity/entity.h"
 #include "client/entity/pc/pcentity.h"
 #include "client/entity/player/playerentity.h"
