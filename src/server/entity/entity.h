@@ -27,96 +27,63 @@
 #include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
-#include "mesh.h"
+class Tables;
 
-class PcEntity;
-class NpcEntity;
-class ItemEntity;
-class DoorEntity;
-class MountEntity;
+#define SAFEMUTABLE(funcname, type)         \
+virtual void funcname(type value)           \
+{                                           \
+  mutex.lock();                             \
+  Common::Entity::Entity::##funcname(value);\
+  mutex.unlock();                           \
+}                                           \
 
-class Entity : public Common::Entity::Entity, public ptMonitorable<Entity>
+class Entity : public Common::Entity::Entity
 {
-public:
-  static const unsigned int NoEntity = 0;
-
 private:
-  ptMonitor<PcEntity> pc_entity;
-  ptMonitor<NpcEntity> npc_entity;
-  ptMonitor<ItemEntity> item_entity;
-  ptMonitor<DoorEntity> door_entity;
-  ptMonitor<MountEntity> mount_entity;
+  Mutex mutex;
 
 protected:
-  const Mesh* mesh;
   WFMath::Point<3> pos_last_saved;
   float rot_last_saved;
 
 public:
   Entity(Common::Entity::EntityType type)
-    : Common::Entity::Entity(type), mesh(0),
+    : Common::Entity::Entity(type),
     pos_last_saved(0.0f), rot_last_saved(0.0f)
   {
   }
 
   virtual ~Entity();
 
-  bool compare(const Entity* other) const
-  {
-    if (this == other)
-      return true;
-
-    if (this->type != other->type)
-      return false;
-
-    if (this->type == Common::Entity::ItemEntityType)
-    {
-      return this->id == other->id;
-    }
-    else if (this->type == Common::Entity::PlayerEntityType)
-    {
-      return (this->name == other->name);
-    }
-
-    return false;
-  }
-
-  ptString GetNameId () const { return ptString(name.c_str(), strlen(name.c_str())); }
-
   void resetSavePos() { pos_last_saved = GetPosition(); }
   WFMath::Point<3> getLastSaved() const { return pos_last_saved; }
-  virtual void SetPosition(const WFMath::Point<3>& p);
-  virtual void SetPosition(float x, float y, float z)
-  { SetPosition(WFMath::Point<3>(x,y,z)); }
 
-  const Mesh* getMesh() const { return mesh; }
-  void setMesh(const Mesh* mesh) { this->mesh = mesh; }
-
+/*
   unsigned short GetSector() const;
   void SetSector(unsigned short id);
-
+*/
   virtual void SetSectorName(const std::string& value);
+
+  SAFEMUTABLE(SetId, unsigned int);
+  SAFEMUTABLE(SetName, const std::string&);
+  SAFEMUTABLE(SetMeshName, const std::string&);
+  SAFEMUTABLE(SetFileName, const std::string&);
+  SAFEMUTABLE(SetPosition, const WFMath::Point<3>&);
+  virtual void SetPosition(float x, float y, float z)
+  { SetPosition(WFMath::Point<3>(x,y,z)); }
+  SAFEMUTABLE(SetRotation, float);
 
   float getDistanceTo(const WFMath::Point<3>& target) const
   { return WFMath::Distance<3>(GetPosition(), target); }
-  float getDistanceTo(const Entity* target) const
+  float getDistanceTo(Entity* target) const
   { return WFMath::Distance<3>(GetPosition(), target->GetPosition()); }
   float getDistanceTo2(const WFMath::Point<3>& target) const
   { return WFMath::SquaredDistance<3>(GetPosition(), target); }
-  float getDistanceTo2(const Entity* target) const
+  float getDistanceTo2(Entity* target) const
   { return WFMath::SquaredDistance<3>(GetPosition(), target->GetPosition()); }
 
-  const PcEntity* getPlayerEntity() const { return pc_entity.get(); }
-  const NpcEntity* getNpcEntity() const { return npc_entity.get(); }
-  const ItemEntity* getItemEntity() const { return item_entity.get(); }
-  const DoorEntity* getDoorEntity() const { return door_entity.get(); }
-  const MountEntity* getMountEntity() const { return mount_entity.get(); }
-
-  void setPlayerEntity(const PcEntity*);
-  void setNpcEntity(const NpcEntity*);
-  void setItemEntity(const ItemEntity*);
-  void setDoorEntity(const DoorEntity*);
-  void setMountEntity(const MountEntity*);
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // ENTITY_H

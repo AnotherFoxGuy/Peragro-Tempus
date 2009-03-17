@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+#include "common/database/table.h"
+
 #include "common/util/ptstring.h"
 
 class ConfigTableVO
@@ -31,13 +33,12 @@ public:
   ptString value;
 };
 
-class ConfigTable
+class ConfigTable : public Table
 {
 private:
-  Database* db;
-
   ConfigTableVO* ParseSingleResultSet(ResultSet* rs, size_t row = 0);
   Array<ConfigTableVO*> ParseMultiResultSet(ResultSet* rs);
+
 public:
   ConfigTable(Database* db);
 

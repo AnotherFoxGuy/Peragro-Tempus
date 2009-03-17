@@ -23,6 +23,7 @@
 #include <map>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
 #include "ext/wfmath/octree.h"
 #include "ext/wfmath/point.h"
 
@@ -41,6 +42,7 @@ namespace Common
   namespace Entity
   {
     typedef boost::shared_ptr<Entity> Entityp;
+    typedef boost::weak_ptr<Entity> WeakEntityp;
 
     class EntityManager
     {
@@ -56,12 +58,15 @@ namespace Common
       EntityManager();
       virtual ~EntityManager();
 
-      bool Add(const Entityp entity);
-      void Remove(const Entityp entity);
-      void Remove(size_t entityId);
-      void RemoveAll() { entities.clear(); }
+      virtual bool Add(Entityp entity);
+      virtual void Remove(const Entityp entity);
+      virtual void Remove(size_t entityId);
+      virtual void RemoveAll() { entities.clear(); }
 
+      size_t GetCount() { entities.size(); }
       Entityp FindById(size_t id);
+
+      Entityp FindByName(const std::string& name);
 
       /// the following two commands are synonymous
       size_t GetPrimaryId() { return primaryId; }
@@ -69,7 +74,11 @@ namespace Common
 
       virtual void Reset();
 
-      Octree::QueryResult Query(const WFMath::Ball<3>& s);
+      virtual Octree::QueryResult Query(const WFMath::Ball<3>& s);
+
+      // Helpers
+      Entityp Getp(Entity*);
+      virtual std::list<Entityp> Queryp(const WFMath::Ball<3>& s);
     };
 
   } // namespace Entity

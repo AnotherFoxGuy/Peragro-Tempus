@@ -16,33 +16,29 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_COMMON_POSITIONREF_H
-#define PT_COMMON_POSITIONREF_H
+#ifndef COMMON_POSITIONREF_H
+#define COMMON_POSITIONREF_H
 
-
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    struct PositionRef
     {
-      struct PositionRef
-      {
-        unsigned int row;
-        unsigned int column;
+      unsigned int row;
+      unsigned int column;
 
-        PositionRef(int row, int column);
-        virtual ~PositionRef();
+      PositionRef(int row, int column);
+      virtual ~PositionRef();
 
-        bool operator==(const PositionRef& reference) const;
-        bool operator!=(const PositionRef& reference) const;
-        PositionRef& operator=(const PositionRef& reference);
-        PositionRef& operator+=(const PositionRef& reference);
-        PositionRef& operator-=(const PositionRef& reference);
-      };
+      bool operator==(const PositionRef& reference) const;
+      bool operator!=(const PositionRef& reference) const;
+      PositionRef& operator=(const PositionRef& reference);
+      PositionRef& operator+=(const PositionRef& reference);
+      PositionRef& operator-=(const PositionRef& reference);
+    };
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace
 
-#endif // PT_COMMON_POSITIONREF_H
+#endif // COMMON_POSITIONREF_H

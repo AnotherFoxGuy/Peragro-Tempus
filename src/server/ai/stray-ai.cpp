@@ -25,19 +25,33 @@
 
 #include "server/server.h"
 #include "common/database/database.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-npcaisetting.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/npcentity.h"
 
+void StrayAI::LoadFromDB()
+{
+  NpcAiSettingTable* table =
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+}
+
+void StrayAI::SaveToDB()
+{
+  NpcAiSettingTable* table =
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+}
+
+/*
 void StrayAI::setNPC(NpcEntity* npc)
 {
   this->npc = npc;
 
   // load settings
-  int id = npc->getCharacter()->GetId();
+  int id = npc->GetId();
   NpcAiSettingTable* table =
-    Server::getServer()->getTables()->getNpcAiSettingTable();
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
 
   base[0] = (float) atof(*table->getValue(id, ptString("base_x",6)));
   base[1] = (float) atof(*table->getValue(id, ptString("base_y",6)));
@@ -54,7 +68,7 @@ void StrayAI::setNPC(NpcEntity* npc)
   setInterval(interval_base);
   start();
 }
-
+*/
 void StrayAI::timeOut()
 {
   think();

@@ -17,54 +17,29 @@
 */
 
 #include "entity.h"
-#include "entitymanager.h"
-
-#include "pcentity.h"
-#include "npcentity.h"
-#include "doorentity.h"
-#include "itementity.h"
-#include "mountentity.h"
-
-#include "user.h"
-
-#include "sectormanager.h"
 
 #include "server/server.h"
 
+#include "server/database/tablemanager.h"
+#include "server/database/table-entities.h"
+
 Entity::~Entity()
 {
-  delete (pc_entity.get());
-  delete (npc_entity.get());
-  delete (item_entity.get());
-  delete (door_entity.get());
-  delete (mount_entity.get());
 }
 
-void Entity::setPlayerEntity(const PcEntity* pc)
+void Entity::LoadFromDB()
 {
-  pc_entity = pc->getRef();
+  if(GetId() == Common::Entity::Entity::NoEntity)
+    throw "Invalid entity!";
 }
 
-void Entity::setNpcEntity(const NpcEntity* npc)
+void Entity::SaveToDB()
 {
-  npc_entity = npc->getRef();
+  EntityTable* table = Server::getServer()->GetTableManager()->Get<EntityTable>();
+  table->Insert(GetId(), GetType());
 }
 
-void Entity::setItemEntity(const ItemEntity* item)
-{
-  item_entity = item->getRef();
-}
-
-void Entity::setDoorEntity(const DoorEntity* door)
-{
-  door_entity = door->getRef();
-}
-
-void Entity::setMountEntity(const MountEntity* mount)
-{
-  mount_entity = mount->getRef();
-}
-
+/*
 unsigned short Entity::GetSector() const
 {
   return Server::getServer()->GetSectorManager()->
@@ -73,27 +48,15 @@ unsigned short Entity::GetSector() const
 
 void Entity::SetSector(unsigned short id)
 {
+  mutex.lock();
   sectorName = *(Server::getServer()->GetSectorManager()->GetSectorName(id));
+  mutex.unlock();
 }
-
-void Entity::SetPosition(const WFMath::Point<3>& p)
-{
-  Common::Entity::Entity::SetPosition(p);
-
-  // If this is a mount, update passengers aswell.
-  if (getMountEntity())
-  {
-    ptScopedMonitorable<MountEntity> me (getMountEntity());
-    for (size_t i = 0; i < me->getPassengerCount(); i++)
-    {
-      ptScopedMonitorable<Entity> entity (me->getPassenger(i)->getEntity());
-      entity->SetPosition(GetPosition());
-    } // end for
-  } // end if
-}
+*/
 
 void Entity::SetSectorName(const std::string& value)
 {
+/*
   unsigned short id = Server::getServer()->
     GetSectorManager()->GetSectorId(ptString(value.c_str(), strlen(value.c_str()) ));
   if (id == Sector::NoSector)
@@ -101,7 +64,10 @@ void Entity::SetSectorName(const std::string& value)
     printf("Player %s is trying to get to a non existing sector %s!\n", name.c_str(), value.c_str());
   }
   else
+*/
   {
+    mutex.lock();
     Common::Entity::Entity::SetSectorName(value);
+    mutex.unlock();
   }
 }

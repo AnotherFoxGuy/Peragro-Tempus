@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,34 +19,45 @@
 #ifndef TABLE_INVENTORY_H
 #define TABLE_INVENTORY_H
 
-#include "common/util/array.h"
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Item;
-class Entry;
+class ResultSet;
 
-class InventoryEntry
-{
-public:
-  unsigned int id;
-  unsigned int variation;
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_INVENTORY Inventory
+#define DB_TABLE_INVENTORY_FIELDS \
+  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((slot,              size_t,             0,            0)) \
+  ((item_id,           size_t,             0,            (Entities, id) )) \
 
-  InventoryEntry() {}
-  InventoryEntry(unsigned int id, unsigned int variation)
-  : id(id), variation(variation)
-  {
-  }
-};
+PT_DECLARE_VO(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
 
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
 class InventoryTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+
+  PT_DECLARE_CreateTable(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+
 public:
   InventoryTable(Database* db);
-  void createTable();
-  void set(int inventory, const InventoryEntry& item, int slot, bool add);
-  void dropTable();
-  void getAllEntries(Array<InventoryEntry>& entries, int id);
+
+  PT_DECLARE_DropTable(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+
+  PT_DECLARE_Insert(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+  PT_DECLARE_Delete(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+
+  PT_DECLARE_GetAll(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
+
+  PT_DECLARE_Get(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
 };
 
 #endif //TABLE_INVENTORY_H

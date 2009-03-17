@@ -19,13 +19,20 @@
 #ifndef ENTITYCALLBACK_H
 #define ENTITYCALLBACK_H
 
-class Entity;
+#include "common/entity/entitymanager.h"
 
-struct EntityCallback
+namespace Common
 {
-  virtual ~EntityCallback() {}
-  virtual void OnEntityAdd(const Entity* entity) = 0;
-  virtual void OnEntityRemove(const Entity* entity) = 0;
-};
+  namespace Entity
+  {
+    struct EntityCallback
+    {
+      virtual ~EntityCallback() {}
+      virtual void OnEntityAdd(Entityp entity) = 0;
+      virtual void OnEntityRemove(Entityp entity) = 0;
+      virtual void OnEntityMove(Entityp entity) = 0;
+    };
+  } // namespace Entity
+} // namespace Common
 
 #endif // ENTITYCALLBACK_H

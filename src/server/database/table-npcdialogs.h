@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+#include "common/database/table.h"
+
 #include <string>
 #include "common/util/ptstring.h"
 
@@ -34,13 +36,12 @@ public:
   ptString action;
 };
 
-class NpcDialogsTable
+class NpcDialogsTable : public Table
 {
 private:
-  Database* db;
-
   NpcDialogsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
   Array<NpcDialogsTableVO*> parseMultiResultSet(ResultSet* rs);
+
 public:
   NpcDialogsTable(Database* db);
 

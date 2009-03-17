@@ -18,68 +18,65 @@
 
 #include "positionref.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+
+    PositionRef::PositionRef(int row, int column)
+    {
+      PositionRef::row = row;
+      PositionRef::column = column;
+    }
+
+    PositionRef::~PositionRef()
+    {
+    }
+
+    bool PositionRef::operator==(const PositionRef& reference) const
+    {
+      return row == reference.row && column == reference.column;
+    }
+
+    bool PositionRef::operator!=(const PositionRef& reference) const
+    {
+      return !operator==(reference);
+    }
+
+    PositionRef& PositionRef::operator=(const PositionRef& reference)
+    {
+      if (this == &reference)
+      {
+        return *this;
+      }
+
+      row = reference.row;
+      column = reference.column;
+      return *this;
+    }
+
+    PositionRef& PositionRef::operator+=(const PositionRef& reference)
+    {
+      row += reference.row;
+      column += reference.column;
+      return *this;
+    }
+
+    PositionRef& PositionRef::operator-=(const PositionRef& reference)
     {
 
-      PositionRef::PositionRef(int row, int column)
-      {
-        PositionRef::row = row;
-        PositionRef::column = column;
-      }
+      if (reference.row <= row)
+        row -= reference.row;
+      else
+        row = 0;
 
-      PositionRef::~PositionRef()
-      {
-      }
+      if (reference.column <= column)
+        column -= reference.column;
+      else
+        column = 0;
 
-      bool PositionRef::operator==(const PositionRef& reference) const
-      {
-        return row == reference.row && column == reference.column;
-      }
-
-      bool PositionRef::operator!=(const PositionRef& reference) const
-      {
-        return !operator==(reference);
-      }
-
-      PositionRef& PositionRef::operator=(const PositionRef& reference)
-      {
-        if (this == &reference)
-        {
-          return *this;
-        }
-
-        row = reference.row;
-        column = reference.column;
-        return *this;
-      }
-
-      PositionRef& PositionRef::operator+=(const PositionRef& reference)
-      {
-        row += reference.row;
-        column += reference.column;
-        return *this;
-      }
-
-      PositionRef& PositionRef::operator-=(const PositionRef& reference)
-      {
-
-        if (reference.row <= row)
-          row -= reference.row;
-        else
-          row = 0;
-
-        if (reference.column <= column)
-          column -= reference.column;
-        else
-          column = 0;
-
-        return *this;
-      }
-
+      return *this;
     }
+
   }
 }

@@ -22,152 +22,179 @@
 
 #include "slotinventory.h"
 
-namespace PT
+#include "object.h"
+
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+      :Inventory(name, type, rows, columns)
     {
-      SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+    }
+
+    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
+        unsigned int visibleRows, unsigned int visibleColumns)
         :Inventory(name, type, rows, columns)
-      {
-      }
+    {
+      SlotInventory::visibleRows = visibleRows;
+      SlotInventory::visibleColumns = visibleColumns;
+    }
 
-      SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
-          unsigned int visibleRows, unsigned int visibleColumns)
-          :Inventory(name, type, rows, columns)
-      {
-        SlotInventory::visibleRows = visibleRows;
-        SlotInventory::visibleColumns = visibleColumns;
-      }
+    SlotInventory::~SlotInventory()
+    {
+    }
 
-      SlotInventory::~SlotInventory()
-      {
-      }
+    void SlotInventory::ClearInventory()
+    {
+      slots.clear();
+    }
 
-      PositionRef SlotInventory::IdToPos(unsigned int id) const
+    size_t SlotInventory::GetObjectCount() const
+    {
+      return slots.size();
+    }
+
+    PositionRef SlotInventory::IdToPos(unsigned int id) const
+    {
+      // Determine row
+      int slotRow = 0;
+      int slotColumn = 0;
+      if (id > inventoryRows)
       {
-        // Determine row
-        int slotRow = 0;
-        int slotColumn = 0;
-        if (id > inventoryRows)
+        slotRow = id - inventoryRows;
+      }
+      else
+      {
+        slotRow = inventoryRows - id;
+      }
+      id -= slotRow;
+
+      // Determine column
+      if (id > inventoryColumns)
+      {
+        slotColumn = id - inventoryColumns;
+      }
+      else
+      {
+        slotColumn = inventoryColumns - id;
+      }
+      id -= slotColumn;
+
+      if (id != 0)
+      {
+        return PositionRef(0, 0);
+      }
+      return PositionRef(slotRow, slotColumn);
+    }
+
+    unsigned int SlotInventory::PosToId(const PositionRef& position) const
+    {
+      return (position.row * inventoryColumns) + position.column;
+    }
+
+    boost::shared_ptr<Slot> SlotInventory::GetSlot(const PositionRef& position) const
+    {
+      std::list<boost::shared_ptr<Slot> >::const_iterator it;
+      for (it=slots.begin(); it != slots.end(); it++)
+      {
+        if((*it)->GetPosition() == position)
+          return *it;
+      }
+      return boost::shared_ptr<Slot>();
+    }
+
+    boost::shared_ptr<Slot> SlotInventory::GetSlot(unsigned int id) const
+    {
+      return GetSlot(IdToPos(id));
+    }
+
+    boost::shared_ptr<Object> SlotInventory::GetObjectAt(const PositionRef& position) const
+    {
+      boost::shared_ptr<Slot> slot = GetSlot(position);
+      if(!slot){ return boost::shared_ptr<Object>(); }
+      return slot->GetContents();
+    }
+
+    boost::shared_ptr<Object> SlotInventory::GetObjectAt(unsigned int id) const
+    {
+      boost::shared_ptr<Slot> slot = GetSlot(id);
+      if(!slot){ return boost::shared_ptr<Object>(); }
+      return slot->GetContents();
+    }
+
+    bool SlotInventory::AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object)
+    {
+      if(position.column > inventoryColumns
+        && position.row > inventoryRows)
+        return false; // Position out of inventory range.
+
+      if (!AllowsType(object)) return false; 
+
+      boost::shared_ptr<Slot> slot = GetSlot(position);
+      if(!slot)
+      {
+        slot = boost::shared_ptr<Slot>(new Slot(this, position));
+        slots.push_back(slot);
+      }
+      else
+      {
+        ///@todo Check for equal type for stacking?
+        if(slot->HasContents())
         {
-          slotRow = id - inventoryRows;
+          return false; // Slot already taken
         }
-        else
+      }
+      slot->SetContents(object);
+
+      // Notify the other inventory that this object has moved here.
+      if (object->GetParent())
+      {
+        object->GetParent()->ObjectMovedToOther(this, object);
+      }
+
+      object->SetParent(this);
+
+      return true;
+    }
+
+    bool SlotInventory::AddObjectAt(unsigned int id, boost::shared_ptr<Object> object)
+    {
+      return AddObjectAt(IdToPos(id), object);
+    }
+
+    boost::shared_ptr<Object> SlotInventory::RemoveObjectAt(const PositionRef& position)
+    {
+      std::list<boost::shared_ptr<Slot> >::iterator it;
+      for (it=slots.begin(); it != slots.end(); it++)
+      {
+        if((*it)->GetPosition() == position)
         {
-          slotRow = inventoryRows - id;
+          boost::shared_ptr<Object> object = (*it)->GetContents();
+          if (object) object->SetParent(0);
+          slots.erase(it);
+          return object;
         }
-        id -= slotRow;
-
-        // Determine column
-        if (id > inventoryColumns)
-        {
-          slotColumn = id - inventoryColumns;
-        }
-        else
-        {
-          slotColumn = inventoryColumns - id;
-        }
-        id -= slotColumn;
-
-        if (id != 0)
-        {
-          return PositionRef(0, 0);
-        }
-        return PositionRef(slotRow, slotColumn);
       }
+      return boost::shared_ptr<Object>();
+    }
 
-      Slot* SlotInventory::GetSlot(const PositionRef& position) const
-      {
-        for(unsigned int i=0; i<slots.size(); i++)
-        {
-          if(slots[i]->GetPosition() == position)
-          {
-            return slots[i].get();
-          }
-        }
-        return 0;
-      }
+    boost::shared_ptr<Object> SlotInventory::RemoveObjectAt(unsigned int id)
+    {
+      return RemoveObjectAt(IdToPos(id));
+    }
 
-      Slot* SlotInventory::GetSlot(unsigned int id) const
-      {
-        return GetSlot(IdToPos(id));
-      }
+    bool SlotInventory::HasObjectAt(const PositionRef& position) const
+    {
+      boost::shared_ptr<Slot> slot = GetSlot(position);
+      if(!slot){return false;}
+      return slot->HasContents();
+    }
 
-      Object* SlotInventory::GetObjectAt(const PositionRef& position) const
-      {
-        Slot* slot = GetSlot(position);
-        if(!slot){ return 0; }
-        return slot->GetContents();
-      }
+    bool SlotInventory::HasObjectAt(unsigned int id) const
+    {
+      return HasObjectAt(IdToPos(id));
+    }
 
-      Object* SlotInventory::GetObjectAt(unsigned int id) const
-      {
-        Slot* slot = GetSlot(id);
-        if(!slot){ return 0; }
-        return slot->GetContents();
-      }
-
-      bool SlotInventory::AddObjectAt(const PositionRef& position, Object* object)
-      {
-        if(position.column > inventoryColumns
-          && position.row > inventoryRows)
-          return false; // Position out of inventory range.
-
-        Slot* slot = GetSlot(position);
-        if(!slot)
-        {
-          slot = new Slot(this, position);
-          slots.push_back(boost::shared_ptr<Slot>(slot));
-        }
-        else
-        {
-          ///@todo Check for equal type for stacking?
-          if(slot->HasContents())
-          {
-            return false; // Slot already taken
-          }
-        }
-        slot->SetContents(object);
-        return true;
-      }
-
-      bool SlotInventory::AddObjectAt(unsigned int id, Object* object)
-      {
-        return AddObjectAt(IdToPos(id), object);
-      }
-
-      bool SlotInventory::RemoveObjectAt(const PositionRef& position)
-      {
-        for(unsigned int i=0; i<slots.size(); i++)
-        {
-          if(slots[i]->GetPosition() == position)
-          {
-            slots.erase(slots.begin()+i);
-            return true;
-          }
-        }
-        return false;
-      }
-
-      bool SlotInventory::RemoveObjectAt(unsigned int id)
-      {
-        return RemoveObjectAt(IdToPos(id));
-      }
-
-      bool SlotInventory::HasObjectAt(const PositionRef& position) const
-      {
-        Slot* slot = GetSlot(position);
-        if(!slot){return false;}
-        return slot->HasContents();
-      }
-
-      bool SlotInventory::HasObjectAt(unsigned int id) const
-      {
-        return HasObjectAt(IdToPos(id));
-      }
-
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace

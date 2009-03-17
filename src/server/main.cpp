@@ -18,23 +18,18 @@
 
 #include "stdio.h"
 
-#include "server/entity/meshmanager.h"
+#include "server/entity/character/skills.h"
+
 #include "server/entity/entitymanager.h"
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
+#include "server/entity/itemtemplatesmanager.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
 #include "server/entity/doorentity.h"
-#include "server/entity/doormanager.h"
-#include "server/entity/racemanager.h"
-#include "server/entity/itemmanager.h"
-#include "server/entity/statmanager.h"
-#include "server/entity/skillmanager.h"
-#include "server/entity/sectormanager.h"
 #include "server/group/chatmanager.h"
 #include "server/zone/zonemanager.h"
-#include "server/reputation/reputationmanager.h"
 #include "server/quest/npcdialog.h"
 #include "server/quest/npcdialoganswer.h"
 #include "server/quest/npcdialogmanager.h"
@@ -43,14 +38,15 @@
 #include "common/items/itemsid.h"
 
 #include "server/server.h"
-#include "server/entity/charactermanager.h"
 #include "common/database/sqlite/sqlite.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-spawnpoints.h"
 #include "server/database/table-config.h"
+#include "server/database/table-zones.h"
+#include "server/database/table-zonenodes.h"
+#include "server/database/table-reputations.h"
 
 #include "server/entity/usermanager.h"
-#include "server/useraccountmanager.h"
 #include "server/environment/environmentmanager.h"
 #include "server/spawner.h"
 #include "server/network/network.h"
@@ -109,12 +105,12 @@ int main(int argc, char ** argv)
 
   Server server;
 
-  Tables tables;
   dbSQLite db("test_db.sqlite");
-  tables.init(&db);
+  TableManager tablemgr(&db);
+  tablemgr.Initialize();
 
   server.setDatabase(&db);
-  server.setTables(&tables);
+  server.SetTableManager(&tablemgr);
 
   unsigned int port = 0;
   for(int i = 1; i < argc; i++)
@@ -138,9 +134,9 @@ int main(int argc, char ** argv)
 
   if (port == 0)
   {
-    if (tables.getConfigTable()->GetConfigValue(ptString("port",4)) != ptString())
+    if (tablemgr.Get<ConfigTable>()->GetConfigValue(ptString("port",4)) != ptString())
     {
-      port = atoi(*tables.getConfigTable()->GetConfigValue(ptString("port",4)));
+      port = atoi(*tablemgr.Get<ConfigTable>()->GetConfigValue(ptString("port",4)));
     }
     else
     {
@@ -148,18 +144,16 @@ int main(int argc, char ** argv)
     }
   }
 
-  ConfigTableVO* config = new ConfigTableVO();
-  config->name = ptString("port", 4);
+  ConfigTableVO config;
+  config.name = ptString("port", 4);
   char portStr[6]; // must not be > 65536, so 5 + '\0'
   snprintf(portStr, 6, "%d", port);
-  config->value = ptString::create(portStr);
-  tables.getConfigTable()->Insert(config);
+  config.value = ptString::create(portStr);
+  tablemgr.Get<ConfigTable>()->Insert(&config);
 
-  MeshManager meshmgr(tables.getMeshListTable());
-  server.setMeshManager(&meshmgr);
-
-  CharacterManager char_mgr(&server);
-  server.setCharacterManager(&char_mgr);
+  TimerEngine timeEngine;
+  timeEngine.begin();
+  server.setTimerEngine(&timeEngine);
 
   interactionMgr = new InteractionManager();
   server.setInteractionManager(interactionMgr);
@@ -167,68 +161,42 @@ int main(int argc, char ** argv)
   UserManager usr_mgr;
   server.setUserManager(&usr_mgr);
 
-  UserAccountManager usr_acc_mgr(&server);
-  server.setUserAccountManager(&usr_acc_mgr);
+  //Character stuff.
+  EquipmentFactory equipmentFactory(&tablemgr);
+  server.SetEquipmentFactory(&equipmentFactory);
+
+  SkillsFactory skillsFactory(&tablemgr);
+  server.SetSkillsFactory(&skillsFactory);
+
+  AbilitiesFactory abilitiesFactory(&tablemgr);
+  server.SetAbilitiesFactory(&abilitiesFactory);
+
+  ReputationsFactory reputationsFactory(&tablemgr);
+  server.SetReputationsFactory(&reputationsFactory);
+
+  ItemTemplatesManager itemTemplatesManager;
+  server.SetItemTemplatesManager(&itemTemplatesManager);
 
   ent_mgr = new EntityManager();
   server.setEntityManager(ent_mgr);
+  ent_mgr->LoadFromDB(tablemgr.Get<EntityTable>());
 
   ChatManager::getChatManager();
 
-  RaceManager race_mgr;
-  server.setRaceManager(&race_mgr);
-
-  ItemManager item_mgr;
-  server.setItemManager(&item_mgr);
-
-  StatManager stat_mgr;
-  server.setStatManager(&stat_mgr);
-
-  DoorManager door_mgr;
-  server.setDoorManager(&door_mgr);
-
-  SkillManager skill_mgr;
-  server.setSkillManager(&skill_mgr);
-
-  SectorManager sector_mgr;
-  server.SetSectorManager(&sector_mgr);
+  //SkillManager skill_mgr;
+  //server.setSkillManager(&skill_mgr);
 
   ZoneManager zone_mgr;
   server.setZoneManager(&zone_mgr);
-
-  ReputationManager reputation_mgr;
-  server.setReputationManager(&reputation_mgr);
-
-  TimerEngine timeEngine;
-  timeEngine.begin();
-  server.setTimerEngine(&timeEngine);
 
   EnvironmentManager environment_mgr;
   server.setEnvironmentManager(&environment_mgr);
   environment_mgr.Initialize();
 
-  sector_mgr.loadFromDB(tables.getSectorsTable());
+  //stat_mgr.loadFromDB(tablemgr.Get<StatTable>());
+  //skill_mgr.loadFromDB(tablemgr.Get<SkillsTable>());
 
-  item_mgr.loadFromDB(tables.getItemTable(), &meshmgr);
-
-  ent_mgr->loadFromDB(tables.getEntityTable());
-
-  door_mgr.loadFromDB(tables.getDoorsTable());
-  stat_mgr.loadFromDB(tables.getStatTable());
-  skill_mgr.loadFromDB(tables.getSkillTable());
-
-  race_mgr.loadFromDB(tables.getRaceTable(), &meshmgr);
-  for (size_t i = 0; i < race_mgr.getRaceCount(); i++)
-  {
-    Race* race = race_mgr.getRace(i);
-    race->getStats()->loadFromDatabase(tables.getRaceStatsTable(),
-      race->GetId());
-    race->getSkills()->loadFromDatabase(tables.getRaceSkillsTable(),
-      race->GetId());
-  }
-
-  zone_mgr.loadFromDB(tables.getZonesTable(), tables.getZonenodesTable());
-  reputation_mgr.loadFromDB(tables.getReputationsTable());
+  zone_mgr.loadFromDB(tablemgr.Get<ZonesTable>(), tablemgr.Get<ZonenodesTable>());
 
   printf("Initialising collision detection... ");
   BulletCD cd;
@@ -239,7 +207,7 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   server.setSpawner(&spawner);
-  spawner.loadFromDB(tables.getSpawnPointsTable());
+  spawner.loadFromDB(tablemgr.Get<SpawnPointsTable>());
   spawner.start();
 
   NPCDialogManager dialog_mgr;

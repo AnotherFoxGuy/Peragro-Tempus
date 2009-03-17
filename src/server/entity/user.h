@@ -19,12 +19,15 @@
 #ifndef USER_H
 #define USER_H
 
-#include "common/util/monitorable.h"
+#include <map>
+
+#include "common/entity/entitymanager.h"
+
+//#include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
 
 #include "server/network/connection.h"
 
-#include "entitylist.h"
 #include "permission.h"
 
 class Network;
@@ -32,42 +35,37 @@ class Connection;
 class Entity;
 class PcEntity;
 
-class User : public ptMonitorable<User>
+class User
 {
 private:
-  unsigned int id;
-  ptString name;
-  char* pwhash;
+  std::string login;
+  std::string pwhash;
 
   ptMonitor<Connection> connection;
-  ptMonitor<PcEntity> own_entity;
+  PcEntity* own_entity;
 
-  EntityList ent_list;
+  std::map<size_t, Common::Entity::WeakEntityp> knownEntitites;
 
   PermissionList permissions;
 
+  void SendAddEntity(Common::Entity::Entityp entity);
+  void SendRemoveEntity(Common::Entity::Entityp entity);
+
 public:
-  User(unsigned int id) : id(id), pwhash(0), permissions(id) { }
-  ~User() { delete [] pwhash; }
+  User(const std::string& login) : login(login), own_entity(0), permissions(login) { }
+  ~User() { }
 
-  unsigned int GetId() const { return id; }
+  const std::string& GetName() const { return login; }
+  //void setName(const std::string& login) { this->login = login; }
 
-  const ptString& getName() const { return name; }
-  void setName(ptString name) { this->name = name; }
+  const std::string& getPwHash() { return pwhash; }
+  void setPwHash(const std::string& pwhash) { this->pwhash = pwhash; }
 
-  const char* getPwHash() { return pwhash; }
-  void setPwHash(const char* pwhash, size_t pwhashlen)
-  {
-    delete [] this->pwhash;
-    this->pwhash = new char[pwhashlen+1];
-    strncpy(this->pwhash, pwhash, pwhashlen+1);
-  }
+  PcEntity* GetEntity() const { return own_entity; }
+  void SetEntity(PcEntity* entity);
 
-  const PcEntity* getEntity() const { return own_entity.get(); }
-  void setEntity(PcEntity* entity);
-
-  const Connection* getConnection() const { return connection.get(); }
-  void setConnection(Connection* connection)
+  const Connection* GetConnection() const { return connection.get(); }
+  void SetConnection(Connection* connection)
   {
     if (connection)
       this->connection = connection->getRef();
@@ -75,10 +73,9 @@ public:
       this->connection.clear();
   }
 
-  void sendAddEntity(const Entity* entity);
-  void sendRemoveEntity(const Entity* entity);
+  void SendEntityDiff(const std::list<Common::Entity::Entityp>& entities);
 
-  void clearEntityList() { ent_list.clear(); }
+  void ClearKnownEntitites() { knownEntitites.clear(); }
   void remove();
 
   PermissionList& getPermissionList() { return permissions; }

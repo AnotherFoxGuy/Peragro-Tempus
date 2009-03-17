@@ -20,51 +20,48 @@
  * @file gridinventory.h
  */
 
-#ifndef PT_COMMON_GRIDINVENTORY_H
-#define PT_COMMON_GRIDINVENTORY_H
+#ifndef COMMON_GRIDINVENTORY_H
+#define COMMON_GRIDINVENTORY_H
 
 #include "src/common/inventory/inventory.h"
 
 #include <wfmath/quadtree.h>
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    /**
+     * @ingroup Inventory
+     * A Diablo style grid based inventory.
+     */
+    class GridInventory : public Inventory
     {
-      /**
-       * @ingroup Inventory
-       * A Diablo style grid based inventory.
-       */
-      class GridInventory : public Inventory
+    private:
+      struct PositionedObject;
+      typedef WFMath::QuadTree<PositionedObject, WFMath::AxisBox<2>, false>::Type Quadtree;
+      struct PositionedObject
       {
-      private:
-        struct PositionedObject;
-        typedef WFMath::QuadTree<PositionedObject, WFMath::AxisBox<2>, false>::Type Quadtree;
-        struct PositionedObject
-        {
-          std::string name;
-          Object* object;
-          Quadtree::Shape shape;
-        };
-
-      private:
-        /// Thing that holds all the objects.
-        Quadtree container;
-
-      public:
-        /**
-         * Base constructor
-         */
-        GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
-        virtual ~GridInventory();
+        std::string name;
+        Object* object;
+        Quadtree::Shape shape;
       };
 
+    private:
+      /// Thing that holds all the objects.
+      Quadtree container;
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+    public:
+      /**
+       * Base constructor
+       */
+      GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      virtual ~GridInventory();
+    };
 
-#endif // PT_COMMON_GRIDINVENTORY_H
+
+  } // Inventory namespace
+} // Common namespace
+
+#endif // COMMON_GRIDINVENTORY_H
 

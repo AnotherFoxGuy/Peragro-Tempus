@@ -20,11 +20,9 @@
  * @brief flags class.
  */
 
-#ifndef PT_FLAGS_H
-#define PT_FLAGS_H
+#ifndef COMMON_FLAGS_H
+#define COMMON_FLAGS_H
 
-namespace PT
-{
   namespace Common
   {
     namespace Utils
@@ -121,7 +119,6 @@ namespace PT
 
     } // Utils namespace
   } // Common namespace
-} // PT namespace
 
-#endif // PT_FLAGS_H
+#endif // COMMON_FLAGS_H
 

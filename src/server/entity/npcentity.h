@@ -23,37 +23,21 @@
 #include "common/util/monitorable.h"
 
 #include "entity.h"
-#include "character.h"
+#include "character/character.h"
 
 #include "server/ai/ai.h"
 
-class NpcEntity : public ptMonitorable<NpcEntity>
+class NpcEntity : public Character
 {
 private:
-  ptMonitor<Entity> entity;
-  ptMonitor<Character> character;
-
-  bool isWalking;
-
-  WFMath::Point<3> final_dst;
-  size_t t_stop;
-
-  WFMath::Point<3> tmp_pos; //used only for temporary calculations!
-
   AI* ai;
 
   unsigned int dialog_id;
 
 public:
-  NpcEntity()
+  NpcEntity() : Character(Common::Entity::NPCEntityType)
   {
-    entity = (new Entity(Common::Entity::NPCEntityType))->getRef();
-
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->setNpcEntity(this);
-
     isWalking = false;
-
     ai = 0;
     dialog_id = 0;
   }
@@ -61,21 +45,15 @@ public:
   ~NpcEntity()
   {
     delete ai;
-    delete character.get();
   }
 
-  const Entity* getEntity() const { return entity.get(); }
-
-  void setAI(AI* ai) { this->ai = ai; ai->setNPC(this); }
+  void setAI(AI* ai) { this->ai = ai; }
   AI* getAI() { return ai; }
 
-  void setCharacter(Character* character);
-  const Character* getCharacter() const { return this->character.get(); }
-
-  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> GetPosition();
-
   void pause(bool pause) { if (ai) ai->pause(pause); }
+
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // NPCENTITY_H

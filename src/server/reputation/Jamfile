@@ -1,6 +1,0 @@
-SubDir TOP src server reputation ;
-
-Description server-reputationmanager : "reputationmanager" ;
-Library server-reputationmanager :
-  [ Wildcard *.h *.cpp ] ;
-LinkWith server-reputationmanager : util ;

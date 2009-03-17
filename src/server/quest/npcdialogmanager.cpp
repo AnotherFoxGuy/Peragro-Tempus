@@ -22,7 +22,7 @@
 
 #include "server/server.h"
 #include "common/database/database.h"
-#include "server/database/tables.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
 
@@ -47,10 +47,10 @@ void NPCDialogManager::load()
   // Empty list
   dialogs.delAll();
 
-  Tables* tables = Server::getServer()->getTables();
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
 
   // Load NPC Dialogs
-  Array<NpcDialogsTableVO*> dialogs = tables->getNpcDialogsTable()->getAll();
+  Array<NpcDialogsTableVO*> dialogs = tablemgr->Get<NpcDialogsTable>()->getAll();
   for (size_t i=0; i<dialogs.getCount(); i++)
   {
     NpcDialogsTableVO* vo = dialogs.get(i);
@@ -70,7 +70,7 @@ void NPCDialogManager::load()
   }
 
   // Load NPC Dialog Answers
-  Array<NpcDialogAnswersTableVO*> answers = tables->getNpcDialogAnswersTable()->getAll();
+  Array<NpcDialogAnswersTableVO*> answers = tablemgr->Get<NpcDialogAnswersTable>()->getAll();
   for (size_t i=0; i<answers.getCount(); i++)
   {
     NpcDialogAnswersTableVO* vo = answers.get(i);
@@ -93,8 +93,8 @@ void NPCDialogManager::load()
 
 void NPCDialogManager::delAll()
 {
-  Tables* tables = Server::getServer()->getTables();
-  tables->getNpcDialogsTable()->removeAll();
-  tables->getNpcDialogAnswersTable()->removeAll();
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
+  tablemgr->Get<NpcDialogsTable>()->removeAll();
+  tablemgr->Get<NpcDialogAnswersTable>()->removeAll();
   dialogs.delAll();
 }

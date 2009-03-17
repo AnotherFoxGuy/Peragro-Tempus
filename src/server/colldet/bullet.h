@@ -32,7 +32,7 @@ class BulletCD : public CollisionDetection
 private:
   btDiscreteDynamicsWorld* world;
 
-  std::map<const Entity*, btRigidBody*> cobjs;
+  std::map<Common::Entity::Entityp, btRigidBody*> cobjs;
 
   btDefaultCollisionConfiguration* collisionConfiguration;
   btCollisionDispatcher* dispatcher;
@@ -48,15 +48,15 @@ public:
 
   virtual void setup();
 
-  virtual void addEntity(const Entity* entity);
-  virtual void removeEntity(const Entity* entity);
+  virtual void addEntity(Common::Entity::Entityp entity);
+  virtual void removeEntity(Common::Entity::Entityp entity);
 
-  virtual void loadPosition(const Entity* entity);
-  virtual void savePosition(const Entity* entity);
+  virtual void loadPosition(Common::Entity::Entityp entity);
+  virtual void savePosition(Common::Entity::Entityp entity);
 
-  virtual void moveEntity(const Entity* entity, const WFMath::Point<3>& pos,
+  virtual void moveEntity(Common::Entity::Entityp entity, const WFMath::Point<3>& pos,
                           float speed);
-  virtual void moveEntity(const Entity* entity, float speed, float rot);
+  virtual void moveEntity(Common::Entity::Entityp entity, float speed, float rot);
 };
 
 #endif // PT_BULLET_H

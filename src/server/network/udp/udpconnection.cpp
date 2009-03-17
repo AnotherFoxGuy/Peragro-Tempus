@@ -24,14 +24,14 @@
 void UdpConnection::peerLost()
 {
   printf("peerLost!\n");
-  if (user)
+  if (user.lock())
   {
     printf("has user!\n");
-    if (user->getConnection() == this)
+    if (user.lock()->GetConnection() == this)
     {
       printf("user->remove()!\n");
-      user->remove();
+      user.lock()->remove();
     }
-    user = 0;
+    user.lock().reset();
   }
 }

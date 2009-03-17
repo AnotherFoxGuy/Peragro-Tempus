@@ -29,6 +29,8 @@ class Table
 protected:
   /// Pointer to the database.
   Database* db;
+
+public:
   /**
    * Basic constructor.
    * @param db The database pointer.

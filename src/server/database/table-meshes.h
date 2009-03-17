@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,35 +19,47 @@
 #ifndef TABLE_MESHES_H
 #define TABLE_MESHES_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/util/ptstring.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_MESHES Meshes
+#define DB_TABLE_MESHES_FIELDS \
+  ((id,                 size_t,             1,            0)) \
+  ((revision,           size_t,             0,            0)) \
+  ((factoryName,        std::string,        0,            0)) \
+  ((fileName,           std::string,        0,            0)) \
 
-class MeshesTableVO
-{
-public:
-  int id;
-  int sector;
-  ptString name;
-};
+PT_DECLARE_VO(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
-class MeshesTable
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
+class MeshesTable : public Table
 {
 private:
-  Database* db;
+  PT_DECLARE_ParseSingleResultSet(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
-  MeshesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<MeshesTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_CreateTable(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+
 public:
   MeshesTable(Database* db);
 
-  void createTable();
+  PT_DECLARE_DropTable(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
-  void insert(MeshesTableVO* vo);
-  void remove(int id);
+  PT_DECLARE_Insert(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+  PT_DECLARE_GetAll(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
-  Array<MeshesTableVO*> getAll();
+  PT_DECLARE_GetSingle(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+
+  size_t GetMaxId();
+  size_t FindBy(const std::string& factoryName, const std::string& fileName);
 };
 
-#endif // TABLE_MESHES_H
+#endif //TABLE_MESHES_H

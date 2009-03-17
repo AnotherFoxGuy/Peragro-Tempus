@@ -20,13 +20,15 @@
 #define SPAWNER_H
 
 #include "server/entity/entitymanager.h"
-#include "server/entity/item.h"
 #include "common/util/array.h"
 #include "common/util/thread.h"
 #include "common/util/sleep.h"
+#include "common/util/timer.h"
 #include "server/server.h"
 
 #include "server/database/table-spawnpoints.h"
+
+#include "server/database/tablemanager.h"
 
 class Spawner : public Timer
 {
@@ -38,7 +40,7 @@ private:
 
     ptString sector_id;
 
-    Item* item;
+    //Item* item;
     unsigned int variation;
 
     size_t spawnInterval;
@@ -70,7 +72,8 @@ private:
 
   void checkSpawnPoint(SpawnPoint* sp)
   {
-    const Entity* entity = Server::getServer()->getEntityManager()->findById(sp->entity_id);
+    /*
+    Common::Entity::Entityp entity = Server::getServer()->getEntityManager()->FindById(sp->entity_id);
     if (!entity)
     {
       if ( sp->pickTime == 0)
@@ -91,10 +94,12 @@ private:
         sp->pickTime = 0;
       }
     }
+    */
   }
 
   void addSpawnPoint(float x, float y, float z, ptString sector, unsigned int item_id, unsigned int spawnInterval)
   {
+    /*
     Item* item = Server::getServer()->getItemManager()->findById(item_id);
     if (!item) return;
 
@@ -109,6 +114,7 @@ private:
     mutex.lock();
     spawnpoints.add(sp);
     mutex.unlock();
+    */
   }
 
   int max_id;
@@ -134,7 +140,7 @@ public:
 
   void createSpawnPoint(float x, float y, float z, ptString sector, unsigned int item_id, unsigned int spawnInterval)
   {
-    SpawnPointsTable* table = Server::getServer()->getTables()->getSpawnPointsTable();
+    SpawnPointsTable* table = Server::getServer()->GetTableManager()->Get<SpawnPointsTable>();
     SpawnPointsTableVO p;
     p.pos_x = x;
     p.pos_y = y;
@@ -149,7 +155,7 @@ public:
 
   void removeAllSpawnPoints()
   {
-    SpawnPointsTable* table = Server::getServer()->getTables()->getSpawnPointsTable();
+    SpawnPointsTable* table = Server::getServer()->GetTableManager()->Get<SpawnPointsTable>();
     table->truncate();
 
     mutex.lock();

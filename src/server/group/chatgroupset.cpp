@@ -34,7 +34,7 @@ ChatGroup* ChatGroupSet::FindChannel (const char* channel)
   return iter->second.get();
 }
 
-bool ChatGroupSet::isUserIn (const PcEntity* user, const char* channel) const
+bool ChatGroupSet::isUserIn (PcEntity* user, const char* channel) const
 {
   if (!channel) return false;
   const ChatGroup* ch = FindChannel(channel);
@@ -62,7 +62,7 @@ size_t ChatGroupSet::getUserCount (const char* channel) const
   return (ch) ? ch->getUserCount() : 0;
 }
 
-bool ChatGroupSet::addUser (const PcEntity* user, const char* channel)
+bool ChatGroupSet::addUser (PcEntity* user, const char* channel)
 {
   if (channelExists(channel))
   {
@@ -73,7 +73,7 @@ bool ChatGroupSet::addUser (const PcEntity* user, const char* channel)
   return false;
 }
 
-void ChatGroupSet::delUser (const PcEntity* user, const char* channel, bool prune)
+void ChatGroupSet::delUser (PcEntity* user, const char* channel, bool prune)
 {
   if (!channel) return;
   ChatGroup* ch = FindChannel(channel);

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,38 +19,42 @@
 #ifndef TABLE_NPCENTITIES_H
 #define TABLE_NPCENTITIES_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/util/ptstring.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_NPCENTITIES NpcEntities
+#define DB_TABLE_NPCENTITIES_FIELDS \
+  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((ainame,            std::string,        0,            0)) \
 
-class NpcEntitiesTableVO
-{
-public:
-  int id;
-  int character;
-  ptString ai;
-};
+PT_DECLARE_VO(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 
-class NpcEntitiesTable
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
+class NpcEntitiesTable : public Table
 {
 private:
-  Database* db;
+  PT_DECLARE_ParseSingleResultSet(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 
-  NpcEntitiesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<NpcEntitiesTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_CreateTable(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+
 public:
   NpcEntitiesTable(Database* db);
 
-  void createTable();
+  PT_DECLARE_DropTable(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 
-  void insert(int id, int character, ptString ai);
-  void remove(int id);
+  PT_DECLARE_Insert(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+  PT_DECLARE_GetAll(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 
-  bool existsById(int id);
-  NpcEntitiesTableVO* getById(int id);
-  NpcEntitiesTableVO* getByCharacter(int char_id);
-  Array<NpcEntitiesTableVO*> getAll();
+  PT_DECLARE_Get(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 };
 
-#endif // TABLE_NPCENTITIES_H
+#endif //TABLE_NPCENTITIES_H

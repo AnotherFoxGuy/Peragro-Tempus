@@ -20,124 +20,116 @@
  * @file inventory.h
  */
 
+#ifndef COMMON_INVENTORY_H
+#define COMMON_INVENTORY_H
+
 #include <string>
+
+#include <boost/shared_ptr.hpp>
 
 #include "src/common/util/flags.h"
 #include "src/common/inventory/positionref.h"
 
-#ifndef PT_COMMON_INVENTORY_H
-#define PT_COMMON_INVENTORY_H
-
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    #define ALLOW_ITEMS    0x00000001
+    #define ALLOW_SKILLS   0x00000010
+    #define ALLOW_ACTIONS  0x00000100
+
+    class Object;
+    class Slot;
+
+    class Inventory
     {
-      #define ALLOW_ITEMS    0x00000001
-      #define ALLOW_SKILLS   0x00000010
-      #define ALLOW_ACTIONS  0x00000100
+    protected:
+      std::string inventoryName;
+      Utils::Flags inventoryType;
+      unsigned int inventoryRows;
+      unsigned int inventoryColumns;
 
-      class Object;
-      class Slot;
+    protected:
+      bool AllowsType(boost::shared_ptr<Object> object);
 
-      class Inventory
-      {
-      protected:
-        std::string inventoryName;
-        Utils::Flags inventoryType;
-        unsigned int inventoryRows;
-        unsigned int inventoryColumns;
+    public:
+      /**
+       * Base constructor
+       */
+      Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      virtual ~Inventory();
 
-      protected:
-        bool AllowsType(const Object* object);
+      /**
+       * Set the name for this Inventory.
+       * @param name  The name to set it to.
+       */
+      virtual void SetName(const std::string& name);
 
-      public:
-        /**
-         * Base constructor
-         */
-        Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
-        virtual ~Inventory();
+      /**
+       * Get the name for this inventory.
+       * @return A string with the name.
+       */
+      virtual const std::string& GetName() const;
 
-        /**
-         * Set the name for this Inventory.
-         * @param name  The name to set it to.
-         */
-        virtual void SetName(const std::string& name);
+      /**
+       * Get the amount of rows this inventory holds.
+       * @return Unsigned int with the amount of rows.
+       */
+      virtual unsigned int GetRowCount() const;
 
-        /**
-         * Get the name for this inventory.
-         * @return A string with the name.
-         */
-        virtual const std::string& GetName() const;
+      /**
+       * Get the amount of columns this inventory holds.
+       * @return Unsigned int with the amount of columns.
+       */
+      virtual unsigned int GetColumnCount() const;
 
-        /**
-         * Get the amount of rows this inventory holds.
-         * @return Unsigned int with the amount of rows.
-         */
-        virtual unsigned int GetRowCount() const;
+      /**
+       * Clears the inventory, removing all slots their contents.
+       * @return void.
+       */
+      virtual void ClearInventory() = 0;
 
-        /**
-         * Get the amount of columns this inventory holds.
-         * @return Unsigned int with the amount of columns.
-         */
-        virtual unsigned int GetColumnCount() const;
+      /**
+       * Check if there is an object at the given position.
+       * @return True if there is an object, false if the slot is empty.
+       */
+      virtual bool HasObjectAt(const PositionRef& position) const = 0;
 
-        /**
-         * Clears the inventory, removing all slots their contents.
-         * @return void.
-         */
-        virtual void ClearInventory() = 0;
+      /**
+       * Returns the object at the given position.
+       * @return Object.
+       */
+      virtual boost::shared_ptr<Object> GetObjectAt(const PositionRef& position) const = 0;
 
-        /**
-         * Check if there is an object at the given position.
-         * @return True if there is an object, false if the slot is empty.
-         */
-        virtual bool HasObjectAt(const PositionRef& position) const = 0;
+      /**
+       * Adds an object at the given position.
+       * @return True if successful, false if an error occured.
+       */
+      virtual bool AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object) = 0;
 
-        /**
-         * Check if there is an object in the rectangle that is defined by the
-         * first(upper left corner) and the second position(bottom right corner).
-         * @return True if there is an object, false if the slot is empty..
-         */
-        virtual bool HasObjectBetween(const PositionRef& upperLeftCorner, const PositionRef& bottomRightCorner) const = 0;
+      /**
+       * Remove the object at the given position.
+       * @return The object if successful, 0 if an error occured.
+       */
+      virtual boost::shared_ptr<Object> RemoveObjectAt(const PositionRef& position) = 0;
 
-        /**
-         * Returns the object at the given position.
-         * @return Object*.
-         */
-        virtual Object* GetObjectAt(const PositionRef& position) const = 0;
+      /**
+       * Remove the given object from this inventory.
+       * @return The slot containing the object if successful, 0 if an error occured.
+       */
+      virtual boost::shared_ptr<Slot> RemoveObject(boost::shared_ptr<Object> object) = 0;
 
-        /**
-         * Adds an object at the given position.
-         * @return True if successful, false if an error occured.
-         */
-        virtual bool AddObjectAt(const PositionRef& position, Object* object) = 0;
-
-        /**
-         * Remove the object at the given position.
-         * @return True if successful, false if an error occured.
-         */
-        virtual bool RemoveObjectAt(const PositionRef& position) = 0;
-
-        /**
-         * Remove the given object from this inventory.
-         * @return True if successful, false if an error occured.
-         */
-        virtual bool RemoveObject(Object* object) = 0;
-
-        /**
-         * This is called from the other inventory to notify this inventory
-         * that the object has moved. This inventory would then do some cleanup
-         * and remove the object from it's list.
-         */
-        virtual void ObjectMovedToOther(Inventory* other, Object* object) = 0;
-      };
+      /**
+       * This is called from the other inventory to notify this inventory
+       * that the object has moved. This inventory would then do some cleanup
+       * and remove the object from it's list.
+       */
+      virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object) = 0;
+    };
 
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace
 
-#endif // PT_COMMON_INVENTORY_H
+#endif // COMMON_INVENTORY_H
 

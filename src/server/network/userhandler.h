@@ -47,7 +47,6 @@ public:
     else if (id == USER::CHARCREATEREQUEST) handleCharCreateRequest(msg);
     else if (id == USER::CHARSELECTREQUEST) handleCharSelectRequest(msg);
     else if (id == USER::MESHLISTREQUEST) handleMeshListRequest(msg);
-    else if (id == USER::RACELISTREQUEST) handleRaceListRequest(msg);
   }
 
   void handleLoginRequest(GenericMessage* msg);
@@ -55,7 +54,6 @@ public:
   void handleCharCreateRequest(GenericMessage* msg);
   void handleCharSelectRequest(GenericMessage* msg);
   void handleMeshListRequest(GenericMessage* msg);
-  void handleRaceListRequest(GenericMessage* msg);
 };
 
 #endif // USERHANDLER_H

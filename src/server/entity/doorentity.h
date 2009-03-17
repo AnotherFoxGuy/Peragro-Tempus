@@ -23,51 +23,34 @@
 #include <time.h>
 #include <math.h>
 
-#include "common/util/ptstring.h"
-#include "common/util/monitorable.h"
-
 #include "entity.h"
-#include "inventory.h"
-#include "characterstats.h"
 
-class DoorEntity : public ptMonitorable<DoorEntity>
+struct DoorsTableVO;
+
+class DoorEntity : public Entity
 {
 private:
-  unsigned short doorid;
-  ptMonitor<Entity> entity;
-
   bool open;
   bool locked;
-
-  ptString animation;
+  std::string animationName;
 
 public:
-  DoorEntity() : open(false), locked(false)
-  {
-    entity = (new Entity(Common::Entity::DoorEntityType))->getRef();
-
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->setDoorEntity(this);
-  }
-
-  ~DoorEntity()
+  DoorEntity() : Entity(Common::Entity::DoorEntityType), open(false), locked(false)
   {
   }
 
-  //void setEntity(Entity* entity);
-  const Entity* getEntity() { return this->entity.get(); }
+  ~DoorEntity() {}
 
-  void setDoorId(unsigned short doorid) { this->doorid = doorid; }
-  unsigned short getDoorId() const { return doorid; }
+  void SetOpen(bool open) { this->open = open; }
+  bool GetOpen() const { return open; }
 
-  void setOpen(bool open) { this->open = open; }
-  bool getOpen() const { return open; }
+  void SetLocked(bool locked) { this->locked = locked; }
+  bool GetLocked() const { return locked; }
 
-  void setLocked(bool locked) { this->locked = locked; }
-  bool getLocked() const { return locked; }
+  const std::string& GetAnimationName() const { return animationName; }
+  void SetAnimationName(const std::string& value) { animationName = value; }
 
-  const ptString& getAnimation() const { return animation; }
-  void setAnimation(ptString id) { animation = id; }
+  void operator<< (DoorsTableVO* vo);
 
 };
 

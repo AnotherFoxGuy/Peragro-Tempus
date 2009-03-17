@@ -42,7 +42,7 @@ public:
   ChatGroupSet() : channels() {}
   ~ChatGroupSet() {}
 
-  bool isUserIn (const PcEntity* user, const char* channel) const;
+  bool isUserIn (PcEntity* user, const char* channel) const;
   bool channelExists (const char* channel) const;
 
   const ChatGroup::UserList& getUserList (const char* channel) const;
@@ -51,10 +51,10 @@ public:
 
   /* the 'prune' option determines whether a channel should be pruned
      from the list if deleting the user leaves the channel empty of users. */
-  void delUser (const PcEntity* user, const char* channel, bool prune=true);
+  void delUser (PcEntity* user, const char* channel, bool prune=true);
   /* add a user to a channel, *only* if it exists already.  Return true
      if the user was added or already present, false otherwise. */
-  bool addUser (const PcEntity* user, const char* channel);
+  bool addUser (PcEntity* user, const char* channel);
 
   void addChannel (ChatGroup* group);
   void delChannel (const char* channel) { channels.erase(channel); }

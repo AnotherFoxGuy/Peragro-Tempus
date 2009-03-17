@@ -19,14 +19,14 @@
 #include "network.h"
 #include "networkhelper.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/entity.h"
-#include "server/entity/itemmanager.h"
 
 #include "server/spawner.h"
 
 void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -132,4 +132,5 @@ void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
       Server::getServer()->broadCast(bs);
     }
   }
+  */
 }

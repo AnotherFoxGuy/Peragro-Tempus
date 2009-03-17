@@ -21,86 +21,18 @@
 #include <wfmath/point.h>
 #include <wfmath/vector.h>
 
+#include "server/entity/usermanager.h"
 #include "server/entity/user.h"
 #include "server/entity/pcentity.h"
-#include "server/entity/mountentity.h"
 #include "server/group/charchats.h"
 
+#include "server/database/tablemanager.h"
+#include "server/database/table-pcentities.h"
 
-void PcEntity::setEntity(const Entity* entity)
+
+void PcEntity::SetUser(User* user)
 {
-  if (!entity) this->entity.clear();
-  this->entity = entity->getRef();
-}
-
-void PcEntity::setUser(const User* user)
-{
-  this->user = user->getRef();
-}
-
-void PcEntity::setCharacter(const Character* character)
-{
-  this->character = character->getRef();
-  ptScopedMonitorable<Entity> e (entity.get());
-  ptScopedMonitorable<Character> c (character);
-  c->setEntity(e);
-}
-
-void PcEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
-{
-  if (mount.get()) return;
-
-  final_dst = dst_pos;
-
-  const WFMath::Point<3>& pos = entity.get()->GetPosition();
-
-  const float dist = Distance(final_dst, pos);
-
-  //v = s / t => t = s / v
-  t_stop = (size_t) (dist / speed + time(0));
-
-  isWalking = true;
-}
-
-WFMath::Point<3> PcEntity::GetPosition()
-{
-  if (mount.get())
-  {
-    ptScopedMonitorable<MountEntity> e (mount.get());
-    return e->GetPosition();
-  }
-
-  if (!isWalking)
-  {
-    return entity.get()->GetPosition();
-  }
-  else
-  {
-    if ((size_t)time(0) >= t_stop)
-    {
-      ptScopedMonitorable<Entity> ent (entity.get());
-      ent->SetPosition(final_dst);
-
-      isWalking = false;
-      return final_dst;
-    }
-    else
-    {
-      const WFMath::Point<3> pos = entity.get()->GetPosition();
-      //Not sure that's correct...
-      size_t delta = t_stop - (size_t) time(0);
-      tmp_pos = WFMath::Point<3>((final_dst - pos) * (float)delta);
-      return tmp_pos;
-    }
-  }
-}
-
-void PcEntity::setMount(const MountEntity* mount)
-{
-  if (!mount)
-    this->mount.clear();
-  else
-    this->mount = mount->getRef();
+  this->user = user;
 }
 
 void PcEntity::setCharChats(const CharChats* charchats)
@@ -109,4 +41,29 @@ void PcEntity::setCharChats(const CharChats* charchats)
     this->charchats.clear();
   else
     this->charchats = charchats->getRef();
+}
+
+void PcEntity::LoadFromDB()
+{
+  Character::LoadFromDB();
+
+  PcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<PcEntitiesTable>();
+  PcEntitiesTableVOArray arr = table->Get(GetId());
+  if (arr.size() != 1)
+  {
+    printf("None or multiple pcentity rows for pcentity?!\n");
+    throw "None or multiple pcentity rows for pcentity?!";
+  }
+
+  //User* user = Server::getServer()->getUserManager()->FindByName(arr[0]->users_login);
+  //SetUser(user);
+}
+
+void PcEntity::SaveToDB()
+{
+  Character::SaveToDB();
+
+  PcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<PcEntitiesTable>();
+  if (user)
+    table->Insert(GetId(), user->GetName());
 }

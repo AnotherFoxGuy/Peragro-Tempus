@@ -40,11 +40,13 @@ protected:
   virtual void timeOut();
 
 public:
-  PathAI() : points(0), intervals(0) {}
+  PathAI(NpcEntity* npc) : npc(npc), points(0), intervals(0) {}
   virtual ~PathAI();
 
-  virtual void setNPC(NpcEntity* npc);
   virtual void think();
+
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // PATH_AI_H

@@ -19,13 +19,7 @@
 #include "network.h"
 #include "networkhelper.h"
 
-#include "server/entity/charactermanager.h"
-#include "server/entity/doormanager.h"
 #include "server/entity/entitymanager.h"
-#include "server/entity/itemmanager.h"
-#include "server/entity/meshmanager.h"
-#include "server/entity/racemanager.h"
-#include "server/entity/sectormanager.h"
 #include "server/zone/zonemanager.h"
 #include "server/entity/user.h"
 
@@ -44,7 +38,7 @@
 
 bool CheckAdminLevel(GenericMessage* msg, size_t level)
 {
-  const User* user = NetworkHelper::getUser(msg);
+  boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
   if (!user) return false;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
@@ -54,6 +48,7 @@ bool CheckAdminLevel(GenericMessage* msg, size_t level)
 
 void AdminHandler::handleRemoveAll(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   RemoveAllMessage rmmsg;
@@ -159,10 +154,12 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
     ZoneManager* zones = server->getZoneManager();
     zones->delAll();
   }
+  */
 }
 
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateSectorMessage sectormsg;
@@ -172,10 +169,12 @@ void AdminHandler::handleCreateSector(GenericMessage* msg)
 
   SectorManager* sectors = server->GetSectorManager();
   sectors->addSector(sectormsg.GetSectorId(), sectormsg.getName(), sectormsg.getRegion());
+  */
 }
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateItemMessage itemmsg;
@@ -194,10 +193,12 @@ void AdminHandler::handleCreateItem(GenericMessage* msg)
   Item* item = it->getItem(itemmsg.getName(), server->getMeshManager());
 
   items->addItem(item);
+  */
 }
 
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateSpawnPointMessage spawnmsg;
@@ -220,10 +221,12 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
   Spawner* spawner = server->getSpawner();
   spawner->createSpawnPoint(x, y, z, sector, item, interval);
+  */
 }
 
 void AdminHandler::handleSpawnItem(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   SpawnItemMessage itemmsg;
@@ -238,10 +241,12 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   e->SetRotation(0.0f);
 
   Server::getServer()->addEntity(item_ent->getEntity(), true);
+  */
 }
 
 void AdminHandler::handleSpawnMount(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   Server* server = Server::getServer();
@@ -262,10 +267,12 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   e->SetSector(mountmsg.GetSectorId());
 
   Server::getServer()->addEntity(mount_ent->getEntity(), true);
+  */
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   Server* server = Server::getServer();
@@ -290,10 +297,12 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
   e->SetSector(doormsg.GetSectorId());
 
   Server::getServer()->addEntity(door_ent->getEntity(), true);
+  */
 }
 
 void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   RemoveSpawnedEntityMessage rmmsg;
@@ -309,10 +318,12 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
   {
     server->delEntity(e);
   }
+  */
 }
 
 void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
@@ -320,10 +331,12 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 
   ptScopedMonitorable<PcEntity> pcent (c_pcent);
   pcent->toggleFlashStep();
+  */
 }
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateZoneMessage zonemsg;
@@ -342,10 +355,12 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
     zone.coords.push_back(WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)));
   }
   zonemgr->addZone(zone);
+  */
 }
 
 void AdminHandler::handleSetDate(GenericMessage* msg)
 {
+  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   SetDateMessage dateMsg;
@@ -357,5 +372,6 @@ void AdminHandler::handleSetDate(GenericMessage* msg)
     Server::getServer()->getEnvironmentManager()->GetClock();
   clock->SetDate(date);
   clock->BroadcastTime();
+  */
 }
 

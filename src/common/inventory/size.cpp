@@ -18,78 +18,75 @@
 
 #include "size.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+
+    Size::Size(int height, int width)
+    {
+      Size::height = height;
+      Size::width = width;
+    }
+
+    Size::~Size()
+    {
+    }
+
+    bool Size::operator==(const Size& size) const
+    {
+      return height == size.height && width == size.width;
+    }
+
+    bool Size::operator!=(const Size& size) const
+    {
+      return !operator==(size);
+    }
+
+    bool Size::operator<(const Size& size) const
+    {
+      return height < size.height && width < size.width;
+    }
+
+    bool Size::operator<=(const Size& size) const
+    {
+      return height <= size.height && width <= size.width;
+    }
+
+    Size& Size::operator=(const Size& size)
+    {
+      if (this == &size)
+      {
+        return *this;
+      }
+
+      height = size.height;
+      width = size.width;
+      return *this;
+    }
+
+    Size& Size::operator+=(const Size& size)
+    {
+      height += size.height;
+      width += size.width;
+      return *this;
+    }
+
+    Size& Size::operator-=(const Size& size)
     {
 
-      Size::Size(int height, int width)
-      {
-        Size::height = height;
-        Size::width = width;
-      }
+      if (size.height < height)
+        height -= size.height;
+      else
+        height = 1;
 
-      Size::~Size()
-      {
-      }
+      if (size.width < width)
+        width -= size.width;
+      else
+        width = 1;
 
-      bool Size::operator==(const Size& size) const
-      {
-        return height == size.height && width == size.width;
-      }
-
-      bool Size::operator!=(const Size& size) const
-      {
-        return !operator==(size);
-      }
-
-      bool Size::operator<(const Size& size) const
-      {
-        return height < size.height && width < size.width;
-      }
-
-      bool Size::operator<=(const Size& size) const
-      {
-        return height <= size.height && width <= size.width;
-      }
-
-      Size& Size::operator=(const Size& size)
-      {
-        if (this == &size)
-        {
-          return *this;
-        }
-
-        height = size.height;
-        width = size.width;
-        return *this;
-      }
-
-      Size& Size::operator+=(const Size& size)
-      {
-        height += size.height;
-        width += size.width;
-        return *this;
-      }
-
-      Size& Size::operator-=(const Size& size)
-      {
-
-        if (size.height < height)
-          height -= size.height;
-        else
-          height = 1;
-
-        if (size.width < width)
-          width -= size.width;
-        else
-          width = 1;
-
-        return *this;
-      }
-
+      return *this;
     }
+
   }
 }

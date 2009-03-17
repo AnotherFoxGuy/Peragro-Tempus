@@ -27,11 +27,13 @@ protected:
   virtual void timeOut();
 
 public:
-  IdleAI() {}
+  IdleAI(NpcEntity* npc)  {}
   ~IdleAI() {}
 
-  virtual void setNPC(NpcEntity* npc);
   virtual void think();
+
+  virtual void LoadFromDB() {}
+  virtual void SaveToDB() {}
 };
 
 #endif // IDLE_AI_H

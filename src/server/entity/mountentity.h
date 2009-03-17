@@ -19,74 +19,58 @@
 #ifndef MOUNTENTITY_H
 #define MOUNTENTITY_H
 
-#include "common/util/ptstring.h"
-#include "common/util/monitorable.h"
+#include <list>
+#include <boost/weak_ptr.hpp>
 
 #include "entity.h"
+#include "character/character.h"
 
 #include "server/ai/ai.h"
 
-class Character;
-class PcEntity;
 
-class MountEntity : public ptMonitorable<MountEntity>
+class MountEntity : public Character
 {
 private:
-  ptMonitor<Entity> entity; // own entity
-  ptMonitor<PcEntity>* passengers; // can't carry npcs
-  size_t num_passengers;
+  class Equal
+  {
+    boost::shared_ptr<Character> e;
+  public:
+    Equal(boost::shared_ptr<Character> e) : e(e) {}
+    Equal() {}
+    bool operator() (const boost::weak_ptr<Character>& c) 
+    { return (c.expired() || c.lock()==e); }
+  };
+
+private:
+  std::list<boost::weak_ptr<Character> > passengers;
   size_t max_passengers;
 
-  ptMonitor<MountEntity> mount; // one mount can be on another.
-
-  bool isWalking;
-
-  WFMath::Point<3> final_dst;
-  WFMath::Point<3> tmp_pos;
   size_t t_stop;
   size_t t_org;
 
-  // TODO: Add stats
-  float speed;
-
 public:
-  MountEntity()
+  MountEntity() : Character(Common::Entity::MountEntityType)
   {
-    entity = (new Entity(Common::Entity::MountEntityType))->getRef();
-
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->setMountEntity(this);
-
-    speed = 7;
     max_passengers = 1;
-    num_passengers = 0;
-
-    passengers = new ptMonitor<PcEntity>[max_passengers];
-
-    isWalking = false;
   }
 
   ~MountEntity()
   {
     for (size_t i = 0; i < max_passengers; i++)
     {
-      delete passengers[i].get();
+      //passengers[i]->UnMount(this);
     }
-    delete [] passengers;
   }
 
-  const Entity* getEntity() const { return entity.get(); }
+  virtual void SetPosition(const WFMath::Point<3>& p);
 
-  void addPassenger(const PcEntity* e);
-  void delPassenger(const PcEntity* e);
-  size_t getPassengerCount() const { return num_passengers; }
-  size_t getMaxPassengers() const { return max_passengers; }
-  const PcEntity* getPassenger(size_t i) const;
+  void AddPassenger(boost::shared_ptr<Character> e);
+  void RemovePassenger(boost::shared_ptr<Character> e);
+  size_t GetPassengerCount() { passengers.remove_if(Equal()); return passengers.size(); }
+  size_t GetMaxPassengers() const { return max_passengers; }
 
-  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> GetPosition();
-
-  float getSpeed() const { return speed; }
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // MOUNTENTITY_H

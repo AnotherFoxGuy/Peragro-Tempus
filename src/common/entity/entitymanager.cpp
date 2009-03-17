@@ -33,7 +33,7 @@ namespace Common
     {
     }
 
-    bool EntityManager::Add(const Entityp entity)
+    bool EntityManager::Add(Entityp entity)
     {
       // If object is already present return false.
       if (entities.count(entity->GetId()) > 0) 
@@ -68,6 +68,12 @@ namespace Common
         return Entityp();
     }
 
+    Entityp EntityManager::FindByName(const std::string& name)
+    {
+      //TODO
+      return Entityp();
+    }
+
     void EntityManager::Reset()
     {
       primaryId = 0;
@@ -77,6 +83,23 @@ namespace Common
     Octree::QueryResult EntityManager::Query(const WFMath::Ball<3>& s)
     {
       return octree.Query(s);
+    }
+
+    Entityp EntityManager::Getp(Entity* e)
+    {
+      return FindById(e->GetId());
+    }
+
+    std::list<Entityp> EntityManager::Queryp(const WFMath::Ball<3>& s)
+    {
+      std::list<Entityp> result;
+      Octree::QueryResult query = Query(s);
+      Octree::QueryResult::const_iterator it;
+      for ( it=query.begin() ; it != query.end(); it++ )
+      {
+        result.push_back(Getp(*it));
+      }
+      return result;
     }
 
   } // namespace World

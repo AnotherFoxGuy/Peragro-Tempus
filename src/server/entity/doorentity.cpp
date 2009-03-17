@@ -19,7 +19,19 @@
 #include "entity.h"
 #include "doorentity.h"
 
-//void DoorEntity::setEntity(Entity* entity)
-//{
-//  this->entity = entity->getRef();
-//}
+#include "server/server.h"
+#include "server/database/table-doors.h"
+
+void DoorEntity::operator<< (DoorsTableVO* vo)
+{
+  // Generic
+  SetName(vo->name);
+  //SetSectorName(vo->sector);
+  //setMesh(Server::getServer()->getMeshManager()->findById(vo->mesh));
+  //SetPosition(vo->position);
+
+  // Door specific
+  SetLocked(vo->isLocked);
+  SetOpen(vo->isOpen);
+  SetAnimationName(vo->animationName);
+}

@@ -19,6 +19,8 @@
 #ifndef NETWORKHELPER_H
 #define NETWORKHELPER_H
 
+#include <boost/shared_ptr.hpp>
+
 #include "common/util/array.h"
 
 class GenericMessage;
@@ -31,23 +33,20 @@ class ByteStream;
 class NetworkHelper
 {
 public:
-  static const User* getUser(GenericMessage* msg);
-  static const Entity* getEntity(GenericMessage* msg);
-  static const PcEntity* getPcEntity(GenericMessage* msg);
-  static const Character* getCharacter(GenericMessage* msg);
+  static boost::shared_ptr<User> getUser(GenericMessage* msg);
+  static Entity* getEntity(GenericMessage* msg);
 
-  static void sendMessage(const Character*, const ByteStream& bs);
-  static void sendMessage(const PcEntity*, const ByteStream& bs);
-  static void sendMessage(const Entity*, const ByteStream& bs);
+  static void sendMessage(Character*, const ByteStream& bs);
+  static void sendMessage(Entity*, const ByteStream& bs);
   static void sendMessage(const User*, const ByteStream& bs);
 
-  static void localcast(const ByteStream& bs, const Entity* entity);
-  static void distancecast(const ByteStream& bs, const Entity* entity, unsigned dist);
+  static void localcast(const ByteStream& bs, Entity* entity);
+  static void distancecast(const ByteStream& bs, Entity* entity, unsigned dist);
   static void broadcast(const ByteStream& bs);
 
   /* returns an array of players associated with the given player/channelname
      combination.  */
-  static Array<const PcEntity*> getUserList(const PcEntity*, const char* channel);
+  static Array<PcEntity*> getUserList(PcEntity*, const char* channel);
 };
 
 #endif // NETWORKHELPER_H

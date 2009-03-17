@@ -18,10 +18,6 @@
 
 #include "guard-ai.h"
 
-void GuardAI::setNPC(NpcEntity* /*npc*/)
-{
-}
-
 void GuardAI::timeOut()
 {
   think();

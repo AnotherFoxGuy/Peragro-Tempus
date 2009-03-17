@@ -36,6 +36,7 @@
   #elif _MSC_VER > 1310 // MSVC >= 8
     #pragma warning (disable: 4661)
     #pragma warning (disable: 4667)
+    #pragma warning (disable: 4244) // conversion from 'double' to 'WFMath::CoordType', possible loss of data
   #else // MSVC 7 and 7.1
     // The name of this one is somewhat misleading. The problem is,
     // while you can _define_ specializations of template functions,

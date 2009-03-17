@@ -24,7 +24,7 @@
 
 #include "server/entity/entitycallback.h"
 
-class ChatManager : public ChatGroupSet, public EntityCallback
+class ChatManager : public ChatGroupSet, public Common::Entity::EntityCallback
 {
 public:
   ChatManager();
@@ -34,8 +34,9 @@ public:
 
   void createChannel (const char* channel);
 
-  virtual void OnEntityAdd(const Entity* entity);
-  virtual void OnEntityRemove(const Entity* entity);
+  virtual void OnEntityAdd(Common::Entity::Entityp entity);
+  virtual void OnEntityRemove(Common::Entity::Entityp entity);
+  virtual void OnEntityMove(Common::Entity::Entityp entity) {}
 }; // class ChatManager
 
 #endif // CHATMANAGER_H

@@ -18,13 +18,14 @@
 
 #include "server/network/network.h"
 #include "server/network/networkhelper.h"
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/doorentity.h"
 #include "server/entity/entity.h"
 #include "server/entity/entitymanager.h"
 
 void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
 {
+  /*
   const Connection* conn = msg->getConnection();
   if (!conn) return;
 
@@ -69,10 +70,12 @@ void DoorHandler::handleOpenDoorRequest(GenericMessage* msg)
     // Tell only one about error
     conn->send(bs);
   }
+  */
 }
 
 void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
 {
+  /*
   const Connection* conn = msg->getConnection();
   if (!conn) return;
 
@@ -116,10 +119,12 @@ void DoorHandler::handleCloseDoorRequest(GenericMessage* msg)
     // Tell only one about error
     conn->send(bs);
   }
+  */
 }
 
 void DoorHandler::handleLockDoorRequest(GenericMessage* msg)
 {
+  /*
   const Connection* conn = msg->getConnection();
   if (!conn) return;
 
@@ -169,10 +174,12 @@ void DoorHandler::handleLockDoorRequest(GenericMessage* msg)
     // Tell only one about error
     conn->send(bs);
   }
+  */
 }
 
 void DoorHandler::handleUnlockDoorRequest(GenericMessage* msg)
 {
+  /*
   const Connection* conn = msg->getConnection();
   if (!conn) return;
 
@@ -222,4 +229,5 @@ void DoorHandler::handleUnlockDoorRequest(GenericMessage* msg)
     // Tell only one about error
     conn->send(bs);
   }
+  */
 }

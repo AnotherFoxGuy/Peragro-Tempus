@@ -37,18 +37,18 @@ const ChatGroup::UserList& ChatGroupSimple::getUserList () const
   return userlist;
 }
 
-void ChatGroupSimple::delUser (const PcEntity* user)
+void ChatGroupSimple::delUser (PcEntity* user)
 {
   size_t idx = userlist.find(user);
   if (idx != getUserCount()) userlist.remove(idx);
 }
 
-void ChatGroupSimple::addUser (const PcEntity* user)
+void ChatGroupSimple::addUser (PcEntity* user)
 {
   if (!isUserIn(user)) userlist.add(user);
 }
 
-void ChatGroupSimple::process(const PcEntity* user, const char* message)
+void ChatGroupSimple::process(PcEntity* user, const char* message)
 {
   if (!user || !message) return;
   if (!isUserIn(user)) return;
@@ -56,12 +56,12 @@ void ChatGroupSimple::process(const PcEntity* user, const char* message)
   broadcast(user, message);
 }
 
-void ChatGroupSimple::broadcast(const PcEntity* user, const char* message) const
+void ChatGroupSimple::broadcast(PcEntity* user, const char* message) const
 {
   if (!user || !message) return;
 
   GroupMessage out_msg;
-  const std::string name = user->getEntity()->GetName();
+  const std::string name = user->GetName();
   const ptString channel = ptString::create(this->name);
   out_msg.setMessage(message);
   out_msg.setChannel(channel);

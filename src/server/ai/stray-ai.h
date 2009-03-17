@@ -37,11 +37,13 @@ protected:
   virtual void timeOut();
 
 public:
-  StrayAI() : npc(0) { paused = false; }
+  StrayAI(NpcEntity* npc) : npc(npc) { paused = false; }
   ~StrayAI() {}
 
-  virtual void setNPC(NpcEntity* npc);
   virtual void think();
+
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // STRAY_AI_H

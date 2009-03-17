@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+#include "common/database/table.h"
+
 #include <string>
 
 class NpcDialogAnswersTableVO
@@ -35,13 +37,12 @@ public:
   int nextdialogid;
 };
 
-class NpcDialogAnswersTable
+class NpcDialogAnswersTable : public Table
 {
 private:
-  Database* db;
-
   NpcDialogAnswersTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
   Array<NpcDialogAnswersTableVO*> parseMultiResultSet(ResultSet* rs);
+
 public:
   NpcDialogAnswersTable(Database* db);
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,110 +15,30 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
+#include "table-npcentities.h"
+
+#include <string.h>
+#include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "common/database/database.h"
-#include "table-npcentities.h"
 
-NpcEntitiesTable::NpcEntitiesTable(Database* db) : db(db)
+NpcEntitiesTable::NpcEntitiesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from npcentities;");
+  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_NPCENTITIES) ";");
   if (rs == 0)
   {
-    createTable();
+    CreateTable();
   }
   delete rs;
 }
 
-NpcEntitiesTableVO* NpcEntitiesTable::parseSingleResultSet(ResultSet* rs, size_t row)
-{
-  NpcEntitiesTableVO* vo = new NpcEntitiesTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->character = atoi(rs->GetData(row,1).c_str());
-  vo->ai = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
-  return vo;
-}
-
-Array<NpcEntitiesTableVO*> NpcEntitiesTable::parseMultiResultSet(ResultSet* rs)
-{
-  Array<NpcEntitiesTableVO*> arr;
-  for (size_t i = 0; i < rs->GetRowCount(); i++)
-  {
-    NpcEntitiesTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
-  }
-  return arr;
-}
-
-void NpcEntitiesTable::createTable()
-{
-  printf("Creating Table npcentities...\n");
-  db->update("create table npcentities ("
-             "entity_id INTEGER,"
-             "character INTEGER,"
-             "ai TEXT,"
-             "PRIMARY KEY (entity_id) );");
-
-  //ptString idle("idle",4);
-  //ptString path("path",4);
-  //ptString stray("stray",5);
-
-  //insert(1, 1, stray, 0);
-  //insert(2, 2, stray, 9);
-  //insert(3, 3, path, 6);
-
-  // Creating Undead Squad.
-  //for (int i = 0; i < 100; i++)
-  //{
-  //  insert(4 + i, 4 + i, idle, 9);
-  //}
-}
-
-void NpcEntitiesTable::insert(int id, int character, ptString ai)
-{
-  const char* query = { "insert into npcentities(entity_id, character, ai) values (%d, %d, '%q');" };
-  db->update(query, id, character, *ai);
-}
-
-void NpcEntitiesTable::remove(int id)
-{
-  db->update("delete from npcentities where entity_id = %d", id);
-}
-
-bool NpcEntitiesTable::existsById(int id)
-{
-  ResultSet* rs = db->query("select * from npcentities where entity_id = %d;", id);
-  bool existence = (rs->GetRowCount() > 0);
-  delete rs;
-  return existence;
-}
-
-NpcEntitiesTableVO* NpcEntitiesTable::getById(int id)
-{
-  ResultSet* rs = db->query("select * from npcentities where entity_id = %d;", id);
-
-  if (!rs || rs->GetRowCount() == 0) return 0;
-
-  NpcEntitiesTableVO* vo = parseSingleResultSet(rs);
-  delete rs;
-  return vo;
-}
-
-NpcEntitiesTableVO* NpcEntitiesTable::getByCharacter(int char_id)
-{
-  ResultSet* rs = db->query("select * from npcentities where character = %d;", char_id);
-
-  if (!rs || rs->GetRowCount() == 0) return 0;
-
-  NpcEntitiesTableVO* vo = parseSingleResultSet(rs);
-  delete rs;
-  return vo;
-}
-
-Array<NpcEntitiesTableVO*> NpcEntitiesTable::getAll()
-{
-  ResultSet* rs = db->query("select * from npcentities;");
-  Array<NpcEntitiesTableVO*> vo = parseMultiResultSet(rs);
-  delete rs;
-  return vo;
-}
-
+PT_DEFINE_CreateTable(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_DropTable(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_Insert(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_ParseSingleResultSet(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_ParseMultiResultSet(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_GetAll(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
+PT_DEFINE_Get(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)

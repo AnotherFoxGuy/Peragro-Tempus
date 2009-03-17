@@ -16,12 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "server/entity/statmanager.h"
 #include "interactionutility.h"
+
+#include "server/server.h"
 
 unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
                                                      const char* statName)
 {
+  /*
   Server *server = Server::getServer();
   const Stat* stat = server->getStatManager()->
     findByName(ptString(statName, strlen(statName)));
@@ -31,12 +33,15 @@ unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
     printf("BUG: Unable to find stat: %s\n", statName);
     return 0;
   }
-  return item->getStats()->getAmount(stat);
+  */
+  //return item->getStats()->getAmount(stat);
+  return 0;
 }
 
 unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
                                               const char* statName)
 {
+  /*
   Server* server = Server::getServer();
 
   const Stat* stat = server->getStatManager()->findByName(ptString(statName,
@@ -48,6 +53,8 @@ unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
     return 0;
   }
   return lockedCharacter->getStats()->getAmount(stat);
+  */
+  return 0;
 }
 
 unsigned int
@@ -55,14 +62,14 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
                                                    const char* statName)
 {
   unsigned int value = 0;
-  Inventory* inventory = lockedCharacter->getInventory();
+  boost::shared_ptr<Inventory> inventory = lockedCharacter->GetInventory();
   Item* item;
 
   if (!inventory)
   {
     return 0;
   }
-
+/*
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
     item = GetItem(lockedCharacter, slot);
@@ -72,13 +79,14 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
     }
     value += GetStatValueForItem(item, statName);
   }
-
+*/
   return value;
 }
 
 Item* InteractionUtility::GetItem(Character* lockedCharacter,
                                   unsigned char slot)
 {
+  /*
   Server *server = Server::getServer();
   Inventory* inventory = lockedCharacter->getInventory();
 
@@ -99,6 +107,8 @@ Item* InteractionUtility::GetItem(Character* lockedCharacter,
   }
   Item* item = server->getItemManager()->findById(entry->id);
   return item;
+  */
+  return 0;
 }
 
 void
@@ -108,7 +118,7 @@ InteractionUtility::IncreaseStatValue(Character* lockedCharacter,
 {
   Server* server = Server::getServer();
   unsigned int statValue = increase;
-
+/*
   const Stat* stat = server->getStatManager()->findByName(ptString(statName,
                                                           strlen(statName)));
 
@@ -119,6 +129,7 @@ InteractionUtility::IncreaseStatValue(Character* lockedCharacter,
   statValue += lockedCharacter->getStats()->getAmount(stat);
 
   lockedCharacter->getStats()->setStat(stat, statValue);
+  */
 }
 
 // Caller has to delete

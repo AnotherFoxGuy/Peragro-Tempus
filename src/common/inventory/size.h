@@ -16,36 +16,32 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_COMMON_SIZE_H
-#define PT_COMMON_SIZE_H
+#ifndef COMMON_SIZE_H
+#define COMMON_SIZE_H
 
-
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    struct Size
     {
-      struct Size
-      {
-        unsigned int height;
-        unsigned int width;
+      unsigned int height;
+      unsigned int width;
 
-        Size(int height, int width);
-        virtual ~Size();
+      Size(int height, int width);
+      virtual ~Size();
 
-        bool operator==(const Size& size) const;
-        bool operator!=(const Size& size) const;
-        bool operator<(const Size& size) const;
-        bool operator<=(const Size& size) const;
+      bool operator==(const Size& size) const;
+      bool operator!=(const Size& size) const;
+      bool operator<(const Size& size) const;
+      bool operator<=(const Size& size) const;
 
-        Size& operator=(const Size& size);
-        Size& operator+=(const Size& size);
-        Size& operator-=(const Size& size);
-      };
+      Size& operator=(const Size& size);
+      Size& operator+=(const Size& size);
+      Size& operator-=(const Size& size);
+    };
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace
 
-#endif // PT_COMMON_SIZE_H
+#endif // COMMON_SIZE_H

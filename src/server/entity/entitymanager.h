@@ -19,120 +19,42 @@
 #ifndef ENTITYMANAGER_H
 #define ENTITYMANAGER_H
 
-#include <vector>
+#include <list>
 
-#include "common/util/array.h"
+#include "common/entity/entitymanager.h"
+
 #include "entity.h"
-#include "pcentity.h"
-#include "npcentity.h"
-#include "itementity.h"
-#include "doorentity.h"
-#include "mountentity.h"
-#include "entitylist.h"
 #include "entitycallback.h"
 
-class EntityManager
+class EntityTable;
+
+typedef boost::shared_ptr<Entity> Entityp;
+
+class EntityManager : public Common::Entity::EntityManager, Octree::Shape::Listener
 {
 private:
-  EntityList entity_list;
-  unsigned int ent_id;
-
-  std::vector<EntityCallback*> callback_list;
+  std::list<Common::Entity::EntityCallback*> callback_list;
 
   Mutex mutex;
-
-public:
-  EntityManager() : ent_id(0) {}
-  ~EntityManager()
-  {
-    for (size_t i = 0; i < entity_list.getEntityCount(); i++)
-    {
-      delete entity_list.getEntity(i);
-    }
-  }
-
-  size_t getEntityCount()
-  {
-    return entity_list.getEntityCount();
-  }
-
-  const Entity* getEntity(size_t index)
-  {
-    return entity_list.getEntity(index);
-  }
-
-  void addLockedEntity(Entity* locked_entity)
-  {
-    mutex.lock();
-    ent_id++;
-
-    locked_entity->SetId(ent_id);
-
-    entity_list.addEntity(locked_entity);
-    mutex.unlock();
-
-    for (unsigned int i = 0; i < callback_list.size(); i++)
-    {
-      callback_list[i]->OnEntityAdd(locked_entity);
-    }
-  }
-
-  void addEntity(const Entity* entity)
-  {
-    ptScopedMonitorable<Entity> e (entity);
-
-    addLockedEntity(e);
-  }
-
-  void removeEntity(const Entity* entity)
-  {
-    for (unsigned int i = 0; i < callback_list.size(); i++)
-    {
-      callback_list[i]->OnEntityRemove(entity);
-    }
-
-    mutex.lock();
-    entity_list.removeEntity(entity);
-    mutex.unlock();
-  }
-
-  bool exists(const Entity* entity)
-  {
-    return entity_list.exists(entity);
-  }
-
-  const Entity* findByName(ptString name)
-  {
-    return entity_list.findByName(name);
-  }
-
-  const Entity* findById(int id)
-  {
-    return entity_list.findById(id);
-  }
-
   void lock() { mutex.lock(); }
   void unlock() { mutex.unlock(); }
 
-  void loadFromDB(EntityTable* et);
+  virtual void Moved(Octree::Shape*);
+  virtual void Destroyed(Octree::Shape*) {}
 
-  void AddEntityCallback(EntityCallback* cb)
-  {
-    callback_list.push_back(cb);
-  }
+public:
+  EntityManager();
+  ~EntityManager();
 
-  void RemoveEntityCallback(EntityCallback* cb)
-  {
-    std::vector<EntityCallback*>::iterator it;
-    for (it = callback_list.begin(); it != callback_list.end(); it++)
-    {
-      if (*it == cb)
-      {
-        callback_list.erase(it);
-        return;
-      }
-    }
-  }
+  void LoadFromDB(EntityTable* table);
+
+  Entityp CreateNew(Common::Entity::EntityType type, size_t id=Common::Entity::Entity::NoEntity);
+
+  virtual bool Add(Common::Entity::Entityp entity);
+  virtual void Remove(const Common::Entity::Entityp entity);
+
+  void AddEntityCallback(Common::Entity::EntityCallback* cb);
+  void RemoveEntityCallback(Common::Entity::EntityCallback* cb);
 };
 
 #endif // ENTITYMANAGER_H

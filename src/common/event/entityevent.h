@@ -41,6 +41,8 @@
 
 #include "common/reporter/reporter.h"
 
+#include "common/entity/entity.h"
+
 namespace PT
 {
   namespace Events
@@ -170,19 +172,17 @@ namespace PT
       {
         const csStringID id = event->Name;
         if (evmgr->IsKindOf(id, "entity.add.pc"))
-            return 0;
+          return Common::Entity::PCEntityType;
         else if (evmgr->IsKindOf(id, "entity.add.npc"))
-          return 1;
+          return Common::Entity::NPCEntityType;
         else if (evmgr->IsKindOf(id, "entity.add.door"))
-          return 2;
+          return Common::Entity::DoorEntityType;
         else if (evmgr->IsKindOf(id, "entity.add.item"))
-          return 3;
+          return Common::Entity::ItemEntityType;
         else if (evmgr->IsKindOf(id, "entity.add.mount"))
-          return 4;
-        else if (evmgr->IsKindOf(id, "entity.add.teleport"))
-          return 5;
+          return Common::Entity::MountEntityType;
         else if (evmgr->IsKindOf(id, "entity.add.player"))
-          return 0;
+          return Common::Entity::PlayerEntityType;
         else
           return -1;
       }

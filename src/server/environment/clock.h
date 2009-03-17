@@ -52,7 +52,7 @@ namespace PT
          * Send the initial time details to an entity.
          * @param entity The entity.
          */
-        void InitTime(const Entity* entity);
+        void InitTime(Entity* entity);
 
         /// Broadcast the current game time to all clients.
         void BroadcastTime();

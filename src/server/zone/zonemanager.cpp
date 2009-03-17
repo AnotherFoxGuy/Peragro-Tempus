@@ -19,7 +19,7 @@
 #include "common/util/math.h"
 
 #include "common/database/database.h"
-#include "server/database/tables.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-zones.h"
 #include "server/database/table-zonenodes.h"
 #include "server/server.h"
@@ -28,8 +28,8 @@
 
 void ZoneManager::delAll()
 {
-  Server::getServer()->getTables()->getZonesTable()->removeAll();
-  Server::getServer()->getTables()->getZonenodesTable()->removeAll();
+  Server::getServer()->GetTableManager()->Get<ZonesTable>()->removeAll();
+  Server::getServer()->GetTableManager()->Get<ZonenodesTable>()->removeAll();
   zones.clear();
 }
 

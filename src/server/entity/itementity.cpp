@@ -17,32 +17,53 @@
 */
 
 #include "entity.h"
-#include "item.h"
 #include "itementity.h"
-#include "itemmanager.h"
 
 #include "server/server.h"
 
-void ItemEntity::createFromItem(unsigned int item_id, unsigned int variation)
+#include "itemtemplatesmanager.h"
+
+#include "server/database/tablemanager.h"
+#include "server/database/table-items.h"
+#include "server/database/table-entitypositions.h"
+
+void ItemEntity::LoadFromDB()
 {
-  this->variation = variation;
+  Entity::LoadFromDB();
 
-  Item* item = Server::getServer()->getItemManager()->findById(item_id);
-  ptScopedMonitorable<Entity> e (entity.get());
-  e->SetName(*item->getName());
-  e->setMesh(item->getMesh());
+  ItemsTable* table = Server::getServer()->GetTableManager()->Get<ItemsTable>();
+  ItemsTableVOp i = table->GetSingle(GetId());
 
-  this->item = item->getRef();
+  itemTemplate = Server::getServer()->GetItemTemplatesManager()->Get(i->itemTemplates_id);
+  itemTemplate->SetDataOn(this);
+
+  EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+  try
+  {
+    EntityPositionsTableVOp p = ptable->GetSingle(GetId());
+    SetPosition(p->position);
+    SetRotation(p->rotation[1]); //TODO: just Y atm.
+    SetInWorld(true);
+  }
+  catch (char*)
+  {
+    SetInWorld(false);
+  }
 }
 
-//void ItemEntity::createFromItem(Item* item, unsigned int variation)
-//{
-//  this->variation = variation;
-//
-//  Entity* ent = entity.get()->getLock();
-//  ent->setName(item->getName());
-//  ent->setMesh(item->getMesh());
-//  ent->freeLock();
-//
-//  this->item = item->getRef();
-//}
+void ItemEntity::SaveToDB()
+{
+  Entity::SaveToDB();
+
+  if (GetInWorld())
+  {
+    EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+    ptable->Insert(GetId(), GetPosition(), WFMath::Point<3>(0, GetRotation(),0)); //TODO: just Y atm.
+  }
+  else
+  {
+    EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+    ptable->Remove(GetId());
+  }
+}
+

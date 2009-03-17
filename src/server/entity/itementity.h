@@ -19,35 +19,34 @@
 #ifndef ITEMENTITY_H
 #define ITEMENTITY_H
 
-#include "common/util/monitorable.h"
+#include "entity.h"
 
-class Item;
-class Entity;
+class ItemTemplate;
 
-class ItemEntity : public ptMonitorable<ItemEntity>
+#include "common/inventory/item.h"
+
+class ItemEntity : public Entity, public Common::Inventory::Item
 {
 private:
-  ptMonitor<Item> item;
-  ptMonitor<Entity> entity;
+  bool inWorld;
+  boost::shared_ptr<ItemTemplate> itemTemplate;
 
 public:
-  ItemEntity()
+#pragma warning( push)
+#pragma warning( disable : 4355 )
+  ItemEntity() : Entity(Common::Entity::ItemEntityType)
   {
-    entity = (new Entity(Common::Entity::ItemEntityType))->getRef();
-
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->setItemEntity(this);
+    inWorld = false;
   }
+#pragma warning( pop )
 
   ~ItemEntity() {}
 
-  const Item* getItem() const { return item.get(); }
-  const Entity* getEntity() const { return entity.get(); }
+  bool GetInWorld() { return inWorld; }
+  void SetInWorld(bool value) { inWorld = value; }
 
-  unsigned int variation;
-
-  void createFromItem(unsigned int item_id, unsigned int variation);
-  //void createFromItem(Item* item, unsigned int variation);
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // ITEMENTITY_H

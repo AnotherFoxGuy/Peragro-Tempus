@@ -16,22 +16,22 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 
 #include "network.h"
 #include "networkhelper.h"
 
-#include "common/database/database.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-characters.h"
+#include "server/database/table-pcentities.h"
 #include "server/database/table-users.h"
-#include "server/entity/charactermanager.h"
 #include "server/entity/entitymanager.h"
-#include "server/entity/meshmanager.h"
-#include "server/entity/racemanager.h"
 #include "server/entity/usermanager.h"
-#include "server/useraccountmanager.h"
 #include "server/environment/environmentmanager.h"
 #include "server/environment/clock.h"
+
+#include "server/entity/entitymanager.h"
+#include "server/entity/pcentity.h"
 
 void UserHandler::handleLoginRequest(GenericMessage* msg)
 {
@@ -44,8 +44,8 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  User* user = 0;
-  ptString retval = server->getUserAccountManager()->login(username, password, user);
+  boost::shared_ptr<User> user;
+  ptString retval = server->getUserManager()->Login(*username, password, user);
 
   LoginResponseMessage response_msg;
   response_msg.setError(retval);
@@ -58,47 +58,42 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
 
   // If login error occured.
-  if (!retval.isNull()) // retval != 0
-    return;
+  if (!retval.isNull()) return;
 
-  const Connection* old_conn = user->getConnection();
+  const Connection* old_conn = user->GetConnection();
 
   if (old_conn) //User was already logged in
   {
     ptScopedMonitorable<Connection> c (old_conn);
-    c->setUser(0);
-  }
-  else //new session
-  {
-    server->getUserManager()->addUser(user);
+    c->SetUser(boost::shared_ptr<User>());
   }
 
   // Maybe check if the user was already loged in and then give it the character
   // that was previously selected instead and skip the character selection?
   Connection* conn = msg->getConnection();
-  conn->setUser(user);
-  user->setConnection(conn);
+  conn->SetUser(user);
+  user->SetConnection(conn);
 
-  Array<CharactersTableVO*> characters
-    = server->getTables()->getCharacterTable()->getAllCharacters(user);
+  CharactersTable* ctable = server->GetTableManager()->Get<CharactersTable>();
+  PcEntitiesTable* pctable = server->GetTableManager()->Get<PcEntitiesTable>();
+  PcEntitiesTableVOArray pcs = pctable->GetAll(user->GetName());
   CharListMessage char_msg;
-  char_msg.setCharacterCount((char)characters.getCount());
-  for (unsigned int i=0; i<characters.getCount(); i++)
+  char_msg.setCharacterCount((char)pcs.size());
+  for (size_t i=0; i < pcs.size(); i++)
   {
-    CharactersTableVO* vo = characters.get(i);
-    char_msg.setCharId(i, vo->id);
+    CharactersTableVOp vo = ctable->GetSingle(pcs[i]->entity_id);
+    char_msg.setCharId(i, vo->entity_id);
     char_msg.setName(i, vo->name);
-    char_msg.setHairColour(i, vo->hair_r, vo->hair_g, vo->hair_b);
-    char_msg.setSkinColour(i, vo->skin_r, vo->skin_g, vo->skin_b);
-    char_msg.setDecalColour(i, vo->decal_r, vo->decal_g, vo->decal_b);
+    //char_msg.setMesh(i, vo->meshes_id);
+    char_msg.setHairColour(i, vo->hairColor[0], vo->hairColor[1], vo->hairColor[2]);
+    char_msg.setSkinColour(i, vo->skinColor[0], vo->skinColor[1], vo->skinColor[2]);
+    char_msg.setDecalColour(i, vo->decalColor[0], vo->decalColor[1], vo->decalColor[2]);
   }
-
-  characters.delAll();
 
   ByteStream char_bs;
   char_msg.serialise(&char_bs);
-  if (user->getConnection())
-    user->getConnection()->send(char_bs);
+  if (user->GetConnection())
+    user->GetConnection()->send(char_bs);
 }
 
 void UserHandler::handleRegisterRequest(GenericMessage* msg)
@@ -112,7 +107,7 @@ void UserHandler::handleRegisterRequest(GenericMessage* msg)
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
 
-  ptString retval = server->getUserAccountManager()->signup(username, password);
+  ptString retval = server->getUserManager()->Signup(*username, password);
 
   RegisterResponseMessage response_msg;
   response_msg.setError(retval);
@@ -128,27 +123,27 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  const User* user = NetworkHelper::getUser(msg);
-  //CharacterTable* ct = server->getTables()->getCharacterTable();
+  boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
 
   ptString char_name = char_msg.getName();
-
-  int char_id = 0;
-
   unsigned char* haircolour = char_msg.getHairColour();
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
 
-  Race* race = server->getRaceManager()->findByName(char_msg.getRaceName());
-
-  // Register the new char
-  ptString retval = server->getCharacterManager()->createCharacter(char_name, (int)user->GetId(), char_id, race, haircolour, skincolour, decalcolour);
+  Entityp entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType);
+  PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+  pc->SetName(*char_name);
+  pc->SetUser(user.get());
+  //TODO
+  pc->SetMeshName("test");
+  pc->SetFileName("/peragro/art/3d_art/characters/male01/male01");
+  pc->SaveToDB();
 
   // Send response message
   CharCreateResponseMessage response_msg;
-  response_msg.setError(retval);
-  response_msg.setCharId(retval.isNull()?char_id:0);
-  response_msg.setName(retval.isNull()?char_name:ptString::Null);
+  response_msg.setError(ptString::Null);
+  response_msg.setCharId(pc->GetId());
+  response_msg.setName(char_name);
   response_msg.setHairColour(haircolour);
   response_msg.setSkinColour(skincolour);
   response_msg.setDecalColour(decalcolour);
@@ -160,7 +155,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 {
   const Connection* conn = msg->getConnection();
-  User* user = conn->getUser();
+  boost::shared_ptr<User> user = conn->GetUser();
 
   CharSelectRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
@@ -168,81 +163,64 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   Server* server = Server::getServer();
 
   // Assume the client knows nothing.
-  user->clearEntityList();
+  user->ClearKnownEntitites();
 
-  const PcEntity* entity = 0;
-  const Character* character = 0;
-
-  if (user->getEntity())
+  Entityp entity;
+  if (user->GetEntity())
   {
+    /*
     // User has already an entity loaded
-    entity = user->getEntity();
-    character = entity->getCharacter();
+    entity = Server::getServer()->getEntityManager()->Getp(user->GetEntity());
 
-    if (character->GetId() != request_msg.getCharId())
+    if (entity->GetId() != request_msg.getCharId())
     {
       // User tries to login with a new character, remove the old.
-      Server::getServer()->delEntity(entity->getEntity());
-      entity = 0;
-      character = 0;
+      Server::getServer()->getEntityManager()->Remove(entity);
+      entity.reset();
     }
+    */
   }
 
-  if (character == 0)
+  if (!entity)
   {
-    // Load new character and create an entity for it.
-    CharacterManager* cmgr = Server::getServer()->getCharacterManager();
-    Character* newchar = cmgr->getCharacter(request_msg.getCharId(), user);
-    character = newchar;
+    entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
+    PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+    pc->SetUser(user.get());
 
-    if (!character)
-      return;
-
-    newchar->setUser(user);
-
-    PcEntity* newEntity = new PcEntity();
-    entity = newEntity;
-
-    newEntity->setCharacter(character);
-
+    try
     {
-      ptScopedMonitorable<Entity> ent (entity->getEntity());
-      ent->SetName(*character->getName());
-      ent->setMesh(character->getMesh());
+      entity->LoadFromDB();
+    }
+    catch(char*)
+    {
+      return;
+    }
 
-      printf("Adding Character '%s' with entity '%s'\n", *user->getName(), entity->getEntity()->GetName().c_str());
-      user->setEntity(newEntity);
-
-      ent->SetRotation(character->GetRotation());
-      ent->SetSectorName(*character->GetSector());
-      ent->SetPosition(character->GetPosition());
-
-      newchar->getInventory()->loadFromDatabase(server->getTables()->getInventoryTable(), character->GetId());
-      newchar->getStats()->loadFromDatabase(server->getTables()->getCharacterStatTable(), character->GetId());
-      newchar->getSkills()->loadFromDatabase(server->getTables()->getCharacterSkillsTable(), character->GetId());
-      newchar->getReputation()->loadFromDatabase(server->getTables()->getCharacterReputationsTable(), character->GetId());
-    } // Release lock on ent.
-
-    server->addEntity(entity->getEntity(), false);
   }
+
+  server->getEntityManager()->Add(entity);
 
   CharSelectResponseMessage response_msg;
   response_msg.setError(ptString::Null);
-  response_msg.setEntityId(entity->getEntity()->GetId());
+  response_msg.setEntityId(entity->GetId());
   ByteStream bs;
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-  ptScopedMonitorable<Character> lockedChar (character);
-  lockedChar->getInventory()->sendAllItems(msg->getConnection());
-  lockedChar->getStats()->sendAllStats(msg->getConnection());
-  lockedChar->getSkills()->sendAllSkills(msg->getConnection());
+/*
+  PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+  pc->getInventory()->sendAllItems(msg->getConnection());
 
-  server->getEnvironmentManager()->GetClock()->InitTime(entity->getEntity());
+  pc->getStats()->sendAllStats(msg->getConnection());
+  pc->getSkills()->sendAllSkills(msg->getConnection());
+
+  server->getEnvironmentManager()->GetClock()->InitTime(entity.get());
+*/
 }
 
 void UserHandler::handleMeshListRequest(GenericMessage* msg)
 {
+  /*
   Server* server = Server::getServer();
 
   std::vector<const Mesh*> meshes;
@@ -264,26 +242,5 @@ void UserHandler::handleMeshListRequest(GenericMessage* msg)
   ByteStream bs;
   response.serialise(&bs);
   msg->getConnection()->send(bs);
-}
-
-void UserHandler::handleRaceListRequest(GenericMessage* msg)
-{
-  Server* server = Server::getServer();
-
-  size_t raceCount = server->getRaceManager()->getRaceCount();
-
-  RaceListResponseMessage response;
-
-  response.setRacesCount(raceCount);
-  for (size_t i=0; i< raceCount; i++)
-  {
-    Race* race = server->getRaceManager()->getRace(i);
-    response.setRaceId(i, race->GetId());
-    response.setRaceName(i, race->getName());
-    response.setMeshId(i, race->getMesh()->GetId());
-  }
-
-  ByteStream bs;
-  response.serialise(&bs);
-  msg->getConnection()->send(bs);
+  */
 }

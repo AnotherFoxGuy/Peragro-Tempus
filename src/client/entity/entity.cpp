@@ -78,6 +78,9 @@ namespace Client
         Report(PT::Error, "Unknown sectorID: %u!", sectorId);
       }
 
+      //TODO
+      sectorName = "World";
+
       PT::Component::ComponentManager* componentManager =
         PointerLibrary::getInstance()->getComponentManager();
 

@@ -40,7 +40,7 @@ namespace PT
       {
       }
 
-      void Clock::InitTime(const Entity* entity)
+      void Clock::InitTime(Entity* entity)
       {
         InitTimeMessage time_msg;
 

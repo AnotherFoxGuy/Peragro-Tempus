@@ -101,6 +101,11 @@ public:
     return lockObj == 0;
   }
 
+  inline operator bool() const
+  {
+    return lockObj != 0;
+  }
+
   inline operator T*() const
   {
     return lockObj;

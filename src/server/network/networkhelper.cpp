@@ -1,75 +1,38 @@
+
 #include "networkhelper.h"
 #include "network.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/pcentity.h"
-#include "server/entity/sectormanager.h"
 #include "server/entity/usermanager.h"
 #include "server/group/chatmanager.h"
 #include "server/server.h"
 
-const User* NetworkHelper::getUser(GenericMessage* msg)
+boost::shared_ptr<User> NetworkHelper::getUser(GenericMessage* msg)
 {
   Connection* conn = msg->getConnection();
-  if (!conn)
-    return 0;
+  if (!conn) return boost::shared_ptr<User>();
 
-  return conn->getUser();
+  return conn->GetUser();
 }
 
-const PcEntity* NetworkHelper::getPcEntity(GenericMessage* msg)
+Entity* NetworkHelper::getEntity(GenericMessage* msg)
 {
   Connection* conn = msg->getConnection();
-  if (!conn)
-    return 0;
+  if (!conn) return 0;
 
-  User* user = conn->getUser();
-  if (!user)
-    return 0;
+  User* user = conn->GetUser().get();
+  if (!user) return 0;
 
-  const PcEntity* ent = user->getEntity();
-  if (!ent)
-    return 0;
+  PcEntity* ent = user->GetEntity();
+  if (!ent) return 0;
 
   return ent;
 }
 
-const Entity* NetworkHelper::getEntity(GenericMessage* msg)
+void NetworkHelper::sendMessage(Character* character , const ByteStream& bs)
 {
-  Connection* conn = msg->getConnection();
-  if (!conn)
-    return 0;
-
-  User* user = conn->getUser();
-  if (!user)
-    return 0;
-
-  const PcEntity* ent = user->getEntity();
-  if (!ent)
-    return 0;
-
-  return ent->getEntity();
-}
-
-const Character* NetworkHelper::getCharacter(GenericMessage* msg)
-{
-  Connection* conn = msg->getConnection();
-  if (!conn)
-    return 0;
-
-  User* user = conn->getUser();
-  if (!user)
-    return 0;
-
-  const PcEntity* pc = user->getEntity();
-  if (!pc)
-    return 0;
-
-  return pc->getCharacter();
-}
-
-void NetworkHelper::sendMessage(const Character* character , const ByteStream& bs)
-{
+  /*
   const User* user = character->getUser();
   if (!user)
     return;
@@ -79,23 +42,12 @@ void NetworkHelper::sendMessage(const Character* character , const ByteStream& b
     return;
 
   conn->send(bs);
+  */
 }
 
-void NetworkHelper::sendMessage(const PcEntity* ent, const ByteStream& bs)
+void NetworkHelper::sendMessage(Entity* ent, const ByteStream& bs)
 {
-  const User* user = ent->getUser();
-  if (!user)
-    return;
-
-  const Connection* conn = user->getConnection();
-  if (!conn)
-    return;
-
-  conn->send(bs);
-}
-
-void NetworkHelper::sendMessage(const Entity* ent, const ByteStream& bs)
-{
+  /*
   const PcEntity* pc_ent = ent->getPlayerEntity();
   if (!pc_ent)
     return;
@@ -109,19 +61,23 @@ void NetworkHelper::sendMessage(const Entity* ent, const ByteStream& bs)
     return;
 
   conn->send(bs);
+  */
 }
 
 void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
 {
+  /*
   const Connection* conn = user->getConnection();
   if (!conn)
     return;
 
   conn->send(bs);
+  */
 }
 
-void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
+void NetworkHelper::localcast(const ByteStream& bs, Entity* entity)
 {
+  /*
   Server* server = Server::getServer();
   SectorManager* sm = server->GetSectorManager();
   ptString region = sm->getRegionName(entity->GetSector());
@@ -138,15 +94,17 @@ void NetworkHelper::localcast(const ByteStream& bs, const Entity* entity)
       }
     }
   }
+  */
 }
 
-void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, unsigned dist)
+void NetworkHelper::distancecast(const ByteStream& bs, Entity* entity, unsigned dist)
 {
+  /*
   Server* server = Server::getServer();
   if (!entity) return;
   if (dist == 0) return;
 
-  /* use square-distance multipied by 100m^2 */
+  // use square-distance multipied by 100m^2 
   float sqdist = 10000.0f * dist * dist;
 
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
@@ -159,11 +117,12 @@ void NetworkHelper::distancecast(const ByteStream& bs, const Entity* entity, uns
           entity->getDistanceTo2(other_ent) < sqdist)
         user->getConnection()->send(bs);
     }
-  }
+  */
 }
 
 void NetworkHelper::broadcast(const ByteStream& bs)
 {
+  /*
   Server* server = Server::getServer();
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
   {
@@ -171,12 +130,13 @@ void NetworkHelper::broadcast(const ByteStream& bs)
     if (user && user->getConnection())
       user->getConnection()->send(bs);
   }
+  */
 }
 
-Array<const PcEntity*> NetworkHelper::getUserList(const PcEntity* ent, const char* channel)
+Array<PcEntity*> NetworkHelper::getUserList(PcEntity* ent, const char* channel)
 {
   const ChatGroupSet* groups = ChatManager::getChatManager();
-  Array<const PcEntity*> emptychannel;
+  Array<PcEntity*> emptychannel;
 
   if (!groups || !groups->isUserIn(ent, channel)) return emptychannel;
   return groups->getUserList(channel);

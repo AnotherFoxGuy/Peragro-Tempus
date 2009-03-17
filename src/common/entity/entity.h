@@ -37,12 +37,13 @@ namespace Common
     */
     enum EntityType
     {
-      PCEntityType      =0,
-      NPCEntityType     =1,
-      DoorEntityType    =2,
-      ItemEntityType    =3,
-      MountEntityType   =4,
-      PlayerEntityType  =6
+      PCEntityType        =1,
+      NPCEntityType       =2,
+      DoorEntityType      =3,
+      ItemEntityType      =4,
+      MountEntityType     =5,
+      PlayerEntityType    =6,
+      NumberOfEntityTypes =7,
     };
 
     /**
@@ -52,6 +53,9 @@ namespace Common
     */
     class Entity
     {
+    public:
+      static const size_t NoEntity = 0;
+
     public:
       ///Name of the entity.
       std::string name; // TODO: Remove after tree debug printfs are removed, uncomment the lower one.
@@ -114,11 +118,14 @@ namespace Common
       virtual const WFMath::Point<3>& GetPosition() const { return position.Get(); }
       ///Set the position of entity within a sector to a given value.
       virtual void SetPosition(float x, float y, float z)
-      { position = WFMath::Point<3>(x,y,z); }
+      { SetPosition(WFMath::Point<3>(x,y,z)); }
       virtual void SetPosition(const WFMath::Point<3>& value) { position = value;}
 
       ///@return Position of entity within a sector.
       virtual std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }
+
+      ///@return Shape of this entity.
+      virtual Octree::Shape* GetShape() { return &position; }
 
       ///@return Name of the sector where entity resides.
       virtual const std::string& GetSectorName() const { return sectorName; }

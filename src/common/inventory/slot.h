@@ -16,71 +16,69 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_COMMON_SLOT_H
-#define PT_COMMON_SLOT_H
+#ifndef COMMON_SLOT_H
+#define COMMON_SLOT_H
 
 #include "positionref.h"
+#include <boost/shared_ptr.hpp>
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    class Object;
+    class Inventory;
+
+    class Slot
     {
-      class Object;
-      class Inventory;
+    protected:
+      Inventory* parent;
+      PositionRef position;
+      boost::shared_ptr<Object> slotContents;
 
-      class Slot
-      {
-      protected:
-        Inventory* parent;
-        PositionRef position;
-        Object* slotContents;
+    public:
+      Slot(Inventory* parent, PositionRef position);
+      virtual ~Slot() {}
 
-      public:
-        Slot(Inventory* parent, PositionRef position);
-        virtual ~Slot();
+      /**
+       * Get the inventory this slot belongs to.
+       * @return A pointer to the Inventory instance.
+       */
+      Inventory* GetParent() const;
 
-        /**
-         * Get the inventory this slot belongs to.
-         * @return A pointer to the Inventory instance.
-         */
-        Inventory* GetParent() const;
+      /**
+       * Get position of this slot.
+       * @return A PositionRef.
+       */
+      const PositionRef& GetPosition() const;
 
-        /**
-         * Get position of this slot.
-         * @return A PositionRef.
-         */
-        const PositionRef& GetPosition() const;
+      /**
+       * Set the contents of this slot.
+       * @param object  The object to set this slot to.
+       * @return void.
+       */
+      void SetContents(boost::shared_ptr<Object> object);
 
-        /**
-         * Set the contents of this slot.
-         * @param object  The object to set this slot to.
-         * @return void.
-         */
-        void SetContents(Object* object);
+      /**
+       * Clear the contents of this slot.
+       * @return void.
+       */
+      void Clear();
 
-        /**
-         * Clear the contents of this slot.
-         * @return void.
-         */
-        void Clear();
+      /**
+       * Get the contents this slot holds.
+       * @return A pointer to the Object instance.
+       */
+      boost::shared_ptr<Object> GetContents() const;
 
-        /**
-         * Get the contents this slot holds.
-         * @return A pointer to the Object instance.
-         */
-        Object* GetContents() const;
+      /**
+       * Returns if this slot has contents.
+       * @return True if so, false if not.
+       */
+      bool HasContents() const;
+    };
 
-        /**
-         * Returns if this slot has contents.
-         * @return True if so, false if not.
-         */
-        bool HasContents() const;
-      };
+  } // Inventory namespace
+} // Common namespace
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
-
-#endif // PT_COMMON_SLOT_H
+#endif // COMMON_SLOT_H

@@ -26,7 +26,7 @@ ChatGroup::~ChatGroup()
 {
 }
 
-bool ChatGroup::isUserIn (const PcEntity* user) const
+bool ChatGroup::isUserIn (PcEntity* user) const
 {
   return getUserList().find(user) != getUserList().getCount();
 }

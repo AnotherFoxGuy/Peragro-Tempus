@@ -16,43 +16,48 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_COMMON_ITEM_H
-#define PT_COMMON_ITEM_H
+#ifndef COMMON_ITEM_H
+#define COMMON_ITEM_H
 
 #include <string>
 
 #include "object.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+
+    class Item : public Object
     {
+    protected:
+      unsigned int price;
+      float weight;
+      std::string equipType;
+      std::string equipTypeName;
 
-      class Item : public Object
-      {
-      protected:
-        unsigned int variationId;
-        unsigned int price;
+    public:
+      Item() : Object(Object::Item), price(0), weight(0.0f), equipType(0)  {}
+      virtual ~Item() {}
 
-      public:
-        Item() : Object(ObjectType::Item), variationId(-1) {};
-        virtual ~Item();
+      virtual void SetPrice(unsigned int value) { price = value; }
+      virtual unsigned int GetPrice() const { return price; }
 
-        virtual void SetVariationId(unsigned int variation) { variationId = variation; }
-        virtual unsigned int GetVariationId() const { return variationId; }
+      virtual void SetWeight(float value) { weight = value; }
+      virtual float GetWeight() const { return weight; }
 
-        virtual void SetPrice(unsigned int value) { price = value; }
-        virtual unsigned int GetPrice() const { return price; }
+      virtual void SetEquipType(const std::string& value) { equipType = value; }
+      virtual const std::string& GetEquipType() const { return equipType; }
 
-        virtual bool Execute() {};
-        virtual bool Execute(const std::string& action) {};
+      virtual void SetEquipTypeName(const std::string& value) { equipTypeName = value; }
+      virtual const std::string& GetEquipTypeName() const { return equipTypeName; }
 
-      };
+      virtual bool Execute() { return false; };
+      virtual bool Execute(const std::string& action) { return false; };
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+    };
 
-#endif // PT_COMMON_OBJECT_H
+  } // Inventory namespace
+} // Common namespace
+
+#endif // COMMON_ITEM_H

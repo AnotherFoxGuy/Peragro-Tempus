@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+#include "common/database/table.h"
+
 #include "common/util/ptstring.h"
 
 class NpcAiSettingTableVO
@@ -32,11 +34,8 @@ public:
   ptString value;
 };
 
-class NpcAiSettingTable
+class NpcAiSettingTable : public Table
 {
-private:
-  Database* db;
-
 public:
   NpcAiSettingTable(Database* db);
 

@@ -22,20 +22,22 @@
 
 #include "server/server.h"
 #include "common/database/database.h"
-#include "server/database/tables.h"
+#include "server/database/tablemanager.h"
+/*
 #include "server/database/table-meshes.h"
 #include "server/database/table-triangles.h"
 #include "server/database/table-vertices.h"
+*/
 #include "server/entity/entity.h"
 
 #include "common/util/sleep.h"
 
 BulletCD::BulletCD()
 {
-  collisionConfiguration = NULL;
-  dispatcher = NULL;
-  overlappingPairCache = NULL;
-  constraintSolver = NULL;
+  collisionConfiguration = 0;
+  dispatcher = 0;
+  overlappingPairCache = 0;
+  constraintSolver = 0;
 }
 
 BulletCD::~BulletCD()
@@ -49,10 +51,10 @@ BulletCD::~BulletCD()
 
 void BulletCD::setup()
 {
-  Tables* tables = Server::getServer()->getTables();
-
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
+/*
   Array<VerticesTableVO*> vertices =
-    tables->getVerticesTable()->getAll();
+    tablemgr->Get<VerticesTable>()->getAll();
 
   btVector3 worldMin, worldMax;
   for (size_t i = 0; i < vertices.getCount(); i++)
@@ -77,7 +79,7 @@ void BulletCD::setup()
 
 
   // Create Mesh
-  Array<MeshesTableVO*> meshes = tables->getMeshesTable()->getAll();
+  Array<MeshesTableVO*> meshes = tablemgr->Get<MeshesTable>()->getAll();
   for (size_t i = 0; i < meshes.getCount(); i++)
   {
     btCollisionObject* collObj = new btCollisionObject();
@@ -125,6 +127,7 @@ void BulletCD::setup()
 
     world->addCollisionObject(collObj);
   }
+  */
 }
 
 void BulletCD::Run()
@@ -140,7 +143,7 @@ void BulletCD::Run()
   }
 }
 
-void BulletCD::addEntity(const Entity* entity)
+void BulletCD::addEntity(Common::Entity::Entityp entity)
 {
   printf("Adding entity %d to colldet", entity->GetId());
 
@@ -156,7 +159,7 @@ void BulletCD::addEntity(const Entity* entity)
   world->addRigidBody(body);
 }
 
-void BulletCD::removeEntity(const Entity* entity)
+void BulletCD::removeEntity(Common::Entity::Entityp entity)
 {
   printf("Removing entity %d from colldet\n", entity->GetId());
   if (!cobjs[entity])
@@ -170,7 +173,7 @@ void BulletCD::removeEntity(const Entity* entity)
   cobjs.erase(entity);
 }
 
-void BulletCD::loadPosition(const Entity* entity)
+void BulletCD::loadPosition(Common::Entity::Entityp entity)
 {
   btRigidBody* body = cobjs[entity];
 
@@ -183,7 +186,7 @@ void BulletCD::loadPosition(const Entity* entity)
   body->setWorldTransform(t);
 }
 
-void BulletCD::savePosition(const Entity* entity)
+void BulletCD::savePosition(Common::Entity::Entityp entity)
 {
   btRigidBody* body = cobjs[entity];
 
@@ -191,17 +194,16 @@ void BulletCD::savePosition(const Entity* entity)
   btVector3 p = t.getOrigin();
   float rot = 0; // TODO: t.getRotation().getYaw();
 
-  ptScopedMonitorable<Entity> e (entity);
-  e->SetPosition(p.getX(), p.getY(), p.getZ());
-  e->SetRotation(rot);
+  entity->SetPosition(p.getX(), p.getY(), p.getZ());
+  entity->SetRotation(rot);
 }
 
-void BulletCD::moveEntity(const Entity* entity, const WFMath::Point<3>& pos, float speed)
+void BulletCD::moveEntity(Common::Entity::Entityp entity, const WFMath::Point<3>& pos, float speed)
 {
   //TODO: Make entity walk from the current position to pos
 }
 
-void BulletCD::moveEntity(const Entity* entity, float speed, float rot)
+void BulletCD::moveEntity(Common::Entity::Entityp entity, float speed, float rot)
 {
   btRigidBody* body = cobjs[entity];
 

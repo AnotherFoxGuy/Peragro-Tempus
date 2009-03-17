@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "table-reputations.h"
+
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -23,81 +25,20 @@
 
 #include "common/database/database.h"
 
-#include "table-reputations.h"
-#include "server/reputation/reputation.h"
-
 ReputationsTable::ReputationsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from reputations;");
+  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_REPUTATIONS) ";");
   if (rs == 0)
   {
-    createTable();
+    CreateTable();
   }
   delete rs;
 }
 
-void ReputationsTable::createTable()
-{
-  printf("Creating Table reputations...\n");
-  db->update("create table reputations ("
-    "id INTEGER, "
-    "name TEXT, "
-    "PRIMARY KEY (id) );");
-}
-
-int ReputationsTable::insert(ptString name)
-{
-  ResultSet* rs = db->query("insert into reputations (name) values ('%q');select id from reputations where name = '%q';", *name, *name);
-  if (!rs) {
-    return 0;
-  }else{
-    return atoi(rs->GetData(0,0).c_str());
-  }
-}
-
-void ReputationsTable::dropTable()
-{
-  db->update("drop table reputations;");
-}
-
-bool ReputationsTable::existsReputation(ptString name)
-{
-  if (strlen(*name)> 512) assert("String too long");
-  ResultSet* rs = db->query("select id from reputations where name = '%q';", *name);
-  if (!rs) {
-    return false;
-  }
-  bool existence = (rs->GetRowCount() > 0);
-  delete rs;
-  return existence;
-}
-
-Reputation* ReputationsTable::getReputation(ptString name)
-{
-  ResultSet* rs = db->query("select * from reputations where name = '%q';", *name);
-
-  Reputation* reputation = 0;
-
-  if (rs && rs->GetRowCount() == 1)
-  {
-    reputation = new Reputation();
-    reputation->setId(atoi(rs->GetData(0,0).c_str()));
-    reputation->setName(ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length()));
-  }
-  delete rs;
-  return reputation;
-}
-
-void ReputationsTable::getAllReputations(Array<Reputation*>& reputations)
-{
-  ResultSet* rs = db->query("select * from reputations;");
-  if (!rs) return;
-  for (size_t i=0; i<rs->GetRowCount(); i++)
-  {
-    Reputation* reputation = new Reputation();
-    reputation->setId(atoi(rs->GetData(i,0).c_str()));
-    reputation->setName(ptString(rs->GetData(i,1).c_str(), rs->GetData(i,1).length()));
-    reputations.add(reputation);
-  }
-  delete rs;
-}
+PT_DEFINE_CreateTable(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_DropTable(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_Insert(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_ParseSingleResultSet(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_ParseMultiResultSet(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_GetAll(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+PT_DEFINE_Get(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)

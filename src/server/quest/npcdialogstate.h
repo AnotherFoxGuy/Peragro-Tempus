@@ -28,8 +28,8 @@ class NPCDialog;
 class NPCDialogState
 {
 private:
-  ptMonitor<Character> character;
-  ptMonitor<NpcEntity> npc;
+  Character* character;
+  NpcEntity* npc;
 
   NPCDialog* current_dialog;
 
@@ -52,8 +52,8 @@ public:
 
   const NPCDialog* giveAnswer(unsigned int dialog_id, unsigned int answer_number);
 
-  void setNpc(const NpcEntity* npc);
-  const NpcEntity* getNpc() { return npc.get(); }
+  void setNpc(NpcEntity* npc);
+  NpcEntity* getNpc() { return npc; }
 };
 
 #endif // NPC_DIALOG_STATE_H

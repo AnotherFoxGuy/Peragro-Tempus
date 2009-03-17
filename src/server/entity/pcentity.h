@@ -22,32 +22,24 @@
 #include "common/util/monitorable.h"
 
 #include "entity.h"
-#include "character.h"
-#include "tradepeer.h"
+#include "character/character.h"
+#include "character/tradepeer.h"
+
+#include "server/quest/npcdialogstate.h"
 
 class User;
-class Entity;
-class Character;
 class MountEntity;
 class CharChats;
 
-class PcEntity : public ptMonitorable<PcEntity>
+class PcEntity : public Character
 {
 private:
-  ptMonitor<User> user;
-  ptMonitor<Entity> entity;
-  ptMonitor<Character> character;
-  ptMonitor<MountEntity> mount;
+  User* user;
   ptMonitor<CharChats> charchats;
 
   TradePeer tradepeer;
 
-  bool isWalking;
-
-  WFMath::Point<3> final_dst;
-  size_t t_stop;
-
-  WFMath::Point<3> tmp_pos; //used only for temporary calculations!
+  NPCDialogState dialog_state;
 
   unsigned char pose_id;
 
@@ -55,16 +47,11 @@ private:
   bool flashStep;
 
 public:
-  PcEntity()
+  PcEntity() : Character(Common::Entity::PCEntityType), user(0)
   {
-    entity = (new Entity(Common::Entity::PlayerEntityType))->getRef();
-
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->setPlayerEntity(this);
-
     tradepeer.setEntity(this);
+    dialog_state.setCharacter(this);
 
-    isWalking = false;
     pose_id = 0;
 
     flashStep = false;
@@ -72,34 +59,25 @@ public:
 
   ~PcEntity()
   {
-    delete character.get();
   }
 
-  void setUser(const User* user);
-  const User* getUser() const { return user.get(); }
-
-  void setEntity(const Entity* entity);
-  const Entity* getEntity() const { return entity.get(); }
-
-  void setCharacter(const Character* character);
-  const Character* getCharacter() const { return character.get(); }
-
-  void setMount(const MountEntity* mount);
-  const MountEntity* getMount() const { return mount.get(); }
+  void SetUser(User* user);
+  User* GetUser() const { return user; }
 
   void setCharChats(const CharChats* cchats);
   const CharChats* getCharChats() const { return charchats.get(); }
 
   TradePeer* getTradePeer() { return &tradepeer; }
+  NPCDialogState* getNPCDialogState() { return &dialog_state; }
 
   void setPoseId(unsigned char pose_id) { this->pose_id = pose_id; }
   const unsigned char getPoseId() const { return pose_id; }
 
-  void walkTo(const WFMath::Point<3>& dst_pos, float speed);
-  WFMath::Point<3> GetPosition();
-
   void toggleFlashStep() { flashStep = !flashStep; }
   bool usesFlashStep() const { return flashStep; }
+
+  virtual void LoadFromDB();
+  virtual void SaveToDB();
 };
 
 #endif // PCENTITY_H

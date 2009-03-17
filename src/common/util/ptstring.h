@@ -46,10 +46,23 @@ public:
     str_cache = str;
   }
 
+  inline ptString(const char* str)
+  {
+    string_id = StringStore::getStore()->lookupId(str, strlen(str));
+    str_cache = str;
+  }
+
   inline ptString(const ptString& str)
   {
     string_id = str.string_id;
     str_cache = str.str_cache;
+  }
+
+  inline ptString(const std::string& str)
+  {
+    const char* s = str.data();
+    string_id = StringStore::getStore()->lookupId(s, str.length());
+    str_cache = s;
   }
 
   static ptString create(const std::string& str);

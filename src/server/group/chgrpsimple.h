@@ -32,11 +32,11 @@ public:
 
   virtual const UserList& getUserList () const;
 
-  virtual void delUser (const PcEntity* user);
-  virtual void addUser (const PcEntity* user);
+  virtual void delUser (PcEntity* user);
+  virtual void addUser (PcEntity* user);
 
-  virtual void process(const PcEntity* user, const char* message);
-  virtual void broadcast(const PcEntity* user, const char* message) const;
+  virtual void process(PcEntity* user, const char* message);
+  virtual void broadcast(PcEntity* user, const char* message) const;
 }; // class ChatGroupSimple
 
 #endif // CHGRPSIMPLE_H

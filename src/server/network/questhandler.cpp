@@ -21,9 +21,8 @@
 #include "server/network/connection.h"
 #include "server/entity/user.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/entitymanager.h"
-#include "server/entity/charactermanager.h"
 
 #include "server/quest/npcdialog.h"
 #include "server/quest/npcdialoganswer.h"
@@ -38,6 +37,7 @@
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
+  /*
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
@@ -186,10 +186,12 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   {
     QuestUtils::Parse(character, dialog->getText());
   } // end ABILITYCHECK
+  */
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 {
+  /*
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
@@ -349,10 +351,12 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   {
     QuestUtils::Parse(character, dialog->getText());
   }
+  */
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 {
+  /*
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
 
@@ -367,10 +371,12 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
   printf("Unpausing npc\n");
   npc_entity->pause(false);
+  */
 }
 
 void QuestHandler::handleSetupDialogs(GenericMessage* msg)
 {
+  /*
   ptScopedMonitorable<User> user (NetworkHelper::getUser(msg));
   size_t level = user->getPermissionList().getLevel(Permission::Admin);
 
@@ -429,4 +435,5 @@ void QuestHandler::handleSetupDialogs(GenericMessage* msg)
   }
 
   NPCDialogManager::getDialogManager().load();
+  */
 }

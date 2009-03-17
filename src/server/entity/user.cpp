@@ -16,65 +16,72 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "character.h"
+#include "character/character.h"
 #include "doorentity.h"
 #include "entity.h"
 #include "pcentity.h"
 #include "npcentity.h"
 #include "itementity.h"
-#include "itemmanager.h"
 #include "user.h"
 #include "usermanager.h"
-#include "sectormanager.h"
 
 #include "common/network/entitymessages.h"
 
 #include "server/server.h"
 
-void User::setEntity(PcEntity* entity)
+void User::SetEntity(PcEntity* entity)
 {
-  own_entity = entity->getRef();
-  entity->setUser(this);
+  own_entity = entity;
+  entity->SetUser(this);
 }
 
-void User::sendAddEntity(const Entity* entity)
+void User::SendEntityDiff(const std::list<Common::Entity::Entityp>& entities)
 {
-  if (ent_list.exists(entity))
-    return;
+  {
+    std::map<size_t, Common::Entity::WeakEntityp>::iterator found;
+    std::list<Common::Entity::Entityp>::const_iterator it;
+    for ( it=entities.begin() ; it != entities.end(); it++ )
+    {
+      found = knownEntitites.find((*it)->GetId());
+      if (found == knownEntitites.end())
+        { knownEntitites[(*it)->GetId()] = *it; SendAddEntity(*it); }
+    }
+  }
 
-  if (!entity || entity->GetName().empty())
-    return;
+  {
+    std::list<Common::Entity::Entityp>::const_iterator found;
+    std::map<size_t, Common::Entity::WeakEntityp>::iterator it;
+    for ( it=knownEntitites.begin() ; it != knownEntitites.end(); it++ )
+    {
+      found = std::find(entities.begin(), entities.end(), it->second.lock());
+      if (found == entities.end())
+        { SendRemoveEntity(it->second.lock()); knownEntitites.erase(it); }
+    }
+  }
+}
 
-  if (!getEntity())
-    return;
+void User::SendAddEntity(Common::Entity::Entityp entity)
+{
+  printf("send addentity '%s' to '%s'\n", entity->GetName().c_str(), this->GetName().c_str());
 
-  SectorManager* sectormanager = Server::getServer()->GetSectorManager();
-  const ptString& entity_region =
-    sectormanager->getRegionName( entity->GetSector() );
-  const ptString& player_region =
-    sectormanager->getRegionName(getEntity()->getEntity()->GetSector());
-
-  if (!(player_region == entity_region)) return;
-
-  printf("send addentity '%s' to '%s'\n", entity->GetName().c_str(), *this->getName());
-
-  ent_list.addEntity(entity);
   ByteStream bs;
   if (entity->GetType() == Common::Entity::DoorEntityType)
   {
+    DoorEntity* door = dynamic_cast<DoorEntity*>(entity.get());
     AddDoorEntityMessage msg;
-    msg.setDoorId(entity->getDoorEntity()->getDoorId());
-    msg.setEntityId(entity->GetId());
-    msg.setIsOpen(entity->getDoorEntity()->getOpen());
-    msg.setIsLocked(entity->getDoorEntity()->getLocked());
-    msg.setAnimationName(entity->getDoorEntity()->getAnimation());
-    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
-    msg.setMeshName(entity->getMesh()->getName());
-    msg.setFileName(entity->getMesh()->getFile());
-    msg.SetSectorId(entity->GetSector());
-    msg.setEntityName(entity->GetNameId());
+    //msg.setDoorId(entity->getDoorEntity()->getDoorId());
+    msg.setEntityId(door->GetId());
+    msg.setIsOpen(door->GetOpen());
+    msg.setIsLocked(door->GetLocked());
+    msg.setAnimationName(door->GetAnimationName());
+    //msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
+    msg.setMeshName(door->GetMeshName());
+    msg.setFileName(door->GetFileName());
+    //msg.SetSectorId(entity->GetSector());
+    msg.setEntityName(entity->GetName());
     msg.serialise(&bs);
   }
+  /*
   else if (entity->GetType() == Common::Entity::ItemEntityType)
   {
     const Item* item = entity->getItemEntity()->getItem();
@@ -93,28 +100,30 @@ void User::sendAddEntity(const Entity* entity)
 
     msg.serialise(&bs);
   }
-  else if (entity->GetType() == Common::Entity::PlayerEntityType)
+  */
+  else if (entity->GetType() == Common::Entity::PCEntityType)
   {
     AddPlayerEntityMessage msg;
-    msg.setEntityName(entity->GetNameId());
+    msg.setEntityName(entity->GetName());
     msg.setEntityId(entity->GetId());
-    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
-    msg.setMeshName(entity->getMesh()->getName());
-    msg.setFileName(entity->getMesh()->getFile());
+    //msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
+    msg.setMeshName(entity->GetMeshName());
+    msg.setFileName(entity->GetFileName());
     msg.SetPosition(entity->GetPosition());
     msg.SetRotation(entity->GetRotation());
-    msg.SetSectorId(entity->GetSector());
-    msg.setPoseId(entity->getPlayerEntity()->getPoseId());
+    //msg.SetSectorId(entity->GetSector());
+    //msg.setPoseId(entity->GetPoseId());
 
-    ptScopedMonitorable<Character> character (entity->getPlayerEntity()->getCharacter());
+    PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
 
-    msg.setDecalColour(character->getDecalColour());
-    msg.setHairColour(character->getHairColour());
-    msg.setSkinColour(character->getSkinColour());
-    Inventory* inv = character->getInventory();
-    inv->addEquipment<AddPlayerEntityMessage>(msg);
+    //msg.setDecalColour(pc->GetDecalColour());
+    //msg.setHairColour(pc->GetHairColour());
+    //msg.setSkinColour(pc->GetSkinColour());
+    //Inventory* inv = pc->GetInventory();
+    //inv->addEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
   }
+  /*
   else if (entity->GetType() == Common::Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;
@@ -148,37 +157,30 @@ void User::sendAddEntity(const Entity* entity)
   {
     printf("Unkown entity type!\n");
   }
+  */
 
   if (connection.get()) connection.get()->send(bs);
 }
 
-void User::sendRemoveEntity(const Entity* entity)
+void User::SendRemoveEntity(Common::Entity::Entityp entity)
 {
-  if (!ent_list.exists(entity))
-    return;
-
-  printf("send delentity '%s' to '%s'\n", entity->GetName().c_str(), *this->getName());
-
-  ent_list.removeEntity(entity);
+  printf("send delentity '%s' to '%s'\n", entity->GetName().c_str(), this->GetName().c_str());
 
   RemoveEntityMessage msg;
-  //msg.setName(entity->getName());
   msg.setEntityId(entity->GetId());
-  //msg.setType((char)entity->getType());
   ByteStream bs;
   msg.serialise(&bs);
   if (connection.get()) connection.get()->send(bs);
-  //delete entity;
 }
 
 void User::remove()
 {
-  if (own_entity.get())
+  if (own_entity)
   {
-    printf("own_entity.get()!\n");
-    Server::getServer()->delEntity(own_entity.get()->getEntity());
+    printf("own_entity!\n");
+    Server::getServer()->delEntity(own_entity);
   }
 
-  Server::getServer()->getUserManager()->delUser(this);
+  Server::getServer()->getUserManager()->RemoveUser(this);
 }
 

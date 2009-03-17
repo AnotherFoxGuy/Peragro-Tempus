@@ -21,62 +21,60 @@
 
 #include <wfmath/point.h>
 
-class CharacterManager;
-class Tables;
+class TableManager;
 class Database;
 class EntityManager;
-class RaceManager;
-class ItemManager;
-class StatManager;
-class DoorManager;
 class SkillManager;
 class Network;
 class UserManager;
-class UserAccountManager;
 class TimerEngine;
 class Entity;
 class PcEntity;
 class NpcEntity;
 class CharacterEntity;
 class Spawner;
-class SkillEngine;
 class ByteStream;
-class SectorManager;
 class MountEntity;
 class CollisionDetection;
 class ZoneManager;
 class EnvironmentManager;
-class ReputationManager;
-class MeshManager;
 class InteractionManager;
+
+// Character stuff
+class EquipmentFactory;
+
+class SkillsFactory;
+class AbilitiesFactory;
+class ReputationsFactory;
+
+class ItemTemplatesManager;
 
 class Server
 {
 private:
   static Server* server;
 
-  CharacterManager* char_mgr;
-  Tables* tables;
+  TableManager* tablemanager;
   Database* db;
   Network* network;
   EntityManager* ent_mgr;
-  RaceManager* race_mgr;
-  ItemManager* item_mgr;
-  StatManager* stat_mgr;
-  DoorManager* door_mgr;
   SkillManager* skill_mgr;
   UserManager* usr_mgr;
-  UserAccountManager* usr_acc_mgr;
   TimerEngine* timer_engine;
   Spawner* spawner;
-  SkillEngine* skillengine;
-  SectorManager* sectormanager;
   CollisionDetection* colldet;
   ZoneManager* zone_mgr;
   EnvironmentManager* environment_mgr;
-  ReputationManager* reputation_mgr;
-  MeshManager* meshMgr;
   InteractionManager* interactionMgr;
+
+  // Character stuff
+  EquipmentFactory* equipmentFactory;
+
+  SkillsFactory* skillsFactory;
+  AbilitiesFactory* abilitiesFactory;
+  ReputationsFactory* reputationsFactory;
+
+  ItemTemplatesManager* itemTemplatesManager;
 
 public:
   Server() { server = this; }
@@ -87,17 +85,11 @@ public:
   }
   InteractionManager* getInteractionManager() { return this->interactionMgr; }
 
-  void setMeshManager(MeshManager* meshMgr) { this->meshMgr = meshMgr; }
-  MeshManager* getMeshManager() { return this->meshMgr; }
-
-  void setCharacterManager(CharacterManager* char_mgr) { this->char_mgr = char_mgr; }
-  CharacterManager* getCharacterManager() { return this->char_mgr; }
-
   void setDatabase(Database* db) { this->db = db; }
   Database* getDatabase() { return this->db; }
 
-  void setTables(Tables* tables) { this->tables = tables; }
-  Tables* getTables() { return this->tables; }
+  void SetTableManager(TableManager* tablemanager) { this->tablemanager = tablemanager; }
+  TableManager* GetTableManager() { return this->tablemanager; }
 
   void setNetwork(Network* network) { this->network = network; }
   Network* getNetwork() { return this->network; }
@@ -105,35 +97,17 @@ public:
   void setEntityManager(EntityManager* ent_mgr) { this->ent_mgr = ent_mgr; }
   EntityManager* getEntityManager() { return this->ent_mgr; }
 
-  void setRaceManager(RaceManager* race_mgr) { this->race_mgr = race_mgr; }
-  RaceManager* getRaceManager() { return this->race_mgr; }
-
-  void setItemManager(ItemManager* item_mgr) { this->item_mgr = item_mgr; }
-  ItemManager* getItemManager() { return this->item_mgr; }
-
-  void setStatManager(StatManager* stat_mgr) { this->stat_mgr = stat_mgr; }
-  StatManager* getStatManager() { return this->stat_mgr; }
-
-  void setDoorManager(DoorManager* door_mgr) { this->door_mgr = door_mgr; }
-  DoorManager* getDoorManager() { return this->door_mgr; }
-
   void setSkillManager(SkillManager* skill_mgr) { this->skill_mgr = skill_mgr; }
   SkillManager* getSkillManager() { return this->skill_mgr; }
 
   void setUserManager(UserManager* usr_mgr) { this->usr_mgr = usr_mgr; }
   UserManager* getUserManager() { return this->usr_mgr; }
 
-  void setUserAccountManager(UserAccountManager* usr_acc_mgr) { this->usr_acc_mgr = usr_acc_mgr; }
-  UserAccountManager* getUserAccountManager() { return this->usr_acc_mgr; }
-
   void setTimerEngine(TimerEngine* timer_engine) { this->timer_engine = timer_engine; }
   TimerEngine* getTimerEngine() { return this->timer_engine; }
 
   void setSpawner(Spawner* spawner) { this->spawner = spawner; }
   Spawner* getSpawner() { return this->spawner; }
-
-  void SetSectorManager(SectorManager* sectormanager) { this->sectormanager = sectormanager; }
-  SectorManager* GetSectorManager() { return this->sectormanager; }
 
   void setCollisionDetection(CollisionDetection* colldet) { this->colldet = colldet; }
   CollisionDetection* getCollisionDetection() { return this->colldet; }
@@ -147,14 +121,27 @@ public:
   void setEnvironmentManager(EnvironmentManager* environment_mgr) { this->environment_mgr = environment_mgr; }
   EnvironmentManager* getEnvironmentManager() { return this->environment_mgr; }
 
-  void setReputationManager(ReputationManager* reputation_mgr) { this->reputation_mgr = reputation_mgr; }
-  ReputationManager* getReputationManager() { return this->reputation_mgr; }
+  // Character stuff
+  void SetEquipmentFactory(EquipmentFactory* equipmentFactory) { this->equipmentFactory = equipmentFactory; }
+  EquipmentFactory* GetEquipmentFactory() { return this->equipmentFactory; }
 
-  void addEntity(const Entity* entity, bool presistent);
-  void delEntity(const Entity* entity);
+  void SetSkillsFactory(SkillsFactory* skillsFactory) { this->skillsFactory = skillsFactory; }
+  SkillsFactory* GetSkillsFactory() { return this->skillsFactory; }
+
+  void SetAbilitiesFactory(AbilitiesFactory* abilitiesFactory) { this->abilitiesFactory = abilitiesFactory; }
+  AbilitiesFactory* GetAbilitiesFactory() { return this->abilitiesFactory; }
+
+  void SetReputationsFactory(ReputationsFactory* reputationsFactory) { this->reputationsFactory = reputationsFactory; }
+  ReputationsFactory* GetReputationsFactory() { return this->reputationsFactory; }
+
+
+  void SetItemTemplatesManager(ItemTemplatesManager* itemTemplatesManager) { this->itemTemplatesManager = itemTemplatesManager; }
+  ItemTemplatesManager* GetItemTemplatesManager() { return this->itemTemplatesManager; }
+
+  void delEntity(Entity* entity);
   void moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
   void moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
-  void moveEntity(const NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
+  void moveEntity(NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
   void broadCast(const ByteStream& bs);
 };
 

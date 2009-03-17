@@ -27,11 +27,13 @@ protected:
   virtual void timeOut();
 
 public:
-  GuardAI() {}
+  GuardAI(NpcEntity* npc) {}
   ~GuardAI() {}
 
-  virtual void setNPC(NpcEntity* npc);
   virtual void think();
+
+  virtual void LoadFromDB() {}
+  virtual void SaveToDB() {}
 };
 
 #endif // GUARD_AI_H

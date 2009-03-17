@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,67 +16,55 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "table-meshes.h"
+
+#include <string.h>
+#include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "common/database/database.h"
-#include "table-meshes.h"
 
-MeshesTable::MeshesTable(Database* db) : db(db)
+MeshesTable::MeshesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from meshes;");
+  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_MESHES) ";");
   if (rs == 0)
   {
-    createTable();
+    CreateTable();
   }
   delete rs;
 }
 
-MeshesTableVO* MeshesTable::parseSingleResultSet(ResultSet* rs, size_t row)
-{
-  MeshesTableVO* vo = new MeshesTableVO();
-  vo->id = atoi(rs->GetData(row,0).c_str());
-  vo->sector = atoi(rs->GetData(row,1).c_str());
-  vo->name = ptString(rs->GetData(row,2).c_str(), rs->GetData(row,2).length());
-  return vo;
-}
+PT_DEFINE_CreateTable(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_DropTable(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_Insert(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_ParseSingleResultSet(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_ParseMultiResultSet(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_GetAll(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
+PT_DEFINE_GetSingle(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
-Array<MeshesTableVO*> MeshesTable::parseMultiResultSet(ResultSet* rs)
+size_t MeshesTable::GetMaxId()
 {
-  Array<MeshesTableVO*> arr;
-  for (size_t i = 0; i < rs->GetRowCount(); i++)
-  {
-    MeshesTableVO* obj = parseSingleResultSet(rs, i);    arr.add(obj);
-  }
-  return arr;
-}
+  ResultSet* rs = db->query("select max(id) from " PT_GetTableName(DB_TABLE_MESHES));
+  if (rs == 0 || rs->GetRowCount() == 0)
+    return 0;
 
-void MeshesTable::createTable()
-{
-  printf("Creating Table meshes...\n");
-  db->update("create table meshes ("
-             "id INTEGER,"
-             "sector INTEGER,"
-             "name TEXT,"
-             "PRIMARY KEY (Id) );");
-}
+  size_t id = atoi(rs->GetData(0,0).c_str());
 
-void MeshesTable::insert(MeshesTableVO* vo)
-{
-  const char* query = { "insert into meshes(id, sector, name) values (%d, %d, '%s');" };
-  db->update(query, vo->id, vo->sector, *vo->name);
-}
-
-void MeshesTable::remove(int id)
-{
-  db->update("delete from meshes where id = %d", id);
-}
-
-Array<MeshesTableVO*> MeshesTable::getAll()
-{
-  ResultSet* rs = db->query("select * from meshes;");
-  if (!rs) return Array<MeshesTableVO*>();
-  Array<MeshesTableVO*> vo = parseMultiResultSet(rs);
   delete rs;
-  return vo;
+  return id;
 }
 
+size_t MeshesTable::FindBy(const std::string& factoryName, const std::string& fileName)
+{
+  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
+    "where factoryName='%s' AND fileName='%s';",
+    factoryName.c_str(), fileName.c_str());
+  std::vector<MeshesTableVOp> arr;
+  if (!rs) return 0;
+  arr = ParseMultiResultSet(rs);
+  delete rs;
+  if (arr.size() != 1)
+    return 0;
+  return arr[0]->id;
+}

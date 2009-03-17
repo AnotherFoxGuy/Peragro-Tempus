@@ -18,10 +18,6 @@
 
 #include "idle-ai.h"
 
-void IdleAI::setNPC(NpcEntity* /*npc*/)
-{
-}
-
 void IdleAI::timeOut()
 {
   think();

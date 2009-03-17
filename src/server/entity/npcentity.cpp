@@ -17,59 +17,48 @@
 */
 
 #include <wfmath/point.h>
-#include <wfmath/vector.h>
 
-#include "server/entity/user.h"
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/npcentity.h"
 
-#include <time.h>
+#include "server/database/tablemanager.h"
+#include "server/database/table-npcentities.h"
 
-void NpcEntity::setCharacter(Character* character)
+void NpcEntity::LoadFromDB()
 {
-  this->character = character->getRef();
-  ptScopedMonitorable<Entity> e (entity.get());
-  ptScopedMonitorable<Character> c (character);
-  character->setEntity(e);
-}
+  Character::LoadFromDB();
 
-void NpcEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
-{
-  final_dst = dst_pos;
-
-  WFMath::Point<3> pos = entity.get()->GetPosition();
-
-  const float dist = Distance(final_dst, pos);
-
-  //v = s / t => t = s / v
-  t_stop = (size_t) (dist / speed + time(0));
-
-  isWalking = true;
-}
-
-WFMath::Point<3> NpcEntity::GetPosition()
-{
-  if (!isWalking)
+  NpcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<NpcEntitiesTable>();
+  NpcEntitiesTableVOArray arr = table->Get(GetId());
+  if (arr.size() != 1)
   {
-    return entity.get()->GetPosition();
+    printf("None or multiple npcentity rows for npcentity?!\n");
+    throw "None or multiple npcentity rows for npcentity?!";
+  }
+
+  AI* ai = AI::createAI(arr[0]->ainame, this);
+  if (!ai)
+  {
+    printf("E: Invalid AI setting for NpcEntity!\n");
+    //throw "Invalid AI setting for NpcEntity!";
   }
   else
   {
-    if ((size_t)time(0) >= t_stop)
-    {
-      ptScopedMonitorable<Entity> ent (entity.get());
-      ent->SetPosition(final_dst);
-
-      isWalking = false;
-      return final_dst;
-    }
-    else
-    {
-      const WFMath::Point<3> pos = entity.get()->GetPosition();
-      //Not sure that's correct...
-      size_t delta = t_stop - (size_t) time(0);
-      tmp_pos = WFMath::Point<3>((final_dst - pos) * (float)delta);
-      return tmp_pos;
-    }
+    ai->LoadFromDB();
+    setAI(ai);
   }
+}
+
+void NpcEntity::SaveToDB()
+{
+  Character::SaveToDB();
+
+  NpcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<NpcEntitiesTable>();
+  std::string aiName = "idle";
+  if (ai)
+  {
+    ai->SaveToDB();
+    aiName = ai->GetName();
+  }
+  table->Insert(GetId(), aiName);
 }

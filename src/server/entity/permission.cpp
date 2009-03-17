@@ -20,18 +20,18 @@
 
 #include "server/server.h"
 #include "common/database/database.h"
-#include "server/database/tables.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-permissions.h"
 
-PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
+PermissionList::PermissionList(const std::string& login) : login(login)
 {
-  Tables* tables = Server::getServer()->getTables();
-  Array<PermissionsTableVO*> vos = tables->getPermissionsTable()->getUserAll(user_id);
-  for (size_t i = 0; i < vos.getCount(); i++)
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
+  PermissionsTableVOArray vos = tablemgr->Get<PermissionsTable>()->Get(login);
+  for (size_t i = 0; i < vos.size(); i++)
   {
-    if (vos.get(i)->permissionid < PT_PERMISSION_COUNT)
+    if (i < PT_PERMISSION_COUNT)
     {
-      levels[vos.get(i)->permissionid] = vos.get(i)->permissionlevel;
+      levels[i] = vos[i]->level;
     }
   }
 }
@@ -39,6 +39,11 @@ PermissionList::PermissionList(unsigned int user_id) : user_id(user_id)
 void PermissionList::setLevel(Permission::Type type, unsigned char level)
 {
   levels[type] = level;
-  Tables* tables = Server::getServer()->getTables();
-  tables->getPermissionsTable()->insert(user_id, type, level);
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
+  switch (type)
+  { 
+  case Permission::Admin:
+    tablemgr->Get<PermissionsTable>()->Insert(login, "Admin", level);
+    break;
+  }
 }

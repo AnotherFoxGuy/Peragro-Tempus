@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,58 +20,41 @@
 #define TABLE_USERS_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
+class ResultSet;
 
-#include "common/util/ptstring.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_USERS Users
+#define DB_TABLE_USERS_FIELDS \
+  ((login,              std::string,        1,            0)) \
+  ((passwordHash,       std::string,        0,            0)) 
 
-class UsersTableVO
-{
-public:
-  int id;
-  ptString name;
-  std::string passwd;
-};
+PT_DECLARE_VO(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
 /**
- * Provides an interface to the database for handle storage of Users.
+ * Provides an interface to the database to handle storage of reputations.
  */
 class UsersTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+
+  PT_DECLARE_CreateTable(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+
 public:
-  /**
-   * Constructor for the UsersTable.
-   * If no user table is found in the database, the createTable function
-   * will be called in order to populate the database.
-   * @param db A pointer to the database.
-   */
   UsersTable(Database* db);
-  /**
-   * Creates a table in the database that will store users.
-   */
-  void createTable();
-  /**
-   * Insert a user into the database.
-   * @param name The name of the user.
-   * @param pwhash TODO what exactly is this
-   */
-  void insert(ptString name, const char* pwhash);
-  /**
-   * Removes all users currently stored in the database.
-   */
-  void dropTable();
-  /**
-   * Checks if a user exists or not.
-   * @return True if the user exists, false otherwise
-   */
-  bool existsUser(ptString name);
-  /**
-   * Does a lookup in the database to find a user.
-   * The calller is responsible for freeing the User returned.
-   * @param name The name of the user.
-   * @return User if found, otherwise 0.
-   */
-  UsersTableVO* getUser(ptString name);
+
+  PT_DECLARE_DropTable(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+
+  PT_DECLARE_Insert(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+  PT_DECLARE_GetAll(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+
+  UsersTableVOp GetUser(const std::string& login);
 };
 
 #endif //TABLE_USERS_H

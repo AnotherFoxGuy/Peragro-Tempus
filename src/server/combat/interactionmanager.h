@@ -48,14 +48,14 @@ public:
    * @param targetID the Entity ID of the target.
    * @return True upon sucess, otherwise false.
    */
-  bool SelectTarget(const PcEntity *sourceEntity, unsigned int tagetID);
+  bool SelectTarget(PcEntity *sourceEntity, unsigned int tagetID);
   /**
    * Selects new target for a given character.
    * @param sourceEntity entity for the character that request target selection.
    * @param interactionID the action ID for the interaction.
    * @return True upon sucess, otherwise false.
    */
-  bool QueueInteraction(const PcEntity *sourceEntity,
+  bool QueueInteraction(PcEntity *sourceEntity,
                         unsigned int interactionID);
 
   void shutdown();
@@ -117,7 +117,7 @@ private:
    * @param lockedCharacter The locked version of the attacking character.
    * @return Unlocked version of the target character, or NULL if none.
    */
-  const Character* GetTargetCharacter(Character* lockedCharacter);
+  Character* GetTargetCharacter(Character* lockedCharacter);
   /**
    * Returns the combined block for a character, including bonuses.
    * @param lockedCharacter The locked version of the character.
@@ -200,9 +200,10 @@ private:
    * @param name The name of the stat.
    * @param target Whom to send to.
    */
+/*
   void SendStatUpdate(const Stat* stat, const CharacterStats* stats,
                       Character* lockedCharacter, const char* name, int target);
-
+*/
 
   /**
    * Used to report the death to nearby characters.

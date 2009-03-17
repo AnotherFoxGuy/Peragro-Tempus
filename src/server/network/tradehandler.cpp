@@ -21,13 +21,14 @@
 #include "tradehandler.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/pcentity.h"
-#include "server/entity/character.h"
-#include "server/entity/tradesession.h"
+#include "server/entity/character/character.h"
+#include "server/entity/character/tradesession.h"
 
 //#define DEBUG_TRADE
 
 void TradeHandler::handleExchangeRequest(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -110,10 +111,12 @@ void TradeHandler::handleExchangeRequest(GenericMessage* msg)
 
     NetworkHelper::sendMessage(peer_ent, bs);
   }
+  */
 }
 
 void TradeHandler::handleExchangeResponse(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -137,10 +140,12 @@ void TradeHandler::handleExchangeResponse(GenericMessage* msg)
     other_peer->getSession()->sendResponse(error);
     NetworkHelper::sendMessage(other_peer->getEntity(), *msg->getByteStream());
   }
+  */
 }
 
 void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
 {
+  /*
   // We have no money yet, so it's all free!
   const Character* c_char = NetworkHelper::getCharacter(msg);
   if (!c_char) return;
@@ -176,10 +181,12 @@ void TradeHandler::handleTradeOrderListNpc(GenericMessage* msg)
   accept_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(character, bs);
+  */
 }
 
 void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -230,10 +237,12 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
   offer.serialise(&bs);
 
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+  */
 }
 
 void TradeHandler::handleTradeCancel(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -259,10 +268,12 @@ void TradeHandler::handleTradeCancel(GenericMessage* msg)
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
 
   peer->getSession()->cancel();
+  */
 }
 
 void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -281,10 +292,12 @@ void TradeHandler::handleTradeOfferAccept(GenericMessage* msg)
   ByteStream bs;
   accept_msg.serialise(&bs);
   NetworkHelper::sendMessage(peer->getOtherPeer()->getEntity(), bs);
+  */
 }
 
 void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_pc = NetworkHelper::getPcEntity(msg);
   if (!c_pc) return;
 
@@ -313,4 +326,5 @@ void TradeHandler::handleTradeConfirmRequest(GenericMessage* msg)
     // terminate trading session.
     peer->getSession()->cancel();
   }
+  */
 }

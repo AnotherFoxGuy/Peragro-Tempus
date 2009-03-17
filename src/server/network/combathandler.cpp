@@ -30,6 +30,7 @@
  */
 void CombatHandler::handleAttackRequest(GenericMessage* msg)
 {
+  /*
   InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
@@ -41,6 +42,7 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
   in_msg.deserialise(msg->getByteStream());
 
   interactionManager->QueueInteraction(ent1, in_msg.getAttackType());
+  */
 }
 
 /**
@@ -49,6 +51,7 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
  */
 void CombatHandler::handleSelectTarget(GenericMessage* msg)
 {
+  /*
   InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
@@ -60,4 +63,5 @@ void CombatHandler::handleSelectTarget(GenericMessage* msg)
   in_msg.deserialise(msg->getByteStream());
 
   interactionManager->SelectTarget(ent1, in_msg.getTargetID());
+  */
 }

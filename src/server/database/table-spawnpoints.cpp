@@ -21,7 +21,7 @@
 #include "common/database/database.h"
 #include "table-spawnpoints.h"
 
-SpawnPointsTable::SpawnPointsTable(Database* db) : db(db)
+SpawnPointsTable::SpawnPointsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from spawnpoints;");
   if (rs == 0)

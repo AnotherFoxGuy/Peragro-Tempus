@@ -25,7 +25,7 @@
 #ifndef SKILLMANAGER
 #define SKILLMANAGER
 
-//#include "src/server/entity/pcentity.h"
+#include "src/server/entity/character/character.h"
 
 /**
  * Server skill manager.

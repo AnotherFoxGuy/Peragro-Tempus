@@ -38,15 +38,11 @@ public:
   UdpConnection(Socket* socket, SocketAddress* address, int ssid)
     : Connection(CONNECTION::UDP), socket(socket), address(*address), ssid(ssid)
   {
-    user = 0;
     seen();
   }
 
   virtual ~UdpConnection()
   {
-    if (user != 0) {
-
-    }
   }
 
   size_t sinceLastSeen()

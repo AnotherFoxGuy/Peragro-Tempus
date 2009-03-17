@@ -32,15 +32,15 @@ void TcpConnection::send(const ByteStream& bs) const
 void TcpConnection::peerLost()
 {
   printf("peerLost!\n");
-  if (user)
+  if (user.lock())
   {
     printf("has user!\n");
-    if (user->getConnection() == this)
+    if (user.lock()->GetConnection() == this)
     {
-      user->setConnection(0);
+      user.lock()->SetConnection(0);
       printf("user->remove()!\n");
-      user->remove();
+      user.lock()->remove();
     }
-    user = 0;
+    user.lock().reset();
   }
 }

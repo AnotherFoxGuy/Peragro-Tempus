@@ -19,7 +19,7 @@
 #include "common/database/database.h"
 #include "table-config.h"
 
-ConfigTable::ConfigTable(Database* db) : db(db)
+ConfigTable::ConfigTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from config;");
   if (rs == 0)

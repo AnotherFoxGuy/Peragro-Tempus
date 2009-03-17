@@ -29,7 +29,7 @@ protected:
   std::string name;
 
 public:
-  typedef Array<const PcEntity*> UserList;
+  typedef Array<PcEntity*> UserList;
 
   ChatGroup(const char* channelname);
   virtual ~ChatGroup();
@@ -37,19 +37,19 @@ public:
   const char* getName () const { return name.c_str(); }
 
   virtual const UserList& getUserList () const = 0;
-  bool isUserIn (const PcEntity* user) const;
+  bool isUserIn (PcEntity* user) const;
   size_t getUserCount () const;
 
-  virtual void delUser (const PcEntity* user) = 0;
+  virtual void delUser (PcEntity* user) = 0;
   // addUser is expected to gracefully handle duplicates
-  virtual void addUser (const PcEntity* user) = 0;
+  virtual void addUser (PcEntity* user) = 0;
 
   // handle the given message, checking for control commands, and sending
   // the message out to the members of the group, if appropriate
-  virtual void process(const PcEntity* user, const char* message) = 0;
+  virtual void process(PcEntity* user, const char* message) = 0;
 
   // send the given message to all of the members of the group
-  virtual void broadcast(const PcEntity* user, const char* message) const = 0;
+  virtual void broadcast(PcEntity* user, const char* message) const = 0;
 }; // class ChatGroup
 
 #endif // CHATGROUP_H

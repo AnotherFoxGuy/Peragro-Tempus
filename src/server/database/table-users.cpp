@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "table-users.h"
+
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -23,64 +25,39 @@
 
 #include "common/database/database.h"
 
-#include "table-users.h"
-
-#include "server/entity/user.h"
-
 UsersTable::UsersTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from users;");
+  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_USERS) ";");
   if (rs == 0)
   {
-    createTable();
+    CreateTable();
   }
   delete rs;
 }
 
-void UsersTable::createTable()
-{
-  printf("Creating Table users...\n");
-  db->update("create table users ("
-    "id INTEGER, "
-    "name TEXT, "
-    "pwhash TEXT, "
-    "PRIMARY KEY (id) );");
+PT_DEFINE_CreateTable(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+PT_DEFINE_DropTable(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+PT_DEFINE_Insert(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+PT_DEFINE_ParseSingleResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+PT_DEFINE_ParseMultiResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+PT_DEFINE_GetAll(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
-  db->update("insert into users (id, name, pwhash) values (0, '_npc_',null);");
-}
-
-void UsersTable::insert(ptString name, const char* pwhash)
+UsersTableVOp UsersTable::GetUser(const std::string& login)
 {
-  db->update("insert into users (name, pwhash) values ('%q','%q');", *name, pwhash);
-}
-
-void UsersTable::dropTable()
-{
-  db->update("drop table users;");
-}
-
-bool UsersTable::existsUser(ptString name)
-{
-  ResultSet* rs = db->query("select id from users where name = '%q' and id > 0;", *name);
-  bool existence = (rs->GetRowCount() > 0);
-  delete rs;
-  return existence;
-}
-
-UsersTableVO* UsersTable::getUser(ptString name)
-{
-  ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
-  if (!rs || rs->GetRowCount() == 0)
+  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_USERS) " where login='%s';", login.c_str());
+  if (!rs) return UsersTableVOp();
+  if (rs->GetRowCount() != 1) 
   {
-    delete rs;
-    return 0;
+    if (rs->GetRowCount() < 1) 
+      return UsersTableVOp();
+    else
+    {
+      printf("E: GetUser: This should never happen!");
+      throw "This should never happen!";
+    }
   }
-
-  UsersTableVO* user = new UsersTableVO();
-  user->id = atoi(rs->GetData(0,0).c_str());
-  user->name = ptString(rs->GetData(0,1).c_str(), rs->GetData(0,1).length());
-  user->passwd = rs->GetData(0,2).c_str();
-
+  
+  UsersTableVOp obj = ParseSingleResultSet(rs);
   delete rs;
-  return user;
+  return obj;
 }

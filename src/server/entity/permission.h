@@ -19,6 +19,8 @@
 #ifndef PERMISSION_H
 #define PERMISSION_H
 
+#include <string>
+
 #define PT_PERMISSION_COUNT 1
 
 
@@ -32,11 +34,11 @@ namespace Permission
 
 class PermissionList
 {
-  unsigned int user_id;
+  std::string login;
   unsigned char levels[PT_PERMISSION_COUNT];
 
 public:
-  PermissionList(unsigned int user_id);
+  PermissionList(const std::string& login);
   virtual ~PermissionList() {}
 
   unsigned char getLevel(Permission::Type type) const { return levels[type]; }

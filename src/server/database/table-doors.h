@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,129 +19,44 @@
 #ifndef TABLE_DOORS_H
 #define TABLE_DOORS_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-class Mesh;
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_DOORS Doors
+#define DB_TABLE_DOORS_FIELDS \
+  ((entity_id,          size_t,             1,            (Entities, id) )) \
+  ((name,               std::string,        0,            0 )) \
+  ((meshes_id,          size_t,             0,            (Meshes, id) )) \
+  ((isLocked,           bool,               0,            0 )) \
+  ((isOpen,             bool,               0,            0 )) \
+  ((animationName,      std::string,        0,            0 )) \
 
-#include "common/util/ptstring.h"
-#include "common/database/table.h"
-
-
-/**
- * Class holding data associated with a door.
- */
-class DoorsTableVO
-{
-public:
-  /// The id of the door.
-  unsigned short id;
-  /// The name of the door.
-  std::string name;
-  /// The locked state.
-  unsigned char islocked;
-  /// The open state.
-  unsigned char isopen;
-  /// The sector the door exists in
-  std::string sector;
-  /// The mesh of the door
-  unsigned int mesh;
-  /// Animation, or CEL Quest
-  ptString animation;
-  /// X coordinate of the door
-  float x;
-  /// Y coordinate of the door
-  float y;
-  /// Z coordinate of the door
-  float z;
-};
+PT_DECLARE_VO(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of doors.
+ * Provides an interface to the database to handle storage of reputations.
  */
 class DoorsTable : public Table
 {
 private:
-  /**
-   * Parses a single database result set.
-   * The caller is responsible for freeing the returned object.
-   * @param rs The database result set.
-   * @param row The row in the result table to use, default row is 0.
-   * @return Pointer to DoorsTableVO which holds all data associated with door.
-   */
-  DoorsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
+  PT_DECLARE_ParseSingleResultSet(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
 
-  /**
-   * Will parse all data return from the database query and insert it into
-   * an array.
-   * The caller is responsible for freeing the objects in the returned array.
-   * @param rs The result set containing the database query result.
-   * @return An array containing all DoorsTableVO found in the Result set.
-   */
-  Array<DoorsTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_CreateTable(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
+
 public:
-  /**
-   * Constructor for DoorsTable class.
-   * If database is empty, the createTable function will be called.
-   * @param db Pointer to the database.
-   */
   DoorsTable(Database* db);
-  /**
-   * Creates a table in the database that will store doors table.
-   */
-  void createTable();
-  /**
-   * Removes all doors table from the database.
-   */
-  void dropTable();
-  /**
-   * Insert a door table into the database.
-   * @param vo The doors table to insert.
-   */
-  void insert(DoorsTableVO* vo);
-  /**
-   * Removes a door from the database.
-   * @param id The id of the door to remove.
-   */
-  void remove(int id);
-  /**
-   * Returns the number of door tables stored in the database.
-   * @return The amount of door tables.
-   */
-  unsigned int getCount();
-  /**
-   * Checks if a door table exists in the database.
-   * @param name The name of the door table to search for.
-   * @return True if the door table is found, otherwise false.
-   */
-  bool existsByName(ptString name);
-  /**
-   * Checks if a door table exists in the database.
-   * @param id The ID of the door table to search for.
-   * @return True if the door table is found, otherwise false.
-   */
-  bool existsById(int id);
-  /**
-   * Returns a door table given its name.
-   * The caller is responsible for freeing the returned door table.
-   * @param name The name of the door table to search for.
-   * @return The door table VO class, or 0 if not found.
-   */
-  DoorsTableVO* getByName(const std::string& name);
-  /**
-   * Returns a door table given its name.
-   * The caller is responsible for freeing the returned door table.
-   * @param id The ID of the door table to search for.
-   * @return The door table VO class, or 0 if not found.
-   */
-  DoorsTableVO* getById(int id);
-  /**
-   * This function will load all door tables from the database
-   * and return an array containing them.
-   * The caller is responsible for freeing all door tables in the array.
-   * @return An array containing all available door table VO's.
-   */
-  Array<DoorsTableVO*> getAll();
+
+  PT_DECLARE_DropTable(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
+
+  PT_DECLARE_Insert(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
+  PT_DECLARE_GetAll(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
 };
 
-#endif // TABLE_DOORS_H
+#endif //TABLE_DOORS_H

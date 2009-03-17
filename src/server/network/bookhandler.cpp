@@ -20,13 +20,14 @@
 #include "networkhelper.h"
 
 #include "server/entity/entitymanager.h"
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 
 #include "common/database/database.h"
 #include "server/database/table-books.h"
 
 void BookHandler::handleBookReadRequest(GenericMessage* msg)
 {
+  /*
   const Character* playerchar = NetworkHelper::getCharacter(msg);
 
   BookReadRequestMessage in_msg;
@@ -64,10 +65,12 @@ void BookHandler::handleBookReadRequest(GenericMessage* msg)
   out_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(playerchar, bs);
+  */
 }
 
 void BookHandler::handleBookWriteRequest(GenericMessage* msg)
 {
+  /*
   const Character* playerchar = NetworkHelper::getCharacter(msg);
 
   BookWriteRequestMessage in_msg;
@@ -126,4 +129,5 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   out_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(playerchar, bs);
+  */
 }

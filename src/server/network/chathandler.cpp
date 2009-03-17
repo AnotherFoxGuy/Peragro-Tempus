@@ -25,6 +25,7 @@
 
 void ChatHandler::handleChat(GenericMessage* msg)
 {
+  /*
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
@@ -44,6 +45,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
   else
     NetworkHelper::distancecast(bs, ent->getEntity(), in_msg.getVolume());
+    */
   /* TODO: client decides how loud a message is.  If there is to be a
      policy to limit how far one can shout, here's the place to implement
      it. */
@@ -51,6 +53,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
 
 void ChatHandler::handleWhisperTo(GenericMessage* msg)
 {
+  /*
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
@@ -66,17 +69,19 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
 
   ChatMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
-  out_msg.setVolume(0); /* whisper */
+  out_msg.setVolume(0); // whisper
   out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str())));
 
   ByteStream bs;
   out_msg.serialise(&bs);
 
   NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
+  */
 }
 
 void ChatHandler::handleGroup(GenericMessage* msg)
 {
+  /*
   const PcEntity* ent = NetworkHelper::getPcEntity(msg);
   if (!ent) return;
 
@@ -89,4 +94,5 @@ void ChatHandler::handleGroup(GenericMessage* msg)
   if (!chgrp) return;
 
   chgrp->process( ent, in_msg.getMessage() );
+  */
 }

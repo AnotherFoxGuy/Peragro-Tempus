@@ -25,7 +25,6 @@
 #include "interactionmanager.h"
 #include "interaction.h"
 #include "server/entity/entitymanager.h"
-#include "server/entity/statmanager.h"
 #include "common/network/entitymessages.h"
 
 #include "common/entity/entity.h"
@@ -93,11 +92,10 @@ InteractionManager::NormalAttack(Interaction *interaction)
 {
   DEBUG("NormalAttack");
   unsigned int targetID = 0;
-  const Character* c_char = NULL;
+  Character* lockedTarget = 0;
   int damage = 0;
 
-  ptScopedMonitorable<Character>
-    lockedAttacker(interaction->character);
+  Character* lockedAttacker = interaction->character;
 
   targetID = lockedAttacker->GetTargetID();
 
@@ -107,30 +105,23 @@ InteractionManager::NormalAttack(Interaction *interaction)
     return false;
   }
 
-  c_char = GetTargetCharacter(lockedAttacker);
-
-  if (!c_char) {
-    return false;
-  }
-
-  ptScopedMonitorable<Character> lockedTarget(c_char);
+  lockedTarget = GetTargetCharacter(lockedAttacker);
+  if (!lockedTarget) return false;
 
   // For normal attack it is not legal to attack the own character.
-  if (lockedAttacker->GetId() == lockedTarget->GetId()) {
+  if (lockedAttacker->GetId() == lockedTarget->GetId())
     return false;
-  }
 
-  if (!TargetAttackable(lockedAttacker, lockedTarget)) {
+  if (!TargetAttackable(lockedAttacker, lockedTarget))
     return false;
-  }
 
   // Make sure the character has enough stamina to do action
-  if (!DeductStamina(lockedAttacker, interaction)) {
+  if (!DeductStamina(lockedAttacker, interaction))
     return false;
-  }
 
   damage = CalculateDamage(lockedAttacker, lockedTarget);
 
+  /*
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
 
@@ -149,6 +140,7 @@ InteractionManager::NormalAttack(Interaction *interaction)
       ReportDamage(lockedTarget);
     }
   }
+  */
   return true;
 }
 
@@ -158,18 +150,18 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
   DEBUG("ReportDeath");
   DeathMessage msg;
   ByteStream statsbs;
-  msg.setEntityId(lockedCharacter->getEntity()->GetId());
+  msg.setEntityId(lockedCharacter->GetId());
   msg.serialise(&statsbs);
   // Report the death to everyone nearby.
   NetworkHelper::distancecast(statsbs,
-                              lockedCharacter->getEntity(),
+                              lockedCharacter,
                               GetNotificationDistance());
   DropAllItems(lockedCharacter);
 }
 
-void
-InteractionManager::DropAllItems(Character *lockedCharacter) {
-
+void InteractionManager::DropAllItems(Character *lockedCharacter) 
+{
+/*
   DEBUG("DropAllItems");
 
   int itemsToDrop = 0;
@@ -202,14 +194,14 @@ InteractionManager::DropAllItems(Character *lockedCharacter) {
       // Remove all items from the players slot
       // Make sure to send those updates
       EquipMessage unequip_msg;
-      unequip_msg.setEntityId(lockedCharacter->getEntity()->GetId());
+      unequip_msg.setEntityId(lockedCharacter->GetId());
       unequip_msg.setSlotId(slot);
-      unequip_msg.setItemId(Item::NoItem); // No Item!
+      unequip_msg.setItemId(0); // No Item! Item::NoItem
       unequip_msg.setFileName(ptString::Null);
       unequip_msg.setMeshName(ptString::Null);
       ByteStream bs;
       unequip_msg.serialise(&bs);
-      NetworkHelper::localcast(bs, lockedCharacter->getEntity());
+      NetworkHelper::localcast(bs, lockedCharacter);
 
       // Create new entity from item.
       ItemEntity* e = new ItemEntity();
@@ -228,6 +220,7 @@ InteractionManager::DropAllItems(Character *lockedCharacter) {
       Server::getServer()->addEntity(ent, true);
     }
   }
+*/
 }
 
 void InteractionManager::SetNotificationDistance(unsigned int distance)
@@ -244,6 +237,7 @@ void
 InteractionManager::ReportDamage(Character *lockedCharacter)
 {
   DEBUG("ReportDamage");
+/*
   CharacterStats* stats = lockedCharacter->getStats();
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
@@ -251,14 +245,15 @@ InteractionManager::ReportDamage(Character *lockedCharacter)
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(hp->GetId());
-  msg.setEntityId(lockedCharacter->getEntity()->GetId());
+  msg.setEntityId(lockedCharacter->GetId());
   msg.setName(ptString("Health", strlen("Health")));
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
   // Report the damage to everyone nearby.
   NetworkHelper::distancecast(statsbs,
-                              lockedCharacter->getEntity(),
+                              lockedCharacter,
                               GetNotificationDistance());
+*/
 }
 
 bool
@@ -270,7 +265,7 @@ InteractionManager::DeductStamina(Character* lockedCharacter,
   float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
                                             GetStrength(lockedCharacter) +
                                             interaction->staminaRequired);
-
+/*
   Stat* stamina = Server::getServer()->getStatManager()->
     findByName(ptString("Stamina", strlen("Stamina")));
 
@@ -296,7 +291,7 @@ InteractionManager::DeductStamina(Character* lockedCharacter,
 
   SendStatUpdate(stamina, stats, lockedCharacter, "Stamina",
     InteractionManagerSendTo::CHARACTER);
-
+*/
   return true;
 }
 
@@ -378,8 +373,8 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   float attackAngle = 0;
   float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
-  const WFMath::Point<3> attackerPos(lockedAttacker->getEntity()->GetPosition());
-  const WFMath::Point<3> tarGetPosition(lockedTarget->getEntity()->GetPosition());
+  const WFMath::Point<3> attackerPos(lockedAttacker->GetPosition());
+  const WFMath::Point<3> tarGetPosition(lockedTarget->GetPosition());
 
   maxAttackDistance = GetReach(lockedAttacker);
   distance = Distance(attackerPos, tarGetPosition);
@@ -398,7 +393,7 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   WFMath::Point<3> difference(attackerPos - tarGetPosition);
 
   attackerRotation =
-    PT::Math::NormalizeAngle(lockedAttacker->getEntity()->GetRotation());
+    PT::Math::NormalizeAngle(lockedAttacker->GetRotation());
 
   if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
   attackAngle = PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
@@ -417,92 +412,65 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   return true;
 }
 
-bool
-InteractionManager::SelectTarget(const PcEntity *sourceEntity,
+bool InteractionManager::SelectTarget(PcEntity* sourceEntity,
                                  unsigned int targetID)
 {
   DEBUG("SelectTarget");
   printf(IM "Got selection request, target: %d'n", targetID);
 
-  if (!sourceEntity || !sourceEntity->getCharacter())
+  if (!sourceEntity)
   {
     // Invalid source.
     printf(IM "Invalid source.\n");
     return false;
   }
 
-  ptScopedMonitorable<Character>
-    lockedSource(sourceEntity->getCharacter());
-
-  if (!lockedSource)
-  {
-    printf(IM "Unable to lock source.\n");
-    return false;
-  }
-
-  interactionQueue->RemoveAllInteractions(lockedSource);
-  lockedSource->SetTargetID(targetID);
+  interactionQueue->RemoveAllInteractions(sourceEntity);
+  sourceEntity->SetTargetID(targetID);
   return true;
 }
 
-const Character*
-InteractionManager::GetTargetCharacter(Character* lockedCharacter)
+Character* InteractionManager::GetTargetCharacter(Character* lockedCharacter)
 {
   DEBUG("GetTargetCharacter");
-  const Character* c_char = NULL;
-  const Entity* targetEntity = Server::getServer()->getEntityManager()->
-                              findById(lockedCharacter->GetTargetID());
+  Common::Entity::Entityp targetEntity = Server::getServer()->getEntityManager()->
+                              FindById(lockedCharacter->GetTargetID());
 
-  if (!targetEntity) {
+  if (!targetEntity) 
+  {
     printf(IM "Invalid target\n");
-    return NULL;
+    return 0;
   }
 
-  if (targetEntity->GetType() == Common::Entity::PlayerEntityType)
-  {
-    c_char = targetEntity->getPlayerEntity()->getCharacter();
-  }
-  else if (targetEntity->GetType() == Common::Entity::NPCEntityType)
-  {
-    c_char = targetEntity->getNpcEntity()->getCharacter();
-  }
-  else
+  if ((targetEntity->GetType() != Common::Entity::PlayerEntityType)
+      || (targetEntity->GetType() != Common::Entity::NPCEntityType))
   {
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then.
     printf(IM "Target neither player nor npc\n");
+    return 0;
   }
-  return c_char;
 
+  return (Character*)targetEntity.get();
 }
 
-bool
-InteractionManager::QueueInteraction(const PcEntity *sourceEntity,
-                                     unsigned int interactionID)
+bool InteractionManager::QueueInteraction(PcEntity *sourceEntity,
+                                          unsigned int interactionID)
 {
   DEBUG("QueueInteraction");
-  Interaction *interaction = new Interaction();
+  Interaction* interaction = new Interaction();
 
   printf(IM "Got queueInteraction request, interaction: %d\n", interactionID);
 
-  if (!sourceEntity || !sourceEntity->getCharacter())
+  if (!sourceEntity)
   {
     // Invalid source.
     printf(IM "Invalid source.\n");
     return false;
   }
 
-  ptScopedMonitorable<Character>
-    lockedSource(sourceEntity->getCharacter());
-
-  if (!lockedSource)
-  {
-    printf(IM "Unable to lock source.\n");
-    return false;
-  }
-
   interaction->interactionID = interactionID;
-  interaction->character = sourceEntity->getCharacter();
+  interaction->character = sourceEntity;
 
   // Caller must alloc interaction
   interactionQueue->SetInteraction(interaction);
@@ -554,13 +522,14 @@ unsigned int InteractionManager::GetWeaponDamage(Character* lockedCharacter)
 unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
                                                    const char* statName)
 {
-  Inventory* inventory = lockedCharacter->getInventory();
+  unsigned int value = 0;
+  boost::shared_ptr<Inventory> inventory = lockedCharacter->GetInventory();
   if (!inventory)
   {
-    return 0;
+    return value;
   }
 
-  unsigned int value = 0;
+/*  
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
     Item* item = InteractionUtility::GetItem(lockedCharacter, slot);
@@ -572,7 +541,9 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* locked
     {
       value += InteractionUtility::GetStatValueForItem(item, statName);
     }
+    
   }
+*/
 
   return value;
 }
@@ -605,6 +576,7 @@ unsigned int InteractionManager::RollDice()
   return rand() % 101;
 }
 
+/*
 void
 InteractionManager::SendStatUpdate(const Stat* stat,
                                    const CharacterStats* stats,
@@ -616,7 +588,7 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(stat->GetId());
-  msg.setEntityId(lockedCharacter->getEntity()->GetId());
+  msg.setEntityId(lockedCharacter->GetId());
   msg.setName(ptString(name, strlen(name)));
   msg.setLevel(stats->getAmount(stat));
   msg.serialise(&statsbs);
@@ -626,11 +598,11 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   }
   else if (target == InteractionManagerSendTo::LOCALCAST)
   {
-    NetworkHelper::localcast(statsbs, lockedCharacter->getEntity());
+    NetworkHelper::localcast(statsbs, lockedCharacter);
   }
   else if (target == InteractionManagerSendTo::CHARACTER)
   {
     NetworkHelper::sendMessage(lockedCharacter, statsbs);
   }
 }
-
+*/

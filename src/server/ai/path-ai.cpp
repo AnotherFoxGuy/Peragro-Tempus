@@ -23,9 +23,10 @@
 
 #include "server/server.h"
 #include "common/database/database.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-npcaisetting.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/npcentity.h"
 
 #include <wfmath/point.h>
@@ -36,14 +37,27 @@ PathAI::~PathAI()
   delete [] intervals;
 }
 
+void PathAI::LoadFromDB()
+{
+  NpcAiSettingTable* table =
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+}
+
+void PathAI::SaveToDB()
+{
+  NpcAiSettingTable* table =
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+}
+
+/*
 void PathAI::setNPC(NpcEntity* npc)
 {
   this->npc = npc;
 
   // load settings
-  int id = npc->getCharacter()->GetId();
+  int id = npc->GetId();
   NpcAiSettingTable* table =
-    Server::getServer()->getTables()->getNpcAiSettingTable();
+    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
 
   pointCount = atoi(*table->getValue(id, ptString("waypoints",9)));
   points = new WFMath::Point<3>[pointCount];
@@ -71,6 +85,7 @@ void PathAI::setNPC(NpcEntity* npc)
   setInterval(atoi(*table->getValue(id, ptString::create("start_delay"))));
   start();
 }
+*/
 
 void PathAI::timeOut()
 {

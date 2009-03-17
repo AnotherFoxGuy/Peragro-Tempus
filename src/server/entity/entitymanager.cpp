@@ -19,104 +19,168 @@
 #include "entitymanager.h"
 
 #include "common/database/database.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-characters.h"
 #include "server/database/table-npcentities.h"
 
+#include "user.h"
+
 #include "itementity.h"
-#include "itemmanager.h"
-#include "meshmanager.h"
 #include "pcentity.h"
 #include "npcentity.h"
 #include "doorentity.h"
 #include "mountentity.h"
-#include "charactermanager.h"
 
 #include "server/server.h"
+#include "server/colldet/colldet.h"
 
-void EntityManager::loadFromDB(EntityTable* et)
+EntityManager::EntityManager()
 {
-  ent_id = et->getMaxId();
+}
 
-  //Load all Entities from Database
-  Array<EntitiesTableVO*> entityVOs = et->getAllEntities();
-  for (size_t i = 0; i < entityVOs.getCount(); i++)
+EntityManager::~EntityManager() 
+{
+}
+
+void EntityManager::LoadFromDB(EntityTable* table)
+{
+  //EntityTable* table = Server::getServer()->GetTableManager()->Get<EntityTable>();
+  EntitiesTableVOArray arr = table->GetWorldEntities();
+  EntitiesTableVOArray::const_iterator it = arr.begin();
+  for ( ; it != arr.end(); it++)
   {
-    const Entity* entity = 0;
-
-    EntitiesTableVO* vo = entityVOs.get(i);
-
-    switch (vo->type)
-    {
-    case Common::Entity::ItemEntityType:
-      {
-        ItemEntity* ent = new ItemEntity();
-        Item* item = Server::getServer()->getItemManager()->findById(vo->item);
-        assert(item);
-        ent->createFromItem(item->GetId(), vo->variation);
-        entity = ent->getEntity();
-        break;
-      }
-      case Common::Entity::PlayerEntityType:
-      {
-        entity = (new PcEntity())->getEntity();
-        break;
-      }
-      case Common::Entity::NPCEntityType:
-      {
-        Tables* tables = Server::getServer()->getTables();
-        NpcEntitiesTableVO* npc_vo =
-          tables->getNpcEntitiesTable()->getById(vo->id);
-
-        if (!npc_vo)
-          continue;
-
-        CharacterManager* cmgr = Server::getServer()->getCharacterManager();
-        Character* character = cmgr->getCharacter(npc_vo->character, 0 /* npc */);
-
-        character->getInventory()->loadFromDatabase(tables->getInventoryTable(), character->GetId());
-
-        NpcEntity* npc = new NpcEntity();
-        npc->setCharacter(character);
-        npc->setAI(AI::createAI(npc_vo->ai));
-
-        entity = npc->getEntity();
-
-        delete npc_vo;
-        break;
-      }
-      case Common::Entity::DoorEntityType:
-      {
-        int packeddata = vo->item;
-        DoorEntity* ent = new DoorEntity();
-        ent->setOpen  ((packeddata & 1) != 0);
-        ent->setLocked((packeddata & 2) != 0);
-        entity = ent->getEntity();
-        break;
-      }
-      case Common::Entity::MountEntityType:
-      {
-        MountEntity* ent = new MountEntity();
-        entity = ent->getEntity();
-        break;
-      }
-      default:
-      {
-        // Unknown Entity!
-        continue;
-      }
-    };
-
-    ptScopedMonitorable<Entity> l_ent (entity);
-    l_ent->SetId(vo->id);
-    l_ent->SetName(*vo->name);
-    const Mesh* mesh = Server::getServer()->getMeshManager()->findById(vo->mesh);
-    l_ent->setMesh(mesh);
-    l_ent->SetPosition(vo->pos_x, vo->pos_y, vo->pos_z);
-    l_ent->SetRotation(vo->rotation);
-    l_ent->SetSectorName(*vo->sector);
-
-    entity_list.addEntity(entity);
+    Entityp entity = CreateNew((Common::Entity::EntityType)(*it)->EntityTypes_id, (*it)->id);
+    entity->LoadFromDB();
+    Add(entity);
+    printf("NAME %d %s\n", entity->GetId(), entity->GetName().c_str());
   }
-  entityVOs.delAll();
+}
+
+Entityp EntityManager::CreateNew(Common::Entity::EntityType type, size_t id)
+{
+  size_t entityId = 0;
+  if (id == Common::Entity::Entity::NoEntity)
+  {
+    entityId = Server::getServer()->GetTableManager()->Get<EntityTable>()->GetMaxId();
+    entityId++;
+  }
+  else
+    entityId = id;
+
+  Entityp entity;
+  switch (type)
+  {
+  case Common::Entity::PCEntityType: entity = Entityp(new PcEntity()); break;
+  case Common::Entity::NPCEntityType: entity = Entityp(new NpcEntity()); break;
+  case Common::Entity::DoorEntityType: entity = Entityp(new DoorEntity()); break;
+  case Common::Entity::ItemEntityType: entity = Entityp(new ItemEntity()); break;
+  case Common::Entity::MountEntityType: entity = Entityp(new MountEntity()); break;
+  default:
+    {
+      printf("E: Invalid EntityType %d\n", type);
+      throw "Invalid EntityType!";
+    }
+  }
+  if (entity)
+  {
+    entity->SetId(entityId);
+  }
+
+  return entity;
+}
+
+bool EntityManager::Add(Common::Entity::Entityp entity)
+{
+  lock();
+  bool success = Common::Entity::EntityManager::Add(entity);
+  unlock();
+
+  if (success)
+  {
+    using namespace Common::Entity;
+    if (entity->GetType() == PCEntityType 
+      || entity->GetType() == NPCEntityType)
+    {
+      //Server::getServer()->getCollisionDetection()->addEntity(entity);
+    }
+
+    // It's a movable entity, so listen for it's movement.
+    if ((entity->GetType() == PCEntityType)
+      ||(entity->GetType() == NPCEntityType)
+      ||(entity->GetType() == MountEntityType))
+    {
+      entity->GetShape()->AddListener(this);
+    }
+    // Notify other entities that this one entered the world.
+    Moved(entity->GetShape());
+
+
+    std::list<Common::Entity::EntityCallback*>::iterator it;
+    for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+    {
+      (*it)->OnEntityAdd(entity);
+    }
+  }
+
+  return success;
+}
+
+void EntityManager::Remove(const Common::Entity::Entityp entity)
+{
+  std::list<Common::Entity::EntityCallback*>::iterator it;
+  for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+  {
+    (*it)->OnEntityRemove(entity);
+  }
+
+  // Stop listening for movement.
+  entity->GetShape()->RemoveListener(this);
+
+  lock();
+  Common::Entity::EntityManager::Remove(entity);
+  unlock();
+}
+
+void EntityManager::AddEntityCallback(Common::Entity::EntityCallback* cb)
+{
+  lock();
+  callback_list.remove(cb);
+  callback_list.push_back(cb);
+  unlock();
+}
+
+void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
+{
+  lock();
+  callback_list.remove(cb);
+  unlock();
+}
+
+void DontDelete(Common::Entity::Entity*){}
+
+void EntityManager::Moved(Octree::Shape* shape)
+{
+  Common::Entity::Entityp entity(shape->GetParent(), DontDelete); //TODO: hack :/
+  std::list<Common::Entity::EntityCallback*>::iterator mit;
+  for ( mit=callback_list.begin() ; mit != callback_list.end(); mit++ )
+  {
+    (*mit)->OnEntityMove(entity);
+  }
+
+  using namespace Common::Entity;
+
+  if (entity->GetType() == PCEntityType)
+  {
+    PcEntity* e = dynamic_cast<PcEntity*>(entity.get());
+    if (!e || !e->GetUser())
+    {
+      printf("E: Invalid PcEntity or no user set!!\n");
+      return;
+    }
+
+    // TODO: replace 100 with something configurable.
+    std::list<Common::Entity::Entityp> result = Queryp(WFMath::Ball<3>(entity->GetPosition(), 100));
+    e->GetUser()->SendEntityDiff(result);
+  }
 }

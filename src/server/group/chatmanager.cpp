@@ -56,8 +56,9 @@ void ChatManager::createChannel(const char* channel)
   addChannel(chgrp);
 }
 
-void ChatManager::OnEntityAdd(const Entity* entity)
+void ChatManager::OnEntityAdd(Common::Entity::Entityp entity)
 {
+  /*
   if (!entity) return;
   const PcEntity* user;
   if ( !(user = entity->getPlayerEntity()) ) return;
@@ -81,10 +82,12 @@ void ChatManager::OnEntityAdd(const Entity* entity)
       cchats->JoinChannel(channel, &getUserList(channel));
     }
   }
+  */
 }
 
-void ChatManager::OnEntityRemove(const Entity* entity)
+void ChatManager::OnEntityRemove(Common::Entity::Entityp entity)
 {
+  /*
   if (!entity) return;
   const PcEntity* user;
   if ( !(user = entity->getPlayerEntity()) ) return;
@@ -95,4 +98,5 @@ void ChatManager::OnEntityRemove(const Entity* entity)
   ptScopedMonitorable<CharChats> cchats (c_cchats);
   for (size_t i=0;  i < cchats->GetChannelCount();  i++)
     delUser(user, cchats->GetChannelName(i).c_str());
+    */
 }

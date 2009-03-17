@@ -16,73 +16,70 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef PT_COMMON_OBJECT_H
-#define PT_COMMON_OBJECT_H
+#ifndef COMMON_OBJECT_H
+#define COMMON_OBJECT_H
 
 #include <string>
 
 #include "size.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    class Inventory;
+    struct Size;
+
+    class Object
     {
-      class Inventory;
-      struct Size;
-
-      class Object
+    public:
+      enum ObjectType
       {
-      public:
-        enum ObjectType
-        {
-          Bag = 0,
-          Item,
-          Spell,
-          Action
-        };
-
-      protected:
-        Inventory* parent;
-        unsigned int objectId;
-        ObjectType objectType;
-        std::string objectIcon;
-        std::string objectDescription;
-        Size objectSize;
-
-      public:
-        Object(ObjectType type) : parent(0), objectType(type), objectSize(1,1) {};
-        virtual ~Object();
-
-        /**
-         * Get the inventory this object belongs to.
-         * @return A pointer to the Inventory instance.
-         */
-        Inventory* GetParent() const;
-        virtual void SetParent(Inventory* p) { parent = p; }
-
-        virtual void SetId(unsigned int type) { objectId = type; }
-        virtual unsigned int GetId() const { return objectId; }
-
-        virtual void SetDescription(const std::string& description) { objectDescription = description; }
-        virtual const std::string& GetDescription() const { return objectDescription; }
-
-        virtual void SetIcon(const std::string& icon) { objectIcon = icon; }
-        virtual const std::string& GetIcon() const { return objectIcon; }
-
-        ObjectType GetType() const { return objectType; }
-
-        virtual void SetSize(const Size& size) { objectSize = size; }
-        virtual const Size& GetSize() const { return objectSize; }
-
-        virtual bool Execute() = 0;
-        virtual bool Execute(const std::string& action) = 0;
-
+        Bag = 0,
+        Item,
+        Spell,
+        Action
       };
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+    protected:
+      Inventory* parent;
+      unsigned int objectId;
+      ObjectType objectType;
+      std::string objectIcon;
+      std::string objectDescription;
+      Size objectSize;
 
-#endif // PT_COMMON_OBJECT_H
+    public:
+      Object(ObjectType type) : parent(0), objectType(type), objectSize(1,1) {}
+      virtual ~Object() {}
+
+      /**
+       * Get the inventory this object belongs to.
+       * @return A pointer to the Inventory instance.
+       */
+      Inventory* GetParent() const { return parent; }
+      virtual void SetParent(Inventory* p) { parent = p; }
+/*
+      virtual void SetId(unsigned int type) { objectId = type; }
+      virtual unsigned int GetId() const { return objectId; }
+*/
+      virtual void SetDescription(const std::string& description) { objectDescription = description; }
+      virtual const std::string& GetDescription() const { return objectDescription; }
+
+      virtual void SetIcon(const std::string& icon) { objectIcon = icon; }
+      virtual const std::string& GetIcon() const { return objectIcon; }
+
+      ObjectType GetType() const { return objectType; }
+
+      virtual void SetSize(const Size& size) { objectSize = size; }
+      virtual const Size& GetSize() const { return objectSize; }
+
+      virtual bool Execute() = 0;
+      virtual bool Execute(const std::string& action) = 0;
+
+    };
+
+  } // Inventory namespace
+} // Common namespace
+
+#endif // COMMON_OBJECT_H

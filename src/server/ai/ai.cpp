@@ -23,28 +23,36 @@
 #include "guard-ai.h"
 #include "path-ai.h"
 
-ptString AI::idle("idle", 4);
-ptString AI::stray("stray", 5);
-ptString AI::guard("guard", 5);
-ptString AI::path("path", 4);
+std::string AI::idle("idle");
+std::string AI::stray("stray");
+std::string AI::guard("guard");
+std::string AI::path("path");
 
-AI* AI::createAI(ptString ai_name)
+AI* AI::createAI(const std::string& ai_name, NpcEntity* npc)
 {
   if (ai_name == idle)
   {
-    return new IdleAI();
+    AI* ai = new IdleAI(npc);
+    ai->name = idle;
+    return ai;
   }
   else if (ai_name == stray)
   {
-    return new StrayAI();
+    AI* ai = new StrayAI(npc);
+    ai->name = stray;
+    return ai;
   }
   else if (ai_name == guard)
   {
-    return new GuardAI();
+    AI* ai = new GuardAI(npc);
+    ai->name = guard;
+    return ai;
   }
   else if (ai_name == path)
   {
-    return new PathAI();
+    AI* ai = new PathAI(npc);
+    ai->name = path;
+    return ai;
   }
   return 0;
 }

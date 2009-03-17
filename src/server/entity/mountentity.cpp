@@ -16,84 +16,42 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "server/entity/mountentity.h"
 
 #include <wfmath/point.h>
 #include <wfmath/vector.h>
 
 #include "server/entity/user.h"
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/pcentity.h"
-#include "server/entity/mountentity.h"
 
-#include <time.h>
-
-void MountEntity::addPassenger(const PcEntity* e)
+void MountEntity::AddPassenger(boost::shared_ptr<Character> e)
 {
-  passengers[num_passengers] = e->getRef();
-  num_passengers++;
+  passengers.push_back(e);
 }
 
-void MountEntity::delPassenger(const PcEntity* e)
+void MountEntity::RemovePassenger(boost::shared_ptr<Character> e)
 {
-  for (size_t i = 0; i < num_passengers; i++)
+  passengers.remove_if(Equal(e));
+}
+
+void MountEntity::SetPosition(const WFMath::Point<3>& p)
+{
+  Entity::SetPosition(p);
+  std::list<boost::weak_ptr<Character> >::const_iterator it;
+  for ( it=passengers.begin() ; it != passengers.end(); it++ )
   {
-    if (passengers[i].get() == e)
-    {
-      passengers[i].clear();
-      num_passengers--;
-    }
-  }
+    if ((*it).lock())
+      (*it).lock()->SetPosition(GetPosition());
+  } // end for
 }
 
-const PcEntity* MountEntity::getPassenger(size_t i) const
+void MountEntity::LoadFromDB()
 {
-  if (i > num_passengers) return 0;
-  return passengers[i].get();
+  Character::LoadFromDB();
 }
 
-void MountEntity::walkTo(const WFMath::Point<3>& dst_pos, float speed)
+void MountEntity::SaveToDB()
 {
-  // If we are already walking, lets store how
-  // far we have come...
-  if (isWalking) {
-    ptScopedMonitorable<Entity> ent (entity.get());
-    ent->SetPosition(this->GetPosition());
-    isWalking = false;
-  }
-
-  final_dst = dst_pos;
-
-  const WFMath::Point<3> pos = entity.get()->GetPosition();
-  const float dist = Distance(final_dst, pos);
-
-  t_org = (size_t) time(0);
-  //v = s / t => t = s / v
-  t_stop = (size_t) (dist / speed + time(0));
-
-  isWalking = true;
-}
-
-WFMath::Point<3> MountEntity::GetPosition()
-{
-  if (!isWalking)
-  {
-    return entity.get()->GetPosition();
-  }
-
-  if ((size_t)time(0) >= t_stop)
-  {
-    ptScopedMonitorable<Entity> e (entity.get());
-    e->SetPosition(final_dst);
-
-    isWalking = false;
-    return final_dst;
-  }
-
-  // pos will be org_pos until target is reached.
-  WFMath::Point<3> pos = entity.get()->GetPosition();
-
-  // TODO: Probably fixed now, need to verify though...
-  size_t delta = ((size_t)time(0) - t_org) / (t_stop - t_org);
-  tmp_pos = WFMath::Point<3>((final_dst - pos) * (float)delta + pos);
-  return tmp_pos;
+  Character::SaveToDB();
 }

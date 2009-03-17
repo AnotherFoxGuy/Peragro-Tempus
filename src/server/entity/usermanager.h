@@ -19,75 +19,36 @@
 #ifndef USERMANAGER_H
 #define USERMANAGER_H
 
-#include "common/util/array.h"
+#include <map>
+#include <boost/shared_ptr.hpp>
 #include "common/util/ptstring.h"
 #include "user.h"
 
 class UserManager
 {
+  friend class User;
+
 private:
-  Array<User*> users;
+  std::map<std::string, boost::shared_ptr<User> > users;
+
+private:
+  void AddUser(boost::shared_ptr<User> user);
+  void RemoveUser(boost::shared_ptr<User> user);
+  void RemoveUser(User* user);
+  void RemoveUser(const std::string& name);
+  boost::shared_ptr<User> FindByName(const std::string& name);
+
 
 public:
   UserManager() {}
-  ~UserManager() { users.delAll(); }
+  ~UserManager() {}
 
-  size_t getUserCount()
-  {
-    return users.getCount();
-  }
+  size_t GetUserCount() { return users.size(); }
 
-  User* getUser(size_t index)
-  {
-    return users.get(index);
-  }
+  const std::map<std::string, boost::shared_ptr<User> >& GetUsers() { return users; }
 
-  void addUser(User* user)
-  {
-    users.add(user);
-  }
-
-  void delUser(size_t index)
-  {
-    users.del(index);
-  }
-
-  void delUser(User* user)
-  {
-    printf("delUser: %s!\n", *user->getName());
-
-    if (!user)
-    {
-      printf("Removing user: Not a user!\n");
-      return;
-    }
-
-    for (size_t i = 0; i<users.getCount(); i++)
-    {
-      User* tmp_user = users.get(i);
-      if (tmp_user->getName() == user->getName())
-      {
-        users.del(i);
-        printf("Removing user: User removed!\n");
-        return;
-      }
-    }
-    printf("Removing user: User not found!\n");
-  }
-
-  User* findByName(ptString name)
-  {
-    if (name.isNull()) return 0;
-    for (size_t i = 0; i<users.getCount(); i++)
-    {
-      User* user = users.get(i);
-      if (user->getName() == name)
-      {
-        return user;
-      }
-    }
-    return 0;
-  }
+  const ptString Login(const std::string& username, const std::string& password, boost::shared_ptr<User>& user);
+  const ptString Signup(const std::string& username, const std::string& password);
 };
 
 #endif // USERMANAGER_H

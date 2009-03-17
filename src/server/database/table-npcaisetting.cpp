@@ -19,7 +19,7 @@
 #include "common/database/database.h"
 #include "table-npcaisetting.h"
 
-NpcAiSettingTable::NpcAiSettingTable(Database* db) : db(db)
+NpcAiSettingTable::NpcAiSettingTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from npcaisetting;");
   if (rs == 0)

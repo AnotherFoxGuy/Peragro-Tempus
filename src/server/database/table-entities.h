@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,50 +20,42 @@
 #define TABLE_ENTITIES_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
 class ResultSet;
 
-class Mesh;
+//-----------------------------------------------------------------------------------
+//| Name              | C++ type name     | Primary Key | Foreign Key
+//-----------------------------------------------------------------------------------
+#define PT_DB_TABLE_ENTITIES Entities
+#define PT_DB_TABLE_ENTITIES_FIELDS \
+  ((id,                 size_t,             1,            0)) \
+  ((EntityTypes_id,     size_t,             0,            (EntityTypes, id)))
 
-#include "common/util/ptstring.h"
-#include <wfmath/point.h>
 
-class EntitiesTableVO
-{
-public:
-  int id;
-  ptString name;
-  int type;
-  int item;
-  int variation;
-  unsigned int mesh;
-  float pos_x;
-  float pos_y;
-  float pos_z;
-  float rotation;
-  ptString sector;
-};
+PT_DECLARE_VO(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 
 class EntityTable : public Table
 {
 private:
-  EntitiesTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<EntitiesTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_ParseSingleResultSet(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
+
+  PT_DECLARE_CreateTable(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 
 public:
   EntityTable(Database* db);
-  void createTable();
-  void insert(int id, const std::string& name, int type, int item,
-              unsigned int variation, unsigned int mesh,
-              const WFMath::Point<3>& pos, float rot, const std::string& sector);
-  int getMaxId();
-  void dropTable();
-  void remove(int id);
-  void update(EntitiesTableVO* entity);
-  bool existsEntity(const ptString& name);
-  EntitiesTableVO* getEntity(const ptString& name);
-  Array<EntitiesTableVO*> getAllEntities();
+
+  PT_DECLARE_DropTable(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
+
+  PT_DECLARE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
+  PT_DECLARE_GetAll(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
+
+  size_t GetMaxId();
+  void Remove(size_t id);
+
+  EntitiesTableVOArray GetWorldEntities();
 };
 
 #endif // TABLE_ENTITIES_H

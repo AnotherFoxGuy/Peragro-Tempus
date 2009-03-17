@@ -22,7 +22,7 @@
 #include "common/database/database.h"
 #include "table-npcdialoganswers.h"
 
-NpcDialogAnswersTable::NpcDialogAnswersTable(Database* db) : db(db)
+NpcDialogAnswersTable::NpcDialogAnswersTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from npcdialoganswers;");
   delete rs;

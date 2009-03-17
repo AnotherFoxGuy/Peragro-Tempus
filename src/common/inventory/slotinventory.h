@@ -20,70 +20,76 @@
  * @file slotinventory.h
  */
 
-#ifndef PT_COMMON_SLOTINVENTORY_H
-#define PT_COMMON_SLOTINVENTORY_H
+#ifndef COMMON_SLOTINVENTORY_H
+#define COMMON_SLOTINVENTORY_H
 
-#include <vector>
+#include <list>
 
-#include <boost/smart_ptr.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "src/common/inventory/inventory.h"
 #include "src/common/inventory/slot.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    /**
+     * @ingroup Inventory
+     * A slot based inventory.
+     */
+    class SlotInventory : public Inventory
     {
+    protected:
+      unsigned int visibleRows;
+      unsigned int visibleColumns;
+
+      std::list<boost::shared_ptr<Slot> > slots;
+
+      PositionRef IdToPos(unsigned int id) const;
+      unsigned int PosToId(const PositionRef& position) const;
+
+      boost::shared_ptr<Slot> GetSlot(const PositionRef& position) const;
+      boost::shared_ptr<Slot> GetSlot(unsigned int id) const;
+
+    public:
       /**
-       * @ingroup Inventory
-       * A slot based inventory.
-       */
-      class SlotInventory : public Inventory
-      {
-      private:
-        unsigned int visibleRows;
-        unsigned int visibleColumns;
+      * Base constructor
+      */
+      SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
 
-        std::vector<boost::shared_ptr<Slot> > slots;
+      ///Create scrollable inventory.
+      SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
+        unsigned int visibleRows, unsigned int visibleColumns);
 
-        PositionRef IdToPos(unsigned int id) const;
-        Slot* GetSlot(const PositionRef& position) const;
-        Slot* GetSlot(unsigned int id) const;
+      virtual ~SlotInventory();
 
-      public:
-        /**
-        * Base constructor
-        */
-        SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      virtual void ClearInventory();
 
-        ///Create scrollable inventory.
-        SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
-          unsigned int visibleRows, unsigned int visibleColumns);
+      ///@todo Make these functions throw an exception instead of returning 0.
+      virtual boost::shared_ptr<Object> GetObjectAt(const PositionRef& position) const;
+      virtual boost::shared_ptr<Object> GetObjectAt(unsigned int id) const;
 
-        virtual ~SlotInventory();
+      ///@todo Make these functions throw an exception instead of returning bool.
+      virtual bool AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object);
+      virtual bool AddObjectAt(unsigned int id, boost::shared_ptr<Object> object);
 
-        ///@todo Make these functions throw an exception instead of returning 0.
-        virtual Object* GetObjectAt(const PositionRef& position) const;
-        virtual Object* GetObjectAt(unsigned int id) const;
+      ///@todo Make these functions throw an exception instead of returning 0.
+      virtual boost::shared_ptr<Object> RemoveObjectAt(const PositionRef& position);
+      virtual boost::shared_ptr<Object> RemoveObjectAt(unsigned int id);
+      virtual boost::shared_ptr<Slot> RemoveObject(boost::shared_ptr<Object> object) { return boost::shared_ptr<Slot>(); }//TODO
 
-        ///@todo Make these functions throw an exception instead of returning bool.
-        virtual bool AddObjectAt(const PositionRef& position, Object* object);
-        virtual bool AddObjectAt(unsigned int id, Object* object);
+      virtual bool HasObjectAt(const PositionRef& position) const;
+      virtual bool HasObjectAt(unsigned int id) const;
 
-        ///@todo Make these functions throw an exception instead of returning bool.
-        virtual bool RemoveObjectAt(const PositionRef& position);
-        virtual bool RemoveObjectAt(unsigned int id);
+      virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object) {} //TODO
 
-        virtual bool HasObjectAt(const PositionRef& position) const;
-        virtual bool HasObjectAt(unsigned int id) const;
-      };
+      virtual size_t GetObjectCount() const;
+    };
 
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace
 
-#endif // PT_COMMON_SLOTINVENTORY_H
+#endif // COMMON_SLOTINVENTORY_H
 

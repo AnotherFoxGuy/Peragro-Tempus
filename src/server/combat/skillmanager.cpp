@@ -17,7 +17,6 @@
 */
 
 #include "server/entity/entitymanager.h"
-#include "server/entity/statmanager.h"
 #include "skillmanager.h"
 #include "interactionutility.h"
 

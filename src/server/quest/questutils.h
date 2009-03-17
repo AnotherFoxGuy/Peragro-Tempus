@@ -16,10 +16,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "server/entity/statmanager.h"
-#include "server/entity/itemmanager.h"
-#include "server/reputation/reputationmanager.h"
 #include "server/entity/entitymanager.h"
+
+#include "server/entity/character/character.h"
+#include "server/entity/pcentity.h"
+#include "server/entity/npcentity.h"
 
 namespace QuestUtils
 {
@@ -123,8 +124,11 @@ namespace QuestUtils
 
   void static SendDialog(Character* character, const NPCDialog* dialog)
   {
+    if (character->GetType() != Common::Entity::PCEntityType) return;
+
     Server* server = Server::getServer();
-    NPCDialogState* dia_state = character->getNPCDialogState();
+    PcEntity* player = static_cast<PcEntity*>(character);
+    NPCDialogState* dia_state = player->getNPCDialogState();
 
     NpcDialogMessage dialog_msg;
     dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
@@ -134,11 +138,11 @@ namespace QuestUtils
     // The npc has nothing more to say, let him walk away.
     if (!dialog->getAnswerCount())
     {
-      ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
+      NpcEntity* npc_entity = dia_state->getNpc();
       npc_entity->pause(false);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+      endmsg.setNpcId(dia_state->getNpc()->GetId());
       ByteStream bs;
       endmsg.serialise(&bs);
       server->broadCast(bs);
@@ -236,7 +240,7 @@ namespace QuestUtils
     return result ? 1 : 0;
   }
 
-  int static Apply( Character* character, const std::string& op, const std::vector<std::string>& args)
+  int static Apply(Character* character, const std::string& op, const std::vector<std::string>& args)
   {
     if (IsPrimitive(op))
     {
@@ -266,29 +270,6 @@ namespace QuestUtils
       }
       return Parse(character, args[args.size()-1]);
     }
-    else if (op.compare("stat") == 0)
-    {
-      //(stat StatName <add/sub/set> <#>)
-      if (args.size() < 1) {printf("ERROR: Not enough params for operation 'stat'\n"); return 0;}
-      Server* server = Server::getServer();
-      Stat* stat = server->getStatManager()->findByName(ptString(args[0].c_str(), strlen(args[0].c_str())));
-      if (!stat) { return 0; }
-      if (args.size() > 2)
-      {
-        int val = Parse(character, args[2]);
-        bool success = true;
-        if (args[1].compare("add") == 0)
-          character->getStats()->addStat(stat, val);
-        if (args[1].compare("sub") == 0)
-          success = character->getStats()->takeStat(stat, val);
-        if (args[1].compare("set") == 0)
-          character->getStats()->setStat(stat, val);
-        printf("STAT: Updated %s to %d!\n", *stat->getName(), character->getStats()->getAmount(stat));
-        return success ? val:0;
-      }
-      else
-        return character->getStats()->getAmount(stat);
-    }
     else if (op.compare("reputation") == 0)
     {
       //(reputation RepName [CharName] <add/sub/set> <#>)
@@ -297,59 +278,66 @@ namespace QuestUtils
       // would require variables, so for now I guess it's only fixed NPC names.
       if (args.size() < 1) {printf("ERROR: Not enough params for operation 'reputation'\n"); return 0;}
       Server* server = Server::getServer();
-      Reputation* reputation = server->getReputationManager()->findByName(ptString::create(args[0].c_str()));
+      EntityManager* entitymanager = server->getEntityManager();
+      std::string reputation = args[0];
+      try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
       if (args.size() > 2)
       {
-        if (!reputation) { reputation = server->getReputationManager()->addReputation(ptString::create(args[0].c_str())); } // Make a new one
         if (args.size() > 3)
         {
-          EntityManager* entitymanager = server->getEntityManager();
-          const Entity* entity = entitymanager->findByName(ptString::create(args[1]));
+          Common::Entity::Entityp entity = entitymanager->FindByName(args[1]);
           if (!entity) { printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str()); return 0; }
+          Character* character = dynamic_cast<Character*>(entity.get());
+          if (!character) { printf("Error: Entity named \"%s\" isn't a character!\n", args[1].c_str()); return 0; }
+
+          try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
+
           int val = Parse(character, args[3]);
-          bool success = true;
           if (args[2].compare("add") == 0)
-            character->getReputation()->addReputation(reputation, val);
+            character->GetReputations()->Add(reputation, val);
           if (args[2].compare("sub") == 0)
-            success = character->getReputation()->takeReputation(reputation, val);
+            character->GetReputations()->Sub(reputation, val);
           if (args[2].compare("set") == 0)
-            character->getReputation()->setReputation(reputation, val);
-          printf("REPUTATION: Updated %s for entity %d to %d!\n", *reputation->getName(), entity->GetId(), character->getReputation()->getAmount(reputation));
-          return success ? val:0;
+            character->GetReputations()->Set(reputation, val);
+          printf("REPUTATION: Updated %s for entity %d to %d!\n", reputation.c_str(), entity->GetId(), character->GetReputations()->Get(reputation));
+          return val;
         }
         else
         {
           int val = Parse(character, args[2]);
-          bool success = true;
           if (args[1].compare("add") == 0)
-            character->getReputation()->addReputation(reputation, val);
+            character->GetReputations()->Add(reputation, val);
           if (args[1].compare("sub") == 0)
-            success = character->getReputation()->takeReputation(reputation, val);
+            character->GetReputations()->Sub(reputation, val);
           if (args[1].compare("set") == 0)
-            character->getReputation()->setReputation(reputation, val);
-          printf("REPUTATION: Updated %s to %d!\n", *reputation->getName(), character->getReputation()->getAmount(reputation));
-          return success ? val:0;
+            character->GetReputations()->Set(reputation, val);
+          printf("REPUTATION: Updated %s to %d!\n", reputation.c_str(), character->GetReputations()->Get(reputation));
+          return val;
         }
       }
       else
       {
-        if (!reputation) { return 0; }
         if (args.size() > 1)
         {
           EntityManager* entitymanager = server->getEntityManager();
-          const Entity* entity = entitymanager->findByName(ptString::create(args[1]));
+          Common::Entity::Entityp entity = entitymanager->FindByName(args[1]);
           if (!entity){printf("Error: Failed to find entity named \"%s\"\n", args[1].c_str());return 0;}
-          Character* character = (Character*)entity->getPlayerEntity()->getCharacter();
-          return character->getReputation()->getAmount(reputation);
+          Character* character = dynamic_cast<Character*>(entity.get());
+          if (!character) { printf("Error: Entity named \"%s\" isn't a character!\n", args[1].c_str()); return 0; }
+
+          try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
+
+          return character->GetReputations()->Get(reputation);
         }
         else
         {
-          return character->getReputation()->getAmount(reputation);
+          return character->GetReputations()->Get(reputation);
         }
       }
     }
     else if (op.compare("inventory") == 0)
     {
+      /*
       //(inventory add/remove/count itemId <#>)
       if (args.size() < 2) {printf("ERROR: Not enough params for operation 'inventory'\n"); return 0;}
       printf("INVENTORY: Updated1 %s!\n", args[1].c_str());
@@ -408,14 +396,18 @@ namespace QuestUtils
           }
         }
       }
+      */
       return 0;
     }
     else if (op.compare("dialog") == 0)
     {
       if (args.size() < 1) {printf("ERROR: Not enough params for operation 'dialog'\n"); return 0;}
+      if (character->GetType() != Common::Entity::PCEntityType) return 0;
+      PcEntity* player = static_cast<PcEntity*>(character);
+
       unsigned int id = Parse(character, args[0]);
-      NPCDialogState* dia_state = character->getNPCDialogState();
-      const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->getEntity()->GetId(), id);
+      NPCDialogState* dia_state = player->getNPCDialogState();
+      const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->GetId(), id);
 
       if (dialog->getAction() == NPCDialog::SHOW_TEXT)
       {
@@ -462,7 +454,7 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+          endmsg.setNpcId(dia_state->getNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           Server::getServer()->broadCast(bs2);
@@ -497,7 +489,7 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+          endmsg.setNpcId(dia_state->getNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           Server::getServer()->broadCast(bs2);
@@ -505,17 +497,17 @@ namespace QuestUtils
       }
       else if (dialog->getAction() == NPCDialog::TELEPORT)
       {
+        /*
         // yes, it's a hack. This shouldn't go here either.
         // sector_id <0.5, 0.6, 0.8>
         unsigned short sector = 0;
         float x = 0, y = 0, z = 0;
         sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-        ptScopedMonitorable<Entity> ent (character->getEntity());
-        ent->SetSector(sector);
-        ent->SetPosition(x, y, z);
+        character->SetSector(sector);
+        character->SetPosition(x, y, z);
 
-        Server::getServer()->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+        Server::getServer()->getCharacterManager()->checkForSave(character);
 
         TeleportResponseMessage telemsg;
         telemsg.setEntityId(ent->GetId());
@@ -528,10 +520,11 @@ namespace QuestUtils
         Server::getServer()->broadCast(bs);
 
         NpcEndDialogMessage endmsg;
-        endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+        endmsg.setNpcId(dia_state->getNpc()->GetId());
         ByteStream bs2;
         endmsg.serialise(&bs2);
         Server::getServer()->broadCast(bs2);
+        */
       }
       else if (dialog->getAction() == NPCDialog::FUNCTION)
       {

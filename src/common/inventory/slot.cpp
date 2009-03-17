@@ -19,41 +19,42 @@
 #include "slot.h"
 #include "object.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    Slot::Slot(Inventory* parent, PositionRef position) : parent(parent), position(position)
     {
-      Inventory* Slot::GetParent() const
-      {
-        return parent;
-      }
+    }
 
-      const PositionRef& Slot::GetPosition() const
-      {
-        return position;
-      }
+    Inventory* Slot::GetParent() const
+    {
+      return parent;
+    }
 
-      void Slot::SetContents(Object* object)
-      {
-        slotContents = object;
-      }
+    const PositionRef& Slot::GetPosition() const
+    {
+      return position;
+    }
 
-      void Slot::Clear()
-      {
-        slotContents = 0;
-      }
+    void Slot::SetContents(boost::shared_ptr<Object> object)
+    {
+      slotContents = object;
+    }
 
-      Object* Slot::GetContents() const
-      {
-        return slotContents;
-      }
+    void Slot::Clear()
+    {
+      slotContents.reset();
+    }
 
-      bool Slot::HasContents() const
-      {
-        return slotContents!=0;
-      }
+    boost::shared_ptr<Object> Slot::GetContents() const
+    {
+      return slotContents;
+    }
+
+    bool Slot::HasContents() const
+    {
+      return slotContents!=0;
     }
   }
 }

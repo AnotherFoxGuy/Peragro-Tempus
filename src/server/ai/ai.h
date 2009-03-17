@@ -19,6 +19,8 @@
 #ifndef AI_H
 #define AI_H
 
+#include <string>
+
 #include "common/util/ptstring.h"
 #include "common/util/timer.h"
 
@@ -27,24 +29,28 @@ class NpcEntity;
 class AI : protected Timer
 {
 private:
-  static ptString idle;
-  static ptString stray;
-  static ptString guard;
-  static ptString path;
+  static std::string idle;
+  static std::string stray;
+  static std::string guard;
+  static std::string path;
 
 protected:
+  std::string name;
   virtual void think() = 0;
   bool paused;
 
 public:
   virtual ~AI() {}
 
-  virtual void setNPC(NpcEntity* npc) = 0;
+  const std::string& GetName() { return name; }
 
   void pause(bool pause) { paused = pause; }
   bool isPaused(void) { return paused; }
 
-  static AI* createAI(ptString ai_name);
+  static AI* createAI(const std::string& ai_name, NpcEntity* npc);
+
+  virtual void LoadFromDB() = 0;
+  virtual void SaveToDB() = 0;
 };
 
 #endif // AI_H

@@ -21,7 +21,7 @@
 #include "common/database/database.h"
 #include "table-npcdialogs.h"
 
-NpcDialogsTable::NpcDialogsTable(Database* db) : db(db)
+NpcDialogsTable::NpcDialogsTable(Database* db) : Table(db)
 {
   ResultSet* rs = db->query("select count(*) from npcdialogs;");
   delete rs;

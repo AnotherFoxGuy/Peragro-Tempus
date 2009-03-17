@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,25 +20,41 @@
 #define TABLE_ITEMS_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Item;
-class Mesh;
-class MeshManager;
-class ptString;
+class ResultSet;
 
-class ItemTable : public Table
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_ITEMS Items
+#define DB_TABLE_ITEMS_FIELDS \
+  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((itemTemplates_id,  size_t,             0,            (ItemTemplates, id) ))
+
+PT_DECLARE_VO(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
+class ItemsTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+
+  PT_DECLARE_CreateTable(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+
 public:
-  ItemTable(Database* db);
-  void createTable();
-  void insert(int id, ptString name, ptString icon, ptString description, unsigned int mesh, float weight, ptString equiptype);
-  void remove(int id);
-  void dropTable();
-  bool existsItem(ptString name);
-  Item* getItem(ptString name, MeshManager* meshMgr);
-  Item* getItem(int id, MeshManager* meshMgr);
-  void getAllItems(Array<Item*>& items, MeshManager* meshMgr);
+  ItemsTable(Database* db);
+
+  PT_DECLARE_DropTable(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+
+  PT_DECLARE_Insert(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+  PT_DECLARE_GetAll(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
+
+  PT_DECLARE_GetSingle(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
 };
 
 #endif //TABLE_ITEMS_H

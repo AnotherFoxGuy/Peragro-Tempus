@@ -22,6 +22,8 @@
 class Database;
 class ResultSet;
 
+#include "common/database/table.h"
+
 #include "common/util/ptstring.h"
 
 class SpawnPointsTableVO
@@ -36,13 +38,12 @@ public:
   int interval;
 };
 
-class SpawnPointsTable
+class SpawnPointsTable : public Table
 {
 private:
-  Database* db;
-
   SpawnPointsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
   Array<SpawnPointsTableVO*> parseMultiResultSet(ResultSet* rs);
+
 public:
   SpawnPointsTable(Database* db);
 

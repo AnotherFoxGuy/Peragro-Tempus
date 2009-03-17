@@ -22,22 +22,19 @@
 
 #include "gridinventory.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    GridInventory::GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+      :Inventory(name, type, rows, columns)
     {
-      GridInventory::GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
-        :Inventory(name, type, rows, columns)
-      {
-      }
+    }
 
-      GridInventory::~GridInventory()
-      {
-      }
+    GridInventory::~GridInventory()
+    {
+    }
 
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+  } // Inventory namespace
+} // Common namespace

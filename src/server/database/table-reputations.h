@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,48 +20,42 @@
 #define TABLE_REPUTATIONS_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Reputation;
-class ptString;
+class ResultSet;
+
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_REPUTATIONS Reputations
+#define DB_TABLE_REPUTATIONS_FIELDS \
+  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((ReputationTypes_id,size_t,             0,            (ReputationTypes, id) )) \
+  ((level,             size_t,             0,            0))
+
+PT_DECLARE_VO(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
 
 /**
  * Provides an interface to the database to handle storage of reputations.
  */
 class ReputationsTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+
+  PT_DECLARE_CreateTable(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+
 public:
   ReputationsTable(Database* db);
-  /**
-   * Creates a table in the database that will store eputations.
-   */
-  void createTable();
-  /**
-   * Insert a reputation into the database.
-   * @param name The name of the reputation
-   */
-  int insert(ptString name);
-  /**
-   * Removes all reputations from the database.
-   */
-  void dropTable();
-  /**
-   * Checks if a reputation exists in the database
-   * @return True if the reputation existed, false otherwise.
-   */
-  bool existsReputation(ptString name);
-  /**
-   * Does a lookup in the database to find a reputation.
-   * The caller is responsible for freeing the reputation returned.
-   * @returns Reputation if found, otherwise 0.
-   */
-  Reputation* getReputation(ptString name);
-  /**
-   * This function will load all reputations from the database.
-   * The caller is responsible for freeing all reputations in the array.
-   * @param reputations An array that will contain all reputations.
-   */
-  void getAllReputations(Array<Reputation*>& reputations);
+
+  PT_DECLARE_DropTable(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+
+  PT_DECLARE_Insert(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+  PT_DECLARE_GetAll(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
+
+  PT_DECLARE_Get(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
 };
 
 #endif //TABLE_REPUTATIONS_H

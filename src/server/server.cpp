@@ -17,7 +17,7 @@
 */
 
 #include "server.h"
-#include "entity/character.h"
+#include "entity/character/character.h"
 #include "entity/entity.h"
 #include "entity/itementity.h"
 #include "entity/pcentity.h"
@@ -37,56 +37,9 @@
 
 Server* Server::server;
 
-void Server::addEntity(const Entity* entity, bool persistent)
+void Server::delEntity(Entity* entity)
 {
-  printf("Add Entity\n");
-  ent_mgr->addEntity(entity);
-
-  printf("Added %s with id: %d, mesh: %s\n", entity->GetName().c_str(), entity->GetId(), *entity->getMesh()->getName());
-
-  if (persistent)
-  {
-    const ItemEntity* ie = entity->getItemEntity();
-    const DoorEntity* de = entity->getDoorEntity();
-    if (ie)
-    {
-      tables->getEntityTable()->insert(entity->GetId(), entity->GetName(), entity->GetType(), ie->getItem()->GetId(), ie->variation, entity->getMesh()->GetId(), entity->GetPosition(), entity->GetRotation(), entity->GetSectorName());
-    }
-    else if (de)
-    {
-      // Doors don't go to entity table!
-      DoorsTableVO vo;
-      vo.id = de->getDoorId();
-      vo.islocked = de->getLocked();
-      vo.isopen = de->getOpen();
-      vo.mesh = entity->getMesh()->GetId();
-      vo.animation = de->getAnimation();
-      vo.name = entity->GetName();
-      vo.sector = entity->GetSectorName();
-      vo.x = entity->GetPosition()[0];
-      vo.y = entity->GetPosition()[1];
-      vo.z = entity->GetPosition()[2];
-      tables->getDoorsTable()->insert(&vo);
-    }
-    else
-    {
-      tables->getEntityTable()->insert(entity->GetId(), entity->GetName(), entity->GetType(), 0, 0, entity->getMesh()->GetId(), entity->GetPosition(), entity->GetRotation(), entity->GetSectorName());
-    }
-  }
-
-  if (entity->getPlayerEntity() || entity->getNpcEntity())
-  {
-    getCollisionDetection()->addEntity(entity);
-  }
-
-  for (size_t i = 0; i < usr_mgr->getUserCount(); i++)
-  {
-    usr_mgr->getUser(i)->sendAddEntity(entity);
-  }
-}
-
-void Server::delEntity(const Entity* entity)
-{
+  /*
   printf("Remove Entity\n");
 
   ent_mgr->removeEntity(entity);
@@ -149,15 +102,16 @@ void Server::delEntity(const Entity* entity)
   /// TODO: has been converted to ptScopedMonitorable, check for correctness!
   ((Entity*)entity)->lockUnsafe();
   delete entity;
+  */
 }
 
 void Server::moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->GetPosition());
+  response_msg.setFrom(entity->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->GetId());
+  response_msg.setEntityId(entity->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
@@ -166,16 +120,16 @@ void Server::moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float spe
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity());
+  NetworkHelper::localcast(bs, entity);
 }
 
 void Server::moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
 {
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->GetPosition());
+  response_msg.setFrom(entity->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->GetId());
+  response_msg.setEntityId(entity->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
@@ -184,36 +138,37 @@ void Server::moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float 
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity());
+  NetworkHelper::localcast(bs, entity);
 }
 
-void Server::moveEntity(const NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
+void Server::moveEntity(NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
 {
   if (!entity) return;
 
   MoveToMessage response_msg;
   response_msg.setTo(pos);
-  response_msg.setFrom(entity->getEntity()->GetPosition());
+  response_msg.setFrom(entity->GetPosition());
   response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->getEntity()->GetId());
+  response_msg.setEntityId(entity->GetId());
   response_msg.setRun(run);
   response_msg.setTurn(0); // No continuous rotation
   response_msg.setJump(false);
 
-  ptScopedMonitorable<NpcEntity> npc (entity);
-  npc->walkTo(pos, speed);
+  entity->walkTo(pos, speed);
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity->getEntity());
+  NetworkHelper::localcast(bs, entity);
 }
 
 void Server::broadCast(const ByteStream& bs)
 {
-  for (size_t i=0; i<getUserManager()->getUserCount(); i++)
+  const std::map<std::string, boost::shared_ptr<User> >& users = getUserManager()->GetUsers();
+  std::map<std::string, boost::shared_ptr<User> >::const_iterator it;
+  for (it=users.begin(); it != users.end(); it++)
   {
-    User* user = getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
+    boost::shared_ptr<User> user = it->second;
+    if (user && user->GetConnection())
+      user->GetConnection()->send(bs);
   }
 }

@@ -17,22 +17,17 @@
 */
 
 #include "server/entity/entitymanager.h"
-#include "server/entity/itemmanager.h"
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
 #include "server/entity/mountentity.h"
-#include "server/entity/sectormanager.h"
-#include "server/entity/statmanager.h"
-#include "server/entity/racemanager.h"
-#include "server/entity/race.h"
 #include "server/entity/user.h"
 #include "network.h"
 #include "networkhelper.h"
 #include "server/entity/usermanager.h"
-#include "server/entity/charactermanager.h"
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
   if (!c_entity) return;
 
@@ -89,10 +84,12 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
     if (user && user->getConnection())
       user->getConnection()->send(bs);
   }
+  */
 }
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 {
+  /*
   const Entity* ent = NetworkHelper::getEntity(msg);
   if (!ent) return;
 
@@ -140,10 +137,12 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, user_ent);
+  */
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -238,10 +237,12 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   ByteStream bs;
   response_msg.serialise(&bs);
   NetworkHelper::sendMessage(user_ent, bs);
+  */
 }
 
 void EntityHandler::handleDropRequest(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -312,10 +313,12 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   ent->SetSector(user_ent->GetSector());
 
   Server::getServer()->addEntity(ent, true);
+  */
 }
 
 void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 {
+  /*
   const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
   if (!c_entity) return;
 
@@ -364,10 +367,12 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   }
 
   server->getCharacterManager()->checkForSave(entity);
+  */
 }
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -408,10 +413,12 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
   ByteStream bs;
   telemsg.serialise(&bs);
   server->broadCast(bs);
+  */
 }
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
+  /*
   const User* user = NetworkHelper::getUser(msg);
   if (!user) return;
 
@@ -451,10 +458,12 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
   ByteStream bs;
   response_msg.serialise(&bs);
   server->broadCast(bs);
+  */
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -507,10 +516,12 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   umount_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, user_ent);
+  */
 }
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
+  /*
   printf("Start unmount character\n");
 
   const Entity* user_ent = NetworkHelper::getEntity(msg);
@@ -550,10 +561,12 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   umount_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, user_ent);
+  */
 }
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
 {
+  /*
   const Entity* user_ent = NetworkHelper::getEntity(msg);
   if (!user_ent) return;
 
@@ -576,4 +589,5 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
   pose_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, user_ent);
+  */
 }

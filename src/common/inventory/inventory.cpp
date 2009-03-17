@@ -23,53 +23,50 @@
 #include "slotinventory.h"
 #include "object.h"
 
-namespace PT
+namespace Common
 {
-  namespace Common
+  namespace Inventory
   {
-    namespace Inventory
+    Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
     {
-      Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+      inventoryName = name;
+      inventoryType = type;
+      inventoryRows = rows;
+      inventoryColumns = columns;
+    }
+
+
+    Inventory::~Inventory()
+    {
+    }
+
+    void Inventory::SetName(const std::string& name){ inventoryName = name; }
+
+    const std::string& Inventory::GetName() const { return inventoryName; }
+
+    unsigned int Inventory::GetRowCount() const { return inventoryRows; }
+
+    unsigned int Inventory::GetColumnCount() const { return inventoryColumns; }
+
+    bool Inventory::AllowsType(boost::shared_ptr<Object> object)
+    {
+      switch (object->GetType())
       {
-        inventoryName = name;
-        inventoryType = type;
-        inventoryRows = rows;
-        inventoryColumns = columns;
-      }
-
-
-      Inventory::~Inventory()
-      {
-      }
-
-      void Inventory::SetName(const std::string& name){ inventoryName = name; }
-
-      const std::string& Inventory::GetName() const { return inventoryName; }
-
-      unsigned int Inventory::GetRowCount() const { return inventoryRows; }
-
-      unsigned int Inventory::GetColumnCount() const { return inventoryColumns; }
-
-      bool Inventory::AllowsType(const Object* object)
-      {
-        switch (object->GetType())
+      case Object::Item:
         {
-        case Object::Item:
-          {
-            return inventoryType.Check(ALLOW_ITEMS);
-          } break;
-        case Object::Action:
-          {
-            return inventoryType.Check(ALLOW_ACTIONS);
-          } break;
-        default:
-          break;
-        }
-
-        return false;
+          return inventoryType.Check(ALLOW_ITEMS);
+        } break;
+      case Object::Action:
+        {
+          return inventoryType.Check(ALLOW_ACTIONS);
+        } break;
+      default:
+        break;
       }
 
+      return false;
+    }
 
-    } // Inventory namespace
-  } // Common namespace
-} // PT namespace
+
+  } // Inventory namespace
+} // Common namespace

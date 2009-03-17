@@ -19,6 +19,9 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+
 #include "common/network/bytestream.h"
 #include "common/util/monitorable.h"
 
@@ -36,11 +39,11 @@ namespace CONNECTION
 class Connection : public ptMonitorable<Connection>
 {
 protected:
-  User* user;
+  boost::weak_ptr<User> user;
   CONNECTION::TYPE type;
 
 public:
-  Connection(CONNECTION::TYPE type) : user(0), type(type)
+  Connection(CONNECTION::TYPE type) : type(type)
   {
   }
 
@@ -48,12 +51,12 @@ public:
   {
   }
 
-  User* getUser() const
+  boost::shared_ptr<User> GetUser() const
   {
-    return user;
+    return user.lock();
   }
 
-  void setUser(User* user)
+  void SetUser(boost::shared_ptr<User> user)
   {
     // TODO: What if there is already a connection?
     this->user = user;

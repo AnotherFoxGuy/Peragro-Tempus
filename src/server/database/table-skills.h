@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,62 +20,42 @@
 #define TABLE_SKILLS_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Skill;
-class ptString;
+class ResultSet;
+
+//-----------------------------------------------------------------------------------
+//| Name          | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_SKILLS Skills
+#define DB_TABLE_SKILLS_FIELDS \
+  ((entity_id,    size_t,             1,            (Entities, id) )) \
+  ((SkillTypes_id,size_t,             0,            (SkillTypes, id) )) \
+  ((xp,           float,              0,             0))
+
+PT_DECLARE_VO(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of Skills.
+ * Provides an interface to the database to handle storage of Skillss.
  */
-class SkillTable : public Table
+class SkillsTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+
+  PT_DECLARE_CreateTable(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+
 public:
-  /**
-   * Constructor for the SkillTable.
-   * If no skill table is found in the database, the createTable function
-   * will be called in order to populate the database.
-   * @param db A pointer to the database
-   */
-  SkillTable(Database* db);
-  /**
-   * Creates a table in the database that will store skills.
-   */
-  void createTable();
-   /**
-   * Inserts a skill into the database.
-   * @param name The name of the skill.
-   * @param type The type of skill.
-   * @param range The range the skill is usuable.
-   * @param skillTime How long the skill lasts.
-   * @param reuseDelay How long to wait before the skill can be used again.
-   * @param power The power of the skill or the power need to use it? (TODO).
-   * @param mpCost How much mana each usage drains.
-   */
-  void insert(ptString name, int type, float range, int skillTime,
-              int reuseDelay, int power, int mpCost);
-  /**
-   * Removes all skills currently stored in the database.
-   */
-  void dropTable();
-  /**
-   * Checks if a skill exists or not.
-   * @return True if the skill exists, false otherwise.
-   */
-  bool existsSkill(ptString name);
-  /**
-   * Returns a skill based on the name.
-   * The caller is responsible for freeing the returned skill.
-   * @param name The name of the skill to search for.
-   * @return Skill if found, otherwise 0.
-   */
-  Skill* getSkill(ptString name);
-  /**
-   * This function will load all skills from the database.
-   * The caller is responsible for freeing all skills in the array.
-   * @param skills An array that will contain all skills.
-   */
-  void getAllSkills(Array<Skill*>& skills);
+  SkillsTable(Database* db);
+
+  PT_DECLARE_DropTable(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+
+  PT_DECLARE_Insert(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+  PT_DECLARE_GetAll(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
+
+  PT_DECLARE_Get(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
 };
 
 #endif //TABLE_SKILLS_H

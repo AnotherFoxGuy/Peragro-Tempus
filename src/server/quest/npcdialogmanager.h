@@ -19,6 +19,8 @@
 #ifndef NPC_DIALOG_MANAGER_H
 #define NPC_DIALOG_MANAGER_H
 
+class NPCDialog;
+
 class NPCDialogManager
 {
 private:

@@ -3,12 +3,12 @@
 
 #include "common/database/database.h"
 #include "common/database/sqlite/sqlite.h"
-#include "server/database/tables.h"
-#include "server/database/table-sectors.h"
+#include "server/database/tablemanager.h"
+/*
 #include "server/database/table-meshes.h"
 #include "server/database/table-triangles.h"
 #include "server/database/table-vertices.h"
-
+*/
 #include "ext/bullet/btBulletDynamicsCommon.h"
 
 CS_IMPLEMENT_APPLICATION
@@ -210,12 +210,12 @@ bool CollisionDetectionTest::SetupModules ()
   iGraphics2D* g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
-  Tables tables;
   dbSQLite db("test_db.sqlite");
-  tables.init(&db);
+  TableManager tablemgr(&db);
+  tablemgr.Initialize();
 
-  LoadWorld(&tables);
-  SetupPhysics(&tables);
+  LoadWorld(&tablemgr);
+  SetupPhysics(&tablemgr);
   AddCharacter();
 
   engine->Prepare ();
@@ -232,8 +232,9 @@ bool CollisionDetectionTest::SetupModules ()
   return true;
 }
 
-void CollisionDetectionTest::LoadWorld(Tables* db)
+void CollisionDetectionTest::LoadWorld(TableManager* db)
 {
+  /*
   //Load all Sectors from Database
   Array<SectorsTableVO*> loadedSectors = db->getSectorsTable()->getAll();
 
@@ -291,10 +292,12 @@ void CollisionDetectionTest::LoadWorld(Tables* db)
 
     mesh->GetMeshObject ()->SetMaterialWrapper(mat);
   }
+  */
 }
 
-void CollisionDetectionTest::SetupPhysics(Tables* db)
+void CollisionDetectionTest::SetupPhysics(TableManager* db)
 {
+  /*
   Array<VerticesTableVO*> vertices =
     db->getVerticesTable()->getAll();
 
@@ -368,6 +371,7 @@ void CollisionDetectionTest::SetupPhysics(Tables* db)
 
     world->addCollisionObject(collObj);
   }
+  */
 }
 
 void CollisionDetectionTest::AddCharacter()

@@ -131,7 +131,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("entity.add.player", true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent("entity.add.pc", true);
     pEvent->Add("entityName", *pmsg.getEntityName()?*pmsg.getEntityName():"");
     pEvent->Add("meshId", pmsg.getMeshId());
     pEvent->Add("meshName", *pmsg.getMeshName()?*pmsg.getMeshName():"");

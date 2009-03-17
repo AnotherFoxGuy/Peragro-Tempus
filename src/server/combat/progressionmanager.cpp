@@ -18,7 +18,6 @@
 
 #include <stdlib.h>
 #include "server/entity/entitymanager.h"
-#include "server/entity/statmanager.h"
 #include "interactionutility.h"
 #include "progressionmanager.h"
 #include "skillmanager.h"

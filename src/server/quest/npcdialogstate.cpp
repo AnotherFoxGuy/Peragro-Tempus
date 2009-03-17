@@ -21,12 +21,12 @@
 #include "npcdialoganswer.h"
 #include "npcdialogstate.h"
 
-#include "server/entity/character.h"
+#include "server/entity/character/character.h"
 #include "server/entity/npcentity.h"
 
 void NPCDialogState::setCharacter(Character* character)
 {
-  this->character = character->getRef();
+  this->character = character;
 }
 
 const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int dialog_id)
@@ -63,7 +63,7 @@ const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int
   return answer->getNextDialog();
 }
 
-void NPCDialogState::setNpc(const NpcEntity* npc)
+void NPCDialogState::setNpc(NpcEntity* npc)
 {
-  this->npc = npc->getRef();
+  this->npc = npc;
 }
