@@ -119,10 +119,6 @@ inline void Bases<multiplier, T, startXp>::Base::SetDirty(bool dirty)
 { Base::dirty = dirty; }
 
 template<size_t multiplier, typename T, size_t startXp>
-inline size_t Bases<multiplier, T, startXp>::GetLevel(T xp) const
-{ return (xp / multiplier); }
-
-template<size_t multiplier, typename T, size_t startXp>
 inline Bases<multiplier, T, startXp>::Bases(const std::string& type, BasesFactory* fact, Entity* entity,
   TableManager* db)
   : fact(fact), entity(entity),  db(db), type(type) {}
@@ -150,6 +146,20 @@ inline void Bases<multiplier, T, startXp>::Sub(const std::string& name, T xp)
 template<size_t multiplier, typename T, size_t startXp>
 inline size_t Bases<multiplier, T, startXp>::GetLevel(const std::string& name)
 { return GetLevel(GetBase(name)->Get()); }
+
+template<size_t multiplier, typename T, size_t startXp>
+size_t Bases<multiplier, T, startXp>::GetLevel(T xp) const
+{
+  //@todo Maybe this could be done in a faster way?
+  size_t nextLevel = 1;
+  size_t nextLevelXp;
+  while (xp >= (nextLevelXp = nextLevel * multiplier))
+  {
+    xp -= nextLevelXp;
+    ++nextLevel;
+  }
+  return nextLevel - 1;
+}
 
 template<size_t multiplier, typename T, size_t startXp>
 typename Bases<multiplier, T, startXp>::Base*
