@@ -38,7 +38,7 @@ class ResultSet;
 PT_DECLARE_VO(HobbiesTable, DB_TABLE_HOBBIES, DB_TABLE_HOBBIES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of Skills.
+ * Provides an interface to the database to handle storage of Hobbies.
  */
 class HobbiesTable : public Table
 {

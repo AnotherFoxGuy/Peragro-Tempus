@@ -36,7 +36,8 @@ class ResultSet;
 PT_DECLARE_VO(ReputationTypesTable, DB_TABLE_REPUTATIONTYPES, DB_TABLE_REPUTATIONTYPES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of different 
+ * possible reputations.
  */
 class ReputationTypesTable : public Table
 {

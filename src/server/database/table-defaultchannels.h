@@ -35,7 +35,8 @@ class ResultSet;
 PT_DECLARE_VO(DefaultChannelsTable, DB_TABLE_DEFAULTCHANNELS, DB_TABLE_DEFAULTCHANNELS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of the list of
+ * chat channels to join by default.
  */
 class DefaultChannelsTable : public Table
 {

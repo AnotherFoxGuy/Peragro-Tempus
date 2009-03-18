@@ -36,7 +36,7 @@ class ResultSet;
 PT_DECLARE_VO(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of user logins.
  */
 class UsersTable : public Table
 {

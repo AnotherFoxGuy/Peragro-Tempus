@@ -37,7 +37,8 @@ class ResultSet;
 PT_DECLARE_VO(ChannelsTable, DB_TABLE_CHANNELS, DB_TABLE_CHANNELS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of definitions
+ * of chat channelspaces.
  */
 class ChannelsTable : public Table
 {

@@ -36,7 +36,7 @@ class ResultSet;
 PT_DECLARE_VO(PcEntitiesTable, DB_TABLE_PCENTITIES, DB_TABLE_PCENTITIES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of Player Characters.
  */
 class PcEntitiesTable : public Table
 {

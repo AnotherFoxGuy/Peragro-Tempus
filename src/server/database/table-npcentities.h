@@ -36,7 +36,7 @@ class ResultSet;
 PT_DECLARE_VO(NpcEntitiesTable, DB_TABLE_NPCENTITIES, DB_TABLE_NPCENTITIES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of NPCs.
  */
 class NpcEntitiesTable : public Table
 {

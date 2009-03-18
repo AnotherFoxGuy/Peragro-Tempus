@@ -38,7 +38,7 @@ class ResultSet;
 PT_DECLARE_VO(ResourceTypesTable, DB_TABLE_RESOURCETYPES, DB_TABLE_RESOURCETYPES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of resource types.
  */
 class ResourceTypesTable : public Table
 {

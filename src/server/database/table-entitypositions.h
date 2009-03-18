@@ -37,7 +37,8 @@ class ResultSet;
 PT_DECLARE_VO(EntityPositionsTable, DB_TABLE_ENTITYPOSITIONS, DB_TABLE_ENTITYPOSITIONS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of the location of
+ * each entity.
  */
 class EntityPositionsTable : public Table
 {

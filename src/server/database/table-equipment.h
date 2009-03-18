@@ -37,7 +37,7 @@ class ResultSet;
 PT_DECLARE_VO(EquipmentTable, DB_TABLE_EQUIPMENT, DB_TABLE_EQUIPMENT_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of equipment.
  */
 class EquipmentTable : public Table
 {

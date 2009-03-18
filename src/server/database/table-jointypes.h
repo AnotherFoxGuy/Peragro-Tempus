@@ -36,7 +36,8 @@ class ResultSet;
 PT_DECLARE_VO(JoinTypesTable, DB_TABLE_JOINTYPES, DB_TABLE_JOINTYPES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of join types for
+ * chat channels.
  */
 class JoinTypesTable : public Table
 {

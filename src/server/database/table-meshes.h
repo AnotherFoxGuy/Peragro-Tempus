@@ -38,7 +38,7 @@ class ResultSet;
 PT_DECLARE_VO(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of Meshes.
  */
 class MeshesTable : public Table
 {

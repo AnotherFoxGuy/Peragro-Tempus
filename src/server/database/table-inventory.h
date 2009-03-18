@@ -37,7 +37,8 @@ class ResultSet;
 PT_DECLARE_VO(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of character 
+ * inventory.
  */
 class InventoryTable : public Table
 {

@@ -37,7 +37,7 @@ class ResultSet;
 PT_DECLARE_VO(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of permissions.
  */
 class PermissionsTable : public Table
 {

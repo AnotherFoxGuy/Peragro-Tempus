@@ -41,7 +41,7 @@ class ResultSet;
 PT_DECLARE_VO(ItemTemplatesTable, DB_TABLE_ITEMTEMPLATES, DB_TABLE_ITEMTEMPLATES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of Item Templates.
  */
 class ItemTemplatesTable : public Table
 {

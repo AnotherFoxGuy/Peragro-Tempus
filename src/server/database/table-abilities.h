@@ -37,7 +37,7 @@ class ResultSet;
 PT_DECLARE_VO(AbilitiesTable, DB_TABLE_ABILITIES, DB_TABLE_ABILITIES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of Skills.
+ * Provides an interface to the database to handle storage of Abilities
  */
 class AbilitiesTable : public Table
 {

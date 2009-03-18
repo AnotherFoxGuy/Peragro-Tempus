@@ -36,7 +36,8 @@ class ResultSet;
 PT_DECLARE_VO(EntityChannelsTable, DB_TABLE_ENTITYCHANNELS, DB_TABLE_ENTITYCHANNELS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of the list of
+ * chat channels that each entity has joined.
  */
 class EntityChannelsTable : public Table
 {

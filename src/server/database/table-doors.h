@@ -40,7 +40,7 @@ class ResultSet;
 PT_DECLARE_VO(DoorsTable, DB_TABLE_DOORS, DB_TABLE_DOORS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of reputations.
+ * Provides an interface to the database to handle storage of doors.
  */
 class DoorsTable : public Table
 {
