@@ -1,7 +1,7 @@
 import os
 
-DBNAME = "Equipment"
-PATH = "E:/VC/peragro/scripts/database/"
+DBNAME = "EntityChannels"
+PATH = os.path.dirname(__file__) + '/'
 TEMPLATENAME = "Reputations"
 TEMPLATETYPE = "TABLE_REPUTATIONS" 
 
