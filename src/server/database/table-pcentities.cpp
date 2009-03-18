@@ -56,3 +56,4 @@ PcEntitiesTableVOArray PcEntitiesTable::GetAll(const std::string& login)
   delete rs;
   return arr;
 }
+

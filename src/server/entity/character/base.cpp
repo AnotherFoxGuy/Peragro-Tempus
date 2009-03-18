@@ -16,29 +16,36 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "table-books.h"
+#include "base.h"
 
-#include <string.h>
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "common/database/database.h"
-
-BooksTable::BooksTable(Database* db) : Table(db)
+BasesFactory::BasesFactory(TableManager* db)
+  : db(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_BOOKS) ";");
-  if (rs == 0)
-  {
-    CreateTable();
-  }
-  delete rs;
 }
 
-PT_DEFINE_CreateTable(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
-PT_DEFINE_DropTable(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
-PT_DEFINE_Insert(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
-PT_DEFINE_ParseSingleResultSet(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
-PT_DEFINE_ParseMultiResultSet(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
-PT_DEFINE_GetAll(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
+BasesFactory::~BasesFactory()
+{
+}
+
+size_t BasesFactory::GetID(const std::string& name) const
+{
+  std::map<std::string, size_t>::const_iterator it = names.find(name);
+  if (it == names.end())
+    throw Exception();
+  return it->second;
+}
+
+const std::string& BasesFactory::GetName(size_t id) const
+{
+  std::map<size_t, std::string>::const_iterator it = ids.find(id);
+  if (it == ids.end())
+    throw Exception();
+  return it->second;
+}
+
+void BasesFactory::Add(size_t id, const std::string& name)
+{
+  names[name] = id;
+  ids[id] = name;
+}
 

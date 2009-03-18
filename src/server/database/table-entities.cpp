@@ -81,3 +81,4 @@ EntitiesTableVOArray EntityTable::GetWorldEntities()
   delete rs;
   return arr;
 }
+

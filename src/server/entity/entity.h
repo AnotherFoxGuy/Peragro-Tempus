@@ -33,7 +33,7 @@ class Tables;
 virtual void funcname(type value)           \
 {                                           \
   mutex.lock();                             \
-  Common::Entity::Entity::##funcname(value);\
+  Common::Entity::Entity::funcname(value);  \
   mutex.unlock();                           \
 }                                           \
 
@@ -64,14 +64,14 @@ public:
 */
   virtual void SetSectorName(const std::string& value);
 
-  SAFEMUTABLE(SetId, unsigned int);
-  SAFEMUTABLE(SetName, const std::string&);
-  SAFEMUTABLE(SetMeshName, const std::string&);
-  SAFEMUTABLE(SetFileName, const std::string&);
-  SAFEMUTABLE(SetPosition, const WFMath::Point<3>&);
+  SAFEMUTABLE(SetId, unsigned int)
+  SAFEMUTABLE(SetName, const std::string&)
+  SAFEMUTABLE(SetMeshName, const std::string&)
+  SAFEMUTABLE(SetFileName, const std::string&)
+  SAFEMUTABLE(SetPosition, const WFMath::Point<3>&)
   virtual void SetPosition(float x, float y, float z)
   { SetPosition(WFMath::Point<3>(x,y,z)); }
-  SAFEMUTABLE(SetRotation, float);
+  SAFEMUTABLE(SetRotation, float)
 
   float getDistanceTo(const WFMath::Point<3>& target) const
   { return WFMath::Distance<3>(GetPosition(), target); }

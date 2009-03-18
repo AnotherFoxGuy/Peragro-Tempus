@@ -68,3 +68,4 @@ size_t MeshesTable::FindBy(const std::string& factoryName, const std::string& fi
     return 0;
   return arr[0]->id;
 }
+

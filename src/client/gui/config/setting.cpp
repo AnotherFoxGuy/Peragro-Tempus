@@ -121,6 +121,9 @@ namespace PT
         {
           Set<CEGUI::String>(value);
         } break;
+      case Undefined:
+      default:
+        break;
       }
     }
 

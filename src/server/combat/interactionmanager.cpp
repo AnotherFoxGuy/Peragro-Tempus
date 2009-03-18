@@ -261,6 +261,7 @@ InteractionManager::DeductStamina(Character* lockedCharacter,
                                   Interaction *interaction)
 {
   DEBUG("DeductStamin");
+
   float currentStamina = 0;
   float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
                                             GetStrength(lockedCharacter) +

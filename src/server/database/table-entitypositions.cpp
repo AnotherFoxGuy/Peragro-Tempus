@@ -47,3 +47,4 @@ void EntityPositionsTable::Remove(size_t id)
 {
   db->update("delete from " PT_GetTableName(DB_TABLE_ENTITYPOSITIONS) " where entity_id = %d;", id);
 }
+

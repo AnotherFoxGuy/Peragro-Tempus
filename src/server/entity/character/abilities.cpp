@@ -80,3 +80,4 @@ boost::shared_ptr<Abilities> AbilitiesFactory::Create(Entity* entity)
   boost::shared_ptr<Abilities> abilities(new Abilities(this, entity, db));
   return abilities;
 }
+

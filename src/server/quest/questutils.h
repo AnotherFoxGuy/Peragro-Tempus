@@ -22,6 +22,8 @@
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
 
+#include "common/util/printhelper.h"
+
 namespace QuestUtils
 {
   int static Apply( Character* character,const std::string& op, const std::vector<std::string>& args);
@@ -299,7 +301,7 @@ namespace QuestUtils
             character->GetReputations()->Sub(reputation, val);
           if (args[2].compare("set") == 0)
             character->GetReputations()->Set(reputation, val);
-          printf("REPUTATION: Updated %s for entity %d to %d!\n", reputation.c_str(), entity->GetId(), character->GetReputations()->Get(reputation));
+          printf("REPUTATION: Updated %s for entity %d to %"SIZET"!\n", reputation.c_str(), entity->GetId(), character->GetReputations()->Get(reputation));
           return val;
         }
         else
@@ -311,7 +313,7 @@ namespace QuestUtils
             character->GetReputations()->Sub(reputation, val);
           if (args[1].compare("set") == 0)
             character->GetReputations()->Set(reputation, val);
-          printf("REPUTATION: Updated %s to %d!\n", reputation.c_str(), character->GetReputations()->Get(reputation));
+          printf("REPUTATION: Updated %s to %"SIZET"!\n", reputation.c_str(), character->GetReputations()->Get(reputation));
           return val;
         }
       }

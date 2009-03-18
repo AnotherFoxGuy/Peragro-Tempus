@@ -140,7 +140,7 @@ void TradePeer::confirmOffer()
 void TradePeer::debugPrint()
 {
   printf("====================================================\n");
-  printf("TradePeer of %s\n", getEntity()->GetName());
+  printf("TradePeer of %s\n", getEntity()->GetName().c_str());
   printf("----------------------------------------------------\n");
   printf("Session: %" PRIxPTR "\n", (intptr_t) session);
   if (session)

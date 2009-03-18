@@ -61,3 +61,4 @@ UsersTableVOp UsersTable::GetUser(const std::string& login)
   delete rs;
   return obj;
 }
+

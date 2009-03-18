@@ -143,3 +143,4 @@ void Character::SaveToDB()
   abilities->SaveToDB();
   reputations->SaveToDB();
 }
+

@@ -80,3 +80,4 @@ boost::shared_ptr<Reputations> ReputationsFactory::Create(Entity* entity)
   boost::shared_ptr<Reputations> reputations(new Reputations(this, entity, db));
   return reputations;
 }
+

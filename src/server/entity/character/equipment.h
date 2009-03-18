@@ -23,12 +23,11 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 
+#include "server/entity/itementity.h"
+
 class TableManager;
 class Entity;
 class EquipmentFactory;
-
-class ItemEntity;
-
 
 class Equipment
 {

@@ -51,3 +51,4 @@ PermissionsTableVOArray PermissionsTable::Get(const std::string& login)
   delete rs;
   return arr;
 }
+

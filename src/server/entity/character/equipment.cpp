@@ -31,8 +31,9 @@
 #include "src/server/database/table-equiptypes.h"
 #include "src/server/database/table-equipment.h"
 
+#include "common/util/printhelper.h"
+
 #include "server/entity/entitymanager.h"
-#include "server/entity/itementity.h"
 
 boost::shared_ptr<ItemEntity> Convert1(Entityp e)
 {
@@ -59,7 +60,7 @@ void Equipment::Equip(size_t slotId, boost::shared_ptr<ItemEntity> item)
 {
   if (Equiped(slotId))
   {
-    printf("E: Equipment::Equip: slot %d already occupied!", slotId);
+    printf("E: Equipment::Equip: slot %"SIZET" already occupied!", slotId);
     throw EquipmentFactory::Exception();
   }
   // We added the item to the equipment, so remove it from the world.
@@ -79,7 +80,7 @@ boost::shared_ptr<ItemEntity> Equipment::UnEquip(size_t slotId)
 {
   if (!Equiped(slotId))
   {
-    printf("E: Equipment::UnEquip: slot %d empty!", slotId);
+    printf("E: Equipment::UnEquip: slot %"SIZET" empty!", slotId);
     throw EquipmentFactory::Exception();
   }
   Iterator it = equipment.find(slotId);

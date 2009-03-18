@@ -129,7 +129,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   void CreateTable();
 
 #define PT_DEFINE_CreateTable(Class, t, s) \
-  void BOOST_PP_CAT(Class,::) CreateTable() \
+  void Class::CreateTable() \
   { \
     printf("create table "BOOST_PP_STRINGIZE(t)); \
     db->update("create table "BOOST_PP_STRINGIZE(t)" (" \
@@ -145,7 +145,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   void DropTable();
 
 #define PT_DEFINE_DropTable(Class, t, s) \
-  void BOOST_PP_CAT(Class,::) DropTable() \
+  void Class::DropTable() \
   { \
     db->update("drop table " BOOST_PP_STRINGIZE(t) ";"); \
   }
@@ -156,7 +156,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   void Insert( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) );
 
 #define PT_DEFINE_Insert(Class, t, s) \
-  void BOOST_PP_CAT(Class,::) Insert( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) ) \
+  void Class::Insert( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) ) \
   { \
     db->update("insert or replace into "BOOST_PP_STRINGIZE(t)" (" \
     BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUENAMES_, ~, s) \
@@ -173,7 +173,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   void Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) );
 
 #define PT_DEFINE_Delete(Class, t, s) \
-  void BOOST_PP_CAT(Class,::) Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) ) \
+  void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) ) \
   { \
     db->update("select * from " BOOST_PP_STRINGIZE(t) " " \
     "where " \
@@ -197,7 +197,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> ParseSingleResultSet(ResultSet* rs, size_t row = 0);
 
 #define PT_DEFINE_ParseSingleResultSet(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) BOOST_PP_CAT(Class,::) ParseSingleResultSet(ResultSet* rs, size_t row) \
+  BOOST_PP_CAT(t, TableVOp) Class::ParseSingleResultSet(ResultSet* rs, size_t row) \
   { \
     BOOST_PP_CAT(t, TableVOp) vo(new BOOST_PP_CAT(t, TableVO)()); \
     BOOST_PP_SEQ_FOR_EACH_I(PT_VO_ASSIGN_, ~, s) \
@@ -208,7 +208,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   BOOST_PP_CAT(t, TableVOArray) ParseMultiResultSet(ResultSet* rs);
 
 #define PT_DEFINE_ParseMultiResultSet(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOArray) BOOST_PP_CAT(Class,::) ParseMultiResultSet(ResultSet* rs) \
+  BOOST_PP_CAT(t, TableVOArray) Class::ParseMultiResultSet(ResultSet* rs) \
   { \
     BOOST_PP_CAT(t, TableVOArray) arr; \
     for (size_t i = 0; rs && i < rs->GetRowCount(); i++) \
@@ -225,7 +225,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   BOOST_PP_CAT(t, TableVOArray) GetAll();
 
 #define PT_DEFINE_GetAll(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOArray) BOOST_PP_CAT(Class,::) GetAll() \
+  BOOST_PP_CAT(t, TableVOArray) Class::GetAll() \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) ";"); \
     std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
@@ -241,7 +241,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   BOOST_PP_CAT(t, TableVOArray) Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
 
 #define PT_DEFINE_Get(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOArray) BOOST_PP_CAT(Class,::) Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
+  BOOST_PP_CAT(t, TableVOArray) Class::Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \
@@ -262,7 +262,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
 
 #define PT_DEFINE_GetSingle(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) BOOST_PP_CAT(Class,::) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
+  BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \

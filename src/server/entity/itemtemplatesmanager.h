@@ -20,6 +20,7 @@
 #define ITEMTEMPLATESMANAGER_H
 
 #include <map>
+#include <string>
 #include <boost/shared_ptr.hpp>
 
 class ItemEntity;
@@ -45,6 +46,7 @@ public:
 
 public:
   ItemTemplate(size_t templateId) : templateId(templateId) {}
+  virtual ~ItemTemplate() {}
 
   virtual void SetDataOn(ItemEntity* item);
 };

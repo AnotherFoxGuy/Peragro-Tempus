@@ -114,7 +114,7 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     //msg.SetSectorId(entity->GetSector());
     //msg.setPoseId(entity->GetPoseId());
 
-    PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+    //PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
 
     //msg.setDecalColour(pc->GetDecalColour());
     //msg.setHairColour(pc->GetHairColour());

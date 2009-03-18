@@ -152,3 +152,4 @@ void TableManager::Register(boost::shared_ptr<Table> table)
 {
   tables.push_back(table);
 }
+

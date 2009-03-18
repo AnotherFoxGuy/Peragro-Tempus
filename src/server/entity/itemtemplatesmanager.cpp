@@ -24,6 +24,8 @@
 #include "server/database/table-meshes.h"
 #include "server/database/table-equiptypes.h"
 
+#include "common/util/printhelper.h"
+
 #include "itementity.h"
 
 void ItemTemplate::LoadFromDB()
@@ -79,7 +81,7 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
     }
     catch (char)
     {
-      printf("E: Invalid template %d!\n", templateId);
+      printf("E: Invalid template %"SIZET"!\n", templateId);
       throw "Invalid template !";
     }
     templates[templateId] = t;
@@ -88,3 +90,4 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
   else
     return it->second.lock();
 }
+

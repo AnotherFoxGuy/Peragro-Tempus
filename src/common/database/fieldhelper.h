@@ -33,7 +33,7 @@
 namespace DB
 {
   //----------------------------------------------------------------
-  struct Helper
+  namespace Helper
   {
     static std::string Quote(const std::string& val) { return "\""+val+"\""; }
 
@@ -49,17 +49,17 @@ namespace DB
     static void Convert(T& val, const std::string& str) { val = str; }
     template<> static void Convert(size_t& val, const std::string& str) { val = atoi(str.c_str()); }
     template<> static void Convert(float& val, const std::string& str) { val = atof(str.c_str()); }
-    template<> static void Convert(bool& val, const std::string& str) { std::istringstream(str) >> val; }
+    template<> static void Convert(bool& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     // std::string by default template.
-    template<> static void Convert(WFMath::Point<3>& val, const std::string& str) { std::istringstream(str) >> val; }
+    template<> static void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
 
     template<typename T>
     static std::string Convert(T val) { return val; }
-    template<> static std::string Convert(size_t val) { std::stringstream o; o<<val; std::string s(o.str()); return s; }
-    template<> static std::string Convert(float val) { std::stringstream o; o<<val; std::string s(o.str()); return s; }
-    template<> static std::string Convert(bool val) { std::stringstream o; o<<val; std::string s(o.str()); return s; }
+    template<> static std::string Convert(size_t val) { std::stringstream o; o << val; return o.str(); }
+    template<> static std::string Convert(float val) { std::stringstream o; o << val; return o.str(); }
+    template<> static std::string Convert(bool val) { std::stringstream o; o << val; return o.str(); }
     template<> static std::string Convert(std::string val) { return Quote(val); }
-    template<> static std::string Convert(WFMath::Point<3> val) { std::stringstream o; o<<val; std::string s(o.str()); return Quote(s); }
+    template<> static std::string Convert(WFMath::Point<3> val) { std::stringstream o; o << val; return Quote(o.str()); }
   };
   //----------------------------------------------------------------
 

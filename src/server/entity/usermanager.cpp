@@ -138,3 +138,4 @@ boost::shared_ptr<User> UserManager::FindByName(const std::string& name)
   else
     return boost::shared_ptr<User>();
 }
+

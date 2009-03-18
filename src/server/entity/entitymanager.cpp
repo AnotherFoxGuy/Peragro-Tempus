@@ -184,3 +184,4 @@ void EntityManager::Moved(Octree::Shape* shape)
     e->GetUser()->SendEntityDiff(result);
   }
 }
+

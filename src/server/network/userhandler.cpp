@@ -244,3 +244,4 @@ void UserHandler::handleMeshListRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
   */
 }
+

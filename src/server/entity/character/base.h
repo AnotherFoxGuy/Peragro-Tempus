@@ -21,6 +21,7 @@
 
 #include <string>
 #include <map>
+#include <boost/shared_ptr.hpp>
 
 class TableManager;
 class Entity;
@@ -33,135 +34,149 @@ class Exception
 template<size_t multiplier, typename T, size_t startXp = 0>
 class Bases
 {
-private:
-  std::string type;
-protected:
-  BasesFactory* fact;
-  Entity* entity;
-  TableManager* db;
+public:
+  Bases(const std::string& type, BasesFactory* fact, Entity* entity,
+    TableManager* db);
+  virtual ~Bases();
 
+  T Get(const std::string& name);
+  void Set(const std::string& name, T xp);
+  void Add(const std::string& name, T xp);
+  void Sub(const std::string& name, T xp);
+  size_t GetLevel(const std::string& name);
+
+  virtual void LoadFromDB() = 0;
+  virtual void SaveToDB() = 0;
+
+protected:
   class Base
   {
+  public:
+    Base(size_t id, T xp);
+    T Get();
+    void Set(T xp);
+    bool IsDirty();
+    void SetDirty(bool dirty);
   private:
     size_t id;
     T xp;
     bool dirty;
-  public:
-    Base(size_t id, T xp) : id(id), xp(xp), dirty(false) {}
-    T Get() { return xp; }
-    void Set(T xp) { dirty = true; Base::xp = xp; }
-    bool IsDirty() { return dirty; }
-    void SetDirty(bool dirty) { Base::dirty = dirty; }
   };
+
+  size_t GetLevel(T xp) const;
+  Base* GetBase(const std::string& name);
 
   std::map<size_t, boost::shared_ptr<Base> > bases;
 
-  size_t GetLevel(T xp) const
-  {
-    if (multiplier == 1) return xp;
-    size_t level = 0
-    while (xp >= (level+1) * multiplier)
-    {
-      xp -= ((level+1) * multiplier);
-      level++;
-    }
-    return level;
-  }
+  BasesFactory* fact;
+  Entity* entity;
+  TableManager* db;
 
-  Base* GetBase(const std::string& name)
-  {
-    try
-    {
-      size_t id = fact->GetID(name);
-      std::map<size_t, boost::shared_ptr<Base> >::const_iterator it = bases.find(id);
-      if (it == bases.end())
-      {
-        // The base wasn't found for this entity(although the type exists!)
-        // so let's create it.
-        boost::shared_ptr<Base> b(new Base(id, 0));
-        bases[id] = b;
-        b->Set(startXp); // Make it dirty!
-        this->SaveToDB();
-        return b.get();
-      }
-      return it->second.get();
-    }
-    catch (Exception)
-    {
-      printf("No %s with name '%s'", type.c_str(), name.c_str());
-      throw Exception();
-    }
-  }
-
-public:
-  Bases(const std::string& type, BasesFactory* fact, Entity* entity, TableManager* db) : type(type), fact(fact), entity(entity),  db(db) {}
-  virtual ~Bases() {}
-
-  T Get(const std::string& name)
-  {
-    return GetBase(name)->Get();
-  }
-
-  void Set(const std::string& name, T xp)
-  {
-    GetBase(name)->Set(xp);
-  }
-
-  void Add(const std::string& name, T xp)
-  {
-    GetBase(name)->Set(GetBase(name)->Get() + xp);
-  }
-
-  void Sub(const std::string& name, T xp)
-  {
-    GetBase(name)->Set(GetBase(name)->Get() - xp);
-  }
-
-  size_t GetLevel(const std::string& name)
-  {
-    return GetLevel(GetBase(name)->Get());
-  }
-
-  virtual void LoadFromDB() = 0;
-  virtual void SaveToDB() = 0;
+private:
+  std::string type;
 };
 
 class BasesFactory
 {
-private:
-  std::map<std::string, size_t> names;
-  std::map<size_t, std::string> ids;
+public:
+  BasesFactory(TableManager* db);
+  virtual ~BasesFactory();
+
+  size_t GetID(const std::string& name) const;
+
+  const std::string& GetName(size_t id) const;
+
+  //boost::shared_ptr<Bases> Create(Entity* entity);
 
 protected:
   TableManager* db;
   virtual void LoadFromDB() = 0;
-  void Add(size_t id, const std::string& name)
-  {
-    names[name] = id;
-    ids[id] = name;
-  }
+  void Add(size_t id, const std::string& name);
 
-public:
-  BasesFactory(TableManager* db) : db(db) {}
-  virtual ~BasesFactory() {}
-
-  size_t GetID(const std::string& name) const
-  {
-    std::map<std::string, size_t>::const_iterator it = names.find(name);
-    if (it == names.end())
-      throw Exception();
-    return it->second;
-  }
-
-  const std::string& GetName(size_t id) const
-  {
-    std::map<size_t, std::string>::const_iterator it = ids.find(id);
-    if (it == ids.end())
-      throw Exception();
-    return it->second;
-  }
-
-  //boost::shared_ptr<Bases> Create(Entity* entity);
+private:
+  std::map<std::string, size_t> names;
+  std::map<size_t, std::string> ids;
 };
+
+template<size_t multiplier, typename T, size_t startXp>
+inline Bases<multiplier, T, startXp>::Base::Base(size_t id, T xp)
+  : id(id), xp(xp), dirty(false) {}
+
+template<size_t multiplier, typename T, size_t startXp>
+inline T Bases<multiplier, T, startXp>::Base::Get()
+{ return xp; }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline void Bases<multiplier, T, startXp>::Base::Set(T xp)
+{ dirty = true; Base::xp = xp; }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline bool Bases<multiplier, T, startXp>::Base::IsDirty()
+{ return dirty; }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline void Bases<multiplier, T, startXp>::Base::SetDirty(bool dirty)
+{ Base::dirty = dirty; }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline size_t Bases<multiplier, T, startXp>::GetLevel(T xp) const
+{ return (xp / multiplier); }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline Bases<multiplier, T, startXp>::Bases(const std::string& type, BasesFactory* fact, Entity* entity,
+  TableManager* db)
+  : fact(fact), entity(entity),  db(db), type(type) {}
+
+template<size_t multiplier, typename T, size_t startXp>
+inline Bases<multiplier, T, startXp>::~Bases()
+{}
+
+template<size_t multiplier, typename T, size_t startXp>
+inline T Bases<multiplier, T, startXp>::Get(const std::string& name)
+{ return GetBase(name)->Get(); }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline void Bases<multiplier, T, startXp>::Set(const std::string& name, T xp)
+{ GetBase(name)->Set(xp); }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline void Bases<multiplier, T, startXp>::Add(const std::string& name, T xp)
+{ Base* base = GetBase(name); base->Set(base->Get() + xp); }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline void Bases<multiplier, T, startXp>::Sub(const std::string& name, T xp)
+{ Base* base = GetBase(name); base->Set(base->Get() - xp); }
+
+template<size_t multiplier, typename T, size_t startXp>
+inline size_t Bases<multiplier, T, startXp>::GetLevel(const std::string& name)
+{ return GetLevel(GetBase(name)->Get()); }
+
+template<size_t multiplier, typename T, size_t startXp>
+typename Bases<multiplier, T, startXp>::Base*
+  Bases<multiplier, T, startXp>::GetBase(const std::string& name)
+{
+  try
+  {
+    size_t id = fact->GetID(name);
+    typename std::map<size_t, boost::shared_ptr<Base> >::const_iterator it
+      = bases.find(id);
+    if (it == bases.end())
+    {
+      // The base wasn't found for this entity(although the type exists!)
+      // so let's create it.
+      boost::shared_ptr<Base> b(new Base(id, 0));
+      bases[id] = b;
+      b->Set(startXp); // Make it dirty!
+      this->SaveToDB();
+      return b.get();
+    }
+    return it->second.get();
+  }
+  catch (Exception&)
+  {
+    printf("No %s with name '%s'", type.c_str(), name.c_str());
+    throw;
+  }
+}
 
 #endif // BASE_H
