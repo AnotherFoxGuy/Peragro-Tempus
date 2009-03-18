@@ -85,6 +85,6 @@ std::string cmdHelp::Execute (const StringArray& args)
     } // else
   } // for
 
-  return text; 
+  return text;
 
 } // cmdHelp::Execute

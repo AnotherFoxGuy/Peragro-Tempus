@@ -41,7 +41,7 @@ void PermissionList::setLevel(Permission::Type type, unsigned char level)
   levels[type] = level;
   TableManager* tablemgr = Server::getServer()->GetTableManager();
   switch (type)
-  { 
+  {
   case Permission::Admin:
     tablemgr->Get<PermissionsTable>()->Insert(login, "Admin", level);
     break;

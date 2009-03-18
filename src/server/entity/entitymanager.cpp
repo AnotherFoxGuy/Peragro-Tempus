@@ -39,7 +39,7 @@ EntityManager::EntityManager()
 {
 }
 
-EntityManager::~EntityManager() 
+EntityManager::~EntityManager()
 {
 }
 
@@ -99,7 +99,7 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
   if (success)
   {
     using namespace Common::Entity;
-    if (entity->GetType() == PCEntityType 
+    if (entity->GetType() == PCEntityType
       || entity->GetType() == NPCEntityType)
     {
       //Server::getServer()->getCollisionDetection()->addEntity(entity);

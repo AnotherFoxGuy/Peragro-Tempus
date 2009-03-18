@@ -26,9 +26,9 @@
 
 using namespace PT::Command;
 
-cmdEventLaunch::cmdEventLaunch (iBase* parent, const char* cmd, const char* evname) 
+cmdEventLaunch::cmdEventLaunch (iBase* parent, const char* cmd, const char* evname)
   : ptCommandDefault(parent, cmd), eventname("")
-{ 
+{
   if (evname) eventname = evname;
 }
 

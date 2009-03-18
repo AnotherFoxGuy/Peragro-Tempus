@@ -916,7 +916,7 @@ newline 54      1       c1      newline (max final loc)
         StarColor(static_cast<SpectralType>(StarType(star_classification)), distance),
         star_tex[StarType(star_classification)*6]
       );
-      // Calculate a default scale for the star mesh 
+      // Calculate a default scale for the star mesh
       system->SetScale ( base_star_size, star_apr_mag_exp );
 
 

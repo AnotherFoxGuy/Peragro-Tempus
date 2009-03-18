@@ -31,7 +31,7 @@ class ResultSet;
 #define DB_TABLE_USERS Users
 #define DB_TABLE_USERS_FIELDS \
   ((login,              std::string,        1,            0)) \
-  ((passwordHash,       std::string,        0,            0)) 
+  ((passwordHash,       std::string,        0,            0))
 
 PT_DECLARE_VO(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 

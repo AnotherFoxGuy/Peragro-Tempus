@@ -37,7 +37,7 @@ private:
   public:
     Equal(boost::shared_ptr<Character> e) : e(e) {}
     Equal() {}
-    bool operator() (const boost::weak_ptr<Character>& c) 
+    bool operator() (const boost::weak_ptr<Character>& c)
     { return (c.expired() || c.lock()==e); }
   };
 

@@ -57,7 +57,7 @@ PT_DEFINE_CreateTable(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FI
 PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 */
 
-// Helpers 
+// Helpers
 //-----------------------------------------------------------------------------------
 #define STRINGIFY(x) "\""BOOST_PP_STRINGIZE(x)"\""
 

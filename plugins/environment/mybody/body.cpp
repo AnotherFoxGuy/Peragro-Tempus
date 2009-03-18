@@ -304,7 +304,7 @@ void Body::Update_Mesh_Pos ()
     iMovable* movable;
     movable = mesh->GetMovable();
     movable->SetTransform (abs_pos);
-    csVector3  body_pos = abs_pos.GetOrigin(); 
+    csVector3  body_pos = abs_pos.GetOrigin();
     movable->UpdateMove();
 
   }
@@ -335,12 +335,12 @@ void Body::Update_Lights()
 
   csVector3 pos;
 
-  if (mesh) 
+  if (mesh)
   {
     pos = mesh->GetMovable()->GetFullPosition();
 //    if (csbody_report_lvl) printf("pos %s light( %4.6f, %4.6f, %4.6f)\n", name.c_str(), pos.x, pos.y, pos.z);
     if (light) Pos_Light (pos);
-  } 
+  }
   // update child bodies
   for (size_t i = 0; i < child_bodies.GetSize(); i++)
   {
@@ -379,7 +379,7 @@ csOrthoTransform Body::GetSurfaceTrans ( const float& lon ,const float& lat )
 
   csVector3 sur_vec = GetSurfaceVector (lon , lat);
 
-  csVector3 off_set = ( body_radius * sur_vec );  
+  csVector3 off_set = ( body_radius * sur_vec );
   body_pos += off_set;
 
   bodytrans = csReversibleTransform ( body_matrix, body_pos );
@@ -403,7 +403,7 @@ csVector3  Body::GetSurfaceVector(const float& lon, const float& lat)
   // Get surface vector on sphere at lon/lat
   csVector3 sur_vec;
 
-  // Since lon and lat are relative to the sphere need to adjust to 
+  // Since lon and lat are relative to the sphere need to adjust to
   // absoulte position relative to solarplane
   float adjlon = (lon - body_rotation)*(PI / 180.0);
   float adjlat = (lat + body_inclination)*(PI / 180.0);
@@ -424,7 +424,7 @@ csVector3  Body::GetLookAtVector(const float& lon, const float& lat)
   // Get surface vector on sphere at lon/lat
   csVector3 sur_vec;
 
-  // Since lon and lat are relative to the sphere need to adjust to 
+  // Since lon and lat are relative to the sphere need to adjust to
   // absoulte position relative to solarplane
   float adjlon = (lon - body_rotation)*(PI / 180.0);
   float adjlat = (90+lat + body_inclination)*(PI / 180.0);
@@ -547,7 +547,7 @@ float Body::Get_Body_Rotation (long secondspassed )
   if ( last_update_seconds < seconds )
   {
     last_update_seconds = seconds;
-    if (body_day_length!=0)  // avoid devide by zero 
+    if (body_day_length!=0)  // avoid devide by zero
     {
       long day_in_seconds = static_cast<long>(body_day_length * 60 * 60); // day units is hours
       long day_remainder =  (seconds % day_in_seconds) + 1;
@@ -561,7 +561,7 @@ float Body::Get_Body_Rotation (long secondspassed )
     }
   }
   else
-  { 
+  {
     rot_angle = body_rotation;
   }
   return rot_angle;

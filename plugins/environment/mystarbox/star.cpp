@@ -177,10 +177,10 @@ int Star::Get_Type()
 
 float Star::GetStarScale (const float& dist, const float& base_star_size, const float& apr_mag_exp )
 {
- 
+
   float abs_lum = system->Get_Luminosity();
 
-  //dist = (dist/3.2616);  // convert dist from light year to parsecs 
+  //dist = (dist/3.2616);  // convert dist from light year to parsecs
   // need to take into account the camera pos
   // m=M+5(log10(d)-1) where m = apr mag M=abs mag d=distance in parces's
   //  float apr_lum = abs_lum + 5 * (log10(dist)-1);
@@ -223,7 +223,7 @@ float Star::GetStarScale (const float& dist, const float& base_star_size, const 
   scale = scale * base_star_size;
   return scale;
 
-} 
+}
 
 
 

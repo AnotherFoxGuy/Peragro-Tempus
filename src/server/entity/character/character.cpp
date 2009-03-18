@@ -86,8 +86,8 @@ void Character::LoadFromDB()
   CharactersTableVOp c = table->GetSingle(GetId());
   SetName(c->name);
   size_t meshId = c->meshes_id;
-  SetHairColour(c->hairColor); 
-  SetSkinColour(c->skinColor); 
+  SetHairColour(c->hairColor);
+  SetSkinColour(c->skinColor);
   SetDecalColour(c->decalColor);
 
   MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
@@ -112,7 +112,7 @@ void Character::SaveToDB()
 {
   Entity::SaveToDB();
 
-  size_t meshId = 0; 
+  size_t meshId = 0;
   MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
   meshId = mtable->FindBy(GetMeshName(), GetFileName());
   if (!meshId)

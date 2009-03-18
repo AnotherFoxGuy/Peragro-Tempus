@@ -225,7 +225,7 @@ namespace PT
       else if (type == Common::Entity::ItemEntityType) entity = new PT::Entity::ItemEntity(ev);
       else if (type == Common::Entity::MountEntityType) entity = new PT::Entity::MountEntity(ev);
       else if (type == Common::Entity::NPCEntityType) entity = new PT::Entity::NpcEntity(ev);
-      else if (type == Common::Entity::PCEntityType && primaryId == id) 
+      else if (type == Common::Entity::PCEntityType && primaryId == id)
         entityp = PT::Entity::PlayerEntity::Instance(&ev);
       else if (type == Common::Entity::PCEntityType) entity = new PT::Entity::PcEntity(ev);
       else
@@ -241,7 +241,7 @@ namespace PT
       ((::Client::Entity::Entity*)entity)->pl = pl;
 
       Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (primaryId == id) ? " as me":"");
-      
+
       // Add our entity to the list.
       Add(entityp);
 
@@ -251,7 +251,7 @@ namespace PT
     bool EntityManager::RemoveEntity(iEvent& ev)
     {
       unsigned int id = PT::Events::EntityHelper::GetEntityID(&ev);
-     
+
       Remove(id);
 
       return true;

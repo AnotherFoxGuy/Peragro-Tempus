@@ -36,7 +36,7 @@ namespace Common
     bool EntityManager::Add(Entityp entity)
     {
       // If object is already present return false.
-      if (entities.count(entity->GetId()) > 0) 
+      if (entities.count(entity->GetId()) > 0)
         return false;
 
       bool succes = octree.Add(&entity->position);
@@ -47,7 +47,7 @@ namespace Common
     void EntityManager::Remove(const Entityp entity)
     {
       // TODO: throw when the entity hasn't been found?
-      entities.erase(entity->GetId()); 
+      entities.erase(entity->GetId());
       // Entity will automatically be removed from the octree.
     }
 
@@ -62,7 +62,7 @@ namespace Common
     {
       Iterator it;
       it = entities.find(id);
-      if (it != entities.end()) 
+      if (it != entities.end())
          return it->second;
       else
         return Entityp();

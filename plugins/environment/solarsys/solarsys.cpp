@@ -18,7 +18,7 @@
 //File: `myobject.cpp'
 
 #include "solarsys.h"
- 
+
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY(SolarsysFactory);
@@ -114,10 +114,10 @@ void Solarsys::DrawSolarSys( iCamera* c , long ts )
         solarview->GetCamera ()->SetTransform (c2);
         DrawStarbox( solarview->GetCamera () ); // draw the starbox
 
-        // do this to have free camera move 
+        // do this to have free camera move
         // with surface camera axis drawn
         // DrawCameraAxis (c ,  solarview->GetCamera () );
-        // solarview->GetCamera ()->SetTransform (c1); 
+        // solarview->GetCamera ()->SetTransform (c1);
 
 
       } else
@@ -125,7 +125,7 @@ void Solarsys::DrawSolarSys( iCamera* c , long ts )
         DrawStarbox( solarview->GetCamera () ); // draw the starbox if loaded
         solarview->GetCamera ()->SetTransform ( c->GetTransform());
       }
-      if (solarsys_report_lvl) rootbody->Draw_Orbit( solarview->GetCamera () ); 
+      if (solarsys_report_lvl) rootbody->Draw_Orbit( solarview->GetCamera () );
       rm->RenderView(solarview);
     } else
     {
@@ -147,9 +147,9 @@ csVector3 Solarsys::GetRelatveRootPos()
     csReversibleTransform c2 = surbody->GetSurfaceOrthoTransform(lon,lat);  //
     vsb = surbody->GetSurfacePos(lon,lat);
     vsb += surbody->GetPos();
-    vrb = rootbody->GetPos(); // should really be parent 
+    vrb = rootbody->GetPos(); // should really be parent
 
-    r = c2.This2OtherRelative(vsb-vrb);  
+    r = c2.This2OtherRelative(vsb-vrb);
 
     // up seems to be down, so rotate point througn 180 on x and z axis
     csQuaternion rot;
@@ -200,7 +200,7 @@ void Solarsys::DrawStarbox(iCamera* c)
 bool Solarsys::CreateCamera()
 {
   // Now we need to position the camera in our world.
-  // First some sanity checks 
+  // First some sanity checks
   if (!sector)
   {
    if (solarsys_report_lvl) printf ("Solarsys::CreateCamera():Can't set sector!\n");
@@ -221,7 +221,7 @@ bool Solarsys::CreateCamera()
   csVector3 pos(0,0,0);
   solarview->GetCamera ()->GetTransform ().SetOrigin (pos);
 
-  // setup render manager 
+  // setup render manager
   rm = engine->GetRenderManager();
   if (!rm) { printf("Solarsys::CreateCamera(): No Render Manager!\n"); return false;}
 
@@ -230,7 +230,7 @@ bool Solarsys::CreateCamera()
 
 void Solarsys::DrawCameraAxis(iCamera* view_c, iCamera* surface_c)
 {
-  // debug function to help work out the camera axis in the solarsystem sector 
+  // debug function to help work out the camera axis in the solarsystem sector
   csVector3  v3start, v3end;
   csVector3 v3s, v3e;
   int green, red, blue;
@@ -247,33 +247,33 @@ void Solarsys::DrawCameraAxis(iCamera* view_c, iCamera* surface_c)
   blue = g3d->GetDriver2D()->FindRGB(0, 0, 255);
   fov = g3d->GetPerspectiveAspect();
 
-  // Draw the up vector 
+  // Draw the up vector
   csVector3 origin = csSurfaceOrth.GetOrigin();
   csVector3 up = surbody->GetSurfaceVector(lon,lat)*100;
   g3d->DrawLine(csCameraOrth * (origin), (csCameraOrth * (origin + up)), fov, red);
 
-  // Draw the other axis vectors 
+  // Draw the other axis vectors
   csVector3 sur_vec;
   float adjlon;
   float adjlat;
-  // Since lon and lat are relative to the sphere need to adjust to 
+  // Since lon and lat are relative to the sphere need to adjust to
   // absoulte position relative to solarplane
   // and since we want a point on the z axis add 90deg
   adjlon = (lon - surbody->GetBodyRotation() )*(PI / 180.0);
   adjlat = (90 + lat + surbody->GetBodyInc() )*(PI / 180.0);
-  // Get axis vector from camera origin 
+  // Get axis vector from camera origin
   sur_vec.x = cos( adjlon ) * cos( adjlat );
   sur_vec.y = sin( adjlon ) * cos( adjlat );
   sur_vec.z = sin( adjlat );
   sur_vec = sur_vec * 100;
   g3d->DrawLine(csCameraOrth * (origin), (csCameraOrth * (origin + sur_vec)), fov, green);
 
-  // Since lon and lat are relative to the sphere need to adjust to 
+  // Since lon and lat are relative to the sphere need to adjust to
   // absoulte position relative to solarplane
   adjlon = ( 90 + lon - surbody->GetBodyRotation() )*(PI / 180.0);
   adjlat = (lat + surbody->GetBodyInc() )*(PI / 180.0);
 
-  // Get axis vector from camera origin 
+  // Get axis vector from camera origin
   sur_vec.x = cos( adjlon ) * cos( adjlat );
   sur_vec.y = sin( adjlon ) * cos( adjlat );
   sur_vec.z = sin( adjlat );

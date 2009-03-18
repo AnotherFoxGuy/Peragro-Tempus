@@ -140,7 +140,7 @@ namespace Common
       ///Ensure that the Entity's position is a valid position in the world
       virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
       ///Set the Entity's position, ensuring that the position is valid
-      virtual void SetFullPosition(const WFMath::Point<3>& pos, 
+      virtual void SetFullPosition(const WFMath::Point<3>& pos,
                                    float rot,
                                    const std::string& sector)
       { position = pos;  rotation = rotation;  sectorName = sector; }

@@ -58,7 +58,7 @@ void Reputations::SaveToDB()
   }
 }
 
-ReputationsFactory::ReputationsFactory(TableManager* db) : BasesFactory(db) 
+ReputationsFactory::ReputationsFactory(TableManager* db) : BasesFactory(db)
 {
   LoadFromDB();
 }

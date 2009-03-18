@@ -58,7 +58,7 @@ void Skills::SaveToDB()
   }
 }
 
-SkillsFactory::SkillsFactory(TableManager* db) : BasesFactory(db) 
+SkillsFactory::SkillsFactory(TableManager* db) : BasesFactory(db)
 {
   LoadFromDB();
 }

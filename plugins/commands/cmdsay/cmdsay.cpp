@@ -32,7 +32,7 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdSay)
 
-cmdSay::cmdSay (iBase* parent, const char* cmd) 
+cmdSay::cmdSay (iBase* parent, const char* cmd)
   : ptCommandDefault(parent, cmd)
 { }
 
@@ -47,9 +47,9 @@ std::string cmdSay::HelpSynopsis (const char*) const
 std::string cmdSay::HelpFull (const char*) const
 { return "Use this command to enter a full message to say to others around you."; }
 
-std::string cmdSay::Execute (const StringArray& args) 
-{ 
-  Say(2, args); 
+std::string cmdSay::Execute (const StringArray& args)
+{
+  Say(2, args);
   return "";
 }
 
@@ -88,8 +88,8 @@ void cmdSay::Say(unsigned char volume, const StringArray& args, const char* pre)
 
 SCF_IMPLEMENT_FACTORY(cmdShout)
 
-cmdShout::cmdShout (iBase* parent) 
-  : cmdSay(parent, "shout") 
+cmdShout::cmdShout (iBase* parent)
+  : cmdSay(parent, "shout")
 { }
 
 cmdShout::~cmdShout () { }
@@ -100,9 +100,9 @@ std::string cmdShout::HelpSynopsis (const char*) const
 std::string cmdShout::HelpUsage (const char*) const
 { return "'/shout <message>'"; }
 
-std::string cmdShout::Execute (const StringArray& args) 
-{ 
-  Say(20, args); 
+std::string cmdShout::Execute (const StringArray& args)
+{
+  Say(20, args);
   return "";
 }
 
@@ -110,8 +110,8 @@ std::string cmdShout::Execute (const StringArray& args)
 
 SCF_IMPLEMENT_FACTORY(cmdSayMe)
 
-cmdSayMe::cmdSayMe (iBase* parent) 
-  : cmdSay(parent, "me") 
+cmdSayMe::cmdSayMe (iBase* parent)
+  : cmdSay(parent, "me")
 { }
 
 cmdSayMe::~cmdSayMe () { }
@@ -129,8 +129,8 @@ std::string cmdSayMe::HelpFull (const char*) const
     " name of the speaker.";
 }
 
-std::string cmdSayMe::Execute (const StringArray& args) 
-{ 
-  Say(2, args, "/me"); 
+std::string cmdSayMe::Execute (const StringArray& args)
+{
+  Say(2, args, "/me");
   return "";
 }

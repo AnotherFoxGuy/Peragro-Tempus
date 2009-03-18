@@ -81,7 +81,7 @@ class Star{
 
     iTextureWrapper* Get_Texture() { return star_tex; };
     void Set_Texture(iTextureWrapper* tex);
-    float GetStarScale (const float& dist, const float& base_star_size, const float& apr_mag_exp); 
+    float GetStarScale (const float& dist, const float& base_star_size, const float& apr_mag_exp);
     void SetScale(float scale) {star_scale = scale; };
 
     int Get_Type();

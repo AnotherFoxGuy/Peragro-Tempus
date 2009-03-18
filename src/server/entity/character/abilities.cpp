@@ -58,7 +58,7 @@ void Abilities::SaveToDB()
   }
 }
 
-AbilitiesFactory::AbilitiesFactory(TableManager* db) : BasesFactory(db) 
+AbilitiesFactory::AbilitiesFactory(TableManager* db) : BasesFactory(db)
 {
   LoadFromDB();
 }

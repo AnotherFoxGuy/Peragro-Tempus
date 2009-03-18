@@ -26,8 +26,8 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdLogout)
 
-cmdLogout::cmdLogout (iBase* parent) 
-  : cmdEventLaunch(parent, "logout", "user.logout") 
+cmdLogout::cmdLogout (iBase* parent)
+  : cmdEventLaunch(parent, "logout", "user.logout")
 { }
 
 cmdLogout::~cmdLogout () { }

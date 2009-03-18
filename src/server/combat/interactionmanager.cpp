@@ -159,7 +159,7 @@ InteractionManager::ReportDeath(Character *lockedCharacter)
   DropAllItems(lockedCharacter);
 }
 
-void InteractionManager::DropAllItems(Character *lockedCharacter) 
+void InteractionManager::DropAllItems(Character *lockedCharacter)
 {
 /*
   DEBUG("DropAllItems");
@@ -436,7 +436,7 @@ Character* InteractionManager::GetTargetCharacter(Character* lockedCharacter)
   Common::Entity::Entityp targetEntity = Server::getServer()->getEntityManager()->
                               FindById(lockedCharacter->GetTargetID());
 
-  if (!targetEntity) 
+  if (!targetEntity)
   {
     printf(IM "Invalid target\n");
     return 0;
@@ -529,7 +529,7 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* locked
     return value;
   }
 
-/*  
+/*
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
     Item* item = InteractionUtility::GetItem(lockedCharacter, slot);
@@ -541,7 +541,7 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* locked
     {
       value += InteractionUtility::GetStatValueForItem(item, statName);
     }
-    
+
   }
 */
 

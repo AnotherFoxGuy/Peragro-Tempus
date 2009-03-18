@@ -29,7 +29,7 @@
 
 #define PT_COMMAND_MANAGER_NAME "peragro.commands.manager"
 
-namespace PT 
+namespace PT
 {
   namespace Command
   {

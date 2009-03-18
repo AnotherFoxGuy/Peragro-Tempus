@@ -29,7 +29,7 @@ namespace PT
     //--------------------------------------------------------------------------
     class cmdHelp : public ptCommandDefault
     {
-    private: 
+    private:
       csRef<iCommandManager> cmdmanager;
 
     public:

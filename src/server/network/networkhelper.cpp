@@ -104,7 +104,7 @@ void NetworkHelper::distancecast(const ByteStream& bs, Entity* entity, unsigned 
   if (!entity) return;
   if (dist == 0) return;
 
-  // use square-distance multipied by 100m^2 
+  // use square-distance multipied by 100m^2
   float sqdist = 10000.0f * dist * dist;
 
   for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)

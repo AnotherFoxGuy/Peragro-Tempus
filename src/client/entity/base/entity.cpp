@@ -22,9 +22,9 @@ namespace PT
 {
   namespace Entity
   {
-    iCelEntity* Entity::GetCelEntity () const 
-    { 
-      return celEntity; 
+    iCelEntity* Entity::GetCelEntity () const
+    {
+      return celEntity;
     }
   }
 }

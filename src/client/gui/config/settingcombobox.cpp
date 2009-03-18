@@ -66,7 +66,7 @@ namespace CEGUI
     Window::onSized(e);
     Combobox* box = getComboBoxW();
     box->getEditbox()->setReadOnly(true);
-    
+
 
     // Calculate height.
     float h = 45.0f;

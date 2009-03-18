@@ -65,7 +65,7 @@ StringArray CommandManager::ParseString(const char* texti)
       std::string text;
       StringArray arg;
       size_t beginPos = 0;
-      
+
       if (!texti) texti = "";
       text = texti;
 
@@ -104,7 +104,7 @@ StringArray CommandManager::ParseString(const char* texti)
 std::string CommandManager::ProcessString(const char* texti)
 {
   StringArray arg = ParseString(texti);
-  if (arg.size() > 1 && arg[0].compare("/") == 0) 
+  if (arg.size() > 1 && arg[0].compare("/") == 0)
     return Execute(arg[1].c_str(), arg);
   else
     return Execute(PT_DEFAULT_COMMAND, arg);
@@ -131,7 +131,7 @@ std::string CommandManager::Execute(const char* cmd, const StringArray& args)
 
   output = "Unknown Command '";
   output += cmd;
-  output += "'!"; 
+  output += "'!";
   return output;
 }
 
@@ -144,5 +144,5 @@ std::string CommandManager::Complete(const char* cmd)
 {
   /* TODO... doesn't do anything right now, just echos back what you entered */
   if (!cmd) return "";
-  return cmd; 
+  return cmd;
 }

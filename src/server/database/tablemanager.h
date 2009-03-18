@@ -33,13 +33,13 @@ private:
 
   /// Takes ownership of the object!
   void Register(Table* table);
-  
+
 public:
   TableManager(Database* db);
   virtual ~TableManager();
 
   void Initialize();
-  
+
   void Register(boost::shared_ptr<Table> table);
 
   template<typename T>

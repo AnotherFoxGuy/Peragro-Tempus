@@ -47,7 +47,7 @@ namespace PT
     public:
       Entity(Common::Entity::EntityType type) : Common::Entity::Entity(type), celEntity(0), pl(0) {}
 
-      virtual ~Entity() 
+      virtual ~Entity()
       { if (pl && celEntity) pl->RemoveEntity(celEntity); }
 
       ///@return Entity's CEL entity.

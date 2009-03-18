@@ -63,7 +63,7 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdEmote)
 
-cmdEmote::cmdEmote (iBase* parent) 
+cmdEmote::cmdEmote (iBase* parent)
   : ptClientCommand(parent), emotes()
 {/*
   printf("blaah %d\n", EMOTELISTSIZE);

@@ -59,8 +59,8 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdDbg)
 
-cmdDbg::cmdDbg (iBase* parent) 
-  : ptCommandDefault(parent, "dbg") 
+cmdDbg::cmdDbg (iBase* parent)
+  : ptCommandDefault(parent, "dbg")
 { }
 
 cmdDbg::~cmdDbg () { }
@@ -408,7 +408,7 @@ std::string cmdDbg::Execute (const StringArray& args)
         file->Write(data.str().c_str(), data.str().length());
         file->Flush();
       }
-      
+
       return "Data dumped to file.";
     }
 

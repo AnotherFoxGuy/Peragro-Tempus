@@ -22,7 +22,7 @@
 
 const ptString UserManager::Login(const std::string& username, const std::string& password, boost::shared_ptr<User>& user)
 {
-  if (username.empty() || password.empty()) 
+  if (username.empty() || password.empty())
     return ptString("You must enter username and password");
 
   // See if already logged in
@@ -57,7 +57,7 @@ const ptString Validate(const std::string& username, const std::string& password
     if (username[i] != ' ')
       nonspace=true;
 
-  if (!nonspace) 
+  if (!nonspace)
     return ptString("Username may not contain only space");
 
   if (password.size() < 6)
@@ -73,7 +73,7 @@ const ptString UserManager::Signup(const std::string& username, const std::strin
 
   ptString p = Validate(username, password);
   if (p != ptString::Null) return p;
-  
+
   TableManager* tablemgr = Server::getServer()->GetTableManager();
   UsersTable* ut = tablemgr->Get<UsersTable>();
 

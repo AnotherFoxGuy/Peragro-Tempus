@@ -36,7 +36,7 @@ class ResultSet;
   ((join_id,            size_t,             0,            (JoinTypes, id) )) \
   ((invite_id,          size_t,             0,            (JoinTypes, id) )) \
   ((visibilityChannel,  bool,               0,            0)) \
-  ((visibilityMembers,  bool,               0,            0)) 
+  ((visibilityMembers,  bool,               0,            0))
 
 PT_DECLARE_VO(ChannelTypesTable, DB_TABLE_CHANNELTYPES, DB_TABLE_CHANNELTYPES_FIELDS)
 

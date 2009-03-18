@@ -32,8 +32,8 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdRelocate)
 
-cmdRelocate::cmdRelocate (iBase* parent) 
-  : ptCommandDefault(parent, "relocate") 
+cmdRelocate::cmdRelocate (iBase* parent)
+  : ptCommandDefault(parent, "relocate")
 { }
 
 cmdRelocate::~cmdRelocate () { }

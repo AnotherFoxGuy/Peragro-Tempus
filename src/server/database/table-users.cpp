@@ -46,9 +46,9 @@ UsersTableVOp UsersTable::GetUser(const std::string& login)
 {
   ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_USERS) " where login='%s';", login.c_str());
   if (!rs) return UsersTableVOp();
-  if (rs->GetRowCount() != 1) 
+  if (rs->GetRowCount() != 1)
   {
-    if (rs->GetRowCount() < 1) 
+    if (rs->GetRowCount() < 1)
       return UsersTableVOp();
     else
     {
@@ -56,7 +56,7 @@ UsersTableVOp UsersTable::GetUser(const std::string& login)
       throw "This should never happen!";
     }
   }
-  
+
   UsersTableVOp obj = ParseSingleResultSet(rs);
   delete rs;
   return obj;

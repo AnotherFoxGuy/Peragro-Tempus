@@ -68,7 +68,7 @@ public:
     for (it=equipment.begin(); it != equipment.end(); it++)
     {
       boost::shared_ptr<ItemEntity> item(it->second);
-      
+
       msg.setSlotId(n, (unsigned char) it->first);
       msg.setItemId(n, item->GetId());
 

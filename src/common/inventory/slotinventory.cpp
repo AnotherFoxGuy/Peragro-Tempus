@@ -129,7 +129,7 @@ namespace Common
         && position.row > inventoryRows)
         return false; // Position out of inventory range.
 
-      if (!AllowsType(object)) return false; 
+      if (!AllowsType(object)) return false;
 
       boost::shared_ptr<Slot> slot = GetSlot(position);
       if(!slot)

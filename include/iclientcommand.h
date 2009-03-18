@@ -25,7 +25,7 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
-namespace PT 
+namespace PT
 {
   namespace Command
   {

@@ -40,7 +40,7 @@
 #include "table-items.h"
 #include "table-doors.h"
 
-// Item stuff 
+// Item stuff
 #include "table-itemtemplates.h"
 #include "table-equiptypes.h"
 
@@ -102,7 +102,7 @@ void TableManager::Initialize()
   Register(new ItemsTable(db));
   Register(new DoorsTable(db));
 
-  // Item stuff 
+  // Item stuff
   Register(new ItemTemplatesTable(db));
   Register(new EquipTypesTable(db));
 
@@ -124,17 +124,17 @@ void TableManager::Initialize()
   Register(new NpcAiSettingTable(db));
   Register(new NpcDialogsTable(db));
   Register(new NpcDialogAnswersTable(db));
-  
+
 
   Register(new SpawnPointsTable(db));
   Register(new BooksTable(db));
-  
+
   Register(new MeshesTable(db));
   Register(new ConfigTable(db));
 
   Register(new ZonesTable(db));
   Register(new ZonenodesTable(db));
-  
+
   db->update("commit");
 }
 

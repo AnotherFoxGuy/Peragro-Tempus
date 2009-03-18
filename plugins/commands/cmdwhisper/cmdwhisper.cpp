@@ -35,8 +35,8 @@ using namespace PT::Command;
 CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdWhisper)
 
-cmdWhisper::cmdWhisper (iBase* parent) 
-  : ptCommandDefault(parent, "whisper") 
+cmdWhisper::cmdWhisper (iBase* parent)
+  : ptCommandDefault(parent, "whisper")
 { }
 
 cmdWhisper::~cmdWhisper () { }
@@ -94,6 +94,6 @@ std::string cmdWhisper::Execute (const StringArray& args)
   event->Add("targetName", nick.c_str());
   event->Add("message", text.c_str());
   evQueue->Post(event);
-  
+
   return "";
 }

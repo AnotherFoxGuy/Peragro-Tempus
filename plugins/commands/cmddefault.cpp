@@ -28,7 +28,7 @@ ptCommandDefault::ptCommandDefault(iBase* parent, const char* cmd)
   : ptClientCommand(parent), cmdname(cmd)
 { }
 
-ptCommandDefault::~ptCommandDefault() 
+ptCommandDefault::~ptCommandDefault()
 { }
 
 bool ptCommandDefault::CommandHandled (const char* cmd) const
@@ -50,5 +50,5 @@ std::string ptCommandDefault::HelpSynopsis(const char* cmd) const
 std::string ptCommandDefault::HelpFull(const char* cmd) const
 { return HelpSynopsis(cmd); }
 
-std::string ptCommandDefault::Execute (const StringArray& args) 
+std::string ptCommandDefault::Execute (const StringArray& args)
 { return ""; }

@@ -82,7 +82,7 @@ namespace PT
       chatinputWindow->SetSubmitEvent(function);
 
       cmd_mgr = csLoadPluginCheck<iCommandManager> (obj_reg, PT_COMMAND_MANAGER_NAME);
-      
+
       historypointer = 0;
 
       return true;

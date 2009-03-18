@@ -118,7 +118,7 @@ public:
   }
 
   size_t GetLevel(const std::string& name)
-  { 
+  {
     return GetLevel(GetBase(name)->Get());
   }
 

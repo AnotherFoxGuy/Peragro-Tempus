@@ -70,7 +70,7 @@ protected:
 public:
 #pragma warning( push)
 #pragma warning( disable : 4355 )
-  Character(Common::Entity::EntityType type) 
+  Character(Common::Entity::EntityType type)
     : Entity(type), this_(this, DontDelete()), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
   {
     isWalking = false;
