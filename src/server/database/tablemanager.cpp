@@ -19,6 +19,13 @@
 #include "tablemanager.h"
 #include "common/database/database.h"
 
+// Chat stuff
+#include "table-jointypes.h"
+#include "table-channeltypes.h"
+#include "table-defaultchannels.h"
+#include "table-channels.h"
+#include "table-entitychannels.h"
+
 #include "table-users.h"
 #include "table-permissions.h"
 
@@ -48,6 +55,8 @@
 #include "table-abilities.h"
 #include "table-hobbytypes.h"
 #include "table-hobbies.h"
+#include "table-resourcetypes.h"
+#include "table-resources.h"
 
 // NPC stuff
 #include "table-npcaisetting.h"
@@ -71,6 +80,13 @@ TableManager::TableManager(Database* db) : db(db)
 void TableManager::Initialize()
 {
   db->update("begin transaction");
+
+  // Chat stuff
+  Register(new JoinTypesTable(db));
+  Register(new ChannelTypesTable(db));
+  Register(new DefaultChannelsTable(db));
+  Register(new ChannelsTable(db));
+  Register(new EntityChannelsTable(db));
 
   Register(new UsersTable(db));
   Register(new PermissionsTable(db));
@@ -101,6 +117,8 @@ void TableManager::Initialize()
   Register(new AbilitiesTable(db));
   Register(new HobbyTypesTable(db));
   Register(new HobbiesTable(db));
+  Register(new ResourceTypesTable(db));
+  Register(new ResourcesTable(db));
 
   // NPC stuff
   Register(new NpcAiSettingTable(db));
