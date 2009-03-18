@@ -174,6 +174,9 @@ int main(int argc, char ** argv)
   ReputationsFactory reputationsFactory(&tablemgr);
   server.SetReputationsFactory(&reputationsFactory);
 
+  ResourcesFactory resourcesFactory(&tablemgr);
+  server.SetResourcesFactory(&resourcesFactory);
+
   ItemTemplatesManager itemTemplatesManager;
   server.SetItemTemplatesManager(&itemTemplatesManager);
 

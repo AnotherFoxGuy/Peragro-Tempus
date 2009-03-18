@@ -106,6 +106,7 @@ void Character::LoadFromDB()
   skills->LoadFromDB();
   abilities->LoadFromDB();
   reputations->LoadFromDB();
+  resources->LoadFromDB();
 }
 
 void Character::SaveToDB()
@@ -142,5 +143,6 @@ void Character::SaveToDB()
   skills->SaveToDB();
   abilities->SaveToDB();
   reputations->SaveToDB();
+  resources->SaveToDB();
 }
 

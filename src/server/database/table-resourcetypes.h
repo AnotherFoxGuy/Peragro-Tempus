@@ -30,7 +30,10 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_RESOURCETYPES ResourceTypes
 #define DB_TABLE_RESOURCETYPES_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((id,                 size_t,             1,            0)) \
+  ((name,               std::string,        0,            0)) \
+  ((abilityType_id,     size_t,             0,            (AbilityTypes, id) )) \
+  ((multiplier,         size_t,             0,            0))
 
 PT_DECLARE_VO(ResourceTypesTable, DB_TABLE_RESOURCETYPES, DB_TABLE_RESOURCETYPES_FIELDS)
 

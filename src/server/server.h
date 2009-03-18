@@ -46,6 +46,7 @@ class EquipmentFactory;
 class SkillsFactory;
 class AbilitiesFactory;
 class ReputationsFactory;
+class ResourcesFactory;
 
 class ItemTemplatesManager;
 
@@ -73,6 +74,7 @@ private:
   SkillsFactory* skillsFactory;
   AbilitiesFactory* abilitiesFactory;
   ReputationsFactory* reputationsFactory;
+  ResourcesFactory* resourcesFactory;
 
   ItemTemplatesManager* itemTemplatesManager;
 
@@ -133,6 +135,9 @@ public:
 
   void SetReputationsFactory(ReputationsFactory* reputationsFactory) { this->reputationsFactory = reputationsFactory; }
   ReputationsFactory* GetReputationsFactory() { return this->reputationsFactory; }
+
+  void SetResourcesFactory(ResourcesFactory* resourcesFactory) { this->resourcesFactory = resourcesFactory; }
+  ResourcesFactory* GetResourcesFactory() { return this->resourcesFactory; }
 
 
   void SetItemTemplatesManager(ItemTemplatesManager* itemTemplatesManager) { this->itemTemplatesManager = itemTemplatesManager; }

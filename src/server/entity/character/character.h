@@ -33,6 +33,7 @@
 #include "skills.h"
 #include "abilities.h"
 #include "reputations.h"
+#include "resources.h"
 
 class MountEntity;
 class Race;
@@ -42,7 +43,6 @@ class Character : public Entity
 private:
   boost::shared_ptr<Character> this_;
   struct DontDelete { void operator()(void*) {} };
-
 
 protected:
   unsigned int targetID; // Used by interaction manager to determine target.
@@ -66,6 +66,7 @@ protected:
   boost::shared_ptr<Skills> skills;
   boost::shared_ptr<Abilities> abilities;
   boost::shared_ptr<Reputations> reputations;
+  boost::shared_ptr<Resources> resources;
 
 public:
 #pragma warning( push)
@@ -79,6 +80,7 @@ public:
     skills = Server::getServer()->GetSkillsFactory()->Create(this);
     abilities = Server::getServer()->GetAbilitiesFactory()->Create(this);
     reputations = Server::getServer()->GetReputationsFactory()->Create(this);
+    resources = Server::getServer()->GetResourcesFactory()->Create(this);
   }
 #pragma warning( pop )
 

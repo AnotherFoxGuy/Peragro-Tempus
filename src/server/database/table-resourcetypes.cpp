@@ -31,6 +31,9 @@ ResourceTypesTable::ResourceTypesTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
+    Insert(1, "Hit Points", 2, 1); // 2 == Endurance
+    Insert(2, "Stamina", 2, 10); // 2 == Endurance
+    Insert(3, "Willpower", 5, 10); // 5 == Resolve
   }
   delete rs;
 }
