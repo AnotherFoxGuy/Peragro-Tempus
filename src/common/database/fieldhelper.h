@@ -39,27 +39,27 @@ namespace DB
 
     template<typename T>
     static const char* DBType() { return ""; }
-    template<> static const char* DBType<size_t>() { return "INTEGER"; }
-    template<> static const char* DBType<float>() { return "FLOAT"; }
-    template<> static const char* DBType<bool>() { return "BOOLEAN"; }
-    template<> static const char* DBType<std::string>() { return "TEXT"; }
-    template<> static const char* DBType<WFMath::Point<3> >() { return "TEXT"; }
+    template<> const char* DBType<size_t>() { return "INTEGER"; }
+    template<> const char* DBType<float>() { return "FLOAT"; }
+    template<> const char* DBType<bool>() { return "BOOLEAN"; }
+    template<> const char* DBType<std::string>() { return "TEXT"; }
+    template<> const char* DBType<WFMath::Point<3> >() { return "TEXT"; }
 
     template<typename T>
     static void Convert(T& val, const std::string& str) { val = str; }
-    template<> static void Convert(size_t& val, const std::string& str) { val = atoi(str.c_str()); }
-    template<> static void Convert(float& val, const std::string& str) { val = atof(str.c_str()); }
-    template<> static void Convert(bool& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
+    template<> void Convert(size_t& val, const std::string& str) { val = atoi(str.c_str()); }
+    template<> void Convert(float& val, const std::string& str) { val = atof(str.c_str()); }
+    template<> void Convert(bool& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     // std::string by default template.
-    template<> static void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
+    template<> void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
 
     template<typename T>
     static std::string Convert(T val) { return val; }
-    template<> static std::string Convert(size_t val) { std::stringstream o; o << val; return o.str(); }
-    template<> static std::string Convert(float val) { std::stringstream o; o << val; return o.str(); }
-    template<> static std::string Convert(bool val) { std::stringstream o; o << val; return o.str(); }
-    template<> static std::string Convert(std::string val) { return Quote(val); }
-    template<> static std::string Convert(WFMath::Point<3> val) { std::stringstream o; o << val; return Quote(o.str()); }
+    template<> std::string Convert(size_t val) { std::stringstream o; o << val; return o.str(); }
+    template<> std::string Convert(float val) { std::stringstream o; o << val; return o.str(); }
+    template<> std::string Convert(bool val) { std::stringstream o; o << val; return o.str(); }
+    template<> std::string Convert(std::string val) { return Quote(val); }
+    template<> std::string Convert(WFMath::Point<3> val) { std::stringstream o; o << val; return Quote(o.str()); }
   };
   //----------------------------------------------------------------
 
