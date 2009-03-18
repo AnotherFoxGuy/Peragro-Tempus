@@ -678,9 +678,6 @@
 				RelativePath="..\..\src\server\database\table-resources.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-resourcestypes.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-resourcetypes.cpp">
 			</File>
 			<File
@@ -800,9 +797,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-resources.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-resourcestypes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-resourcetypes.h">

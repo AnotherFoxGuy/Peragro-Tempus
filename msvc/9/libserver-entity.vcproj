@@ -603,6 +603,9 @@
 				RelativePath="..\..\src\server\entity\character\reputations.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\character\resources.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\character\skills.cpp">
 			</File>
 			<File
@@ -665,6 +668,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\reputations.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\character\resources.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\skills.h">
