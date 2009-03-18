@@ -303,6 +303,9 @@
 				RelativePath="..\..\src\server\entity\character\abilities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\character\base.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\character\character.cpp">
 			</File>
 			<File
