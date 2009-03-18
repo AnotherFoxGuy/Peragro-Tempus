@@ -497,7 +497,6 @@ bool Body::Apply_Material(csRef<iMaterialWrapper>& mat )
   {
     // Now add the texture to the mesh
     mesh->GetMeshObject ()->SetMaterialWrapper (mat);
-    mesh->GetMeshObject ()->InvalidateMaterialHandles ();
   } // end no material
 
   return true;

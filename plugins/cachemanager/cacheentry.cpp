@@ -69,12 +69,10 @@ CacheEntry::CacheEntry(const std::string& fileName, iObjectRegistry* object_reg)
 
   csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
   if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
-  //csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  //if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
+  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
+  if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
-  // TODO: What if its not a full path?
-  // just vfs->PushDir() won't work since its being loaded in another thread.
-  threadReturn = loader->LoadLibraryFile(fileName.c_str(), collection);
+  threadReturn = loader->LoadLibraryFile(vfs->GetCwd(), fileName.c_str(), collection);
 } // end CacheEntry()
 
 CacheEntry::~CacheEntry()
