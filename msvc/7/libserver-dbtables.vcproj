@@ -309,16 +309,28 @@
 				RelativePath="..\..\src\server\database\table-books.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-channels.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-channeltypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characters.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-config.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-defaultchannels.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-doors.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-entities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entitychannels.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-entitypositions.cpp">
@@ -348,6 +360,9 @@
 				RelativePath="..\..\src\server\database\table-itemtemplates.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-jointypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-meshes.cpp">
 			</File>
 			<File
@@ -373,6 +388,15 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-reputationtypes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resources.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resourcestypes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resourcetypes.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-skills.cpp">
@@ -409,16 +433,28 @@
 				RelativePath="..\..\src\server\database\table-books.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-channels.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-channeltypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-characters.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-config.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-defaultchannels.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-doors.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-entities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entitychannels.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-entitypositions.h">
@@ -448,6 +484,9 @@
 				RelativePath="..\..\src\server\database\table-itemtemplates.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-jointypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-meshes.h">
 			</File>
 			<File
@@ -473,6 +512,15 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-reputationtypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resources.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resourcestypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-resourcetypes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-skills.h">
