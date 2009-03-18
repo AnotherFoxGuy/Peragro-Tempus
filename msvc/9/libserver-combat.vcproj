@@ -585,9 +585,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\combat\combatmanager.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\combat\interaction.cpp">
 			</File>
 			<File
@@ -609,9 +606,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\server\combat\combatmanager.h">
-			</File>
 			<File
 				RelativePath="..\..\src\server\combat\interaction.h">
 			</File>

@@ -595,10 +595,16 @@
 				RelativePath="..\..\src\common\database\database.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\database\fieldhelper.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\database\resultset.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\database\table.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\database\tablehelper.h">
 			</File>
 		</Filter>
 	</Files>

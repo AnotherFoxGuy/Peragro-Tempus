@@ -300,22 +300,16 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\database\table-abilities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-abilitytypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-books.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-charactermasteries.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterreputations.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-characters.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterskills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterstats.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-config.cpp">
@@ -327,19 +321,34 @@
 				RelativePath="..\..\src\server\database\table-entities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-entitypositions.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entitytypes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-equipment.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-equiptypes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-hobbies.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-hobbytypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-inventory.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-items.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-itemstats.cpp">
+				RelativePath="..\..\src\server\database\table-itemtemplates.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-meshes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-meshlist.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
@@ -354,40 +363,28 @@
 				RelativePath="..\..\src\server\database\table-npcentities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-pcentities.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-permissions.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-races.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-raceskills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-racestats.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-reputations.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-sectors.cpp">
+				RelativePath="..\..\src\server\database\table-reputationtypes.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-skills.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-skilltypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-spawnpoints.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-stats.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-triangles.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-users.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-vertices.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zonenodes.cpp">
@@ -396,29 +393,23 @@
 				RelativePath="..\..\src\server\database\table-zones.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\tables.cpp">
+				RelativePath="..\..\src\server\database\tablemanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\database\table-abilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-abilitytypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-books.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-charactermasteries.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterreputations.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-characters.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterskills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characterstats.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-config.h">
@@ -430,19 +421,34 @@
 				RelativePath="..\..\src\server\database\table-entities.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-entitypositions.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-entitytypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-equipment.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-equiptypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-hobbies.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-hobbytypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-inventory.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-items.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-itemstats.h">
+				RelativePath="..\..\src\server\database\table-itemtemplates.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-meshes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-meshlist.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-npcaisetting.h">
@@ -457,40 +463,28 @@
 				RelativePath="..\..\src\server\database\table-npcentities.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-pcentities.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-permissions.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-races.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-raceskills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-racestats.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-reputations.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-sectors.h">
+				RelativePath="..\..\src\server\database\table-reputationtypes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-skills.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-skilltypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-spawnpoints.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-stats.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-triangles.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\database\table-users.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-vertices.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zonenodes.h">
@@ -499,7 +493,7 @@
 				RelativePath="..\..\src\server\database\table-zones.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\tables.h">
+				RelativePath="..\..\src\server\database\tablemanager.h">
 			</File>
 		</Filter>
 	</Files>

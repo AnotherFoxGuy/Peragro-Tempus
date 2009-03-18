@@ -319,9 +319,6 @@
 			<File
 				RelativePath="..\..\src\server\server.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\server\useraccountmanager.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -334,9 +331,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\spawner.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\useraccountmanager.h">
 			</File>
 		</Filter>
 		<Filter

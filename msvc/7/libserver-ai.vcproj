@@ -300,9 +300,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\ai\ai-helper.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\ai\ai.cpp">
 			</File>
 			<File
@@ -321,9 +318,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\server\ai\ai-helper.h">
-			</File>
 			<File
 				RelativePath="..\..\src\server\ai\ai.h">
 			</File>
