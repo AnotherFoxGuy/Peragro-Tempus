@@ -21,7 +21,7 @@
 
 #include <map>
 
-#include "common/entity/entitymanager.h"
+#include "server/entity/entitymanager.h"
 #include "common/util/ptstring.h"
 
 #include "server/network/connection.h"

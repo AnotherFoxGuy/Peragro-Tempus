@@ -180,6 +180,7 @@ void User::remove()
   {
     printf("own_entity!\n");
     Server::getServer()->delEntity(GetEntity().get());
+    Server::getServer()->getEntityManager()->Remove(GetEntity());
   }
 
   Server::getServer()->getUserManager()->RemoveUser(this);
