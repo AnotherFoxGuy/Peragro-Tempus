@@ -53,7 +53,7 @@ private:
     virtual void Register();
     virtual void UnRegister();
     virtual void SendUpdate();
-    float Resources::Resource::GetAbilityLevel() const;
+    float GetAbilityLevel() const;
   };
 
   class HitPoints : public Resource
