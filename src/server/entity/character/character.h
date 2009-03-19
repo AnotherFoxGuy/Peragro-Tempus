@@ -112,6 +112,7 @@ public:
   boost::shared_ptr<Skills> GetSkills() const { return skills; }
   boost::shared_ptr<Abilities> GetAbilities() const { return abilities; }
   boost::shared_ptr<Reputations> GetReputations() const { return reputations; }
+  boost::shared_ptr<Resources> GetResources() const { return resources; }
 
   virtual void walkTo(const WFMath::Point<3>& dst_pos, float speed);
   virtual WFMath::Point<3> GetPosition();

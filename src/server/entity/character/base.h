@@ -184,7 +184,7 @@ typename Bases<multiplier, T, startXp>::Base*
   }
   catch (Exception&)
   {
-    printf("No %s with name '%s'", type.c_str(), name.c_str());
+    printf("No %s with name '%s'!\n", type.c_str(), name.c_str());
     throw;
   }
 }
