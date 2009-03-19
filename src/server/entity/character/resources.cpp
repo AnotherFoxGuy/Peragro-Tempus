@@ -78,6 +78,7 @@ void Resources::Resource::SendUpdate()
   msg.serialise(&bs);
   NetworkHelper::sendMessage(resources->entity, bs);
 */
+  printf("Send ResourceUpdateMessage: Resource:%d value:%f\n", id, value);
 }
 
 float Resources::Resource::Get() const
@@ -124,6 +125,10 @@ void Resources::Resource::Regenerate(size_t elapsedTime)
     multiplier = 2.0f // Twice as fast
   if (res->resources->entity->IsProne())
     multiplier = 10.0f // Ten times as fast
+  */
+  /* TODO
+    Take hunger into the calculation:
+    http://wiki.peragro.org/index.php/Hunger
   */
   // Entity regenerates Resource equal to their Ability every 'multiplier' seconds.
   const ResourceTypesTableVOp& type = resources->fact->Get(id);

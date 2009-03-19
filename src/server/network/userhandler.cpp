@@ -68,7 +68,7 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
     c->SetUser(boost::shared_ptr<User>());
   }
 
-  // Maybe check if the user was already loged in and then give it the character
+  // Maybe check if the user was already logged in and then give it the character
   // that was previously selected instead and skip the character selection?
   Connection* conn = msg->getConnection();
   conn->SetUser(user);
@@ -168,9 +168,8 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   Entityp entity;
   if (user->GetEntity())
   {
-    /*
     // User has already an entity loaded
-    entity = Server::getServer()->getEntityManager()->Getp(user->GetEntity());
+    entity = user->GetEntity();
 
     if (entity->GetId() != request_msg.getCharId())
     {
@@ -178,24 +177,44 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
       Server::getServer()->getEntityManager()->Remove(entity);
       entity.reset();
     }
-    */
+    printf("E: handleCharSelectRequest(): BLAH '%d'!\n", request_msg.getCharId());
   }
 
   if (!entity)
   {
-    entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
-    PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
-    pc->SetUser(user.get());
+    // Check if the send Id is valid and the entity belongs to that user.
+    PcEntitiesTable* pctable = server->GetTableManager()->Get<PcEntitiesTable>();
+    PcEntitiesTableVOArray pcs = pctable->GetAll(user->GetName());
+    bool validId = false;
+    PcEntitiesTableVOArray::const_iterator it = pcs.begin();
+    for ( ; it != pcs.end(); it++)
+    {
+      if ((*it)->entity_id == request_msg.getCharId())
+      {
+        validId = true;
+        break;
+      }
+    }
+    if (!validId)
+    {
+      printf("E: handleCharSelectRequest(): entity '%d' does not belong to user '%s'!\n", request_msg.getCharId(), user->GetName().c_str());
+      return;
+    }
 
+    entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
+    boost::shared_ptr<PcEntity> pc = boost::shared_dynamic_cast<PcEntity>(entity);
+    
     try
     {
       entity->LoadFromDB();
     }
     catch(char*)
     {
+      printf("E: handleCharSelectRequest(): Invalid entity '%d'!\n", request_msg.getCharId());
       return;
     }
 
+    user->SetEntity(pc);
   }
 
   server->getEntityManager()->Add(entity);

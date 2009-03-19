@@ -24,7 +24,7 @@ Entity* NetworkHelper::getEntity(GenericMessage* msg)
   User* user = conn->GetUser().get();
   if (!user) return 0;
 
-  PcEntity* ent = user->GetEntity();
+  PcEntity* ent = user->GetEntity().get();
   if (!ent) return 0;
 
   return ent;

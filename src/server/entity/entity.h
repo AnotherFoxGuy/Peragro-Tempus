@@ -39,6 +39,10 @@ virtual void funcname(type value)           \
 
 class Entity : public Common::Entity::Entity
 {
+protected:
+  boost::shared_ptr<Entity> this_;
+  struct DontDelete { void operator()(void*) {} };
+
 private:
   Mutex mutex;
 
@@ -47,11 +51,15 @@ protected:
   float rot_last_saved;
 
 public:
+#pragma warning( push)
+#pragma warning( disable : 4355 )
   Entity(Common::Entity::EntityType type)
     : Common::Entity::Entity(type),
+    this_(this, DontDelete()),
     pos_last_saved(0.0f), rot_last_saved(0.0f)
   {
   }
+#pragma warning( pop )
 
   virtual ~Entity();
 

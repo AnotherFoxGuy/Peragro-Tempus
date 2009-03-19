@@ -40,10 +40,6 @@ class Race;
 
 class Character : public Entity
 {
-private:
-  boost::shared_ptr<Character> this_;
-  struct DontDelete { void operator()(void*) {} };
-
 protected:
   unsigned int targetID; // Used by interaction manager to determine target.
   boost::weak_ptr<MountEntity> mount;
@@ -69,10 +65,8 @@ protected:
   boost::shared_ptr<Resources> resources;
 
 public:
-#pragma warning( push)
-#pragma warning( disable : 4355 )
   Character(Common::Entity::EntityType type)
-    : Entity(type), this_(this, DontDelete()), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
+    : Entity(type), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
   {
     isWalking = false;
     inventory = boost::shared_ptr<Inventory>(new Inventory(this_));
@@ -82,7 +76,6 @@ public:
     reputations = Server::getServer()->GetReputationsFactory()->Create(this);
     resources = Server::getServer()->GetResourcesFactory()->Create(this);
   }
-#pragma warning( pop )
 
   virtual ~Character()
   {

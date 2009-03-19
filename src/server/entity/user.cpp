@@ -29,7 +29,7 @@
 
 #include "server/server.h"
 
-void User::SetEntity(PcEntity* entity)
+void User::SetEntity(boost::shared_ptr<PcEntity> entity)
 {
   own_entity = entity;
   entity->SetUser(this);
@@ -121,6 +121,7 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     //msg.setSkinColour(pc->GetSkinColour());
     //Inventory* inv = pc->GetInventory();
     //inv->addEquipment<AddPlayerEntityMessage>(msg);
+    msg.setEquipmentCount(0);
     msg.serialise(&bs);
   }
   /*
@@ -175,10 +176,10 @@ void User::SendRemoveEntity(Common::Entity::Entityp entity)
 
 void User::remove()
 {
-  if (own_entity)
+  if (GetEntity())
   {
     printf("own_entity!\n");
-    Server::getServer()->delEntity(own_entity);
+    Server::getServer()->delEntity(GetEntity().get());
   }
 
   Server::getServer()->getUserManager()->RemoveUser(this);

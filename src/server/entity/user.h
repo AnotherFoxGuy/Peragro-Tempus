@@ -22,8 +22,6 @@
 #include <map>
 
 #include "common/entity/entitymanager.h"
-
-//#include "common/util/monitorable.h"
 #include "common/util/ptstring.h"
 
 #include "server/network/connection.h"
@@ -42,7 +40,7 @@ private:
   std::string pwhash;
 
   ptMonitor<Connection> connection;
-  PcEntity* own_entity;
+  boost::weak_ptr<PcEntity> own_entity;
 
   std::map<size_t, Common::Entity::WeakEntityp> knownEntitites;
 
@@ -52,7 +50,7 @@ private:
   void SendRemoveEntity(Common::Entity::Entityp entity);
 
 public:
-  User(const std::string& login) : login(login), own_entity(0), permissions(login) { }
+  User(const std::string& login) : login(login), permissions(login) { }
   ~User() { }
 
   const std::string& GetName() const { return login; }
@@ -61,8 +59,8 @@ public:
   const std::string& getPwHash() { return pwhash; }
   void setPwHash(const std::string& pwhash) { this->pwhash = pwhash; }
 
-  PcEntity* GetEntity() const { return own_entity; }
-  void SetEntity(PcEntity* entity);
+  boost::shared_ptr<PcEntity> GetEntity() const { return own_entity.lock(); }
+  void SetEntity(boost::shared_ptr<PcEntity> entity);
 
   const Connection* GetConnection() const { return connection.get(); }
   void SetConnection(Connection* connection)
