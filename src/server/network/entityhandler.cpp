@@ -191,7 +191,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
     if (c_char->getInventory()->getItem(slot)->id == Item::NoItem)
     {
-      const InventoryEntry entry(item->GetId(), item_entity->variation);
+      const InventoryEntry entry(item->GetId());
 
       ptScopedMonitorable<Character> character (c_char);
       bool retval = character->getInventory()->addItem(entry, slot);
@@ -215,7 +215,6 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         }
 
         response_msg.setItemId(item->GetId());
-        response_msg.setVariation(item_entity->variation);
         response_msg.setSlotId(slot);
 
         response_msg.setName(item->getName());
@@ -305,7 +304,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   // Create new entity from item.
   ItemEntity* e = new ItemEntity();
-  e->createFromItem(item.id, item.variation);
+  e->createFromItem(item.id);
 
   ptScopedMonitorable<Entity> ent (e->getEntity());
   ent->SetPosition(user_ent->GetPosition());

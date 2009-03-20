@@ -220,7 +220,6 @@ namespace PT
           csRef<iEvent> offer; list->Retrieve(offers->Next(), offer);
 
           unsigned int itemId = Helper::GetUInt(offer, "itemId");
-          unsigned int variation = Helper::GetUInt(offer, "variation");
           std::string name = Helper::GetString(offer, "name");
           std::string iconName = Helper::GetString(offer, "iconName");
           unsigned int slotId = Helper::GetUInt(offer, "slotId");

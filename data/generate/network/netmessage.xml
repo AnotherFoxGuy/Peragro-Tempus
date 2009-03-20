@@ -26,8 +26,6 @@
 			<message id="8" name="CharSelectResponse" />
 			<message id="9" name="MeshListRequest" />
 			<message id="10" name="MeshListResponse" />
-			<message id="11" name="RaceListRequest" />
-			<message id="12" name="RaceListResponse" />
 		</type>
 		<type id="2" name="Entity">
 			<message id="0" name="AddNpcEntity" />

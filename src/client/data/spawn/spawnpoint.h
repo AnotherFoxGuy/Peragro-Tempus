@@ -40,8 +40,6 @@ namespace PT
 
       unsigned int item;
 
-      unsigned int variation;
-
       ///Position of the spawnpoint in a sector (ie x='20', y='30', z='40').
       WFMath::Point<3> position;
       ///Name of the sector where the spawnpoint resides (e.g. 'room').
@@ -54,9 +52,6 @@ namespace PT
 
       void SetItem(unsigned int value) { item = value; }
       unsigned int GetItem() const { return item; }
-
-      void SetVariation(unsigned int value) { variation = value; }
-      unsigned int GetVariation() const { return variation; }
 
       void SetPosition(float x, float y, float z)
       { position = WFMath::Point<3>(x,y,z); }

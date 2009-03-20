@@ -40,15 +40,14 @@ private:
 
     ptString sector_id;
 
-    //Item* item;
-    unsigned int variation;
+    //Item* item; 
 
     size_t spawnInterval;
     size_t pickTime;
 
     int entity_id;
 
-    SpawnPoint() : variation(0), pickTime(0), entity_id(0) {}
+    SpawnPoint() : pickTime(0), entity_id(0) {}
     ~SpawnPoint() { }
   };
 
@@ -83,7 +82,7 @@ private:
       if (timeCounter - sp->pickTime > sp->spawnInterval)
       {
         ItemEntity* item_ent = new ItemEntity();
-        item_ent->createFromItem(sp->item->GetId(), sp->variation);
+        item_ent->createFromItem(sp->item->GetId());
 
         ptScopedMonitorable<Entity> e (item_ent->getEntity());
         e->SetPosition(sp->x, sp->y, sp->z);

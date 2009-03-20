@@ -50,7 +50,7 @@ bool TradePeer::checkOffer(PcEntity* pc, Array<TradeSession::Offer>& offers, Inv
     }
   }
 
-  if (c->getInventory()->getTotalAmount(item->id, item->variation) > item_count)
+  if (c->getInventory()->getTotalAmount(item->id) > item_count)
   {
     TradeSession::Offer offer;
     offer.item = item;

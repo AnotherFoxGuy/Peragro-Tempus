@@ -76,7 +76,6 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
       itemName << "offers" << "_" << i;
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
       item->Add("itemId", pmsg.getItemId(i));
-      item->Add("variation", pmsg.getVariation(i));
       item->Add("price", pmsg.getPrice(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
@@ -105,7 +104,6 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
       itemName << "offers" << "_" << i;
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
       item->Add("itemId", pmsg.getItemId(i));
-      item->Add("variation", pmsg.getVariation(i));
       item->Add("amount", pmsg.getAmount(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");

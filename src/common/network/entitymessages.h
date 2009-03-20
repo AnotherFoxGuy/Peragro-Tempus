@@ -61,20 +61,16 @@ namespace ENTITY
 class AddNpcEntityMessage : public NetMessage
 {
   ptString entityname;
-  unsigned short meshid;
   ptString meshname;
   ptString filename;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
   unsigned int entityid;
   class ListEquipment
   {
   public:
     unsigned int slotid;
     unsigned int itemid;
-    unsigned int variation;
-    unsigned short meshid;
     ptString meshname;
     ptString filename;
   };
@@ -101,32 +97,26 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
-
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -147,12 +137,6 @@ public:
   unsigned int getItemId(size_t i) { return equipment[i].itemid; }
   void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }
 
-  unsigned int getVariation(size_t i) { return equipment[i].variation; }
-  void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
-
-  unsigned short getMeshId(size_t i) { return equipment[i].meshid; }
-  void setMeshId(size_t i, unsigned short x) { equipment[i].meshid = x; }
-
   ptString getMeshName(size_t i) { return equipment[i].meshname; }
   void setMeshName(size_t i, ptString x) { equipment[i].meshname = x; }
 
@@ -161,22 +145,18 @@ public:
 
   // --- end ListEquipment Getter and Setter ---
 
-  unsigned char GetPositioneId() const { return poseid; }
-  void SetPositioneId(unsigned char x) { poseid = x; }
+  unsigned char getPoseId() const { return poseid; }
+  void setPoseId(unsigned char x) { poseid = x; }
 
 };
 
 class AddItemEntityMessage : public NetMessage
 {
-  unsigned int itemid;
-  unsigned int variation;
   ptString entityname;
-  unsigned short meshid;
   ptString meshname;
   ptString filename;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
   unsigned int entityid;
 
 public:
@@ -191,17 +171,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
-
-  unsigned int getVariation() const { return variation; }
-  void setVariation(unsigned int x) { variation = x; }
-
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
-
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
 
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
@@ -209,23 +180,20 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -234,7 +202,6 @@ public:
 
 class AddDoorEntityMessage : public NetMessage
 {
-  unsigned short doorid;
   bool isopen;
   bool islocked;
   unsigned int entityid;
@@ -242,7 +209,6 @@ class AddDoorEntityMessage : public NetMessage
   unsigned short meshid;
   ptString meshname;
   ptString filename;
-  unsigned short sectorid;
   ptString animationname;
 
 public:
@@ -256,9 +222,6 @@ public:
 
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
-
-  unsigned short getDoorId() const { return doorid; }
-  void setDoorId(unsigned short x) { doorid = x; }
 
   bool getIsOpen() const { return isopen; }
   void setIsOpen(bool x) { isopen = x; }
@@ -281,9 +244,6 @@ public:
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
-
   ptString getAnimationName() const { return animationname; }
   void setAnimationName(ptString x) { animationname = x; }
 
@@ -292,23 +252,19 @@ public:
 class AddPlayerEntityMessage : public NetMessage
 {
   ptString entityname;
-  unsigned short meshid;
   ptString meshname;
   ptString filename;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
-  unsigned short sectorid;
   unsigned int entityid;
   class ListEquipment
   {
   public:
     unsigned int slotid;
     unsigned int itemid;
-    unsigned int variation;
-    unsigned short meshid;
     ptString meshname;
     ptString filename;
   };
@@ -335,29 +291,26 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
-
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)
@@ -395,9 +348,6 @@ public:
     setDecalColour(x[0], x[1], x[2]);
   }
 
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
-
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
@@ -417,12 +367,6 @@ public:
   unsigned int getItemId(size_t i) { return equipment[i].itemid; }
   void setItemId(size_t i, unsigned int x) { equipment[i].itemid = x; }
 
-  unsigned int getVariation(size_t i) { return equipment[i].variation; }
-  void setVariation(size_t i, unsigned int x) { equipment[i].variation = x; }
-
-  unsigned short getMeshId(size_t i) { return equipment[i].meshid; }
-  void setMeshId(size_t i, unsigned short x) { equipment[i].meshid = x; }
-
   ptString getMeshName(size_t i) { return equipment[i].meshname; }
   void setMeshName(size_t i, ptString x) { equipment[i].meshname = x; }
 
@@ -439,12 +383,10 @@ public:
 class AddMountEntityMessage : public NetMessage
 {
   ptString entityname;
-  unsigned short meshid;
   ptString meshname;
   ptString filename;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
   unsigned int entityid;
   unsigned int inventoryid;
 
@@ -463,32 +405,26 @@ public:
   ptString getEntityName() const { return entityname; }
   void setEntityName(ptString x) { entityname = x; }
 
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
-
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
 
   ptString getFileName() const { return filename; }
   void setFileName(ptString x) { filename = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
@@ -735,8 +671,7 @@ public:
 
 class PickResponseMessage : public NetMessage
 {
-  unsigned int itemid;
-  unsigned int variation;
+  unsigned int entityid;
   unsigned char slotid;
   ptString name;
   ptString iconname;
@@ -757,11 +692,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
-
-  unsigned int getVariation() const { return variation; }
-  void setVariation(unsigned int x) { variation = x; }
+  unsigned int getEntityId() const { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
 
   unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
@@ -839,10 +771,7 @@ public:
 class EquipMessage : public NetMessage
 {
   unsigned int entityid;
-  unsigned int itemid;
-  unsigned int variation;
   unsigned char slotid;
-  unsigned short meshid;
   ptString meshname;
   ptString filename;
 
@@ -861,17 +790,8 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
-
-  unsigned int getVariation() const { return variation; }
-  void setVariation(unsigned int x) { variation = x; }
-
   unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }
-
-  unsigned short getMeshId() const { return meshid; }
-  void setMeshId(unsigned short x) { meshid = x; }
 
   ptString getMeshName() const { return meshname; }
   void setMeshName(ptString x) { meshname = x; }
@@ -901,9 +821,8 @@ public:
 class TeleportRequestMessage : public NetMessage
 {
   unsigned int entityid;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
 
 public:
   TeleportRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORTREQUEST)
@@ -920,32 +839,28 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
 };
 
 class TeleportResponseMessage : public NetMessage
 {
   unsigned int entityid;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
 
 public:
   TeleportResponseMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::TELEPORTRESPONSE)
@@ -962,31 +877,27 @@ public:
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
 };
 
 class DrUpdateRequestMessage : public NetMessage
 {
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
 
 public:
   DrUpdateRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::DRUPDATEREQUEST)
@@ -1000,31 +911,27 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
 };
 
 class DrUpdateMessage : public NetMessage
 {
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
   unsigned int entityid;
 
 public:
@@ -1039,23 +946,20 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }

@@ -215,7 +215,6 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
   ptString sector = sectormgr->GetSectorName(spawnmsg.GetSectorId());
 
   unsigned int item = spawnmsg.getItemId();
-  //unsigned int variation = spawnmsg.getVariation();
 
   unsigned int interval = spawnmsg.getInterval();
 
@@ -233,7 +232,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   itemmsg.deserialise(msg->getByteStream());
 
   ItemEntity* item_ent = new ItemEntity();
-  item_ent->createFromItem(itemmsg.getItemId(), itemmsg.getVariation());
+  item_ent->createFromItem(itemmsg.getItemId());
 
   ptScopedMonitorable<Entity> e (item_ent->getEntity());
   e->SetPosition(itemmsg.GetPosition());

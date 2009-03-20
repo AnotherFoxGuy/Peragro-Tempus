@@ -48,8 +48,6 @@ namespace PT
 
       spawnpoint->SetItem(node->GetNode("item")->GetAttributeValueAsInt("id"));
 
-      spawnpoint->SetVariation(node->GetNode("item")->GetAttributeValueAsInt("variation"));
-
       WFMath::Point<3> pos;
       pos[0] = node->GetNode("position")->GetAttributeValueAsFloat("x");
       pos[1] = node->GetNode("position")->GetAttributeValueAsFloat("y");

@@ -63,7 +63,6 @@ namespace PT
       } // end GetSlot()
 
       bool InventoryWindow::AddItem(unsigned int itemid,
-                                    unsigned int variationid,
                                     const char* name,
                                     const char* iconname,
                                     unsigned int slotid)
@@ -88,7 +87,7 @@ namespace PT
 
         // Create a new item.
         if (slot->IsEmpty())
-          slot->SetObject(dragdrop->CreateItem(itemid, variationid, name, iconname));
+          slot->SetObject(dragdrop->CreateItem(itemid, name, iconname));
 
         return true;
       } // end AddItem()

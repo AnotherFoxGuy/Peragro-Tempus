@@ -2,18 +2,14 @@
 	<message type="Entity" name="AddNpcEntity">
           <event name="entity.add.npc" specific="None">
 		<string>EntityName</string>
-		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<list name="Equipment">
 			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
-			<uint16>MeshId</uint16>
 			<string>MeshName</string>
 			<string>FileName</string>
 		</list>
@@ -26,22 +22,17 @@
 
 	<message type="Entity" name="AddItemEntity">
           <event name="entity.add.item" specific="None">
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
 		<string>EntityName</string>
-		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
           </event>
 	</message>
 
 	<message type="Entity" name="AddDoorEntity">
           <event name="entity.add.door" specific="None">
-		<uint16>DoorId</uint16>
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<uint32>EntityId</uint32>
@@ -49,7 +40,6 @@
 		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
-		<uint16>SectorId</uint16>
 		<string>AnimationName</string>
           </event>
 	</message>
@@ -57,21 +47,17 @@
 	<message type="Entity" name="AddPlayerEntity">
           <event name="entity.add.player" specific="None">
 		<string>EntityName</string>
-		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
 		<colour24>HairColour</colour24>
 		<colour24>SkinColour</colour24>
 		<colour24>DecalColour</colour24>
-		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<list name="Equipment">
 			<uint32>SlotId</uint32>
 			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
-			<uint16>MeshId</uint16>
 			<string>MeshName</string>
 			<string>FileName</string>
 		</list>
@@ -85,12 +71,10 @@
 	<message type="Entity" name="AddMountEntity">
           <event name="entity.add.mount" specific="None">
 		<string>EntityName</string>
-		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
 		<uint32>InventoryId</uint32>
           </event>
@@ -144,8 +128,7 @@
 
 	<message type="Entity" name="PickResponse">
           <event name="trade.inventory.pickup" specific="None">
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
+		<uint32>EntityId</uint32>
 		<uint8>SlotId</uint8>
 		<string>Name</string>
 		<string>IconName</string>
@@ -171,10 +154,7 @@
 	<message type="Entity" name="Equip">
           <event name="entity.equip" specific="EntityId">
 		<uint32>EntityId</uint32>
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
 		<uint8>SlotId</uint8>
-		<uint16>MeshId</uint16>
 		<string>MeshName</string>
 		<string>FileName</string>
           </event>
@@ -184,31 +164,27 @@
 
 	<message type="Entity" name="TeleportRequest">
 		<uint32>EntityId</uint32>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 	</message>
 
 	<message type="Entity" name="TeleportResponse">
           <event name="entity.teleport" specific="EntityId">
 		<uint32>EntityId</uint32>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
           </event>
 	</message>
 
 	<message type="Entity" name="DrUpdateRequest">
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 	</message>
 
 	<message type="Entity" name="DrUpdate">
           <event name="entity.drupdate" specific="EntityId">
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 		<uint32>EntityId</uint32>
           </event>
 	</message>

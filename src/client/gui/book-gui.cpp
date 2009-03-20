@@ -92,9 +92,6 @@ namespace PT
       {
         using namespace PT::Events;
 
-        unsigned int variation = -1;
-        ev.Retrieve("variation", variation);
-
         InventoryWindow* inv =
           guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
         if (!inv) return true;
@@ -104,9 +101,6 @@ namespace PT
 
         Object* obj = slot->GetObject();
         if (!obj) return true;
-
-        if (obj->GetId() == itemId)
-        obj->SetVariationId(variation);
 
         return true;
       } // end HandleWrite()

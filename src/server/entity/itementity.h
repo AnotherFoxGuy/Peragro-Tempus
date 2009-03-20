@@ -32,13 +32,10 @@ private:
   boost::shared_ptr<ItemTemplate> itemTemplate;
 
 public:
-#pragma warning( push)
-#pragma warning( disable : 4355 )
   ItemEntity() : Entity(Common::Entity::ItemEntityType)
   {
     inWorld = false;
   }
-#pragma warning( pop )
 
   ~ItemEntity() {}
 

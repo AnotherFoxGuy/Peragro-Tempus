@@ -99,8 +99,9 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
   if (success)
   {
     using namespace Common::Entity;
-    if (entity->GetType() == PCEntityType
-      || entity->GetType() == NPCEntityType)
+    if ((entity->GetType() == PCEntityType)
+      ||(entity->GetType() == NPCEntityType)
+      ||(entity->GetType() == MountEntityType))
     {
       //Server::getServer()->getCollisionDetection()->addEntity(entity);
     }
@@ -112,9 +113,8 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
     {
       entity->GetShape()->AddListener(this);
     }
-    // Notify other entities that this one entered the world.
-    Moved(entity->GetShape());
-
+    
+    NetworkAddEntity(entity);
 
     std::list<Common::Entity::EntityCallback*>::iterator it;
     for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
@@ -155,6 +155,39 @@ void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
   lock();
   callback_list.remove(cb);
   unlock();
+}
+
+void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
+{
+  using namespace Common::Entity;
+  // Send self.
+  if (entity->GetType() == PCEntityType)
+  {
+    PcEntity* e = dynamic_cast<PcEntity*>(entity.get());
+    if (!e || !e->GetUser())
+    {
+      printf("E: Invalid PcEntity or no user set!!\n");
+      return;
+    }
+    e->GetUser()->SendAddEntity(entity);
+  }
+
+  // TODO: replace 100 with something configurable.
+  std::list<Common::Entity::Entityp> result = Queryp(WFMath::Ball<3>(entity->GetPosition(), 100));
+  std::list<Common::Entity::Entityp>::const_iterator it;
+  for ( it=result.begin() ; it != result.end(); it++ )
+  {
+    if ((*it)->GetType() == PCEntityType)
+    {
+      PcEntity* e = dynamic_cast<PcEntity*>((*it).get());
+      if (!e || !e->GetUser())
+      {
+        printf("E: Invalid PcEntity or no user set!!\n");
+        return;
+      }
+      e->GetUser()->SendAddEntity(entity);
+    }
+  }
 }
 
 void DontDelete(Common::Entity::Entity*){}

@@ -22,7 +22,6 @@ Object::Object()
 {
   objectid = 0;
   amount = 0;
-  variationid = 0;
   stackable = false;
 } // end Object()
 

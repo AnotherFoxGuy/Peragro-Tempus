@@ -102,39 +102,11 @@ namespace PT
       rmmsg.setDataType(ptString::create("items"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
-      rmmsg.setDataType(ptString::create("sectors"));
-      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
-
       rmmsg.setDataType(ptString::create("zones"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
-
-
-      PT::Data::SectorDataManager* secmgr = PointerLibrary::getInstance()->GetSectorDataManager();
-
-      // ==[ Sectors ]=========================================================
-      std::vector<PT::Data::Sector*> sectors;
-
-      PointerLibrary::getInstance()->GetSectorDataManager()->GetAllSectors(sectors);
-
-      for (size_t i = 0; i < sectors.size(); i++ )
-      {
-        unsigned int sector_id=sectors[i]->GetId();
-        ptString name = ptString::create(sectors[i]->GetName());
-        ptString region = ptString::create(sectors[i]->GetRegion());
-
-        Report(PT::Debug, "Loading sector, sector_id=%d, name=\"%s\", region=\"%s\"", sector_id, *name, *region);
-
-        // Just send the data here, one sector/package
-        CreateSectorMessage sectormsg;
-        sectormsg.SetSectorId(sector_id);
-        sectormsg.setName(name);
-        sectormsg.setRegion(region);
-
-        PointerLibrary::getInstance()->getNetwork()->send(&sectormsg);
-      }
 
       // ==[ Doors ]===========================================================
       std::vector<PT::Data::Door*> doors;
@@ -143,10 +115,8 @@ namespace PT
 
       for (size_t i = 0; i < doors.size(); i++ )
       {
-        unsigned int door_id = doors[i]->GetId();
         const char* name = doors[i]->GetName().c_str();
         const char* mesh = doors[i]->GetMeshName().c_str();
-        const char* sector = doors[i]->GetSectorName().c_str();
 
         WFMath::Point<3> position = doors[i]->GetPosition();
 
@@ -155,23 +125,14 @@ namespace PT
         bool open = doors[i]->GetOpenState();
         bool locked = doors[i]->GetLockState();
 
-        if (!secmgr->GetSectorByName(sector))
-        {
-          Report(PT::Debug, "Failed to load door, couldn't find sector \"%s\"", sector);
-          continue;
-        }
-
-        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
-
-        Report(PT::Debug, "Loading doors, id=%d, name=\"%s\", sector=\"%s\"", door_id, name, sector);
+        Report(PT::Debug, "Loading doors, name=\"%s\"", name);
 
         // Just send the data here, one door/package. TCP will group it as suitable
         SpawnDoorMessage doormsg;
-        doormsg.setDoorId(door_id);
+        doormsg.setEntityId(0); // 0 means create new entity.
         doormsg.setName(ptString(name, strlen(name)));
         doormsg.setMesh(ptString(mesh, strlen(mesh)));
-        doormsg.SetSectorId(sector_id);
-        doormsg.SetPosition(position);
+        doormsg.setPosition(position);
         doormsg.setAnimation(ptString(quest, strlen(quest)));
 
         doormsg.setIsOpen(open);
@@ -187,7 +148,6 @@ namespace PT
 
       for (size_t i = 0; i < items.size(); i++ )
       {
-        unsigned int item_id = items[i]->GetId();
         ptString name = ptString::create(items[i]->GetName());
         ptString icon = ptString::create(items[i]->GetIconName());
         ptString description = ptString::create(items[i]->GetDescription());
@@ -196,11 +156,11 @@ namespace PT
         float weight = items[i]->GetWeight();
         ptString equiptype = ptString::create(items[i]->GetEquiptype());
 
-        Report(PT::Debug, "Loading item, item_id=%d, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"", item_id, *name, *icon, *description, *file, *mesh, weight, *equiptype);
+        Report(PT::Debug, "Loading item, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"", *name, *icon, *description, *file, *mesh, weight, *equiptype);
 
         // Just send the data here, one item/package
         CreateItemMessage itemmsg;
-        itemmsg.setItemId(item_id);
+        itemmsg.setItemTemplateId(0); // 0 means create new.
         itemmsg.setName(name);
         itemmsg.setIcon(icon);
         itemmsg.setDescription(description);
@@ -219,29 +179,19 @@ namespace PT
       for (size_t i = 0; i < spawnpoints.size(); i++ )
       {
         unsigned int itemid = spawnpoints[i]->GetItem();
-        unsigned int variation = spawnpoints[i]->GetVariation();
 
         WFMath::Point<3> position = spawnpoints[i]->GetPosition();
         const char* sector = spawnpoints[i]->GetSectorName().c_str();
 
         unsigned int interval = spawnpoints[i]->GetInterval();
 
-        if (!secmgr->GetSectorByName(sector))
-        {
-          Report(PT::Debug, "Failed to load spawn point, couldn't find sector \"%s\"", sector);
-          continue;
-        }
 
-        unsigned int sector_id = secmgr->GetSectorByName(sector)->GetId();
-
-        Report(PT::Debug, "Loading spawnpoint, item=%d, var=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, variation, sector, position[0], position[1], position[2], interval);
+        Report(PT::Debug, "Loading spawnpoint, item=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, sector, position[0], position[1], position[2], interval);
 
         // Just send the data here, one spawnpoint/package
         CreateSpawnPointMessage spawnmsg;
-        spawnmsg.setItemId(itemid);
-        spawnmsg.setVariation(variation);
-        spawnmsg.SetPosition(position);
-        spawnmsg.SetSectorId(sector_id);
+        spawnmsg.setItemTemplateId(itemid);
+        spawnmsg.setPosition(position);
         spawnmsg.setInterval(interval);
 
         PointerLibrary::getInstance()->getNetwork()->send(&spawnmsg);

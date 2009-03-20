@@ -33,7 +33,7 @@ class Connection;
 class Entity;
 class PcEntity;
 
-class User
+class User : public Octree::Shape::Listener
 {
 private:
   std::string login;
@@ -46,12 +46,15 @@ private:
 
   PermissionList permissions;
 
-  void SendAddEntity(Common::Entity::Entityp entity);
-  void SendRemoveEntity(Common::Entity::Entityp entity);
+private:
+  virtual void Moved(Octree::Shape*) {}
+
+  /// Listen to the destruction of known entities and do SendRemoveEntity()
+  virtual void Destroyed(Octree::Shape*);
 
 public:
   User(const std::string& login) : login(login), permissions(login) { }
-  ~User() { }
+  ~User();
 
   const std::string& GetName() const { return login; }
   //void setName(const std::string& login) { this->login = login; }
@@ -71,6 +74,8 @@ public:
       this->connection.clear();
   }
 
+  void SendAddEntity(Common::Entity::Entityp entity);
+  void SendRemoveEntity(Common::Entity::Entityp entity);
   void SendEntityDiff(const std::list<Common::Entity::Entityp>& entities);
 
   void ClearKnownEntitites() { knownEntitites.clear(); }

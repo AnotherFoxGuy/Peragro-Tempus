@@ -37,7 +37,7 @@ namespace Common
       std::string equipTypeName;
 
     public:
-      Item() : Object(Object::Item), price(0), weight(0.0f), equipType(0)  {}
+      Item() : Object(Object::Item), price(0), weight(0.0f)  {}
       virtual ~Item() {}
 
       virtual void SetPrice(unsigned int value) { price = value; }

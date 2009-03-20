@@ -36,7 +36,6 @@
             <uint8>IsBuy</uint8>
             <list name="Offers">
               <uint32>ItemId</uint32>
-              <uint32>Variation</uint32>
               <uint32>Price</uint32>
               <string>Name</string>
               <string>IconName</string>
@@ -48,7 +47,6 @@
           <event name="trade.exchange.offer.list" specific="None">
 		<list name="Offers">
 			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
 			<uint32>Amount</uint32>
 			<string>Name</string>
 			<string>IconName</string>
@@ -61,7 +59,6 @@
 		<uint8>IsBuy</uint8>
 		<list name="Orders">
 			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
 		</list>
 	</message>
 

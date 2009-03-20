@@ -5,7 +5,6 @@
 		<uint32>InventoryId</uint32>
 		<list name="Inventory">
 			<uint32>ItemId</uint32>
-			<uint32>Variation</uint32>
 			<uint8>SlotId</uint8>
 			<string>Name</string>
 			<string>IconName</string>

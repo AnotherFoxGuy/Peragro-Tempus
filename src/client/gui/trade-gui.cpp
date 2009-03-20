@@ -103,7 +103,7 @@ namespace PT
         }
 
         // Create a new non-interactable item.
-        slot->SetObject(dragdrop->CreateItem(itemid, 0, name, iconname, false));
+        slot->SetObject(dragdrop->CreateItem(itemid, name, iconname, false));
 
         Report(PT::Debug, "TradeWindow: Creating item %d!", itemid);
 
@@ -167,7 +167,7 @@ namespace PT
           object->GetWindow()->disable();
           // Create a new item in the trade inventory.
           newslot->SetObject(dragdrop->CreateItem(object->GetId(),
-           object->GetVariationId(), object->GetName(), object->GetIconName()));
+            object->GetName(), object->GetIconName()));
         }
 
         // Send an updated state of the trade inventory.
@@ -194,7 +194,6 @@ namespace PT
           Report(PT::Debug, "item %d in slot %d!", objslot.object->GetId(),
             objslot.slot->GetId());
           msg.setItemId(i, objslot.object->GetId());
-          msg.setVariation(i, objslot.object->GetVariationId());
           msg.setSlotId(i, objslot.slot->GetId());
         }
 
@@ -265,7 +264,7 @@ namespace PT
           {
             Object* object = slot->GetObject();
             while (!inventoryWindow->
-              AddItem(object->GetId(), object->GetVariationId(), object->GetName(), object->GetIconName(), counter)
+              AddItem(object->GetId(), object->GetName(), object->GetIconName(), counter)
               && counter < nrInventorySlots)
             {
               counter += 1;

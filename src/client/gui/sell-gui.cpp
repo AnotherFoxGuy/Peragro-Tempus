@@ -66,7 +66,7 @@ namespace PT
           return false;
         }
 
-        slot->SetObject(dragdrop->CreateItem(itemid, 0, name, iconname));
+        slot->SetObject(dragdrop->CreateItem(itemid, name, iconname));
 
         return true;
       } // end AddItem()
@@ -90,7 +90,7 @@ namespace PT
             Object* object = slot->GetObject();
 
             while (!inventoryWindow->
-              AddItem(object->GetId(), object->GetVariationId(), object->GetName(), object->GetIconName(), counter)
+              AddItem(object->GetId(), object->GetName(), object->GetIconName(), counter)
               && counter < nrInventorySlots)
             {
               counter += 1;

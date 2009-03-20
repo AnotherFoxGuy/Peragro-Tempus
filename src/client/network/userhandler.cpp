@@ -154,30 +154,3 @@ void UserHandler::handleMeshListResponse(GenericMessage* msg)
 
 } // end handleMeshListResponse
 
-void UserHandler::handleRaceListResponse(GenericMessage* msg)
-{
-  RaceListResponseMessage pmsg;
-  pmsg.deserialise(msg->getByteStream());
-
-  using namespace PT::Events;
-  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("user.race.list", true);
-    csRef<iEvent> list = evmgr->CreateEvent("racesList", true);
-    for (unsigned char i = 0; i < pmsg.getRacesCount(); i++)
-    {
-      std::stringstream itemName;
-      itemName << "races" << "_" << i;
-      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
-      item->Add("raceId", pmsg.getRaceId(i));
-      item->Add("raceName", *pmsg.getRaceName(i)?*pmsg.getRaceName(i):"");
-      item->Add("meshId", pmsg.getMeshId(i));
-      list->Add(itemName.str().c_str(), item);
-    }
-    pEvent->Add("racesList", list);
-
-    evmgr->AddEvent(pEvent);
-  }
-
-} // end handleRaceListResponse
-

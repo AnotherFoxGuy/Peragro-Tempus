@@ -18,8 +18,6 @@
 		<message type="User" name="CharSelectResponse" />
 		<!--message type="User" name="MeshListRequest" /-->
 		<message type="User" name="MeshListResponse" />
-		<!--message type="User" name="RaceListRequest" /-->
-		<message type="User" name="RaceListResponse" />
 
 		<message type="Entity" name="AddNpcEntity" />
 		<message type="Entity" name="AddItemEntity" />
@@ -135,8 +133,6 @@
 		<!--message type="User" name="CharSelectResponse" /-->
 		<message type="User" name="MeshListRequest" />
 		<!--message type="User" name="MeshListResponse" /-->
-		<message type="User" name="RaceListRequest" />
-		<!--message type="User" name="RaceListResponse" /-->
 
 		<!--message type="Entity" name="AddNpcEntity" /-->
 		<!--message type="Entity" name="AddItemEntity" /-->

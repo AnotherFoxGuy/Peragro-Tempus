@@ -120,7 +120,6 @@ namespace PT
       using namespace PT::GUI::Windows;
 
       unsigned int itemId = Helper::GetUInt(&ev, "itemId");
-      unsigned int variation = Helper::GetUInt(&ev, "variation");
       std::string name = Helper::GetString(&ev, "name");
       std::string iconName = Helper::GetString(&ev, "iconName");
       unsigned int slotId = Helper::GetUInt(&ev, "slotId");
@@ -129,7 +128,7 @@ namespace PT
       if (!guimanager) return true;
       InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
       if (!inventoryWindow) return true;
-      inventoryWindow->AddItem(itemId, variation, name.c_str(), iconName.c_str(), slotId);
+      inventoryWindow->AddItem(itemId, name.c_str(), iconName.c_str(), slotId);
 
       return true;
     } // end Add()

@@ -269,9 +269,6 @@ namespace PT
       unsigned int itemId = -1;
       ev.Retrieve("itemId", itemId);
 
-      //unsigned int variation = -1;
-      //ev.Retrieve("variation", variation);
-
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
@@ -422,25 +419,8 @@ namespace PT
           rot = acos (rotv.z);
           if (rotv.x < 0.0f) rot = 2.0f * PI - rot;
 
-          drmsg.SetRotation(rot);
-          drmsg.SetPosition(pos.x, pos.y, pos.z);
-          if (sector && sector->QueryObject()->GetName())
-          {
-            PT::Data::SectorDataManager* sectorDataMgr = PointerLibrary::getInstance()->GetSectorDataManager();
-            PT::Data::Sector* dataSector = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName());
-            if (!dataSector)
-            {
-              Report(PT::Debug, "Couldn't find sector %s", sector->QueryObject()->GetName());
-              return;
-            }
-            //Report(PT::Debug, "SECTOR %s (%d)", sector->QueryObject()->GetName(), dataSector->GetId());
-            drmsg.SetSectorId(dataSector->GetId());
-          }
-          else
-          {
-            return; // no sector? something odd, isn't it?
-            //drmsg.SetSectorId(0);
-          }
+          drmsg.setRotation(rot);
+          drmsg.setPosition(pos.x, pos.y, pos.z);
 
           PointerLibrary::getInstance()->getNetwork()->send(&drmsg);
         }

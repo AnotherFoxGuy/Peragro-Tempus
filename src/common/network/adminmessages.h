@@ -66,9 +66,6 @@ public:
 
 class CreateSectorMessage : public NetMessage
 {
-  unsigned short sectorid;
-  ptString name;
-  ptString region;
 
 public:
   CreateSectorMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATESECTOR)
@@ -82,20 +79,11 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
-
-  ptString getName() const { return name; }
-  void setName(ptString x) { name = x; }
-
-  ptString getRegion() const { return region; }
-  void setRegion(ptString x) { region = x; }
-
 };
 
 class CreateItemMessage : public NetMessage
 {
-  unsigned int itemid;
+  unsigned int itemtemplateid;
   ptString name;
   ptString icon;
   ptString description;
@@ -116,8 +104,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
+  unsigned int getItemTemplateId() const { return itemtemplateid; }
+  void setItemTemplateId(unsigned int x) { itemtemplateid = x; }
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
@@ -144,10 +132,8 @@ public:
 
 class CreateSpawnPointMessage : public NetMessage
 {
-  unsigned int itemid;
-  unsigned int variation;
-  WFMath::Point<3> pos;
-  unsigned short sectorid;
+  unsigned int itemtemplateid;
+  WFMath::Point<3> position;
   unsigned int interval;
 
 public:
@@ -162,26 +148,20 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
+  unsigned int getItemTemplateId() const { return itemtemplateid; }
+  void setItemTemplateId(unsigned int x) { itemtemplateid = x; }
 
-  unsigned int getVariation() const { return variation; }
-  void setVariation(unsigned int x) { variation = x; }
-
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
 
   unsigned int getInterval() const { return interval; }
   void setInterval(unsigned int x) { interval = x; }
@@ -190,10 +170,8 @@ public:
 
 class SpawnItemMessage : public NetMessage
 {
-  unsigned int itemid;
-  unsigned int variation;
-  WFMath::Point<3> pos;
-  unsigned short sectorid;
+  unsigned int itemtemplateid;
+  WFMath::Point<3> position;
 
 public:
   SpawnItemMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNITEM)
@@ -207,26 +185,20 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemId() const { return itemid; }
-  void setItemId(unsigned int x) { itemid = x; }
+  unsigned int getItemTemplateId() const { return itemtemplateid; }
+  void setItemTemplateId(unsigned int x) { itemtemplateid = x; }
 
-  unsigned int getVariation() const { return variation; }
-  void setVariation(unsigned int x) { variation = x; }
-
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
 
 };
 
@@ -234,9 +206,8 @@ class SpawnMountMessage : public NetMessage
 {
   ptString name;
   ptString mesh;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   float rotation;
-  unsigned short sectorid;
 
 public:
   SpawnMountMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SPAWNMOUNT)
@@ -256,33 +227,29 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
-  float GetRotation() const { return rotation; }
-  void SetRotation(float x) { rotation = x; }
-
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
+  float getRotation() const { return rotation; }
+  void setRotation(float x) { rotation = x; }
 
 };
 
 class SpawnDoorMessage : public NetMessage
 {
-  unsigned short doorid;
+  unsigned int entityid;
   ptString name;
   ptString mesh;
-  unsigned short sectorid;
-  WFMath::Point<3> pos;
+  WFMath::Point<3> position;
   bool isopen;
   bool islocked;
   ptString animation;
@@ -299,8 +266,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned short getDoorId() const { return doorid; }
-  void setDoorId(unsigned short x) { doorid = x; }
+  unsigned int getEntityId() const { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
@@ -308,19 +275,16 @@ public:
   ptString getMesh() const { return mesh; }
   void setMesh(ptString x) { mesh = x; }
 
-  unsigned short GetSectorId() const { return sectorid; }
-  void SetSectorId(unsigned short x) { sectorid = x; }
-
-  WFMath::Point<3> GetPosition() { return pos; }
-  void SetPosition(const WFMath::Point<3>& x)
+  WFMath::Point<3> getPosition() { return position; }
+  void setPosition(const WFMath::Point<3>& x)
   {
-    pos = x;
+    position = x;
   }
-  void SetPosition(float x, float y, float z)
+  void setPosition(float x, float y, float z)
   {
-    pos[0] = x;
-    pos[1] = y;
-    pos[2] = z;
+    position[0] = x;
+    position[1] = y;
+    position[2] = z;
   }
 
   bool getIsOpen() const { return isopen; }

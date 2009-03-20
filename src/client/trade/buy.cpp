@@ -129,12 +129,11 @@ namespace PT
           csRef<iEvent> offer; list->Retrieve(offers->Next(), offer);
 
           unsigned int itemId = Helper::GetUInt(offer, "itemId");
-          unsigned int variation = Helper::GetUInt(offer, "variation");
           std::string name = Helper::GetString(offer, "name");
           std::string iconName = Helper::GetString(offer, "iconName");
           unsigned int price = Helper::GetUInt(offer, "price");
 
-          buyWindow->AddItem(itemId, variation, name.c_str(), iconName.c_str(), price);
+          buyWindow->AddItem(itemId, name.c_str(), iconName.c_str(), price);
         } // end while
       }
       else

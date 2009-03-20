@@ -75,7 +75,7 @@ namespace PT
 
         CEGUI::Window* createIcon(int icontype, int objectid,
           const char* name, const char* iconname, bool interactable = true);
-        Object* CreateItem(uint itemid, unsigned int variationid,
+        Object* CreateItem(uint itemid,
           const char* name, const char* iconname, bool interactable = true);
         void MoveObject(Slot* oldslot, Slot* newslot);
 

@@ -215,7 +215,6 @@ namespace PT
         {
           BookReadRequestMessage msg;
           msg.setItemId(itemId);
-          msg.setBookId(variationId);
           network->send(&msg);
           BookWindow* bookWindow =
             guimanager->GetWindow<BookWindow>(BOOKWINDOW);
@@ -328,7 +327,6 @@ namespace PT
           return Report(PT::Error, "InteractDialogWindow::OnInteract failed!");
 
         ev.Retrieve("objectId", itemId);
-        ev.Retrieve("variation", variationId);
 
         newDialog = true;
         ClearActions();

@@ -49,7 +49,7 @@ namespace PT
         virtual ~InventoryWindow();
         bool Create();
         bool ReloadWindow();
-        bool AddItem(unsigned int itemid, unsigned int variationid,
+        bool AddItem(unsigned int itemid,
                   const char* name, const char* iconname, unsigned int slotid);
         bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
         bool MoveItem(Slot* oldslot, Slot* newslot);

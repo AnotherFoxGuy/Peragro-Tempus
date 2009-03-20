@@ -42,6 +42,8 @@ private:
   virtual void Moved(Octree::Shape*);
   virtual void Destroyed(Octree::Shape*) {}
 
+  void NetworkAddEntity(const Common::Entity::Entityp entity);
+
 public:
   EntityManager();
   ~EntityManager();

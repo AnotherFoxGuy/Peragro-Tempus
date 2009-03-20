@@ -239,7 +239,6 @@ namespace PT
           evmgr->CreateEvent("interface.interact");
         interfaceEvent->Add("entityId", slot->GetId());
         interfaceEvent->Add("objectId", object->GetId());
-        interfaceEvent->Add("variation", object->GetVariationId());
 
         // @TODO: Use equiptype in items.xml and add itemtype instead of
         // hardcoding here.
@@ -251,12 +250,9 @@ namespace PT
         }
         if (object->GetId() == 6) // Book
         {
+          // @TODO
           actions += ", Read";
-          if (object->GetVariationId() == 0)
-          {
-            // empty, so you can also write in it.
-            actions += ", Write";
-          }
+          actions += ", Write";
         }
 
         interfaceEvent->Add("actions", actions.c_str());
@@ -357,12 +353,11 @@ namespace PT
         return value;
       } // end IntToStr()
 
-      Object* DragDrop::CreateItem(uint itemid, unsigned int variationid,
+      Object* DragDrop::CreateItem(uint itemid,
                    const char* name, const char* iconname, bool interactable)
       {
         Object* object = new Object();
         object->SetId(itemid);
-        object->SetVariationId(variationid);
         object->SetName(name);
         object->SetIconName(iconname);
         object->SetWindow(createIcon(DragDrop::Item, itemid, name, iconname, interactable));

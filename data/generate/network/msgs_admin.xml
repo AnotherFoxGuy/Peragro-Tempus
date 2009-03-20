@@ -3,14 +3,8 @@
 		<string>DataType</string>
 	</message>
 
-	<message type="Admin" name="CreateSector">
-		<uint16>SectorId</uint16>
-		<string>Name</string>
-		<string>Region</string>
-	</message>
-
 	<message type="Admin" name="CreateItem">
-		<uint32>ItemId</uint32>
+                <uint32>ItemTemplateId</uint32>
 		<string>Name</string>
 		<string>Icon</string>
 		<string>Description</string>
@@ -21,34 +15,28 @@
 	</message>
 
 	<message type="Admin" name="CreateSpawnPoint">
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
-		<vector3f>Pos</vector3f>
-		<uint16>SectorId</uint16>
+		<uint32>ItemTemplateId</uint32>
+		<vector3f>Position</vector3f>
 		<uint32>Interval</uint32>
 	</message>
 
 	<message type="Admin" name="SpawnItem">
-		<uint32>ItemId</uint32>
-		<uint32>Variation</uint32>
-		<vector3f>Pos</vector3f>
-		<uint16>SectorId</uint16>
-	</message>
+		<uint32>ItemTemplateId</uint32>
+		<vector3f>Position</vector3f>
+        </message>
 
-	<message type="Admin" name="SpawnMount">
-		<string>Name</string>
-		<string>Mesh</string>
-		<vector3f>Pos</vector3f>
+        <message type="Admin" name="SpawnMount">
+                <string>Name</string>
+                <string>Mesh</string>
+                <vector3f>Position</vector3f>
 		<float>Rotation</float>
-		<uint16>SectorId</uint16>
 	</message>
 
 	<message type="Admin" name="SpawnDoor">
-		<uint16>DoorId</uint16>
+                <uint32>EntityId</uint32>
 		<string>Name</string>
 		<string>Mesh</string>
-		<uint16>SectorId</uint16>
-		<vector3f>Pos</vector3f>
+		<vector3f>Position</vector3f>
 		<bool>IsOpen</bool>
 		<bool>IsLocked</bool>
 		<string>Animation</string>

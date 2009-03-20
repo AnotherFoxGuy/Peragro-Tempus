@@ -31,7 +31,7 @@ EquipTypesTable::EquipTypesTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
-    Insert(0, "Right Hand", "righthand");
+    Insert(1, "Right Hand", "righthand");
   }
   delete rs;
 }

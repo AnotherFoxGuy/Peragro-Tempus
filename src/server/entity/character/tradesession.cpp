@@ -67,14 +67,14 @@ void TradeSession::exchange()
   for (size_t i=0; i<offer1.getCount(); i++)
   {
     const InventoryEntry offer = *offer1.get(i).item;
-    bool success = inv1->takeItem(inv1->getSlot(offer.id, offer.variation));
+    bool success = inv1->takeItem(inv1->getSlot(offer.id));
     if (success) inv2->addItem(offer);
   }
 
   for (size_t i=0; i<offer2.getCount(); i++)
   {
     const InventoryEntry offer = *offer2.get(i).item;
-    bool success = inv2->takeItem(inv2->getSlot(offer.id, offer.variation));
+    bool success = inv2->takeItem(inv2->getSlot(offer.id));
     if (success) inv1->addItem(offer);
   }
   */

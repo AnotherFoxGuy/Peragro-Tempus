@@ -39,9 +39,7 @@ namespace USER
     CHARSELECTREQUEST=7,
     CHARSELECTRESPONSE=8,
     MESHLISTREQUEST=9,
-    MESHLISTRESPONSE=10,
-    RACELISTREQUEST=11,
-    RACELISTRESPONSE=12
+    MESHLISTRESPONSE=10
   };
 }
 
@@ -470,74 +468,6 @@ public:
   void setFileName(size_t i, ptString x) { meshes[i].filename = x; }
 
   // --- end ListMeshes Getter and Setter ---
-
-};
-
-class RaceListRequestMessage : public NetMessage
-{
-
-public:
-  RaceListRequestMessage() : NetMessage(MESSAGES::USER,USER::RACELISTREQUEST)
-  {
-  }
-
-  ~RaceListRequestMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-};
-
-class RaceListResponseMessage : public NetMessage
-{
-  class ListRaces
-  {
-  public:
-    unsigned int raceid;
-    ptString racename;
-    unsigned int meshid;
-  };
-
-  unsigned int racescount;
-  ListRaces* races;
-
-
-public:
-  RaceListResponseMessage() : NetMessage(MESSAGES::USER,USER::RACELISTRESPONSE)
-  {
-    races = 0;
-  }
-
-  ~RaceListResponseMessage()
-  {
-    delete [] races;
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned char getRacesCount() const { return racescount; }
-  void setRacesCount(unsigned char ic)
-  {
-    racescount = ic;
-    delete [] races;
-    races = new ListRaces[ic];
-  }
-
-  // --- begin ListRaces Getter and Setter ---
-
-  unsigned int getRaceId(size_t i) { return races[i].raceid; }
-  void setRaceId(size_t i, unsigned int x) { races[i].raceid = x; }
-
-  ptString getRaceName(size_t i) { return races[i].racename; }
-  void setRaceName(size_t i, ptString x) { races[i].racename = x; }
-
-  unsigned int getMeshId(size_t i) { return races[i].meshid; }
-  void setMeshId(size_t i, unsigned int x) { races[i].meshid = x; }
-
-  // --- end ListRaces Getter and Setter ---
 
 };
 

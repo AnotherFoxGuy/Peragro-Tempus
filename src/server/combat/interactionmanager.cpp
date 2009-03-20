@@ -187,7 +187,6 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
     // Save this information here since the entry will get invalid, if we
     // take the item.
     unsigned int itemId = entry->id;
-    unsigned int variation = entry->variation;
     if (inventory->takeItem(slot))
     {
       // TODO
@@ -205,7 +204,7 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
 
       // Create new entity from item.
       ItemEntity* e = new ItemEntity();
-      e->createFromItem(itemId, variation);
+      e->createFromItem(itemId);
 
       ptScopedMonitorable<Entity> ent(e->getEntity());
       // Release items in a circlular pattern

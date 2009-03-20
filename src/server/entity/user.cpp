@@ -29,10 +29,22 @@
 
 #include "server/server.h"
 
+User::~User() 
+{ 
+}
+
 void User::SetEntity(boost::shared_ptr<PcEntity> entity)
 {
   own_entity = entity;
   entity->SetUser(this);
+}
+
+void DontDelete1(Common::Entity::Entity*){}
+
+void User::Destroyed(Octree::Shape* shape)
+{
+  Common::Entity::Entityp entity(shape->GetParent(), DontDelete1); //TODO: hack :/
+  SendRemoveEntity(entity);
 }
 
 void User::SendEntityDiff(const std::list<Common::Entity::Entityp>& entities)
@@ -44,7 +56,7 @@ void User::SendEntityDiff(const std::list<Common::Entity::Entityp>& entities)
     {
       found = knownEntitites.find((*it)->GetId());
       if (found == knownEntitites.end())
-        { knownEntitites[(*it)->GetId()] = *it; SendAddEntity(*it); }
+        { SendAddEntity(*it); }
     }
   }
 
@@ -55,13 +67,18 @@ void User::SendEntityDiff(const std::list<Common::Entity::Entityp>& entities)
     {
       found = std::find(entities.begin(), entities.end(), it->second.lock());
       if (found == entities.end())
-        { SendRemoveEntity(it->second.lock()); knownEntitites.erase(it); }
+        { SendRemoveEntity(it->second.lock()); }
     }
   }
 }
 
 void User::SendAddEntity(Common::Entity::Entityp entity)
 {
+  if (knownEntitites.count(entity->GetId()) > 0) return;
+  knownEntitites[entity->GetId()] = entity;
+
+  entity->GetShape()->AddListener(this);
+
   printf("send addentity '%s' to '%s'\n", entity->GetName().c_str(), this->GetName().c_str());
 
   ByteStream bs;
@@ -69,109 +86,112 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
   {
     DoorEntity* door = dynamic_cast<DoorEntity*>(entity.get());
     AddDoorEntityMessage msg;
-    //msg.setDoorId(entity->getDoorEntity()->getDoorId());
     msg.setEntityId(door->GetId());
     msg.setIsOpen(door->GetOpen());
     msg.setIsLocked(door->GetLocked());
     msg.setAnimationName(door->GetAnimationName());
-    //msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(door->GetMeshName());
     msg.setFileName(door->GetFileName());
     //msg.SetSectorId(entity->GetSector());
     msg.setEntityName(entity->GetName());
     msg.serialise(&bs);
   }
-  /*
   else if (entity->GetType() == Common::Entity::ItemEntityType)
   {
-    const Item* item = entity->getItemEntity()->getItem();
-
     AddItemEntityMessage msg;
     msg.setEntityId(entity->GetId());
-    msg.setItemId(item->GetId());
-    msg.SetPosition(entity->GetPosition());
-    msg.SetRotation(entity->GetRotation());
-    msg.SetSectorId(entity->GetSector());
+    msg.setPosition(entity->GetPosition());
+    msg.setRotation(entity->GetRotation());
+    //msg.SetSectorId(entity->GetSector());
 
-    msg.setEntityName(item->getName());
-    msg.setMeshId(item->getMesh()->GetId()); // Not used yet!
-    msg.setMeshName(item->getMesh()->getName());
-    msg.setFileName(item->getMesh()->getFile());
+    msg.setEntityName(entity->GetName());
+    msg.setMeshName(entity->GetMeshName());
+    msg.setFileName(entity->GetFileName());
 
     msg.serialise(&bs);
   }
-  */
   else if (entity->GetType() == Common::Entity::PCEntityType)
   {
     AddPlayerEntityMessage msg;
     msg.setEntityName(entity->GetName());
     msg.setEntityId(entity->GetId());
-    //msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
     msg.setMeshName(entity->GetMeshName());
     msg.setFileName(entity->GetFileName());
-    msg.SetPosition(entity->GetPosition());
-    msg.SetRotation(entity->GetRotation());
+    msg.setPosition(entity->GetPosition());
+    msg.setRotation(entity->GetRotation());
     //msg.SetSectorId(entity->GetSector());
     //msg.setPoseId(entity->GetPoseId());
 
-    //PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(entity);
 
-    //msg.setDecalColour(pc->GetDecalColour());
-    //msg.setHairColour(pc->GetHairColour());
-    //msg.setSkinColour(pc->GetSkinColour());
-    //Inventory* inv = pc->GetInventory();
-    //inv->addEquipment<AddPlayerEntityMessage>(msg);
-    msg.setEquipmentCount(0);
+    //msg.setDecalColour(c->GetDecalColour());
+    //msg.setHairColour(c->GetHairColour());
+    //msg.setSkinColour(c->GetSkinColour());
+    boost::shared_ptr<Equipment> eq = c->GetEquipment();
+    eq->AddEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
   }
-  /*
+ 
   else if (entity->GetType() == Common::Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;
-    msg.setEntityName(entity->GetNameId());
+    msg.setEntityName(entity->GetName());
     msg.setEntityId(entity->GetId());
-    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
-    msg.setMeshName(entity->getMesh()->getName());
-    msg.setFileName(entity->getMesh()->getFile());
-    msg.SetPosition(entity->GetPosition());
-    msg.SetRotation(entity->GetRotation());
-    msg.SetSectorId(entity->GetSector());
-    ptScopedMonitorable<Character> character (entity->getNpcEntity()->getCharacter());
-    Inventory* inv = character->getInventory();
-    inv->addEquipment(msg);
+    msg.setMeshName(entity->GetMeshName());
+    msg.setFileName(entity->GetFileName());
+    msg.setPosition(entity->GetPosition());
+    msg.setRotation(entity->GetRotation());
+    //msg.SetSectorId(entity->GetSector());
+    //msg.setPoseId(entity->GetPoseId());
+
+    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(entity);
+
+    //msg.setDecalColour(c->GetDecalColour());
+    //msg.setHairColour(c->GetHairColour());
+    //msg.setSkinColour(c->GetSkinColour());
+    boost::shared_ptr<Equipment> eq = c->GetEquipment();
+    eq->AddEquipment<AddNpcEntityMessage>(msg);
     msg.serialise(&bs);
   }
   else if (entity->GetType() == Common::Entity::MountEntityType)
   {
     AddMountEntityMessage msg;
-    msg.setEntityName(entity->GetNameId());
+    msg.setEntityName(entity->GetName());
     msg.setEntityId(entity->GetId());
-    msg.setMeshId(entity->getMesh()->GetId()); // Not used yet!
-    msg.setMeshName(entity->getMesh()->getName());
-    msg.setFileName(entity->getMesh()->getFile());
-    msg.SetPosition(entity->GetPosition());
-    msg.SetRotation(entity->GetRotation());
-    msg.SetSectorId(entity->GetSector());
+    msg.setMeshName(entity->GetMeshName());
+    msg.setFileName(entity->GetFileName());
+    msg.setPosition(entity->GetPosition());
+    msg.setRotation(entity->GetRotation());
+    //msg.SetSectorId(entity->GetSector());
     msg.serialise(&bs);
   }
   else
   {
     printf("Unkown entity type!\n");
   }
-  */
 
   if (connection.get()) connection.get()->send(bs);
 }
 
 void User::SendRemoveEntity(Common::Entity::Entityp entity)
 {
-  printf("send delentity '%s' to '%s'\n", entity->GetName().c_str(), this->GetName().c_str());
+  if (!entity) return;
 
-  RemoveEntityMessage msg;
-  msg.setEntityId(entity->GetId());
-  ByteStream bs;
-  msg.serialise(&bs);
-  if (connection.get()) connection.get()->send(bs);
+  size_t id = entity->GetId();
+  std::string name = entity->GetName();
+
+  std::map<size_t, Common::Entity::WeakEntityp>::iterator it;
+  it = knownEntitites.find(id);
+  if (it != knownEntitites.end())
+  {
+    printf("send delentity '%s' to '%s'\n", name.c_str(), this->GetName().c_str());
+    RemoveEntityMessage msg;
+    msg.setEntityId(id);
+    ByteStream bs;
+    msg.serialise(&bs);
+    if (connection.get()) connection.get()->send(bs);
+    knownEntitites.erase(it);
+  }
 }
 
 void User::remove()
@@ -179,7 +199,6 @@ void User::remove()
   if (GetEntity())
   {
     printf("own_entity!\n");
-    Server::getServer()->delEntity(GetEntity().get());
     Server::getServer()->getEntityManager()->Remove(GetEntity());
   }
 

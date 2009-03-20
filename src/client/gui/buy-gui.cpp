@@ -123,12 +123,11 @@ namespace PT
         btn->setText(dragdrop->IntToStr(price));
       } // end SetYourMoney()
 
-      bool BuyWindow::AddItem(unsigned int itemid, unsigned int variationid, const char* name, const char* iconname, unsigned int price)
+      bool BuyWindow::AddItem(unsigned int itemid, const char* name, const char* iconname, unsigned int price)
       {
         winMgr->getWindow("BuyWindow/Frame")->setVisible(true);
         Item item;
         item.itemid = itemid;
-        item.variationid = variationid;
         item.name = name;
         item.iconname = iconname;
         item.price = price;
@@ -156,7 +155,7 @@ namespace PT
           if (counter > nrInventorySlots-1) break;
           Slot* slot = upperslots->GetSlot(counter);
           Item item = items.Get(i);
-          slot->SetObject(dragdrop->CreateItem(item.itemid, item.variationid, item.name, item.iconname));
+          slot->SetObject(dragdrop->CreateItem(item.itemid, item.name, item.iconname));
           slot->GetObject()->SetPrice(item.price);
           counter += 1;
         }
@@ -207,10 +206,9 @@ namespace PT
         for (size_t i=0; i<objandslot.GetSize(); i++)
         {
           unsigned int objid = objandslot.Get(i).object->GetId();
-          unsigned int varid = objandslot.Get(i).object->GetVariationId();
           const char* name = objandslot.Get(i).object->GetName();
           const char* iconname = objandslot.Get(i).object->GetIconName();
-          while (!inventoryWindow->AddItem(objid, varid, name, iconname, counter)
+          while (!inventoryWindow->AddItem(objid, name, iconname, counter)
             && counter < nrInventorySlots)
           {
             counter += 1;

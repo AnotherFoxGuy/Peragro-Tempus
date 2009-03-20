@@ -118,8 +118,6 @@ void BookHandler::handleBookWriteRequest(GenericMessage* msg)
   ptScopedMonitorable<Character> pchar (playerchar);
   pchar->getInventory()->takeItem(slot);
 
-  item.variation = book->id;
-
   pchar->getInventory()->addItem(item, slot);
 
   BookWriteResponseMessage out_msg;

@@ -35,7 +35,6 @@ namespace PT
         bool newDialog;
         unsigned int interactId;
         unsigned int itemId;
-        unsigned int variationId;
 
         float root_size;
         float button_size;

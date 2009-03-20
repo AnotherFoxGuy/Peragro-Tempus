@@ -46,9 +46,6 @@ bool CreateSectorMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt16(sectorid);
-  serial.setString(name);
-  serial.setString(region);
   return serial.isValid();
 }
 
@@ -57,9 +54,6 @@ void CreateSectorMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  sectorid = (unsigned short) serial.getInt16();
-  name = serial.getString();
-  region = serial.getString();
 }
 
 bool CreateItemMessage::serialise(ByteStream* bs)
@@ -67,7 +61,7 @@ bool CreateItemMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(itemid);
+  serial.setInt32(itemtemplateid);
   serial.setString(name);
   serial.setString(icon);
   serial.setString(description);
@@ -83,7 +77,7 @@ void CreateItemMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
+  itemtemplateid = (unsigned int) serial.getInt32();
   name = serial.getString();
   icon = serial.getString();
   description = serial.getString();
@@ -98,12 +92,10 @@ bool CreateSpawnPointMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(itemid);
-  serial.setInt32(variation);
-  serial.setFloat(pos[0]);
-  serial.setFloat(pos[1]);
-  serial.setFloat(pos[2]);
-  serial.setInt16(sectorid);
+  serial.setInt32(itemtemplateid);
+  serial.setFloat(position[0]);
+  serial.setFloat(position[1]);
+  serial.setFloat(position[2]);
   serial.setInt32(interval);
   return serial.isValid();
 }
@@ -113,12 +105,10 @@ void CreateSpawnPointMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
-  variation = (unsigned int) serial.getInt32();
-  pos[0] = serial.getFloat();
-  pos[1] = serial.getFloat();
-  pos[2] = serial.getFloat();
-  sectorid = (unsigned short) serial.getInt16();
+  itemtemplateid = (unsigned int) serial.getInt32();
+  position[0] = serial.getFloat();
+  position[1] = serial.getFloat();
+  position[2] = serial.getFloat();
   interval = (unsigned int) serial.getInt32();
 }
 
@@ -127,12 +117,10 @@ bool SpawnItemMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(itemid);
-  serial.setInt32(variation);
-  serial.setFloat(pos[0]);
-  serial.setFloat(pos[1]);
-  serial.setFloat(pos[2]);
-  serial.setInt16(sectorid);
+  serial.setInt32(itemtemplateid);
+  serial.setFloat(position[0]);
+  serial.setFloat(position[1]);
+  serial.setFloat(position[2]);
   return serial.isValid();
 }
 
@@ -141,12 +129,10 @@ void SpawnItemMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
-  variation = (unsigned int) serial.getInt32();
-  pos[0] = serial.getFloat();
-  pos[1] = serial.getFloat();
-  pos[2] = serial.getFloat();
-  sectorid = (unsigned short) serial.getInt16();
+  itemtemplateid = (unsigned int) serial.getInt32();
+  position[0] = serial.getFloat();
+  position[1] = serial.getFloat();
+  position[2] = serial.getFloat();
 }
 
 bool SpawnMountMessage::serialise(ByteStream* bs)
@@ -156,11 +142,10 @@ bool SpawnMountMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(mesh);
-  serial.setFloat(pos[0]);
-  serial.setFloat(pos[1]);
-  serial.setFloat(pos[2]);
+  serial.setFloat(position[0]);
+  serial.setFloat(position[1]);
+  serial.setFloat(position[2]);
   serial.setFloat(rotation);
-  serial.setInt16(sectorid);
   return serial.isValid();
 }
 
@@ -171,11 +156,10 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   name = serial.getString();
   mesh = serial.getString();
-  pos[0] = serial.getFloat();
-  pos[1] = serial.getFloat();
-  pos[2] = serial.getFloat();
+  position[0] = serial.getFloat();
+  position[1] = serial.getFloat();
+  position[2] = serial.getFloat();
   rotation = serial.getFloat();
-  sectorid = (unsigned short) serial.getInt16();
 }
 
 bool SpawnDoorMessage::serialise(ByteStream* bs)
@@ -183,13 +167,12 @@ bool SpawnDoorMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt16(doorid);
+  serial.setInt32(entityid);
   serial.setString(name);
   serial.setString(mesh);
-  serial.setInt16(sectorid);
-  serial.setFloat(pos[0]);
-  serial.setFloat(pos[1]);
-  serial.setFloat(pos[2]);
+  serial.setFloat(position[0]);
+  serial.setFloat(position[1]);
+  serial.setFloat(position[2]);
   serial.setInt8(isopen?1:0);
   serial.setInt8(islocked?1:0);
   serial.setString(animation);
@@ -201,13 +184,12 @@ void SpawnDoorMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned short) serial.getInt16();
+  entityid = (unsigned int) serial.getInt32();
   name = serial.getString();
   mesh = serial.getString();
-  sectorid = (unsigned short) serial.getInt16();
-  pos[0] = serial.getFloat();
-  pos[1] = serial.getFloat();
-  pos[2] = serial.getFloat();
+  position[0] = serial.getFloat();
+  position[1] = serial.getFloat();
+  position[2] = serial.getFloat();
   isopen = serial.getInt8() != 0;
   islocked = serial.getInt8() != 0;
   animation = serial.getString();
