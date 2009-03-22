@@ -45,7 +45,7 @@
 	</message>
 
 	<message type="Entity" name="AddPlayerEntity">
-          <event name="entity.add.player" specific="None">
+          <event name="entity.add.pc" specific="None">
 		<string>EntityName</string>
 		<string>MeshName</string>
 		<string>FileName</string>
