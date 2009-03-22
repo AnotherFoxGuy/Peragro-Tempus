@@ -19,6 +19,7 @@
 #ifndef BASE_H
 #define BASE_H
 
+#include <stdio.h>
 #include <string>
 #include <map>
 #include <boost/shared_ptr.hpp>
