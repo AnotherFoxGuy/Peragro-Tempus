@@ -1,0 +1,65 @@
+<chatgroups>
+
+<!-- chat groups automatically created from the time the server starts -->
+<!-- these groups are "permanent" by default -->
+  <initgroups>
+    <group>#general</group>
+    <group>#auction</group>
+    <group>#recruit</group>
+    <group>#help</group>
+    <group>#gm</group>
+  </initgroups>
+  
+<!-- groups that a character joins by default -->
+  <defgroups>
+    <group permanent="yes">#general</group>
+    <group>#auction</group>
+    <group>#recruit</group>
+    <group>#help</group>
+    <group>#gm</group>
+  </defgroups>
+
+<!-- set maximum sizes for listings -->
+  <list default="25" max="-1"/>
+
+<!-- set maximum number of channels -->
+  <maxchannels value="-1"/>
+
+<!-- namespaces for channels -->
+ 
+  <!-- primary channels, ie #auction, #help, ... -->
+  <chanspace type="discussion" form="^\#\l+$">
+    <create type="admin" value="1" permanent="yes"/>
+    <!-- <admin type="admin" value="1"/> -->
+    <join type="user"/>
+    <invite type="none"/>
+    <visibility channel="yes" members="yes"/>
+  </chanspace>
+ 
+  <!-- channels for specialty guilds and specialty topics, -->
+  <!-- ie +craft.blacksmith.shields, or +magic.enchanting -->
+  <chanspace type="guild" form="^\+[[:alpha:]]+(\.[[:alpha:]]+)*$">
+    <maxchannels value="100"/>
+    <create type="user" max="4"/>
+    <join type="user"/>
+    <invite type="user"/>
+    <visibility channel="yes" members="no"/>
+  </chanspace>
+
+  <!-- channels for private party discussions, identified by ID number -->
+  <chanspace type="party" form="^\@\d+$">
+    <create type="auto" max="4"/>
+    <join type="invite"/>
+    <invite type="leader"/>
+    <visibility channel="no" members="no"/>
+  </chanspace>
+
+  <!-- channels for major and minor houses, ie $vaalnor, $my little gang -->
+  <chanspace type="house" form="^\$[[:print:]]+$">
+    <create type="auto"/>
+    <join type="auto" permanent="yes"/>
+    <invite type="none"/>
+    <visibility channel="no" members="no"/>
+  </chanspace>
+
+</chatgroups>
