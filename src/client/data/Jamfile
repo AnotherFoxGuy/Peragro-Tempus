@@ -1,5 +1,6 @@
 SubDir TOP src client data ;
 
+SubInclude TOP src client data chat ;
 SubInclude TOP src client data connection ;
 SubInclude TOP src client data door ;
 SubInclude TOP src client data item ;
@@ -10,6 +11,7 @@ SubInclude TOP src client data zone ;
 Description client-data : "client data" ;
 Library client-data :
   [ Wildcard *.h *.cpp ]
+  [ Wildcard [ ConcatDirs chat ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs connection ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs door ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs item ] : *.h *.cpp ]
