@@ -43,6 +43,7 @@ public:
     char id = msg->getMsgId();
 
     if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
+    else if (id == ADMIN::SETCONFIG) handleSetConfig(msg);
     else if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
     else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
@@ -53,9 +54,12 @@ public:
     else if (id == ADMIN::TOGGLEFLASHSTEP) handleToggleFlashStep(msg);
     else if (id == ADMIN::CREATEZONE) handleCreateZone(msg);
     else if (id == ADMIN::SETDATE) handleSetDate(msg);
+    else if (id == ADMIN::CREATECHANDEFAULT) handleCreateChanDefault(msg);
+    else if (id == ADMIN::CREATECHANSPACE) handleCreateChanSpace(msg);
   }
 
   void handleRemoveAll(GenericMessage* msg);
+  void handleSetConfig(GenericMessage* msg);
   void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
   void handleCreateSpawnPoint(GenericMessage* msg);
@@ -66,6 +70,8 @@ public:
   void handleToggleFlashStep(GenericMessage* msg);
   void handleCreateZone(GenericMessage* msg);
   void handleSetDate(GenericMessage* msg);
+  void handleCreateChanDefault(GenericMessage* msg);
+  void handleCreateChanSpace(GenericMessage* msg);
 };
 
 #endif // ADMINHANDLER_H

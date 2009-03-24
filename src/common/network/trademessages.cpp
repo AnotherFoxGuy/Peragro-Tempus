@@ -68,7 +68,6 @@ bool TradeOffersListNpcMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     serial.setInt32(offers[i].itemid);
-    serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].price);
     serial.setString(offers[i].name);
     serial.setString(offers[i].iconname);
@@ -88,7 +87,6 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     offers[i].itemid = (unsigned int) serial.getInt32();
-    offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].price = (unsigned int) serial.getInt32();
     offers[i].name = serial.getString();
     offers[i].iconname = serial.getString();
@@ -105,7 +103,6 @@ bool ExchangeOffersListMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     serial.setInt32(offers[i].itemid);
-    serial.setInt32(offers[i].variation);
     serial.setInt32(offers[i].amount);
     serial.setString(offers[i].name);
     serial.setString(offers[i].iconname);
@@ -125,7 +122,6 @@ void ExchangeOffersListMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < offerscount ; i++ )
   {
     offers[i].itemid = (unsigned int) serial.getInt32();
-    offers[i].variation = (unsigned int) serial.getInt32();
     offers[i].amount = (unsigned int) serial.getInt32();
     offers[i].name = serial.getString();
     offers[i].iconname = serial.getString();
@@ -144,7 +140,6 @@ bool TradeOrderListNpcMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < orderscount ; i++ )
   {
     serial.setInt32(orders[i].itemid);
-    serial.setInt32(orders[i].variation);
   };
 
   return serial.isValid();
@@ -161,7 +156,6 @@ void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
   for ( size_t i = 0; i < orderscount ; i++ )
   {
     orders[i].itemid = (unsigned int) serial.getInt32();
-    orders[i].variation = (unsigned int) serial.getInt32();
   };
 
 }

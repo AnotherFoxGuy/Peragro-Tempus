@@ -3,6 +3,11 @@
 		<string>DataType</string>
 	</message>
 
+	<message type="Admin" name="SetConfig">
+		<string>Option</string>
+		<string>Value</string>
+	</message>
+
 	<message type="Admin" name="CreateItem">
                 <uint32>ItemTemplateId</uint32>
 		<string>Name</string>
@@ -59,6 +64,29 @@
 
 	<message type="Admin" name="SetDate">
 		<uint32>Seconds</uint32>
+	</message>
+
+        <message type="Admin" name="CreateChanDefault">
+		<uint8>UseType</uint8>
+		<string>Group</string>
+		<bool>Permanent</bool>
+        </message>
+
+	<message type="Admin" name="CreateChanSpace">
+		<string>Name</string>
+		<string>Form</string>
+		<!-- int MaxChannels -->
+		<string>CreateType</string>
+		<uint16>CreateVal</uint16>
+		<bool>CreatePerm</bool>
+		<!-- int CreateMax -->		
+		<string>JoinType</string>
+		<uint16>JoinVal</uint16>
+		<bool>JoinPerm</bool>
+		<string>InviteType</string>
+		<uint16>InviteVal</uint16>
+		<bool>VisChannel</bool>
+		<bool>VisMembers</bool>
 	</message>
 
 </message-implementation>

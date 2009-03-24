@@ -30,8 +30,9 @@ namespace ADMIN
   enum MESSAGES
   {
     REMOVEALL=0,
-    CREATESECTOR=1,
-    CREATEITEM=2,
+    SETCONFIG=1,
+    CREATESECTOR=2,
+    CREATEITEM=3,
     CREATESPAWNPOINT=4,
     SPAWNITEM=5,
     SPAWNMOUNT=6,
@@ -39,7 +40,9 @@ namespace ADMIN
     REMOVESPAWNEDENTITY=8,
     TOGGLEFLASHSTEP=9,
     CREATEZONE=10,
-    SETDATE=11
+    SETDATE=11,
+    CREATECHANDEFAULT=12,
+    CREATECHANSPACE=13
   };
 }
 
@@ -61,6 +64,31 @@ public:
 
   ptString getDataType() const { return datatype; }
   void setDataType(ptString x) { datatype = x; }
+
+};
+
+class SetConfigMessage : public NetMessage
+{
+  ptString option;
+  ptString value;
+
+public:
+  SetConfigMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::SETCONFIG)
+  {
+  }
+
+  ~SetConfigMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getOption() const { return option; }
+  void setOption(ptString x) { option = x; }
+
+  ptString getValue() const { return value; }
+  void setValue(ptString x) { value = x; }
 
 };
 
@@ -409,6 +437,100 @@ public:
 
   unsigned int getSeconds() const { return seconds; }
   void setSeconds(unsigned int x) { seconds = x; }
+
+};
+
+class CreateChanDefaultMessage : public NetMessage
+{
+  unsigned char usetype;
+  ptString group;
+  bool permanent;
+
+public:
+  CreateChanDefaultMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATECHANDEFAULT)
+  {
+  }
+
+  ~CreateChanDefaultMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getUseType() const { return usetype; }
+  void setUseType(unsigned char x) { usetype = x; }
+
+  ptString getGroup() const { return group; }
+  void setGroup(ptString x) { group = x; }
+
+  bool getPermanent() const { return permanent; }
+  void setPermanent(bool x) { permanent = x; }
+
+};
+
+class CreateChanSpaceMessage : public NetMessage
+{
+  ptString name;
+  ptString form;
+  ptString createtype;
+  unsigned short createval;
+  bool createperm;
+  ptString jointype;
+  unsigned short joinval;
+  bool joinperm;
+  ptString invitetype;
+  unsigned short inviteval;
+  bool vischannel;
+  bool vismembers;
+
+public:
+  CreateChanSpaceMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATECHANSPACE)
+  {
+  }
+
+  ~CreateChanSpaceMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getName() const { return name; }
+  void setName(ptString x) { name = x; }
+
+  ptString getForm() const { return form; }
+  void setForm(ptString x) { form = x; }
+
+  ptString getCreateType() const { return createtype; }
+  void setCreateType(ptString x) { createtype = x; }
+
+  unsigned short getCreateVal() const { return createval; }
+  void setCreateVal(unsigned short x) { createval = x; }
+
+  bool getCreatePerm() const { return createperm; }
+  void setCreatePerm(bool x) { createperm = x; }
+
+  ptString getJoinType() const { return jointype; }
+  void setJoinType(ptString x) { jointype = x; }
+
+  unsigned short getJoinVal() const { return joinval; }
+  void setJoinVal(unsigned short x) { joinval = x; }
+
+  bool getJoinPerm() const { return joinperm; }
+  void setJoinPerm(bool x) { joinperm = x; }
+
+  ptString getInviteType() const { return invitetype; }
+  void setInviteType(ptString x) { invitetype = x; }
+
+  unsigned short getInviteVal() const { return inviteval; }
+  void setInviteVal(unsigned short x) { inviteval = x; }
+
+  bool getVisChannel() const { return vischannel; }
+  void setVisChannel(bool x) { vischannel = x; }
+
+  bool getVisMembers() const { return vismembers; }
+  void setVisMembers(bool x) { vismembers = x; }
 
 };
 

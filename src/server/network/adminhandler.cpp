@@ -157,6 +157,11 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
   */
 }
 
+void AdminHandler::handleSetConfig(GenericMessage* msg)
+{
+/* TODO */
+}
+
 void AdminHandler::handleCreateSector(GenericMessage* msg)
 {
   /*
@@ -372,5 +377,15 @@ void AdminHandler::handleSetDate(GenericMessage* msg)
   clock->SetDate(date);
   clock->BroadcastTime();
   */
+}
+
+void AdminHandler::handleCreateChanDefault(GenericMessage* msg)
+{
+/* TODO */
+}
+
+void AdminHandler::handleCreateChanSpace(GenericMessage* msg)
+{
+/* TODO */
 }
 

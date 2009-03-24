@@ -41,6 +41,25 @@ void RemoveAllMessage::deserialise(ByteStream* bs)
   datatype = serial.getString();
 }
 
+bool SetConfigMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(option);
+  serial.setString(value);
+  return serial.isValid();
+}
+
+void SetConfigMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  option = serial.getString();
+  value = serial.getString();
+}
+
 bool CreateSectorMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
@@ -276,5 +295,65 @@ void SetDateMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   seconds = (unsigned int) serial.getInt32();
+}
+
+bool CreateChanDefaultMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt8(usetype);
+  serial.setString(group);
+  serial.setInt8(permanent?1:0);
+  return serial.isValid();
+}
+
+void CreateChanDefaultMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  usetype = (unsigned char) serial.getInt8();
+  group = serial.getString();
+  permanent = serial.getInt8() != 0;
+}
+
+bool CreateChanSpaceMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  serial.setString(form);
+  serial.setString(createtype);
+  serial.setInt16(createval);
+  serial.setInt8(createperm?1:0);
+  serial.setString(jointype);
+  serial.setInt16(joinval);
+  serial.setInt8(joinperm?1:0);
+  serial.setString(invitetype);
+  serial.setInt16(inviteval);
+  serial.setInt8(vischannel?1:0);
+  serial.setInt8(vismembers?1:0);
+  return serial.isValid();
+}
+
+void CreateChanSpaceMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+  form = serial.getString();
+  createtype = serial.getString();
+  createval = (unsigned short) serial.getInt16();
+  createperm = serial.getInt8() != 0;
+  jointype = serial.getString();
+  joinval = (unsigned short) serial.getInt16();
+  joinperm = serial.getInt8() != 0;
+  invitetype = serial.getString();
+  inviteval = (unsigned short) serial.getInt16();
+  vischannel = serial.getInt8() != 0;
+  vismembers = serial.getInt8() != 0;
 }
 

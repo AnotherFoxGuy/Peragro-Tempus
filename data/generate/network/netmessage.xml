@@ -113,8 +113,9 @@
 		</type>
 		<type id="10" name="Admin">
 			<message id="0" name="RemoveAll" />
-			<message id="1" name="CreateSector" />
-			<message id="2" name="CreateItem" />
+			<message id="1" name="SetConfig" />
+			<message id="2" name="CreateSector" />
+			<message id="3" name="CreateItem" />
 			<!-- <message id="3" name="CreateNpc" /> -->
 			<message id="4" name="CreateSpawnPoint" />
 			<message id="5" name="SpawnItem" />
@@ -124,6 +125,8 @@
 			<message id="9" name="ToggleFlashStep" />
 			<message id="10" name="CreateZone" />
 			<message id="11" name="SetDate" />
+			<message id="12" name="CreateChanDefault" />
+			<message id="13" name="CreateChanSpace" />
 		</type>
 		<type id="11" name="Player">
 			<message id="1" name="InventoryList" />

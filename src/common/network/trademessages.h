@@ -90,7 +90,6 @@ class TradeOffersListNpcMessage : public NetMessage
   {
   public:
     unsigned int itemid;
-    unsigned int variation;
     unsigned int price;
     ptString name;
     ptString iconname;
@@ -130,9 +129,6 @@ public:
   unsigned int getItemId(size_t i) { return offers[i].itemid; }
   void setItemId(size_t i, unsigned int x) { offers[i].itemid = x; }
 
-  unsigned int getVariation(size_t i) { return offers[i].variation; }
-  void setVariation(size_t i, unsigned int x) { offers[i].variation = x; }
-
   unsigned int getPrice(size_t i) { return offers[i].price; }
   void setPrice(size_t i, unsigned int x) { offers[i].price = x; }
 
@@ -152,7 +148,6 @@ class ExchangeOffersListMessage : public NetMessage
   {
   public:
     unsigned int itemid;
-    unsigned int variation;
     unsigned int amount;
     ptString name;
     ptString iconname;
@@ -190,9 +185,6 @@ public:
   unsigned int getItemId(size_t i) { return offers[i].itemid; }
   void setItemId(size_t i, unsigned int x) { offers[i].itemid = x; }
 
-  unsigned int getVariation(size_t i) { return offers[i].variation; }
-  void setVariation(size_t i, unsigned int x) { offers[i].variation = x; }
-
   unsigned int getAmount(size_t i) { return offers[i].amount; }
   void setAmount(size_t i, unsigned int x) { offers[i].amount = x; }
 
@@ -216,7 +208,6 @@ class TradeOrderListNpcMessage : public NetMessage
   {
   public:
     unsigned int itemid;
-    unsigned int variation;
   };
 
   unsigned int orderscount;
@@ -252,9 +243,6 @@ public:
 
   unsigned int getItemId(size_t i) { return orders[i].itemid; }
   void setItemId(size_t i, unsigned int x) { orders[i].itemid = x; }
-
-  unsigned int getVariation(size_t i) { return orders[i].variation; }
-  void setVariation(size_t i, unsigned int x) { orders[i].variation = x; }
 
   // --- end ListOrders Getter and Setter ---
 

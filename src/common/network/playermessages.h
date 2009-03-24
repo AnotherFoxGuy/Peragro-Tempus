@@ -46,7 +46,6 @@ class InventoryListMessage : public NetMessage
   {
   public:
     unsigned int itemid;
-    unsigned int variation;
     unsigned char slotid;
     ptString name;
     ptString iconname;
@@ -88,9 +87,6 @@ public:
 
   unsigned int getItemId(size_t i) { return inventory[i].itemid; }
   void setItemId(size_t i, unsigned int x) { inventory[i].itemid = x; }
-
-  unsigned int getVariation(size_t i) { return inventory[i].variation; }
-  void setVariation(size_t i, unsigned int x) { inventory[i].variation = x; }
 
   unsigned char getSlotId(size_t i) { return inventory[i].slotid; }
   void setSlotId(size_t i, unsigned char x) { inventory[i].slotid = x; }

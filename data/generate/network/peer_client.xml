@@ -96,6 +96,7 @@
 		<!--message type="Book" name="BookWriteResponse" /-->
 
 		<message type="Admin" name="RemoveAll" />
+		<message type="Admin" name="SetConfig" />
 		<message type="Admin" name="CreateSector" />
 		<message type="Admin" name="CreateItem" />
 		<!-- <message type="Admin" name="CreateNpc" /> -->
@@ -107,6 +108,8 @@
 		<message type="Admin" name="ToggleFlashStep" />
 		<message type="Admin" name="CreateZone" />
 		<message type="Admin" name="SetDate" />
+		<message type="Admin" name="CreateChanDefault" />
+		<message type="Admin" name="CreateChanSpace" />
 
 		<!--message type="Player" name="InventoryList" /-->
 		<!--message type="Player" name="StatsList" /-->
@@ -210,6 +213,7 @@
 		<message type="Book" name="BookWriteResponse" />
 
 		<!--message type="Admin" name="RemoveAll" /-->
+		<!--message type="Admin" name="SetConfig" /-->
 		<!--message type="Admin" name="CreateSector" /-->
 		<!--message type="Admin" name="CreateItem" /-->
 		<!--message type="Admin" name="CreateNpc" /-->
@@ -221,6 +225,8 @@
 		<!--message type="Admin" name="ToggleFlashStep" /-->
 		<!--message type="Admin" name="CreateZone" /-->
 		<!--message type="Admin" name="SetDate" /-->
+		<!--message type="Admin" name="CreateChanDefault" /-->
+		<!--message type="Admin" name="CreateChanSpace" /-->
 
 		<message type="Player" name="InventoryList" />
 		<message type="Player" name="StatsList" />
