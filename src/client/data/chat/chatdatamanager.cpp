@@ -51,7 +51,7 @@ namespace PT
         while (groups->HasNext())
         {
           csRef<iDocumentNode> gnode = groups->Next();
-          const char* group = gnode->GetValue();
+          const char* group = gnode->GetContentsValue();
           if (!group) group = "";
           initgroups.push_back(group);
         }
@@ -64,7 +64,7 @@ namespace PT
         while (groups->HasNext())
         {
           csRef<iDocumentNode> gnode = groups->Next();
-          const char* group = gnode->GetValue();
+          const char* group = gnode->GetContentsValue();
           if (!group) group = "";
           std::pair<std::string, bool> defgroup(group, false);
           if (gnode->GetAttribute("permanent"))

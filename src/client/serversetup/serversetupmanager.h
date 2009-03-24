@@ -35,6 +35,7 @@ namespace PT
     class ItemDataManager;
     class SpawnPointDataManager;
     class ZoneDataManager;
+    class ChatDataManager;
   } // Data namespace
 
   namespace Misc
@@ -53,6 +54,7 @@ namespace PT
       PT::Data::ItemDataManager* itemDataManager;
       PT::Data::SpawnPointDataManager* spawnpointDataManager;
       PT::Data::ZoneDataManager* zoneDataManager;
+      PT::Data::ChatDataManager* chatDataManager;
 
     public:
       PT::Data::ItemDataManager* GetItemDataManager() { return itemDataManager; } // TODO remove

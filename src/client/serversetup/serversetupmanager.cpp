@@ -41,6 +41,9 @@
 #include "client/data/zone/zone.h"
 #include "client/data/zone/zonedatamanager.h"
 
+#include "client/data/chat/chat.h"
+#include "client/data/chat/chatdatamanager.h"
+
 #include "client/pointer/pointer.h"
 
 namespace PT
@@ -71,6 +74,11 @@ namespace PT
       zoneDataManager = new PT::Data::ZoneDataManager (ptrlib);
       if (!zoneDataManager->parse())
         Report(PT::Error, "Failed to initialize ZoneDataManager!");
+
+      // Create and Initialize the ChatDataManager.
+      chatDataManager = new PT::Data::ChatDataManager (ptrlib);
+      if (!chatDataManager->parse())
+        Report(PT::Error, "Failed to initialize ChatDataManager!");
     }
 
     ServerSetupManager::~ServerSetupManager()
@@ -79,6 +87,7 @@ namespace PT
       delete itemDataManager;
       delete spawnpointDataManager;
       delete zoneDataManager;
+      delete chatDataManager;
     }
 
     bool ServerSetupManager::UploadServerData()
@@ -103,6 +112,9 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
       rmmsg.setDataType(ptString::create("zones"));
+      PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
+
+      rmmsg.setDataType(ptString::create("chat"));
       PointerLibrary::getInstance()->getNetwork()->send(&rmmsg);
 
       Report(PT::Notify, "Not yet fully implemented");
@@ -186,7 +198,7 @@ namespace PT
         unsigned int interval = spawnpoints[i]->GetInterval();
 
 
-        Report(PT::Debug, "Loading spawnpoint, item=%d, %s <%.2f,%.2f,%.2f>, interval=%d\n", itemid, sector, position[0], position[1], position[2], interval);
+        Report(PT::Debug, "Loading spawnpoint, item=%d, %s <%.2f,%.2f,%.2f>, interval=%d", itemid, sector, position[0], position[1], position[2], interval);
 
         // Just send the data here, one spawnpoint/package
         CreateSpawnPointMessage spawnmsg;
@@ -207,7 +219,7 @@ namespace PT
         unsigned int zoneid = zones[i]->GetId();
         ptString zonetype = zones[i]->GetType();
 
-        Report(PT::Debug, "Loading zone, id=%d, type=%s\n", zoneid, *zonetype);
+        Report(PT::Debug, "Loading zone, id=%d, type=%s", zoneid, *zonetype);
 
         CreateZoneMessage zonemsg;
         zonemsg.setZoneId(zoneid);
@@ -221,6 +233,63 @@ namespace PT
 
         PointerLibrary::getInstance()->getNetwork()->send(&zonemsg);
       }
+
+      // ==[ ChatConfig ]======================================================
+      for (unsigned i=0;  i<chatDataManager->GetInitGroups().size();  i++)
+      {
+        const char* group = (chatDataManager->GetInitGroups())[i].c_str();
+
+        Report(PT::Debug, "Adding InitGroup %s", group);
+
+        CreateChanDefaultMessage ccdmsg;
+        ccdmsg.setUseType(0);  //initgroup type
+        ccdmsg.setPermanent(false); //dummy value - not used
+        ccdmsg.setGroup(ptString::create(group));
+
+        PointerLibrary::getInstance()->getNetwork()->send(&ccdmsg);
+      }
+
+      for (unsigned i=0;  i<chatDataManager->GetDefGroups().size();  i++)
+      {
+        std::pair<std::string, bool> group = (chatDataManager->GetDefGroups())[i];
+
+        Report(PT::Debug, "Adding DefGroup %s%s", group.first.c_str(), group.second?" (permanent)":"");
+
+        CreateChanDefaultMessage ccdmsg;
+        ccdmsg.setUseType(1);  //defgroup type
+        ccdmsg.setPermanent(group.second); 
+        ccdmsg.setGroup(ptString::create(group.first.c_str()));
+
+        PointerLibrary::getInstance()->getNetwork()->send(&ccdmsg);
+      }
+
+      std::vector<PT::Data::ChanSpace*> chanspaces;
+      chatDataManager->GetAllChanSpaces(chanspaces);
+
+      for (size_t i=0; i<chanspaces.size(); i++)
+      {
+        PT::Data::ChanSpace* cspace = chanspaces[i];
+        if (!cspace) continue;
+
+        Report(PT::Debug, "Loading ChanSpace %s: form=\"%s\", create(\"%s\",%d%s), join(\"%s\",%d%s), invite(\"%s\",%d)", cspace->GetType().c_str(), cspace->GetForm().c_str(), cspace->GetCreateType().c_str(), cspace->GetCreateVal(), cspace->GetCreatePerm()?",*":"", cspace->GetJoinType().c_str(), cspace->GetJoinVal(), cspace->GetJoinPerm()?",*":"", cspace->GetInviteType().c_str(), cspace->GetInviteVal());
+
+        CreateChanSpaceMessage ccsmsg;
+        ccsmsg.setName(ptString::create(cspace->GetType().c_str()));
+        ccsmsg.setForm(ptString::create(cspace->GetForm().c_str()));
+        ccsmsg.setCreateType(ptString::create(cspace->GetCreateType().c_str()));
+        ccsmsg.setCreateVal(cspace->GetCreateVal());
+        ccsmsg.setCreatePerm(cspace->GetCreatePerm());
+        ccsmsg.setJoinType(ptString::create(cspace->GetJoinType().c_str()));
+        ccsmsg.setJoinVal(cspace->GetJoinVal());
+        ccsmsg.setJoinPerm(cspace->GetJoinPerm());
+        ccsmsg.setInviteType(ptString::create(cspace->GetInviteType().c_str()));
+        ccsmsg.setInviteVal(cspace->GetInviteVal());
+        ccsmsg.setVisChannel(cspace->GetVisibilityChannel());
+        ccsmsg.setVisMembers(cspace->GetVisibilityMembers());
+        
+        PointerLibrary::getInstance()->getNetwork()->send(&ccsmsg);
+      }
+      // ======================================================================
 
       return true;
     } // end UploadServerData()

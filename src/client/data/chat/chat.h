@@ -44,18 +44,18 @@ namespace PT
 
       ///Permissions for creating a channel.
       std::string create_type;
-      int create_val;
+      unsigned create_val;
       int create_max;
       bool create_perm;
 
       ///Permissions for joining a channel.
       std::string join_type;
-      int join_val;
+      unsigned join_val;
       bool join_perm;
 
       ///Permissions for sending invitations to a channel.
       std::string invite_type;
-      int invite_val;
+      unsigned invite_val;
 
       ///External visibility of the channel.
       bool vis_channel, vis_members;
@@ -81,8 +81,8 @@ namespace PT
       void SetCreateType(const std::string& t) { create_type = t; }
       const std::string& GetCreateType() const { return create_type; }
       
-      void SetCreateVal(int v) { create_val = v; }
-      int GetCreateVal() const { return create_val; }
+      void SetCreateVal(unsigned v) { create_val = v; }
+      unsigned GetCreateVal() const { return create_val; }
       
       void SetCreateMax(int m) { create_max = m; }
       int GetCreateMax() const { return create_max; }
@@ -93,8 +93,8 @@ namespace PT
       void SetJoinType(const std::string& t) { join_type = t; }
       const std::string& GetJoinType() const { return join_type; }
 
-      void SetJoinVal(int v) { join_val = v; }
-      int GetJoinVal() const { return join_val; }
+      void SetJoinVal(unsigned v) { join_val = v; }
+      unsigned GetJoinVal() const { return join_val; }
 
       void SetJoinPerm(bool p) { join_perm = p; }
       bool GetJoinPerm() const { return join_perm; }
@@ -102,8 +102,8 @@ namespace PT
       void SetInviteType(const std::string& t) { invite_type = t; }
       const std::string& GetInviteType() const { return invite_type; }
 
-      void SetInviteVal(int v) { invite_val = v; }
-      int GetInviteVal() const { return invite_val; }
+      void SetInviteVal(unsigned v) { invite_val = v; }
+      unsigned GetInviteVal() const { return invite_val; }
 
       void SetVisibilityChannel(bool v) { vis_channel = v; }
       bool GetVisibilityChannel() const { return vis_channel; }
