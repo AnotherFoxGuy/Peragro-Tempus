@@ -78,7 +78,7 @@ void Resources::Resource::SendUpdate()
   msg.serialise(&bs);
   NetworkHelper::sendMessage(resources->entity, bs);
 */
-  printf("Send ResourceUpdateMessage: Resource:%d value:%f\n", id, value);
+  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %f\n", id, value);
 }
 
 float Resources::Resource::Get() const

@@ -74,12 +74,11 @@ std::string cmdDbg::HelpUsage (const char*) const
       "  - Write book: '/dbg write #itemid #bookid #name #text'\n"
       "  - Player Pos: '/dbg pos'\n"
       "  - Flash Step: '/dbg flashstep'\n"
-      "  - Spawn Item: '/dbg spawn item #itemid #variation'\n"
+      "  - Spawn Item: '/dbg spawn item #itemtemplateid'\n"
       "  - Spawn Mount: '/dbg spawn mount meshname entityname'\n"
-      "  - Sector: '/dbg sector sectorname [x y z]'\n"
+      "  - Sector: '/dbg goto x y z'\n"
       "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
-      "  - Remove: '/dbg rm entity #id'\n"
-      "  - World Size: '/dbg worldsize #tilesOnEdge'";
+      "  - Remove: '/dbg rm entity #id'";
 }
 
 std::string cmdDbg::Execute (const StringArray& args)
@@ -157,17 +156,12 @@ std::string cmdDbg::Execute (const StringArray& args)
 
       csVector3 pos = pclinmove->GetFullPosition();
       float rotation = pclinmove->GetYRotation();
-      iSector* sector = pclinmove->GetSector();
-
-      int sectorId = sectorDataMgr->GetSectorByName(sector->QueryObject()->GetName())->GetId();
 
       if (args[3].compare("item") == 0)
       {
         SpawnItemMessage itemmsg;
-        itemmsg.setItemId(atoi(args[4].c_str()));
-        itemmsg.setVariation(atoi(args[5].c_str()));
-        itemmsg.SetPosition(pos.x, pos.y, pos.z);
-        itemmsg.SetSectorId(sectorId);
+        itemmsg.setItemTemplateId(atoi(args[4].c_str()));
+        itemmsg.setPosition(pos.x, pos.y, pos.z);
         network->send(&itemmsg);
       }
       else if(args[3].compare("mount") == 0)
@@ -175,28 +169,19 @@ std::string cmdDbg::Execute (const StringArray& args)
         SpawnMountMessage mountmsg;
         mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
         mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
-        mountmsg.SetPosition(pos.x, pos.y, pos.z);
-        mountmsg.SetRotation(rotation);
-        mountmsg.SetSectorId(sectorId);
+        mountmsg.setPosition(pos.x, pos.y, pos.z);
+        mountmsg.setRotation(rotation);
         network->send(&mountmsg);
       }
     }
 
   //----------------------------------------------
 
-    else if (args[2].compare("sector") == 0)
+    else if (args[2].compare("goto") == 0)
     {
-      if (args.size() < 4) throw BadUsage();
+      if (args.size() < 6) throw BadUsage();
 
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
-
-      PT::Data::Sector* sector;
-      if (args[3].compare("here") == 0)
-        sector = sectorDataMgr->GetSectorByName(pclinmove->GetSector()->QueryObject()->GetName());
-      else
-        sector = sectorDataMgr->GetSectorByName(args[3]);
-
-      if(!sector) return "Invalid sector!";
 
       csVector3 pos;
       if (args.size() == 4)
@@ -212,9 +197,8 @@ std::string cmdDbg::Execute (const StringArray& args)
 
       TeleportRequestMessage msg;
       msg.setEntityId(ent_mgr->GetPlayerId());
-      msg.SetPosition(pos.x, pos.y, pos.z);
-      msg.SetRotation(pclinmove->GetYRotation());
-      msg.SetSectorId(sector->GetId());
+      msg.setPosition(pos.x, pos.y, pos.z);
+      msg.setRotation(pclinmove->GetYRotation());
       network->send(&msg);
     }
 
@@ -223,9 +207,6 @@ std::string cmdDbg::Execute (const StringArray& args)
     else if (args[2].compare("move") == 0)
     {
       if (args.size() < 4) throw BadUsage();
-
-      PT::Data::Sector* sector = sectorDataMgr->GetSectorByName(ent_mgr->FindById(ent_mgr->GetPlayerId())->GetSectorName());
-      if(!sector) return "Invalid sector!";
 
       std::string result;
 
@@ -298,9 +279,8 @@ std::string cmdDbg::Execute (const StringArray& args)
 
       TeleportRequestMessage msg;
       msg.setEntityId(ent_mgr->GetPlayerId());
-      msg.SetPosition(pos.x, pos.y, pos.z);
-      msg.SetRotation(rot);
-      msg.SetSectorId(sector->GetId());
+      msg.setPosition(pos.x, pos.y, pos.z);
+      msg.setRotation(rot);
       network->send(&msg);
     }
 
