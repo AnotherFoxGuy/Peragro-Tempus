@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type     | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_PERMISSIONS Permissions
 #define DB_TABLE_PERMISSIONS_FIELDS \
-  ((users_login,        std::string,       1,            (Users, login) )) \
-  ((type,               std::string,       0,            0)) \
-  ((level,              size_t,            0,            0))
+  ((users_login,        std::string,       PT_PrimaryKey, (Users, login) )) \
+  ((type,               std::string,       0,             0)) \
+  ((level,              size_t,            0,             0))
 
 PT_DECLARE_VO(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 
@@ -55,7 +55,7 @@ public:
   PT_DECLARE_Insert(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
   PT_DECLARE_GetAll(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 
-  PermissionsTableVOArray Get(const std::string& login);
+  PT_DECLARE_Get(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 };
 
 #endif //TABLE_PERMISSIONS_H

@@ -53,7 +53,7 @@ private:
 
 private:
   void SaveItemToDB(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item);
-  void DeleteItemFromDB(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item);
+  void DeleteItemFromDB(const CI::PositionRef& position);
 
 public:
   Inventory(boost::shared_ptr<Entity> entity) : CI::SlotInventory("Inventory", ALLOW_ITEMS, 4, 5), entity(entity) {}

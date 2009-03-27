@@ -42,6 +42,8 @@ PT_DEFINE_ParseSingleResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS
 PT_DEFINE_ParseMultiResultSet(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 PT_DEFINE_GetAll(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
+PT_DEFINE_GetSingle(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+/*
 UsersTableVOp UsersTable::GetUser(const std::string& login)
 {
   ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_USERS) " where login='%s';", login.c_str());
@@ -61,4 +63,4 @@ UsersTableVOp UsersTable::GetUser(const std::string& login)
   delete rs;
   return obj;
 }
-
+*/

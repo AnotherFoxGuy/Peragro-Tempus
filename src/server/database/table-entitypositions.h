@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ENTITYPOSITIONS EntityPositions
 #define DB_TABLE_ENTITYPOSITIONS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((position,          WFMath::Point<3>,   0,            0)) \
-  ((rotation,          WFMath::Point<3>,   0,            0)) \
+  ((entity_id,         size_t,             PT_PrimaryKey, (Entities, id) )) \
+  ((position,          WFMath::Point<3>,   0,             0)) \
+  ((rotation,          WFMath::Point<3>,   0,             0)) \
 
 PT_DECLARE_VO(EntityPositionsTable, DB_TABLE_ENTITYPOSITIONS, DB_TABLE_ENTITYPOSITIONS_FIELDS)
 

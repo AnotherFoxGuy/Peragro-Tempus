@@ -26,14 +26,14 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_NPCDIALOGS NpcDialogs
 #define DB_TABLE_NPCDIALOGS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((id,                size_t,             0,            0)) \
-  ((text,              std::string,        0,            0)) \
-  ((action,            std::string,        0,            0)) \
+  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
+  ((id,                size_t,             PT_CandidateKey, 0)) \
+  ((text,              std::string,        0,               0)) \
+  ((action,            std::string,        0,               0)) \
 
 PT_DECLARE_VO(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 

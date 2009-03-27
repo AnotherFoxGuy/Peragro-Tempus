@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_USERS Users
 #define DB_TABLE_USERS_FIELDS \
-  ((login,              std::string,        1,            0)) \
-  ((passwordHash,       std::string,        0,            0))
+  ((login,              std::string,        PT_PrimaryKey,  0)) \
+  ((passwordHash,       std::string,        0,              0))
 
 PT_DECLARE_VO(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
@@ -54,7 +54,9 @@ public:
   PT_DECLARE_Insert(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
   PT_DECLARE_GetAll(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
-  UsersTableVOp GetUser(const std::string& login);
+  PT_DECLARE_GetSingle(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
+
+  //UsersTableVOp GetUser(const std::string& login);
 };
 
 #endif //TABLE_USERS_H

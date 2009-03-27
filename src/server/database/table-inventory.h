@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_INVENTORY Inventory
 #define DB_TABLE_INVENTORY_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((slot,              size_t,             0,            0)) \
-  ((item_id,           size_t,             0,            (Entities, id) )) \
+  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
+  ((slot,              size_t,             PT_CandidateKey, 0)) \
+  ((item_id,           size_t,             0,               (Entities, id) )) \
 
 PT_DECLARE_VO(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)
 

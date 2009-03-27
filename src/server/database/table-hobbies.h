@@ -26,14 +26,14 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name            | C++ type name     | Primary Key  | Foreign Key
+//| Name            | C++ type name     | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_HOBBIES Hobbies
 #define DB_TABLE_HOBBIES_FIELDS \
-  ((entity_id,      size_t,             1,              (Entities, id) )) \
-  ((HobbyTypes_id,  size_t,             0,              (HobbyTypes, id) )) \
-  ((order,          size_t,             0,              0)) \
-  ((xp,             float,              0,              0))
+  ((entity_id,      size_t,             PT_PrimaryKey,    (Entities, id) )) \
+  ((HobbyTypes_id,  size_t,             PT_CandidateKey,  (HobbyTypes, id) )) \
+  ((order,          size_t,             0,                0)) \
+  ((xp,             float,              0,                0))
 
 PT_DECLARE_VO(HobbiesTable, DB_TABLE_HOBBIES, DB_TABLE_HOBBIES_FIELDS)
 

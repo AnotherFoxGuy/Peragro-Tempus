@@ -26,14 +26,14 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_SPAWNPOINTS SpawnPoints
 #define DB_TABLE_SPAWNPOINTS_FIELDS \
-  ((id,                 size_t,             1,            0)) \
-  ((ItemTemplate_id,    size_t,             0,            (ItemTemplates, id) )) \
-  ((position,           WFMath::Point<3>,   0,            0)) \
-  ((interval,           size_t,             0,            0)) \
+  ((id,                 size_t,             PT_PrimaryKey,  0)) \
+  ((ItemTemplate_id,    size_t,             0,              (ItemTemplates, id) )) \
+  ((position,           WFMath::Point<3>,   0,              0)) \
+  ((interval,           size_t,             0,              0)) \
 
 PT_DECLARE_VO(SpawnPointsTable, DB_TABLE_SPAWNPOINTS, DB_TABLE_SPAWNPOINTS_FIELDS)
 

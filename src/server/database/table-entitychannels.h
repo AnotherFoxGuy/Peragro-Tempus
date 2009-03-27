@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ENTITYCHANNELS EntityChannels
 #define DB_TABLE_ENTITYCHANNELS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((channel_id,        size_t,             0,            (Channels, id) ))
+  ((entity_id,         size_t,             PT_PrimaryKey, (Entities, id) )) \
+  ((channel_id,        size_t,             0,             (Channels, id) ))
 
 PT_DECLARE_VO(EntityChannelsTable, DB_TABLE_ENTITYCHANNELS, DB_TABLE_ENTITYCHANNELS_FIELDS)
 

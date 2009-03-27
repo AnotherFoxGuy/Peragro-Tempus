@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type     | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_JOINTYPES JoinTypes
 #define DB_TABLE_JOINTYPES_FIELDS \
-  ((id,                 size_t,             1,            0)) \
-  ((name,               std::string,        0,            0))
+  ((id,                 size_t,             PT_PrimaryKey,  0)) \
+  ((name,               std::string,        0,              0))
 
 PT_DECLARE_VO(JoinTypesTable, DB_TABLE_JOINTYPES, DB_TABLE_JOINTYPES_FIELDS)
 

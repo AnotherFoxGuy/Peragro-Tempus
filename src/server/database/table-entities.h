@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name              | C++ type name     | Primary Key | Foreign Key
+//| Name              | C++ type name     | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define PT_DB_TABLE_ENTITIES Entities
 #define PT_DB_TABLE_ENTITIES_FIELDS \
-  ((id,                 size_t,             1,            0)) \
-  ((EntityTypes_id,     size_t,             0,            (EntityTypes, id)))
+  ((id,                 size_t,             PT_PrimaryKey,  0)) \
+  ((EntityTypes_id,     size_t,             0,              (EntityTypes, id)))
 
 
 PT_DECLARE_VO(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)

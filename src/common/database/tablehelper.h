@@ -36,12 +36,12 @@
 /* Example
 // In .h
 //-----------------------------------------------------------------------------------
-//| Name    | C++ type name     | Primary Key  | Foreign Key
+//| Name    | C++ type name     | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define PT_DB_TABLE_ENTITIES "entities"
 #define PT_DB_TABLE_ENTITIES_FIELDS \
-  ((id,       size_t,             1,            0)) \
-  ((type,     short,              0,            0))
+  ((id,       size_t,             PT_PrimaryKey,  0)) \
+  ((type,     short,              0,              0))
 
 class EntityTable : public Table
 {
@@ -67,7 +67,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_GETTYPE_(e) \
   BOOST_PP_TUPLE_ELEM(4, 1, e)
 
-#define PT_GETPK_(e) \
+#define PT_GETK_(e) \
   BOOST_PP_TUPLE_ELEM(4, 2, e)
 
 #define PT_GETFK_(e) \
@@ -79,8 +79,14 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_GETFK_CL_(a) \
   BOOST_PP_TUPLE_ELEM(2, 1, a)
 
+#define PT_IS_PK_(c) \
+  BOOST_PP_EQUAL(c, PT_PrimaryKey)
+
+#define PT_IS_CK_(c) \
+  BOOST_PP_EQUAL(c, PT_CandidateKey)
+
 #define PT_IF_PK_(c) \
-  BOOST_PP_IF(c, " PRIMARY KEY", "")
+  BOOST_PP_IF(PT_IS_PK_(c), " PRIMARY KEY", "")
 
 #define PT_IF_FK_(a) \
   BOOST_PP_IF(BOOST_PP_LIST_IS_CONS(a), " REFERENCES " STRINGIFY(PT_GETFK_TB_(a)) " (" STRINGIFY(PT_GETFK_CL_(a)) ")", "")
@@ -90,10 +96,13 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     PT_GETNAME_(e)
 
 #define PT_CREATE_FIELDS_(r, d, i, e) \
-  BOOST_PP_IF(i, ", ", "") STRINGIFY(PT_GETNAME_(e)) " %s NOT NULL" PT_IF_PK_(PT_GETPK_(e)) PT_IF_FK_(PT_GETFK_(e))
+  BOOST_PP_IF(i, ", ", "") STRINGIFY(PT_GETNAME_(e)) " %s NOT NULL" PT_IF_PK_(PT_GETK_(e)) PT_IF_FK_(PT_GETFK_(e))
 
 #define PT_CREATE_FIELDS_TYPES_(r, d, i, e) \
   BOOST_PP_COMMA_IF(i) DB::Helper::DBType<PT_GETTYPE_(e)>()
+
+#define PT_CREATE_UNIQUE_(r, d, i, e) \
+  BOOST_PP_IF(i, ", ", ", UNIQUE (") STRINGIFY(PT_GETNAME_(e))
 
 #define PT_INSERT_VALUENAMES_(r, d, i, e) \
   BOOST_PP_IF(i, ", ", "") BOOST_PP_STRINGIZE(PT_GETNAME_(e))
@@ -110,12 +119,21 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_VO_ASSIGN_(r, d, i, e) \
   DB::Helper::Convert(vo->PT_GETNAME_(e), rs->GetData(row, i));
 
-#define PRED(s, d, e) PT_GETPK_(e)
+#define PRED_PK(s, d, e) PT_IS_PK_(PT_GETK_(e))
 #define PT_PKS_GETPKS_(s) \
-  BOOST_PP_SEQ_FILTER(PRED, ~, s)
+  BOOST_PP_SEQ_FILTER(PRED_PK, ~, s)
 
-#define PT_PKS_VALUENAMES_(r, d, i, e) \
+#define PRED_CK(s, d, e) PT_GETK_(e)
+#define PT_PKS_GETCKS_(s) \
+  BOOST_PP_SEQ_FILTER(PRED_CK, ~, s)
+
+#define PT_CKS_VALUENAMES_(r, d, i, e) \
   BOOST_PP_IF(i, "AND ", "") BOOST_PP_STRINGIZE(PT_GETNAME_(e)) "=%s"
+
+// Key Types
+//-----------------------------------------------------------------------------------
+#define PT_PrimaryKey 1
+#define PT_CandidateKey 2
 
 // Macros
 //-----------------------------------------------------------------------------------
@@ -134,6 +152,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     printf("create table "BOOST_PP_STRINGIZE(t)); \
     db->update("create table "BOOST_PP_STRINGIZE(t)" (" \
     BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_FIELDS_, ~, s) \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_UNIQUE_, ~, PT_PKS_GETCKS_(s)) \
+    BOOST_PP_IF(BOOST_PP_SEQ_SIZE(PT_PKS_GETCKS_(s)), ")", "") \
     ");", \
     BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_FIELDS_TYPES_, ~, s) \
     ); \
@@ -170,16 +190,16 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 // Delete
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_Delete(Class, t, s) \
-  void Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) );
+  void Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)) );
 
 #define PT_DEFINE_Delete(Class, t, s) \
-  void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, s) ) \
+  void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)) ) \
   { \
     db->update("select * from " BOOST_PP_STRINGIZE(t) " " \
     "where " \
-    BOOST_PP_SEQ_FOR_EACH_I(PT_PKS_VALUENAMES_, ~, s) \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETCKS_(s)) \
     ";", \
-    BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, s) \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETCKS_(s)) \
     ); \
   }
 
@@ -256,7 +276,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_PKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
       ";", \
       BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETPKS_(s)) \
       ); \
@@ -270,16 +290,16 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 // GetSingle
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_GetSingle(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
+  BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)));
 
 #define PT_DEFINE_GetSingle(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
+  BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s))) \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_PKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETCKS_(s)) \
       ";", \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETPKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETCKS_(s)) \
       ); \
     std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
     if (!rs) return BOOST_PP_CAT(t, TableVOp)(); \

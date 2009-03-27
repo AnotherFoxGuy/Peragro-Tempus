@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_EQUIPMENT Equipment
 #define DB_TABLE_EQUIPMENT_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((equipType_id,      size_t,             0,            (EquipTypes, id) )) \
-  ((item_id,           size_t,             0,            (Entities, id) ))
+  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
+  ((equipType_id,      size_t,             PT_CandidateKey, (EquipTypes, id) )) \
+  ((item_id,           size_t,             0,               (Entities, id) ))
 
 PT_DECLARE_VO(EquipmentTable, DB_TABLE_EQUIPMENT, DB_TABLE_EQUIPMENT_FIELDS)
 

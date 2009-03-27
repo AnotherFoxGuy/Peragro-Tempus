@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_REPUTATIONS Reputations
 #define DB_TABLE_REPUTATIONS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((ReputationTypes_id,size_t,             0,            (ReputationTypes, id) )) \
-  ((level,             size_t,             0,            0))
+  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
+  ((ReputationTypes_id,size_t,             PT_CandidateKey, (ReputationTypes, id) )) \
+  ((level,             size_t,             0,               0))
 
 PT_DECLARE_VO(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)
 

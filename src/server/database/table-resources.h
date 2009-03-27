@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_RESOURCES Resources
 #define DB_TABLE_RESOURCES_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((resourceType_id,   size_t,             0,            (ResourcesTypes, id) )) \
-  ((value,             float,              0,            0)) \
+  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
+  ((resourceType_id,   size_t,             PT_CandidateKey, (ResourcesTypes, id) )) \
+  ((value,             float,              0,               0)) \
 
 PT_DECLARE_VO(ResourcesTable, DB_TABLE_RESOURCES, DB_TABLE_RESOURCES_FIELDS)
 

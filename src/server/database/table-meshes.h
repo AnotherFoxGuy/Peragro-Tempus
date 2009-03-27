@@ -26,14 +26,14 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_MESHES Meshes
 #define DB_TABLE_MESHES_FIELDS \
-  ((id,                 size_t,             1,            0)) \
-  ((revision,           size_t,             0,            0)) \
-  ((factoryName,        std::string,        0,            0)) \
-  ((fileName,           std::string,        0,            0)) \
+  ((id,                 size_t,             PT_PrimaryKey,  0)) \
+  ((revision,           size_t,             0,              0)) \
+  ((factoryName,        std::string,        0,              0)) \
+  ((fileName,           std::string,        0,              0)) \
 
 PT_DECLARE_VO(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 

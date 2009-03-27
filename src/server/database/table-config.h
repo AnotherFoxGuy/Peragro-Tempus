@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_CONFIG Config
 #define DB_TABLE_CONFIG_FIELDS \
-  ((name,               std::string,        1,            0 )) \
-  ((value,              std::string,        0,            0 )) \
+  ((name,               std::string,        PT_PrimaryKey,  0 )) \
+  ((value,              std::string,        0,              0 )) \
 
 PT_DECLARE_VO(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
 

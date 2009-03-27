@@ -26,16 +26,16 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_CHARACTERS Characters
 #define DB_TABLE_CHARACTERS_FIELDS \
-  ((entity_id,          size_t,             1,            0)) \
-  ((name,               std::string,        0,            0)) \
-  ((meshes_id,          size_t,             0,            (Meshes, id) )) \
-  ((hairColor,          WFMath::Point<3>,   0,            0)) \
-  ((skinColor,          WFMath::Point<3>,   0,            0)) \
-  ((decalColor,         WFMath::Point<3>,   0,            0)) \
+  ((entity_id,          size_t,             PT_PrimaryKey,  0)) \
+  ((name,               std::string,        0,              0)) \
+  ((meshes_id,          size_t,             0,              (Meshes, id) )) \
+  ((hairColor,          WFMath::Point<3>,   0,              0)) \
+  ((skinColor,          WFMath::Point<3>,   0,              0)) \
+  ((decalColor,         WFMath::Point<3>,   0,              0)) \
 
 
 PT_DECLARE_VO(CharactersTable, DB_TABLE_CHARACTERS, DB_TABLE_CHARACTERS_FIELDS)

@@ -42,13 +42,4 @@ PT_DEFINE_ParseSingleResultSet(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_
 PT_DEFINE_ParseMultiResultSet(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 PT_DEFINE_GetAll(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 
-PermissionsTableVOArray PermissionsTable::Get(const std::string& login)
-{
-  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_PERMISSIONS) " where users_login='%s';", login.c_str());
-  PermissionsTableVOArray arr;
-  if (!rs) return arr;
-  arr = ParseMultiResultSet(rs);
-  delete rs;
-  return arr;
-}
-
+PT_DEFINE_Get(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)

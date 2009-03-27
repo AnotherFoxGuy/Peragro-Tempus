@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_BOOKS Books
 #define DB_TABLE_BOOKS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((name,              std::string,        0,            0)) \
-  ((text,              std::string,        0,            0))
+  ((entity_id,         size_t,             PT_PrimaryKey, (Entities, id) )) \
+  ((name,              std::string,        0,             0)) \
+  ((text,              std::string,        0,             0))
 
 PT_DECLARE_VO(BooksTable, DB_TABLE_BOOKS, DB_TABLE_BOOKS_FIELDS)
 

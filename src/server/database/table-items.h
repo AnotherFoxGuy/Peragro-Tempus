@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type     | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ITEMS Items
 #define DB_TABLE_ITEMS_FIELDS \
-  ((entity_id,         size_t,             1,            (Entities, id) )) \
-  ((itemTemplates_id,  size_t,             0,            (ItemTemplates, id) ))
+  ((entity_id,         size_t,             PT_PrimaryKey, (Entities, id) )) \
+  ((itemTemplates_id,  size_t,             0,             (ItemTemplates, id) ))
 
 PT_DECLARE_VO(ItemsTable, DB_TABLE_ITEMS, DB_TABLE_ITEMS_FIELDS)
 

@@ -41,7 +41,7 @@ private:
 
 private:
   void SaveItemToDB(size_t slotId, boost::shared_ptr<ItemEntity> item);
-  void DeleteItemFromDB(size_t slotId, boost::shared_ptr<ItemEntity> item);
+  void DeleteItemFromDB(size_t slotId);
 
 public:
   Equipment(EquipmentFactory* fact, Entity* entity, TableManager* db);

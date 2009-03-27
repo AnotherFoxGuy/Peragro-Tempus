@@ -31,7 +31,7 @@ const ptString UserManager::Login(const std::string& username, const std::string
   // Fetch user from DB
   if (!user)
   {
-    UsersTableVOp vo = Server::getServer()->GetTableManager()->Get<UsersTable>()->GetUser(username);
+    UsersTableVOp vo = Server::getServer()->GetTableManager()->Get<UsersTable>()->GetSingle(username);
     if (vo)
     {
       user = boost::shared_ptr<User>(new User(vo->login));
@@ -77,12 +77,12 @@ const ptString UserManager::Signup(const std::string& username, const std::strin
   TableManager* tablemgr = Server::getServer()->GetTableManager();
   UsersTable* ut = tablemgr->Get<UsersTable>();
 
-  if (ut->GetUser(username))
+  if (ut->GetSingle(username))
     return ptString("User exists already");
 
   ut->Insert(username, password);
 
-  UsersTableVOp user = ut->GetUser(username);
+  UsersTableVOp user = ut->GetSingle(username);
 
   if (ut->GetAll().size() == 1) // first User, all rights!
   {

@@ -26,13 +26,13 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name          | C++ type name    | Primary Key  | Foreign Key
+//| Name          | C++ type name    | Key Type       | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_SKILLS Skills
 #define DB_TABLE_SKILLS_FIELDS \
-  ((entity_id,    size_t,             1,            (Entities, id) )) \
-  ((SkillTypes_id,size_t,             0,            (SkillTypes, id) )) \
-  ((xp,           float,              0,             0))
+  ((entity_id,    size_t,             PT_PrimaryKey,    (Entities, id) )) \
+  ((SkillTypes_id,size_t,             PT_CandidateKey,  (SkillTypes, id) )) \
+  ((xp,           float,              0,                0))
 
 PT_DECLARE_VO(SkillsTable, DB_TABLE_SKILLS, DB_TABLE_SKILLS_FIELDS)
 

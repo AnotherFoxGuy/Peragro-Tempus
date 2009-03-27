@@ -86,7 +86,7 @@ boost::shared_ptr<ItemEntity> Equipment::UnEquip(size_t slotId)
   Iterator it = equipment.find(slotId);
   boost::shared_ptr<ItemEntity> item(it->second);
   equipment.erase(it);
-  DeleteItemFromDB(slotId, item);
+  DeleteItemFromDB(slotId);
   return item;
 }
 
@@ -116,10 +116,10 @@ void Equipment::SaveItemToDB(size_t slotId, boost::shared_ptr<ItemEntity> item)
   table->Insert(entity->GetId(), slotId, item->GetId());
 }
 
-void Equipment::DeleteItemFromDB(size_t slotId, boost::shared_ptr<ItemEntity> item)
+void Equipment::DeleteItemFromDB(size_t slotId)
 {
   EquipmentTable* table = Server::getServer()->GetTableManager()->Get<EquipmentTable>();
-  table->Delete(entity->GetId(), slotId, item->GetId());
+  table->Delete(entity->GetId(), slotId);
 }
 
 void Equipment::SaveToDB()

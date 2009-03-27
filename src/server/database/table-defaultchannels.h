@@ -26,11 +26,11 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type        | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_DEFAULTCHANNELS DefaultChannels
 #define DB_TABLE_DEFAULTCHANNELS_FIELDS \
-  ((name,               std::string,        1,            0)) \
+  ((name,               std::string,        PT_PrimaryKey,    0)) \
 
 PT_DECLARE_VO(DefaultChannelsTable, DB_TABLE_DEFAULTCHANNELS, DB_TABLE_DEFAULTCHANNELS_FIELDS)
 

@@ -137,6 +137,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   //TODO
   pc->SetMeshName("test");
   pc->SetFileName("/peragro/art/3d_art/characters/male01/male01");
+  pc->SetPosition(900.765f, 8.26544f, 11.1211f);
   pc->SaveToDB();
 
   // Send response message

@@ -26,17 +26,17 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type     | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ITEMTEMPLATES ItemTemplates
 #define DB_TABLE_ITEMTEMPLATES_FIELDS \
-  ((id,                size_t,             1,            0 )) \
-  ((name,              std::string,        0,            0)) \
-  ((meshes_id,         size_t,             0,            (Meshes, id) )) \
-  ((iconFile,          std::string,        0,            0)) \
-  ((description,       std::string,        0,            0)) \
-  ((weight,            float,              0,            0)) \
-  ((equipType_id,      size_t,             0,            (EquipTypes, id) ))
+  ((id,                size_t,             PT_PrimaryKey, 0 )) \
+  ((name,              std::string,        0,             0)) \
+  ((meshes_id,         size_t,             0,             (Meshes, id) )) \
+  ((iconFile,          std::string,        0,             0)) \
+  ((description,       std::string,        0,             0)) \
+  ((weight,            float,              0,             0)) \
+  ((equipType_id,      size_t,             0,             (EquipTypes, id) ))
 
 PT_DECLARE_VO(ItemTemplatesTable, DB_TABLE_ITEMTEMPLATES, DB_TABLE_ITEMTEMPLATES_FIELDS)
 

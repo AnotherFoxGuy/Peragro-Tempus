@@ -26,12 +26,12 @@ class Database;
 class ResultSet;
 
 //-----------------------------------------------------------------------------------
-//| Name               | C++ type name    | Primary Key  | Foreign Key
+//| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ZONES Zones
 #define DB_TABLE_ZONES_FIELDS \
-  ((id,                 size_t,             1,            0 )) \
-  ((type,               std::string,        0,            0 )) \
+  ((id,                 size_t,             PT_PrimaryKey,  0 )) \
+  ((type,               std::string,        0,              0 )) \
 
 PT_DECLARE_VO(ZonesTable, DB_TABLE_ZONES, DB_TABLE_ZONES_FIELDS)
 

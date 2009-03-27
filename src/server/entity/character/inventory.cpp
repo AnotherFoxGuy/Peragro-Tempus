@@ -67,7 +67,7 @@ boost::shared_ptr<CI::Object> Inventory::RemoveObjectAt(const CI::PositionRef& p
   boost::shared_ptr<CI::Object> object = CI::SlotInventory::RemoveObjectAt(position);
   if (object)
   {
-    DeleteItemFromDB(position, Convert(object));
+    DeleteItemFromDB(position);
   }
   return object;
 }
@@ -82,7 +82,7 @@ boost::shared_ptr<CI::Slot> Inventory::RemoveObject(boost::shared_ptr<CI::Object
   boost::shared_ptr<CI::Slot> slot = CI::SlotInventory::RemoveObject(object);
   if (slot)
   {
-    DeleteItemFromDB(slot->GetPosition(), Convert(object));
+    DeleteItemFromDB(slot->GetPosition());
   }
   return slot;
 }
@@ -105,10 +105,10 @@ void Inventory::SaveItemToDB(const CI::PositionRef& position, boost::shared_ptr<
   table->Insert(entity.lock()->GetId(), PosToId(position), item->GetId());
 }
 
-void Inventory::DeleteItemFromDB(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item)
+void Inventory::DeleteItemFromDB(const CI::PositionRef& position)
 {
   InventoryTable* table = Server::getServer()->GetTableManager()->Get<InventoryTable>();
-  table->Delete(entity.lock()->GetId(), PosToId(position), item->GetId());
+  table->Delete(entity.lock()->GetId(), PosToId(position));
 }
 
 void Inventory::SaveToDB()
