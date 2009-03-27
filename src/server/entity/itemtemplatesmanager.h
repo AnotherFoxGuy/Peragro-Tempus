@@ -48,6 +48,7 @@ public:
   ItemTemplate(size_t templateId) : templateId(templateId) {}
   virtual ~ItemTemplate() {}
 
+  size_t GetTemplateId() { return templateId; }
   virtual void SetDataOn(ItemEntity* item);
 };
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,40 +19,47 @@
 #ifndef TABLE_NPCDIALOGS_H
 #define TABLE_NPCDIALOGS_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/database/table.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_NPCDIALOGS NpcDialogs
+#define DB_TABLE_NPCDIALOGS_FIELDS \
+  ((entity_id,         size_t,             1,            (Entities, id) )) \
+  ((id,                size_t,             0,            0)) \
+  ((text,              std::string,        0,            0)) \
+  ((action,            std::string,        0,            0)) \
 
-#include <string>
-#include "common/util/ptstring.h"
+PT_DECLARE_VO(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 
-class NpcDialogsTableVO
-{
-public:
-  int npcid;
-  int dialogid;
-  std::string text;
-  ptString action;
-};
-
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
 class NpcDialogsTable : public Table
 {
 private:
-  NpcDialogsTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<NpcDialogsTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_ParseSingleResultSet(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+
+  PT_DECLARE_CreateTable(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 
 public:
   NpcDialogsTable(Database* db);
 
-  void createTable();
-  void dropTable();
+  PT_DECLARE_DropTable(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 
-  void insert(int npcid, int dialogid, const char* text, const char* action);
-  void remove(int npcid, int dialogid);
-  void removeAll();
+  PT_DECLARE_Insert(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+  //PT_DECLARE_Delete(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+  PT_DECLARE_GetAll(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+  PT_DECLARE_DeleteAll(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 
-  Array<NpcDialogsTableVO*> getAll();
+  PT_DECLARE_Get(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
+  //PT_DECLARE_GetSingle(NpcDialogsTable, DB_TABLE_NPCDIALOGS, DB_TABLE_NPCDIALOGS_FIELDS)
 };
 
-#endif // TABLE_NPCDIALOGS_H
+#endif //TABLE_NPCDIALOGS_H

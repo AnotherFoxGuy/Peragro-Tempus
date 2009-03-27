@@ -60,21 +60,6 @@ void SetConfigMessage::deserialise(ByteStream* bs)
   value = serial.getString();
 }
 
-bool CreateSectorMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  return serial.isValid();
-}
-
-void CreateSectorMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-}
-
 bool CreateItemMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);

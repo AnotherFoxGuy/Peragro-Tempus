@@ -30,13 +30,13 @@ private:
   std::string text;
 
 public:
-  NPCDialogAnswer(NPCDialog* next_dialog, const char* text)
+  NPCDialogAnswer(NPCDialog* next_dialog, const std::string& text)
   : next_dialog(next_dialog), text(text) {}
 
   ~NPCDialogAnswer() {}
 
-  NPCDialog* getNextDialog() const { return next_dialog; }
-  const char* getText() const { return text.c_str(); }
+  NPCDialog* GetNextDialog() const { return next_dialog; }
+  const std::string& GetText() const { return text; }
 };
 
 #endif // NPC_DIALOG_ANSWER_H

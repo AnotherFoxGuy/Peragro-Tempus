@@ -26,7 +26,7 @@
 
 class Server;
 class ZonesTable;
-class ZonenodesTable;
+class ZoneNodesTable;
 
 /**
  * ZoneManager
@@ -38,7 +38,7 @@ class ZoneManager
 public:
   struct Zone
   {
-    ptString type;
+    std::string type;
     std::vector<WFMath::Point<2> > coords;
   };
 private:
@@ -59,7 +59,7 @@ public:
    * \param zonestable The database table containing the zones to load.
    * \param zonenodestable The database table containing the nodes of the zones to load.
    */
-  void loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodestable);
+  void loadFromDB(ZonesTable* zonestable, ZoneNodesTable* zonenodestable);
 
   /**
    * Get the zonetype a coordinate is in.

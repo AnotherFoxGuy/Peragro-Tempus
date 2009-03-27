@@ -28,24 +28,23 @@
 
 void ZoneManager::delAll()
 {
-  Server::getServer()->GetTableManager()->Get<ZonesTable>()->removeAll();
-  Server::getServer()->GetTableManager()->Get<ZonenodesTable>()->removeAll();
+  Server::getServer()->GetTableManager()->Get<ZonesTable>()->DeleteAll();
+  Server::getServer()->GetTableManager()->Get<ZoneNodesTable>()->DeleteAll();
   zones.clear();
 }
 
-void ZoneManager::loadFromDB(ZonesTable* zonestable, ZonenodesTable* zonenodestable)
+void ZoneManager::loadFromDB(ZonesTable* zonestable, ZoneNodesTable* zonenodestable)
 {
-  Array<ZonesTableVO*> rows = zonestable->getAll();
-  for(size_t i = 0; i < rows.getCount(); ++i)
+  ZonesTableVOArray rows = zonestable->GetAll();
+  for(size_t i = 0; i < rows.size(); ++i)
   {
     Zone zone;
-    zone.type = ptString::create(rows[i]->type);
-    Array<ZonenodesTableVO*> nodes = zonenodestable->getById(rows[i]->id);
-    for(size_t j = 0; j < nodes.getCount(); ++j)
+    zone.type = rows[i]->type;
+    ZoneNodesTableVOArray nodes = zonenodestable->Get(rows[i]->id);
+    for(size_t j = 0; j < nodes.size(); ++j)
     {
-      zone.coords.push_back(WFMath::Point<2>(nodes[j]->x, nodes[j]->z));
+      zone.coords.push_back(nodes[j]->coordinate);
     }
-    nodes.delAll();
     zones.push_back(zone);
   }
 }

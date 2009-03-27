@@ -133,12 +133,12 @@ namespace QuestUtils
     NPCDialogState* dia_state = player->getNPCDialogState();
 
     NpcDialogMessage dialog_msg;
-    dialog_msg.setDialogId((unsigned int)dialog->getDialogId());
-    dialog_msg.setDialogText(dialog->getText());
-    dialog_msg.setAnswersCount((unsigned char)dialog->getAnswerCount());
+    dialog_msg.setDialogId((unsigned int)dialog->GetDialogId());
+    dialog_msg.setDialogText(dialog->GetText().c_str());
+    dialog_msg.setAnswersCount((unsigned char)dialog->GetAnswerCount());
 
     // The npc has nothing more to say, let him walk away.
-    if (!dialog->getAnswerCount())
+    if (!dialog->GetAnswerCount())
     {
       NpcEntity* npc_entity = dia_state->getNpc();
       npc_entity->pause(false);
@@ -150,11 +150,11 @@ namespace QuestUtils
       server->broadCast(bs);
     }
 
-    for (size_t i = 0; i < dialog->getAnswerCount(); i++)
+    for (size_t i = 0; i < dialog->GetAnswerCount(); i++)
     {
-      const NPCDialogAnswer* answer = dialog->getAnswer(i);
+      const NPCDialogAnswer* answer = dialog->GetAnswer(i);
       dialog_msg.setAnswerId(i, (unsigned int)i);
-      dialog_msg.setAnswerText(i, answer->getText());
+      dialog_msg.setAnswerText(i, answer->GetText().c_str());
     }
 
     ByteStream bs;
@@ -410,11 +410,11 @@ namespace QuestUtils
       NPCDialogState* dia_state = player->getNPCDialogState();
       const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->GetId(), id);
 
-      if (dialog->getAction() == NPCDialog::SHOW_TEXT)
+      if (dialog->GetAction() == NPCDialog::SHOW_TEXT)
       {
         SendDialog(character, dialog);
       }
-      else if (dialog->getAction() == NPCDialog::START_BUY)
+      else if (dialog->GetAction() == NPCDialog::START_BUY)
       {
         const NpcEntity* c_npc = dia_state->getNpc();
         if (c_npc)
@@ -457,7 +457,7 @@ namespace QuestUtils
           Server::getServer()->broadCast(bs2);
         }
       }
-      else if (dialog->getAction() == NPCDialog::START_SELL)
+      else if (dialog->GetAction() == NPCDialog::START_SELL)
       {
         const NpcEntity* c_npc = dia_state->getNpc();
         if (c_npc)
@@ -490,7 +490,7 @@ namespace QuestUtils
           Server::getServer()->broadCast(bs2);
         }
       }
-      else if (dialog->getAction() == NPCDialog::TELEPORT)
+      else if (dialog->GetAction() == NPCDialog::TELEPORT)
       {
         /*
         // yes, it's a hack. This shouldn't go here either.
@@ -521,9 +521,9 @@ namespace QuestUtils
         Server::getServer()->broadCast(bs2);
         */
       }
-      else if (dialog->getAction() == NPCDialog::FUNCTION)
+      else if (dialog->GetAction() == NPCDialog::FUNCTION)
       {
-        Parse(character, dialog->getText());
+        Parse(character, dialog->GetText());
       }
       return id;
     }

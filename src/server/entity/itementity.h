@@ -40,7 +40,10 @@ public:
   ~ItemEntity() {}
 
   bool GetInWorld() { return inWorld; }
-  void SetInWorld(bool value) { inWorld = value; }
+  void SetInWorld(bool value);
+
+  boost::shared_ptr<ItemTemplate> GetItemTemplate() { return itemTemplate; }
+  void SetItemTemplate(boost::shared_ptr<ItemTemplate> value) { itemTemplate = value; }
 
   virtual void LoadFromDB();
   virtual void SaveToDB();

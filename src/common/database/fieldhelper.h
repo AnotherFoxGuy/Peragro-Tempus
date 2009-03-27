@@ -43,6 +43,7 @@ namespace DB
     template<> inline const char* DBType<float>() { return "FLOAT"; }
     template<> inline const char* DBType<bool>() { return "BOOLEAN"; }
     template<> inline const char* DBType<std::string>() { return "TEXT"; }
+    template<> inline const char* DBType<WFMath::Point<2> >() { return "TEXT"; }
     template<> inline const char* DBType<WFMath::Point<3> >() { return "TEXT"; }
 
     template<typename T>
@@ -51,6 +52,7 @@ namespace DB
     template<> inline void Convert(float& val, const std::string& str) { val = atof(str.c_str()); }
     template<> inline void Convert(bool& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     // std::string by default template.
+    template<> inline void Convert(WFMath::Point<2>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     template<> inline void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
 
     template<typename T>
@@ -59,6 +61,7 @@ namespace DB
     template<> inline std::string Convert(const float& val) { std::stringstream o; o << val; return o.str(); }
     template<> inline std::string Convert(const bool& val) { std::stringstream o; o << val; return o.str(); }
     template<> inline std::string Convert(const std::string& val) { return Quote(val); }
+    template<> inline std::string Convert(const WFMath::Point<2>& val) { std::stringstream o; o << val; return Quote(o.str()); }
     template<> inline std::string Convert(const WFMath::Point<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
   };
   //----------------------------------------------------------------

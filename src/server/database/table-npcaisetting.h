@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,33 +19,45 @@
 #ifndef TABLE_NPCAISETTING_H
 #define TABLE_NPCAISETTING_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/database/table.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_NPCAISETTING NpcAiSetting
+#define DB_TABLE_NPCAISETTING_FIELDS \
+  ((name,               std::string,        1,            0 )) \
+  ((value,              std::string,        0,            0 )) \
 
-#include "common/util/ptstring.h"
+PT_DECLARE_VO(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
 
-class NpcAiSettingTableVO
-{
-public:
-  int id;
-  ptString key;
-  ptString value;
-};
-
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
 class NpcAiSettingTable : public Table
 {
+private:
+  PT_DECLARE_ParseSingleResultSet(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+
+  PT_DECLARE_CreateTable(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+
 public:
   NpcAiSettingTable(Database* db);
 
-  void createTable();
+  PT_DECLARE_DropTable(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
 
-  void insert(int id, ptString key, const char* value);
-  void remove(int id, ptString key);
-  void removeAll(int id);
+  PT_DECLARE_Insert(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+  PT_DECLARE_Delete(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+  //PT_DECLARE_GetAll(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+  //PT_DECLARE_DeleteAll(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
 
-  ptString getValue(int id, ptString key);
+  //PT_DECLARE_Get(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
+  PT_DECLARE_GetSingle(NpcAiSettingTable, DB_TABLE_NPCAISETTING, DB_TABLE_NPCAISETTING_FIELDS)
 };
 
-#endif // TABLE_NPCAISETTING_H
+#endif //TABLE_NPCAISETTING_H

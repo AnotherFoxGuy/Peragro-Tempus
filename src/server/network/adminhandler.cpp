@@ -162,21 +162,6 @@ void AdminHandler::handleSetConfig(GenericMessage* msg)
 /* TODO */
 }
 
-void AdminHandler::handleCreateSector(GenericMessage* msg)
-{
-  /*
-  if (CheckAdminLevel(msg, 2) == false) return;
-
-  CreateSectorMessage sectormsg;
-  sectormsg.deserialise(msg->getByteStream());
-
-  Server* server = Server::getServer();
-
-  SectorManager* sectors = server->GetSectorManager();
-  sectors->addSector(sectormsg.GetSectorId(), sectormsg.getName(), sectormsg.getRegion());
-  */
-}
-
 void AdminHandler::handleCreateItem(GenericMessage* msg)
 {
   /*

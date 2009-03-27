@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,34 +19,45 @@
 #ifndef TABLE_CONFIG_H
 #define TABLE_CONFIG_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/database/table.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_CONFIG Config
+#define DB_TABLE_CONFIG_FIELDS \
+  ((name,               std::string,        1,            0 )) \
+  ((value,              std::string,        0,            0 )) \
 
-#include "common/util/ptstring.h"
+PT_DECLARE_VO(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
 
-class ConfigTableVO
-{
-public:
-  ptString name;
-  ptString value;
-};
-
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
 class ConfigTable : public Table
 {
 private:
-  ConfigTableVO* ParseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<ConfigTableVO*> ParseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_ParseSingleResultSet(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+
+  PT_DECLARE_CreateTable(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+
+  //PT_DECLARE_Get(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+  //PT_DECLARE_GetAll(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
 
 public:
   ConfigTable(Database* db);
 
-  void CreateTable();
+  PT_DECLARE_DropTable(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
 
-  void Insert(ConfigTableVO* vo);
-  void Remove(ptString name);
-  ptString GetConfigValue(ptString name);
+  PT_DECLARE_Insert(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+  PT_DECLARE_Delete(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
+  
+  PT_DECLARE_GetSingle(ConfigTable, DB_TABLE_CONFIG, DB_TABLE_CONFIG_FIELDS)
 };
 
-#endif // TABLE_CONFIG_H
+#endif //TABLE_CONFIG_H

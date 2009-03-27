@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,41 +19,49 @@
 #ifndef TABLE_NPCDIALOGANSWERS_H
 #define TABLE_NPCDIALOGANSWERS_H
 
+#include "common/database/table.h"
+#include "common/database/tablehelper.h"
+
 class Database;
 class ResultSet;
 
-#include "common/database/table.h"
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key  | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_NPCDIALOGANSWERS NpcDialogAnswers
+#define DB_TABLE_NPCDIALOGANSWERS_FIELDS \
+  ((entity_id,        size_t,             1,            (Entities, id) )) \
+  ((dialog_id,        size_t,             0,            (NpcDialogs, id) )) \
+  ((id,               size_t,             0,            0)) \
+  ((text,             std::string,        0,            0)) \
+  ((isEnd,            bool,               0,            0)) \
+  ((nextDialog_id,    size_t,             0,            (NpcDialogs, id) )) \
 
-#include <string>
+PT_DECLARE_VO(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
 
-class NpcDialogAnswersTableVO
-{
-public:
-  int npcid;
-  int dialogid;
-  int answerid;
-  std::string text;
-  int isend;
-  int nextdialogid;
-};
-
+/**
+ * Provides an interface to the database to handle storage of reputations.
+ */
 class NpcDialogAnswersTable : public Table
 {
 private:
-  NpcDialogAnswersTableVO* parseSingleResultSet(ResultSet* rs, size_t row = 0);
-  Array<NpcDialogAnswersTableVO*> parseMultiResultSet(ResultSet* rs);
+  PT_DECLARE_ParseSingleResultSet(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+
+  PT_DECLARE_CreateTable(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
 
 public:
   NpcDialogAnswersTable(Database* db);
 
-  void createTable();
-  void dropTable();
+  PT_DECLARE_DropTable(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
 
-  void insert(int npcid, int dialogid, int answerid, const char* text, int end, int nextdialogid);
-  void remove(int npcid, int dialogid, int answerid);
-  void removeAll();
+  PT_DECLARE_Insert(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+  //PT_DECLARE_Delete(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+  PT_DECLARE_GetAll(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+  PT_DECLARE_DeleteAll(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
 
-  Array<NpcDialogAnswersTableVO*> getAll();
+  //PT_DECLARE_Get(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
+  //PT_DECLARE_GetSingle(NpcDialogAnswersTable, DB_TABLE_NPCDIALOGANSWERS, DB_TABLE_NPCDIALOGANSWERS_FIELDS)
 };
 
-#endif // TABLE_NPCDIALOGANSWERS_H
+#endif //TABLE_NPCDIALOGANSWERS_H

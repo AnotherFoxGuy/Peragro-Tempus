@@ -134,22 +134,19 @@ int main(int argc, char ** argv)
 
   if (port == 0)
   {
-    if (tablemgr.Get<ConfigTable>()->GetConfigValue(ptString("port",4)) != ptString())
+    try
     {
-      port = atoi(*tablemgr.Get<ConfigTable>()->GetConfigValue(ptString("port",4)));
+      port = atoi(tablemgr.Get<ConfigTable>()->GetSingle("port")->value.c_str());
     }
-    else
+    catch (char&)
     {
       port = 12345;
     }
   }
 
-  ConfigTableVO config;
-  config.name = ptString("port", 4);
-  char portStr[6]; // must not be > 65536, so 5 + '\0'
-  snprintf(portStr, 6, "%d", port);
-  config.value = ptString::create(portStr);
-  tablemgr.Get<ConfigTable>()->Insert(&config);
+  // Save the port.
+  std::stringstream portStr; portStr << port;
+  tablemgr.Get<ConfigTable>()->Insert("port", portStr.str());
 
   TimerEngine timeEngine;
   timeEngine.begin();
@@ -199,7 +196,7 @@ int main(int argc, char ** argv)
   //stat_mgr.loadFromDB(tablemgr.Get<StatTable>());
   //skill_mgr.loadFromDB(tablemgr.Get<SkillsTable>());
 
-  zone_mgr.loadFromDB(tablemgr.Get<ZonesTable>(), tablemgr.Get<ZonenodesTable>());
+  zone_mgr.loadFromDB(tablemgr.Get<ZonesTable>(), tablemgr.Get<ZoneNodesTable>());
 
   printf("Initialising collision detection... ");
   BulletCD cd;
@@ -210,11 +207,11 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   server.setSpawner(&spawner);
-  spawner.loadFromDB(tablemgr.Get<SpawnPointsTable>());
+  spawner.LoadFromDB(tablemgr.Get<SpawnPointsTable>());
   spawner.start();
 
   NPCDialogManager dialog_mgr;
-  dialog_mgr.load();
+  dialog_mgr.LoadFromDB();
 
   // Finally initialising the network!
   Network network(&server);

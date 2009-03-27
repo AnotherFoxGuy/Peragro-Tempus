@@ -31,7 +31,7 @@ void NPCDialogState::setCharacter(Character* character)
 
 const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  current_dialog = NPCDialogManager::getDialogManager().getDialog(npc_id, dialog_id); // Start-dialogs are always 0
+  current_dialog = NPCDialogManager::getDialogManager().GetDialog(npc_id, dialog_id); // Start-dialogs are always 0
   if (!current_dialog)
   {
     current_dialog = 0;
@@ -42,7 +42,7 @@ const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int d
 
 void NPCDialogState::endDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  if (current_dialog != 0 && npc_id == current_dialog->getNpcId() && dialog_id == current_dialog->getDialogId())
+  if (current_dialog != 0 && npc_id == current_dialog->GetNpcId() && dialog_id == current_dialog->GetDialogId())
   {
     current_dialog = 0;
   }
@@ -50,17 +50,17 @@ void NPCDialogState::endDialog(unsigned int npc_id, unsigned int dialog_id)
 
 const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int answer_number)
 {
-  if (current_dialog == 0 || dialog_id != current_dialog->getDialogId()) return 0;
+  if (current_dialog == 0 || dialog_id != current_dialog->GetDialogId()) return 0;
 
-  if (current_dialog->getAnswerCount() <= answer_number) return 0;
+  if (current_dialog->GetAnswerCount() <= answer_number) return 0;
 
-  const NPCDialogAnswer* answer = current_dialog->getAnswer(answer_number);
+  const NPCDialogAnswer* answer = current_dialog->GetAnswer(answer_number);
 
   if (answer == 0) return 0;
 
-  current_dialog = answer->getNextDialog();
+  current_dialog = answer->GetNextDialog();
 
-  return answer->getNextDialog();
+  return answer->GetNextDialog();
 }
 
 void NPCDialogState::setNpc(NpcEntity* npc)

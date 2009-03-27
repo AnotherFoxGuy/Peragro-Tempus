@@ -19,8 +19,9 @@
 #ifndef NPC_DIALOG_H
 #define NPC_DIALOG_H
 
-#include "common/util/array.h"
+#include <vector>
 #include <string>
+#include <boost/shared_ptr.hpp>
 
 class NPCDialogAnswer;
 class NPCDialogManager;
@@ -37,38 +38,37 @@ public:
     FUNCTION = 4
   };
 
+  typedef std::vector<boost::shared_ptr<NPCDialogAnswer> > Answers;
+
 private:
   friend class NPCDialogManager;
 
   size_t npc_id;
   size_t dialog_id;
-
   std::string text;
-
-  Array<NPCDialogAnswer*> answers;
-
   Action action;
+  Answers answers;
 
 public:
-  NPCDialog(size_t npc_id, size_t dialog_id, const char* text, Action a)
-  : npc_id(npc_id), dialog_id(dialog_id), text(text), answers(0,1), action(a)
+  NPCDialog(size_t npc_id, size_t dialog_id, const std::string& text, Action a)
+  : npc_id(npc_id), dialog_id(dialog_id), text(text), action(a)
   {
   }
 
-  ~NPCDialog() { answers.delAll(); }
+  ~NPCDialog() { }
 
-  size_t getNpcId() const { return npc_id; }
-  size_t getDialogId() const { return dialog_id; }
+  size_t GetNpcId() const { return npc_id; }
+  size_t GetDialogId() const { return dialog_id; }
 
-  void addAnswer(NPCDialogAnswer* answer) { answers.add(answer); }
+  void AddAnswer(boost::shared_ptr<NPCDialogAnswer> answer) { answers.push_back(answer); }
 
-  const char* getText() const { return text.c_str(); }
+  const std::string& GetText() const { return text; }
 
-  size_t getAnswerCount() const { return answers.getCount(); }
-  NPCDialogAnswer*  getAnswer(size_t idx) const { return answers.get(idx); }
+  size_t GetAnswerCount() const { return answers.size(); }
+  NPCDialogAnswer* GetAnswer(size_t id) const { return answers[id].get(); }
 
-  void setAction(Action a) { action = a; }
-  Action getAction() const { return action; }
+  void SetAction(Action a) { action = a; }
+  Action GetAction() const { return action; }
 };
 
 #endif // NPC_DIALOG_H

@@ -24,7 +24,7 @@ class NPCDialog;
 class NPCDialogManager
 {
 private:
-  Array<NPCDialog*> dialogs;
+  std::vector<boost::shared_ptr<NPCDialog> > dialogs;
   static NPCDialogManager* self;
 
 public:
@@ -39,12 +39,12 @@ public:
    * \param dialog_id The dialog's ID.
    * \return A pointer to the corresponding NPCDialog.
    */
-  NPCDialog* getDialog(unsigned int npc_id, unsigned int dialog_id);
+  NPCDialog* GetDialog(size_t npc_id, size_t dialog_id);
 
-  void load();
+  void LoadFromDB();
 
-  /// Clear out all dialogs
-  void delAll();
+  /// Clear out all dialogs and delete from DB.
+  void DeleteAll();
 };
 
 #endif // NPC_DIALOG_MANAGER_H

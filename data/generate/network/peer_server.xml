@@ -97,7 +97,6 @@
 
 		<!--message type="Admin" name="RemoveAll" /-->
 		<!--message type="Admin" name="SetConig" /-->
-		<!--message type="Admin" name="CreateSector" /-->
 		<!--message type="Admin" name="CreateItem" /-->
 		<!--message type="Admin" name="CreateNpc" /-->
 		<!--message type="Admin" name="CreateSpawnPoint" /-->
@@ -215,7 +214,6 @@
 
 		<message type="Admin" name="RemoveAll" />
 		<message type="Admin" name="SetConfig" />
-		<message type="Admin" name="CreateSector" />
 		<message type="Admin" name="CreateItem" />
 		<!-- <message type="Admin" name="CreateNpc" /> -->
 		<message type="Admin" name="CreateSpawnPoint" />

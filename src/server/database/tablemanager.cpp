@@ -133,7 +133,7 @@ void TableManager::Initialize()
   Register(new ConfigTable(db));
 
   Register(new ZonesTable(db));
-  Register(new ZonenodesTable(db));
+  Register(new ZoneNodesTable(db));
 
   db->update("commit");
 }

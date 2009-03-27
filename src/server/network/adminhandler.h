@@ -44,7 +44,6 @@ public:
 
     if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
     else if (id == ADMIN::SETCONFIG) handleSetConfig(msg);
-    else if (id == ADMIN::CREATESECTOR) handleCreateSector(msg);
     else if (id == ADMIN::CREATEITEM) handleCreateItem(msg);
     else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
     else if (id == ADMIN::SPAWNITEM) handleSpawnItem(msg);
@@ -60,7 +59,6 @@ public:
 
   void handleRemoveAll(GenericMessage* msg);
   void handleSetConfig(GenericMessage* msg);
-  void handleCreateSector(GenericMessage* msg);
   void handleCreateItem(GenericMessage* msg);
   void handleCreateSpawnPoint(GenericMessage* msg);
   void handleSpawnItem(GenericMessage* msg);

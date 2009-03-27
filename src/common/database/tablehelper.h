@@ -235,6 +235,17 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     return arr; \
   }
 
+// DeleteAll
+//-----------------------------------------------------------------------------------
+#define PT_DECLARE_DeleteAll(Class, t, s) \
+  void DeleteAll();
+
+#define PT_DEFINE_DeleteAll(Class, t, s) \
+  void Class::DeleteAll() \
+  { \
+    db->update("delete from " BOOST_PP_STRINGIZE(t) ";"); \
+  }
+
 // Get
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_Get(Class, t, s) \

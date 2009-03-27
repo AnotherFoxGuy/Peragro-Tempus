@@ -27,6 +27,17 @@
 #include "server/database/table-items.h"
 #include "server/database/table-entitypositions.h"
 
+void ItemEntity::SetInWorld(bool value) 
+{ 
+  inWorld = value; 
+  if (!inWorld)
+  {
+    // Replacing the Shape destroys the previous one, 
+    // so it gets removed from the octree.
+    position = Octree::Shape(this);
+  }
+}
+
 void ItemEntity::LoadFromDB()
 {
   Entity::LoadFromDB();
@@ -53,7 +64,16 @@ void ItemEntity::LoadFromDB()
 
 void ItemEntity::SaveToDB()
 {
+  if (!GetItemTemplate())
+  {
+    printf("Invalid ItemTemplate!");
+    throw "Invalid ItemTemplate!";
+  }
+
   Entity::SaveToDB();
+
+  ItemsTable* table = Server::getServer()->GetTableManager()->Get<ItemsTable>();
+  table->Insert(GetId(), GetItemTemplate()->GetTemplateId());
 
   if (GetInWorld())
   {

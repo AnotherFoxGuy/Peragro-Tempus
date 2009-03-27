@@ -31,18 +31,17 @@ namespace ADMIN
   {
     REMOVEALL=0,
     SETCONFIG=1,
-    CREATESECTOR=2,
-    CREATEITEM=3,
-    CREATESPAWNPOINT=4,
-    SPAWNITEM=5,
-    SPAWNMOUNT=6,
-    SPAWNDOOR=7,
-    REMOVESPAWNEDENTITY=8,
-    TOGGLEFLASHSTEP=9,
-    CREATEZONE=10,
-    SETDATE=11,
-    CREATECHANDEFAULT=12,
-    CREATECHANSPACE=13
+    CREATEITEM=2,
+    CREATESPAWNPOINT=3,
+    SPAWNITEM=4,
+    SPAWNMOUNT=5,
+    SPAWNDOOR=6,
+    REMOVESPAWNEDENTITY=7,
+    TOGGLEFLASHSTEP=8,
+    CREATEZONE=9,
+    SETDATE=10,
+    CREATECHANDEFAULT=11,
+    CREATECHANSPACE=12
   };
 }
 
@@ -89,23 +88,6 @@ public:
 
   ptString getValue() const { return value; }
   void setValue(ptString x) { value = x; }
-
-};
-
-class CreateSectorMessage : public NetMessage
-{
-
-public:
-  CreateSectorMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATESECTOR)
-  {
-  }
-
-  ~CreateSectorMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
 
 };
 

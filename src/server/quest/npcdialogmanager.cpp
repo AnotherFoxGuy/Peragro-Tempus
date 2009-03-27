@@ -30,71 +30,73 @@ NPCDialogManager* NPCDialogManager::self;
 
 NPCDialogManager::~NPCDialogManager()
 {
-  dialogs.delAll();
 }
 
-NPCDialog* NPCDialogManager::getDialog(unsigned int npc_id, unsigned int dialog_id)
+NPCDialog* NPCDialogManager::GetDialog(size_t npc_id, size_t dialog_id)
 {
-  for(unsigned int i=0; i<dialogs.getCount(); i++)
+  std::vector<boost::shared_ptr<NPCDialog> >::const_iterator it;
+  for (it = dialogs.begin(); it != dialogs.end(); it++)
   {
-    if (dialogs[i]->getNpcId() == npc_id && dialogs[i]->getDialogId() == dialog_id){return dialogs[i];}
+    boost::shared_ptr<NPCDialog> d = *it;
+    if (d->GetNpcId() == npc_id && d->GetDialogId() == dialog_id)
+      return d.get();
   }
   return 0;
 }
 
-void NPCDialogManager::load()
+void NPCDialogManager::LoadFromDB()
 {
   // Empty list
-  dialogs.delAll();
+  dialogs.clear();
 
   TableManager* tablemgr = Server::getServer()->GetTableManager();
-
-  // Load NPC Dialogs
-  Array<NpcDialogsTableVO*> dialogs = tablemgr->Get<NpcDialogsTable>()->getAll();
-  for (size_t i=0; i<dialogs.getCount(); i++)
   {
-    NpcDialogsTableVO* vo = dialogs.get(i);
-
-    NPCDialog::Action action;
-    if (vo->action == ptString("text", 4)) action = NPCDialog::SHOW_TEXT;
-    else if (vo->action == ptString("sell", 4)) action = NPCDialog::START_SELL;
-    else if (vo->action == ptString("buy", 3)) action = NPCDialog::START_BUY;
-    else if (vo->action == ptString("teleport", 8)) action = NPCDialog::TELEPORT;
-    else if (vo->action == ptString("function", strlen("function"))) action = NPCDialog::FUNCTION;
-    else continue;
-
-    NPCDialog* dialog = new NPCDialog(vo->npcid, vo->dialogid, vo->text.c_str(), action);
-    this->dialogs.add(dialog);
-
-    delete vo;
-  }
-
-  // Load NPC Dialog Answers
-  Array<NpcDialogAnswersTableVO*> answers = tablemgr->Get<NpcDialogAnswersTable>()->getAll();
-  for (size_t i=0; i<answers.getCount(); i++)
-  {
-    NpcDialogAnswersTableVO* vo = answers.get(i);
-
-    NPCDialog* next_dialog = 0;
-
-    if (vo->isend == 0)
+    // Load NPC Dialogs
+    NpcDialogsTableVOArray diags = tablemgr->Get<NpcDialogsTable>()->GetAll();
+    NpcDialogsTableVOArray::const_iterator it;
+    for (it = diags.begin(); it != diags.end(); it++)
     {
-      next_dialog = this->getDialog(vo->npcid, vo->nextdialogid);
+      NpcDialogsTableVOp vo = *it;
+
+      NPCDialog::Action action;
+      if (vo->action == "text") action = NPCDialog::SHOW_TEXT;
+      else if (vo->action == "sell") action = NPCDialog::START_SELL;
+      else if (vo->action == "buy") action = NPCDialog::START_BUY;
+      else if (vo->action == "teleport") action = NPCDialog::TELEPORT;
+      else if (vo->action == "function") action = NPCDialog::FUNCTION;
+      else continue;
+
+      boost::shared_ptr<NPCDialog> dialog(new NPCDialog(vo->entity_id, vo->id, vo->text, action));
+      dialogs.push_back(dialog);
     }
+  }
+  {
+    // Load NPC Dialog Answers
+    NpcDialogAnswersTableVOArray answers = tablemgr->Get<NpcDialogAnswersTable>()->GetAll();
+    NpcDialogAnswersTableVOArray::const_iterator it;
+    for (it = answers.begin(); it != answers.end(); it++)
+    {
+      NpcDialogAnswersTableVOp vo = *it;
 
-    NPCDialogAnswer* answer = new NPCDialogAnswer(next_dialog, vo->text.c_str());
-    NPCDialog* dialog = this->getDialog(vo->npcid, vo->dialogid);
-    if (!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->npcid, vo->dialogid);continue;} // This only happens if you edit the DB without knowing what you're doing
-    dialog->addAnswer(answer);
+      NPCDialog* next_dialog = 0;
 
-    delete vo;
+      if (vo->isEnd == 0)
+      {
+        next_dialog = this->GetDialog(vo->entity_id, vo->nextDialog_id);
+      }
+
+      boost::shared_ptr<NPCDialogAnswer> answer(new NPCDialogAnswer(next_dialog, vo->text));
+      NPCDialog* dialog = this->GetDialog(vo->entity_id, vo->dialog_id);
+      if (!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->entity_id, vo->dialog_id);continue;} // This only happens if you edit the DB without knowing what you're doing
+      dialog->AddAnswer(answer);
+    }
   }
 }
 
-void NPCDialogManager::delAll()
+void NPCDialogManager::DeleteAll()
 {
   TableManager* tablemgr = Server::getServer()->GetTableManager();
-  tablemgr->Get<NpcDialogsTable>()->removeAll();
-  tablemgr->Get<NpcDialogAnswersTable>()->removeAll();
-  dialogs.delAll();
+  tablemgr->Get<NpcDialogsTable>()->DeleteAll();
+  tablemgr->Get<NpcDialogAnswersTable>()->DeleteAll();
+  dialogs.clear();
 }
