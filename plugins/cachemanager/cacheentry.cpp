@@ -69,10 +69,12 @@ CacheEntry::CacheEntry(const std::string& fileName, iObjectRegistry* object_reg)
 
   csRef<iThreadedLoader> loader = csQueryRegistry<iThreadedLoader> (object_reg);
   if (!loader) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate Loader!");
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  if (!vfs) Report(CS_REPORTER_SEVERITY_ERROR, "Failed to locate VFS!");
 
-  threadReturn = loader->LoadLibraryFile(vfs->GetCwd(), fileName.c_str(), collection);
+  // Seperate the path of the filename.
+  size_t p = fileName.find_last_of("/");
+  const std::string path(fileName.substr(0,p+1));
+
+  threadReturn = loader->LoadLibraryFile(path.c_str(), fileName.c_str(), collection);
 } // end CacheEntry()
 
 CacheEntry::~CacheEntry()
