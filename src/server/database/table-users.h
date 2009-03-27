@@ -55,8 +55,6 @@ public:
   PT_DECLARE_GetAll(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
 
   PT_DECLARE_GetSingle(UsersTable, DB_TABLE_USERS, DB_TABLE_USERS_FIELDS)
-
-  //UsersTableVOp GetUser(const std::string& login);
 };
 
 #endif //TABLE_USERS_H
