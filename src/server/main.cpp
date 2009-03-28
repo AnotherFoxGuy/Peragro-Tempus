@@ -138,7 +138,7 @@ int main(int argc, char ** argv)
     {
       port = atoi(tablemgr.Get<ConfigTable>()->GetSingle("port")->value.c_str());
     }
-    catch (char&)
+    catch (char const*)
     {
       port = 12345;
     }
