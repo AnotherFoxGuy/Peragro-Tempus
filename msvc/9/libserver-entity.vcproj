@@ -588,9 +588,6 @@
 				RelativePath="..\..\src\server\entity\character\abilities.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\character\base.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\entity\character\character.cpp">
 			</File>
 			<File
@@ -653,9 +650,6 @@
 			Filter="">
 			<File
 				RelativePath="..\..\src\server\entity\character\abilities.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\entity\character\base.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\character.h">

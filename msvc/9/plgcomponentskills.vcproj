@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding = "Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
-	Name="plgcomponentstats"
-	ProjectGUID="{011AF637-7035-F4D4-000C-4DEB1831ECEA}"
+	Version="9.00"
+	Name="plgcomponentskills"
+	ProjectGUID="{E3AD67D5-D624-8A31-16DB-3C5A02A01D4F}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release8\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\release8\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\release9\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\release9\build\plgcomponentskills\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -26,14 +26,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\plgcomponentstats\Win32\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgcomponentskills\Win32\componentskills.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\release8\build\plgcomponentstats\"
-				ObjectFile="..\..\out\release8\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgcomponentskills\"
+				ObjectFile="..\..\out\release9\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -50,15 +50,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\release8\build\plgcomponentstats\Win32\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgcomponentskills\Win32\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8\build\plgcomponentstats\Win32\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\release9\build\plgcomponentskills\Win32\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -69,10 +69,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -80,8 +80,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -90,8 +90,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release8\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\release8\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\release9\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\release9\build\plgcomponentskills\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -103,14 +103,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\plgcomponentstats\Win32\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\plgcomponentskills\Win32\componentskills.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\release8\build\plgcomponentstats\"
-				ObjectFile="..\..\out\release8\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\release9\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\release9\build\plgcomponentskills\"
+				ObjectFile="..\..\out\release9\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -127,15 +127,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\release8\build\plgcomponentstats\Win32\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\release9\build\plgcomponentskills\Win32\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8\build\plgcomponentstats\Win32\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\release9\build\plgcomponentskills\Win32\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -146,10 +146,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -157,8 +157,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -167,8 +167,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\debug8\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\debug9\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\debug9\build\plgcomponentskills\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -179,14 +179,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\plgcomponentstats\Win32\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgcomponentskills\Win32\componentskills.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\plgcomponentstats\"
-				ObjectFile="..\..\out\debug8\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgcomponentskills\"
+				ObjectFile="..\..\out\debug9\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -201,15 +201,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\debug8\build\plgcomponentstats\Win32\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgcomponentskills\Win32\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8\build\plgcomponentstats\Win32\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\debug9\build\plgcomponentskills\Win32\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -220,10 +220,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -231,8 +231,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -241,8 +241,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\debug8\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\debug9\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\debug9\build\plgcomponentskills\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -253,14 +253,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\plgcomponentstats\Win32\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\plgcomponentskills\Win32\componentskills.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\plgcomponentstats\"
-				ObjectFile="..\..\out\debug8\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\plgcomponentskills\"
+				ObjectFile="..\..\out\debug9\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -275,15 +275,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\debug8\build\plgcomponentstats\Win32\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\debug9\build\plgcomponentskills\Win32\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8\build\plgcomponentstats\Win32\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\debug9\build\plgcomponentskills\Win32\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -294,10 +294,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -305,8 +305,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -315,8 +315,8 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\release8-x64\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\release9-x64\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\release9-x64\build\plgcomponentskills\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -328,14 +328,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\plgcomponentstats\"
-				ObjectFile="..\..\out\release8-x64\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\plgcomponentskills\"
+				ObjectFile="..\..\out\release9-x64\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -352,15 +352,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\release8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8-x64\build\plgcomponentstats\x64\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\release9-x64\build\plgcomponentskills\x64\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -371,10 +371,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -382,8 +382,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -392,8 +392,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\release8-x64\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\release9-x64\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\release9-x64\build\plgcomponentskills\"
 			ConfigurationType="2"
 			WholeProgramOptimization="1"
 			UseOfMFC="0"
@@ -405,14 +405,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\plgcomponentstats\"
-				ObjectFile="..\..\out\release8-x64\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\plgcomponentskills\"
+				ObjectFile="..\..\out\release9-x64\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -429,15 +429,15 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\release8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\release9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\release8-x64\build\plgcomponentstats\x64\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\release9-x64\build\plgcomponentskills\x64\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release9\libs;$(CEL)\out\release9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -448,10 +448,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -459,8 +459,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -469,8 +469,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\debug9-x64\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\plgcomponentskills\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -481,14 +481,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\plgcomponentstats\"
-				ObjectFile="..\..\out\debug8-x64\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\plgcomponentskills\"
+				ObjectFile="..\..\out\debug9-x64\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -503,15 +503,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8-x64\build\plgcomponentstats\x64\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\debug9-x64\build\plgcomponentskills\x64\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -522,10 +522,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -533,8 +533,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -543,8 +543,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\plgcomponentstats\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\plgcomponentstats\"
+			OutputDirectory="..\..\out\debug9-x64\build\plgcomponentskills\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\plgcomponentskills\"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -555,14 +555,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\plgcomponentstats\plgcomponentstats.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\plgcomponentstats\"
-				ObjectFile="..\..\out\debug8-x64\build\plgcomponentstats\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\plgcomponentskills\plgcomponentskills.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\plgcomponentskills\"
+				ObjectFile="..\..\out\debug9-x64\build\plgcomponentskills\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -577,15 +577,15 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\componentstats.dll"
-				ProgramDatabaseFile="..\..\out\debug8-x64\build\plgcomponentstats\x64\componentstats.pdb"
+				OutputFile="..\..\componentskills.dll"
+				ProgramDatabaseFile="..\..\out\debug9-x64\build\plgcomponentskills\x64\componentskills.pdb"
 				IgnoreImportLibrary="TRUE"
 				DelayLoadDLLs=""
-				ImportLibrary="..\..\out\debug8-x64\build\plgcomponentstats\x64\plgcomponentstats.lib"
+				ImportLibrary="..\..\out\debug9-x64\build\plgcomponentskills\x64\plgcomponentskills.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="..\..\..\CS\out\debug8\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug8\libs;$(CEL)\out\debug8\libs;$(CEL)\libs"
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug9\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug9\libs;$(CEL)\out\debug9\libs;$(CEL)\libs"
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -596,10 +596,10 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\plgcomponentstats\plgcomponentstats.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\plgcomponentskills\plgcomponentskills.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
+				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
 				/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
@@ -607,8 +607,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\components\entity\stat;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\components\entity\skill;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -621,24 +621,24 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\stat\stats.cpp">
+				RelativePath="..\..\components\entity\skill\skills.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\stat\stats.h">
+				RelativePath="..\..\components\entity\skill\skills.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\stat\componentstats.csplugin">
+				RelativePath="..\..\components\entity\skill\componentskills.csplugin">
 			</File>
 			<File
-				RelativePath="..\..\msvc\common\plgcomponentstats.rc">
+				RelativePath="..\..\msvc\common\plgcomponentskills.rc">
 			</File>
 		</Filter>
 	</Files>

@@ -15,36 +15,36 @@
 
 namespace csStaticPluginInit
 {
-static char const metainfo_componentstats[] =
+static char const metainfo_componentskills[] =
 "<?xml version=\"1.0\"?>"
 "<!-- Stats.csplugin -->"
 "<plugin>"
 "  <scf>"
 "    <classes>"
 "      <class>"
-"        <name>peragro.entity.stats</name>"
-"        <implementation>ComponentFStats</implementation>"
-"        <description>Perago player entity stats</description>"
+"        <name>peragro.entity.skills</name>"
+"        <implementation>ComponentFSkills</implementation>"
+"        <description>Perago player entity skills</description>"
 "      </class>"
 "    </classes>"
 "  </scf>"
 "</plugin>"
 ;
-  #ifndef ComponentFStats_FACTORY_REGISTER_DEFINED 
-  #define ComponentFStats_FACTORY_REGISTER_DEFINED 
-    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(ComponentFStats) 
+  #ifndef ComponentFSkills_FACTORY_REGISTER_DEFINED 
+  #define ComponentFSkills_FACTORY_REGISTER_DEFINED 
+    SCF_DEFINE_FACTORY_FUNC_REGISTRATION(ComponentFSkills) 
   #endif
 
-class componentstats
+class componentskills
 {
-SCF_REGISTER_STATIC_LIBRARY(componentstats,metainfo_componentstats)
-  #ifndef ComponentFStats_FACTORY_REGISTERED 
-  #define ComponentFStats_FACTORY_REGISTERED 
-    ComponentFStats_StaticInit ComponentFStats_static_init__; 
+SCF_REGISTER_STATIC_LIBRARY(componentskills,metainfo_componentskills)
+  #ifndef ComponentFSkills_FACTORY_REGISTERED 
+  #define ComponentFSkills_FACTORY_REGISTERED 
+    ComponentFSkills_StaticInit ComponentFSkills_static_init__; 
   #endif
 public:
- componentstats();
+ componentskills();
 };
-componentstats::componentstats() {}
+componentskills::componentskills() {}
 
 }

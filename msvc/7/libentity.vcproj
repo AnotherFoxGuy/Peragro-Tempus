@@ -300,12 +300,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\common\entity\character\base.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\entitymanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\common\entity\character\base.h">
+			</File>
 			<File
 				RelativePath="..\..\src\common\entity\entity.h">
 			</File>

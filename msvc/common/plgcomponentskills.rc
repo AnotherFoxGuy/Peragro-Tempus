@@ -19,7 +19,7 @@ FILEFLAGS 0x0
       VALUE "ProductVersion", "0.1"
       VALUE "FileVersion", "0.1"
       VALUE "LegalCopyright", "Peragro Team"
-      VALUE "FileDescription", "stats component"
+      VALUE "FileDescription", "skills component"
 #ifdef CS_DEBUG
       VALUE "Comments", "Debug build"
 #else
@@ -44,9 +44,9 @@ FILEFLAGS 0x0
   "  <scf>",
   "    <classes>",
   "      <class>",
-  "        <name>peragro.entity.stats</name>",
-  "        <implementation>ComponentFStats</implementation>",
-  "        <description>Perago player entity stats</description>",
+  "        <name>peragro.entity.skills</name>",
+  "        <implementation>ComponentFSkills</implementation>",
+  "        <description>Perago player entity skills</description>",
   "      </class>",
   "    </classes>",
   "  </scf>",

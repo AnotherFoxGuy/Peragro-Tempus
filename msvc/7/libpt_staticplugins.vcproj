@@ -425,28 +425,28 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\components\entity\stat\stats.cpp">
+				RelativePath="..\..\components\entity\skill\skills.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_skill_skills.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\components_entity_skill_skills.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_skill_skills.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_stat_stats.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\components_entity_skill_skills.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -875,28 +875,28 @@
 					</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\msvc\common\libcomponentstats_staticreg.cpp">
+				RelativePath="..\..\msvc\common\libcomponentskills_staticreg.cpp">
                                   					<FileConfiguration
 						Name="Release (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentskills_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Release (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\release7-x64\build\libpt_staticplugins\msvc_common_libcomponentskills_staticreg.cpp.obj"/>
 					</FileConfiguration>
                                   					<FileConfiguration
 						Name="Debug (with static libs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentskills_staticreg.cpp.obj"/>
 					</FileConfiguration>					<FileConfiguration
 						Name="Debug (with DLLs)|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
-							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentstats_staticreg.cpp.obj"/>
+							ObjectFile="..\..\out\debug7-x64\build\libpt_staticplugins\msvc_common_libcomponentskills_staticreg.cpp.obj"/>
 					</FileConfiguration>
 			</File>
 			<File
@@ -1994,7 +1994,7 @@
 				RelativePath="..\..\components\entity\move\viewbob\viewbob.h">
 			</File>
 			<File
-				RelativePath="..\..\components\entity\stat\stats.h">
+				RelativePath="..\..\components\entity\skill\skills.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\cachemanager\cacheentry.h">
