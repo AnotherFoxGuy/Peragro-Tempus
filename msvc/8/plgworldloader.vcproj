@@ -631,6 +631,9 @@
 			Name="Header Files"
 			Filter="">
 			<File
+				RelativePath="..\..\plugins\world\editorobject.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\world\resourcemanager.h">
 			</File>
 			<File

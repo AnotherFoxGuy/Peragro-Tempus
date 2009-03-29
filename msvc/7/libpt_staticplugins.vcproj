@@ -2105,6 +2105,9 @@
 				RelativePath="..\..\plugins\terrained\terrained.h">
 			</File>
 			<File
+				RelativePath="..\..\plugins\world\editorobject.h">
+			</File>
+			<File
 				RelativePath="..\..\plugins\world\resourcemanager.h">
 			</File>
 			<File
