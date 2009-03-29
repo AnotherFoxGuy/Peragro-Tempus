@@ -27,7 +27,7 @@ protected:
   virtual void timeOut();
 
 public:
-  GuardAI(NpcEntity* npc) {}
+  GuardAI(boost::shared_ptr<NpcEntity> npc) {}
   ~GuardAI() {}
 
   virtual void think();

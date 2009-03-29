@@ -30,19 +30,16 @@
  */
 void CombatHandler::handleAttackRequest(GenericMessage* msg)
 {
-  /*
   InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
-  if (!ent) return;
 
-  ptScopedMonitorable<PcEntity> ent1 (ent);
+  boost::shared_ptr<PcEntity> ent = NetworkHelper::GetEntity(msg);
+  if (!ent) return;
 
   AttackRequestMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  interactionManager->QueueInteraction(ent1, in_msg.getAttackType());
-  */
+  interactionManager->QueueInteraction(ent, in_msg.getAttackType());
 }
 
 /**
@@ -51,17 +48,14 @@ void CombatHandler::handleAttackRequest(GenericMessage* msg)
  */
 void CombatHandler::handleSelectTarget(GenericMessage* msg)
 {
-  /*
   InteractionManager *interactionManager =
     Server::getServer()->getInteractionManager();
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
-  if (!ent) return;
 
-  ptScopedMonitorable<PcEntity> ent1 (ent);
+  boost::shared_ptr<PcEntity> ent = NetworkHelper::GetEntity(msg);
+  if (!ent) return;
 
   SelectTargetMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
-  interactionManager->SelectTarget(ent1, in_msg.getTargetID());
-  */
+  interactionManager->SelectTarget(ent, in_msg.getTargetID());
 }

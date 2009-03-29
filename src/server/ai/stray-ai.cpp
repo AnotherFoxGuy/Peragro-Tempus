@@ -92,5 +92,5 @@ void StrayAI::think()
 
   pos = base + WFMath::Vector<3>(pos * radius);
 
-  Server::getServer()->moveEntity(npc, pos, 3.0f, false);
+  Server::getServer()->moveEntity(npc.lock(), pos, 3.0f, false);
 }

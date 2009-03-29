@@ -28,7 +28,7 @@ std::string AI::stray("stray");
 std::string AI::guard("guard");
 std::string AI::path("path");
 
-AI* AI::createAI(const std::string& ai_name, NpcEntity* npc)
+AI* AI::createAI(const std::string& ai_name, boost::shared_ptr<NpcEntity> npc)
 {
   if (ai_name == idle)
   {

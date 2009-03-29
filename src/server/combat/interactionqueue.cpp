@@ -78,13 +78,14 @@ Interaction* InteractionQueue::GetInteraction()
   return interaction;
 }
 
-void InteractionQueue::RemoveAllInteractions(Character *lockedCharacter)
+void InteractionQueue::RemoveAllInteractions(boost::shared_ptr<Character> character)
 {
   ptScopedMutex lock(mutex);
 
   for (QueueItem* queue = head; queue; queue = queue->next)
   {
-    if (queue->interaction->character->GetId() == lockedCharacter->GetId())
+    if ((!queue->interaction->character.lock())
+        || (queue->interaction->character.lock()->GetId() == character->GetId()))
     {
       RemoveInteractionEntry(queue);
     }

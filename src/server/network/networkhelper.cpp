@@ -16,18 +16,15 @@ boost::shared_ptr<User> NetworkHelper::getUser(GenericMessage* msg)
   return conn->GetUser();
 }
 
-Entity* NetworkHelper::getEntity(GenericMessage* msg)
+boost::shared_ptr<PcEntity> NetworkHelper::GetEntity(GenericMessage* msg)
 {
   Connection* conn = msg->getConnection();
-  if (!conn) return 0;
+  if (!conn) return boost::shared_ptr<PcEntity>();
 
   User* user = conn->GetUser().get();
-  if (!user) return 0;
+  if (!user) return boost::shared_ptr<PcEntity>();
 
-  PcEntity* ent = user->GetEntity().get();
-  if (!ent) return 0;
-
-  return ent;
+  return user->GetEntity();
 }
 
 void NetworkHelper::sendMessage(Character* character , const ByteStream& bs)
@@ -75,7 +72,7 @@ void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
   */
 }
 
-void NetworkHelper::localcast(const ByteStream& bs, Entity* entity)
+void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity)
 {
   /*
   Server* server = Server::getServer();
@@ -94,29 +91,6 @@ void NetworkHelper::localcast(const ByteStream& bs, Entity* entity)
       }
     }
   }
-  */
-}
-
-void NetworkHelper::distancecast(const ByteStream& bs, Entity* entity, unsigned dist)
-{
-  /*
-  Server* server = Server::getServer();
-  if (!entity) return;
-  if (dist == 0) return;
-
-  // use square-distance multipied by 100m^2
-  float sqdist = 10000.0f * dist * dist;
-
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-    {
-      const Entity* other_ent = user->getEntity()->getEntity();
-      if (other_ent && entity->GetSector() == other_ent->GetSector() &&
-          entity->getDistanceTo2(other_ent) < sqdist)
-        user->getConnection()->send(bs);
-    }
   */
 }
 

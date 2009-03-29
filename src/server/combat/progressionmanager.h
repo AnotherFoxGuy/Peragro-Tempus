@@ -38,34 +38,32 @@ public:
   /// Destructor.
   ~ProgressionManager();
 
-  void CalculateExperienceGain(Character* lockedAttacker,
-                               Character* lockedTarget,
-                               const char* skillType,
-                               const char* attackType);
-  void HPIncreased(Character* lockedCharacter, unsigned int amount);
-  void StaminaIncreased(Character* lockedCharacter, unsigned int amount);
-  void WillPowerIncreased(Character* lockedCharacter, unsigned int amount);
+  void CalculateExperienceGain(boost::shared_ptr<Character> attacker,
+                               boost::shared_ptr<Character> target,
+                               const std::string& skillType,
+                               const std::string& attackType);
+  void HPIncreased(boost::shared_ptr<Character> lockedCharacter, unsigned int amount);
+  void StaminaIncreased(boost::shared_ptr<Character> lockedCharacter, unsigned int amount);
+  void WillPowerIncreased(boost::shared_ptr<Character> lockedCharacter, unsigned int amount);
   unsigned int RollDice(unsigned int lower, unsigned int higher);
 
 private:
-  void AddXP(Character* lockedCharacter,
-             const char* skillKnowledge,
-             const char* ability);
-  unsigned int GetPenalty(Character* lockedCharacter, const char* attackType);
-  unsigned int GetSkillLevel(Character* lockedCharacter, const char* skillType);
-  unsigned int GetSkillOrAbilityXP(Character* lockedCharacter,
-                                   const char* skillType);
-  void IncreaseAbilityXP(Character* lockedCharacter,
-                          const char* abilityName,
+  void AddXP(boost::shared_ptr<Character> lockedCharacter,
+             const std::string& skillKnowledge,
+             const std::string& ability);
+  unsigned int GetPenalty(boost::shared_ptr<Character> lockedCharacter, const std::string& attackType);
+  unsigned int GetSkillLevel(boost::shared_ptr<Character> lockedCharacter, const std::string& skillType);
+  void IncreaseAbilityXP(boost::shared_ptr<Character> lockedCharacter,
+                          const std::string& abilityName,
                           int increase);
-  void IncreaseSkillXP(Character* lockedCharacter,
-                          const char* skillName,
+  void IncreaseSkillXP(boost::shared_ptr<Character> lockedCharacter,
+                          const std::string& skillName,
                           int increase);
-  void IncreaseSpecialityXP(Character* lockedCharacter,
-                          const char* specialityName,
+  void IncreaseSpecialityXP(boost::shared_ptr<Character> lockedCharacter,
+                          const std::string& specialityName,
                           int increase);
-  void CheckAbilityProgress(Character* lockedCharacter,
-                            const char* abilityName);
+  void CheckAbilityProgress(boost::shared_ptr<Character> lockedCharacter,
+                            const std::string& abilityName);
 
 };
 

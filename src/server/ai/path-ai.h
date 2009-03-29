@@ -26,7 +26,7 @@
 class PathAI : public AI
 {
 private:
-  NpcEntity* npc;
+  boost::weak_ptr<NpcEntity> npc;
 
   WFMath::Point<3>* points;
   unsigned int* intervals;
@@ -40,7 +40,7 @@ protected:
   virtual void timeOut();
 
 public:
-  PathAI(NpcEntity* npc) : npc(npc), points(0), intervals(0) {}
+  PathAI(boost::shared_ptr<NpcEntity> npc) : npc(npc), points(0), intervals(0) {}
   virtual ~PathAI();
 
   virtual void think();

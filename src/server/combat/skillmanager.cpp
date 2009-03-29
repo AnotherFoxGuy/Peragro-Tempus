@@ -27,8 +27,8 @@
 #endif
 
 #define RETURN_AGILITY_IF(skillType, name) \
-  if (strncasecmp(name, skillType, strlen(name)) == 0) { \
-    return InteractionUtility::GetAgilityString();       \
+  if (name == skillType) { \
+    return "Agility";       \
   }
 
 SkillManager::SkillManager()
@@ -39,65 +39,56 @@ SkillManager::~SkillManager()
 {
 }
 
-void
-SkillManager::CheckDeprecation(Character* lockedCharacter,
-                               const char* skill)
+void SkillManager::CheckDeprecation(boost::shared_ptr<Character> character,
+                               const std::string& skill)
 {
   float timeUnused = 0.0f;
-  timeUnused = GetTimeSkillUnused(lockedCharacter, skill);
+  timeUnused = GetTimeSkillUnused(character, skill);
 }
 
-float
-SkillManager::GetTimeSkillUnused(Character* lockedCharacter,
-                                 const char* skill)
+float SkillManager::GetTimeSkillUnused(boost::shared_ptr<Character> character,
+                                 const std::string& skill)
 {
-  return GetTimeUnusedLastLogin(lockedCharacter, skill) +
-         GetTimeUnusedThisLogin(lockedCharacter, skill);
+  return GetTimeUnusedLastLogin(character, skill) +
+         GetTimeUnusedThisLogin(character, skill);
 }
 
-void
-SkillManager::CharacterLogout(Character* lockedCharacter,
-                              const char* skill)
+void SkillManager::CharacterLogout(boost::shared_ptr<Character> character,
+                              const std::string& skill)
 {
-  UpdateTimeUnused(lockedCharacter, skill);
+  UpdateTimeUnused(character, skill);
 }
 
-void
-SkillManager::ResetTimeSkillLastUsed(Character* lockedCharacter,
-                                     const char* skill)
+void SkillManager::ResetTimeSkillLastUsed(boost::shared_ptr<Character> character,
+                                     const std::string& skill)
 {
 }
 
-float
-SkillManager::GetTimeUnusedThisLogin(Character* lockedCharacter,
-                                     const char* skill)
+float SkillManager::GetTimeUnusedThisLogin(boost::shared_ptr<Character> character,
+                                     const std::string& skill)
 {
   return 0.0f;
 }
 
-float
-SkillManager::GetTimeUnusedLastLogin(Character* lockedCharacter,
-                                     const char* skill)
+float SkillManager::GetTimeUnusedLastLogin(boost::shared_ptr<Character> character,
+                                     const std::string& skill)
 {
-  const char* strSkillLastUsed = GetSkillLastUsedStr(skill);
+  const std::string& strSkillLastUsed = GetSkillLastUsedStr(skill);
 
-  return InteractionUtility::GetStatValue(lockedCharacter, strSkillLastUsed) +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, strSkillLastUsed) +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             strSkillLastUsed);
 }
 
-const char*
-SkillManager::GetSkillLastUsedStr(const char* skill)
+std::string SkillManager::GetSkillLastUsedStr(const std::string& skill)
 {
   // TODO add here or do in function directly? Need to free memory...
-  return NULL;
-
+  return "";
 }
 
 
 // Caller must free string.
-const char*
-SkillManager::GetAbilityNameForSkill(const char* skillType)
+std::string SkillManager::GetAbilityNameForSkill(const std::string& skillType)
 {
   RETURN_AGILITY_IF(skillType, "OneHandedAxe")
   RETURN_AGILITY_IF(skillType, "OneHandedBlunt")
@@ -113,7 +104,7 @@ SkillManager::GetAbilityNameForSkill(const char* skillType)
   RETURN_AGILITY_IF(skillType, "RangedThrown")
 
   printf("BUG: Should not be here!!");
-  return NULL;
+  return "";
 }
 
 

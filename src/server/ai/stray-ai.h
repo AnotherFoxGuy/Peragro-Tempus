@@ -21,11 +21,12 @@
 
 #include "ai.h"
 #include <wfmath/point.h>
+#include "../entity/entitymanager.h"
 
 class StrayAI : public AI
 {
 private:
-  NpcEntity* npc;
+  boost::weak_ptr<NpcEntity> npc;
 
   WFMath::Point<3> base;
   WFMath::Point<3> radius;
@@ -37,7 +38,7 @@ protected:
   virtual void timeOut();
 
 public:
-  StrayAI(NpcEntity* npc) : npc(npc) { paused = false; }
+  StrayAI(boost::shared_ptr<NpcEntity> npc) : npc(npc) { paused = false; }
   ~StrayAI() {}
 
   virtual void think();

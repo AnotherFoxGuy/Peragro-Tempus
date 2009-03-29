@@ -41,7 +41,7 @@ class Interaction
     /// The interaction ID associated with this interaction, 0 = unset.
     unsigned int interactionID;
     /// Holds the unlocked character that is associated with this action.
-    Character *character;
+    boost::weak_ptr<PcEntity> character;
     /// The amount of extra stamina required for this interaction.
     float staminaRequired;
     /// The time to perform this interaction.

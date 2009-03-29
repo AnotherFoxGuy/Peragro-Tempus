@@ -40,7 +40,7 @@ namespace PT
       {
       }
 
-      void Clock::InitTime(Entity* entity)
+      void Clock::InitTime(boost::shared_ptr<Entity> entity)
       {
         InitTimeMessage time_msg;
 

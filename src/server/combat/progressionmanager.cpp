@@ -23,11 +23,10 @@
 #include "skillmanager.h"
 
 /* See: http://wiki.peragro.org/index.php/Experience_Implementation */
-void
-ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
-                                            Character* lockedTarget,
-                                            const char* skillType,
-                                            const char* attackType)
+void ProgressionManager::CalculateExperienceGain(boost::shared_ptr<Character> attacker,
+                                            boost::shared_ptr<Character> target,
+                                            const std::string& skillType,
+                                            const std::string& attackType)
 {
   unsigned int successChance = 0;
   unsigned int failureChance = 0;
@@ -35,14 +34,14 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
   unsigned int penalty = 0;
   unsigned int skillLevel = 0;
   unsigned int agilityLevel = 0;
-  const char*  abilityName = "Agility";
+  std::string  abilityName = "Agility";
 
-  penalty = GetPenalty(lockedTarget, attackType);
-  skillLevel = GetSkillLevel(lockedAttacker, skillType);
+  penalty = GetPenalty(target, attackType);
+  skillLevel = GetSkillLevel(attacker, skillType);
 
   abilityName = SkillManager::GetAbilityNameForSkill(skillType);
 
-  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(lockedAttacker,
+  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(attacker,
                                                                  abilityName);
 
   // Base chance for success should be 50%
@@ -53,27 +52,25 @@ ProgressionManager::CalculateExperienceGain(Character* lockedAttacker,
 
   if (randomNumber < successChance) {
     if (randomNumber >= (successChance - (failureChance / 10))) {
-      AddXP(lockedAttacker, skillType, abilityName);
+      AddXP(attacker, skillType, abilityName);
     }
   } else if (randomNumber > successChance) {
     if (randomNumber <= successChance + (failureChance / 10)) {
-      AddXP(lockedAttacker, skillType, abilityName);
+      AddXP(attacker, skillType, abilityName);
     }
   } else if (randomNumber == successChance) {
-    AddXP(lockedAttacker, skillType, abilityName);
+    AddXP(attacker, skillType, abilityName);
   }
-  delete [] abilityName;
 }
 
 /* See: http://wiki.peragro.org/index.php/Experience_Implementation */
-void
-ProgressionManager::AddXP(Character* lockedCharacter,
-                          const char* skillName,
-                          const char* abilityName)
+void ProgressionManager::AddXP(boost::shared_ptr<Character> lockedCharacter,
+                          const std::string& skillName,
+                          const std::string& abilityName)
 {
   unsigned int skillXP = 0;
   unsigned int abilityXP = 0;
-
+/*
   skillXP = GetSkillOrAbilityXP(lockedCharacter, skillName);
   abilityXP = GetSkillOrAbilityXP(lockedCharacter, abilityName);
 
@@ -84,7 +81,7 @@ ProgressionManager::AddXP(Character* lockedCharacter,
     IncreaseSkillXP(lockedCharacter, skillName, 1);
     IncreaseSpecialityXP(lockedCharacter, "speciality", 1);
   }
-
+*/
 }
 
 /* See: http://wiki.peragro.org/index.php/Improvement_Implementation */
@@ -123,11 +120,11 @@ GetXPNeededForNextSpecialityLevel(unsigned int currentLevel)
   return requiredXP;
 }
 void
-ProgressionManager::CheckAbilityProgress(Character* lockedCharacter,
-                                         const char* abilityName)
+ProgressionManager::CheckAbilityProgress(boost::shared_ptr<Character> lockedCharacter,
+                                         const std::string& abilityName)
 {
-  const char* abilityXPStr = InteractionUtility::GetXPString(abilityName);
-  const char* abilityLevelStr = InteractionUtility::GetXPString(abilityName);
+  const std::string& abilityXPStr = InteractionUtility::GetXPString(abilityName);
+  const std::string& abilityLevelStr = InteractionUtility::GetXPString(abilityName);
   unsigned int neededXP = 0;
   unsigned int currentLevel = 0;
   unsigned int currentXP = 0;
@@ -137,51 +134,42 @@ ProgressionManager::CheckAbilityProgress(Character* lockedCharacter,
   currentLevel = InteractionUtility::GetStatValue(lockedCharacter,
                                                   abilityLevelStr);
 
-  if (currentXP >= neededXP) {
+  if (currentXP >= neededXP) 
+  {
     InteractionUtility::IncreaseStatValue(lockedCharacter, abilityLevelStr,
                                           currentLevel + 1);
   }
-
-  delete [] abilityXPStr;
-  delete [] abilityLevelStr;
 }
 
 
-void
-ProgressionManager::IncreaseAbilityXP(Character* lockedCharacter,
-                                      const char* abilityName,
+void ProgressionManager::IncreaseAbilityXP(boost::shared_ptr<Character> lockedCharacter,
+                                      const std::string& abilityName,
                                       int increase)
 {
-  const char* abilityXPStr = InteractionUtility::GetXPString(abilityName);
+  const std::string abilityXPStr = InteractionUtility::GetXPString(abilityName);
   InteractionUtility::IncreaseStatValue(lockedCharacter, abilityXPStr, increase);
-  delete [] abilityXPStr;
   CheckAbilityProgress(lockedCharacter, abilityName);
 }
 
-void
-ProgressionManager::IncreaseSkillXP(Character* lockedCharacter,
-                                      const char* skillName,
+void ProgressionManager::IncreaseSkillXP(boost::shared_ptr<Character> lockedCharacter,
+                                      const std::string& skillName,
                                       int increase)
 {
-  const char* skillXPStr = InteractionUtility::GetXPString(skillName);
+  const std::string skillXPStr = InteractionUtility::GetXPString(skillName);
   InteractionUtility::IncreaseStatValue(lockedCharacter, skillXPStr, increase);
-  delete [] skillXPStr;
   CheckAbilityProgress(lockedCharacter, skillName);
 }
 
-void
-ProgressionManager::IncreaseSpecialityXP(Character* lockedCharacter,
-                                      const char* specialityName,
+void ProgressionManager::IncreaseSpecialityXP(boost::shared_ptr<Character> lockedCharacter,
+                                      const std::string& specialityName,
                                       int increase)
 {
-  const char* specialityXPStr = InteractionUtility::GetXPString(specialityName);
+  const std::string specialityXPStr = InteractionUtility::GetXPString(specialityName);
   InteractionUtility::IncreaseStatValue(lockedCharacter, specialityXPStr, increase);
-  delete [] specialityXPStr;
   CheckAbilityProgress(lockedCharacter, specialityName);
 }
 
-void
-ProgressionManager::HPIncreased(Character* lockedCharacter,
+void ProgressionManager::HPIncreased(boost::shared_ptr<Character> lockedCharacter,
                                 unsigned int amount)
 {
   unsigned int randomNumber = 0;
@@ -192,13 +180,13 @@ ProgressionManager::HPIncreased(Character* lockedCharacter,
       progression++;
     }
   }
-  if (progression) {
+  if (progression) 
+  {
     IncreaseAbilityXP(lockedCharacter, "endurance", progression);
   }
 }
 
-void
-ProgressionManager::StaminaIncreased(Character* lockedCharacter,
+void ProgressionManager::StaminaIncreased(boost::shared_ptr<Character> lockedCharacter,
                                      unsigned int amount)
 {
   unsigned int randomNumber = 0;
@@ -209,13 +197,13 @@ ProgressionManager::StaminaIncreased(Character* lockedCharacter,
       progression++;
     }
   }
-  if (progression) {
+  if (progression) 
+  {
     IncreaseAbilityXP(lockedCharacter, "endurance", progression);
   }
 }
 
-void
-ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
+void ProgressionManager::WillPowerIncreased(boost::shared_ptr<Character> lockedCharacter,
                                        unsigned int amount)
 {
   unsigned int randomNumber = 0;
@@ -226,43 +214,26 @@ ProgressionManager::WillPowerIncreased(Character* lockedCharacter,
       progression++;
     }
   }
-  if (progression) {
+  if (progression) 
+  {
     IncreaseAbilityXP(lockedCharacter, "resolve", progression);
   }
 }
 
-unsigned int
-ProgressionManager::RollDice(unsigned int lower, unsigned int higher)
+unsigned int ProgressionManager::RollDice(unsigned int lower, unsigned int higher)
 {
   return (rand() % (higher - lower + 1)) + lower;
 }
 
-unsigned int
-ProgressionManager::GetPenalty(Character* lockedCharacter,
-                               const char* attackType)
+unsigned int ProgressionManager::GetPenalty(boost::shared_ptr<Character> lockedCharacter,
+                               const std::string& attackType)
 {
   return 0;
 }
 
-unsigned int
-ProgressionManager::GetSkillLevel(Character* lockedCharacter,
-                                  const char* skillType)
+unsigned int ProgressionManager::GetSkillLevel(boost::shared_ptr<Character> lockedCharacter,
+                                  const std::string& skillType)
 {
   return (unsigned int) InteractionUtility::GetStatValue(lockedCharacter,
                                                          skillType);
 }
-
-unsigned int
-ProgressionManager::GetSkillOrAbilityXP(Character* lockedCharacter,
-                                        const char* type)
-{
-  size_t length = strlen(type) + strlen("XP") + 1;
-  char* str = new char[length];
-  unsigned int xp = 0;
-  strncat(str, type, length);
-  strncat(str, "XP", length);
-  xp = (unsigned int) InteractionUtility::GetStatValue(lockedCharacter, str);
-  delete [] str;
-  return xp;
-}
-

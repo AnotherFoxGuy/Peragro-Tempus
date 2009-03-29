@@ -23,6 +23,7 @@
 
 #include "common/util/ptstring.h"
 #include "common/util/timer.h"
+#include "../entity/entitymanager.h"
 
 class NpcEntity;
 
@@ -47,7 +48,7 @@ public:
   void pause(bool pause) { paused = pause; }
   bool isPaused(void) { return paused; }
 
-  static AI* createAI(const std::string& ai_name, NpcEntity* npc);
+  static AI* createAI(const std::string& ai_name, boost::shared_ptr<NpcEntity> npc);
 
   virtual void LoadFromDB() = 0;
   virtual void SaveToDB() = 0;

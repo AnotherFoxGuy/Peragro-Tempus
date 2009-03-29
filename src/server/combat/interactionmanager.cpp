@@ -56,7 +56,6 @@ extern "C" void __cxa_pure_virtual()
 InteractionManager::InteractionManager()
 {
   interactionQueue = new InteractionQueue();
-  notificationDistance = 10;
   begin();
 }
 
@@ -92,12 +91,12 @@ InteractionManager::NormalAttack(Interaction *interaction)
 {
   DEBUG("NormalAttack");
   unsigned int targetID = 0;
-  Character* lockedTarget = 0;
+  boost::shared_ptr<Character> target;
   int damage = 0;
 
-  Character* lockedAttacker = interaction->character;
+  boost::shared_ptr<Character> attacker = interaction->character.lock();
 
-  targetID = lockedAttacker->GetTargetID();
+  targetID = attacker->GetTargetID();
 
   if (targetID == 0) {
     printf(IM "\n\n Please file a bug or notify the peragro team at #peragro "
@@ -105,27 +104,27 @@ InteractionManager::NormalAttack(Interaction *interaction)
     return false;
   }
 
-  lockedTarget = GetTargetCharacter(lockedAttacker);
-  if (!lockedTarget) return false;
+  target = GetTargetCharacter(attacker);
+  if (!target) return false;
 
   // For normal attack it is not legal to attack the own character.
-  if (lockedAttacker->GetId() == lockedTarget->GetId())
+  if (attacker->GetId() == target->GetId())
     return false;
 
-  if (!TargetAttackable(lockedAttacker, lockedTarget))
+  if (!TargetAttackable(attacker, target))
     return false;
 
   // Make sure the character has enough stamina to do action
-  if (!DeductStamina(lockedAttacker, interaction))
+  if (!DeductStamina(attacker, interaction))
     return false;
 
-  damage = CalculateDamage(lockedAttacker, lockedTarget);
+  damage = CalculateDamage(attacker, target);
 
   /*
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
 
-  CharacterStats* stats = lockedAttacker->getStats();
+  CharacterStats* stats = attacker->getStats();
   printf("CombatManager: HP before deduction: %d\n", stats->getAmount(hp));
   stats->takeStat(hp, static_cast<int>(damage));
   printf("CombatManager: HP after deduction: %d\n", stats->getAmount(hp));
@@ -134,32 +133,29 @@ InteractionManager::NormalAttack(Interaction *interaction)
 
   if (static_cast<int>(stats->getAmount(hp)) < damage)
   {
-    ReportDeath(lockedTarget);
+    ReportDeath(target);
   } else {
     if (damage > 0 ) {
-      ReportDamage(lockedTarget);
+      ReportDamage(target);
     }
   }
   */
   return true;
 }
 
-void
-InteractionManager::ReportDeath(Character *lockedCharacter)
+void InteractionManager::ReportDeath(boost::shared_ptr<Character> character)
 {
   DEBUG("ReportDeath");
   DeathMessage msg;
   ByteStream statsbs;
-  msg.setEntityId(lockedCharacter->GetId());
+  msg.setEntityId(character->GetId());
   msg.serialise(&statsbs);
   // Report the death to everyone nearby.
-  NetworkHelper::distancecast(statsbs,
-                              lockedCharacter,
-                              GetNotificationDistance());
-  DropAllItems(lockedCharacter);
+  NetworkHelper::localcast(statsbs, character);
+  DropAllItems(character);
 }
 
-void InteractionManager::DropAllItems(Character *lockedCharacter)
+void InteractionManager::DropAllItems(boost::shared_ptr<Character> character)
 {
 /*
   DEBUG("DropAllItems");
@@ -168,7 +164,7 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
   int itemsDropped = 0;
 
   // Player died, need to spawn all the items.
-  Inventory* inventory = lockedCharacter->getInventory();
+  Inventory* inventory = character->getInventory();
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
     const InventoryEntry* entry = inventory->getItem(slot);
@@ -193,14 +189,14 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
       // Remove all items from the players slot
       // Make sure to send those updates
       EquipMessage unequip_msg;
-      unequip_msg.setEntityId(lockedCharacter->GetId());
+      unequip_msg.setEntityId(character->GetId());
       unequip_msg.setSlotId(slot);
       unequip_msg.setItemId(0); // No Item! Item::NoItem
       unequip_msg.setFileName(ptString::Null);
       unequip_msg.setMeshName(ptString::Null);
       ByteStream bs;
       unequip_msg.serialise(&bs);
-      NetworkHelper::localcast(bs, lockedCharacter);
+      NetworkHelper::localcast(bs, character);
 
       // Create new entity from item.
       ItemEntity* e = new ItemEntity();
@@ -212,8 +208,8 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
       const float radius = 0.8f;
       const WFMath::Vector<3> delta(cos(radians) * radius, sin(radians) * radius,
         0.0f);
-      ent->SetPosition(WFMath::Point<3>(lockedCharacter->getEntity()->GetPosition() + delta));
-      ent->SetSector(lockedCharacter->getEntity()->GetSector());
+      ent->SetPosition(WFMath::Point<3>(character->getEntity()->GetPosition() + delta));
+      ent->SetSector(character->getEntity()->GetSector());
 
       itemsDropped++;
       Server::getServer()->addEntity(ent, true);
@@ -222,54 +218,43 @@ void InteractionManager::DropAllItems(Character *lockedCharacter)
 */
 }
 
-void InteractionManager::SetNotificationDistance(unsigned int distance)
-{
-  notificationDistance = distance;
-}
-
-unsigned int InteractionManager::GetNotificationDistance()
-{
-  return notificationDistance;
-}
-
-void
-InteractionManager::ReportDamage(Character *lockedCharacter)
+void InteractionManager::ReportDamage(boost::shared_ptr<Character> character)
 {
   DEBUG("ReportDamage");
 /*
-  CharacterStats* stats = lockedCharacter->getStats();
+  CharacterStats* stats = character->getStats();
   Stat* hp = Server::getServer()->getStatManager()->
     findByName(ptString("Health", strlen("Health")));
 
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(hp->GetId());
-  msg.setEntityId(lockedCharacter->GetId());
+  msg.setEntityId(character->GetId());
   msg.setName(ptString("Health", strlen("Health")));
   msg.setLevel(stats->getAmount(hp));
   msg.serialise(&statsbs);
   // Report the damage to everyone nearby.
   NetworkHelper::distancecast(statsbs,
-                              lockedCharacter,
+                              character,
                               GetNotificationDistance());
 */
 }
 
 bool
-InteractionManager::DeductStamina(Character* lockedCharacter,
+InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
                                   Interaction *interaction)
 {
   DEBUG("DeductStamin");
 
   float currentStamina = 0;
-  float staminaDeduction = static_cast<int>(GetWeaponHeft(lockedCharacter) /
-                                            GetStrength(lockedCharacter) +
+  float staminaDeduction = static_cast<int>(GetWeaponHeft(character) /
+                                            GetStrength(character) +
                                             interaction->staminaRequired);
 /*
   Stat* stamina = Server::getServer()->getStatManager()->
     findByName(ptString("Stamina", strlen("Stamina")));
 
-  CharacterStats* stats = lockedCharacter->getStats();
+  CharacterStats* stats = character->getStats();
 
   if (!stamina || !stats)
   {
@@ -289,39 +274,39 @@ InteractionManager::DeductStamina(Character* lockedCharacter,
 
   stats->takeStat(stamina, static_cast<int>(staminaDeduction));
 
-  SendStatUpdate(stamina, stats, lockedCharacter, "Stamina",
+  SendStatUpdate(stamina, stats, character, "Stamina",
     InteractionManagerSendTo::CHARACTER);
 */
   return true;
 }
 
 unsigned int
-InteractionManager::GetAttackChance(Character* lockedAttacker,
-                                     Character* lockedTarget)
+InteractionManager::GetAttackChance(boost::shared_ptr<Character> attacker,
+                                     boost::shared_ptr<Character> target)
 {
   DEBUG("GetAttackChance");
-  return GetAgility(lockedAttacker) * GetSkillBonus(lockedAttacker) -
-    PT::Math::MinUI(GetAgility(lockedTarget), GetSapience(lockedTarget)) *
-    PT::Math::MaxUI(PT::Math::MaxUI(GetBlock(lockedTarget),
-      GetDodge(lockedTarget)), GetParry(lockedTarget));
+  return GetAgility(attacker) * GetSkillBonus(attacker) -
+    PT::Math::MinUI(GetAgility(target), GetSapience(target)) *
+    PT::Math::MaxUI(PT::Math::MaxUI(GetBlock(target),
+      GetDodge(target)), GetParry(target));
 }
 
 int
-InteractionManager::CalculateDamage(Character* lockedAttacker,
-                                         Character* lockedTarget)
+InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
+                                         boost::shared_ptr<Character> target)
 {
   DEBUG("CalculateDamage");
 
   int damage = 0;
   const unsigned int attackResult = RollDice();
-  const unsigned int attackChance = GetAttackChance(lockedAttacker,
-                                                    lockedTarget);
+  const unsigned int attackChance = GetAttackChance(attacker,
+                                                    target);
 
   if (attackResult <= attackChance)
   {
     damage = (attackChance - attackResult) *
-      GetWeaponDamage(lockedAttacker) +
-      GetStrength(lockedAttacker);
+      GetWeaponDamage(attacker) +
+      GetStrength(attacker);
   }
 
   // If attackResult was 10% or less of attackChance, critcal hit.
@@ -335,8 +320,8 @@ InteractionManager::CalculateDamage(Character* lockedAttacker,
   printf("Damage:%d\n", damage);
   printf("attackChance is set to:%d\n", attackChance);
   printf("attackResult is set to:%d\n", attackResult);
-  printf("weapondamage is set to:%d\n", GetWeaponDamage(lockedAttacker));
-  printf("strength is set to:%d\n", GetStrength(lockedAttacker));
+  printf("weapondamage is set to:%d\n", GetWeaponDamage(attacker));
+  printf("strength is set to:%d\n", GetStrength(attacker));
 
   return damage;
 }
@@ -363,8 +348,8 @@ InteractionManager::PerformInteraction(Interaction* interaction)
 }
 
 bool
-InteractionManager::TargetAttackable(Character* lockedAttacker,
-                                     Character* lockedTarget)
+InteractionManager::TargetAttackable(boost::shared_ptr<Character> attacker,
+                                     boost::shared_ptr<Character> target)
 {
   DEBUG("TargetAttackable");
   float maxAttackDistance = 0;
@@ -373,10 +358,10 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   float attackAngle = 0;
   float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
-  const WFMath::Point<3> attackerPos(lockedAttacker->GetPosition());
-  const WFMath::Point<3> tarGetPosition(lockedTarget->GetPosition());
+  const WFMath::Point<3> attackerPos(attacker->GetPosition());
+  const WFMath::Point<3> tarGetPosition(target->GetPosition());
 
-  maxAttackDistance = GetReach(lockedAttacker);
+  maxAttackDistance = GetReach(attacker);
   distance = Distance(attackerPos, tarGetPosition);
 
   printf(IM "attackerPos: %s, tarGetPosition: %s, distance %f, "
@@ -393,7 +378,7 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   WFMath::Point<3> difference(attackerPos - tarGetPosition);
 
   attackerRotation =
-    PT::Math::NormalizeAngle(lockedAttacker->GetRotation());
+    PT::Math::NormalizeAngle(attacker->GetRotation());
 
   if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
   attackAngle = PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
@@ -412,8 +397,8 @@ InteractionManager::TargetAttackable(Character* lockedAttacker,
   return true;
 }
 
-bool InteractionManager::SelectTarget(PcEntity* sourceEntity,
-                                 unsigned int targetID)
+bool InteractionManager::SelectTarget(boost::shared_ptr<PcEntity> sourceEntity,
+                                      unsigned int targetID)
 {
   DEBUG("SelectTarget");
   printf(IM "Got selection request, target: %d'n", targetID);
@@ -430,16 +415,16 @@ bool InteractionManager::SelectTarget(PcEntity* sourceEntity,
   return true;
 }
 
-Character* InteractionManager::GetTargetCharacter(Character* lockedCharacter)
+boost::shared_ptr<Character> InteractionManager::GetTargetCharacter(boost::shared_ptr<Character> character)
 {
   DEBUG("GetTargetCharacter");
   Common::Entity::Entityp targetEntity = Server::getServer()->getEntityManager()->
-                              FindById(lockedCharacter->GetTargetID());
+                              FindById(character->GetTargetID());
 
   if (!targetEntity)
   {
     printf(IM "Invalid target\n");
-    return 0;
+    return boost::shared_ptr<Character>();
   }
 
   if ((targetEntity->GetType() != Common::Entity::PlayerEntityType)
@@ -448,13 +433,13 @@ Character* InteractionManager::GetTargetCharacter(Character* lockedCharacter)
     // Should not happen, but do not crash on release build, since fake message
     // could bring down the server then.
     printf(IM "Target neither player nor npc\n");
-    return 0;
+    return boost::shared_ptr<Character>();
   }
 
-  return (Character*)targetEntity.get();
+  return boost::shared_dynamic_cast<Character>(targetEntity);
 }
 
-bool InteractionManager::QueueInteraction(PcEntity *sourceEntity,
+bool InteractionManager::QueueInteraction(boost::shared_ptr<PcEntity> sourceEntity,
                                           unsigned int interactionID)
 {
   DEBUG("QueueInteraction");
@@ -477,53 +462,53 @@ bool InteractionManager::QueueInteraction(PcEntity *sourceEntity,
   return true;
 }
 
-unsigned int InteractionManager::GetBlock(Character* lockedCharacter)
+unsigned int InteractionManager::GetBlock(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Block") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Block") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Block");
 }
 
-unsigned int InteractionManager::GetDodge(Character* lockedCharacter)
+unsigned int InteractionManager::GetDodge(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Dodge") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Dodge") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Dodge");
 }
 
-unsigned int InteractionManager::GetParry(Character* lockedCharacter)
+unsigned int InteractionManager::GetParry(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Parry") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Parry") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Parry");
 }
 
-unsigned int InteractionManager::GetStrength(Character* lockedCharacter)
+unsigned int InteractionManager::GetStrength(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Strength") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Strength") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Strength");
 }
 
-unsigned int InteractionManager::GetReach(Character* lockedCharacter)
+unsigned int InteractionManager::GetReach(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Reach") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Reach") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Reach") +
          5;   // TODO This should not be here, just till the DB is setup
               // to correctly set Reach to something...
 }
 
-unsigned int InteractionManager::GetWeaponDamage(Character* lockedCharacter)
+unsigned int InteractionManager::GetWeaponDamage(boost::shared_ptr<Character> character)
 {
-  return GetStatValueForEquipedWeapons(lockedCharacter, "Damage");
+  return GetStatValueForEquipedWeapons(character, "Damage");
 }
 
-unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* lockedCharacter,
-                                                   const char* statName)
+unsigned int InteractionManager::GetStatValueForEquipedWeapons(boost::shared_ptr<Character> character,
+                                                   const std::string& statName)
 {
   unsigned int value = 0;
-  boost::shared_ptr<Inventory> inventory = lockedCharacter->GetInventory();
+  boost::shared_ptr<Inventory> inventory = character->GetInventory();
   if (!inventory)
   {
     return value;
@@ -532,7 +517,7 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* locked
 /*
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
-    Item* item = InteractionUtility::GetItem(lockedCharacter, slot);
+    Item* item = InteractionUtility::GetItem(character, slot);
     if (!item)
     {
       continue;
@@ -548,27 +533,27 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(Character* locked
   return value;
 }
 
-unsigned int InteractionManager::GetAgility(Character* lockedCharacter)
+unsigned int InteractionManager::GetAgility(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Agility") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter,
+  return InteractionUtility::GetStatValue(character, "Agility") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character,
                                                             "Agility");
 }
 
-unsigned int InteractionManager::GetSkillBonus(Character* lockedCharacter)
+unsigned int InteractionManager::GetSkillBonus(boost::shared_ptr<Character> character)
 {
   return 8;
 }
 
-unsigned int InteractionManager::GetSapience(Character* lockedCharacter)
+unsigned int InteractionManager::GetSapience(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(lockedCharacter, "Sapience") +
-         InteractionUtility::GetStatValueForAllEquipedItems(lockedCharacter, "Sapience");
+  return InteractionUtility::GetStatValue(character, "Sapience") +
+         InteractionUtility::GetStatValueForAllEquipedItems(character, "Sapience");
 }
 
-unsigned int InteractionManager::GetWeaponHeft(Character* lockedCharacter)
+unsigned int InteractionManager::GetWeaponHeft(boost::shared_ptr<Character> character)
 {
-  return GetStatValueForEquipedWeapons(lockedCharacter, "Heft");
+  return GetStatValueForEquipedWeapons(character, "Heft");
 }
 
 unsigned int InteractionManager::RollDice()
@@ -580,7 +565,7 @@ unsigned int InteractionManager::RollDice()
 void
 InteractionManager::SendStatUpdate(const Stat* stat,
                                    const CharacterStats* stats,
-                                   Character* lockedCharacter,
+                                   boost::shared_ptr<Character> character,
                                    const char* name,
                                    int target)
 {
@@ -588,7 +573,7 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   StatsChangeMessage msg;
   ByteStream statsbs;
   msg.setStatId(stat->GetId());
-  msg.setEntityId(lockedCharacter->GetId());
+  msg.setEntityId(character->GetId());
   msg.setName(ptString(name, strlen(name)));
   msg.setLevel(stats->getAmount(stat));
   msg.serialise(&statsbs);
@@ -598,11 +583,11 @@ InteractionManager::SendStatUpdate(const Stat* stat,
   }
   else if (target == InteractionManagerSendTo::LOCALCAST)
   {
-    NetworkHelper::localcast(statsbs, lockedCharacter);
+    NetworkHelper::localcast(statsbs, character);
   }
   else if (target == InteractionManagerSendTo::CHARACTER)
   {
-    NetworkHelper::sendMessage(lockedCharacter, statsbs);
+    NetworkHelper::sendMessage(character, statsbs);
   }
 }
 */

@@ -105,46 +105,8 @@ void Server::delEntity(Entity* entity)
   */
 }
 
-void Server::moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
+void Server::moveEntity(boost::shared_ptr<Character> entity, const WFMath::Point<3>& pos, float speed, bool run)
 {
-  MoveToMessage response_msg;
-  response_msg.setTo(pos);
-  response_msg.setFrom(entity->GetPosition());
-  response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->GetId());
-  response_msg.setRun(run);
-  response_msg.setTurn(0); // No continuous rotation
-  response_msg.setJump(false);
-
-  entity->walkTo(pos, speed);
-
-  ByteStream bs;
-  response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity);
-}
-
-void Server::moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
-{
-  MoveToMessage response_msg;
-  response_msg.setTo(pos);
-  response_msg.setFrom(entity->GetPosition());
-  response_msg.setSpeed(speed);
-  response_msg.setEntityId(entity->GetId());
-  response_msg.setRun(run);
-  response_msg.setTurn(0); // No continuous rotation
-  response_msg.setJump(false);
-
-  entity->walkTo(pos, speed);
-
-  ByteStream bs;
-  response_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, entity);
-}
-
-void Server::moveEntity(NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run)
-{
-  if (!entity) return;
-
   MoveToMessage response_msg;
   response_msg.setTo(pos);
   response_msg.setFrom(entity->GetPosition());

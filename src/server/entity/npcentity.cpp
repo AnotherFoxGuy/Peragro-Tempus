@@ -36,7 +36,7 @@ void NpcEntity::LoadFromDB()
     throw "None or multiple npcentity rows for npcentity?!";
   }
 
-  AI* ai = AI::createAI(arr[0]->ainame, this);
+  AI* ai = AI::createAI(arr[0]->ainame, boost::shared_dynamic_cast<NpcEntity>(this_));
   if (!ai)
   {
     printf("E: Invalid AI setting for NpcEntity!\n");

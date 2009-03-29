@@ -38,24 +38,24 @@ public:
   /// Destructor.
   ~SkillManager();
 
-  void CheckDeprecation(Character* lockedCharacter,
-                        const char* skill);
-  float GetTimeSkillUnused(Character* lockedCharacter,
-                           const char* skill);
-  void CharacterLogou(Character* lockedCharacter,
-                      const char* skill);
-  void ResetTimeSkillLastUsed(Character* lockedCharacter,
-                              const char* skill);
-  float GetTimeUnusedLastLogin(Character *lockedCharacter,
-                               const char* skill);
-  float GetTimeUnusedThisLogin(Character *lockedCharacter,
-                               const char* skill);
-  const char* GetSkillLastUsedStr(const char* skill);
-  void CharacterLogout(Character* lockedCharacter,
-                       const char* skill);
-  void UpdateTimeUnused(Character* lockedCharacter,
-                        const char* skill);
-  static const char* GetAbilityNameForSkill(const char* skillType);
+  void CheckDeprecation(boost::shared_ptr<Character> character,
+                        const std::string& skill);
+  float GetTimeSkillUnused(boost::shared_ptr<Character> character,
+                           const std::string& skill);
+  void CharacterLogou(boost::shared_ptr<Character> character,
+                      const std::string& skill);
+  void ResetTimeSkillLastUsed(boost::shared_ptr<Character> character,
+                              const std::string& skill);
+  float GetTimeUnusedLastLogin(boost::shared_ptr<Character> character,
+                               const std::string& skill);
+  float GetTimeUnusedThisLogin(boost::shared_ptr<Character> character,
+                               const std::string& skill);
+  std::string GetSkillLastUsedStr(const std::string& skill);
+  void CharacterLogout(boost::shared_ptr<Character> character,
+                       const std::string& skill);
+  void UpdateTimeUnused(boost::shared_ptr<Character> character,
+                        const std::string& skill);
+  static std::string GetAbilityNameForSkill(const std::string& skillType);
 
 
 private:

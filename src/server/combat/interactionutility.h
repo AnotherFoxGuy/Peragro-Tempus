@@ -38,34 +38,34 @@ public:
    * It would be tempting to use this function directly,however a character can
    * get bonuses, therefore this function should be called from the different
    * getters for stats.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @param statName The stat's name.
    * @return The stats current value.
    */
-  static unsigned int GetStatValue(Character* lockedCharacter,
-                                   const char* statName);
+  static unsigned int GetStatValue(boost::shared_ptr<Character> character,
+                                    const std::string& statName);
   /**
    * Combines the character's items stat values, based on stat name
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @param statName The stat's name.
    * @return The items bonuses given a special stat.
    */
-  static unsigned int GetStatValueForAllEquipedItems(Character* lockedCharacter,
-                                                     const char* statName);
+  static unsigned int GetStatValueForAllEquipedItems(boost::shared_ptr<Character> character,
+                                                      const std::string& statName);
   /**
    * Used to get an equiped item based on the slot number.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @param slot Which item, is decided by the slot its equiped on.
    * @return The item in that slot, or NULL if none found.
    */
-  static Item* GetItem(Character* lockedCharacter, unsigned char slot);
+  static boost::shared_ptr<ItemEntity> GetItem(boost::shared_ptr<Character> character, unsigned char slot);
   /**
    * Queries the stat value from an item based on stat name.
    * @param item The item to return the stat value for.
    * @param statName The stat's name.
    * @return The items stat based on the statName.
    */
-  static unsigned int GetStatValueForItem(const Item* item, const char* statName);
+  static unsigned int GetStatValueForItem(boost::shared_ptr<ItemEntity> item, const std::string& statName);
   /**
    * Increases the level of a stat.
    * @param lockedCharacter The locked version of the character.
@@ -73,21 +73,15 @@ public:
    * @param increase The amount to increase the stat level with.
    * @return None.
    */
-  static void IncreaseStatValue(Character* lockedCharacter,
-                                const char* statName,
+  static void IncreaseStatValue(boost::shared_ptr<Character> character,
+                                const std::string& statName,
                                 unsigned int increase);
   /**
    * Adds XP to the end of 'name', caller has to free.
    * @param name The name to append XP to.
    * @return The name with XP appended, caller has to free.
    */
-  static const char* GetXPString(const char* name);
-
-  /**
-   * Gives a string with 'Agility' back that caller has to free.
-   * @return The string containing 'Agility'.
-   */
-  static const char* GetAgilityString();
+  static std::string GetXPString(const std::string& name);
 };
 
 #endif // INTERACTIONUTILITY

@@ -27,7 +27,7 @@ protected:
   virtual void timeOut();
 
 public:
-  IdleAI(NpcEntity* npc)  {}
+  IdleAI(boost::shared_ptr<NpcEntity> npc)  {}
   ~IdleAI() {}
 
   virtual void think();

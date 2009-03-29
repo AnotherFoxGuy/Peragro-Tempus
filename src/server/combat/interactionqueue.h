@@ -76,7 +76,7 @@ public:
    * @param lockedCharacter The character for whom to remove interactiosn.
    * @return None.
    */
-  void RemoveAllInteractions(Character* lockedCharacter);
+  void RemoveAllInteractions(boost::shared_ptr<Character> lockedCharacter);
 
   /**
    * Removes an entry from the queue.

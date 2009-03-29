@@ -20,8 +20,8 @@
 
 #include "server/server.h"
 
-unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
-                                                     const char* statName)
+unsigned int InteractionUtility::GetStatValueForItem(boost::shared_ptr<ItemEntity> item,
+                                                     const std::string& statName)
 {
   /*
   Server *server = Server::getServer();
@@ -38,8 +38,8 @@ unsigned int InteractionUtility::GetStatValueForItem(const Item* item,
   return 0;
 }
 
-unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
-                                              const char* statName)
+unsigned int InteractionUtility::GetStatValue(boost::shared_ptr<Character> character,
+                                              const std::string& statName)
 {
   /*
   Server* server = Server::getServer();
@@ -52,18 +52,17 @@ unsigned int InteractionUtility::GetStatValue(Character* lockedCharacter,
     printf("BUG: Unable to find stat: %s\n", statName);
     return 0;
   }
-  return lockedCharacter->getStats()->getAmount(stat);
+  return character->getStats()->getAmount(stat);
   */
   return 0;
 }
 
-unsigned int
-InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
-                                                   const char* statName)
+unsigned int InteractionUtility::GetStatValueForAllEquipedItems(boost::shared_ptr<Character> character,
+                                                   const std::string& statName)
 {
   unsigned int value = 0;
-  boost::shared_ptr<Inventory> inventory = lockedCharacter->GetInventory();
-  Item* item;
+  boost::shared_ptr<Inventory> inventory = character->GetInventory();
+  boost::shared_ptr<ItemEntity> item;
 
   if (!inventory)
   {
@@ -72,7 +71,7 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
 /*
   for (unsigned char slot = 0; slot < inventory->NoSlot; slot++)
   {
-    item = GetItem(lockedCharacter, slot);
+    item = GetItem(character, slot);
     if (!item)
     {
       continue;
@@ -83,12 +82,12 @@ InteractionUtility::GetStatValueForAllEquipedItems(Character* lockedCharacter,
   return value;
 }
 
-Item* InteractionUtility::GetItem(Character* lockedCharacter,
-                                  unsigned char slot)
+boost::shared_ptr<ItemEntity> InteractionUtility::GetItem(boost::shared_ptr<Character> character,
+                                                          unsigned char slot)
 {
   /*
   Server *server = Server::getServer();
-  Inventory* inventory = lockedCharacter->getInventory();
+  Inventory* inventory = character->getInventory();
 
   if (!inventory)
   {
@@ -108,12 +107,11 @@ Item* InteractionUtility::GetItem(Character* lockedCharacter,
   Item* item = server->getItemManager()->findById(entry->id);
   return item;
   */
-  return 0;
+  return boost::shared_ptr<ItemEntity>();
 }
 
-void
-InteractionUtility::IncreaseStatValue(Character* lockedCharacter,
-                                      const char* statName,
+void InteractionUtility::IncreaseStatValue(boost::shared_ptr<Character> character,
+                                      const std::string& statName,
                                       unsigned int increase)
 {
   Server* server = Server::getServer();
@@ -126,29 +124,15 @@ InteractionUtility::IncreaseStatValue(Character* lockedCharacter,
     server->getStatManager()->dumpAllStatNames();
     printf("BUG: Unalbe to find stat: %s\n", statName);
   }
-  statValue += lockedCharacter->getStats()->getAmount(stat);
+  statValue += character->getStats()->getAmount(stat);
 
-  lockedCharacter->getStats()->setStat(stat, statValue);
+  character->getStats()->setStat(stat, statValue);
   */
 }
 
 // Caller has to delete
-const char*
-InteractionUtility::GetXPString(const char* name)
+std::string InteractionUtility::GetXPString(const std::string& name)
 {
-  size_t length = strlen(name) + strlen("XP") + 1;
-  char* xpName = new char[length];
-  strncat(xpName, name, length);
-  strncat(xpName, "XP", length);
-  return xpName;
-}
-
-// Caller has to delete
-const char*
-InteractionUtility::GetAgilityString(void)
-{
-  size_t length = strlen("Agility") + 1;
-  char* agilityName = new char[length];
-  strncat(agilityName, "Agility", length);
-  return agilityName;
+  std::string str = name + "XP";
+  return str;
 }

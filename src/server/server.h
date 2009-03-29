@@ -20,6 +20,7 @@
 #define SERVER_H
 
 #include <wfmath/point.h>
+#include "entity/entitymanager.h"
 
 class TableManager;
 class Database;
@@ -29,12 +30,10 @@ class Network;
 class UserManager;
 class TimerEngine;
 class Entity;
-class PcEntity;
-class NpcEntity;
+class Character;
 class CharacterEntity;
 class Spawner;
 class ByteStream;
-class MountEntity;
 class CollisionDetection;
 class ZoneManager;
 class EnvironmentManager;
@@ -144,9 +143,7 @@ public:
   ItemTemplatesManager* GetItemTemplatesManager() { return this->itemTemplatesManager; }
 
   void delEntity(Entity* entity);
-  void moveEntity(PcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
-  void moveEntity(MountEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
-  void moveEntity(NpcEntity* entity, const WFMath::Point<3>& pos, float speed, bool run);
+  void moveEntity(boost::shared_ptr<Character> entity, const WFMath::Point<3>& pos, float speed, bool run);
   void broadCast(const ByteStream& bs);
 };
 

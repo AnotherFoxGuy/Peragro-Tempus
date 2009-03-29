@@ -48,14 +48,14 @@ public:
    * @param targetID the Entity ID of the target.
    * @return True upon sucess, otherwise false.
    */
-  bool SelectTarget(PcEntity *sourceEntity, unsigned int tagetID);
+  bool SelectTarget(boost::shared_ptr<PcEntity> sourceEntity, unsigned int tagetID);
   /**
    * Selects new target for a given character.
    * @param sourceEntity entity for the character that request target selection.
    * @param interactionID the action ID for the interaction.
    * @return True upon sucess, otherwise false.
    */
-  bool QueueInteraction(PcEntity *sourceEntity,
+  bool QueueInteraction(boost::shared_ptr<PcEntity> sourceEntity,
                         unsigned int interactionID);
 
   void shutdown();
@@ -69,8 +69,6 @@ protected:
 
 
 private:
-  /// How far away other characters can be but still receive local updates.
-  unsigned int notificationDistance;
   /// The queue containing pending interactions.
   InteractionQueue* interactionQueue;
   /**
@@ -81,24 +79,24 @@ private:
   bool NormalAttack(Interaction* interaction);
   /**
    * Deducts the players stamina after an attack.
-   * @param lockedCharacter The character to deduct stamina for.
+   * @param character The character to deduct stamina for.
    * @param interaction The interaction that causes stamina deduction.
    */
-  bool DeductStamina(Character* lockedCharacter, Interaction* interaction);
+  bool DeductStamina(boost::shared_ptr<Character> character, Interaction* interaction);
   /**
    * Calculates the attacking character's chance of hitting.
-   * @param lockedAttacker The locked version of the attacking character.
-   * @param lockedTarget The locked version of the target character.
+   * @param attacker The locked version of the attacking character.
+   * @param target The locked version of the target character.
    * @return attack chance.
    */
-  unsigned int GetAttackChance(Character* lockedAttacker, Character* lockedTarget);
+  unsigned int GetAttackChance(boost::shared_ptr<Character> attacker, boost::shared_ptr<Character> target);
   /**
    * Calculates the damage made.
-   * @param lockedAttacker The locked version of the attacking character.
-   * @param lockedTarget The locked version of the target character.
+   * @param attacker The locked version of the attacking character.
+   * @param target The locked version of the target character.
    * @return attack chance.
    */
-  int CalculateDamage(Character* lockedAttacker, Character* lockedTarget);
+  int CalculateDamage(boost::shared_ptr<Character> attacker, boost::shared_ptr<Character> target);
   /**
    * Used to direct an interaction to the correct handler.
    * @param interaction The interaction.
@@ -107,86 +105,86 @@ private:
   bool PerformInteraction(Interaction* interaction);
   /**
    * Checks that target is within reach and "legal" target.
-   * @param lockedAttacker The locked version of the attacking character.
-   * @param lockedTarget The locked version of the target character.
+   * @param attacker The locked version of the attacking character.
+   * @param target The locked version of the target character.
    * @return true if attackable, otherwise false.
    */
-  bool TargetAttackable(Character* lockedAttacker, Character* lockedTarget);
+  bool TargetAttackable(boost::shared_ptr<Character> attacker, boost::shared_ptr<Character> target);
   /**
    * Finds the target marked for the given character.
-   * @param lockedCharacter The locked version of the attacking character.
-   * @return Unlocked version of the target character, or NULL if none.
+   * @param character The locked version of the attacking character.
+   * @return The target character, or NULL if none.
    */
-  Character* GetTargetCharacter(Character* lockedCharacter);
+  boost::shared_ptr<Character> GetTargetCharacter(boost::shared_ptr<Character> character);
   /**
    * Returns the combined block for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters block.
    */
-  unsigned int GetBlock(Character* lockedCharacter);
+  unsigned int GetBlock(boost::shared_ptr<Character> character);
   /**
    * Returns the combined dodge for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters dodge.
    */
-  unsigned int GetDodge(Character* lockedCharacter);
+  unsigned int GetDodge(boost::shared_ptr<Character> character);
   /**
    * Returns the combined parry for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters parry.
    */
-  unsigned int GetParry(Character* lockedCharacter);
+  unsigned int GetParry(boost::shared_ptr<Character> character);
   /**
    * Returns the combined strength for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters strength.
    */
-  unsigned int GetStrength(Character* lockedCharacter);
+  unsigned int GetStrength(boost::shared_ptr<Character> character);
   /**
    * Returns the combined reach for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters reach.
    */
-  unsigned int GetReach(Character* lockedCharacter);
+  unsigned int GetReach(boost::shared_ptr<Character> character);
   /**
    * Returns the combined agility for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters agility.
    */
-  unsigned int GetAgility(Character* lockedCharacter);
+  unsigned int GetAgility(boost::shared_ptr<Character> character);
   /**
    * Returns the combined skill bonuses.
    * @todo
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters skill bonuses.
    */
-  unsigned int GetSkillBonus(Character* lockedCharacter);
+  unsigned int GetSkillBonus(boost::shared_ptr<Character> character);
   /**
    * Returns the combined sapience for a character, including bonuses.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The characters sapience.
    */
-  unsigned int GetSapience(Character* lockedCharacter);
+  unsigned int GetSapience(boost::shared_ptr<Character> character);
   /**
    * Function to get the weapon(s) heft value.
-   * @param lockedCharacter The owner of the weapon
+   * @param character The owner of the weapon
    * @return The weapon(s) heft value.
    */
-  unsigned int GetWeaponHeft(Character* lockedCharacter);
+  unsigned int GetWeaponHeft(boost::shared_ptr<Character> character);
   /**
    * Calculates the damage given by the character's weapon(s).
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return The weapon damage.
    */
-  unsigned int GetWeaponDamage(Character* lockedCharacter);
+  unsigned int GetWeaponDamage(boost::shared_ptr<Character> character);
   /**
    * Combines the characters weapon stat values, based on stat name
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @param statName The stat's name.
    * @return The weapons bonuses given a special stat.
    */
-  unsigned int GetStatValueForEquipedWeapons(Character* lockedCharacter,
-                                      const char* statName);
+  unsigned int GetStatValueForEquipedWeapons(boost::shared_ptr<Character> lockedCharacter,
+                                            const std::string& statName);
   /**
    * Get a random number between 0 and 100.
    * @return A random number between 0 and 100.
@@ -207,22 +205,22 @@ private:
 
   /**
    * Used to report the death to nearby characters.
-   * @param lockedCharacter The locked character for which to report death.
+   * @param character The locked character for which to report death.
    * @return None.
    */
-  void ReportDeath(Character* lockedCharacter);
+  void ReportDeath(boost::shared_ptr<Character> character);
   /**
    * Drops all items from the given character.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return None.
    */
-  void DropAllItems(Character* lockedCharacter);
+  void DropAllItems(boost::shared_ptr<Character> character);
   /**
    * Reports the damage to all nearby characters.
-   * @param lockedCharacter The locked version of the character.
+   * @param character The locked version of the character.
    * @return None.
    */
-  void ReportDamage(Character* lockedCharacter);
+  void ReportDamage(boost::shared_ptr<Character> character);
   /**
    * Sets the distance for which to report nearby events.
    * @param distance The distance to report events for.
