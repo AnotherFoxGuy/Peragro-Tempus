@@ -30,6 +30,8 @@
 
 #include <string>
 
+#include <boost/shared_ptr.hpp>
+
 class iPointerLibrary;
 struct iCamera;
 struct iMeshWrapper;
@@ -45,6 +47,7 @@ namespace Common
   namespace World
   {
     struct Object;
+    typedef boost::shared_ptr<Object> Objectp;
   }
 }
 
@@ -69,7 +72,7 @@ struct iWorld : public virtual iBase
   /// Get the proximity range in units.
   virtual size_t GetRange() const = 0;
 
-  virtual void CommitChanges(Common::World::Object* object) = 0;
+  virtual void CommitChanges(Common::World::Objectp object) = 0;
 
   /// Set the resource path.
   //virtual void SetResourcePath(const std::string& path) = 0;

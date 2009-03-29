@@ -111,7 +111,7 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
       ||(entity->GetType() == NPCEntityType)
       ||(entity->GetType() == MountEntityType))
     {
-      entity->GetShape()->AddListener(this);
+      entity->AddListener(this);
     }
     
     NetworkAddEntity(entity);
@@ -135,7 +135,7 @@ void EntityManager::Remove(const Common::Entity::Entityp entity)
   }
 
   // Stop listening for movement.
-  entity->GetShape()->RemoveListener(this);
+  entity->RemoveListener(this);
 
   lock();
   Common::Entity::EntityManager::Remove(entity);
@@ -173,7 +173,7 @@ void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
   }
 
   // TODO: replace 100 with something configurable.
-  std::list<Common::Entity::Entityp> result = Queryp(WFMath::Ball<3>(entity->GetPosition(), 100));
+  std::list<Common::Entity::Entityp> result = Query(WFMath::Ball<3>(entity->GetPosition(), 100));
   std::list<Common::Entity::Entityp>::const_iterator it;
   for ( it=result.begin() ; it != result.end(); it++ )
   {
@@ -192,9 +192,12 @@ void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
 
 void DontDelete(Common::Entity::Entity*){}
 
-void EntityManager::Moved(Octree::Shape* shape)
+void EntityManager::Moved(WFMath::iShape* shape)
 {
-  Common::Entity::Entityp entity(shape->GetParent(), DontDelete); //TODO: hack :/
+  Common::Entity::Entity* ent = dynamic_cast<Common::Entity::Entity*>(shape);
+  if (ent) return;
+
+  Common::Entity::Entityp entity(ent, DontDelete); //TODO: hack :/
   std::list<Common::Entity::EntityCallback*>::iterator mit;
   for ( mit=callback_list.begin() ; mit != callback_list.end(); mit++ )
   {
@@ -213,7 +216,7 @@ void EntityManager::Moved(Octree::Shape* shape)
     }
 
     // TODO: replace 100 with something configurable.
-    std::list<Common::Entity::Entityp> result = Queryp(WFMath::Ball<3>(entity->GetPosition(), 100));
+    std::list<Common::Entity::Entityp> result = Query(WFMath::Ball<3>(entity->GetPosition(), 100));
     e->GetUser()->SendEntityDiff(result);
   }
 }

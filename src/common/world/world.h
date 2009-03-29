@@ -42,47 +42,42 @@ namespace Common
   }
 }
 
-typedef WFMath::OcTree<Common::World::Object, WFMath::AxisBox<3>, true>::Type Octree;
+typedef WFMath::OcTree<WFMath::AxisBox<3>, true>::Type Octree;
 
 namespace Common
 {
   namespace World
   {
-    struct Factory
+    typedef FactoriesTableVO Factory;
+
+    struct Object : WFMath::Shape<WFMath::AxisBox<3> >, ObjectsTableVO
     {
-      std::string factoryFile;
-      std::string factoryName;
+    private:
       WFMath::AxisBox<3> boundingBox;
-      size_t detailLevel;
-      std::string hash;
-    };
-
-    struct Object
-    {
-      Object() : worldBB(this) {}
-
-      Object(const Object& o) : worldBB(this)
+    public:
+      Object() {}
+      Object(const ObjectsTableVO& vo)
       {
-        id = o.id;
-        name = o.name;
-        factoryFile = o.factoryFile;
-        factoryName = o.factoryName;
-        position = o.position;
-        sector = o.sector;
-        worldBB = o.worldBB.Get();
-        worldBB.Set(o.worldBB.Get());
-        detailLevel = o.detailLevel;
+        id = vo.id; 
+        name = vo.name;
+        factoryFile = vo.factoryFile;
+        factoryName = vo.factoryName;
+        position = vo.position;
+        rotation = vo.rotation;
+        sector = vo.sector;
+        //boundingBox = vo.boundingBox;
+        this->SetShape(vo.boundingBox);
+        detailLevel = vo.detailLevel;
       }
 
-      size_t id;
-      std::string name;
-      std::string factoryFile;
-      std::string factoryName;
-      WFMath::Point<3> position;
-      std::string sector;
-      Octree::Shape worldBB;
-      size_t detailLevel;
+      virtual void SetShape(const WFMath::AxisBox<3>& v)
+      {
+        WFMath::Shape<WFMath::AxisBox<3> >::SetShape(v);
+        boundingBox = v;
+      }
     };
+
+    typedef boost::shared_ptr<Object> Objectp;
 
     class WorldManager
     {
@@ -91,10 +86,10 @@ namespace Common
       ObjectsTable objectsTable;
       FactoriesTable factoryTable;
 
-      typedef boost::shared_ptr<Object> Objectp;
-
       Octree octree;
       std::list<Objectp> objects;
+
+      void Insert(const Objectp object, bool unique);
 
     public:
       WorldManager();
@@ -104,7 +99,7 @@ namespace Common
 
       bool Add(const Objectp object, bool unique = true);
       bool AddLookUp(Objectp object, bool unique = true);
-      bool Update(const Object* object);
+      bool Update(const Objectp object);
       bool Remove(const Objectp object);
 
       bool Add(const Factory& factory);
@@ -112,10 +107,13 @@ namespace Common
 
       std::string GetMD5(const std::string& factoryFile, const std::string& factoryName)
       {
-        return factoryTable.GetMD5(factoryFile, factoryName);
+        try
+        {return factoryTable.GetSingle(factoryFile, factoryName)->hash;}
+        catch (char*)
+        {return "Invalid MD5";}
       }
 
-      Octree::QueryResult Query(const WFMath::Ball<3>& s);
+      std::list<Objectp> Query(const WFMath::Ball<3>& s);
     };
 
   } // namespace World

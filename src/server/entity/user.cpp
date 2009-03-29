@@ -41,10 +41,14 @@ void User::SetEntity(boost::shared_ptr<PcEntity> entity)
 
 void DontDelete1(Common::Entity::Entity*){}
 
-void User::Destroyed(Octree::Shape* shape)
+void User::Destroyed(WFMath::iShape* shape)
 {
-  Common::Entity::Entityp entity(shape->GetParent(), DontDelete1); //TODO: hack :/
-  SendRemoveEntity(entity);
+  Entity* ent = dynamic_cast<Entity*>(shape);
+  if (ent)
+  {
+    Entityp entity(ent, DontDelete1); //TODO: hack :/
+    SendRemoveEntity(entity);
+  }
 }
 
 void User::SendEntityDiff(const std::list<Common::Entity::Entityp>& entities)
@@ -77,7 +81,7 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
   if (knownEntitites.count(entity->GetId()) > 0) return;
   knownEntitites[entity->GetId()] = entity;
 
-  entity->GetShape()->AddListener(this);
+  entity->AddListener(this);
 
   printf("send addentity '%s' to '%s'\n", entity->GetName().c_str(), this->GetName().c_str());
 

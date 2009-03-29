@@ -25,14 +25,14 @@ namespace Common
   {
     WorldManager::WorldManager() : db("world.sqlite"), objectsTable(&db), factoryTable(&db)
     {
-      Array<Object> objs;
-      objectsTable.GetAll(objs);
-      for (size_t i = 0; i < objs.getCount(); i++)
+      ObjectsTableVOArray objs = objectsTable.GetAll();
+      ObjectsTableVOArray::iterator it;
+      for (it = objs.begin(); it != objs.end(); it++)
       {
-        printf("WorldManager: %s\n", objs[i].name.c_str());
-        boost::shared_ptr<Object> object(new Object(objs[i]));
+        printf("WorldManager: %d %s\n", (*it)->id, (*it)->name.c_str());
+        boost::shared_ptr<Object> object(new Object( *(*it).get() ));
         objects.push_back(object);
-        octree.Add(&object->worldBB);
+        octree.Add(object);
       }
     }
 
@@ -42,12 +42,9 @@ namespace Common
 
     bool WorldManager::HasData()
     {
-      Array<Factory> facts;
-      factoryTable.GetAll(facts);
-      Array<Object> objs;
-      objectsTable.GetAll(objs);
-
-      return facts.getCount() && objs.getCount();
+      FactoriesTableVOArray facts = factoryTable.GetAll();
+      ObjectsTableVOArray objs = objectsTable.GetAll();
+      return facts.size() && objs.size();
     }
 
     class SameId
@@ -58,34 +55,57 @@ namespace Common
       bool operator() (boost::shared_ptr<Object> o) { return t->id == o->id; }
     };
 
+     void WorldManager::Insert(const Objectp object, bool unique)
+     {
+       if (unique)
+          object->id = objectsTable.GetMaxId()+1;
+
+       objectsTable.Insert(object->id,
+                           object->name,
+                           object->factoryFile,
+                           object->factoryName,
+                           object->position,
+                           object->rotation,
+                           object->sector,
+                           object->GetShape(),
+                           object->detailLevel);
+     }
+
     bool WorldManager::Add(const Objectp object, bool unique)
     {
       // If object is already present, just update the DB instead.
       if (std::find(objects.begin(), objects.end(), object) != objects.end())
-        return Update(object.get());
+        return Update(object);
 
       // Remove any objects with the same ID.
       objects.remove_if(SameId(object));
 
-      objectsTable.Insert(*object.get(), unique);
+      Insert(object, unique);
       objects.push_back(object);
-      return octree.Add(&object->worldBB);
+      return octree.Add(object);
     }
 
     bool WorldManager::AddLookUp(Objectp object, bool unique)
     {
-      object->worldBB = factoryTable.GetBB(object->factoryFile, object->factoryName);
+      WFMath::AxisBox<3> box;
+      try 
+      {box = factoryTable.GetSingle(object->factoryFile, object->factoryName)->boundingBox;}
+      catch (char*){}
       // TODO: do proper transform.
-      object->worldBB += object->position;
+      box += object->position;
+      object->SetShape(box);
 
-      object->detailLevel = factoryTable.GetDetailLevel(object->factoryFile, object->factoryName);
+      object->detailLevel = 0;
+      try 
+      {factoryTable.GetSingle(object->factoryFile, object->factoryName)->detailLevel;}
+      catch (char*){}
 
       return Add(object, unique);
     }
 
-    bool WorldManager::Update(const Object* object)
+    bool WorldManager::Update(const Objectp object)
     {
-      objectsTable.Insert(*object, false);
+      Insert(object, false);
       return true;
     }
 
@@ -96,7 +116,11 @@ namespace Common
 
     bool WorldManager::Add(const Factory& factory)
     {
-      factoryTable.Insert(factory);
+      factoryTable.Insert(factory.factoryFile, 
+                          factory.factoryName, 
+                          factory.boundingBox,
+                          factory.detailLevel,
+                          factory.hash);
       return true;
     }
 
@@ -105,9 +129,9 @@ namespace Common
       return false;
     }
 
-    Octree::QueryResult WorldManager::Query(const WFMath::Ball<3>& s)
+    std::list<Objectp> WorldManager::Query(const WFMath::Ball<3>& s)
     {
-      return octree.Query(s);
+      return octree.Query<Object>(s);
     }
 
   } // namespace World

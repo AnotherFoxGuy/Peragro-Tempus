@@ -31,6 +31,7 @@
 #include <iutil/comp.h>
 #include <iengine/engine.h>
 #include <iengine/movable.h>
+#include <iengine/mesh.h>
 #include <iengine/camera.h>
 #include <imap/loader.h>
 
@@ -40,8 +41,6 @@
 #include <iutil/eventh.h>
 #include <iutil/eventq.h>
 #include <csutil/eventnames.h>
-
-#include <boost/scoped_ptr.hpp>
 
 #include <string>
 
@@ -57,8 +56,7 @@ struct iCacheEntry;
 
 #include "common/util/geomhelper.h"
 
-#include <iengine/mesh.h>
-#include <iutil/object.h>
+
 
 /**
  * Manages objects around the camera, by loading and deleting
@@ -78,7 +76,7 @@ private:
     /// The mesh wrapper.
     csRef<iMeshWrapper> instance;
     /// The world object.
-    Common::World::Object* _object;
+    Common::World::Objectp _object;
 
     /// TODO
     void Loaded(iCacheEntry* cacheEntry);
@@ -91,7 +89,7 @@ private:
 
   public:
     /// Construct from an object.
-    Instance(Common::World::Object* object, iObjectRegistry* obj_reg);
+    Instance(Common::World::Objectp object, iObjectRegistry* obj_reg);
     /// Destructor.
     ~Instance();
   };
@@ -133,7 +131,7 @@ private:
   CS_EVENTHANDLER_NIL_CONSTRAINTS
 
   /// The world manager that takes care of the tree of all objects.
-  boost::scoped_ptr<Common::World::WorldManager> worldManager;
+  boost::shared_ptr<Common::World::WorldManager> worldManager;
   /// Array of objects in world currently loaded.
   csRefArray<Instance> instances;
   /// Position of the reference point, the camera.
@@ -205,58 +203,9 @@ public:
   void Report(int severity, const char* msg, ...);
 
   /// Commit changes to an object to the Common::World::WorldManager.
-  void CommitChanges(Common::World::Object* object);
+  void CommitChanges(Common::World::Objectp object);
   /// Commit a new object to the Common::World::WorldManager.
-  void CommitNew(boost::shared_ptr<Common::World::Object> object);
-};
-
-/**
- * Wrapper for an object that can be edited.
- */
-struct EditorObject
-  : public scfImplementation2<EditorObject, iObject, iMovableListener>
-{
-  /// The object registry.
-  iObjectRegistry* object_reg;
-  /// The mesh wrapper.
-  csWeakRef<iMeshWrapper> wrap;
-  /// The object.
-  Common::World::Object* _object;
-
-  /// Construct from object and mesh.
-  EditorObject (Common::World::Object* object, iObjectRegistry* obj_reg,
-    iMeshWrapper* mesh);
-
-  /// Save changes to this object in the world manager.
-  void CommitChanges();
-
-  /// Callback function for iMovableListener.
-  void MovableChanged (iMovable* movable);
-  /// Callback function for iMovableListener.
-  void MovableDestroyed (iMovable* movable);
-
-  /// Set object name.
-  void SetName (const char *iName);
-  /// Get object name.
-  const char* GetName () const;
-  /// Get object id.
-  uint GetID () const;
-
-  void SetObjectParent (iObject *obj);
-  iObject* GetObjectParent () const;
-  void ObjAdd (iObject *obj);
-  void ObjRemove (iObject *obj);
-  void ObjRemoveAll ();
-  void ObjAddChildren (iObject *Parent);
-  iObject* GetChild (int iInterfaceID, int iVersion, const char *Name,
-    bool FirstName) const;
-  iObject* GetChild (const char *Name) const;
-  csPtr<iObjectIterator> GetIterator ();
-  void ObjReleaseOld (iObject *obj);
-  void AddNameChangeListener (iObjectNameChangeListener* listener);
-  void RemoveNameChangeListener (iObjectNameChangeListener* listener);
-  iObject* GetChild (int iInterfaceID, int iVersion, const char *Name = 0)
-    const;
+  void CommitNew(Common::World::Objectp object);
 };
 
 inline void WorldManager::Instance::DoneLoading(bool success)
@@ -270,85 +219,5 @@ inline void WorldManager::SetRange(size_t radius)
 
 inline size_t WorldManager::GetRange() const
 { return loadRadius; }
-
-inline EditorObject::EditorObject(Common::World::Object* object,
-  iObjectRegistry* obj_reg, iMeshWrapper* mesh)
-  : scfImplementationType (this), object_reg(obj_reg), wrap(mesh),
-  _object(object)
-{
-  wrap->GetMovable()->AddListener(this);
-  wrap->QueryObject()->ObjAdd(this);
-}
-
-inline void EditorObject::CommitChanges()
-{
-  csRef<iWorld> world = csQueryRegistry<iWorld> (object_reg);
-  world->CommitChanges(_object);
-}
-
-// iMovableListener
-inline void EditorObject::MovableChanged (iMovable* movable)
-{
-  csBox3 box = wrap->GetWorldBoundingBox();
-  _object->position = VectorHelper::Convert(movable->GetTransform().GetOrigin());
-  _object->worldBB = WFMath::AxisBox<3>(VectorHelper::Convert(box.Min()), VectorHelper::Convert(box.Max()));
-  CommitChanges();
-}
-
-inline void EditorObject::MovableDestroyed (iMovable* movable)
-{}
-
-// iObject
-inline void EditorObject::SetName (const char *iName)
-{ _object->name = iName; CommitChanges(); }
-
-inline const char* EditorObject::GetName () const
-{ return _object->name.c_str(); }
-
-inline uint EditorObject::GetID () const
-{ return (uint)_object->id; }
-
-inline void EditorObject::SetObjectParent (iObject *obj)
-{}
-
-inline iObject* EditorObject::GetObjectParent () const
-{ return 0; }
-
-inline void EditorObject::ObjAdd (iObject *obj)
-{}
-
-inline void EditorObject::ObjRemove (iObject *obj)
-{}
-
-inline void EditorObject::ObjRemoveAll ()
-{}
-
-inline void EditorObject::ObjAddChildren (iObject *Parent)
-{}
-
-inline iObject* EditorObject::GetChild (int iInterfaceID, int iVersion,
-  const char *Name, bool FirstName) const
-{ return 0; }
-
-inline iObject* EditorObject::GetChild (const char *Name) const
-{ return 0; }
-
-inline csPtr<iObjectIterator> EditorObject::GetIterator ()
-{ return 0; }
-
-inline void EditorObject::ObjReleaseOld (iObject *obj)
-{}
-
-inline void EditorObject::AddNameChangeListener (
-  iObjectNameChangeListener* listener)
-{}
-
-inline void EditorObject::RemoveNameChangeListener (
-  iObjectNameChangeListener* listener)
-{}
-
-inline iObject* EditorObject::GetChild (int iInterfaceID, int iVersion,
-  const char *Name) const
-{ return 0; }
 
 #endif

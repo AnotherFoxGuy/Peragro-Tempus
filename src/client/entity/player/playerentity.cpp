@@ -152,7 +152,7 @@ namespace PT
       if (sector) sectorName = sector->GetName();
       //End of ugly hack
 
-      position = PT::Events::EntityHelper::GetPosition(&ev);
+      Common::Entity::Entity::SetPosition(PT::Events::EntityHelper::GetPosition(&ev));
       ev.Retrieve("rotation", rotation);
 
       csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();

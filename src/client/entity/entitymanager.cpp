@@ -78,6 +78,7 @@ namespace PT
 
       // Create a default sector for entities to be added in.
       defaultSector = engine->CreateSector("Default_Sector");
+      engine->CreateSector("World");
 
       // Load the door animations.
       csRef<iThreadedLoader >loader = csQueryRegistry<iThreadedLoader> (obj_reg);
@@ -145,12 +146,17 @@ namespace PT
 
     bool EntityManager::WorldLoaded(iEvent& ev)
     {
-      /*
-      for (ConstIterator i = entities.begin();  i != entities.end();  i++)
+      /* TODO: Why does this crash?? :/
+      ConstIterator it = entities.begin();
+      for (;  it != entities.end();  it++)
       {
-        //if (i->second) i->second->SetFullPosition();
+        //if (it->second) it->second->SetFullPosition();
       }
       */
+      if (::PT::Entity::PlayerEntity::Instance())
+      {
+        ::PT::Entity::PlayerEntity::Instance()->SetFullPosition();
+      }
       return true;
     }
 

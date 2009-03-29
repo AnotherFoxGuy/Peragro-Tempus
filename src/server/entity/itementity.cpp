@@ -32,9 +32,8 @@ void ItemEntity::SetInWorld(bool value)
   inWorld = value; 
   if (!inWorld)
   {
-    // Replacing the Shape destroys the previous one, 
-    // so it gets removed from the octree.
-    position = Octree::Shape(this);
+    // Removed from the octree.
+    this->NotifyDestroyed();
   }
 }
 

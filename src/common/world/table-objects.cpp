@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "table-objects.h"
+
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
@@ -23,53 +25,9 @@
 
 #include "common/database/database.h"
 
-#include "table-objects.h"
-
-#include "world.h"
-
-size_t ObjectsTable::GetId(ResultSet* rs, size_t row)
-{
-  return atoi(rs->GetData(row, 0).c_str());
-}
-
-std::string ObjectsTable::GetName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 1);
-}
-
-std::string ObjectsTable::GetFactoryFile(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 2);
-}
-
-std::string ObjectsTable::GetFactoryName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 3);
-}
-
-WFMath::Point<3> ObjectsTable::GetPosition(ResultSet* rs, size_t row, size_t offset)
-{
-  float x = (float)atof(rs->GetData(row, offset+0).c_str());
-  float y = (float)atof(rs->GetData(row, offset+1).c_str());
-  float z = (float)atof(rs->GetData(row, offset+2).c_str());
-  return WFMath::Point<3>(x, y, z);
-}
-
-std::string ObjectsTable::GetSectorName(ResultSet* rs, size_t row)
-{
-  return rs->GetData(row, 7);
-}
-
-WFMath::AxisBox<3> ObjectsTable::GetWorldBB(ResultSet* rs, size_t row)
-{
-  WFMath::Point<3> min = GetPosition(rs, row, 8);
-  WFMath::Point<3> max = GetPosition(rs, row, 11);
-  return WFMath::AxisBox<3>(min, max);
-}
-
 ObjectsTable::ObjectsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from objects;");
+  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_OBJECTS) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -77,85 +35,22 @@ ObjectsTable::ObjectsTable(Database* db) : Table(db)
   delete rs;
 }
 
-void ObjectsTable::CreateTable()
-{
-  printf("Creating Table objects...\n");
-  db->update("create table objects ("
-    "id INTEGER, "
-    "name TEXT, "
-    "factoryFile TEXT, "
-    "factoryName TEXT, "
-    "pos_x FLOAT, "
-    "pos_y FLOAT, "
-    "pos_z FLOAT, "
-    "sector TEXT, "
-    "BB_min_x FLOAT, "
-    "BB_min_y FLOAT, "
-    "BB_min_z FLOAT, "
-    "BB_max_x FLOAT, "
-    "BB_max_y FLOAT, "
-    "BB_max_z FLOAT, "
-    "detaillevel INTEGER, "
-    "PRIMARY KEY (id) );");
-}
+PT_DEFINE_CreateTable(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_DropTable(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_ParseSingleResultSet(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_ParseMultiResultSet(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_Insert(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_Delete(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_GetAll(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+PT_DEFINE_DeleteAll(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+//PT_DEFINE_Get(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+//PT_DEFINE_GetSingle(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
-int getMaxId(Database* db)
+size_t ObjectsTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from objects");
+  ResultSet* rs = db->query("select max(id) from Objects");
   if (rs == 0 || rs->GetRowCount() == 0) return 0;
-  int id = atoi(rs->GetData(0,0).c_str());
+  size_t id = atoi(rs->GetData(0,0).c_str());
   delete rs;
   return id;
-}
-
-void ObjectsTable::Insert(const Common::World::Object& object, bool unique)
-{
-  const char* query = { "insert or replace into objects("
-    "id, name, factoryFile, factoryName, "
-    "pos_x, pos_y, pos_z, "
-    "sector, "
-    "BB_min_x, BB_min_y, BB_min_z, BB_max_x, BB_max_y, BB_max_z,"
-    "detaillevel"
-    ") values ("
-    "%d, '%s', '%s', '%s',"
-    "%.2f, %.2f, %.2f, "
-    "'%s', "
-    "%.2f, %.2f, %.2f, %.2f, %.2f, %.2f,"
-    "%d"
-    ");" };
-
-  int id = (int)object.id;
-  if (unique)
-    id = getMaxId(db) + 1;
-
-  db->update(query, id, object.name.c_str(), object.factoryFile.c_str(), object.factoryName.c_str(),
-    object.position[0], object.position[1], object.position[2],
-    object.sector.c_str(),
-    object.worldBB->lowCorner()[0], object.worldBB->lowCorner()[1], object.worldBB->lowCorner()[2],
-    object.worldBB->highCorner()[0], object.worldBB->highCorner()[1], object.worldBB->highCorner()[2],
-    object.detailLevel);
-}
-
-void ObjectsTable::DropTable()
-{
-  db->update("drop table objects;");
-}
-
-void ObjectsTable::GetAll(Array<Common::World::Object>& objects)
-{
-  ResultSet* rs = db->query("select * from objects;");
-  if (!rs) return;
-  for (size_t i = 0; i < rs->GetRowCount(); i++)
-  {
-    Common::World::Object object;
-    object.id = GetId(rs, i);
-    object.name = GetName(rs, i);
-    object.factoryFile = GetFactoryFile(rs, i);
-    object.factoryName = GetFactoryName(rs, i);
-    object.position = GetPosition(rs, i);
-    object.sector = GetSectorName(rs, i);
-    object.worldBB = GetWorldBB(rs, i);
-    objects.add(object);
-  }
-  delete rs;
 }

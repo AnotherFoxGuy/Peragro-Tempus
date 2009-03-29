@@ -20,20 +20,14 @@
 
 #include <wfmath/stream.h>
 
-#include <iengine/rview.h>
-#include <iengine/camera.h>
 #include <iengine/scenenode.h>
-#include <csgeom/transfrm.h>
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>
 #include <iutil/cfgmgr.h>
 #include <iutil/object.h>
-#include <iutil/stringarray.h>
 
 #include <iengine/mesh.h>
 
-#include <csutil/scfstringarray.h>
-#include <iutil/document.h>
 #include <imesh/objmodel.h>
 #include <imesh/object.h>
 #include <ivaria/collider.h>
@@ -55,12 +49,14 @@
 #include "common/util/printhelper.h"
 #include "common/util/geomhelper.h"
 
+#include "editorobject.h"
+
 CS_IMPLEMENT_PLUGIN
 
 SCF_IMPLEMENT_FACTORY (WorldManager)
 
 //----------------------------------------------------------
-WorldManager::Instance::Instance (Common::World::Object* object,
+WorldManager::Instance::Instance (Common::World::Objectp object,
                                   iObjectRegistry* obj_reg)
                                   : iCacheUser(obj_reg), object_reg(obj_reg),
                                   _object(object), id(object->id)
@@ -73,7 +69,7 @@ WorldManager::Instance::~Instance()
   // TODO: fade instead of just removing.
   if (instance)
   {
-    // Effect is only ref holder, don't have to do anything.
+    // Instance is only ref holder, don't have to do anything.
     if (instance->GetRefCount() == 1) return;
 
     // Remove from any collections.
@@ -99,11 +95,17 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
   {
     instance = cacheEntry->Create(_object->name, _object->factoryName);
 
+    // Set the position.
     csVector3 curpos =
       instance->QuerySceneNode()->GetMovable()->GetFullPosition();
     instance->QuerySceneNode()->GetMovable()->
       SetPosition(curpos + VectorHelper::Convert(_object->position));
 
+    // Set the rotation.
+    instance->QuerySceneNode()->GetMovable()->
+      Transform(MatrixHelper::Convert(_object->rotation));
+
+    // Set the sector.
     csRef<iEngine> engine = csQueryRegistry<iEngine> (object_reg);
     iSector* s = engine->FindSector(_object->sector.c_str());
     if (s) instance->QuerySceneNode()->GetMovable()->SetSector(s);
@@ -112,8 +114,11 @@ void WorldManager::Instance::Loaded(iCacheEntry* cacheEntry)
       _object->sector.c_str(), _object->name.c_str());
     instance->QuerySceneNode()->GetMovable()->UpdateMove();
 
+    // Add collission data.
     csRef<iCollideSystem> cdsys = csQueryRegistry<iCollideSystem> (object_reg);
     csColliderHelper::InitializeCollisionWrapper (cdsys, instance);
+
+    // Add the editor object to track changes.
     csRef<EditorObject> edObj;
     edObj.AttachNew(new EditorObject(_object, object_reg, instance));
   }
@@ -463,18 +468,18 @@ int ptCompare(T const& r1, K const& r2)
 void WorldManager::CameraMoved()
 {
   using namespace Common::World;
-  Octree::QueryResult objects =
+  std::list<Objectp> objects =
     worldManager->Query(WFMath::Ball<3>(position, loadRadius));
-
+/*
   if (objects.size()) printf("QUERY: %"SIZET" (rad: %f at %s)\n",
     objects.size(), (float)loadRadius, WFMath::ToString(position).c_str());
-
+*/
   csRefArray<Instance> newInstances;
-  Octree::QueryResult::iterator it;
+  std::list<Objectp>::iterator it;
   for (it = objects.begin(); it != objects.end(); it++ )
   {
     size_t index = instances.FindSortedKey(
-      csArrayCmp<Instance*, Object*>(*it, ptCompare));
+      csArrayCmp<Instance*, Object*>((*it).get(), ptCompare));
     if (index != csArrayItemNotFound)
     {
       //printf("FOUND: %d %s\n", (*it)->id, (*it)->name.c_str());
@@ -484,7 +489,7 @@ void WorldManager::CameraMoved()
     }
     else
     {
-      printf("OBJECT: %"SIZET" %s\n", (*it)->id, (*it)->name.c_str());
+      //printf("OBJECT: %"SIZET" %s\n", (*it)->id, (*it)->name.c_str());
 
       // Instance was not found, make a new instance.
       csRef<Instance> in; in.AttachNew(new Instance(*it, object_reg));
@@ -511,14 +516,14 @@ void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
 
 } // end MovableChanged()
 
-void WorldManager::CommitChanges(Common::World::Object* object)
+void WorldManager::CommitChanges(Common::World::Objectp object)
 {
   printf("CommitChanges: %s\n", object->name.c_str());
 
   worldManager->Update(object);
 } // end CommitChanges()
 
-void WorldManager::CommitNew(boost::shared_ptr<Common::World::Object> object)
+void WorldManager::CommitNew(Common::World::Objectp object)
 {
   printf("CommitNew: %s\n", object->name.c_str());
 

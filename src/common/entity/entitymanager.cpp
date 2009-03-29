@@ -39,7 +39,7 @@ namespace Common
       if (entities.count(entity->GetId()) > 0)
         return false;
 
-      bool succes = octree.Add(&entity->position);
+      bool succes = octree.Add(entity);
       if (succes) entities[entity->GetId()] = entity;
       return succes;
     }
@@ -80,27 +80,14 @@ namespace Common
       RemoveAll();
     }
 
-    Octree::QueryResult EntityManager::Query(const WFMath::Ball<3>& s)
+    std::list<Entityp> EntityManager::Query(const WFMath::Ball<3>& s)
     {
-      return octree.Query(s);
+      return octree.Query<Entity>(s);
     }
 
     Entityp EntityManager::Getp(Entity* e)
     {
       return FindById(e->GetId());
     }
-
-    std::list<Entityp> EntityManager::Queryp(const WFMath::Ball<3>& s)
-    {
-      std::list<Entityp> result;
-      Octree::QueryResult query = Query(s);
-      Octree::QueryResult::const_iterator it;
-      for ( it=query.begin() ; it != query.end(); it++ )
-      {
-        result.push_back(Getp(*it));
-      }
-      return result;
-    }
-
   } // namespace World
 } // namespace Common

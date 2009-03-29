@@ -62,21 +62,8 @@ namespace Client
       name = Helper::GetString(&ev, "entityName");
       meshName = Helper::GetString(&ev, "meshName");
       fileName = Helper::GetString(&ev, "fileName");
-      position = PT::Events::EntityHelper::GetPosition(&ev);
+      Common::Entity::Entity::SetPosition(PT::Events::EntityHelper::GetPosition(&ev));
       ev.Retrieve("rotation", rotation);
-
-      unsigned int sectorId = PT::Events::EntityHelper::GetSectorId(&ev);
-      PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        GetSectorDataManager()->GetSectorById(sectorId);
-      if (sector)
-      {
-        sectorName = sector->GetName();
-      }
-      else
-      {
-        sectorName = "Default_Sector";
-        Report(PT::Error, "Unknown sectorID: %u!", sectorId);
-      }
 
       //TODO
       sectorName = "World";
@@ -117,7 +104,7 @@ namespace Client
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
       if (sector != "Default_Sector") Entity::sectorName = sector;
-      Entity::position = pos;
+      Common::Entity::Entity::SetPosition(pos);
       Entity::rotation = rotation;
 
       if (celEntity.IsValid())

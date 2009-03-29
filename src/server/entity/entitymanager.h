@@ -30,7 +30,7 @@ class EntityTable;
 
 typedef boost::shared_ptr<Entity> Entityp;
 
-class EntityManager : public Common::Entity::EntityManager, Octree::Shape::Listener
+class EntityManager : public Common::Entity::EntityManager, WFMath::iShape::Listener
 {
 private:
   std::list<Common::Entity::EntityCallback*> callback_list;
@@ -39,8 +39,8 @@ private:
   void lock() { mutex.lock(); }
   void unlock() { mutex.unlock(); }
 
-  virtual void Moved(Octree::Shape*);
-  virtual void Destroyed(Octree::Shape*) {}
+  virtual void Moved(WFMath::iShape*);
+  virtual void Destroyed(WFMath::iShape*) {}
 
   void NetworkAddEntity(const Common::Entity::Entityp entity);
 

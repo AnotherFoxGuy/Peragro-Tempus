@@ -35,7 +35,7 @@ namespace Common
   } // namespace Entity
 } // namespace Common
 
-typedef WFMath::OcTree<Common::Entity::Entity, WFMath::Point<3>, true>::Type Octree;
+typedef WFMath::OcTree<WFMath::Point<3>, true>::Type Octree;
 
 namespace Common
 {
@@ -74,11 +74,10 @@ namespace Common
 
       virtual void Reset();
 
-      virtual Octree::QueryResult Query(const WFMath::Ball<3>& s);
+      virtual std::list<Entityp> Query(const WFMath::Ball<3>& s);
 
       // Helpers
       Entityp Getp(Entity*);
-      virtual std::list<Entityp> Queryp(const WFMath::Ball<3>& s);
     };
 
   } // namespace Entity

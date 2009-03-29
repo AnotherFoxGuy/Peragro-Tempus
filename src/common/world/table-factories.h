@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,25 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef TABLE_FACTORY_H
-#define TABLE_FACTORY_H
+#ifndef TABLE_FACTORIES_H
+#define TABLE_FACTORIES_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Reputation;
-class ptString;
+class ResultSet;
 
-namespace Common
-{
-  namespace World
-  {
-    struct Factory;
-  } // namespace World
-} // namespace Common
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name      | Primary Key     | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_FACTORIES Factories
+#define DB_TABLE_FACTORIES_FIELDS \
+  ((factoryFile,         std::string,         PT_CandidateKey,    0)) \
+  ((factoryName,         std::string,         PT_CandidateKey,    0)) \
+  ((boundingBox,         WFMath::AxisBox<3>,  0,                  0)) \
+  ((detailLevel,         size_t,              0,                  0)) \
+  ((hash,                std::string,         0,                  0)) \
 
-#include <wfmath/axisbox.h>
-#include <wfmath/point.h>
+PT_DECLARE_VO(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 
 /**
  * Provides an interface to the database to handle storage of reputations.
@@ -42,43 +44,23 @@ namespace Common
 class FactoriesTable : public Table
 {
 private:
-  /**
-   * Creates a table in the database that will store eputations.
-   */
-  void CreateTable();
+  PT_DECLARE_ParseSingleResultSet(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 
-  std::string GetFactoryFile(ResultSet* rs, size_t row);
-  std::string GetFactoryName(ResultSet* rs, size_t row);
-  WFMath::Point<3> GetPosition(ResultSet* rs, size_t row, size_t offset = 2);
-  WFMath::AxisBox<3> GetBoundingBox(ResultSet* rs, size_t row);
-  size_t GetDetailLevel(ResultSet* rs, size_t row);
-  std::string GetMD5(ResultSet* rs, size_t row);
+  PT_DECLARE_CreateTable(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 
 public:
   FactoriesTable(Database* db);
 
-  /**
-   * Insert a object into the database.
-   * @param object
-   */
-  void Insert(const Common::World::Factory& factory);
+  PT_DECLARE_DropTable(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 
-  WFMath::AxisBox<3> GetBB(const std::string& factoryFile, const std::string& factoryName);
+  PT_DECLARE_Insert(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
+  PT_DECLARE_Delete(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
+  PT_DECLARE_GetAll(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
+  PT_DECLARE_DeleteAll(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 
-  std::string GetMD5(const std::string& factoryFile, const std::string& factoryName);
-
-  size_t GetDetailLevel(const std::string& factoryFile, const std::string& factoryName);
-
-  /**
-   * Removes all objects from the database.
-   */
-  void DropTable();
-
-  /**
-   * This function will load all objects from the database.
-   * @param reputations An array that will contain all objects.
-   */
-  void GetAll(Array<Common::World::Factory>& factories);
+  //PT_DECLARE_Get(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
+  PT_DECLARE_GetSingle(FactoriesTable, DB_TABLE_FACTORIES, DB_TABLE_FACTORIES_FIELDS)
 };
 
-#endif //TABLE_FACTORY_H
+#endif //TABLE_FACTORIES_H

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2005 Development Team of Peragro Tempus
+    Copyright (C) 2009 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,25 +16,31 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef TABLE_OBJECT_H
-#define TABLE_OBJECT_H
+#ifndef TABLE_OBJECTS_H
+#define TABLE_OBJECTS_H
 
 #include "common/database/table.h"
+#include "common/database/tablehelper.h"
 
 class Database;
-class Reputation;
-class ptString;
+class ResultSet;
 
-namespace Common
-{
-  namespace World
-  {
-    struct Object;
-  } // namespace World
-} // namespace Common
+//-----------------------------------------------------------------------------------
+//| Name               | C++ type name    | Primary Key      | Foreign Key
+//-----------------------------------------------------------------------------------
+#define DB_TABLE_OBJECTS Objects
+#define DB_TABLE_OBJECTS_FIELDS \
+  ((id,                  size_t,         PT_PrimaryKey,    0)) \
+  ((name,                std::string,         0,                0)) \
+  ((factoryFile,         std::string,         0,                (Factories, factoryFile))) \
+  ((factoryName,         std::string,         0,                (Factories, factoryName))) \
+  ((position,            WFMath::Point<3>,    0,                0)) \
+  ((rotation,            WFMath::RotMatrix<3>,0,                0)) \
+  ((sector,              std::string,         0,                0)) \
+  ((boundingBox,         WFMath::AxisBox<3>,  0,                0)) \
+  ((detailLevel,         size_t,              0,                0)) \
 
-#include <wfmath/axisbox.h>
-#include <wfmath/point.h>
+PT_DECLARE_VO(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
 /**
  * Provides an interface to the database to handle storage of reputations.
@@ -42,38 +48,25 @@ namespace Common
 class ObjectsTable : public Table
 {
 private:
-  /**
-   * Creates a table in the database that will store eputations.
-   */
-  void CreateTable();
+  PT_DECLARE_ParseSingleResultSet(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
-  size_t GetId(ResultSet* rs, size_t row);
-  std::string GetName(ResultSet* rs, size_t row);
-  std::string GetFactoryFile(ResultSet* rs, size_t row);
-  std::string GetFactoryName(ResultSet* rs, size_t row);
-  WFMath::Point<3> GetPosition(ResultSet* rs, size_t row, size_t offset = 4);
-  std::string GetSectorName(ResultSet* rs, size_t row);
-  WFMath::AxisBox<3> GetWorldBB(ResultSet* rs, size_t row);
+  PT_DECLARE_CreateTable(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
 public:
   ObjectsTable(Database* db);
 
-  /**
-   * Insert a object into the database.
-   * @param object
-   */
-  void Insert(const Common::World::Object& object, bool unique = true);
+  PT_DECLARE_DropTable(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
-  /**
-   * Removes all objects from the database.
-   */
-  void DropTable();
+  size_t GetMaxId();
 
-  /**
-   * This function will load all objects from the database.
-   * @param reputations An array that will contain all objects.
-   */
-  void GetAll(Array<Common::World::Object>& objects);
+  PT_DECLARE_Insert(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+  PT_DECLARE_Delete(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+  PT_DECLARE_GetAll(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+  PT_DECLARE_DeleteAll(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+
+  //PT_DECLARE_Get(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
+  //PT_DECLARE_GetSingle(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 };
 
-#endif //TABLE_OBJECT_H
+#endif //TABLE_OBJECTS_H

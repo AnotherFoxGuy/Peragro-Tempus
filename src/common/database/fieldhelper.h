@@ -28,6 +28,8 @@
 // Types
 #include <string>
 #include <wfmath/point.h>
+#include <wfmath/axisbox.h>
+#include <wfmath/rotmatrix.h>
 #include <wfmath/stream.h>
 
 namespace DB
@@ -45,6 +47,8 @@ namespace DB
     template<> inline const char* DBType<std::string>() { return "TEXT"; }
     template<> inline const char* DBType<WFMath::Point<2> >() { return "TEXT"; }
     template<> inline const char* DBType<WFMath::Point<3> >() { return "TEXT"; }
+    template<> inline const char* DBType<WFMath::AxisBox<3> >() { return "TEXT"; }
+    template<> inline const char* DBType<WFMath::RotMatrix<3> >() { return "TEXT"; }
 
     template<typename T>
     inline void Convert(T& val, const std::string& str) { val = str; }
@@ -54,6 +58,8 @@ namespace DB
     // std::string by default template.
     template<> inline void Convert(WFMath::Point<2>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     template<> inline void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
+    template<> inline void Convert(WFMath::AxisBox<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
+    template<> inline void Convert(WFMath::RotMatrix<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
 
     template<typename T>
     inline std::string Convert(const T& val) { return val; }
@@ -63,6 +69,8 @@ namespace DB
     template<> inline std::string Convert(const std::string& val) { return Quote(val); }
     template<> inline std::string Convert(const WFMath::Point<2>& val) { std::stringstream o; o << val; return Quote(o.str()); }
     template<> inline std::string Convert(const WFMath::Point<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
+    template<> inline std::string Convert(const WFMath::AxisBox<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
+    template<> inline std::string Convert(const WFMath::RotMatrix<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
   };
   //----------------------------------------------------------------
 

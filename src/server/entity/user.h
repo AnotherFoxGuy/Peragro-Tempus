@@ -33,7 +33,7 @@ class Connection;
 class Entity;
 class PcEntity;
 
-class User : public Octree::Shape::Listener
+class User : public WFMath::iShape::Listener
 {
 private:
   std::string login;
@@ -47,10 +47,10 @@ private:
   PermissionList permissions;
 
 private:
-  virtual void Moved(Octree::Shape*) {}
+  virtual void Moved(WFMath::iShape*) {}
 
   /// Listen to the destruction of known entities and do SendRemoveEntity()
-  virtual void Destroyed(Octree::Shape*);
+  virtual void Destroyed(WFMath::iShape*);
 
 public:
   User(const std::string& login) : login(login), permissions(login) { }

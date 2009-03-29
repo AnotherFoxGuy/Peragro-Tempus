@@ -41,6 +41,8 @@
 #include <imap/loader.h>
 #include <iengine/engine.h>
 
+#include <ivaria/stdrep.h>
+
 #include "common/util/printhelper.h"
 
 #include "common/util/geomhelper.h"
@@ -76,21 +78,23 @@ void ResourceManager::AddTestObjects()
   using namespace Common::World;
   {
     boost::shared_ptr<Object> object(new Object());
-    object->id = 0;
+    object->id = 1;
     object->name = "test1";
     object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object->factoryName = "genscythe001";
     object->position = WFMath::Point<3>(642, 14, 371);
+    object->rotation.identity();
     object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
   {
     boost::shared_ptr<Object> object(new Object());
-    object->id = 1;
+    object->id = 2;
     object->name = "test2";
     object->factoryFile = "/peragro/art/3d_art/props/others/scythes/scythe001/library.xml";
     object->factoryName = "genscythe001";
     object->position = WFMath::Point<3>(642, 14, 376);
+    object->rotation.identity();
     object->sector = "World";
     worldManager->AddLookUp(object, false);
   }
@@ -180,6 +184,10 @@ WFMath::AxisBox<3> ResourceManager::GetBB(iDocumentNode* node)
 
 void ResourceManager::ScanFactories(const std::string& path)
 {
+  // Disable Popups.
+  csRef<iStandardReporterListener> rep = csQueryRegistry<iStandardReporterListener>(object_reg);
+  rep->SetNativeWindowManager(0);
+
   csRef<iStringArray> paths = vfs->FindFiles(path.c_str());
   for (size_t i = 0; i < paths->GetSize(); i++ )
   {
@@ -206,6 +214,10 @@ void ResourceManager::ScanFactories(const std::string& path)
         }
       }
   }
+
+  // Enable Popups.
+  rep->SetDefaults();
+
 } // end ScanFactories()
 
 std::string GetFactoryName(iDocumentNode* node)
@@ -245,6 +257,30 @@ WFMath::Point<3> GetPosition(iDocumentNode* node, float xOffset = 0, float zOffs
   vec[2] += zOffset;
 
   return vec;
+}
+
+WFMath::RotMatrix<3> GetRotation(iDocumentNode* node)
+{
+  WFMath::RotMatrix<3> rot;
+  rot.identity();
+
+  csRef<iDocumentNode> move = node->GetNode ("move");
+  if (!move) return rot;
+
+  csRef<iDocumentNode> matrix = move->GetNode ("matrix");
+  if (!matrix) return rot;
+
+  WFMath::Vector<3> vec;
+  csRef<iDocumentNode> x = matrix->GetNode ("rotx");
+  if (x) vec[0] = x->GetContentsValueAsFloat();
+  csRef<iDocumentNode> y = matrix->GetNode ("roty");
+  if (y) vec[1] = y->GetContentsValueAsFloat();
+  csRef<iDocumentNode> z = matrix->GetNode ("rotz");
+  if (z) vec[2] = z->GetContentsValueAsFloat();
+
+  rot = rot.rotation(vec);
+
+  return rot;
 }
 
 std::vector<Common::World::Object> ResourceManager::FindMeshObjects(const std::string& file)
@@ -293,6 +329,7 @@ std::vector<Common::World::Object> ResourceManager::FindMeshObjects(const std::s
     object.factoryName = GetFactoryName(node);
     object.factoryFile = GetFactoryFile(object.factoryName, facts);
     object.position = GetPosition(node, (float)xOffset, (float)zOffset);
+    object.rotation = GetRotation(node);
     object.sector = "World";
 
     meshObjects.push_back(object);

@@ -95,9 +95,9 @@ namespace PT
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      void SetFullPosition(const WFMath::Point<3>& pos,
-                           float rotation,
-                           const std::string& sector);
+      virtual void SetFullPosition(const WFMath::Point<3>& pos,
+                                    float rotation,
+                                    const std::string& sector);
 
     private:
       static PlayerEntity* instance;

@@ -39,12 +39,11 @@ namespace Common
     {
     private:
       struct PositionedObject;
-      typedef WFMath::QuadTree<PositionedObject, WFMath::AxisBox<2>, false>::Type Quadtree;
-      struct PositionedObject
+      typedef WFMath::QuadTree<WFMath::AxisBox<2>, false>::Type Quadtree;
+      struct PositionedObject : public WFMath::Shape<WFMath::AxisBox<2> >
       {
         std::string name;
         Object* object;
-        Quadtree::Shape shape;
       };
 
     private:

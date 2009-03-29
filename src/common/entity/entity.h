@@ -51,7 +51,7 @@ namespace Common
     * Helper class that contains basic information about an entity.
     * Set/Get methods to access the entity properties.
     */
-    class Entity
+    class Entity : public WFMath::Shape<WFMath::Point<3> >
     {
     public:
       static const size_t NoEntity = 0;
@@ -71,7 +71,7 @@ namespace Common
       /// The file in which this entity's mesh resides.
       std::string fileName;
       ///Position of the entity in a sector (e.g. x='20', y='30', z='40').
-      Octree::Shape position;
+      //Octree::Shape position;
       ///Name of the sector where the npc resides (e.g. 'room').
       std::string sectorName;
       ///Rotation of the entity.
@@ -80,10 +80,7 @@ namespace Common
       friend class EntityManager;
 
     public:
-#pragma warning( push)
-#pragma warning( disable : 4355 )
-      Entity(EntityType type) : id(0), type(type), position(this), rotation(0.0f) {}
-#pragma warning( pop )
+      Entity(EntityType type) : id(0), type(type), rotation(0.0f) {}
 
       /**
       * Virtual destructor.
@@ -115,17 +112,14 @@ namespace Common
       virtual void SetFileName (const std::string& value) { fileName = value; }
 
       ///@return Position of entity within a sector.
-      virtual const WFMath::Point<3>& GetPosition() const { return position.Get(); }
+      virtual const WFMath::Point<3>& GetPosition() const { return GetShape(); }
       ///Set the position of entity within a sector to a given value.
       virtual void SetPosition(float x, float y, float z)
       { SetPosition(WFMath::Point<3>(x,y,z)); }
-      virtual void SetPosition(const WFMath::Point<3>& value) { position = value;}
+      virtual void SetPosition(const WFMath::Point<3>& value) { SetShape(value);}
 
       ///@return Position of entity within a sector.
-      virtual std::string GetPositionStr() const { return WFMath::ToString(position.Get()); }
-
-      ///@return Shape of this entity.
-      virtual Octree::Shape* GetShape() { return &position; }
+      virtual std::string GetPositionStr() const { return WFMath::ToString(GetShape()); }
 
       ///@return Name of the sector where entity resides.
       virtual const std::string& GetSectorName() const { return sectorName; }
@@ -143,7 +137,7 @@ namespace Common
       virtual void SetFullPosition(const WFMath::Point<3>& pos,
                                    float rot,
                                    const std::string& sector)
-      { position = pos;  rotation = rotation;  sectorName = sector; }
+      { SetPosition(pos);  rotation = rotation;  sectorName = sector; }
 
       ///Reset the entity do its default state
       virtual void Reset() {}
