@@ -66,11 +66,8 @@
 			<!--message id="6" name="Family" /-->
 		</type>
 		<type id="4" name="Skill">
-			<message id="0" name="SkillUsageStartRequest" />
-			<message id="1" name="SkillUsageStartResponse" />
-			<message id="2" name="SkillUsageStopRequest" />
-			<message id="3" name="SkillUsageCompletion" />
-			<message id="4" name="SkillUsageInterrupt" />
+			<message id="0" name="SkillList" />
+			<message id="1" name="SkillUpdate" />
 		</type>
 		<type id="5" name="Door">
 			<message id="0" name="OpenDoorRequest" />
@@ -131,10 +128,6 @@
 			<message id="1" name="InventoryList" />
 			<message id="2" name="InventoryMoveItemRequest" />
 			<message id="3" name="InventoryMoveItem" />
-			<message id="4" name="StatsList" />
-			<message id="5" name="StatsChange" />
-			<message id="6" name="SkillsList" />
-			<message id="7" name="MasteriesList" />
 		</type>
 		<type id="12" name="Combat">
 			<message id="0" name="AttackRequest" />

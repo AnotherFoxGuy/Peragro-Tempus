@@ -27,39 +27,49 @@
 
 #include "client/pointer/pointer.h"
 
-void SkillHandler::handleSkillUsageStartResponse(GenericMessage* msg)
+void SkillHandler::handleSkillList(GenericMessage* msg)
 {
-  SkillUsageStartResponseMessage pmsg;
+  SkillListMessage pmsg;
   pmsg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.skill.list", pmsg.getEntityId()), true);
+    pEvent->Add("entityId", pmsg.getEntityId());
+    csRef<iEvent> list = evmgr->CreateEvent("statsList", true);
+    for (unsigned char i = 0; i < pmsg.getStatsCount(); i++)
+    {
+      std::stringstream itemName;
+      itemName << "stats" << "_" << i;
+      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
+      item->Add("skillId", pmsg.getSkillId(i));
+      item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
+      item->Add("level", pmsg.getLevel(i));
+      list->Add(itemName.str().c_str(), item);
+    }
+    pEvent->Add("statsList", list);
 
-  // @todo Implement me!
+    evmgr->AddEvent(pEvent);
+  }
 
-} // end handleSkillUsageStartResponse
+} // end handleSkillList
 
-void SkillHandler::handleSkillUsageCompletion(GenericMessage* msg)
+void SkillHandler::handleSkillUpdate(GenericMessage* msg)
 {
-  SkillUsageCompletionMessage pmsg;
+  SkillUpdateMessage pmsg;
   pmsg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+  {
+    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.skill.update", pmsg.getEntityId()), true);
+    pEvent->Add("entityId", pmsg.getEntityId());
+    pEvent->Add("skillId", pmsg.getSkillId());
+    pEvent->Add("level", pmsg.getLevel());
 
-  // @todo Implement me!
+    evmgr->AddEvent(pEvent);
+  }
 
-} // end handleSkillUsageCompletion
-
-void SkillHandler::handleSkillUsageInterrupt(GenericMessage* msg)
-{
-  SkillUsageInterruptMessage pmsg;
-  pmsg.deserialise(msg->getByteStream());
-
-  using namespace PT::Events;
-  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
-
-} // end handleSkillUsageInterrupt
+} // end handleSkillUpdate
 

@@ -15,32 +15,6 @@
           </event>
         </message>
 
-	<message type="Player" name="StatsList">
-          <event name="entity.stat.list.player" specific="None">
-		<list name="Stats">
-			<uint16>StatId</uint16>
-			<string>Name</string>
-			<uint16>Level</uint16>
-		</list>
-          </event>
-	</message>
-
-	<message type="Player" name="StatsChange">
-          <event name="entity.stat.change" specific="EntityId">
-		<uint16>StatId</uint16>
-		<uint16>EntityId</uint16>
-		<string>Name</string>
-		<uint16>Level</uint16>
-          </event>
-	</message>
-
-	<message type="Player" name="SkillsList">
-		<list name="Skills">
-			<uint16>SkillId</uint16>
-			<string>Name</string>
-		</list>
-	</message>
-
 	<message type="Player" name="InventoryMoveItemRequest">
 		<uint8>OldSlot</uint8>
 		<uint32>OldInventoryId</uint32>
@@ -56,14 +30,6 @@
 		<uint32>NewInventoryId</uint32>
 		<string>Error</string> <!-- null if successful -->
           </event>
-	</message>
-
-	<message type="Player" name="MasteriesList">
-		<list name="Masteries">
-			<uint8>Level</uint8>
-			<uint16>ID</uint16>
-			<uint16>Type</uint16>
-		</list>
 	</message>
 
 </message-implementation>

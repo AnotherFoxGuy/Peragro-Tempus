@@ -41,13 +41,7 @@ public:
     char type = msg->getMsgType();
     if (type != MESSAGES::SKILL) assert("wrong message type");
     char id = msg->getMsgId();
-
-    if (id == SKILL::SKILLUSAGESTARTREQUEST) handleSkillUsageStartRequest(msg);
-    else if (id == SKILL::SKILLUSAGESTOPREQUEST) handleSkillUsageStopRequest(msg);
   }
-
-  void handleSkillUsageStartRequest(GenericMessage* msg);
-  void handleSkillUsageStopRequest(GenericMessage* msg);
 };
 
 #endif // SKILLHANDLER_H

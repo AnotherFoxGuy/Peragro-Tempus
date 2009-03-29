@@ -55,11 +55,8 @@
 		<!--message type="Chat" name="Guild" /-->
 		<!--message type="Chat" name="Family" /-->
 
-		<!--message type="Skill" name="SkillUsageStartRequest" /-->
-		<message type="Skill" name="SkillUsageStartResponse" />
-		<!--message type="Skill" name="SkillUsageStopRequest" /-->
-		<message type="Skill" name="SkillUsageCompletion" />
-		<message type="Skill" name="SkillUsageInterrupt" />
+		<message type="Skill" name="SkillList" />
+		<message type="Skill" name="SkillUpdate" />
 
 		<!--message type="Door" name="OpenDoorRequest" /-->
 		<message type="Door" name="OpenDoorResponse" />
@@ -111,12 +108,8 @@
 		<!--message type="Admin" name="CreateChanSpace" /-->
 
 		<message type="Player" name="InventoryList" />
-		<message type="Player" name="StatsList" />
-		<message type="Player" name="StatsChange" />
-		<message type="Player" name="SkillsList" />
 		<!--message type="Player" name="InventoryMoveItemRequest" /-->
 		<message type="Player" name="InventoryMoveItem" />
-		<message type="Player" name="MasteriesList" />
 	</send>
 	<receive>
 		<message type="Connection" name="Request" />
@@ -172,13 +165,10 @@
 		<!--message type="Chat" name="Guild" /-->
 		<!--message type="Chat" name="Family" /-->
 
-		<message type="Skill" name="SkillUsageStartRequest" />
-		<!--message type="Skill" name="SkillUsageStartResponse" /-->
-		<message type="Skill" name="SkillUsageStopRequest" />
-		<!--message type="Skill" name="SkillUsageCompletion" /-->
-		<!--message type="Skill" name="SkillUsageInterrupt" /-->
+		<!--message type="Skill" name="SkillList" /-->
+                <!--message type="Skill" name="SkillUpdate" /-->
 
-		<message type="Door" name="OpenDoorRequest" />
+                <message type="Door" name="OpenDoorRequest" />
 		<!--message type="Door" name="OpenDoorResponse" /-->
 		<message type="Door" name="CloseDoorRequest" />
 		<!--message type="Door" name="CloseDoorResponse" /-->
@@ -228,9 +218,6 @@
 		<message type="Admin" name="CreateChanSpace" />
 
 		<!--message type="Player" name="InventoryList" /-->
-		<!--message type="Player" name="StatsList" /-->
-		<!--message type="Player" name="StatsChange" /-->
-		<!--message type="Player" name="SkillsList" /-->
 		<message type="Player" name="InventoryMoveItemRequest" />
 		<!--message type="Player" name="InventoryMoveItem" /-->
 

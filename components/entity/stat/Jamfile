@@ -1,8 +1,0 @@
-SubDir TOP components entity stat ;
-
-Description componentstats : "stats component" ;
-Plugin componentstats : [ Wildcard *.cpp *.h ] ;
-ExternalLibs componentstats : CRYSTAL CEL BOOST CEGUI ;
-LinkWith componentstats : reporter eventmanager-cs client-component ;
-MsvcCFlags componentstats : /wd4396 ;
-

@@ -59,64 +59,6 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
 
 } // end handleInventoryList
 
-void PlayerHandler::handleStatsList(GenericMessage* msg)
-{
-  StatsListMessage pmsg;
-  pmsg.deserialise(msg->getByteStream());
-
-  using namespace PT::Events;
-  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  {
-    csRef<iEvent> pEvent = evmgr->CreateEvent("entity.stat.list.player", true);
-    csRef<iEvent> list = evmgr->CreateEvent("statsList", true);
-    for (unsigned char i = 0; i < pmsg.getStatsCount(); i++)
-    {
-      std::stringstream itemName;
-      itemName << "stats" << "_" << i;
-      csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
-      item->Add("statId", pmsg.getStatId(i));
-      item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
-      item->Add("level", pmsg.getLevel(i));
-      list->Add(itemName.str().c_str(), item);
-    }
-    pEvent->Add("statsList", list);
-
-    evmgr->AddEvent(pEvent);
-  }
-
-} // end handleStatsList
-
-void PlayerHandler::handleStatsChange(GenericMessage* msg)
-{
-  StatsChangeMessage pmsg;
-  pmsg.deserialise(msg->getByteStream());
-
-  using namespace PT::Events;
-  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-  {
-    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.stat.change", pmsg.getEntityId()), true);
-    pEvent->Add("statId", pmsg.getStatId());
-    pEvent->Add("entityId", pmsg.getEntityId());
-    pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
-    pEvent->Add("level", pmsg.getLevel());
-
-    evmgr->AddEvent(pEvent);
-  }
-
-} // end handleStatsChange
-
-void PlayerHandler::handleSkillsList(GenericMessage* msg)
-{
-  SkillsListMessage pmsg;
-  pmsg.deserialise(msg->getByteStream());
-
-  using namespace PT::Events;
-  EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-  // @todo Implement me!
-
-} // end handleSkillsList
-
 void PlayerHandler::handleInventoryMoveItem(GenericMessage* msg)
 {
   InventoryMoveItemMessage pmsg;

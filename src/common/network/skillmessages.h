@@ -29,156 +29,92 @@ namespace SKILL
 {
   enum MESSAGES
   {
-    SKILLUSAGESTARTREQUEST=0,
-    SKILLUSAGESTARTRESPONSE=1,
-    SKILLUSAGESTOPREQUEST=2,
-    SKILLUSAGECOMPLETION=3,
-    SKILLUSAGEINTERRUPT=4
+    SKILLLIST=0,
+    SKILLUPDATE=1
   };
 }
 
-class SkillUsageStartRequestMessage : public NetMessage
+class SkillListMessage : public NetMessage
 {
-  unsigned int caster;
-  unsigned int target;
-  unsigned short skill;
+  unsigned int entityid;
+  class ListStats
+  {
+  public:
+    unsigned short skillid;
+    ptString name;
+    unsigned short level;
+  };
+
+  unsigned int statscount;
+  ListStats* stats;
+
 
 public:
-  SkillUsageStartRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTREQUEST)
+  SkillListMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLLIST)
   {
+    stats = 0;
   }
 
-  ~SkillUsageStartRequestMessage()
+  ~SkillListMessage()
   {
+    delete [] stats;
   }
 
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() const { return caster; }
-  void setCaster(unsigned int x) { caster = x; }
+  unsigned int getEntityId() const { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned int getTarget() const { return target; }
-  void setTarget(unsigned int x) { target = x; }
+  unsigned char getStatsCount() const { return statscount; }
+  void setStatsCount(unsigned char ic)
+  {
+    statscount = ic;
+    delete [] stats;
+    stats = new ListStats[ic];
+  }
 
-  unsigned short getSkill() const { return skill; }
-  void setSkill(unsigned short x) { skill = x; }
+  // --- begin ListStats Getter and Setter ---
+
+  unsigned short getSkillId(size_t i) { return stats[i].skillid; }
+  void setSkillId(size_t i, unsigned short x) { stats[i].skillid = x; }
+
+  ptString getName(size_t i) { return stats[i].name; }
+  void setName(size_t i, ptString x) { stats[i].name = x; }
+
+  unsigned short getLevel(size_t i) { return stats[i].level; }
+  void setLevel(size_t i, unsigned short x) { stats[i].level = x; }
+
+  // --- end ListStats Getter and Setter ---
 
 };
 
-class SkillUsageStartResponseMessage : public NetMessage
+class SkillUpdateMessage : public NetMessage
 {
-  unsigned int caster;
-  unsigned int target;
-  unsigned short skill;
-  unsigned short mpcost;
-  ptString error;
+  unsigned int entityid;
+  unsigned short skillid;
+  unsigned short level;
 
 public:
-  SkillUsageStartResponseMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTARTRESPONSE)
+  SkillUpdateMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUPDATE)
   {
   }
 
-  ~SkillUsageStartResponseMessage()
+  ~SkillUpdateMessage()
   {
   }
 
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getCaster() const { return caster; }
-  void setCaster(unsigned int x) { caster = x; }
+  unsigned int getEntityId() const { return entityid; }
+  void setEntityId(unsigned int x) { entityid = x; }
 
-  unsigned int getTarget() const { return target; }
-  void setTarget(unsigned int x) { target = x; }
+  unsigned short getSkillId() const { return skillid; }
+  void setSkillId(unsigned short x) { skillid = x; }
 
-  unsigned short getSkill() const { return skill; }
-  void setSkill(unsigned short x) { skill = x; }
-
-  unsigned short getMpCost() const { return mpcost; }
-  void setMpCost(unsigned short x) { mpcost = x; }
-
-  ptString getError() const { return error; }
-  void setError(ptString x) { error = x; }
-
-};
-
-class SkillUsageStopRequestMessage : public NetMessage
-{
-  unsigned short skill;
-
-public:
-  SkillUsageStopRequestMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGESTOPREQUEST)
-  {
-  }
-
-  ~SkillUsageStopRequestMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned short getSkill() const { return skill; }
-  void setSkill(unsigned short x) { skill = x; }
-
-};
-
-class SkillUsageCompletionMessage : public NetMessage
-{
-  unsigned int caster;
-  unsigned int target;
-  unsigned short skill;
-
-public:
-  SkillUsageCompletionMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGECOMPLETION)
-  {
-  }
-
-  ~SkillUsageCompletionMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned int getCaster() const { return caster; }
-  void setCaster(unsigned int x) { caster = x; }
-
-  unsigned int getTarget() const { return target; }
-  void setTarget(unsigned int x) { target = x; }
-
-  unsigned short getSkill() const { return skill; }
-  void setSkill(unsigned short x) { skill = x; }
-
-};
-
-class SkillUsageInterruptMessage : public NetMessage
-{
-  unsigned int caster;
-  unsigned int target;
-  unsigned short skill;
-
-public:
-  SkillUsageInterruptMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUSAGEINTERRUPT)
-  {
-  }
-
-  ~SkillUsageInterruptMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  unsigned int getCaster() const { return caster; }
-  void setCaster(unsigned int x) { caster = x; }
-
-  unsigned int getTarget() const { return target; }
-  void setTarget(unsigned int x) { target = x; }
-
-  unsigned short getSkill() const { return skill; }
-  void setSkill(unsigned short x) { skill = x; }
+  unsigned short getLevel() const { return level; }
+  void setLevel(unsigned short x) { level = x; }
 
 };
 

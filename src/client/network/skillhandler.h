@@ -42,14 +42,12 @@ public:
     if (type != MESSAGES::SKILL) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == SKILL::SKILLUSAGESTARTRESPONSE) handleSkillUsageStartResponse(msg);
-    else if (id == SKILL::SKILLUSAGECOMPLETION) handleSkillUsageCompletion(msg);
-    else if (id == SKILL::SKILLUSAGEINTERRUPT) handleSkillUsageInterrupt(msg);
+    if (id == SKILL::SKILLLIST) handleSkillList(msg);
+    else if (id == SKILL::SKILLUPDATE) handleSkillUpdate(msg);
   }
 
-  void handleSkillUsageStartResponse(GenericMessage* msg);
-  void handleSkillUsageCompletion(GenericMessage* msg);
-  void handleSkillUsageInterrupt(GenericMessage* msg);
+  void handleSkillList(GenericMessage* msg);
+  void handleSkillUpdate(GenericMessage* msg);
 };
 
 #endif // SKILLHANDLER_H

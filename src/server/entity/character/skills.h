@@ -22,7 +22,7 @@
 #include <string.h>
 #include <boost/shared_ptr.hpp>
 
-#include "base.h"
+#include "common/entity/character/base.h"
 
 class SkillsFactory;
 

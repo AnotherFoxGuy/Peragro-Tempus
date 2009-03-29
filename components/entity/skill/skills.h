@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef CLIPBOARD_DEFAULT_HEADER
-#define CLIPBOARD_DEFAULT_HEADER
+#ifndef COMPONENT_SKILLS_H
+#define COMPONENT_SKILLS_H
 
 #include <csutil/scf_implementation.h>
 #include <csutil/refarr.h>
@@ -29,6 +29,8 @@
 #include "include/client/component/componenttmpl.h"
 
 #include "client/component/stdcomponentimp.h"
+
+#include "common/entity/character/base.h"
 
 struct iObjectRegistry;
 struct iEvent;
@@ -50,37 +52,63 @@ namespace PT
   }
 } //PT namespace
 
-PT_DECLARE_COMPONENTFACTORY (Stats)
+//-----------------------------------------------------------------------------
+class Skills : public Bases<3, float>
+{
+public:
+  Skills(SkillsFactory* fact, Entity* entity, TableManager* db)
+    : Bases<3, float>("Skills", fact, entity, db) {}
 
-class ComponentStats : public scfImplementationExt1<ComponentStats, ComponentCommon, iStats>
+  virtual void LoadFromDB() {}
+  virtual void SaveToDB() {}
+};
+
+class SkillsFactory : public BasesFactory
+{
+private:
+  virtual void LoadFromDB() {}
+
+public:
+  SkillsFactory(TableManager* db) : BasesFactory(db) {}
+  virtual ~SkillsFactory() {}
+
+  boost::shared_ptr<Skills> Create(Entity* entity)
+  {
+    boost::shared_ptr<Skills> skills(new Skills(this, entity, db));
+    return skills;
+  }
+
+  using BasesFactory::Add;
+};
+//-----------------------------------------------------------------------------
+
+PT_DECLARE_COMPONENTFACTORY (Skills)
+
+class ComponentSkills : public scfImplementationExt1<ComponentSkills, ComponentCommon, iSkills>
 {
 private:
   iObjectRegistry* object_reg;
   PointerLibrary* pointerlib;
+  bool listRecieved;
 
   Client::Entity::Entity* entity;
   csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
-  std::vector<Stat> stats;
-
-  /**
-   * Will take care of stat updates and take appropriate actions.
-   * @param ev The iEvent containing the stat update.
-   */
-  bool UpdateStat(iEvent& ev);
-
+  bool UpdateSkill(iEvent& ev);
   bool List(iEvent& ev);
-  bool AddStat(iEvent& ev);
+  bool AddSkill(iEvent& ev);
+
+  // Bases
+  boost::shared_ptr<SkillsFactory> fact;
+  boost::shared_ptr<Skills> skills;
 
 public:
-    ComponentStats (iObjectRegistry*);
-    virtual ~ComponentStats();
+    ComponentSkills (iObjectRegistry*);
+    virtual ~ComponentSkills();
 
     virtual bool Initialize (PointerLibrary*, Client::Entity::Entity*);
 
-    virtual Stat* GetStat(unsigned int id);
-    virtual Stat* GetStat(const char* name);
-    virtual int GetStatLevel(const char* name);
+    virtual size_t GetSkillLevel(const std::string& name);
 };
 
-#endif
+#endif // COMPONENT_SKILLS_H

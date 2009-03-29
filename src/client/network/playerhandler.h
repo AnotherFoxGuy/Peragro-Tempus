@@ -43,16 +43,10 @@ public:
     char id = msg->getMsgId();
 
     if (id == PLAYER::INVENTORYLIST) handleInventoryList(msg);
-    else if (id == PLAYER::STATSLIST) handleStatsList(msg);
-    else if (id == PLAYER::STATSCHANGE) handleStatsChange(msg);
-    else if (id == PLAYER::SKILLSLIST) handleSkillsList(msg);
     else if (id == PLAYER::INVENTORYMOVEITEM) handleInventoryMoveItem(msg);
   }
 
   void handleInventoryList(GenericMessage* msg);
-  void handleStatsList(GenericMessage* msg);
-  void handleStatsChange(GenericMessage* msg);
-  void handleSkillsList(GenericMessage* msg);
   void handleInventoryMoveItem(GenericMessage* msg);
 };
 

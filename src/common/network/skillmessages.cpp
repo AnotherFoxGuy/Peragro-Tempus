@@ -24,108 +24,58 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-bool SkillUsageStartRequestMessage::serialise(ByteStream* bs)
+bool SkillListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(caster);
-  serial.setInt32(target);
-  serial.setInt16(skill);
+  serial.setInt32(entityid);
+  serial.setInt24(statscount);
+  for ( size_t i = 0; i < statscount ; i++ )
+  {
+    serial.setInt16(stats[i].skillid);
+    serial.setString(stats[i].name);
+    serial.setInt16(stats[i].level);
+  };
+
   return serial.isValid();
 }
 
-void SkillUsageStartRequestMessage::deserialise(ByteStream* bs)
+void SkillListMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  caster = (unsigned int) serial.getInt32();
-  target = (unsigned int) serial.getInt32();
-  skill = (unsigned short) serial.getInt16();
+  entityid = (unsigned int) serial.getInt32();
+  statscount = (unsigned int) serial.getInt24();
+  setStatsCount(statscount);
+  for ( size_t i = 0; i < statscount ; i++ )
+  {
+    stats[i].skillid = (unsigned short) serial.getInt16();
+    stats[i].name = serial.getString();
+    stats[i].level = (unsigned short) serial.getInt16();
+  };
+
 }
 
-bool SkillUsageStartResponseMessage::serialise(ByteStream* bs)
+bool SkillUpdateMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(caster);
-  serial.setInt32(target);
-  serial.setInt16(skill);
-  serial.setInt16(mpcost);
-  serial.setString(error);
+  serial.setInt32(entityid);
+  serial.setInt16(skillid);
+  serial.setInt16(level);
   return serial.isValid();
 }
 
-void SkillUsageStartResponseMessage::deserialise(ByteStream* bs)
+void SkillUpdateMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  caster = (unsigned int) serial.getInt32();
-  target = (unsigned int) serial.getInt32();
-  skill = (unsigned short) serial.getInt16();
-  mpcost = (unsigned short) serial.getInt16();
-  error = serial.getString();
-}
-
-bool SkillUsageStopRequestMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt16(skill);
-  return serial.isValid();
-}
-
-void SkillUsageStopRequestMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  skill = (unsigned short) serial.getInt16();
-}
-
-bool SkillUsageCompletionMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt32(caster);
-  serial.setInt32(target);
-  serial.setInt16(skill);
-  return serial.isValid();
-}
-
-void SkillUsageCompletionMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  caster = (unsigned int) serial.getInt32();
-  target = (unsigned int) serial.getInt32();
-  skill = (unsigned short) serial.getInt16();
-}
-
-bool SkillUsageInterruptMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt32(caster);
-  serial.setInt32(target);
-  serial.setInt16(skill);
-  return serial.isValid();
-}
-
-void SkillUsageInterruptMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  caster = (unsigned int) serial.getInt32();
-  target = (unsigned int) serial.getInt32();
-  skill = (unsigned short) serial.getInt16();
+  entityid = (unsigned int) serial.getInt32();
+  skillid = (unsigned short) serial.getInt16();
+  level = (unsigned short) serial.getInt16();
 }
 

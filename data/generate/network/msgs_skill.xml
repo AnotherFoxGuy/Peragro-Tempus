@@ -1,31 +1,20 @@
 <message-implementation>
-	<message type="Skill" name="SkillUsageStartRequest">
-		<uint32>Caster</uint32>
-		<uint32>Target</uint32>
-		<uint16>Skill</uint16>
+	<message type="Skill" name="SkillList">
+          <event name="entity.skill.list" specific="EntityId">
+                <uint32>EntityId</uint32>
+		<list name="Stats">
+			<uint16>SkillId</uint16>
+			<string>Name</string>
+			<float>Xp</float>
+		</list>
+          </event>
 	</message>
-
-	<message type="Skill" name="SkillUsageStartResponse">
-		<uint32>Caster</uint32>
-		<uint32>Target</uint32>
-		<uint16>Skill</uint16>
-		<uint16>MpCost</uint16>
-		<string>Error</string> <!-- null if successful -->
-	</message>
-
-	<message type="Skill" name="SkillUsageStopRequest">
-		<uint16>Skill</uint16>
-	</message>
-
-	<message type="Skill" name="SkillUsageCompletion">
-		<uint32>Caster</uint32>
-		<uint32>Target</uint32>
-		<uint16>Skill</uint16>
-	</message>
-
-	<message type="Skill" name="SkillUsageInterrupt">
-		<uint32>Caster</uint32>
-		<uint32>Target</uint32>
-		<uint16>Skill</uint16>
+  
+        <message type="Skill" name="SkillUpdate">
+          <event name="entity.skill.update" specific="EntityId">
+                <uint32>EntityId</uint32>
+                <uint16>SkillId</uint16>
+                 <float>Xp</float>
+          </event>
 	</message>
 </message-implementation>

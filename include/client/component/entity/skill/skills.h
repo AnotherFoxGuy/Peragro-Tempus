@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef IVIEWBOB_H
-#define IVIEWBOB_H
+#ifndef ICOMPONENT_SKILLS_H
+#define ICOMPONENT_SKILLS_H
 
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
@@ -34,24 +34,15 @@ namespace Client
   }
 } //Client namespace
 
-struct Stat
-{
-  std::string name;
-  unsigned int level;
-  unsigned int id;
-};
 
-struct iStats : public virtual iBase
+struct iSkills : public virtual iBase
 {
-    SCF_INTERFACE(iStats, 1,0,0);
+    SCF_INTERFACE(iSkills, 1,0,0);
 
     virtual bool Initialize(PointerLibrary*, Client::Entity::Entity*) = 0;
 
-    virtual Stat* GetStat(unsigned int id) = 0;
-    virtual Stat* GetStat(const char* name) = 0;
-    virtual int GetStatLevel(const char* name) = 0;
-
+    virtual size_t GetSkillLevel(const std::string& name) = 0;
 };
 
 
-#endif // INETWORKMOVE_H
+#endif // ICOMPONENT_SKILLS_H
