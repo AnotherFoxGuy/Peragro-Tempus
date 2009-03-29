@@ -217,7 +217,7 @@ namespace WFMath
         {
           if ((*it).lock())
             if (Cast((*it).lock())->ContainedIn(s))
-              result.push_back(*it);
+              result.push_back((*it).lock());
         }
 
         return result;
