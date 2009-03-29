@@ -35,60 +35,70 @@
 #include <wfmath/ball.h>
 #include <wfmath/intersect.h>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+
 namespace WFMath
 {
-  template<const int Dim, typename T, typename G>
-  class Shape
+  class iShape
   {
   public:
     struct Listener
     {
       virtual ~Listener() {}
-      virtual void Moved(Shape*) = 0;
-      virtual void Destroyed(Shape*) = 0;
+      virtual void Moved(iShape*) = 0;
+      virtual void Destroyed(iShape*) = 0;
     };
 
   private:
-    T* parent;
-    G geom;
     std::list<Listener*> listeners;
 
-  public:
-    Shape(T* p) : parent(p) {}
-    ~Shape()
+  protected:
+    void NotifyDestroyed()
     {
-      typename std::list<Listener*>::iterator iter;
+      std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
         (*iter)->Destroyed(this);
     }
 
-    inline T* GetParent() const { return parent; }
-
-    G* operator->() const { return (G*)&geom; }
-
-    template<typename O>
-    inline G& operator+=(const O& o)
-    { geom += o; Set(geom); return geom; }
-
-    inline const G& Get() const { return geom; }
-    void Set(const G& v)
+    void NotifyMoved()
     {
-      geom = v;
-      typename std::list<Listener*>::iterator iter;
+      std::list<Listener*>::iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
-      {
         (*iter)->Moved(this);
-        //printf("Shape::Moved: %d\n", iter);
-      }
-      //printf("Shape::Moved: (%d)\n", listeners.size());
     }
 
-    void operator=(const G& v) { Set(v); }
-
-    inline bool ContainedIn(const Ball<Dim>& s) const { return Intersect<Dim>(s, geom, false); }
+  public:
+    iShape() {}
+    virtual ~iShape()
+    {
+      NotifyDestroyed();
+    }
 
     void AddListener(Listener* listener) { RemoveListener(listener); listeners.push_back(listener); }
     void RemoveListener(Listener* listener) { listeners.remove(listener); }
+  };
+
+  template<typename G>
+  class Shape : public iShape
+  {
+  private:
+    G geom;
+    std::list<Listener*> listeners;
+
+  public:
+    Shape() {}
+    virtual ~Shape() {}
+
+    inline const G& GetShape() const { return geom; }
+    virtual void SetShape(const G& v)
+    {
+      geom = v;
+      NotifyMoved();
+    }
+
+    template<const int Dim>
+    inline bool ContainedIn(const Ball<Dim>& s) const { return Intersect<Dim>(s, geom, false); }
   };
 
   // TODO: Implement me!
@@ -97,22 +107,31 @@ namespace WFMath
   /**
    * Tree class.
    */
-  template<const int Dim, typename T, typename G, unsigned short MAXSHAPES, unsigned short CHILDREN, bool ALLOWCOLLISSION>
+  template<typename G, const int Dim, unsigned short MAXSHAPES, unsigned short CHILDREN, bool ALLOWCOLLISSION>
   class Tree
   {
   public:
-    typedef typename WFMath::Shape<Dim, T, G> Shape;
-    typedef std::list<T*> QueryResult;
+    typedef std::list<boost::shared_ptr<iShape> > QueryResult;
 
   private:
-    class Node : public Shape::Listener
+    static Shape<G>* Cast(iShape* shape)
+    {
+      return static_cast<Shape<G>*>(shape);
+    }
+    
+    static boost::shared_ptr<Shape<G> > Cast(boost::shared_ptr<iShape> shape)
+    {
+      return boost::shared_static_cast<Shape<G>>(shape);
+    }
+
+    class Node : public iShape::Listener
     {
     private:
       /// Copy constructor.
       Node(const Node& o);
       Node& operator=(const Node& o);
 
-      typedef typename std::list<Shape*> Shapes;
+      typedef typename std::list<boost::weak_ptr<iShape> > Shapes;
       typedef typename Shapes::iterator Iterator;
       typedef typename Shapes::const_iterator ConstIterator;
 
@@ -122,11 +141,19 @@ namespace WFMath
       Shapes shapes;
       std::vector<Node*> children;
 
-    private:
-      virtual void Moved(Shape* shape)
+      class Equal
       {
-        printf("Node::Moved: %s\n", shape->GetParent()->name.c_str());
-        if (Contains<Dim>(shape->Get(), nodeShape, false)) // TODO: is this false correct?
+        iShape* s;
+      public:
+        Equal(iShape* shape) : s(shape) {}
+        bool operator() (const boost::weak_ptr<iShape>& v) { return s == v.lock().get(); }
+      };
+
+    private:
+      virtual void Moved(iShape* shape)
+      {
+        printf("Node::Moved!\n");
+        if (Contains<Dim>(Cast(shape)->GetShape(), nodeShape, false)) // TODO: is this false correct?
           return;
         else if (parent)
         {
@@ -138,11 +165,10 @@ namespace WFMath
         }
       }
 
-      virtual void Destroyed(Shape* shape)
+      virtual void Destroyed(iShape* shape)
       {
-        printf("Node::Destroyed: %s\n", shape->GetParent()->name.c_str());
-        //Remove(s);
-        shapes.remove(shape);
+        printf("Node::Destroyed!\n");
+        shapes.remove_if(Equal(shape));
       }
 
     public:
@@ -158,14 +184,15 @@ namespace WFMath
           delete children[i];
       }
 
-      bool Add(Shape* shape)
+      bool Add(boost::shared_ptr<iShape> shape)
       {
         if (!ALLOWCOLLISSION)
         {
           ConstIterator it;
           for (it = shapes.begin() ; it != shapes.end(); it++ )
-            if (Intersect<Dim>((*it)->Get(), shape->Get(), true))
-              return false;
+            if ((*it).lock())
+              if (Intersect<Dim>(Cast((*it).lock())->GetShape(), Cast(shape)->GetShape(), true))
+                return false;
         }
 
         // Make sure there are no doubles!
@@ -175,10 +202,10 @@ namespace WFMath
         return true;
       }
 
-      bool Remove(Shape* shape)
+      bool Remove(boost::shared_ptr<iShape> shape)
       {
         shape->RemoveListener(this);
-        shapes.remove(shape);
+        shapes.remove_if(Equal(shape.get()));
         return true;
       }
 
@@ -188,8 +215,27 @@ namespace WFMath
         ConstIterator it;
         for (it = shapes.begin() ; it != shapes.end(); it++ )
         {
-          if ((*it)->ContainedIn(s))
-            result.push_back((*it)->GetParent());
+          if ((*it).lock())
+            if (Cast((*it).lock())->ContainedIn(s))
+              result.push_back(*it);
+        }
+
+        return result;
+      }
+
+      template<typename T>
+      std::list<boost::shared_ptr<T> > Query(const Ball<Dim>& s) const
+      {
+        std::list<boost::shared_ptr<T> > result;
+        ConstIterator it;
+        for (it = shapes.begin() ; it != shapes.end(); it++ )
+        {
+          if ((*it).lock())
+            if (Cast((*it).lock())->ContainedIn(s))
+            {
+              boost::shared_ptr<T> t = boost::shared_dynamic_cast<T>((*it).lock());
+              if (t) result.push_back(t);
+            }
         }
 
         return result;
@@ -226,12 +272,12 @@ namespace WFMath
       return rootNode->Size();
     }
 
-    bool Add(Shape* shape)
+    bool Add(boost::shared_ptr<iShape> shape)
     {
       return rootNode->Add(shape);
     }
 
-    bool Remove(Shape* shape)
+    bool Remove(boost::shared_ptr<iShape> shape)
     {
       return rootNode->Remove(shape);
     }
@@ -239,6 +285,12 @@ namespace WFMath
     QueryResult Query(const Ball<Dim>& s) const
     {
       return rootNode->Query(s);
+    }
+
+    template<typename T>
+    std::list<boost::shared_ptr<T> > Query(const Ball<Dim>& s) const
+    {
+      return rootNode->Query<T>(s);
     }
 
   };

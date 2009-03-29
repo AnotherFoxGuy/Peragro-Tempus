@@ -29,14 +29,13 @@
 namespace WFMath
 {
   /**
-   * An octree class where T is the class it will manage
-   * and which has G as it's geometric representation.
+   * An octree class.
    * AllowCollission is wether to allow intersection when adding to the tree.
    **/
-  template<typename T, typename G, bool AllowCollission>
+  template<typename G, bool AllowCollission>
   struct OcTree
   {
-    typedef Tree<3, T, G, 2, 8, AllowCollission> Type;
+    typedef Tree<G, 3, 2, 8, AllowCollission> Type;
   };
 
 } // namespace WFMath

@@ -29,14 +29,13 @@
 namespace WFMath
 {
   /**
-   * An quadtree class where T is the class it will manage
-   * and which has G as it's geometric representation.
+   * An quadtree class.
    * AllowCollission is wether to allow intersection when adding to the tree.
    **/
-  template<typename T, typename G, bool AllowCollission>
+  template<typename G, bool AllowCollission>
   struct QuadTree
   {
-    typedef Tree<2, T, G, 2, 4, AllowCollission> Type;
+    typedef Tree<G, 2, 2, 4, AllowCollission> Type;
   };
 
 } // namespace WFMath
