@@ -121,7 +121,7 @@ namespace WFMath
     
     static boost::shared_ptr<Shape<G> > Cast(boost::shared_ptr<iShape> shape)
     {
-      return boost::shared_static_cast<Shape<G>>(shape);
+      return boost::shared_static_cast<Shape<G> >(shape);
     }
 
     class Node : public iShape::Listener
