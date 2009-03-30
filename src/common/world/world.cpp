@@ -88,17 +88,18 @@ namespace Common
     bool WorldManager::AddLookUp(Objectp object, bool unique)
     {
       WFMath::AxisBox<3> box;
-      try 
-      {box = factoryTable.GetSingle(object->factoryFile, object->factoryName)->boundingBox;}
-      catch (char*){}
-      // TODO: do proper transform.
-      box += object->position;
-      object->SetShape(box);
+      FactoriesTableVOp factory(factoryTable.GetSingle(
+        object->factoryFile, object->factoryName));
 
-      object->detailLevel = 0;
-      try 
-      {factoryTable.GetSingle(object->factoryFile, object->factoryName)->detailLevel;}
-      catch (char*){}
+      if (factory) 
+      {
+        box = factory->boundingBox;
+        // TODO: do proper transform.
+        box += object->position;
+        object->SetShape(box);
+
+        object->detailLevel = factory->detailLevel;
+      }
 
       return Add(object, unique);
     }

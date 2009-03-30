@@ -27,6 +27,8 @@
 #include "server/database/table-items.h"
 #include "server/database/table-entitypositions.h"
 
+#include "common/util/printhelper.h"
+
 void ItemEntity::SetInWorld(bool value) 
 { 
   inWorld = value; 
@@ -43,19 +45,24 @@ void ItemEntity::LoadFromDB()
 
   ItemsTable* table = Server::getServer()->GetTableManager()->Get<ItemsTable>();
   ItemsTableVOp i = table->GetSingle(GetId());
+  if (!i)
+  {
+    printf("E: Invalid ItemId %"SIZET"!\n", GetId());
+    throw "Invalid ItemId !";
+  }
 
   itemTemplate = Server::getServer()->GetItemTemplatesManager()->Get(i->itemTemplates_id);
   itemTemplate->SetDataOn(this);
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
-  try
+  EntityPositionsTableVOp p = ptable->GetSingle(GetId());
+  if (p)
   {
-    EntityPositionsTableVOp p = ptable->GetSingle(GetId());
     SetPosition(p->position);
     SetRotation(p->rotation[1]); //TODO: just Y atm.
     SetInWorld(true);
   }
-  catch (char*)
+  else
   {
     SetInWorld(false);
   }

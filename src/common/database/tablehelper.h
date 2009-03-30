@@ -305,10 +305,11 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
     arr = ParseMultiResultSet(rs); \
     delete rs; \
-    if (arr.size() != 1) \
+    if (arr.size() == 0) return BOOST_PP_CAT(t, TableVOp)(); \
+    else if (arr.size() != 1) \
     { \
-      printf("E: None or multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!\n"); \
-      throw "None or multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!"; \
+      printf("E: Multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!\n"); \
+      throw "Multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!"; \
     } \
     return arr[0]; \
   }

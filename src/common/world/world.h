@@ -107,10 +107,11 @@ namespace Common
 
       std::string GetMD5(const std::string& factoryFile, const std::string& factoryName)
       {
-        try
-        {return factoryTable.GetSingle(factoryFile, factoryName)->hash;}
-        catch (const char*)
-        {return "Invalid MD5";}
+        FactoriesTableVOp factory(factoryTable.GetSingle(factoryFile, factoryName));
+        if (factory)
+          return factory->hash;
+        else
+          return "Invalid MD5";
       }
 
       std::list<Objectp> Query(const WFMath::Ball<3>& s);

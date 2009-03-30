@@ -134,11 +134,12 @@ int main(int argc, char ** argv)
 
   if (port == 0)
   {
-    try
+    ConfigTableVOp p(tablemgr.Get<ConfigTable>()->GetSingle("port"));
+    if (p)
     {
-      port = atoi(tablemgr.Get<ConfigTable>()->GetSingle("port")->value.c_str());
+      port = atoi(p->value.c_str());
     }
-    catch (char const*)
+    else
     {
       port = 12345;
     }

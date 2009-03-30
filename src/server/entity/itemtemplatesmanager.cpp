@@ -32,6 +32,11 @@ void ItemTemplate::LoadFromDB()
 {
   ItemTemplatesTable* ttable = Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
   ItemTemplatesTableVOp it = ttable->GetSingle(templateId);
+  if (!it)
+  {
+    printf("E: Invalid template %"SIZET"!\n", templateId);
+    throw "Invalid template !";
+  }
 
   name = it->name;
   size_t meshId = it->meshes_id;
@@ -42,11 +47,21 @@ void ItemTemplate::LoadFromDB()
 
   EquipTypesTable* etable = Server::getServer()->GetTableManager()->Get<EquipTypesTable>();
   EquipTypesTableVOp e = etable->GetSingle(equipTypeId);
+  if (!e)
+  {
+    printf("E: Invalid EquipType %"SIZET"!\n", equipTypeId);
+    throw "Invalid EquipType !";
+  }
   equipType = e->slotName;
   equipTypeName = e->name;
 
   MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
   MeshesTableVOp m = mtable->GetSingle(meshId);
+  if (!e)
+  {
+    printf("E: Invalid MeshId %"SIZET"!\n", meshId);
+    throw "Invalid MeshId !";
+  }
   factoryName = m->factoryName;
   fileName = m->fileName;
 }

@@ -26,6 +26,8 @@
 #include "server/database/table-entitypositions.h"
 #include "server/database/table-meshes.h"
 
+#include "common/util/printhelper.h"
+
 void Character::SetMount(boost::shared_ptr<MountEntity> mount)
 {
   this->mount = mount;
@@ -84,6 +86,12 @@ void Character::LoadFromDB()
 
   CharactersTable* table = Server::getServer()->GetTableManager()->Get<CharactersTable>();
   CharactersTableVOp c = table->GetSingle(GetId());
+  if (!c)
+  {
+    printf("E: Invalid EntityId %"SIZET"!\n", GetId());
+    throw "Invalid EntityId !";
+  }
+
   SetName(c->name);
   size_t meshId = c->meshes_id;
   SetHairColour(c->hairColor);
@@ -92,11 +100,21 @@ void Character::LoadFromDB()
 
   MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
   MeshesTableVOp m = mtable->GetSingle(meshId);
+  if (!m)
+  {
+    printf("E: Invalid meshId %"SIZET"!\n", meshId);
+    throw "Invalid meshId !";
+  }
   SetMeshName(m->factoryName);
   SetFileName(m->fileName);
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
   EntityPositionsTableVOp p = ptable->GetSingle(GetId());
+  if (!p)
+  {
+    printf("E: Invalid EntityId: no position %"SIZET"!\n", GetId());
+    throw "Invalid EntityId: no position!";
+  }
   SetPosition(p->position);
   SetRotation(p->rotation[1]); //TODO: just Y atm.
 
