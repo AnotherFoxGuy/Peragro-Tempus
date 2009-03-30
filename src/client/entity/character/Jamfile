@@ -1,3 +1,4 @@
 SubDir TOP src client entity character ;
 
 SubInclude TOP src client entity character equipment ;
+SubInclude TOP src client entity character resource ;
