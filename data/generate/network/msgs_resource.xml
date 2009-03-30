@@ -1,0 +1,22 @@
+<message-implementation>
+	<message type="Resource" name="ResourceList">
+          <event name="entity.resource.list" specific="EntityId">
+                <uint32>EntityId</uint32>
+		<list name="Resources">
+			<uint16>ResourceId</uint16>
+			<string>Name</string>
+			<float>Value</float>
+                        <float>MaxValue</float>
+		</list>
+          </event>
+	</message>
+  
+        <message type="Resource" name="ResourceUpdate">
+          <event name="entity.resource.update" specific="EntityId">
+                <uint32>EntityId</uint32>
+                <uint16>ResourceId</uint16>
+                <float>Value</float>
+                <float>MaxValue</float>
+          </event>
+	</message>
+</message-implementation>
