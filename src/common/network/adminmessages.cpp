@@ -287,7 +287,7 @@ bool CreateChanDefaultMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(usetype);
+  serial.setInt8(isinitchan?1:0);
   serial.setString(group);
   serial.setInt8(permanent?1:0);
   return serial.isValid();
@@ -298,7 +298,7 @@ void CreateChanDefaultMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  usetype = (unsigned char) serial.getInt8();
+  isinitchan = serial.getInt8() != 0;
   group = serial.getString();
   permanent = serial.getInt8() != 0;
 }

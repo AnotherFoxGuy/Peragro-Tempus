@@ -242,7 +242,7 @@ namespace PT
         Report(PT::Debug, "Adding InitGroup %s", group);
 
         CreateChanDefaultMessage ccdmsg;
-        ccdmsg.setUseType(0);  //initgroup type
+        ccdmsg.setIsInitChan(true);  
         ccdmsg.setPermanent(false); //dummy value - not used
         ccdmsg.setGroup(ptString::create(group));
 
@@ -256,7 +256,7 @@ namespace PT
         Report(PT::Debug, "Adding DefGroup %s%s", group.first.c_str(), group.second?" (permanent)":"");
 
         CreateChanDefaultMessage ccdmsg;
-        ccdmsg.setUseType(1);  //defgroup type
+        ccdmsg.setIsInitChan(false);
         ccdmsg.setPermanent(group.second); 
         ccdmsg.setGroup(ptString::create(group.first.c_str()));
 

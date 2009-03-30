@@ -424,7 +424,7 @@ public:
 
 class CreateChanDefaultMessage : public NetMessage
 {
-  unsigned char usetype;
+  bool isinitchan;
   ptString group;
   bool permanent;
 
@@ -440,8 +440,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getUseType() const { return usetype; }
-  void setUseType(unsigned char x) { usetype = x; }
+  bool getIsInitChan() const { return isinitchan; }
+  void setIsInitChan(bool x) { isinitchan = x; }
 
   ptString getGroup() const { return group; }
   void setGroup(ptString x) { group = x; }

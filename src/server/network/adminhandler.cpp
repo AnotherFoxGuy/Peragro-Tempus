@@ -30,6 +30,9 @@
 #include "server/database/table-npcaisetting.h"
 #include "server/database/table-zones.h"
 #include "server/database/table-zonenodes.h"
+#include "server/database/table-config.h"
+#include "server/database/table-channels.h"
+#include "server/database/table-defaultchannels.h"
 
 #include "server/spawner.h"
 
@@ -159,7 +162,13 @@ void AdminHandler::handleRemoveAll(GenericMessage* msg)
 
 void AdminHandler::handleSetConfig(GenericMessage* msg)
 {
-/* TODO */
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  SetConfigMessage scmsg;
+  scmsg.deserialise(msg->getByteStream());
+  
+  ConfigTable* ct = Server::getServer()->GetTableManager()->Get<ConfigTable>();
+  ct->Insert( *(scmsg.getOption()), *(scmsg.getValue()) );
 }
 
 void AdminHandler::handleCreateItem(GenericMessage* msg)
@@ -349,7 +358,6 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
 
 void AdminHandler::handleSetDate(GenericMessage* msg)
 {
-  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   SetDateMessage dateMsg;
@@ -361,12 +369,23 @@ void AdminHandler::handleSetDate(GenericMessage* msg)
     Server::getServer()->getEnvironmentManager()->GetClock();
   clock->SetDate(date);
   clock->BroadcastTime();
-  */
 }
 
 void AdminHandler::handleCreateChanDefault(GenericMessage* msg)
 {
-/* TODO */
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  CreateChanDefaultMessage ccdmsg;
+  ccdmsg.deserialise(msg->getByteStream());
+  
+  std::string channel = *(ccdmsg.getGroup());
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
+
+  if (ccdmsg.getIsInitChan())
+    tablemgr->Get<ChannelsTable>()->Insert(channel);
+  else
+    tablemgr->Get<DefaultChannelsTable>()->Insert(channel, ccdmsg.getPermanent());
+
 }
 
 void AdminHandler::handleCreateChanSpace(GenericMessage* msg)

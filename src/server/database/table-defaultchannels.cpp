@@ -31,11 +31,7 @@ DefaultChannelsTable::DefaultChannelsTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
-    Insert("#general");
-    Insert("#auction");
-    Insert("#recruit");
-    Insert("#help");
-    Insert("#gm");
+    Insert("#general", true);
   }
   delete rs;
 }

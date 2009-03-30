@@ -31,13 +31,12 @@ class ResultSet;
 #define DB_TABLE_CHANNELS Channels
 #define DB_TABLE_CHANNELS_FIELDS \
   ((name,               std::string,        PT_PrimaryKey,  0)) \
-  ((channelType_id,     size_t,             0,              (ChannelTypes, id) ))
 
 PT_DECLARE_VO(ChannelsTable, DB_TABLE_CHANNELS, DB_TABLE_CHANNELS_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of definitions
- * of chat channelspaces.
+ * Provides an interface to the database to handle storage of persistent
+ * chat channels.
  */
 class ChannelsTable : public Table
 {

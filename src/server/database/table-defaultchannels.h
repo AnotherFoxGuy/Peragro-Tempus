@@ -31,6 +31,7 @@ class ResultSet;
 #define DB_TABLE_DEFAULTCHANNELS DefaultChannels
 #define DB_TABLE_DEFAULTCHANNELS_FIELDS \
   ((name,               std::string,        PT_PrimaryKey,    0)) \
+  ((permanent,          bool,               0,            0)) \
 
 PT_DECLARE_VO(DefaultChannelsTable, DB_TABLE_DEFAULTCHANNELS, DB_TABLE_DEFAULTCHANNELS_FIELDS)
 

@@ -67,7 +67,7 @@
 	</message>
 
         <message type="Admin" name="CreateChanDefault">
-		<uint8>UseType</uint8>
+		<bool>IsInitChan</bool>
 		<string>Group</string>
 		<bool>Permanent</bool>
         </message>
