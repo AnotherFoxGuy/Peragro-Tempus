@@ -330,6 +330,9 @@
 				RelativePath="..\..\src\common\network\questmessages.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\network\resourcemessages.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\network\skillmessages.cpp">
 			</File>
 			<File
@@ -389,6 +392,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\questmessages.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\network\resourcemessages.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\network\serialiser.h">

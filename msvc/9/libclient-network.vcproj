@@ -612,6 +612,9 @@
 				RelativePath="..\..\src\client\network\questhandler.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\network\resourcehandler.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\network\skillhandler.cpp">
 			</File>
 			<File
@@ -656,6 +659,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\questhandler.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\network\resourcehandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\network\skillhandler.h">
