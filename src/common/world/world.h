@@ -109,7 +109,7 @@ namespace Common
       {
         try
         {return factoryTable.GetSingle(factoryFile, factoryName)->hash;}
-        catch (char*)
+        catch (const char*)
         {return "Invalid MD5";}
       }
 

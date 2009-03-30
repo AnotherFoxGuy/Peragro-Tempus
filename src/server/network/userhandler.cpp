@@ -209,7 +209,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     {
       entity->LoadFromDB();
     }
-    catch(char*)
+    catch(const char*)
     {
       printf("E: handleCharSelectRequest(): Invalid entity '%d'!\n", request_msg.getCharId());
       return;

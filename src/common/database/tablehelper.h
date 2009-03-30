@@ -301,8 +301,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
       ";", \
       BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETCKS_(s)) \
       ); \
-    std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
     if (!rs) return BOOST_PP_CAT(t, TableVOp)(); \
+    std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
     arr = ParseMultiResultSet(rs); \
     delete rs; \
     if (arr.size() != 1) \

@@ -54,3 +54,4 @@ size_t ObjectsTable::GetMaxId()
   delete rs;
   return id;
 }
+

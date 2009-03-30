@@ -26,6 +26,8 @@
 #include "server/database/table-npcdialogs.h"
 #include "server/database/table-npcdialoganswers.h"
 
+#include "common/util/printhelper.h"
+
 NPCDialogManager* NPCDialogManager::self;
 
 NPCDialogManager::~NPCDialogManager()
@@ -87,7 +89,7 @@ void NPCDialogManager::LoadFromDB()
 
       boost::shared_ptr<NPCDialogAnswer> answer(new NPCDialogAnswer(next_dialog, vo->text));
       NPCDialog* dialog = this->GetDialog(vo->entity_id, vo->dialog_id);
-      if (!dialog){printf("Failed to match answer to dialog, npcid=%i, dialogid=%i\n", vo->entity_id, vo->dialog_id);continue;} // This only happens if you edit the DB without knowing what you're doing
+      if (!dialog){printf("Failed to match answer to dialog, npcid=%"SIZET", dialogid=%"SIZET"\n", vo->entity_id, vo->dialog_id);continue;} // This only happens if you edit the DB without knowing what you're doing
       dialog->AddAnswer(answer);
     }
   }

@@ -21,6 +21,7 @@
 #include <iengine/rview.h>
 #include <iengine/camera.h>
 #include <iengine/scenenode.h>
+#include <iengine/sector.h>
 #include <csgeom/transfrm.h>
 #include <ivaria/reporter.h>
 #include <iutil/vfs.h>

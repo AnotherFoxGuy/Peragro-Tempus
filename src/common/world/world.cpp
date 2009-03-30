@@ -17,7 +17,7 @@
 */
 
 #include "world.h"
-
+#include "common/util/printhelper.h"
 
 namespace Common
 {
@@ -29,7 +29,7 @@ namespace Common
       ObjectsTableVOArray::iterator it;
       for (it = objs.begin(); it != objs.end(); it++)
       {
-        printf("WorldManager: %d %s\n", (*it)->id, (*it)->name.c_str());
+        printf("WorldManager: %"SIZET" %s\n", (*it)->id, (*it)->name.c_str());
         boost::shared_ptr<Object> object(new Object( *(*it).get() ));
         objects.push_back(object);
         octree.Add(object);
