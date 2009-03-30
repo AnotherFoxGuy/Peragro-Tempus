@@ -58,6 +58,9 @@
 		<message type="Skill" name="SkillList" />
 		<message type="Skill" name="SkillUpdate" />
 
+                <message type="Resource" name="ResourceList" />
+                <message type="Resource" name="ResourceUpdate" />
+
 		<!--message type="Door" name="OpenDoorRequest" /-->
 		<message type="Door" name="OpenDoorResponse" />
 		<!--message type="Door" name="CloseDoorRequest" /-->
@@ -167,6 +170,9 @@
 
 		<!--message type="Skill" name="SkillList" /-->
                 <!--message type="Skill" name="SkillUpdate" /-->
+          
+                <!--message type="Resource" name="ResourceList" /-->
+                <!--message type="Resource" name="ResourceUpdate" /-->
 
                 <message type="Door" name="OpenDoorRequest" />
 		<!--message type="Door" name="OpenDoorResponse" /-->

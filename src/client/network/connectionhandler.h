@@ -30,6 +30,7 @@
 #include "client/network/entityhandler.h"
 #include "client/network/chathandler.h"
 #include "client/network/doorhandler.h"
+#include "client/network/resourcehandler.h"
 #include "client/network/skillhandler.h"
 #include "client/network/questhandler.h"
 #include "client/network/tradehandler.h"
@@ -50,6 +51,7 @@ private:
   ChatHandler chat_handler;
   DoorHandler door_handler;
   SkillHandler skill_handler;
+  ResourceHandler resource_handler;
   QuestHandler quest_handler;
   TradeHandler trade_handler;
   EnvironmentHandler environment_handler;
@@ -80,6 +82,7 @@ public:
     else if (type == MESSAGES::CHAT) chat_handler.handle(msg);
     else if (type == MESSAGES::DOOR) door_handler.handle(msg);
     else if (type == MESSAGES::SKILL) skill_handler.handle(msg);
+    else if (type == MESSAGES::RESOURCE) resource_handler.handle(msg);
     else if (type == MESSAGES::QUEST) quest_handler.handle(msg);
     else if (type == MESSAGES::TRADE) trade_handler.handle(msg);
     else if (type == MESSAGES::ENVIRONMENT) environment_handler.handle(msg);

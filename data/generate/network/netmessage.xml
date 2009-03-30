@@ -69,7 +69,11 @@
 			<message id="0" name="SkillList" />
 			<message id="1" name="SkillUpdate" />
 		</type>
-		<type id="5" name="Door">
+                <type id="5" name="Resource">
+			<message id="0" name="ResourceList" />
+			<message id="1" name="ResourceUpdate" />
+		</type>
+		<type id="6" name="Door">
 			<message id="0" name="OpenDoorRequest" />
 			<message id="1" name="OpenDoorResponse" />
 			<message id="2" name="CloseDoorRequest" />
@@ -79,14 +83,14 @@
 			<message id="6" name="UnlockDoorRequest" />
 			<message id="7" name="UnlockDoorResponse" />
 		</type>
-		<type id="6" name="Quest">
+		<type id="7" name="Quest">
 			<message id="0" name="NpcDialog" />
 			<message id="1" name="NpcDialogAnswer" />
 			<message id="2" name="NpcStartDialog" />
 			<message id="3" name="NpcEndDialog" />
 			<message id="4" name="SetupDialogs" />
 		</type>
-		<type id="7" name="Trade">
+		<type id="8" name="Trade">
 			<message id="0" name="ExchangeRequest" />
 			<message id="1" name="ExchangeResponse" />
 			<message id="2" name="TradeOffersListNpc" />
@@ -97,18 +101,18 @@
 			<message id="7" name="TradeConfirmRequest" />
 			<message id="8" name="TradeConfirmResponse" />
 		</type>
-		<type id="8" name="Environment">
+		<type id="9" name="Environment">
 			<message id="0" name="InitTime" />
 			<message id="1" name="UpdateTime" />
 			<message id="2" name="Weather" />
 		</type>
-		<type id="9" name="Book">
+		<type id="10" name="Book">
 			<message id="0" name="BookReadRequest" />
 			<message id="1" name="BookReadResponse" />
 			<message id="2" name="BookWriteRequest" />
 			<message id="3" name="BookWriteResponse" />
 		</type>
-		<type id="10" name="Admin">
+		<type id="11" name="Admin">
 			<message id="0" name="RemoveAll" />
 			<message id="1" name="SetConfig" />
 			<message id="2" name="CreateItem" />
@@ -124,18 +128,18 @@
 			<message id="11" name="CreateChanDefault" />
 			<message id="12" name="CreateChanSpace" />
 		</type>
-		<type id="11" name="Player">
+		<type id="12" name="Player">
 			<message id="1" name="InventoryList" />
 			<message id="2" name="InventoryMoveItemRequest" />
 			<message id="3" name="InventoryMoveItem" />
 		</type>
-		<type id="12" name="Combat">
+		<type id="13" name="Combat">
 			<message id="0" name="AttackRequest" />
 			<message id="1" name="AttackNotification" />
 			<message id="2" name="Death" />
 			<message id="3" name="SelectTarget" />
 		</type>
-		<type id="13" name="Auth">
+		<type id="14" name="Auth">
 			<message id="0" name="ClientLoginRequest" />
 			<message id="1" name="ClientLoginChallenge" />
 			<message id="2" name="ClientLoginResponse" />
@@ -162,6 +166,7 @@
 		<message-implementation src="msgs_entity.xml" />
 		<message-implementation src="msgs_chat.xml" />
 		<message-implementation src="msgs_skill.xml" />
+                <message-implementation src="msgs_resource.xml" />
 		<message-implementation src="msgs_door.xml" />
 		<message-implementation src="msgs_quest.xml" />
 		<message-implementation src="msgs_trade.xml" />

@@ -171,14 +171,20 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   {
     // User has already an entity loaded
     entity = user->GetEntity();
+    Server::getServer()->getEntityManager()->Remove(entity);
 
     if (entity->GetId() != request_msg.getCharId())
     {
       // User tries to login with a new character, remove the old.
-      Server::getServer()->getEntityManager()->Remove(entity);
+      printf("I: handleCharSelectRequest(): User '%s' switching to char %d!\n", user->GetName(), request_msg.getCharId());
       entity.reset();
     }
-    printf("E: handleCharSelectRequest(): BLAH '%d'!\n", request_msg.getCharId());
+    else
+    {
+      printf("I: handleCharSelectRequest(): User '%s' continuing with char %d!\n", user->GetName(), request_msg.getCharId());
+      server->getEntityManager()->Add(entity);
+      return;
+    }    
   }
 
   if (!entity)
@@ -227,8 +233,10 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-/*
+
   PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+  pc->GetResources()->SendAll(msg->getConnection());
+/*
   pc->getInventory()->sendAllItems(msg->getConnection());
 
   pc->getStats()->sendAllStats(msg->getConnection());

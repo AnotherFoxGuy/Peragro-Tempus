@@ -96,7 +96,7 @@ namespace PT
       PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
       PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.unmount")
       PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.stat.add.player")
+      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.resource.list")
 
       PT_REGISTER_LISTENER(EntityManager, SetOwnId, "state.play")
       PT_REGISTER_LISTENER(EntityManager, OnInteract, "input.Interact")
@@ -134,7 +134,7 @@ namespace PT
             UnMount(*ev);
           else if (evmgr->IsKindOf(id, "entity.pose"))
             EntityPose(*ev);
-          else if (::PT::Entity::PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.stat.list.player"))
+          else if (::PT::Entity::PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.resource.list"))
             evmgr->AddEvent(ev);
         }
         if (world_loaded && statePlay && !::PT::Entity::PlayerEntity::Instance())

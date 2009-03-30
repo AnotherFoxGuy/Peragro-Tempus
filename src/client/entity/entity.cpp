@@ -44,7 +44,6 @@
 #include "include/world.h"
 
 #include "client/component/componentmanager.h"
-#include "include/client/component/entity/stat/stats.h"
 
 #include "common/util/geomhelper.h"
 
@@ -66,12 +65,7 @@ namespace Client
       ev.Retrieve("rotation", rotation);
 
       //TODO
-      sectorName = "World";
-
-      PT::Component::ComponentManager* componentManager =
-        PointerLibrary::getInstance()->getComponentManager();
-
-      ADD_COMPONENT(componentManager, iStats, "peragro.entity.stats")
+      sectorName = "World";   
     }
 
     void Entity::CreateCelEntity()

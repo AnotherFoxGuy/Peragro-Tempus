@@ -3,4 +3,3 @@ SubDir TOP components entity ;
 SubInclude TOP components entity move ;
 SubInclude TOP components entity input ;
 SubInclude TOP components entity mesh ;
-SubInclude TOP components entity skill ;

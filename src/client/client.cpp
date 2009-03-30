@@ -106,7 +106,6 @@ CS_IMPLEMENT_APPLICATION
 
 namespace PT
 {
-
   Client::Client()
   {
     SetApplicationName ("Client");
@@ -128,7 +127,7 @@ namespace PT
     guiManager = 0;
     inputManager = 0;
     stateManager = 0;
-    // Don't set environmentManager = 0;
+    environmentManager = 0;
 
     entityManager = 0;
     combatManager = 0;
@@ -150,17 +149,15 @@ namespace PT
     delete network;
     delete cursor;
 
-    // Don't delete eventManager, that is taken care of by the boost::shared_ptr
-    // in struct PT:Events::EventManager::Listener
     delete sectorDataManager;
     delete connectionDataManager;
     delete serverSetupManager;
     delete guiManager;
     delete inputManager;
     delete stateManager;
-    // Don't delete environmentManager;
+    delete environmentManager;
 
-    // Don't delete entityManager;
+    delete entityManager;
     delete combatManager;
     delete chatManager;
     delete tradeManager;
@@ -168,6 +165,8 @@ namespace PT
 
     delete userManager;
     delete questManager;
+
+    delete eventManager;
 
     delete reporter;
 
@@ -205,24 +204,6 @@ namespace PT
       {
         // Draw the player camera manually.
         player->CameraDraw();
-
-        if (stateManager->GetState() == STATE_PLAY)
-        {
-          player->UpdatePlayerStats();
-          if (guiManager)
-          {
-            float currentStamina = player->GetCurrentStamina();
-            float maxStamina = player->GetMaxStamina();
-            float ratio = currentStamina / maxStamina;
-            using namespace PT::GUI::Windows;
-            StatsHUDWindow* statshudWindow = guiManager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
-            statshudWindow->SetSP(ratio);
-            char buffer[40];
-            snprintf(buffer, 40, "            %d/%d", (int)currentStamina,
-              (int)maxStamina);
-            statshudWindow->SetText("StatsHUD/SPValue", buffer);
-          }
-        }
       }
     }
 

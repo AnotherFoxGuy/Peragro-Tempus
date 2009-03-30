@@ -27,49 +27,51 @@
 
 #include "client/pointer/pointer.h"
 
-void SkillHandler::handleSkillList(GenericMessage* msg)
+void ResourceHandler::handleResourceList(GenericMessage* msg)
 {
-  SkillListMessage pmsg;
+  ResourceListMessage pmsg;
   pmsg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.skill.list", pmsg.getEntityId()), true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.resource.list", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    csRef<iEvent> list = evmgr->CreateEvent("statsList", true);
-    for (unsigned char i = 0; i < pmsg.getStatsCount(); i++)
+    csRef<iEvent> list = evmgr->CreateEvent("resourcesList", true);
+    for (unsigned char i = 0; i < pmsg.getResourcesCount(); i++)
     {
       std::stringstream itemName;
-      itemName << "stats" << "_" << i;
+      itemName << "resources" << "_" << i;
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
-      item->Add("skillId", pmsg.getSkillId(i));
+      item->Add("resourceId", pmsg.getResourceId(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
-      item->Add("xp", pmsg.getXp(i));
+      item->Add("value", pmsg.getValue(i));
+      item->Add("maxValue", pmsg.getMaxValue(i));
       list->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("statsList", list);
+    pEvent->Add("resourcesList", list);
 
     evmgr->AddEvent(pEvent);
   }
 
-} // end handleSkillList
+} // end handleResourceList
 
-void SkillHandler::handleSkillUpdate(GenericMessage* msg)
+void ResourceHandler::handleResourceUpdate(GenericMessage* msg)
 {
-  SkillUpdateMessage pmsg;
+  ResourceUpdateMessage pmsg;
   pmsg.deserialise(msg->getByteStream());
 
   using namespace PT::Events;
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
-    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.skill.update", pmsg.getEntityId()), true);
+    csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.resource.update", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    pEvent->Add("skillId", pmsg.getSkillId());
-    pEvent->Add("xp", pmsg.getXp());
+    pEvent->Add("resourceId", pmsg.getResourceId());
+    pEvent->Add("value", pmsg.getValue());
+    pEvent->Add("maxValue", pmsg.getMaxValue());
 
     evmgr->AddEvent(pEvent);
   }
 
-} // end handleSkillUpdate
+} // end handleResourceUpdate
 

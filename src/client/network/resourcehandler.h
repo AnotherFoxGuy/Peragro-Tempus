@@ -20,37 +20,34 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#ifndef NWTYPES_H
-#define NWTYPES_H
+#ifndef RESOURCEHANDLER_H
+#define RESOURCEHANDLER_H
 
-#define MSG_NET_VERSION 1619561197
+#include "common/network/nwtypes.h"
 
-#define MSG_CLIENT_PEER_VERSION 2972589617
-#define MSG_SERVER_PEER_VERSION 638096237
-#define MSG_AUTH_PEER_VERSION 1818675900
+#include "common/network/resourcemessages.h"
 
-#define MSG_HANDLER_COUNT 15
-
-namespace MESSAGES
+class ResourceHandler : public MessageHandler
 {
-  enum HANDLERS
+public:
+  ResourceHandler()
   {
-    CONNECTION=0,
-    USER=1,
-    ENTITY=2,
-    CHAT=3,
-    SKILL=4,
-    RESOURCE=5,
-    DOOR=6,
-    QUEST=7,
-    TRADE=8,
-    ENVIRONMENT=9,
-    BOOK=10,
-    ADMIN=11,
-    PLAYER=12,
-    COMBAT=13,
-    AUTH=14
-  };
-}
+  }
 
-#endif // NWTYPES_H
+  char getType() { return MESSAGES::RESOURCE; }
+
+  void handle(GenericMessage* msg)
+  {
+    char type = msg->getMsgType();
+    if (type != MESSAGES::RESOURCE) assert("wrong message type");
+    char id = msg->getMsgId();
+
+    if (id == RESOURCE::RESOURCELIST) handleResourceList(msg);
+    else if (id == RESOURCE::RESOURCEUPDATE) handleResourceUpdate(msg);
+  }
+
+  void handleResourceList(GenericMessage* msg);
+  void handleResourceUpdate(GenericMessage* msg);
+};
+
+#endif // RESOURCEHANDLER_H

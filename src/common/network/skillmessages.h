@@ -42,7 +42,7 @@ class SkillListMessage : public NetMessage
   public:
     unsigned short skillid;
     ptString name;
-    unsigned short level;
+    float xp;
   };
 
   unsigned int statscount;
@@ -82,8 +82,8 @@ public:
   ptString getName(size_t i) { return stats[i].name; }
   void setName(size_t i, ptString x) { stats[i].name = x; }
 
-  unsigned short getLevel(size_t i) { return stats[i].level; }
-  void setLevel(size_t i, unsigned short x) { stats[i].level = x; }
+  float getXp(size_t i) { return stats[i].xp; }
+  void setXp(size_t i, float x) { stats[i].xp = x; }
 
   // --- end ListStats Getter and Setter ---
 
@@ -93,7 +93,7 @@ class SkillUpdateMessage : public NetMessage
 {
   unsigned int entityid;
   unsigned short skillid;
-  unsigned short level;
+  float xp;
 
 public:
   SkillUpdateMessage() : NetMessage(MESSAGES::SKILL,SKILL::SKILLUPDATE)
@@ -113,8 +113,8 @@ public:
   unsigned short getSkillId() const { return skillid; }
   void setSkillId(unsigned short x) { skillid = x; }
 
-  unsigned short getLevel() const { return level; }
-  void setLevel(unsigned short x) { level = x; }
+  float getXp() const { return xp; }
+  void setXp(float x) { xp = x; }
 
 };
 

@@ -22,6 +22,7 @@
 #include "client/entity/entity.h"
 
 #include "client/entity/character/equipment/equipment.h"
+#include "client/entity/character/resource/resource.h"
 
 namespace PT
 {
@@ -41,11 +42,18 @@ namespace PT
       ///Time of last update of character's statistics.
       csTicks lastStatUpdate;
 
+      boost::shared_ptr<ResourcesFactory> resourcesFact;
+      boost::shared_ptr<Resources> resources;
+
     protected:
       /**
        * Convenience constructor for use in children classes.
        */
-      CharacterEntity(Common::Entity::EntityType type) : ::Client::Entity::Entity(type), equipment(this) {}
+      CharacterEntity(Common::Entity::EntityType type) 
+        : ::Client::Entity::Entity(type), equipment(this), resourcesFact(new ResourcesFactory()) 
+      {
+        resources = resourcesFact->Create(this);
+      }
       /**
        * Constructor that sets up the character using the information provided
        * by EntityAddEvent event.
@@ -54,14 +62,6 @@ namespace PT
        */
       CharacterEntity(Common::Entity::EntityType type, const iEvent& ev);
 
-      ///@todo Stats shouldn't be defined like this.
-      float maxStamina;
-      ///@todo Stats shouldn't be defined like this.
-      float currentStamina;
-      ///@todo Stats shouldn't be defined like this.
-      float recoverStamina; // + stamina/ms
-      ///@todo Stats shouldn't be defined like this.
-      float drainStamina;   // - stamina/ms
       ///Specifies whether character is sitting or not.
       ///@todo It's not very logical to have boats sit, is it? (boats will
       ///probably be MountEntities).
@@ -72,14 +72,8 @@ namespace PT
     public:
       void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
-      ///@todo Stats shouldn't be defined like this.
-      float GetCurrentStamina() const { return currentStamina; }
-      ///@todo Stats shouldn't be defined like this.
-      void SetCurrentStamina(float x);
-      ///@todo Stats shouldn't be defined like this.
-      float GetMaxStamina() const { return maxStamina; }
-      ///@todo Stats shouldn't be defined like this.
-      void SetMaxStamina(float x) { maxStamina = x; }
+      ///@todo 
+      boost::shared_ptr<Resources> GetResources() const { return resources; }
 
       ///@return Reference to character's equipment.
       ///@todo Maybe move 'equipment' property to public?

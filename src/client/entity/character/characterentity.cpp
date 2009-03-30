@@ -46,14 +46,9 @@ namespace PT
   {
 
     CharacterEntity::CharacterEntity(Common::Entity::EntityType type, const iEvent& ev) :
-      ::Client::Entity::Entity(type, ev), equipment(this)
+      ::Client::Entity::Entity(type, ev), equipment(this), resourcesFact(new ResourcesFactory())
     {
-      maxStamina = 100;
-      currentStamina = 100;
       sitting = false;
-      lastStatUpdate = 0;
-      recoverStamina = 0.001f;
-      drainStamina = 0.002f;
       hasMount = false;
 
 
@@ -77,6 +72,8 @@ namespace PT
       }
       else
         Report(PT::Error, "CharacterEntity failed to get equipment!");
+      //--------------------------------------------------------------
+      resources = resourcesFact->Create(this);
 
       //--------------------------------------------------------------
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -97,11 +94,6 @@ namespace PT
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
       SetFullPosition();
-    }
-
-    void CharacterEntity::SetCurrentStamina(float x)
-    {
-      if (x >= 0 && x <= maxStamina) currentStamina = x;
     }
 
     void CharacterEntity::PlayAnimation(const char* animationName,
@@ -173,42 +165,5 @@ namespace PT
       }
     }
 
-    void CharacterEntity::UpdatePlayerStats()
-    {
-      csTicks time = csGetTicks();
-
-      if (!celEntity.IsValid())
-      {
-        Report(PT::Error, "Failed to player stats!");
-        return;
-      }
-
-      csRef<iPcActorMove> pcactormove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcActorMove);
-      csTicks diff = time - lastStatUpdate;
-
-      // If lastStatUpdate == 0 then we have never updated the stats,
-      // Lets not do this yet, since then we will base our update from
-      // the program start, which is not correct.
-      if (lastStatUpdate == 0)
-      {
-        lastStatUpdate = time;
-        return;
-      }
-
-      if (pcactormove->IsRunning())
-      {
-        // Decrease stamina
-        currentStamina -= diff * drainStamina;
-        if (currentStamina < 0) currentStamina = 0;
-      }
-      else
-      {
-        // Increase stamina
-        currentStamina += diff * recoverStamina;
-        if (currentStamina > maxStamina) currentStamina = maxStamina;
-      }
-      lastStatUpdate = time;
-    }
-  }
-}
+  } // namespace Entity
+} // namespace PT

@@ -22,8 +22,9 @@
 #include <algorithm>
 
 #include "common/network/serialiser.h"
-#include "common/network/playermessages.h"
+#include "common/network/resourcemessages.h"
 #include "server/network/connection.h"
+#include "server/network/networkhelper.h"
 
 #include "../entity.h"
 
@@ -41,8 +42,9 @@
 
 //==[ Resource ]=============================================================
 Resources::Resource::Resource(Resources* resources, size_t id, float value) 
-  : resources(resources), id(id), value(value), registered(false)
+  : resources(resources), id(id), value(0.0f), registered(false)
 {
+  Set(value, false);
 }
 
 Resources::Resource::~Resource()
@@ -70,15 +72,16 @@ void Resources::Resource::UnRegister()
 
 void Resources::Resource::SendUpdate()
 {
-/* TODO
   ResourceUpdateMessage msg;
-  msg.setResource(id);
+  msg.setEntityId(resources->entity->GetId());
+  msg.setResourceId(id);
   msg.setValue(value);
+  msg.setMaxValue(GetMax());
   ByteStream bs;
   msg.serialise(&bs);
   NetworkHelper::sendMessage(resources->entity, bs);
-*/
-  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %f\n", id, value);
+
+  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %f to %s.\n", id, value, resources->entity->GetName().c_str());
 }
 
 float Resources::Resource::Get() const
@@ -86,14 +89,15 @@ float Resources::Resource::Get() const
   return value;
 }
 
-void Resources::Resource::Set(float value)
+void Resources::Resource::Set(float value, bool update)
 { 
-  if (value < this->value)
+  if (value != this->value)
   {
     float max = GetMax();
     this->value = std::min<float>(value, max);
     if (this->value < max) Register();
-    SendUpdate();
+    if (update) SendUpdate();
+    //TODO: resources->SaveResourceToDB(this);
   }
 }
 
@@ -192,7 +196,6 @@ void Resources::Set(const std::string& name, float value)
 {
   Resource* res = GetResource(name); 
   res->Set(value); 
-  SaveResourceToDB(res);
 }
 
 void Resources::Add(const std::string& name, float value)
@@ -273,6 +276,33 @@ void Resources::SaveToDB()
   //Already taken care of.
 }
 
+void Resources::SendAll(Connection* conn)
+{
+  const std::map<std::string, size_t>& names = fact->GetNames();
+  ResourceListMessage list_msg;
+  list_msg.setResourcesCount((char)names.size());
+
+  list_msg.setEntityId(entity->GetId());
+
+  printf("RRRRRRRRRRRR!\n");
+
+  std::map<std::string, size_t>::const_iterator it;
+  size_t n = 0;
+  for (it=names.begin(); it != names.end(); it++)
+  {
+    list_msg.setResourceId(n, it->second);
+    list_msg.setName(n, it->first);
+    list_msg.setValue(n, Get(it->first));
+    list_msg.setMaxValue(n, GetMax(it->first));
+    n++;
+    printf("RRRRRRRRRRRR '%s'!\n", it->first.c_str());
+  }
+
+  ByteStream bs2;
+  list_msg.serialise(&bs2);
+  conn->send(bs2);
+}
+
 ResourcesFactory::ResourcesFactory(TableManager* db) : db(db)
 {
   LoadFromDB();
@@ -302,7 +332,10 @@ void ResourcesFactory::timeOut()
 {
   //printf("timeOut\n");
   size_t elapsedTime = 1000; //ms
-  std::list<Resources::Resource*>::const_iterator it = resources.begin();
+
+  std::list<Resources::Resource*> toBeUnRegistered;
+
+  std::list<Resources::Resource*>::iterator it = resources.begin();
   for ( ; it != resources.end(); it++)
   {
     Resources::Resource* res = *it;
@@ -311,8 +344,12 @@ void ResourcesFactory::timeOut()
       res->Regenerate(elapsedTime);
     }
     else
-      UnRegister(res);
+      toBeUnRegistered.push_back(res);
   }
+
+  std::list<Resources::Resource*>::iterator it2 = toBeUnRegistered.begin();
+  for ( ; it2 != toBeUnRegistered.end(); it2++)
+    UnRegister(*it2);
 }
 
 void ResourcesFactory::Register(Resources::Resource* resource) 

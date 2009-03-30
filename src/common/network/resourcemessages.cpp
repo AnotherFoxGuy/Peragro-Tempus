@@ -20,62 +20,66 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#include "common/network/skillmessages.h"
+#include "common/network/resourcemessages.h"
 #include "deserialiser.h"
 #include "serialiser.h"
 
-bool SkillListMessage::serialise(ByteStream* bs)
+bool ResourceListMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
-  serial.setInt24(statscount);
-  for ( size_t i = 0; i < statscount ; i++ )
+  serial.setInt24(resourcescount);
+  for ( size_t i = 0; i < resourcescount ; i++ )
   {
-    serial.setInt16(stats[i].skillid);
-    serial.setString(stats[i].name);
-    serial.setFloat(stats[i].xp);
+    serial.setInt16(resources[i].resourceid);
+    serial.setString(resources[i].name);
+    serial.setFloat(resources[i].value);
+    serial.setFloat(resources[i].maxvalue);
   };
 
   return serial.isValid();
 }
 
-void SkillListMessage::deserialise(ByteStream* bs)
+void ResourceListMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
   entityid = (unsigned int) serial.getInt32();
-  statscount = (unsigned int) serial.getInt24();
-  setStatsCount(statscount);
-  for ( size_t i = 0; i < statscount ; i++ )
+  resourcescount = (unsigned int) serial.getInt24();
+  setResourcesCount(resourcescount);
+  for ( size_t i = 0; i < resourcescount ; i++ )
   {
-    stats[i].skillid = (unsigned short) serial.getInt16();
-    stats[i].name = serial.getString();
-    stats[i].xp = serial.getFloat();
+    resources[i].resourceid = (unsigned short) serial.getInt16();
+    resources[i].name = serial.getString();
+    resources[i].value = serial.getFloat();
+    resources[i].maxvalue = serial.getFloat();
   };
 
 }
 
-bool SkillUpdateMessage::serialise(ByteStream* bs)
+bool ResourceUpdateMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
-  serial.setInt16(skillid);
-  serial.setFloat(xp);
+  serial.setInt16(resourceid);
+  serial.setFloat(value);
+  serial.setFloat(maxvalue);
   return serial.isValid();
 }
 
-void SkillUpdateMessage::deserialise(ByteStream* bs)
+void ResourceUpdateMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
   entityid = (unsigned int) serial.getInt32();
-  skillid = (unsigned short) serial.getInt16();
-  xp = serial.getFloat();
+  resourceid = (unsigned short) serial.getInt16();
+  value = serial.getFloat();
+  maxvalue = serial.getFloat();
 }
 

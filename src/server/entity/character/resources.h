@@ -31,6 +31,7 @@
 class TableManager;
 class Entity;
 class ResourcesFactory;
+class Connection;
 
 class Resources
 {
@@ -42,7 +43,7 @@ private:
     virtual ~Resource();
     size_t GetId() { return id; }
     virtual float Get() const;
-    virtual void Set(float value);
+    virtual void Set(float value, bool update = true);
     virtual float GetMax() const;
     virtual void Regenerate(size_t elapsedTime);
   protected:
@@ -98,6 +99,8 @@ public:
 
   void LoadFromDB();
   void SaveToDB();
+
+  void SendAll(Connection* conn);
 };
 
 class ResourcesFactory : public Timer
@@ -128,6 +131,8 @@ protected:
 public:
   ResourcesFactory(TableManager* db);
   virtual ~ResourcesFactory() {}
+
+  const std::map<std::string, size_t>& GetNames() { return names; }
 
   const ResourceTypesTableVOp& Get(size_t id) const
   {

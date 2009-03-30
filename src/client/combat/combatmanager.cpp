@@ -54,8 +54,6 @@
 
 #include "client/state/statemanager.h"
 
-#include "include/client/component/entity/stat/stats.h"
-
 namespace PT
 {
   namespace Combat
@@ -152,6 +150,7 @@ namespace PT
       unsigned int entityid = -1;
       ev.Retrieve("entityid", entityid);
 
+      /*
       ::Client::Entity::Entity* target = dynamic_cast< ::Client::Entity::Entity*>
         (entityManager->FindById(entityid).get());
       if (!target)
@@ -214,6 +213,7 @@ namespace PT
         if (stat->level == 0)
           Die(target);
       }
+      */
 
       return true;
 
