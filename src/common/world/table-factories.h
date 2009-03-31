@@ -30,7 +30,7 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_FACTORIES Factories
 #define DB_TABLE_FACTORIES_FIELDS \
-  ((factoryFile,         std::string,         PT_PrimaryKey,      0)) \
+  ((factoryFile,         std::string,         PT_PrimaryKeyS,      0)) \
   ((factoryName,         std::string,         PT_PrimaryKey,      0)) \
   ((boundingBox,         WFMath::AxisBox<3>,  0,                  0)) \
   ((detailLevel,         size_t,              0,                  0)) \
