@@ -334,26 +334,25 @@ void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)
 {
-  /*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateZoneMessage zonemsg;
   zonemsg.deserialise(msg->getByteStream());
 
   ZoneManager* zonemgr = Server::getServer()->getZoneManager();
-  Tables* tables = Server::getServer()->getTables();
+  ZonesTable* ztbl = Server::getServer()->GetTableManager()->Get<ZonesTable>();
+  ZoneNodesTable* zntbl = Server::getServer()->GetTableManager()->Get<ZoneNodesTable>();
 
   ZoneManager::Zone zone;
-  zone.type = zonemsg.getZoneType();
-  tables->getZonesTable()->insert(new ZonesTableVO(zonemsg.getZoneId(), *zonemsg.getZoneType()));
+  zone.type = *zonemsg.getZoneType();
+  ztbl->Insert(zonemsg.getZoneId(), *zonemsg.getZoneType());
   //The nodes need to be reversed here to be in the right order for GetZone(..)
   for(int i=zonemsg.getNodesCount()-1; i>-1; i--)
   {
-    tables->getZonenodesTable()->insert(new ZonenodesTableVO(zonemsg.getZoneId(), zonemsg.getX(i), zonemsg.getZ(i)));
+    zntbl->Insert(zonemsg.getZoneId(), WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)) );
     zone.coords.push_back(WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)));
   }
   zonemgr->addZone(zone);
-  */
 }
 
 void AdminHandler::handleSetDate(GenericMessage* msg)
