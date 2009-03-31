@@ -30,9 +30,9 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_NPCDIALOGANSWERS NpcDialogAnswers
 #define DB_TABLE_NPCDIALOGANSWERS_FIELDS \
-  ((entity_id,        size_t,             PT_PrimaryKey,    (Entities, id) )) \
-  ((dialog_id,        size_t,             PT_CandidateKey,  (NpcDialogs, id) )) \
-  ((id,               size_t,             PT_CandidateKey,  0)) \
+  ((entity_id,        size_t,             PT_PrimaryKeyS,   (Entities, id) )) \
+  ((dialog_id,        size_t,             PT_PrimaryKeyS,   (NpcDialogs, id) )) \
+  ((id,               size_t,             PT_PrimaryKey,    0)) \
   ((text,             std::string,        0,                0)) \
   ((isEnd,            bool,               0,                0)) \
   ((nextDialog_id,    size_t,             0,                (NpcDialogs, id) )) \

@@ -44,6 +44,13 @@ namespace PT
       ///CEL physical layer, so that the entity can clean up after itself
       csRef<iCelPlLayer> pl;
 
+      /**
+       * Initialises the object's CEL entity. This includes creation of CEL
+       * entity, creation and setup of some of its properties, and placing of
+       * the entity in game world.
+       */
+      virtual void CreateCelEntity () = 0;
+
     public:
       Entity(Common::Entity::EntityType type) : Common::Entity::Entity(type), celEntity(0), pl(0) {}
 

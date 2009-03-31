@@ -71,6 +71,7 @@ bool ComponentNetworkMove::Initialize (PointerLibrary* pl,
 
   EventManager* evmgr = pointerlib->getEventManager();
 
+  eventHandlers.DeleteAll();
   PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Move, "entity.move", true);
   PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, Teleport, "entity.teleport", true);
   PT_REGISTER_LISTENER_ENTITY(ComponentNetworkMove, DrUpdate, "entity.drupdate", true);

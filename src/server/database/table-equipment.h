@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_EQUIPMENT Equipment
 #define DB_TABLE_EQUIPMENT_FIELDS \
-  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
-  ((equipType_id,      size_t,             PT_CandidateKey, (EquipTypes, id) )) \
+  ((entity_id,         size_t,             PT_PrimaryKeyS,  (Entities, id) )) \
+  ((equipType_id,      size_t,             PT_PrimaryKey,   (EquipTypes, id) )) \
   ((item_id,           size_t,             0,               (Entities, id) ))
 
 PT_DECLARE_VO(EquipmentTable, DB_TABLE_EQUIPMENT, DB_TABLE_EQUIPMENT_FIELDS)

@@ -42,53 +42,29 @@ namespace PT
   namespace Entity
   {
 
-    DoorEntity::DoorEntity(const iEvent& ev) : ::Client::Entity::Entity(Common::Entity::DoorEntityType, ev)
+    DoorEntity::DoorEntity() : ::Client::Entity::Entity(Common::Entity::DoorEntityType)
     {
-      ev.Retrieve("open", open);
-      ev.Retrieve("locked", locked);
-      ev.Retrieve("typeId", doorId);
-      animationName = PT::Events::Helper::GetString(&ev, "animationName");
-      Create();
-
-      ///@TODO: Move this to a component?
-      PT_SETUP_HANDLER
-      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Open, "entity.door.open", doorId)
-      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Close, "entity.door.close", doorId)
-      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Lock, "entity.door.lock", doorId)
-      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Unlock, "entity.door.unlock", doorId)
+      pl->CreatePropertyClass(celEntity, "pclogic.quest");  
     }
 
     DoorEntity::~DoorEntity()
     {
     }
 
-    void DoorEntity::Create()
+    void DoorEntity::Initialize(const iEvent& ev)
     {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
+      // Clear the eventhandlers.
+      eventHandlers.DeleteAll();
 
-      CreateCelEntity();
+      ::Client::Entity::Entity::Initialize(ev);
+
+      ev.Retrieve("open", open);
+      ev.Retrieve("locked", locked);
+      ev.Retrieve("typeId", doorId);
+      animationName = PT::Events::Helper::GetString(&ev, "animationName");
+
+      csString buffer;
       celEntity->SetName(name.c_str());
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-      csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
-
-      if (doormesh.IsValid())
-      {
-        pcmesh->SetMesh(doormesh);
-        trans = doormesh->GetMovable()->GetTransform();
-        ::Client::Entity::Entity::SetPosition(doormesh->GetMovable()->GetFullPosition());
-      }
-      else
-      {
-        Report(PT::Warning, "DoorEntity: Couldn't find mesh '%s' for door %s!", meshName.c_str(), name.c_str());
-        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
-        // Register listener for WorldLoaded.
-        PT_SETUP_HANDLER
-        PT_REGISTER_LISTENER(DoorEntity, TileLoaded, "world.loaded")
-      }
 
       csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(celEntity,
         iPcProperties);
@@ -96,11 +72,20 @@ namespace PT
       pcprop->SetProperty("Door Locked", locked);
 
       //Use CEL's quest system for door state and simple animating.
-      pl->CreatePropertyClass(celEntity, "pclogic.quest");
       csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
       celQuestParams parameters;
+      pcquest->StopQuest();
       pcquest->NewQuest(animationName.c_str(), parameters);
-      pcquest->GetQuest()->SwitchState("closed");
+      
+      //@TODO
+      //Loaded(ev);
+
+      ///@TODO: Move this to a component?
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Open, "entity.door.open", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Close, "entity.door.close", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Lock, "entity.door.lock", doorId)
+      PT_REGISTER_LISTENER_ENTITY_ID(DoorEntity, Unlock, "entity.door.unlock", doorId)
     }
 
     void DoorEntity::SetOpen(bool value)
@@ -197,7 +182,7 @@ namespace PT
       pcmesh->GetMesh()->GetMovable()->SetTransform(trans);
     }
 
-    bool DoorEntity::TileLoaded(iEvent& ev)
+    bool DoorEntity::Loaded(iEvent& ev)
     {
       std::string meshName = GetMeshName();
       csRef<iCelEntity> celEntity = GetCelEntity();
@@ -206,13 +191,20 @@ namespace PT
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
       csRef<iMeshWrapper> doormesh = engine->FindMeshObject(meshName.c_str());
 
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+      if (!pcmesh.IsValid()) return false;
+
       if (doormesh.IsValid())
       {
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-        if (!pcmesh.IsValid()) return false;
         pcmesh->SetMesh(doormesh);
         csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
         pcquest->GetQuest()->SwitchState(open ? "open" : "closed");
+        trans = doormesh->GetMovable()->GetTransform();
+        //::Client::Entity::Entity::SetPosition(doormesh->GetMovable()->GetFullPosition());
+      }
+      else if (!pcmesh->GetMesh())
+      {
+        pcmesh->CreateEmptyGenmesh("EmptyGenmesh");
       }
 
       return false;

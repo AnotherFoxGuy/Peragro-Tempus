@@ -52,10 +52,12 @@ namespace PT
         virtual float Get() const;
         virtual void Set(float value, float maxValue = -1);
         virtual float GetMax() const;
+        virtual float GetOld() const;
       protected:
         size_t id;
         float value;
         float maxValue;
+        float oldValue;
       };
 
     private:
@@ -77,8 +79,11 @@ namespace PT
     public:
       Resources(ResourcesFactory* fact, Entity* entity);
 
+      void Initialize();
+
       float Get(const std::string& name);
       float GetMax(const std::string& name);
+      float GetOld(const std::string& name);
     };
 
     class ResourcesFactory

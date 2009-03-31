@@ -30,9 +30,9 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_PERMISSIONS Permissions
 #define DB_TABLE_PERMISSIONS_FIELDS \
-  ((users_login,        std::string,       PT_PrimaryKey, (Users, login) )) \
-  ((type,               std::string,       0,             0)) \
-  ((level,              size_t,            0,             0))
+  ((users_login,        std::string,       PT_PrimaryKeyS,  (Users, login) )) \
+  ((type,               std::string,       PT_PrimaryKey,   0)) \
+  ((level,              size_t,            0,               0))
 
 PT_DECLARE_VO(PermissionsTable, DB_TABLE_PERMISSIONS, DB_TABLE_PERMISSIONS_FIELDS)
 

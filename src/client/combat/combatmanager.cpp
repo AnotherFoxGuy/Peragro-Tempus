@@ -54,6 +54,8 @@
 
 #include "client/state/statemanager.h"
 
+#include "client/entity/character/resource/resource.h"
+
 namespace PT
 {
   namespace Combat
@@ -88,8 +90,9 @@ namespace PT
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(CombatManager, ActionHit, "input.Hit")
       PT_REGISTER_LISTENER(CombatManager, ActionSelectTarget, "input.Attack")
-      PT_REGISTER_LISTENER(CombatManager, AddStatPlayer, "entity.stat.add.player")
-      PT_REGISTER_LISTENER(CombatManager, UpdateStat, "entity.stat.change")
+
+      PT_REGISTER_LISTENER(CombatManager, UpdatePlayerResource, "entity.resource.list")
+      PT_REGISTER_LISTENER(CombatManager, UpdatePlayerResource, "entity.resource.update")
 
       if (!entityManager) return Report(PT::Bug,
         "CombatManager: Failed to locate ptEntityManager plugin");
@@ -103,121 +106,37 @@ namespace PT
       return true;
     } // end Initialize()
 
-    bool CombatManager::AddStatPlayer(iEvent& ev)
+    bool CombatManager::UpdatePlayerResource(iEvent& ev)
     {
-      static int hp = 0;
-      static int maxhp = 0;
-
-      //TODO: This can be removed when stats component is fixed. (line 59)
-      if (ev.GetName() != PointerLibrary::getInstance()->getEventManager()->
-        Retrieve("entity.stat.add.player"))
-      {
-        return true;
-      }
-
-      const char* name;
-      unsigned int level = -1;
-      ev.Retrieve("name", name);
-      ev.Retrieve("level", level);
-
-      if (strncmp("Endurance", name, strlen("Endurance")) == 0)
-      {
-        maxhp = level;
-      }
-
-      if (strncmp("Health", name, strlen("Health")) == 0)
-      {
-        hp = level;
-      }
-
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
+
+      PT::Entity::PlayerEntity* player = PointerLibrary::getInstance()->getPlayer();
+      if (!player) return true;
+
+      if (!player->GetResourcesReady()) return true;
+
+      boost::shared_ptr<PT::Entity::Resources> res = player->GetResources();
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       StatsHUDWindow* statshudWindow = guimanager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
-      statshudWindow->SetHP(hp, maxhp);
+      
+      try
+      {
+        statshudWindow->SetHP(res->Get("Hit Points"), res->GetMax("Hit Points"));
+
+        statshudWindow->SetMP(res->Get("Willpower"), res->GetMax("Willpower"));
+
+        statshudWindow->SetSP(res->Get("Stamina"), res->GetMax("Stamina"));
+
+        float delta = res->GetOld("Hit Points") - res->Get("Hit Points");
+        if (delta > 0) Hit(player, delta);
+        if (res->Get("Hit Points") <= 0) Die(player);
+      }
+      catch (PT::Entity::ResourcesFactory::Exception&){}
 
       return true;
-    } // end AddStatPlayer()
-
-    bool CombatManager::UpdateStat(iEvent& ev)
-    {
-      using namespace PT::Events;
-      using namespace PT::Entity;
-      using namespace PT::GUI;
-      using namespace PT::GUI::Windows;
-
-      unsigned int entityid = -1;
-      ev.Retrieve("entityid", entityid);
-
-      /*
-      ::Client::Entity::Entity* target = dynamic_cast< ::Client::Entity::Entity*>
-        (entityManager->FindById(entityid).get());
-      if (!target)
-      {
-        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
-          entityid);
-        return true;
-      }
-
-      csRef<iStats> stats =
-        target->GetComponent<iStats>("peragro.entity.stats");
-      if (!stats)
-      {
-        Report(PT::Error,
-          "CombatManager: Couldn't find stats for entity with ID %d !",
-          entityid);
-        return true;
-      }
-
-      unsigned int statId = -1;
-      ev.Retrieve("id", statId);
-
-      // Locate the correct stat.
-      Stat* stat = stats->GetStat(statId);
-      if (!stat)
-      {
-        Report(PT::Error,
-          "CombatManager: Couldn't find stats for entity with ID %d !",
-          entityid);
-        return true;
-      }
-
-      unsigned int oldValue = stat->level;
-      ev.Retrieve("level", stat->level);
-
-      if (strncmp("Health", stat->name.c_str(), strlen("Health")) == 0)
-      {
-        // If the health update belong to the player, update the gui.
-        if (target->GetType() == Common::Entity::PlayerEntityType)
-        {
-          // Life = 1 * endurance
-          int maxLife = stats->GetStatLevel("Endurance");
-
-          GUIManager* guimanager =
-            PointerLibrary::getInstance()->getGUIManager();
-          StatsHUDWindow* statshudWindow = guimanager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
-          statshudWindow->SetHP(stat->level, maxLife);
-        }
-
-        if (oldValue != 0 && stat->level != 0)
-        {
-          int damage = 0;
-          if (ev.AttributeExists("delta"))
-            ev.Retrieve("delta", damage);
-          else
-            damage = oldValue - stat->level;
-          Hit(target, damage);
-        }
-        // If HP = 0, then play the die animation for the dying entity.
-        if (stat->level == 0)
-          Die(target);
-      }
-      */
-
-      return true;
-
-    } // end UpdateStat()
+    } // end UpdatePlayerResource()
 
     void CombatManager::Hit(::Client::Entity::Entity* target, int damage)
     {

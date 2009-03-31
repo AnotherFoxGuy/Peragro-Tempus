@@ -39,7 +39,12 @@ namespace PT
     //==[ Resources ]============================================================
     Resources::Resources(ResourcesFactory* fact, Entity* entity)
       : fact(fact), entity(entity)
+    {   
+    }
+
+    void Resources::Initialize()
     {
+      eventHandlers.DeleteAll();
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
       PT_REGISTER_LISTENER_ENTITY(Resources, Update, "entity.resource.update", true)
@@ -65,7 +70,7 @@ namespace PT
       catch (ResourcesFactory::Exception&)
       {
         printf("No resource with name '%s'!\n", name.c_str());
-        throw;
+        throw ResourcesFactory::Exception();
       }
     }
 
@@ -79,6 +84,11 @@ namespace PT
       return GetResource(name)->GetMax();
     }
 
+    float Resources::GetOld(const std::string& name)
+    {
+      return GetResource(name)->GetOld();
+    }
+
     void Resources::Set(const std::string& name, float value, float maxValue)
     {
       Resource* res = GetResource(name); 
@@ -87,8 +97,6 @@ namespace PT
 
     bool Resources::Update(iEvent& ev)
     {
-      Report(PT::Error, "ttyyyyyyyyyyyyyyyyyyyyyyyy!");
-
       if (!fact->listRecieved)
       {
         Report(PT::Error, "ComponentSkills failed updating skill!");
@@ -114,8 +122,6 @@ namespace PT
     bool Resources::List(iEvent& ev)
     {
       using namespace PT::Events;
-
-      Report(PT::Error, "RRRRRRRRRRRRRRRRRRRRTTTTTTTTTTTTTT!");
 
       csRef<iEvent> list;
       if (ev.Retrieve("resourcesList", list) == csEventErrNone)
@@ -170,6 +176,7 @@ namespace PT
 
     void Resources::Resource::Set(float value, float maxValue)
     { 
+      this->oldValue = this->value;
       if (maxValue > 0)
       {
         this->maxValue = maxValue;
@@ -180,6 +187,11 @@ namespace PT
     float Resources::Resource::GetMax() const
     {
       return maxValue;
+    }
+
+    float Resources::Resource::GetOld() const
+    {
+      return oldValue;
     }
 
     //==[ ResourcesFactory ]============================================================

@@ -37,6 +37,9 @@ namespace PT
     class CharacterEntity : public ::Client::Entity::Entity
     {
     protected:
+      virtual void Initialize(const iEvent& ev);
+
+    protected:
       ///Equipment that character entity carries/owns.
       Equipment equipment;
       ///Time of last update of character's statistics.
@@ -47,20 +50,10 @@ namespace PT
 
     protected:
       /**
-       * Convenience constructor for use in children classes.
+       * Constructor.
        */
-      CharacterEntity(Common::Entity::EntityType type) 
-        : ::Client::Entity::Entity(type), equipment(this), resourcesFact(new ResourcesFactory()) 
-      {
-        resources = resourcesFact->Create(this);
-      }
-      /**
-       * Constructor that sets up the character using the information provided
-       * by EntityAddEvent event.
-       * @see Entity::Entity(const Events::EntityAddEvent&)
-       * @param ev Event used for initialising the character properties.
-       */
-      CharacterEntity(Common::Entity::EntityType type, const iEvent& ev);
+      CharacterEntity(Common::Entity::EntityType type);
+      virtual ~CharacterEntity() {}
 
       ///Specifies whether character is sitting or not.
       ///@todo It's not very logical to have boats sit, is it? (boats will
@@ -74,6 +67,7 @@ namespace PT
 
       ///@todo 
       boost::shared_ptr<Resources> GetResources() const { return resources; }
+      bool GetResourcesReady() const { return resourcesFact->listRecieved; }
 
       ///@return Reference to character's equipment.
       ///@todo Maybe move 'equipment' property to public?

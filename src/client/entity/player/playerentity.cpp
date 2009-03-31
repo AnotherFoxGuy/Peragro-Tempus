@@ -56,21 +56,25 @@ namespace PT
     PlayerEntity* PlayerEntity::instance;
 
 
-    PlayerEntity::PlayerEntity(const iEvent& ev) : PcEntity(ev)
+    PlayerEntity::PlayerEntity() : PcEntity()
     {
       type = Common::Entity::PlayerEntityType;
 
-      Create();
+      pl->CreatePropertyClass(celEntity, "pccamera.old");
+      camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
+      if (camera.IsValid())
+      {
+        //We will draw the camera as needed, in order for it to not overwrite
+        //the GUI.
+        camera->SetAutoDraw(false);
+        camera->SetMode(iPcDefaultCamera::thirdperson, true);
+        camera->SetPitch(-0.18f);
+      }
+      else
+        Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
 
       iObjectRegistry* object_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
-
-      vfs = csQueryRegistry<iVFS> (object_reg);
-      if (!vfs)
-      {
-        Report(PT::Error, "Can't find the vfs!");
-        return;
-      }
 
       PT::Component::ComponentManager* componentManager =
         PointerLibrary::getInstance()->getComponentManager();
@@ -92,135 +96,33 @@ namespace PT
 
     void DontDelete(PlayerEntity*){}
 
-    boost::shared_ptr<PlayerEntity> PlayerEntity::Instance(const iEvent* ev)
+    boost::shared_ptr<PlayerEntity> PlayerEntity::Instance()
     {
       //If the instance already exists, and we're not
       //requesting a reinitialization.
-      if (instance && !ev) return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
-      //If the instance already exists, and we're requesting
-      //a reinitialization
-      else if (instance && ev)
-      {
-        instance->ReInit(*ev);
-        return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
-      }
+      if (instance) return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
 
-      //We can't initialize without a valid event
-      if (!ev) return boost::shared_ptr<PlayerEntity>();
-
-      instance = new PlayerEntity(*ev);
+      instance = new PlayerEntity();
       return boost::shared_ptr<PlayerEntity>(instance, DontDelete);
     }
 
-    void PlayerEntity::ReInit(const iEvent& ev)
+    void PlayerEntity::Initialize(const iEvent& ev)
     {
-      // Reset the Id.
-      ev.Retrieve("entityId", id);
+      PcEntity::Initialize(ev);
 
-      // TODO: Clear the inventory.
-      // TODO: Clear the skills and skillbar.
+      Report(PT::Notify, "PlayerEntity::Initialize");
+      celEntity->SetName("player");
 
-      equipment.ClearAll();
-
-      //Add the equipment
-      using namespace Events;
-      csRef<iEvent> evequipment = EntityHelper::GetEquipment(&ev);
-      if (evequipment)
-      {
-        csRef<iEventAttributeIterator> items = evequipment->GetAttributeIterator();
-        while (items->HasNext())
-        {
-          csRef<iEvent> item; evequipment->Retrieve(items->Next(), item);
-          unsigned int slotId, itemId;
-          std::string mesh, file;
-          item->Retrieve("slotId", slotId);
-          item->Retrieve("itemId", itemId);
-          mesh = Helper::GetString(item, "meshName");
-          file = Helper::GetString(item, "fileName");
-          equipment.Equip(slotId, itemId, mesh, file);
-        }
-      }
-      else
-        Report(PT::Error, "PlayerEntity: failed to get equipment!");
-
-      unsigned int sectorId = -1;
-      ev.Retrieve("sectorId", sectorId);
-      ///@todo This is an ugly hack. The server seems to send some impossible
-      ///sector id from time to time.
-      PT::Data::Sector* sector = PointerLibrary::getInstance()->
-        GetSectorDataManager()->GetSectorById(sectorId);
-      if (sector) sectorName = sector->GetName();
-      //End of ugly hack
-
-      Common::Entity::Entity::SetPosition(PT::Events::EntityHelper::GetPosition(&ev));
-      ev.Retrieve("rotation", rotation);
-
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iObjectRegistry> obj_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
-
       world->EnterWorld(GetPosition());
-      SetFullPosition();
     }
 
     iCamera* GetCam(iPcDefaultCamera* camera)
     {
       if (!camera) return 0;
       return camera->GetCamera();
-    }
-
-    void PlayerEntity::Create()
-    {
-      Report(PT::Notify, "CREATING PLAYER");
-      celEntity->SetName("player");
-
-      csRef<iObjectRegistry> obj_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-
-      //At this time PlayerEntity's Create() method takes care of the
-      //appropriate stuff, so we only need to setup the camera.
-      pl->CreatePropertyClass(celEntity, "pccamera.old");
-
-      camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
-      if (camera.IsValid())
-      {
-        //We will draw the camera as needed, in order for it to not overwrite
-        //the GUI.
-        camera->SetAutoDraw(false);
-        camera->SetMode(iPcDefaultCamera::thirdperson, true);
-        camera->SetPitch(-0.18f);
-      }
-      else
-        Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
-
-      csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
-
-      world->EnterWorld(GetPosition());
-      SetFullPosition();
-
-#ifdef _MOVEMENT_DEBUG_CHARACTER_
-      other_self = pl->CreateEntity();
-
-      pl->CreatePropertyClass(other_self, "pcobject.mesh");
-      pl->CreatePropertyClass(other_self, "pcmove.solid");
-      pl->CreatePropertyClass(other_self, "pcmove.actor.standard");
-      pl->CreatePropertyClass(other_self, "pcmove.linear");
-
-      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(other_self, iPcMesh);
-
-      pcmesh->SetMesh(meshName.c_str(), fileName.c_str());
-
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-      csRef<iSector> sector = engine->FindSector(sectorName.c_str());
-
-      csRef<iMovable> mov = pcmesh->GetMesh()->GetMovable();
-      if (mov.IsValid())
-      {
-        mov->SetSector(sector);
-        mov->SetPosition(pos);
-        mov->GetTransform ().SetO2T (csYRotMatrix3(rot));
-        mov->UpdateMove();
-      }
-#endif
     }
 
     iSector* PlayerEntity::GetSector()
@@ -257,39 +159,6 @@ namespace PT
       world->EnterWorld(pos);
       this->SetFullPosition();
     }
-
-    void PlayerEntity::SetFullPosition(const WFMath::Point<3>& pos,
-                                      float rotation,
-                                      const std::string& sector)
-    {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-
-      if (celEntity.IsValid())
-      {
-        csRef<iPcDefaultCamera> camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
-        csRef<iSector> sec = engine->FindSector(sector.c_str());
-
-        if (!sec.IsValid())
-        {
-          sec = engine->FindSector("Default_Sector");
-          if (!sec.IsValid()) printf("AAAARRRGG\n");
-        }
-        /*
-        if (camera.IsValid() && camera->GetCamera() && sec.IsValid())
-        {
-          csVector3 offset = pos - static_cast<const csVector3&>(this->position);
-          camera->GetCamera()->SetSector(sec);
-          camera->GetCamera()->Move(offset, false);
-          camera->UpdateCamera();
-        }
-        */
-      }
-
-      ::Client::Entity::Entity::SetFullPosition(pos, rotation, sector);
-
-    } // end SetFullPosition()
 
   } //Entity namespace
 } //PT namespace

@@ -33,17 +33,14 @@ namespace PT
      */
     class NpcEntity : public CharacterEntity
     {
-    private:
-      void Create();
+    protected:
+      virtual void Initialize(const iEvent& ev);
 
     public:
       /**
-       * Constructor that sets up the NPC using the information provided by
-       * EntityAddEvent event.
-       * @see Entity::Entity(const Events::EntityAddEvent&)
-       * @param ev Event used for initialising the NPC properties.
+       * Constructor.
        */
-      NpcEntity(const iEvent& ev);
+      NpcEntity();
 
       void Interact();
     };

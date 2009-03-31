@@ -51,21 +51,21 @@ namespace Client
 {
   namespace Entity
   {
-    Entity::Entity(Common::Entity::EntityType type, const iEvent& ev) : ::PT::Entity::Entity(type)
+    Entity::Entity(Common::Entity::EntityType type) : ::PT::Entity::Entity(type)
+    {
+      CreateCelEntity();
+    }
+
+    void Entity::Initialize(const iEvent& ev)
     {
       using namespace PT::Events;
-      EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
       id = EntityHelper::GetEntityID(&ev);
-      type = (Common::Entity::EntityType)PT::Events::EntityHelper::GetEntityType(&ev, evmgr);
       name = Helper::GetString(&ev, "entityName");
       meshName = Helper::GetString(&ev, "meshName");
       fileName = Helper::GetString(&ev, "fileName");
       Common::Entity::Entity::SetPosition(PT::Events::EntityHelper::GetPosition(&ev));
       ev.Retrieve("rotation", rotation);
-
-      //TODO
-      sectorName = "World";   
+      sectorName = "World";
     }
 
     void Entity::CreateCelEntity()
@@ -93,13 +93,14 @@ namespace Client
                                  float rotation,
                                  const std::string& sector)
     {
+      std::string sec = sector;
+      if (sec == "Default_Sector") sec = GetSectorName();
+      Common::Entity::Entity::SetFullPosition(pos, rotation, sec);
+
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
 
-      if (sector != "Default_Sector") Entity::sectorName = sector;
-      Common::Entity::Entity::SetPosition(pos);
-      Entity::rotation = rotation;
 
       if (celEntity.IsValid())
       {

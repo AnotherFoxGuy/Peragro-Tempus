@@ -74,6 +74,7 @@ public:
     virtual ~ComponentMesh();
 
     virtual bool Initialize (PointerLibrary*, Client::Entity::Entity*);
+    virtual void Load();
 };
 
 #endif // COMPONENT_MESH_H

@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_HOBBIES Hobbies
 #define DB_TABLE_HOBBIES_FIELDS \
-  ((entity_id,      size_t,             PT_PrimaryKey,    (Entities, id) )) \
-  ((HobbyTypes_id,  size_t,             PT_CandidateKey,  (HobbyTypes, id) )) \
+  ((entity_id,      size_t,             PT_PrimaryKeyS,    (Entities, id) )) \
+  ((HobbyTypes_id,  size_t,             PT_PrimaryKey,    (HobbyTypes, id) )) \
   ((order,          size_t,             0,                0)) \
   ((xp,             float,              0,                0))
 

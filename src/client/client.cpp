@@ -197,16 +197,6 @@ namespace PT
 
     handleStates();
 
-    if (entityManager)
-    {
-      boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
-      if (player)
-      {
-        // Draw the player camera manually.
-        player->CameraDraw();
-      }
-    }
-
     // Paint the interface over the engine
     if (guiManager) guiManager->Render();
 
@@ -330,6 +320,12 @@ namespace PT
       return Report(PT::Error, "Failed to initialize EventManager!");
     pointerlib.setEventManager(eventManager);
 
+    // Create and Initialize the ComponentManager.
+    componentManager = new PT::Component::ComponentManager (&pointerlib);
+    if (!componentManager->Initialize())
+      return Report(PT::Error, "Failed to initialize ComponentManager!");
+    pointerlib.setComponentManager(componentManager);
+
     // Create and Initialize the UserManager.
     userManager = new PT::User::UserManager ();
     if (!userManager->Initialize())
@@ -416,12 +412,6 @@ namespace PT
     if (!questManager->Initialize())
       return Report(PT::Error, "Failed to initialize QuestManager!");
     //pointerlib.setQuestManager(questManager);
-
-    // Create and Initialize the ComponentManager.
-    componentManager = new PT::Component::ComponentManager (&pointerlib);
-    if (!componentManager->Initialize())
-      return Report(PT::Error, "Failed to initialize ComponentManager!");
-    pointerlib.setComponentManager(componentManager);
 
     view.AttachNew(new csView(engine, g3d));
 
@@ -602,13 +592,17 @@ namespace PT
     case STATE_PLAY:
       {
         checkConnection();
-        entityManager->Handle();
+        boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
+        if (player)
+        {
+          // Draw the player camera manually.
+          player->CameraDraw();
+        }
         break;
       }
     case STATE_RECONNECTED:
       {
         checkConnection();
-        entityManager->Handle();
         break;
       }
     }
@@ -625,8 +619,6 @@ namespace PT
 
       //TODO: Make it actually delete all entities like it claims to do...
       entityManager->RemoveAll();
-
-      entityManager->Handle();
 
       stateManager->SetState(STATE_RECONNECTED);
 

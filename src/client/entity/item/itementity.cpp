@@ -41,39 +41,25 @@ namespace PT
   namespace Entity
   {
 
-    ItemEntity::ItemEntity(const iEvent& ev) : ::Client::Entity::Entity(Common::Entity::ItemEntityType, ev)
+    ItemEntity::ItemEntity() : ::Client::Entity::Entity(Common::Entity::ItemEntityType)
     {
-      ev.Retrieve("itemId", itemId);
-
-      Create();
-    }
-
-    void ItemEntity::Create()
-    {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-
-      CreateCelEntity();
-
-      csString buffer;
-      buffer.Format("%s:%d:%d", name.c_str(), type, id);
-      celEntity->SetName(buffer);
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
 
       // Load and assign the mesh to the entity.
       PT::Component::ComponentManager* componentManager =
         PointerLibrary::getInstance()->getComponentManager();
       ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
+    }
 
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
-      csRef<iPcLinearMovement> pclinmove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
+    void ItemEntity::Initialize(const iEvent& ev)
+    {
+      ::Client::Entity::Entity::Initialize(ev);
 
-      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
-        csVector3(0,0,0));
+      ev.Retrieve("itemId", itemId);
 
-      SetFullPosition();
+      csString buffer;
+      buffer.Format("%s:%d:%d", name.c_str(), type, id);
+      celEntity->SetName(buffer);
     }
 
     void ItemEntity::Interact()

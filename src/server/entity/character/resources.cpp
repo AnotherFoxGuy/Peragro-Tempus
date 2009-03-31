@@ -97,7 +97,7 @@ void Resources::Resource::Set(float value, bool update)
     this->value = std::min<float>(value, max);
     if (this->value < max) Register();
     if (update) SendUpdate();
-    //TODO: resources->SaveResourceToDB(this);
+    resources->SaveResourceToDB(this);
   }
 }
 
@@ -236,7 +236,7 @@ void Resources::LoadFromDB()
     size_t id = (*it)->resourceType_id;
     std::string name = fact->GetName(id);
     resources[id] = Create(name, this, id, (*it)->value);
-    printf("Added entity resource %s\n", name.c_str());
+    printf("Added entity resource %s (%.0f/%.0f)\n", name.c_str(), resources[id]->Get(), resources[id]->GetMax());
   }
 }
 
@@ -284,8 +284,6 @@ void Resources::SendAll(Connection* conn)
 
   list_msg.setEntityId(entity->GetId());
 
-  printf("RRRRRRRRRRRR!\n");
-
   std::map<std::string, size_t>::const_iterator it;
   size_t n = 0;
   for (it=names.begin(); it != names.end(); it++)
@@ -295,7 +293,6 @@ void Resources::SendAll(Connection* conn)
     list_msg.setValue(n, Get(it->first));
     list_msg.setMaxValue(n, GetMax(it->first));
     n++;
-    printf("RRRRRRRRRRRR '%s'!\n", it->first.c_str());
   }
 
   ByteStream bs2;

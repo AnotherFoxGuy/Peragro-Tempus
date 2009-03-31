@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_REPUTATIONS Reputations
 #define DB_TABLE_REPUTATIONS_FIELDS \
-  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
-  ((ReputationTypes_id,size_t,             PT_CandidateKey, (ReputationTypes, id) )) \
+  ((entity_id,         size_t,             PT_PrimaryKeyS,  (Entities, id) )) \
+  ((ReputationTypes_id,size_t,             PT_PrimaryKey,   (ReputationTypes, id) )) \
   ((level,             size_t,             0,               0))
 
 PT_DECLARE_VO(ReputationsTable, DB_TABLE_REPUTATIONS, DB_TABLE_REPUTATIONS_FIELDS)

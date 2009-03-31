@@ -25,9 +25,13 @@
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/punctuation/comma_if.hpp>
 #include <boost/preprocessor/tuple/elem.hpp>
-#include <boost/preprocessor/seq/for_each_i.hpp>
+
 #include <boost/preprocessor/list/adt.hpp>
+
+#include <boost/preprocessor/comparison/equal.hpp>
+#include <boost/preprocessor/seq/size.hpp>
 #include <boost/preprocessor/seq/filter.hpp>
+#include <boost/preprocessor/seq/for_each_i.hpp>
 
 
 
@@ -82,8 +86,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_IS_PK_(c) \
   BOOST_PP_EQUAL(c, PT_PrimaryKey)
 
-#define PT_IS_CK_(c) \
-  BOOST_PP_EQUAL(c, PT_CandidateKey)
+#define PT_IS_SK_(c) \
+  BOOST_PP_EQUAL(c, PT_PrimaryKeyS)
 
 #define PT_IF_PK_(c) \
   BOOST_PP_IF(PT_IS_PK_(c), " PRIMARY KEY", "")
@@ -119,21 +123,24 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_VO_ASSIGN_(r, d, i, e) \
   DB::Helper::Convert(vo->PT_GETNAME_(e), rs->GetData(row, i));
 
-#define PRED_PK(s, d, e) PT_IS_PK_(PT_GETK_(e))
+#define PRED_PK(s, d, e) PT_GETK_(e)
 #define PT_PKS_GETPKS_(s) \
   BOOST_PP_SEQ_FILTER(PRED_PK, ~, s)
 
-#define PRED_CK(s, d, e) PT_GETK_(e)
-#define PT_PKS_GETCKS_(s) \
-  BOOST_PP_SEQ_FILTER(PRED_CK, ~, s)
+#define PRED_SK(s, d, e) PT_IS_SK_(PT_GETK_(e))
+
+#define SIZE_SK(s) BOOST_PP_SEQ_SIZE( BOOST_PP_SEQ_FILTER(PRED_SK, ~, s) )
+
+#define PT_PKS_GETSKS_(s) \
+  BOOST_PP_IF(SIZE_SK(s), BOOST_PP_SEQ_FILTER(PRED_SK, ~, s), PT_PKS_GETPKS_(s))
 
 #define PT_CKS_VALUENAMES_(r, d, i, e) \
   BOOST_PP_IF(i, "AND ", "") BOOST_PP_STRINGIZE(PT_GETNAME_(e)) "=%s"
 
 // Key Types
 //-----------------------------------------------------------------------------------
-#define PT_PrimaryKey 1
-#define PT_CandidateKey 2
+#define PT_PrimaryKeyS 1 // Surrogate key
+#define PT_PrimaryKey 2
 
 // Macros
 //-----------------------------------------------------------------------------------
@@ -152,8 +159,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     printf("create table "BOOST_PP_STRINGIZE(t)); \
     db->update("create table "BOOST_PP_STRINGIZE(t)" (" \
     BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_FIELDS_, ~, s) \
-    BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_UNIQUE_, ~, PT_PKS_GETCKS_(s)) \
-    BOOST_PP_IF(BOOST_PP_SEQ_SIZE(PT_PKS_GETCKS_(s)), ")", "") \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_UNIQUE_, ~, PT_PKS_GETPKS_(s)) \
+    BOOST_PP_IF(BOOST_PP_SEQ_SIZE(PT_PKS_GETPKS_(s)), ")", "") \
     ");", \
     BOOST_PP_SEQ_FOR_EACH_I(PT_CREATE_FIELDS_TYPES_, ~, s) \
     ); \
@@ -190,16 +197,16 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 // Delete
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_Delete(Class, t, s) \
-  void Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)) );
+  void Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)) );
 
 #define PT_DEFINE_Delete(Class, t, s) \
-  void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)) ) \
+  void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)) ) \
   { \
     db->update("select * from " BOOST_PP_STRINGIZE(t) " " \
     "where " \
-    BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETCKS_(s)) \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
     ";", \
-    BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETCKS_(s)) \
+    BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETPKS_(s)) \
     ); \
   }
 
@@ -269,16 +276,16 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 // Get
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_Get(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOArray) Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
+  BOOST_PP_CAT(t, TableVOArray) Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETSKS_(s)));
 
 #define PT_DEFINE_Get(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOArray) Class::Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
+  BOOST_PP_CAT(t, TableVOArray) Class::Get(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETSKS_(s))) \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETSKS_(s)) \
       ";", \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETPKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETSKS_(s)) \
       ); \
     std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \
     if (!rs) return arr; \
@@ -290,16 +297,16 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 // GetSingle
 //-----------------------------------------------------------------------------------
 #define PT_DECLARE_GetSingle(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s)));
+  BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
 
 #define PT_DEFINE_GetSingle(Class, t, s) \
-  BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETCKS_(s))) \
+  BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
   { \
     ResultSet* rs = db->query("select * from " BOOST_PP_STRINGIZE(t) " " \
       "where " \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETCKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
       ";", \
-      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETCKS_(s)) \
+      BOOST_PP_SEQ_FOR_EACH_I(PT_INSERT_VALUES_, ~, PT_PKS_GETPKS_(s)) \
       ); \
     if (!rs) return BOOST_PP_CAT(t, TableVOp)(); \
     std::vector<boost::shared_ptr<BOOST_PP_CAT(t, TableVO)> > arr; \

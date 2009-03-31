@@ -99,10 +99,9 @@ namespace PT
       bool ActionHit(iEvent& ev);
       /// Will send selection request of target to the server.
       bool ActionSelectTarget(iEvent& ev);
-      /// Adds a stat for the player.
-      bool AddStatPlayer(iEvent& ev);
-      /// Updates a character stat.
-      bool UpdateStat(iEvent& ev);
+
+
+      bool UpdatePlayerResource(iEvent& ev);
 
     public:
       /**

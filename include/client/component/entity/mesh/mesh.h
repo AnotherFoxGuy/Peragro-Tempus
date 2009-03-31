@@ -40,6 +40,8 @@ struct iMesh : public virtual iBase
     SCF_INTERFACE(iMesh, 1,0,0);
 
     virtual bool Initialize(PointerLibrary*, Client::Entity::Entity*) = 0;
+
+    virtual void Load() = 0;
 };
 
 

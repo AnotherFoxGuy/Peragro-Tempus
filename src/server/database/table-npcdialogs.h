@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_NPCDIALOGS NpcDialogs
 #define DB_TABLE_NPCDIALOGS_FIELDS \
-  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
-  ((id,                size_t,             PT_CandidateKey, 0)) \
+  ((entity_id,         size_t,             PT_PrimaryKeyS,  (Entities, id) )) \
+  ((id,                size_t,             PT_PrimaryKey,   0)) \
   ((text,              std::string,        0,               0)) \
   ((action,            std::string,        0,               0)) \
 

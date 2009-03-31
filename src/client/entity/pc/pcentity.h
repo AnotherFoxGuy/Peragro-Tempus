@@ -32,20 +32,13 @@ namespace PT
     class PcEntity : public CharacterEntity
     {
     protected:
-      /**
-       * Convenience constructor used for PlayerEntity class.
-       */
-      PcEntity() : CharacterEntity(Common::Entity::PCEntityType) {}
-      virtual void Create();
+      virtual void Initialize(const iEvent& ev);
 
     public:
       /**
-       * Constructor that sets up the PC using the information provided by
-       * EntityAddEvent event.
-       * @see Entity::Entity(const Events::EntityAddEvent&)
-       * @param ev Event used for initialising the PC properties.
+       * Constructor.
        */
-      PcEntity(const iEvent& ev);
+      PcEntity();
 
       void Interact();
     };

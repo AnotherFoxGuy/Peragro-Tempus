@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ABILITIES Abilities
 #define DB_TABLE_ABILITIES_FIELDS \
-  ((entity_id,      size_t,             PT_PrimaryKey,    (Entities, id) )) \
-  ((AbilityTypes_id,size_t,             PT_CandidateKey,  (AbilityTypes, id) )) \
+  ((entity_id,      size_t,             PT_PrimaryKeyS,    (Entities, id) )) \
+  ((AbilityTypes_id,size_t,             PT_PrimaryKey,     (AbilityTypes, id) )) \
   ((xp,             float,              0,                0))
 
 PT_DECLARE_VO(AbilitiesTable, DB_TABLE_ABILITIES, DB_TABLE_ABILITIES_FIELDS)

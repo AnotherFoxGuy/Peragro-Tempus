@@ -39,18 +39,41 @@
 
 #include "client/component/componentmanager.h"
 #include "include/client/component/entity/move/networkmove.h"
+#include "include/client/component/entity/mesh/mesh.h"
 
 namespace PT
 {
   namespace Entity
   {
-
-    CharacterEntity::CharacterEntity(Common::Entity::EntityType type, const iEvent& ev) :
-      ::Client::Entity::Entity(type, ev), equipment(this), resourcesFact(new ResourcesFactory())
+    CharacterEntity::CharacterEntity(Common::Entity::EntityType type) 
+      : ::Client::Entity::Entity(type), equipment(this), resourcesFact(new ResourcesFactory()) 
     {
       sitting = false;
       hasMount = false;
 
+      resources = resourcesFact->Create(this);
+
+      PT::Component::ComponentManager* componentManager =
+        PointerLibrary::getInstance()->getComponentManager();
+
+      ADD_COMPONENT(componentManager, iNetworkMove,
+        "peragro.entity.move.networkmove")
+      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
+    }
+
+    void CharacterEntity::Initialize(const iEvent& ev)
+    {
+      Entity::Initialize(ev);
+
+      resources->Initialize();
+
+      csRef<iMesh> mesh = GetComponent<iMesh>("peragro.entity.mesh");
+      mesh->Load();
+
+      csRef<iNetworkMove> move = GetComponent<iNetworkMove>("peragro.entity.move.networkmove");
+      move->Initialize(PointerLibrary::getInstance(), this);
+
+      equipment.ClearAll();
 
       //Add the equipment
       using namespace Events;
@@ -72,24 +95,13 @@ namespace PT
       }
       else
         Report(PT::Error, "CharacterEntity failed to get equipment!");
-      //--------------------------------------------------------------
-      resources = resourcesFact->Create(this);
 
-      //--------------------------------------------------------------
-      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
-      if (object_reg == 0)
-        Report(PT::Error, "object_reg!");
-
-      PT::Component::ComponentManager* componentManager =
-        PointerLibrary::getInstance()->getComponentManager();
-
-      ADD_COMPONENT(componentManager, iNetworkMove,
-        "peragro.entity.move.networkmove")
+      GetEquipment().ConstructMeshes();
     }
 
     void CharacterEntity::Teleport(const WFMath::Point<3>& pos,
-                                   float rotation,
-                                   const std::string& sector)
+      float rotation,
+      const std::string& sector)
     {
       Report(PT::Warning, "CharacterEntity: teleport\n");
 
@@ -97,8 +109,8 @@ namespace PT
     }
 
     void CharacterEntity::PlayAnimation(const char* animationName,
-                                        float blend_factor, bool loop,
-                                        bool stopOthers)
+      float blend_factor, bool loop,
+      bool stopOthers)
     {
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
 

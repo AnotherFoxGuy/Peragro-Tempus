@@ -43,42 +43,25 @@ namespace PT
   namespace Entity
   {
 
-    MountEntity::MountEntity(const iEvent& ev) :
-      CharacterEntity(Common::Entity::MountEntityType, ev)
+    MountEntity::MountEntity() :
+      CharacterEntity(Common::Entity::MountEntityType)
     {
       mounted = false;
 
-      Create();
+      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
     }
 
-    void MountEntity::Create()
+    void MountEntity::Initialize(const iEvent& ev)
     {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine = csQueryRegistry<iEngine> (obj_reg);
-      csRef<iCelPlLayer> pl = csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iVFS> vfs = csQueryRegistry<iVFS> (obj_reg);
-
-      CreateCelEntity();
+      CharacterEntity::Initialize(ev);
 
       csString buffer;
       buffer.Format("mount_%d", id);
       celEntity->SetName(buffer);
 
-      // Load and assign the mesh to the entity.
-      PT::Component::ComponentManager* componentManager =
-        PointerLibrary::getInstance()->getComponentManager();
-      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
-
-      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
-      csRef<iPcLinearMovement> pclinmove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-
-      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
-        csVector3(0,0,0));
-
-      SetFullPosition();
+      // Forcing into idle animation.
+      PlayAnimation("idle", 1.0f, true, true);
     }
 
     void MountEntity::Mount(::Client::Entity::Entity* player)

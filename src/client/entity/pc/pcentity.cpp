@@ -37,52 +37,27 @@
 #include "client/data/sector/sectordatamanager.h"
 
 #include "client/component/componentmanager.h"
-#include "include/client/component/entity/mesh/mesh.h"
 
 namespace PT
 {
   namespace Entity
   {
-
-    PcEntity::PcEntity(const iEvent& ev) : CharacterEntity(Common::Entity::PCEntityType, ev)
+    PcEntity::PcEntity() : CharacterEntity(Common::Entity::PCEntityType)
     {
-      Create();
+      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
     }
 
-    void PcEntity::Create()
+    void PcEntity::Initialize(const iEvent& ev)
     {
-      csRef<iObjectRegistry> obj_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
-      csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-      csRef<iCelPlLayer> pl =  csQueryRegistry<iCelPlLayer> (obj_reg);
-      csRef<iVFS> vfs =  csQueryRegistry<iVFS> (obj_reg);
-
-      CreateCelEntity();
+      CharacterEntity::Initialize(ev);
 
       csString buffer;
       buffer.Format("player_%d", id);
       celEntity->SetName(buffer);
 
-      // Load and assign the mesh to the entity.
-      PT::Component::ComponentManager* componentManager =
-        PointerLibrary::getInstance()->getComponentManager();
-      ADD_COMPONENT(componentManager, iMesh, "peragro.entity.mesh")
-
-      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
-
       // Forcing into idle animation.
       PlayAnimation("idle", 1.0f, true, true);
-
-      csRef<iPcLinearMovement> pclinmove =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-
-      pclinmove->InitCD(csVector3(0.5f,0.8f,0.5f), csVector3(0.5f,0.8f,0.5f),
-        csVector3(0,0,0));
-
-      SetFullPosition();
-
-      GetEquipment().ConstructMeshes();
     }
 
     void PcEntity::Interact()

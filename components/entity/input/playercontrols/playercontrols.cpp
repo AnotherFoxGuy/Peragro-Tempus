@@ -81,6 +81,7 @@ bool ComponentPlayerControls::Initialize (PointerLibrary* pl,
 
 #define CPC ComponentPlayerControls
 
+  eventHandlers.DeleteAll();
   PT_REGISTER_LISTENER(CPC, ActionForward, "input.Forward")
   PT_REGISTER_LISTENER(CPC, ActionBackward, "input.Backward")
   PT_REGISTER_LISTENER(CPC, ActionLeft, "input.Left")

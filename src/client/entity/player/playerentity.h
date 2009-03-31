@@ -55,15 +55,9 @@ namespace PT
       void Interact();
 
       /**
-       * Returns a pointer to an instance of the class. Initiate the instance
-       * by passing a non-null valid Events::EntityAddEvent pointer.
-       * @param ev Pointer to an EntityAddEvent object. If NULL, existing
-       * instance is returned, otherwise the object is used for initialisation
-       * of the new class instance, while deleting the old instance as needed.
-       * @return 0 if an error occured, or if no instance was created yet.
-       * Otherwise returns a pointer to an instance of the class.
+       * Returns a pointer to an instance of the class.
        */
-      static boost::shared_ptr<PlayerEntity> Instance(const iEvent* ev = 0);
+      static boost::shared_ptr<PlayerEntity> Instance();
 
       /**
        * @return Returns the player entity's camera.
@@ -88,38 +82,19 @@ namespace PT
        */
       void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
-      using ::Client::Entity::Entity::SetFullPosition;
-      /**
-       * Changes the entity position and sector immediatelly.
-       * This also updates the camera.
-       * @param pos New position of an entity.
-       * @param sector New sector where the entity should reside.
-       */
-      virtual void SetFullPosition(const WFMath::Point<3>& pos,
-                                    float rotation,
-                                    const std::string& sector);
-
     private:
       static PlayerEntity* instance;
-
-      void ReInit(const iEvent& ev);
 
       ///Player entity's camera.
       csWeakRef<iPcDefaultCamera> camera;
 
-      csRef<iVFS> vfs;
-
-      csRef<iCelEntity> other_self;
-
       /**
-       * Constructor that sets up the player using the information provided by
-       * EntityAddEvent event.
-       * @see Entity::Entity(const Events::EntityAddEvent&)
-       * @param ev Event used for initialising the player properties.
+       * Constructor that sets up the player.
        */
-      PlayerEntity(const iEvent& ev);
+      PlayerEntity();
 
-      void Create();
+      protected:
+        virtual void Initialize(const iEvent& ev);
 
     };
   } //Entity namespace

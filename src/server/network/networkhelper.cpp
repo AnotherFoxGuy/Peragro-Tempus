@@ -27,49 +27,23 @@ boost::shared_ptr<PcEntity> NetworkHelper::GetEntity(GenericMessage* msg)
   return user->GetEntity();
 }
 
-void NetworkHelper::sendMessage(Character* character , const ByteStream& bs)
-{
-  /*
-  const User* user = character->getUser();
-  if (!user)
-    return;
-
-  const Connection* conn = user->getConnection();
-  if (!conn)
-    return;
-
-  conn->send(bs);
-  */
-}
-
 void NetworkHelper::sendMessage(Entity* ent, const ByteStream& bs)
 {
-  /*
-  const PcEntity* pc_ent = ent->getPlayerEntity();
-  if (!pc_ent)
-    return;
+  PcEntity* pc_ent = dynamic_cast<PcEntity*>(ent);
+  if (!pc_ent) return;
 
-  const User* user = pc_ent->getUser();
-  if (!user)
-    return;
+  User* user = pc_ent->GetUser();
+  if (!user) return;
 
-  const Connection* conn = user->getConnection();
-  if (!conn)
-    return;
-
-  conn->send(bs);
-  */
+  sendMessage(user, bs);
 }
 
-void NetworkHelper::sendMessage(const User* user, const ByteStream& bs)
+void NetworkHelper::sendMessage(User* user, const ByteStream& bs)
 {
-  /*
-  const Connection* conn = user->getConnection();
-  if (!conn)
-    return;
+  const Connection* conn = user->GetConnection();
+  if (!conn) return;
 
   conn->send(bs);
-  */
 }
 
 void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity)

@@ -90,58 +90,35 @@ namespace PT
       }
 
       PT_SETUP_HANDLER
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.add")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.remove")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.equip")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.mount")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.unmount")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.pose")
-      PT_REGISTER_LISTENER(EntityManager, GetEntityEvents, "entity.resource.list")
+      PT_REGISTER_LISTENER(EntityManager, AddEntity, "entity.add")
+      PT_REGISTER_LISTENER(EntityManager, RemoveEntity, "entity.remove")
+      PT_REGISTER_LISTENER(EntityManager, Equip, "entity.equip")
+      PT_REGISTER_LISTENER(EntityManager, Mount, "entity.mount")
+      PT_REGISTER_LISTENER(EntityManager, UnMount, "entity.unmount")
+      PT_REGISTER_LISTENER(EntityManager, EntityPose, "entity.pose")
+
+      PT_REGISTER_LISTENER(EntityManager, Resource, "entity.resource.list")
 
       PT_REGISTER_LISTENER(EntityManager, SetOwnId, "state.play")
       PT_REGISTER_LISTENER(EntityManager, OnInteract, "input.Interact")
       PT_REGISTER_LISTENER(EntityManager, WorldLoaded, "world.loaded")
 
+      // Create the player.
+      PT::Entity::PlayerEntity::Instance();
+
       return true;
     }
 
-    void EntityManager::ProcessEvents()
+    bool EntityManager::Resource(iEvent& ev)
     {
       using namespace PT::Events;
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
-
-      csRefArray<iEvent> unhandledEvents;
-
-      while (!events.IsEmpty())
+      if (!PT::Entity::PlayerEntity::Instance()->GetResourcesReady())
       {
-        csRef<iEvent> ev = events.Pop();
-        csStringID id = ev->GetName();
-        if (primaryId != 0)
-        {
-          if (evmgr->IsKindOf(id, "entity.add"))
-            AddEntity(*ev);
-        }
-        bool statePlay = (PointerLibrary::getInstance()->getStateManager()->GetState() == PT::STATE_PLAY);
-        if (world_loaded && statePlay)
-        {
-          if (evmgr->IsKindOf(id, "entity.remove"))
-            RemoveEntity(*ev);
-          else if (evmgr->IsKindOf(id, "entity.equip"))
-            Equip(*ev);
-          else if (evmgr->IsKindOf(id, "entity.mount"))
-            Mount(*ev);
-          else if (evmgr->IsKindOf(id, "entity.umount"))
-            UnMount(*ev);
-          else if (evmgr->IsKindOf(id, "entity.pose"))
-            EntityPose(*ev);
-          else if (::PT::Entity::PlayerEntity::Instance() && evmgr->IsKindOf(id, "entity.resource.list"))
-            evmgr->AddEvent(ev);
-        }
-        if (world_loaded && statePlay && !::PT::Entity::PlayerEntity::Instance())
-            unhandledEvents.Push(ev);
-      } // while
-
-      events = unhandledEvents;
+        Report(PT::Notify, "EntityManager::Resource");
+        evmgr->AddEvent(&ev);
+      }
+      return false;
     }
 
     bool EntityManager::WorldLoaded(iEvent& ev)
@@ -160,48 +137,6 @@ namespace PT
       return true;
     }
 
-    void EntityManager::ProcessLostEntities()
-    {
-      iSector* defsector = engine->FindSector("Default_Sector");
-      if (!defsector) return;
-
-      iMeshList* list = defsector->GetMeshes();
-      for (size_t i = 0; i < (size_t)list->GetCount(); i++)
-      {
-        iMeshWrapper* mesh = list->Get((int)i);
-        if (!mesh) continue;
-        iCelEntity* entity = pl->FindAttachedEntity(mesh->QueryObject());
-        if (!entity) continue;
-        csRef<iPcProperties> pcprop = CEL_QUERY_PROPCLASS_ENT(entity, iPcProperties);
-        if (!pcprop) continue;
-        Common::Entity::Entityp ptent = FindById(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-        if (!ptent) continue;
-
-        iSector* sector = engine->FindSector(ptent->GetSectorName().c_str());
-        if (!sector) continue;
-
-        ptent->SetFullPosition();
-        mesh->GetMovable()->GetSectors()->Remove(defsector);
-        Report(PT::Debug, "Lost entity '%s' relocated", ptent->GetName().c_str());
-      }
-    }
-
-    void EntityManager::Handle ()
-    {
-      ProcessEvents();
-
-      ProcessLostEntities();
-    }
-
-    bool EntityManager::GetEntityEvents(iEvent& ev)
-    {
-      using namespace PT::Events;
-
-      events.Push(&ev);
-
-      return true;
-    }
-
     bool EntityManager::SetOwnId(iEvent& ev)
     {
       using namespace PT::Events;
@@ -217,6 +152,12 @@ namespace PT
 
       EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
 
+      if (primaryId == Common::Entity::Entity::NoEntity)
+      {
+        evmgr->AddEvent(&ev);
+        return false;
+      }
+
       unsigned int id = EntityHelper::GetEntityID(&ev);
       std::string name = Helper::GetString(&ev, "entityName");
       unsigned int type = EntityHelper::GetEntityType(&ev, evmgr);
@@ -230,13 +171,13 @@ namespace PT
       PT::Entity::Entity* entity = 0;
       boost::shared_ptr<PT::Entity::Entity> entityp;
 
-      if (type == Common::Entity::DoorEntityType) entity = new PT::Entity::DoorEntity(ev);
-      else if (type == Common::Entity::ItemEntityType) entity = new PT::Entity::ItemEntity(ev);
-      else if (type == Common::Entity::MountEntityType) entity = new PT::Entity::MountEntity(ev);
-      else if (type == Common::Entity::NPCEntityType) entity = new PT::Entity::NpcEntity(ev);
+      if (type == Common::Entity::DoorEntityType) entity = new PT::Entity::DoorEntity();
+      else if (type == Common::Entity::ItemEntityType) entity = new PT::Entity::ItemEntity();
+      else if (type == Common::Entity::MountEntityType) entity = new PT::Entity::MountEntity();
+      else if (type == Common::Entity::NPCEntityType) entity = new PT::Entity::NpcEntity();
       else if (type == Common::Entity::PCEntityType && primaryId == id)
-        entityp = PT::Entity::PlayerEntity::Instance(&ev);
-      else if (type == Common::Entity::PCEntityType) entity = new PT::Entity::PcEntity(ev);
+        entityp = PT::Entity::PlayerEntity::Instance();
+      else if (type == Common::Entity::PCEntityType) entity = new PT::Entity::PcEntity();
       else
       {
         Report(PT::Error, "Invalid entity type: %d !", type);
@@ -248,6 +189,8 @@ namespace PT
 
       // set the entity's pl
       ((::Client::Entity::Entity*)entity)->pl = pl;
+
+      ((::Client::Entity::Entity*)entity)->Initialize(ev);
 
       Report(PT::Notify, "Adding Entity '%s(%d)' at %s%s.", entity->GetName().c_str(), entity->GetId(), entity->GetPositionStr().c_str(), (primaryId == id) ? " as me":"");
 

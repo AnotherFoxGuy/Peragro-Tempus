@@ -57,10 +57,13 @@ bool ComponentMesh::Initialize (PointerLibrary* pl, Client::Entity::Entity* ent)
   // Create a default mesh.
   entity->SetMesh(0);
 
-  Load(entity->GetFileName());
-
   return true;
 } // end Initialize()
+
+void ComponentMesh::Load()
+{
+  iCacheUser::Load(entity->GetFileName());
+}
 
 void ComponentMesh::Loaded(iCacheEntry* cacheEntry)
 {

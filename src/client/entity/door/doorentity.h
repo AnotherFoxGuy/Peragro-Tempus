@@ -50,9 +50,10 @@ namespace PT
       ///The transformation this mesh had when it was created.
       csReversibleTransform trans;
 
-      bool TileLoaded(iEvent& ev);
+      bool Loaded(iEvent& ev);
 
-      void Create();
+    protected:
+      virtual void Initialize(const iEvent& ev);
 
     public:
       /**
@@ -61,7 +62,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the door properties.
        */
-      DoorEntity(const iEvent& ev);
+      DoorEntity();
 
       ~DoorEntity();
 

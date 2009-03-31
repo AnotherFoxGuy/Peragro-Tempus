@@ -39,16 +39,14 @@ namespace PT
       ///Specifies whether the mount is mounted or not.
       bool mounted;
 
-      void Create();
+    protected:
+      virtual void Initialize(const iEvent& ev);
 
     public:
       /**
-       * Constructor that sets up the mount using the information provided by
-       * EntityAddEvent event.
-       * @see Entity::Entity(const iEvent& ev)
-       * @param ev Event used for initialising the door properties.
+       * Constructor.
        */
-      MountEntity(const iEvent& ev);
+      MountEntity();
       ~MountEntity(){}
 
       /**

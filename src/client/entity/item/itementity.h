@@ -39,7 +39,8 @@ namespace PT
       ///data from the server.
       unsigned int itemId;
 
-      void Create();
+    protected:
+      virtual void Initialize(const iEvent& ev);
 
     public:
       /**
@@ -48,7 +49,7 @@ namespace PT
        * @see Entity::Entity(const Events::EntityAddEvent&)
        * @param ev Event used for initialising the door properties.
        */
-      ItemEntity(const iEvent& ev);
+      ItemEntity();
 
       ///@return Item type ID.
       int GetItemId () const { return itemId; }

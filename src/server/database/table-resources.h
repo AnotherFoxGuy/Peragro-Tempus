@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_RESOURCES Resources
 #define DB_TABLE_RESOURCES_FIELDS \
-  ((entity_id,         size_t,             PT_PrimaryKey,   (Entities, id) )) \
-  ((resourceType_id,   size_t,             PT_CandidateKey, (ResourcesTypes, id) )) \
+  ((entity_id,         size_t,             PT_PrimaryKeyS,  (Entities, id) )) \
+  ((resourceType_id,   size_t,             PT_PrimaryKey,   (ResourcesTypes, id) )) \
   ((value,             float,              0,               0)) \
 
 PT_DECLARE_VO(ResourcesTable, DB_TABLE_RESOURCES, DB_TABLE_RESOURCES_FIELDS)

@@ -71,17 +71,12 @@ namespace PT
 
     private:
       csRefArray<iEvent> events;
-      void ProcessEvents();
-
-      void ProcessLostEntities();
 
       // A default sector for entities to be added in.
       csRef<iSector> defaultSector;
 
     private:
       PT_CALLBACK_HANDLER_LISTENERS
-
-      bool GetEntityEvents(iEvent& ev);
 
       bool AddEntity(iEvent& ev);
       bool RemoveEntity(iEvent& ev);
@@ -94,6 +89,8 @@ namespace PT
        * @return True if successful, false otherwise.
        */
       bool EntityPose(iEvent& ev);
+
+      bool Resource(iEvent& ev);
 
       /**
        * Handler for when the world has been loaded.
@@ -111,7 +108,6 @@ namespace PT
       ~EntityManager ();
 
       bool Initialize ();
-      void Handle();
 
       void SetWorldloaded(bool value) { world_loaded = value; }
 

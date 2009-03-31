@@ -55,41 +55,23 @@ namespace Client
       /// List of listeners this entity has.
       csRefArray<PT::Events::EventHandlerCallback> eventHandlers;
 
-      /**
-       * This is a convenience constructor possibly needed for children classes.
-       * @todo Recheck if this is actually needed.
-       */
-      Entity(Common::Entity::EntityType type) : PT::Entity::Entity(type) {}
-
-      /**
-       * Initialises the object's CEL entity. This includes creation of CEL
-       * entity, creation and setup of some of its properties, and placing of
-       * the entity in game world.
-       */
-      void CreateCelEntity ();
-
-      /**
-       * This method provides an abstract interface for initialising all the
-       * required properties of the entity when it's created.
-       * @todo Might be unneeded and even somewhat harmful. The method/function
-       * calls from here maybe should be moved to the constructor.
-       */
-      virtual void Create() = 0;
+      virtual void CreateCelEntity ();
 
     public:
-      /**
-       * Constructor that sets up the entity using the information provided by
-       * EntityAddEvent event. Each class along the inheritance path should take
-       * care of its own properties it defines in order to avoid code
-       * duplication.
-       * @param ev Event used for initialising the entity properties.
-       */
-      Entity(Common::Entity::EntityType type, const iEvent& ev);
+      Entity(Common::Entity::EntityType type);
 
       /**
        * Virtual destructor.
        */
       virtual ~Entity() {}
+
+      /**
+       * This method provides an abstract interface for initialising all the
+       * required properties of the entity with the EntityAddEvent event.
+       * @see Entity::Entity(const Events::EntityAddEvent&)
+       * @param ev Event used for initialising the character properties.
+       */
+      virtual void Initialize(const iEvent& ev);
 
       template<class Interface>
       csRef<Interface> GetComponent(const char* name)
