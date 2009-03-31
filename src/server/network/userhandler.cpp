@@ -176,12 +176,12 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     if (entity->GetId() != request_msg.getCharId())
     {
       // User tries to login with a new character, remove the old.
-      printf("I: handleCharSelectRequest(): User '%s' switching to char %d!\n", user->GetName(), request_msg.getCharId());
+      printf("I: handleCharSelectRequest(): User '%s' switching to char %d!\n", user->GetName().c_str(), request_msg.getCharId());
       entity.reset();
     }
     else
     {
-      printf("I: handleCharSelectRequest(): User '%s' continuing with char %d!\n", user->GetName(), request_msg.getCharId());
+      printf("I: handleCharSelectRequest(): User '%s' continuing with char %d!\n", user->GetName().c_str(), request_msg.getCharId());
       server->getEntityManager()->Add(entity);
       return;
     }    
