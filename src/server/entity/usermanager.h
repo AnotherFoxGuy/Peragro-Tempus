@@ -26,10 +26,14 @@
 
 class UserManager
 {
+public:
   friend class User;
+  typedef std::map<std::string, boost::shared_ptr<User> > UserMap;
+  typedef UserMap::iterator UserMapIter;
+  typedef UserMap::const_iterator const_UserMapIter;
 
 private:
-  std::map<std::string, boost::shared_ptr<User> > users;
+  UserMap users;
 
 private:
   void AddUser(boost::shared_ptr<User> user);
@@ -45,7 +49,7 @@ public:
 
   size_t GetUserCount() { return users.size(); }
 
-  const std::map<std::string, boost::shared_ptr<User> >& GetUsers() { return users; }
+  const UserMap& GetUsers() { return users; }
 
   const ptString Login(const std::string& username, const std::string& password, boost::shared_ptr<User>& user);
   const ptString Signup(const std::string& username, const std::string& password);

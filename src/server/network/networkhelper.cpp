@@ -48,37 +48,38 @@ void NetworkHelper::sendMessage(User* user, const ByteStream& bs)
 
 void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity)
 {
-  /*
+/*
   Server* server = Server::getServer();
+  UserManager* um = server->getUserManager();
   SectorManager* sm = server->GetSectorManager();
   ptString region = sm->getRegionName(entity->GetSector());
 
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+  for (UserManager::const_UserMapIter i=um->GetUsers().begin(); 
+       i!=um->GetUsers().end(); i++)
   {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection() && user->getEntity())
+    boost::shared_ptr<User> user = (*i).second;
+    if (user && user->GetConnection() && user->GetEntity())
     {
-      unsigned short sector = user->getEntity()->getEntity()->GetSector();
+      unsigned short sector = user->GetEntity()->GetSector();
       if (sm->getRegionName(sector) == region)
       {
-        user->getConnection()->send(bs);
+        user->GetConnection()->send(bs);
       }
     }
   }
-  */
+*/
 }
 
 void NetworkHelper::broadcast(const ByteStream& bs)
 {
-  /*
-  Server* server = Server::getServer();
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
+  UserManager* um = Server::getServer()->getUserManager();
+  for (UserManager::const_UserMapIter i=um->GetUsers().begin(); 
+       i!=um->GetUsers().end();  i++)
   {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
+    boost::shared_ptr<User> user = (*i).second;
+    if (user && user->GetConnection())
+      user->GetConnection()->send(bs);
   }
-  */
 }
 
 Array<PcEntity*> NetworkHelper::getUserList(PcEntity* ent, const char* channel)
@@ -89,9 +90,4 @@ Array<PcEntity*> NetworkHelper::getUserList(PcEntity* ent, const char* channel)
   if (!groups || !groups->isUserIn(ent, channel)) return emptychannel;
   return groups->getUserList(channel);
 
-/*
-  Array<const PcEntity*> channelusers;
-  channelusers.add(ent);
-  return channelusers;
-*/
 }
