@@ -53,18 +53,17 @@ void ChatHandler::handleChat(GenericMessage* msg)
 
 void ChatHandler::handleWhisperTo(GenericMessage* msg)
 {
-  /*
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  boost::shared_ptr<PcEntity> ent = NetworkHelper::GetEntity(msg);
   if (!ent) return;
 
-  const std::string name = ent->getEntity()->GetName();
+  const std::string name = ent->GetName();
 
   WhisperToMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  const Entity* entity = server->getEntityManager()->findByName(in_msg.getListenerName());
+  boost::shared_ptr<Entity> entity = boost::dynamic_pointer_cast<Entity>(server->getEntityManager()->FindByName(*in_msg.getListenerName()));
   if (!entity || entity->GetType() != Common::Entity::PlayerEntityType) return;
 
   ChatMessage out_msg;
@@ -75,14 +74,12 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  NetworkHelper::sendMessage(entity->getPlayerEntity(), bs);
-  */
+  NetworkHelper::sendMessage(entity.get(), bs);
 }
 
 void ChatHandler::handleGroup(GenericMessage* msg)
 {
-  /*
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  boost::shared_ptr<PcEntity> ent = NetworkHelper::GetEntity(msg);
   if (!ent) return;
 
   GroupMessage in_msg;
@@ -93,6 +90,5 @@ void ChatHandler::handleGroup(GenericMessage* msg)
   ChatGroup* chgrp = chman->getChannel(*in_msg.getChannel());
   if (!chgrp) return;
 
-  chgrp->process( ent, in_msg.getMessage() );
-  */
+  chgrp->process( ent.get(), in_msg.getMessage() );
 }
