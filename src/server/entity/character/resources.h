@@ -39,36 +39,37 @@ private:
   class Resource
   {
   public:
-    Resource(Resources* resources, size_t id, float value);
+    Resource(Resources* resources, size_t id, int value);
     virtual ~Resource();
     size_t GetId() { return id; }
-    virtual float Get() const;
+    virtual int Get() const;
     virtual void Set(float value, bool update = true);
-    virtual float GetMax() const;
+    virtual int GetMax() const;
     virtual void Regenerate(size_t elapsedTime);
   protected:
     Resources* resources;
     size_t id;
-    float value;
+    float value; // Float value for regeneration.
     bool registered;
     virtual void Register();
     virtual void UnRegister();
     virtual void SendUpdate();
-    float GetAbilityLevel() const;
+    size_t GetAbilityLevel() const;
   };
 
   class HitPoints : public Resource
   {
   public:
-    HitPoints(Resources* resources, size_t id, float value);
-    virtual void Set(float value);
+    HitPoints(Resources* resources, size_t id, int value);
+    virtual void Set(int value);
   };
 
   class Stamina : public Resource
   {
   public:
-    Stamina(Resources* resources, size_t id, float value);
-    virtual void Set(float value);
+    Stamina(Resources* resources, size_t id, int value);
+    virtual int Get() const;
+    virtual void Set(int value);
   };
 
   friend class Resource;
@@ -84,18 +85,18 @@ private:
   typedef std::map<size_t, boost::shared_ptr<Resource> >::const_iterator ConstIterator;
 
 private:
-  boost::shared_ptr<Resource> Create(const std::string& name, Resources* r, size_t id, float value);
+  boost::shared_ptr<Resource> Create(const std::string& name, Resources* r, size_t id, int value);
   Resource* GetResource(const std::string& name);
   void SaveResourceToDB(Resource* resource);
 
 public:
   Resources(ResourcesFactory* fact, Entity* entity, TableManager* db);
 
-  float Get(const std::string& name);
-  float GetMax(const std::string& name);
-  void Set(const std::string& name, float value);
-  void Add(const std::string& name, float value);
-  void Sub(const std::string& name, float value);
+  int Get(const std::string& name);
+  int GetMax(const std::string& name);
+  void Set(const std::string& name, int value);
+  void Add(const std::string& name, int value);
+  void Sub(const std::string& name, int value);
 
   void LoadFromDB();
   void SaveToDB();

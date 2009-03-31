@@ -35,8 +35,8 @@ bool ResourceListMessage::serialise(ByteStream* bs)
   {
     serial.setInt16(resources[i].resourceid);
     serial.setString(resources[i].name);
-    serial.setFloat(resources[i].value);
-    serial.setFloat(resources[i].maxvalue);
+    serial.setInt32(resources[i].value);
+    serial.setInt32(resources[i].maxvalue);
   };
 
   return serial.isValid();
@@ -54,8 +54,8 @@ void ResourceListMessage::deserialise(ByteStream* bs)
   {
     resources[i].resourceid = (unsigned short) serial.getInt16();
     resources[i].name = serial.getString();
-    resources[i].value = serial.getFloat();
-    resources[i].maxvalue = serial.getFloat();
+    resources[i].value = (unsigned int) serial.getInt32();
+    resources[i].maxvalue = (unsigned int) serial.getInt32();
   };
 
 }
@@ -67,8 +67,8 @@ bool ResourceUpdateMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(entityid);
   serial.setInt16(resourceid);
-  serial.setFloat(value);
-  serial.setFloat(maxvalue);
+  serial.setInt32(value);
+  serial.setInt32(maxvalue);
   return serial.isValid();
 }
 
@@ -79,7 +79,7 @@ void ResourceUpdateMessage::deserialise(ByteStream* bs)
   id = serial.getInt8();
   entityid = (unsigned int) serial.getInt32();
   resourceid = (unsigned short) serial.getInt16();
-  value = serial.getFloat();
-  maxvalue = serial.getFloat();
+  value = (unsigned int) serial.getInt32();
+  maxvalue = (unsigned int) serial.getInt32();
 }
 

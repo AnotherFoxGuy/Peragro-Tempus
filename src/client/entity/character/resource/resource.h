@@ -46,18 +46,18 @@ namespace PT
       class Resource
       {
       public:
-        Resource(size_t id, float value, float maxValue);
+        Resource(size_t id, int value, int maxValue);
         virtual ~Resource() {}
         size_t GetId() { return id; }
-        virtual float Get() const;
-        virtual void Set(float value, float maxValue = -1);
-        virtual float GetMax() const;
-        virtual float GetOld() const;
+        virtual int Get() const;
+        virtual void Set(int value, int maxValue = -1);
+        virtual int GetMax() const;
+        virtual int GetOld() const;
       protected:
         size_t id;
         float value;
-        float maxValue;
-        float oldValue;
+        int maxValue;
+        int oldValue;
       };
 
     private:
@@ -70,7 +70,7 @@ namespace PT
       typedef std::map<size_t, boost::shared_ptr<Resource> >::iterator Iterator;
       typedef std::map<size_t, boost::shared_ptr<Resource> >::const_iterator ConstIterator;
       Resource* GetResource(const std::string& name);
-      void Set(const std::string& name, float value, float maxValue = -1);
+      void Set(const std::string& name, int value, int maxValue = -1);
 
     private:
       ResourcesFactory* fact;
@@ -81,9 +81,9 @@ namespace PT
 
       void Initialize();
 
-      float Get(const std::string& name);
-      float GetMax(const std::string& name);
-      float GetOld(const std::string& name);
+      int Get(const std::string& name);
+      int GetMax(const std::string& name);
+      int GetOld(const std::string& name);
     };
 
     class ResourcesFactory

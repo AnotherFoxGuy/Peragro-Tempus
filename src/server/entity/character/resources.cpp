@@ -41,7 +41,7 @@
 #include "server/entity/character/character.h"
 
 //==[ Resource ]=============================================================
-Resources::Resource::Resource(Resources* resources, size_t id, float value) 
+Resources::Resource::Resource(Resources* resources, size_t id, int value) 
   : resources(resources), id(id), value(0.0f), registered(false)
 {
   Set(value, false);
@@ -75,47 +75,50 @@ void Resources::Resource::SendUpdate()
   ResourceUpdateMessage msg;
   msg.setEntityId(resources->entity->GetId());
   msg.setResourceId(id);
-  msg.setValue(value);
+  msg.setValue(Get());
   msg.setMaxValue(GetMax());
   ByteStream bs;
   msg.serialise(&bs);
   NetworkHelper::sendMessage(resources->entity, bs);
 
-  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %f to %s.\n", id, value, resources->entity->GetName().c_str());
+  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %.0f to %s.\n", id, value, resources->entity->GetName().c_str());
 }
 
-float Resources::Resource::Get() const
+int Resources::Resource::Get() const
 {
-  return value;
+  return (int)value;
 }
 
 void Resources::Resource::Set(float value, bool update)
 { 
-  if (value != this->value)
+  bool changed = (int)this->value != (int)value;
+
+  float max = (float)GetMax();
+  this->value = std::min<float>(value, max);
+  if (this->value < max) Register();
+
+  if (changed)
   {
-    float max = GetMax();
-    this->value = std::min<float>(value, max);
-    if (this->value < max) Register();
     if (update) SendUpdate();
     resources->SaveResourceToDB(this);
   }
 }
 
-float Resources::Resource::GetAbilityLevel() const
+size_t Resources::Resource::GetAbilityLevel() const
 {
-  float value = 0.0f;
+  size_t level = 0;
   Character* c = dynamic_cast<Character*>(resources->entity);
   if (c)
   {
     const ResourceTypesTableVOp& type = resources->fact->Get(id);
     const std::string& name = Server::getServer()->GetAbilitiesFactory()->GetName(type->abilityType_id);
     boost::shared_ptr<Abilities> a = c->GetAbilities();
-    value = a->GetLevel(name);
+    level = a->GetLevel(name);
   }
-  return value;
+  return level;
 }
 
-float Resources::Resource::GetMax() const
+int Resources::Resource::GetMax() const
 {
   const ResourceTypesTableVOp& type = resources->fact->Get(id);
   return GetAbilityLevel() * type->multiplier;
@@ -136,17 +139,17 @@ void Resources::Resource::Regenerate(size_t elapsedTime)
   */
   // Entity regenerates Resource equal to their Ability every 'multiplier' seconds.
   const ResourceTypesTableVOp& type = resources->fact->Get(id);
-  float regen = ( (GetAbilityLevel() / type->multiplier) * ((float)elapsedTime/1000.0f) ) * speed;
-  Set(Get() + regen);
+  float regen = ( ((float)GetAbilityLevel() / type->multiplier) * ((float)elapsedTime/1000.0f) ) * speed;
+  Set(this->value + regen);
 }
 
 //==[ Hit Points ]===========================================================
-Resources::HitPoints::HitPoints(Resources* resources, size_t id, float value) 
+Resources::HitPoints::HitPoints(Resources* resources, size_t id, int value) 
 : Resources::Resource(resources, id, value)
 {
 }
 
-void Resources::HitPoints::Set(float value)
+void Resources::HitPoints::Set(int value)
 { 
 /* TODO
   if (value <= 0.0f)
@@ -158,14 +161,20 @@ void Resources::HitPoints::Set(float value)
 }
 
 //==[ Stamina ]==============================================================
-Resources::Stamina::Stamina(Resources* resources, size_t id, float value) 
+Resources::Stamina::Stamina(Resources* resources, size_t id, int value) 
 : Resources::Resource(resources, id, value)
 {
 }
 
-void Resources::Stamina::Set(float value)
+int Resources::Stamina::Get() const
+{
+  // Stamina is never shown as negative.
+  return std::max<int>(0, (int)value);
+}
+
+void Resources::Stamina::Set(int value)
 { 
-  if (value <= 0.0f)
+  if (value <= 0)
   {
     // When stamina is depleted, Hit Points are reduced by 1
     // and current Stamina is "increased" by the Maximum Stamina.
@@ -182,35 +191,35 @@ Resources::Resources(ResourcesFactory* fact, Entity* entity, TableManager* db)
 {
 }
 
-float Resources::Get(const std::string& name)
+int Resources::Get(const std::string& name)
 {
   return GetResource(name)->Get();
 }
 
-float Resources::GetMax(const std::string& name)
+int Resources::GetMax(const std::string& name)
 {
   return GetResource(name)->GetMax();
 }
 
-void Resources::Set(const std::string& name, float value)
+void Resources::Set(const std::string& name, int value)
 {
   Resource* res = GetResource(name); 
   res->Set(value); 
 }
 
-void Resources::Add(const std::string& name, float value)
+void Resources::Add(const std::string& name, int value)
 {
   Resource* res = GetResource(name); 
   res->Set(res->Get() + value);
 }
 
-void Resources::Sub(const std::string& name, float value)
+void Resources::Sub(const std::string& name, int value)
 {
   Resource* res = GetResource(name); 
   res->Set(res->Get() - value); 
 }
 
-boost::shared_ptr<Resources::Resource> Resources::Create(const std::string& name, Resources* r, size_t id, float value)
+boost::shared_ptr<Resources::Resource> Resources::Create(const std::string& name, Resources* r, size_t id, int value)
 {
   boost::shared_ptr<Resources::Resource> res;
   if (name == "Stamina")
@@ -236,7 +245,7 @@ void Resources::LoadFromDB()
     size_t id = (*it)->resourceType_id;
     std::string name = fact->GetName(id);
     resources[id] = Create(name, this, id, (*it)->value);
-    printf("Added entity resource %s (%.0f/%.0f)\n", name.c_str(), resources[id]->Get(), resources[id]->GetMax());
+    printf("Added entity resource %s (%d/%d)\n", name.c_str(), resources[id]->Get(), resources[id]->GetMax());
   }
 }
 
@@ -250,7 +259,7 @@ Resources::Resource* Resources::GetResource(const std::string& name)
     {
       // The Resource wasn't found for this entity(although the type exists!)
       // so let's create it.
-      boost::shared_ptr<Resource> r = Create(name, this, id, 0.0f);
+      boost::shared_ptr<Resource> r = Create(name, this, id, 0);
       r->Set(r->GetMax());
       resources[id] = r;
       SaveResourceToDB(r.get());

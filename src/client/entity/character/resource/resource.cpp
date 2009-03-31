@@ -74,22 +74,22 @@ namespace PT
       }
     }
 
-    float Resources::Get(const std::string& name)
+    int Resources::Get(const std::string& name)
     {
       return GetResource(name)->Get();
     }
 
-    float Resources::GetMax(const std::string& name)
+    int Resources::GetMax(const std::string& name)
     {
       return GetResource(name)->GetMax();
     }
 
-    float Resources::GetOld(const std::string& name)
+    int Resources::GetOld(const std::string& name)
     {
       return GetResource(name)->GetOld();
     }
 
-    void Resources::Set(const std::string& name, float value, float maxValue)
+    void Resources::Set(const std::string& name, int value, int maxValue)
     {
       Resource* res = GetResource(name); 
       res->Set(value, maxValue); 
@@ -109,9 +109,9 @@ namespace PT
       unsigned int resourceId = -1;
       ev.Retrieve("resourceId", resourceId);
 
-      float value = -1;
+      int value = -1;
       ev.Retrieve("value", value);
-      float maxValue = -1;
+      int maxValue = -1;
       ev.Retrieve("maxValue", maxValue);
 
       Set(fact->GetName(resourceId), value, maxValue);
@@ -153,9 +153,9 @@ namespace PT
 
       fact->Add(resourceId, name);
 
-      float value = -1;
+      int value = -1;
       ev.Retrieve("value", value);
-      float maxValue = -1;
+      int maxValue = -1;
       ev.Retrieve("maxValue", maxValue);
 
       Set(name, value, maxValue);
@@ -164,32 +164,32 @@ namespace PT
     } // end AddSkill()
 
     //==[ Resource ]=============================================================
-    Resources::Resource::Resource(size_t id, float value, float maxValue) 
+    Resources::Resource::Resource(size_t id, int value, int maxValue) 
       : id(id), value(value), maxValue(maxValue)
     {
     }
 
-    float Resources::Resource::Get() const
+    int Resources::Resource::Get() const
     {
-      return value;
+      return (int)value;
     }
 
-    void Resources::Resource::Set(float value, float maxValue)
+    void Resources::Resource::Set(int value, int maxValue)
     { 
       this->oldValue = this->value;
       if (maxValue > 0)
       {
         this->maxValue = maxValue;
       }
-      this->value = std::min<float>(value, GetMax());
+      this->value = std::min<int>((int)value, GetMax());
     }
 
-    float Resources::Resource::GetMax() const
+    int Resources::Resource::GetMax() const
     {
       return maxValue;
     }
 
-    float Resources::Resource::GetOld() const
+    int Resources::Resource::GetOld() const
     {
       return oldValue;
     }

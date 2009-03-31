@@ -129,7 +129,7 @@ namespace PT
 
         statshudWindow->SetSP(res->Get("Stamina"), res->GetMax("Stamina"));
 
-        float delta = res->GetOld("Hit Points") - res->Get("Hit Points");
+        int delta = res->GetOld("Hit Points") - res->Get("Hit Points");
         if (delta > 0) Hit(player, delta);
         if (res->Get("Hit Points") <= 0) Die(player);
       }

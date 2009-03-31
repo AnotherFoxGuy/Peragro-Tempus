@@ -64,23 +64,23 @@ namespace PT
        * @param maxHP The maximum health.
        *
        */
-      void StatsHUDWindow::SetHP(float hp, float maxHp)
+      void StatsHUDWindow::SetHP(int hp, int maxHp)
       {
         char buf[30];
-        float progress = std::max<float>(0.0f, hp/maxHp);
+        float progress = std::max<float>(0.0f, (float)hp/(float)maxHp);
         hpbar->setProgress(progress);
-        snprintf(buf, 29, "           %.0f / %.0f", hp, maxHp);
+        snprintf(buf, 29, "           %d / %d", hp, maxHp);
         buf[29] = '\0';
 
         SetText("StatsHUD/HPValue", buf);
       }
 
-      void StatsHUDWindow::SetMP (float mp, float maxMp)
+      void StatsHUDWindow::SetMP (int mp, int maxMp)
       {
         char buf[30];
-        float progress = std::max<float>(0.0f, mp/maxMp);
+        float progress = std::max<float>(0.0f, (float)mp/(float)maxMp);
         mpbar->setProgress(progress);
-        snprintf(buf, 29, "           %.0f / %.0f", mp, maxMp);
+        snprintf(buf, 29, "           %d / %d", mp, maxMp);
         buf[29] = '\0';
 
         SetText("StatsHUD/MPValue", buf);
@@ -91,12 +91,12 @@ namespace PT
         xpbar->setProgress(xp);
       }
 
-      void StatsHUDWindow::SetSP (float sp, float maxSp)
+      void StatsHUDWindow::SetSP (int sp, int maxSp)
       {
         char buf[30];
-        float progress = std::max<float>(0.0f, sp/maxSp);
+        float progress = std::max<float>(0.0f, (float)sp/(float)maxSp);
         spbar->setProgress(progress);
-        snprintf(buf, 29, "           %.0f / %.0f", sp, maxSp);
+        snprintf(buf, 29, "           %d / %d", sp, maxSp);
         buf[29] = '\0';
 
         SetText("StatsHUD/SPValue", buf);

@@ -5,8 +5,8 @@
 		<list name="Resources">
 			<uint16>ResourceId</uint16>
 			<string>Name</string>
-			<float>Value</float>
-                        <float>MaxValue</float>
+                        <uint32>Value</uint32>
+                        <uint32>MaxValue</uint32>
 		</list>
           </event>
 	</message>
@@ -15,8 +15,8 @@
           <event name="entity.resource.update" specific="EntityId">
                 <uint32>EntityId</uint32>
                 <uint16>ResourceId</uint16>
-                <float>Value</float>
-                <float>MaxValue</float>
+                <uint32>Value</uint32>
+                <uint32>MaxValue</uint32>
           </event>
-	</message>
+        </message>
 </message-implementation>

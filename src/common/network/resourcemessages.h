@@ -42,8 +42,8 @@ class ResourceListMessage : public NetMessage
   public:
     unsigned short resourceid;
     ptString name;
-    float value;
-    float maxvalue;
+    unsigned int value;
+    unsigned int maxvalue;
   };
 
   unsigned int resourcescount;
@@ -83,11 +83,11 @@ public:
   ptString getName(size_t i) { return resources[i].name; }
   void setName(size_t i, ptString x) { resources[i].name = x; }
 
-  float getValue(size_t i) { return resources[i].value; }
-  void setValue(size_t i, float x) { resources[i].value = x; }
+  unsigned int getValue(size_t i) { return resources[i].value; }
+  void setValue(size_t i, unsigned int x) { resources[i].value = x; }
 
-  float getMaxValue(size_t i) { return resources[i].maxvalue; }
-  void setMaxValue(size_t i, float x) { resources[i].maxvalue = x; }
+  unsigned int getMaxValue(size_t i) { return resources[i].maxvalue; }
+  void setMaxValue(size_t i, unsigned int x) { resources[i].maxvalue = x; }
 
   // --- end ListResources Getter and Setter ---
 
@@ -97,8 +97,8 @@ class ResourceUpdateMessage : public NetMessage
 {
   unsigned int entityid;
   unsigned short resourceid;
-  float value;
-  float maxvalue;
+  unsigned int value;
+  unsigned int maxvalue;
 
 public:
   ResourceUpdateMessage() : NetMessage(MESSAGES::RESOURCE,RESOURCE::RESOURCEUPDATE)
@@ -118,11 +118,11 @@ public:
   unsigned short getResourceId() const { return resourceid; }
   void setResourceId(unsigned short x) { resourceid = x; }
 
-  float getValue() const { return value; }
-  void setValue(float x) { value = x; }
+  unsigned int getValue() const { return value; }
+  void setValue(unsigned int x) { value = x; }
 
-  float getMaxValue() const { return maxvalue; }
-  void setMaxValue(float x) { maxvalue = x; }
+  unsigned int getMaxValue() const { return maxvalue; }
+  void setMaxValue(unsigned int x) { maxvalue = x; }
 
 };
 
