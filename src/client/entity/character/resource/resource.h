@@ -52,7 +52,7 @@ namespace PT
         virtual int Get() const;
         virtual void Set(int value, int maxValue = -1);
         virtual int GetMax() const;
-        virtual int GetOld() const;
+        virtual int GetOld() /*const*/;
       protected:
         size_t id;
         float value;

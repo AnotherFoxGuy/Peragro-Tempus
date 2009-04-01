@@ -43,8 +43,6 @@ namespace PT
 
     NpcEntity::NpcEntity() : CharacterEntity(Common::Entity::NPCEntityType)
     {
-      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
     }
 
     void NpcEntity::Initialize(const iEvent& ev)

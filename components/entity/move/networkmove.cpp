@@ -101,16 +101,12 @@ bool ComponentNetworkMove::Move(iEvent& ev)
 
   unsigned int id = entity->GetId();
 
-  float walk = 0;
-  float turn = 0;
   bool run = false;
   bool jump = false;
   bool local = false;
   csEventError error = csEventErrNone;
 
-
-  error = ev.Retrieve("walkDirection", walk);
-  error = ev.Retrieve("turnDirection", turn);
+  WFMath::Point<3> direction = PT::Events::EntityHelper::GetVector3(&ev, "moveDirection");
   error = ev.Retrieve("run", run);
   error = ev.Retrieve("jump", jump);
   if (ev.AttributeExists("local"))
@@ -135,18 +131,18 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   if (pcactormove.IsValid())
   {
     pcactormove->SetAnimationMapping(CEL_ANIM_IDLE, "idle");
-    pcactormove->SetMovementSpeed(fabsf(walk));
-    pcactormove->SetRunningSpeed(fabsf(walk));
+    pcactormove->SetMovementSpeed(fabsf(direction.x()));
+    pcactormove->SetRunningSpeed(fabsf(direction.x()));
     pcactormove->SetRotationSpeed(PI);
 
-    pcactormove->RotateLeft(turn < 0.0f);
-    pcactormove->RotateRight(turn > 0.0f);
+    pcactormove->RotateLeft(direction.z() < 0.0f);
+    pcactormove->RotateRight(direction.z() > 0.0f);
 
-    pcactormove->Forward(walk > 0.0f);
-    pcactormove->Backward(walk < 0.0f);
+    pcactormove->Forward(direction.x() > 0.0f);
+    pcactormove->Backward(direction.x() < 0.0f);
 
     if (jump) pcactormove->Jump();
-    else if (abs((int)walk) > 0) pcactormove->Run(run);
+    else if (abs((int)direction.x()) > 0) pcactormove->Run(run);
     else pcactormove->Run(false);
   }
 

@@ -73,6 +73,8 @@ namespace PT
       ///@todo Maybe move 'equipment' property to public?
       Equipment& GetEquipment() { return equipment; }
 
+      bool IsSitting() { return sitting; }
+
       void Pose(unsigned int poseId);
 
       /**

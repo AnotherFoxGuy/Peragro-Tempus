@@ -18,6 +18,9 @@
 
 #include "server/entity/entitymanager.h"
 #include "server/entity/entity.h"
+#include "server/entity/character/movementmanager.h"
+#include "server/entity/character/character.h"
+#include "server/entity/pcentity.h"
 #include "server/entity/itementity.h"
 #include "server/entity/mountentity.h"
 #include "server/entity/user.h"
@@ -27,64 +30,70 @@
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
-  /*
-  const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
-  if (!c_entity) return;
-
-  const Character* c_char = c_entity->getCharacter();
-  if (!c_char) return;
-
-  int name_id;
-
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
+  // Some speed hacking prevention.
+  WFMath::Point<3> direction = request_msg.getMoveDirection();
+  if (direction.x() > 2)
+  {
+    direction[0] = 2;
+    request_msg.setMoveDirection(direction);
+  }
+  if (direction.z() > 2)
+  {
+    direction[2] = 2;
+    request_msg.setMoveDirection(direction);
+  }
+
   Server* server = Server::getServer();
 
-  float speed = 0;
-  float acc = 1;
+  boost::shared_ptr<PcEntity> entity = NetworkHelper::GetEntity(msg);
 
-  if (c_entity->getMount())
+  boost::shared_ptr<Character> mover;
+  if (entity->GetMount())
   {
-    const MountEntity* mount = c_entity->getMount();
-    speed = mount->getSpeed();
-    name_id = mount->getEntity()->GetId();
+    mover = entity->GetMount();
   }
   else
   {
-    ptScopedMonitorable<Character> character (c_char);
-    Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
-    speed = (float)character->getStats()->getAmount(speed_stat);
-    name_id = c_entity->getEntity()->GetId();
+    mover = entity;
   }
 
   MoveMessage response_msg;
-  if (request_msg.getRun())
+
+  if ((int)request_msg.getMoveDirection().x()-1)
   {
-    // TODO this should be based on character and need to check endurance
-    acc = 2;
-    response_msg.setRun(true);
+    if (request_msg.getRun())
+    {
+      response_msg.setRun(true);
+      mover->SetState(Character::StateRunning);
+    }
+    else
+    {
+      response_msg.setRun(false);
+      mover->SetState(Character::StateWalking);
+    }
   }
   else
   {
     response_msg.setRun(false);
+    mover->SetState(Character::StateStanding);
   }
 
-  float move_x = (float)(request_msg.getMoveDirection().x()-1)*speed*acc;
+  float speed = server->GetMovementManager()->GetMovementSpeed(mover);
+
+  float move_x = (float)(request_msg.getMoveDirection().x()-1)*speed;
   float move_z = (float)(request_msg.getMoveDirection().z()-1);
   response_msg.setMoveDirection(move_x, 0, move_z);
 
   response_msg.setJump(request_msg.getJump());
-  response_msg.setEntityId(name_id);
+  response_msg.setEntityId(mover->GetId());
   ByteStream bs;
   response_msg.serialise(&bs);
-  for (size_t i=0; i<server->getUserManager()->getUserCount(); i++)
-  {
-    User* user = server->getUserManager()->getUser(i);
-    if (user && user->getConnection())
-      user->getConnection()->send(bs);
-  }
-  */
+  NetworkHelper::localcast(bs, mover);
+
+  server->GetMovementManager()->Register(mover);
 }
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)

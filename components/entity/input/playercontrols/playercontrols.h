@@ -82,10 +82,6 @@ private:
   bool run;
   /// Determines if player is jumping or not.
   bool jump;
-  /// Specifies whether character is sitting or not.
-  /// @todo It's not very logical to have boats sit, is it? (boats will
-  /// probably be MountEntities).
-  bool sitting;
   /// Whether to reverse turning when walking backwards.
   bool backwardReverse;
   /// Whether to send local movement events instead of waiting for the server.

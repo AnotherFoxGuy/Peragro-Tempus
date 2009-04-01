@@ -44,8 +44,6 @@ namespace PT
   {
     PcEntity::PcEntity() : CharacterEntity(Common::Entity::PCEntityType)
     {
-      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
     }
 
     void PcEntity::Initialize(const iEvent& ev)

@@ -165,7 +165,7 @@ namespace PT
 
     //==[ Resource ]=============================================================
     Resources::Resource::Resource(size_t id, int value, int maxValue) 
-      : id(id), value(value), maxValue(maxValue)
+      : id(id), value(value), maxValue(maxValue), oldValue(value)
     {
     }
 
@@ -189,9 +189,11 @@ namespace PT
       return maxValue;
     }
 
-    int Resources::Resource::GetOld() const
+    int Resources::Resource::GetOld() /*const*/
     {
-      return oldValue;
+      int v = this->oldValue;
+      this->oldValue = Get();
+      return v;
     }
 
     //==[ ResourcesFactory ]============================================================

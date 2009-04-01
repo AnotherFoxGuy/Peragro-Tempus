@@ -457,9 +457,6 @@ namespace PT
 
     //Actions
 
-    // Register listener for ActionActivateSkill.
-    PT_REGISTER_LISTENER(Client, ActionActivateSkill, "input.ActivateSkill")
-
     // Register listener for ActionQuit.
     PT_REGISTER_LISTENER(Client, ActionQuit, "input.Quit")
 
@@ -639,41 +636,6 @@ namespace PT
       ConnectRequestMessage msg(CLIENTVERSION);
       network->send(&msg);
     }
-  }
-
-  bool Client::ActionActivateSkill(iEvent& ev)
-  {
-    using namespace PT::Events;
-
-    if (stateManager->GetState() == STATE_PLAY)
-    {
-      if (InputHelper::GetButtonDown(&ev))
-      {
-        // Activate the skill
-        csRef<iCelEntity> ent = cursor->GetSelectedEntity();
-        csRef<iPcProperties> pcprop;
-        if (ent) pcprop = CEL_QUERY_PROPCLASS_ENT(ent, iPcProperties);
-        if (!pcprop) return false;
-        long entType = pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity Type"));
-        if (entType == Common::Entity::PlayerEntityType || entType == Common::Entity::PCEntityType)
-        {
-          combatManager->LevelUp(pcprop->GetPropertyLong(pcprop->GetPropertyIndex("Entity ID")));
-        }
-        // Animate the player.
-        iCelEntity* entity = Entity::PlayerEntity::Instance()->GetCelEntity();
-        if (!entity) return false;
-        csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(entity, iPcMesh);
-        if (!pcmesh) return false;
-        csRef<iMeshWrapper> parent = pcmesh->GetMesh();
-        if (!parent) return false;
-        csRef<iSpriteCal3DState> cal3dstate =
-          scfQueryInterface<iSpriteCal3DState> (parent->GetMeshObject());
-        if (!cal3dstate) return false;
-        cal3dstate->SetAnimAction("cast_summon", 0.0f, 0.0f);
-      }
-    }
-
-    return true;
   }
 
   bool Client::ActionQuit(iEvent& ev)

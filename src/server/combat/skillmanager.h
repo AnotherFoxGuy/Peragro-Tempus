@@ -54,7 +54,7 @@ public:
   void CharacterLogout(boost::shared_ptr<Character> character,
                        const std::string& skill);
   void UpdateTimeUnused(boost::shared_ptr<Character> character,
-                        const std::string& skill);
+    const std::string& skill) {}
   static std::string GetAbilityNameForSkill(const std::string& skillType);
 
 

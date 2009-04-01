@@ -160,7 +160,7 @@ namespace Client
           pcmesh->CreateNullMesh("ErrorMesh", csBox3());
 
         csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
-        if (pclinmove)
+        if (mesh && pclinmove)
         {
           pclinmove->InitCD(mesh, 50.0f);
         }

@@ -130,7 +130,6 @@ void InteractionUtility::IncreaseStatValue(boost::shared_ptr<Character> characte
   */
 }
 
-// Caller has to delete
 std::string InteractionUtility::GetXPString(const std::string& name)
 {
   std::string str = name + "XP";

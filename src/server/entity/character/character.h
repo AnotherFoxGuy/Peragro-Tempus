@@ -40,7 +40,21 @@ class Race;
 
 class Character : public Entity
 {
+public:
+  enum State
+  {
+    StateProne = 0,
+    StateSitting,
+    StateStanding,
+    StateWalking,
+    StateHustling,
+    StateRunning,
+    StateSprinting,
+  };
+
 protected:
+  State state;
+
   unsigned int targetID; // Used by interaction manager to determine target.
   boost::weak_ptr<MountEntity> mount;
 
@@ -66,7 +80,7 @@ protected:
 
 public:
   Character(Common::Entity::EntityType type)
-    : Entity(type), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
+    : Entity(type), state(StateStanding), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
   {
     isWalking = false;
     inventory = boost::shared_ptr<Inventory>(new Inventory(this_));
@@ -83,6 +97,9 @@ public:
 
   void SetMount(boost::shared_ptr<MountEntity> mount);
   boost::shared_ptr<MountEntity> GetMount() const { return mount.lock(); }
+
+  void SetState(State state) { this->state = state; }
+  State GetState() { return state; }
 
   void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
   unsigned int GetTargetID() { return targetID; }

@@ -40,6 +40,8 @@ class EnvironmentManager;
 class InteractionManager;
 
 // Character stuff
+class MovementManager;
+
 class EquipmentFactory;
 
 class SkillsFactory;
@@ -68,6 +70,8 @@ private:
   InteractionManager* interactionMgr;
 
   // Character stuff
+  MovementManager* movementManager;
+
   EquipmentFactory* equipmentFactory;
 
   SkillsFactory* skillsFactory;
@@ -123,6 +127,9 @@ public:
   EnvironmentManager* getEnvironmentManager() { return this->environment_mgr; }
 
   // Character stuff
+  void SetMovementManager(MovementManager* movementManager) { this->movementManager = movementManager; }
+  MovementManager* GetMovementManager() { return this->movementManager; }
+
   void SetEquipmentFactory(EquipmentFactory* equipmentFactory) { this->equipmentFactory = equipmentFactory; }
   EquipmentFactory* GetEquipmentFactory() { return this->equipmentFactory; }
 

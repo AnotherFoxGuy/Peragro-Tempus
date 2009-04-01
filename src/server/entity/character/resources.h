@@ -55,13 +55,16 @@ private:
     virtual void UnRegister();
     virtual void SendUpdate();
     size_t GetAbilityLevel() const;
+
+    friend class ResourcesFactory;
   };
 
   class HitPoints : public Resource
   {
   public:
     HitPoints(Resources* resources, size_t id, int value);
-    virtual void Set(int value);
+    virtual void Set(float value, bool update = true);
+    virtual void Regenerate(size_t elapsedTime);
   };
 
   class Stamina : public Resource
@@ -69,7 +72,7 @@ private:
   public:
     Stamina(Resources* resources, size_t id, int value);
     virtual int Get() const;
-    virtual void Set(int value);
+    virtual void Set(float value, bool update = true);
   };
 
   friend class Resource;

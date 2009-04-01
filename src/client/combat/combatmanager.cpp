@@ -56,6 +56,8 @@
 
 #include "client/entity/character/resource/resource.h"
 
+#include "include/effectsmanager.h"
+
 namespace PT
 {
   namespace Combat
@@ -114,7 +116,13 @@ namespace PT
       PT::Entity::PlayerEntity* player = PointerLibrary::getInstance()->getPlayer();
       if (!player) return true;
 
-      if (!player->GetResourcesReady()) return true;
+      if (!player->GetResourcesReady())
+      {
+        using namespace PT::Events;
+        EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
+        evmgr->AddEvent(&ev);
+        return true;
+      }
 
       boost::shared_ptr<PT::Entity::Resources> res = player->GetResources();
 
@@ -130,7 +138,7 @@ namespace PT
         statshudWindow->SetSP(res->Get("Stamina"), res->GetMax("Stamina"));
 
         int delta = res->GetOld("Hit Points") - res->Get("Hit Points");
-        if (delta > 0) Hit(player, delta);
+        if (delta != 0) Hit(player, delta);
         if (res->Get("Hit Points") <= 0) Die(player);
       }
       catch (PT::Entity::ResourcesFactory::Exception&){}
@@ -138,24 +146,24 @@ namespace PT
       return true;
     } // end UpdatePlayerResource()
 
-    void CombatManager::Hit(::Client::Entity::Entity* target, int damage)
+    void CombatManager::Hit(PT::Entity::CharacterEntity* target, int damage)
     {
       using namespace PT::Entity;
+
+      iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
+      csRef<iEffectsManager> effectsManager = csQueryRegistry<iEffectsManager>(object_reg);
 
       // Damage is positive, we got hurt.
       if (damage > 0)
       {
-        //effectsManager->CreateEffect("Blood", GetMesh(target));
-        if (target->GetType() == Common::Entity::PCEntityType)
-        {
-          ((PT::Entity::PcEntity*) target)->PlayAnimation("hit", 0.1f);
-        }
+        if (effectsManager) effectsManager->CreateEffect("Blood", GetMesh(target));
+        target->PlayAnimation("hit", 0.1f, false, true);
       }
       // Damage is negative, we got healed.
       else if (damage < 0)
       {
-        //effectsManager->CreateEffect("Heal", GetMesh(target));
-        //target->SetAction("heal");
+        // idle, Sit_up, walk, jump, attack, run, levitate, Sit_down, horse_mount, Sit, die, 
+        //target->PlayAnimation("levitate", 0.1f, false, true);
       }
       else if (damage == 0)
       {
@@ -164,74 +172,14 @@ namespace PT
       }
 
       Report(PT::Debug, "You %s %d points!",
-        damage < 0 ? "healed" : "got hit for", damage);
+        damage < 0 ? "healed" : "got hit for", abs(damage));
 
     } // end Hit()
 
-    void CombatManager::Die(::Client::Entity::Entity* target)
+    void CombatManager::Die(PT::Entity::CharacterEntity* target)
     {
-      using namespace Entity;
-      CharacterEntity *character;
-      //effectsManager->CreateEffect("Die", GetMesh(target));
-      if (target->GetType() == Common::Entity::PCEntityType ||
-          target->GetType() == Common::Entity::NPCEntityType ||
-          target->GetType() == Common::Entity::PlayerEntityType)
-      {
-        character = static_cast<CharacterEntity*>(target);
-        character->PlayAnimation("die", 0.1f, false, false);
-      }
+      target->PlayAnimation("die", 0.1f, false, false);
     } // end Die()
-
-    void CombatManager::LevelUp(int tarGetId)
-    {
-      // Lookup the ID to get the actual entity.
-      Common::Entity::Entityp target = entityManager->FindById(tarGetId);
-
-      if (!target)
-      {
-        Report(PT::Error, "CombatManager: Couldn't find entity with ID %d !",
-          tarGetId);
-        return;
-      }
-
-      //effectsManager->CreateEffect("Levelup", GetMesh(target));
-      //guiManager->GetCombatLog()->AddMessage("%s has gained a level.",
-      //  target->GetName());
-
-      Report(PT::Debug, "%s has gained a level.", target->GetName().c_str());
-    } // end LevelUp()
-
-    void CombatManager::Experience(int exp)
-    {
-      if (!PT::Entity::PlayerEntity::Instance()) return;
-      // Lookup the ID to get the actual entity.
-      boost::shared_ptr< ::Client::Entity::Entity> entity = PT::Entity::PlayerEntity::Instance();
-
-      if (!entity)
-      {
-        Report(PT::Error, "CombatManager: Couldn't find player entity!");
-        return;
-      }
-
-      // Update the entity's experience(this will update the GUI aswell).
-      //entity->SetExp(exp);
-      //guiManager->GetStatsWindow()->Setexp(exp);
-
-      // We gained experience.
-      if (exp >= 0)
-      {
-        //guiManager->GetCombatLog()->
-        //  AddMessage("You gained %d experience points", exp);
-        Report(PT::Debug, "You gained %d experience points!", exp);
-      }
-      // We lost experience.
-      else if (exp < 0)
-      {
-        //guiManager->GetCombatLog()->
-        //  AddMessage("You lost %d experience points", exp);
-        Report(PT::Debug, "You lost %d experience points!", exp);
-      }
-    } // end Experience()
 
     void CombatManager::SkillUsageStart(unsigned int casterId,
                                         unsigned int tarGetId,

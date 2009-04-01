@@ -51,6 +51,9 @@ namespace PT
       sitting = false;
       hasMount = false;
 
+      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
+      pl->CreatePropertyClass(celEntity, "pcmove.linear");
+
       resources = resourcesFact->Create(this);
 
       PT::Component::ComponentManager* componentManager =

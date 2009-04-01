@@ -152,7 +152,7 @@ bool ComponentPlayerControls::PerformMovementAction()
 
   // When we move, we turn off sitting.
   // Shouldn't this be done for mouse walk too?
-  if (sitting)
+  if (static_cast<CharacterEntity*>(entity)->IsSitting())
   {
     PoseRequestMessage poseMsg;
     poseMsg.setPoseId(0); //TODO: do a posemanager lookup for "idle"!

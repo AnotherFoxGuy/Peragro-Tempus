@@ -134,15 +134,15 @@ inline T Bases<multiplier, T, startXp>::Get(const std::string& name)
 
 template<size_t multiplier, typename T, size_t startXp>
 inline void Bases<multiplier, T, startXp>::Set(const std::string& name, T xp)
-{ GetBase(name)->Set(xp); }
+{ GetBase(name)->Set(xp); SaveToDB(); }
 
 template<size_t multiplier, typename T, size_t startXp>
 inline void Bases<multiplier, T, startXp>::Add(const std::string& name, T xp)
-{ Base* base = GetBase(name); base->Set(base->Get() + xp); }
+{ Base* base = GetBase(name); base->Set(base->Get() + xp); SaveToDB(); }
 
 template<size_t multiplier, typename T, size_t startXp>
 inline void Bases<multiplier, T, startXp>::Sub(const std::string& name, T xp)
-{ Base* base = GetBase(name); base->Set(base->Get() - xp); }
+{ Base* base = GetBase(name); base->Set(base->Get() - xp); SaveToDB(); }
 
 template<size_t multiplier, typename T, size_t startXp>
 inline size_t Bases<multiplier, T, startXp>::GetLevel(const std::string& name)

@@ -21,6 +21,7 @@
 #include "server/entity/character/skills.h"
 
 #include "server/entity/entitymanager.h"
+#include "server/entity/character/movementmanager.h"
 #include "server/entity/character/character.h"
 #include "server/entity/entity.h"
 #include "server/entity/itementity.h"
@@ -160,6 +161,9 @@ int main(int argc, char ** argv)
   server.setUserManager(&usr_mgr);
 
   //Character stuff.
+  MovementManager movementManager;
+  server.SetMovementManager(&movementManager);
+
   EquipmentFactory equipmentFactory(&tablemgr);
   server.SetEquipmentFactory(&equipmentFactory);
 

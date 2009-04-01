@@ -186,7 +186,6 @@ namespace PT
     /// List of listeners this class has.
     csRefArray<Events::EventHandlerCallback> eventHandlers;
 
-    bool ActionActivateSkill(iEvent& ev);
     bool ActionQuit(iEvent& ev);
     bool UserQuit(iEvent& ev);
     bool Quit(const CEGUI::EventArgs &args);

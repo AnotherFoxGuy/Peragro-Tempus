@@ -47,9 +47,6 @@ namespace PT
       CharacterEntity(Common::Entity::MountEntityType)
     {
       mounted = false;
-
-      pl->CreatePropertyClass(celEntity, "pcmove.actor.standard");
-      pl->CreatePropertyClass(celEntity, "pcmove.linear");
     }
 
     void MountEntity::Initialize(const iEvent& ev)

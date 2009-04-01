@@ -81,7 +81,7 @@ void Resources::Resource::SendUpdate()
   msg.serialise(&bs);
   NetworkHelper::sendMessage(resources->entity, bs);
 
-  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %.0f to %s.\n", id, value, resources->entity->GetName().c_str());
+  printf("Send ResourceUpdateMessage: Resource: %"SIZET" value: %d(%.0f) to %s.\n", id, Get(), value, resources->entity->GetName().c_str());
 }
 
 int Resources::Resource::Get() const
@@ -91,11 +91,12 @@ int Resources::Resource::Get() const
 
 void Resources::Resource::Set(float value, bool update)
 { 
-  bool changed = (int)this->value != (int)value;
+  bool changed = Get() != (int)value;
 
   float max = (float)GetMax();
   this->value = std::min<float>(value, max);
-  if (this->value < max) Register();
+  if (this->value < max) 
+    Register();
 
   if (changed)
   {
@@ -127,12 +128,20 @@ int Resources::Resource::GetMax() const
 void Resources::Resource::Regenerate(size_t elapsedTime)
 {
   float speed = 1.0f;
-  /* TODO
-  if (res->resources->entity->IsSitting())
-    multiplier = 2.0f // Twice as fast
-  if (res->resources->entity->IsProne())
-    multiplier = 10.0f // Ten times as fast
-  */
+  Character* c = dynamic_cast<Character*>(resources->entity);
+  if (c)
+  {
+    if (c->GetState() == Character::StateProne)
+      speed = 10.0f; // Ten times as fast
+    else if (c->GetState() == Character::StateSitting)
+      speed = 2.0f; // Twice as fast
+    else if (c->GetState() == Character::StateHustling)
+      speed = 0.0f; // No regeneration
+    else if (c->GetState() == Character::StateRunning)
+      speed = 0.0f; // No regeneration
+    else if (c->GetState() == Character::StateSprinting)
+      speed = 0.0f; // No regeneration
+  }
   /* TODO
     Take hunger into the calculation:
     http://wiki.peragro.org/index.php/Hunger
@@ -149,7 +158,7 @@ Resources::HitPoints::HitPoints(Resources* resources, size_t id, int value)
 {
 }
 
-void Resources::HitPoints::Set(int value)
+void Resources::HitPoints::Set(float value, bool update)
 { 
 /* TODO
   if (value <= 0.0f)
@@ -157,7 +166,13 @@ void Resources::HitPoints::Set(int value)
   else if (resources->entity->IsDead())
     resources->entity->SetDead(false);
 */
-  Resource::Set(value);
+  Resource::Set(value, update);
+}
+
+void Resources::HitPoints::Regenerate(size_t elapsedTime)
+{
+  // Hit Points recover as Stamina recovers. 
+  // Do nothing.
 }
 
 //==[ Stamina ]==============================================================
@@ -172,17 +187,27 @@ int Resources::Stamina::Get() const
   return std::max<int>(0, (int)value);
 }
 
-void Resources::Stamina::Set(int value)
+void Resources::Stamina::Set(float value, bool update)
 { 
-  if (value <= 0)
+  //http://wiki.peragro.org/index.php/Talk:Stamina
+  if (value >= GetMax())
+  {
+    if (resources->Get("Hit Points") < resources->GetMax("Hit Points"))
+    {
+      resources->Add("Hit Points", 1);
+      value -= GetMax();
+    }
+  }
+  else if (value <= 0)
   {
     // When stamina is depleted, Hit Points are reduced by 1
     // and current Stamina is "increased" by the Maximum Stamina.
     value += GetMax();
-    resources->Sub("Hit Points", 1.0f);
+    resources->Sub("Hit Points", 1);
+    value -= 0.0001f; // Hack: make sure value != GetMax()
   }
 
-  Resource::Set(value);
+  Resource::Set(value, update);
 }
 
 //==[ Resources ]============================================================
@@ -312,7 +337,8 @@ void Resources::SendAll(Connection* conn)
 ResourcesFactory::ResourcesFactory(TableManager* db) : db(db)
 {
   LoadFromDB();
-  this->setInterval(10); // Every second. 10 * 100MS
+  //this->setInterval(10); // Every second. 10 * 100MS
+  this->setInterval(25); //TODO: code says 100MS, but 25 feels more like 1 second.
   start();
 }
 
@@ -336,7 +362,6 @@ boost::shared_ptr<Resources> ResourcesFactory::Create(Entity* entity)
 
 void ResourcesFactory::timeOut()
 {
-  //printf("timeOut\n");
   size_t elapsedTime = 1000; //ms
 
   std::list<Resources::Resource*> toBeUnRegistered;
@@ -355,7 +380,7 @@ void ResourcesFactory::timeOut()
 
   std::list<Resources::Resource*>::iterator it2 = toBeUnRegistered.begin();
   for ( ; it2 != toBeUnRegistered.end(); it2++)
-    UnRegister(*it2);
+    (*it2)->UnRegister();
 }
 
 void ResourcesFactory::Register(Resources::Resource* resource) 

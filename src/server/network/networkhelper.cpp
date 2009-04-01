@@ -48,26 +48,20 @@ void NetworkHelper::sendMessage(User* user, const ByteStream& bs)
 
 void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity)
 {
-/*
   Server* server = Server::getServer();
-  UserManager* um = server->getUserManager();
-  SectorManager* sm = server->GetSectorManager();
-  ptString region = sm->getRegionName(entity->GetSector());
+  EntityManager* em = server->getEntityManager();
 
-  for (UserManager::const_UserMapIter i=um->GetUsers().begin(); 
-       i!=um->GetUsers().end(); i++)
+  // TODO: replace 100 with something configurable.
+  std::list<Common::Entity::Entityp> entities = em->Query(WFMath::Ball<3>(entity->GetPosition(), 100));
+  std::list<Common::Entity::Entityp>::iterator it;
+  for ( it=entities.begin() ; it != entities.end(); it++ )
   {
-    boost::shared_ptr<User> user = (*i).second;
-    if (user && user->GetConnection() && user->GetEntity())
+    boost::shared_ptr<PcEntity> target = boost::shared_dynamic_cast<PcEntity>(*it);
+    if (target && target->GetUser() && target->GetUser()->GetConnection())
     {
-      unsigned short sector = user->GetEntity()->GetSector();
-      if (sm->getRegionName(sector) == region)
-      {
-        user->GetConnection()->send(bs);
-      }
+      target->GetUser()->GetConnection()->send(bs);
     }
   }
-*/
 }
 
 void NetworkHelper::broadcast(const ByteStream& bs)

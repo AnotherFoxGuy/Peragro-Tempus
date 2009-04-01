@@ -78,6 +78,7 @@ public:
   void SendRemoveEntity(Common::Entity::Entityp entity);
   void SendEntityDiff(const std::list<Common::Entity::Entityp>& entities);
 
+  const std::map<size_t, Common::Entity::WeakEntityp>& GetKnownEntitites() { return knownEntitites; }
   void ClearKnownEntitites() { knownEntitites.clear(); }
   void remove();
 

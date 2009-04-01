@@ -60,6 +60,11 @@ namespace PT
     class GUIManager;
   } // GUI namespace
 
+  namespace Entity
+  {
+    class CharacterEntity;
+  } // Entity namespace
+
   namespace Combat
   {
     /**
@@ -124,25 +129,13 @@ namespace PT
        * @param target The target entity.
        * @param damage The amount of damage to deal.
        */
-      void Hit(::Client::Entity::Entity* target, int damage);
+      void Hit(PT::Entity::CharacterEntity* target, int damage);
 
       /**
        * Make an entity die.
        * @param target The entity to kill.
        */
-      void Die(::Client::Entity::Entity* target);
-
-      /**
-       * Show the level up effect.
-       * @param tarGetId The ID of the entity.
-       */
-      void LevelUp(int tarGetId);
-
-      /**
-       * Add experience to the player character.
-       * @param exp The amount of experience to add.
-       */
-      void Experience(int exp);
+      void Die(PT::Entity::CharacterEntity* target);
 
      /**
       * Start using a skill, so we create an effect on the caster.
