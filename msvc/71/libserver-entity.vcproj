@@ -312,6 +312,9 @@
 				RelativePath="..\..\src\server\entity\character\inventory.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\character\movementmanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\character\reputations.cpp">
 			</File>
 			<File
@@ -374,6 +377,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\inventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\character\movementmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\reputations.h">
