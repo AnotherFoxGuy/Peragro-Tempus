@@ -25,11 +25,13 @@
 
 void ChatHandler::handleChat(GenericMessage* msg)
 {
-  /*
-  const PcEntity* ent = NetworkHelper::getPcEntity(msg);
+  
+  const boost::shared_ptr<PcEntity> ent = 
+    boost::shared_dynamic_cast<PcEntity>(NetworkHelper::GetEntity(msg));
+
   if (!ent) return;
 
-  const std::string name = ent->getEntity()->GetName();
+  const std::string name = ent->GetName();
 
   ChatMessage in_msg;
   in_msg.deserialise(msg->getByteStream());
@@ -44,8 +46,10 @@ void ChatHandler::handleChat(GenericMessage* msg)
 
   if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
   else
-    NetworkHelper::distancecast(bs, ent->getEntity(), in_msg.getVolume());
-    */
+    NetworkHelper::localcast(bs, ent);
+  /* TODO: see NetworkHelper , range needs to be implemented */
+//    NetworkHelper::localcast(bs, ent, in_msg.getVolume());
+  
   /* TODO: client decides how loud a message is.  If there is to be a
      policy to limit how far one can shout, here's the place to implement
      it. */
