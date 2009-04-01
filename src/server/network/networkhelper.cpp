@@ -46,13 +46,12 @@ void NetworkHelper::sendMessage(User* user, const ByteStream& bs)
   conn->send(bs);
 }
 
-void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity)
+void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity, size_t distance)
 {
   Server* server = Server::getServer();
   EntityManager* em = server->getEntityManager();
 
-  // TODO: replace 100 with something configurable.
-  std::list<Common::Entity::Entityp> entities = em->Query(WFMath::Ball<3>(entity->GetPosition(), 100));
+  std::list<Common::Entity::Entityp> entities = em->Query(WFMath::Ball<3>(entity->GetPosition(), distance));
   std::list<Common::Entity::Entityp>::iterator it;
   for ( it=entities.begin() ; it != entities.end(); it++ )
   {

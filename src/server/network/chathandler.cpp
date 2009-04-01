@@ -25,10 +25,7 @@
 
 void ChatHandler::handleChat(GenericMessage* msg)
 {
-  
-  const boost::shared_ptr<PcEntity> ent = 
-    boost::shared_dynamic_cast<PcEntity>(NetworkHelper::GetEntity(msg));
-
+  boost::shared_ptr<PcEntity> ent = NetworkHelper::GetEntity(msg);
   if (!ent) return;
 
   const std::string name = ent->GetName();
@@ -37,7 +34,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   in_msg.deserialise(msg->getByteStream());
 
   ChatMessage out_msg;
-  out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str())));
+  out_msg.setSpeakerName(name);
   out_msg.setVolume(in_msg.getVolume());
   out_msg.setMessage(in_msg.getMessage());
 
@@ -46,9 +43,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
 
   if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
   else
-    NetworkHelper::localcast(bs, ent);
-  /* TODO: see NetworkHelper , range needs to be implemented */
-//    NetworkHelper::localcast(bs, ent, in_msg.getVolume());
+    NetworkHelper::localcast(bs, ent, in_msg.getVolume()*100);
   
   /* TODO: client decides how loud a message is.  If there is to be a
      policy to limit how far one can shout, here's the place to implement
@@ -67,18 +62,19 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  boost::shared_ptr<Entity> entity = boost::dynamic_pointer_cast<Entity>(server->getEntityManager()->FindByName(*in_msg.getListenerName()));
-  if (!entity || entity->GetType() != Common::Entity::PlayerEntityType) return;
+  boost::shared_ptr<PcEntity> target = 
+    boost::shared_dynamic_cast<PcEntity>(server->getEntityManager()->FindByName(*in_msg.getListenerName()));
+  if (!target) return;
 
   ChatMessage out_msg;
   out_msg.setMessage(in_msg.getMessage());
   out_msg.setVolume(0); // whisper
-  out_msg.setSpeakerName(ptString(name.c_str(), strlen(name.c_str())));
+  out_msg.setSpeakerName(name);
 
   ByteStream bs;
   out_msg.serialise(&bs);
 
-  NetworkHelper::sendMessage(entity.get(), bs);
+  NetworkHelper::sendMessage(target.get(), bs);
 }
 
 void ChatHandler::handleGroup(GenericMessage* msg)

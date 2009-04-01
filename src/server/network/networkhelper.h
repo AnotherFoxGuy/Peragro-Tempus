@@ -39,7 +39,8 @@ public:
   static void sendMessage(Entity*, const ByteStream& bs);
   static void sendMessage(User*, const ByteStream& bs);
 
-  static void localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity);
+  // TODO: replace 100 with something configurable.
+  static void localcast(const ByteStream& bs, boost::shared_ptr<Entity> entity, size_t distance = 100);
   static void broadcast(const ByteStream& bs);
 
   /* returns an array of players associated with the given player/channelname
