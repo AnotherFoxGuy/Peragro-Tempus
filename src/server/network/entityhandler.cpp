@@ -32,6 +32,11 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
+  
+  boost::shared_ptr<PcEntity> entity = NetworkHelper::GetEntity(msg);
+  if (!entity) return; 
+
+  Server* server = Server::getServer();
 
   // Some speed hacking prevention.
   WFMath::Point<3> direction = request_msg.getMoveDirection();
@@ -45,10 +50,6 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
     direction[2] = 2;
     request_msg.setMoveDirection(direction);
   }
-
-  Server* server = Server::getServer();
-
-  boost::shared_ptr<PcEntity> entity = NetworkHelper::GetEntity(msg);
 
   boost::shared_ptr<Character> mover;
   if (entity->GetMount())
