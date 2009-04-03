@@ -167,8 +167,7 @@ WFMath::AxisBox<3> ResourceManager::GetBB(iDocumentNode* node)
   csRef<iCollection> coll = engine->CreateCollection("worldmanager.BBcalc");
   csRef<iVFS> vfs = csQueryRegistry<iVFS>(object_reg);
   csRef<iThreadReturn> tr = loader->LoadNodeWait(vfs->GetCwd(), node, coll);
-  engine->SyncEngineListsNow(loader);
-  csRef<iMeshFactoryWrapper> mfw = coll->FindMeshFactory(factoryName.c_str());
+  csRef<iMeshFactoryWrapper> mfw = scfQueryInterfaceSafe<iMeshFactoryWrapper>(tr->GetResultRefPtr());
   if (mfw)
     if (mfw->GetMeshObjectFactory())
       if (mfw->GetMeshObjectFactory()->GetObjectModel())
