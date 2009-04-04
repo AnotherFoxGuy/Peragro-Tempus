@@ -46,6 +46,8 @@ public:
   void Sub(const std::string& name, T xp);
   size_t GetLevel(const std::string& name);
 
+  size_t GetLevel(T xp) const;
+
   virtual void LoadFromDB() = 0;
   virtual void SaveToDB() = 0;
 
@@ -64,7 +66,7 @@ protected:
     bool dirty;
   };
 
-  size_t GetLevel(T xp) const;
+  
   Base* GetBase(const std::string& name);
 
   std::map<size_t, boost::shared_ptr<Base> > bases;

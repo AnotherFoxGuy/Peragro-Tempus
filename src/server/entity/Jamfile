@@ -5,6 +5,7 @@ SubInclude TOP src server entity character ;
 Description server-entity : "entity" ;
 Library server-entity :
   [ Wildcard *.h *.cpp ]
-  [ Wildcard [ ConcatDirs character ] : *.h *.cpp ] ;
+  [ Wildcard [ ConcatDirs character ] : *.h *.cpp ]
+  [ Wildcard [ ConcatDirs statistic ] : *.h *.cpp ] ;
 LinkWith server-entity : util ;
 MsvcCFlags server-entity : /wd4396 ;

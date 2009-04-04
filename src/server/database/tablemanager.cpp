@@ -72,6 +72,14 @@
 #include "table-zones.h"
 #include "table-zonenodes.h"
 
+// Species stuff
+#include "table-species.h"
+#include "table-speciesabilities.h"
+#include "table-speciesskills.h"
+#include "table-speciesreputations.h"
+#include "table-speciesinventory.h"
+#include "table-speciesequipment.h"
+
 
 TableManager::TableManager(Database* db) : db(db)
 {
@@ -134,6 +142,14 @@ void TableManager::Initialize()
 
   Register(new ZonesTable(db));
   Register(new ZoneNodesTable(db));
+
+  // Species stuff
+  Register(new SpeciesTable(db));
+  Register(new SpeciesAbilitiesTable(db));
+  Register(new SpeciesSkillsTable(db));
+  Register(new SpeciesReputationsTable(db));
+  Register(new SpeciesInventoryTable(db));
+  Register(new SpeciesEquipmentTable(db));
 
   db->update("commit");
 }

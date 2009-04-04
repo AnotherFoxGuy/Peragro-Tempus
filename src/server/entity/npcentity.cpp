@@ -29,14 +29,14 @@ void NpcEntity::LoadFromDB()
   Character::LoadFromDB();
 
   NpcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<NpcEntitiesTable>();
-  NpcEntitiesTableVOArray arr = table->Get(GetId());
-  if (arr.size() != 1)
+  NpcEntitiesTableVOp npc = table->GetSingle(GetId());
+  if (!npc)
   {
-    printf("None or multiple npcentity rows for npcentity?!\n");
-    throw "None or multiple npcentity rows for npcentity?!";
+    printf("E: No rows for npcentity?!\n");
+    throw "E: No rows for npcentity?!";
   }
 
-  AI* ai = AI::createAI(arr[0]->ainame, boost::shared_dynamic_cast<NpcEntity>(this_));
+  AI* ai = AI::createAI(npc->ainame, boost::shared_dynamic_cast<NpcEntity>(this_));
   if (!ai)
   {
     printf("E: Invalid AI setting for NpcEntity!\n");

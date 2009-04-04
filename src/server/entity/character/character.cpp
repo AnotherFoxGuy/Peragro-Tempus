@@ -97,6 +97,8 @@ void Character::LoadFromDB()
   SetHairColour(c->hairColor);
   SetSkinColour(c->skinColor);
   SetDecalColour(c->decalColor);
+  SetSpecies(c->species_id);
+  SetAge(c->age);
 
   MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
   MeshesTableVOp m = mtable->GetSingle(meshId);
@@ -150,7 +152,7 @@ void Character::SaveToDB()
   }
 
   CharactersTable* table = Server::getServer()->GetTableManager()->Get<CharactersTable>();
-  table->Insert(GetId(), GetName(), meshId, GetHairColour(), GetSkinColour(), GetDecalColour());
+  table->Insert(GetId(), GetName(), meshId, GetHairColour(), GetSkinColour(), GetDecalColour(), GetSpecies(), GetAge());
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
   ptable->Insert(GetId(), GetPosition(), WFMath::Point<3>(0, GetRotation(),0)); //TODO: just Y atm.

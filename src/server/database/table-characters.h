@@ -36,6 +36,8 @@ class ResultSet;
   ((hairColor,          WFMath::Point<3>,   0,              0)) \
   ((skinColor,          WFMath::Point<3>,   0,              0)) \
   ((decalColor,         WFMath::Point<3>,   0,              0)) \
+  ((species_id,         size_t,             0,              (Species, id) )) \
+  ((age,                float,              0,              0)) \
 
 
 PT_DECLARE_VO(CharactersTable, DB_TABLE_CHARACTERS, DB_TABLE_CHARACTERS_FIELDS)

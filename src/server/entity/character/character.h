@@ -30,10 +30,10 @@
 #include "inventory.h"
 #include "equipment.h"
 
-#include "skills.h"
-#include "abilities.h"
-#include "reputations.h"
-#include "resources.h"
+#include "../statistic/skills.h"
+#include "speciesabilities.h"
+#include "../statistic/reputations.h"
+#include "../statistic/resources.h"
 
 class MountEntity;
 class Race;
@@ -64,29 +64,30 @@ protected:
   size_t t_stop;
   WFMath::Point<3> tmp_pos; //used only for temporary calculations!
 
-  int race;
-
   WFMath::Point<3> haircolour; //24bit color
   WFMath::Point<3> skincolour; //24bit color
   WFMath::Point<3> decalcolour; //24bit color
+
+  size_t species;
+  float age;
 
   boost::shared_ptr<Inventory> inventory;
   boost::shared_ptr<Equipment> equipment;
 
   boost::shared_ptr<Skills> skills;
-  boost::shared_ptr<Abilities> abilities;
+  boost::shared_ptr<SpeciesAbilities> abilities;
   boost::shared_ptr<Reputations> reputations;
   boost::shared_ptr<Resources> resources;
 
 public:
   Character(Common::Entity::EntityType type)
-    : Entity(type), state(StateStanding), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f)
+    : Entity(type), state(StateStanding), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f), species(0), age(0.0f)
   {
     isWalking = false;
     inventory = boost::shared_ptr<Inventory>(new Inventory(this_));
     equipment = Server::getServer()->GetEquipmentFactory()->Create(this);
     skills = Server::getServer()->GetSkillsFactory()->Create(this);
-    abilities = Server::getServer()->GetAbilitiesFactory()->Create(this);
+    abilities = boost::shared_ptr<SpeciesAbilities>(new SpeciesAbilities(this));
     reputations = Server::getServer()->GetReputationsFactory()->Create(this);
     resources = Server::getServer()->GetResourcesFactory()->Create(this);
   }
@@ -104,9 +105,6 @@ public:
   void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
   unsigned int GetTargetID() { return targetID; }
 
-  int getRace() const { return race; }
-  void setRace(int race) { this->race = race; }
-
   const WFMath::Point<3>& GetSkinColour() const { return skincolour; }
   void SetSkinColour(const WFMath::Point<3>& colour) { skincolour = colour; }
 
@@ -115,6 +113,12 @@ public:
 
   const WFMath::Point<3>& GetDecalColour() const { return decalcolour; }
   void SetDecalColour(const WFMath::Point<3>& colour) { decalcolour = colour; }
+
+  size_t GetSpecies() const { return species; }
+  void SetSpecies(size_t species) { this->species = species; }
+
+  float GetAge() const { return age; }
+  void SetAge(float age) { this->age = age; }
 
   boost::shared_ptr<Inventory> GetInventory() const { return inventory; }
   boost::shared_ptr<Equipment> GetEquipment() const { return equipment; }
