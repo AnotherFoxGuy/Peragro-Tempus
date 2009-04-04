@@ -300,9 +300,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\entity\character\abilities.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\entity\character\character.cpp">
 			</File>
 			<File
@@ -315,13 +312,10 @@
 				RelativePath="..\..\src\server\entity\character\movementmanager.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\character\reputations.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\entity\character\resources.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\character\skills.cpp">
+				RelativePath="..\..\src\server\entity\character\speciesabilities.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\tradepeer.cpp">
@@ -357,6 +351,15 @@
 				RelativePath="..\..\src\server\entity\permission.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\statistic\abilities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\reputations.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\skills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\user.cpp">
 			</File>
 			<File
@@ -366,9 +369,6 @@
 		<Filter
 			Name="Header Files"
 			Filter="">
-			<File
-				RelativePath="..\..\src\server\entity\character\abilities.h">
-			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\character.h">
 			</File>
@@ -382,13 +382,10 @@
 				RelativePath="..\..\src\server\entity\character\movementmanager.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\character\reputations.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\entity\character\resources.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\character\skills.h">
+				RelativePath="..\..\src\server\entity\character\speciesabilities.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\tradepeer.h">
@@ -425,6 +422,15 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\permission.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\abilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\reputations.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\skills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\user.h">

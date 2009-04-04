@@ -405,6 +405,24 @@
 				RelativePath="..\..\src\server\database\table-spawnpoints.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-species.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesabilities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesequipment.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesinventory.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesreputations.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesskills.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-users.cpp">
 			</File>
 			<File
@@ -524,6 +542,24 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-spawnpoints.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-species.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesabilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesequipment.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesinventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesreputations.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-speciesskills.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-users.h">
