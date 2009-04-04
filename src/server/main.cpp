@@ -18,8 +18,6 @@
 
 #include "stdio.h"
 
-#include "server/entity/character/skills.h"
-
 #include "server/entity/entitymanager.h"
 #include "server/entity/character/movementmanager.h"
 #include "server/entity/character/character.h"

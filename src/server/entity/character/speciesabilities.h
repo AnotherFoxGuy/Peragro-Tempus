@@ -24,21 +24,21 @@
 
 #include "server/entity/statistic/abilities.h"
 
-class SpeciesAbilities : Abilities
+class SpeciesAbilities
 {
 private:
-  CharacterEntity* entity;
+  Character* entity;
   boost::shared_ptr<Abilities> abilities;
 
   float GetAbilityXP(size_t speciesId, float age, const std::string& name);
 
 public:
-  SpeciesAbilities(CharacterEntity* entity);
+  SpeciesAbilities(Character* entity);
 
   float Get(const std::string& name);
-  void Set(const std::string& name, T xp);
-  void Add(const std::string& name, T xp);
-  void Sub(const std::string& name, T xp);
+  void Set(const std::string& name, float xp);
+  void Add(const std::string& name, float xp);
+  void Sub(const std::string& name, float xp);
   size_t GetLevel(const std::string& name);
 
   void LoadFromDB();

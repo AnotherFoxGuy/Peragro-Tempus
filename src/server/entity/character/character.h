@@ -33,7 +33,7 @@
 #include "../statistic/skills.h"
 #include "speciesabilities.h"
 #include "../statistic/reputations.h"
-#include "../statistic/resources.h"
+#include "resources.h"
 
 class MountEntity;
 class Race;
@@ -124,7 +124,7 @@ public:
   boost::shared_ptr<Equipment> GetEquipment() const { return equipment; }
 
   boost::shared_ptr<Skills> GetSkills() const { return skills; }
-  boost::shared_ptr<Abilities> GetAbilities() const { return abilities; }
+  boost::shared_ptr<SpeciesAbilities> GetAbilities() const { return abilities; }
   boost::shared_ptr<Reputations> GetReputations() const { return reputations; }
   boost::shared_ptr<Resources> GetResources() const { return resources; }
 

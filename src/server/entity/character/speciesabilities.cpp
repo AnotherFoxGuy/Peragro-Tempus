@@ -20,13 +20,16 @@
 #include "speciesabilities.h"
 
 #include "src/server/database/tablemanager.h"
+#include "src/server/database/table-species.h"
 #include "src/server/database/table-speciesabilities.h"
+
+#include "common/util/printhelper.h"
 
 //#define lerp(t, a, b) ( a + t * (b - a) )
 #define lerp(a, b, x) ( a + x * (b - a) )
 
 
-SpeciesAbilities::SpeciesAbilities(CharacterEntity* entity)
+SpeciesAbilities::SpeciesAbilities(Character* entity)
 {
   abilities = Server::getServer()->GetAbilitiesFactory()->Create(entity);
 }
@@ -36,7 +39,7 @@ float SpeciesAbilities::GetAbilityXP(size_t speciesId, float age, const std::str
 {
   size_t abilityId = Server::getServer()->GetAbilitiesFactory()->GetID(name);
 
-  SpeciesTable* table = Server::getServer()->GetTableManager()->Get<SpeciesAbilitiesTable>();
+  SpeciesTable* table = Server::getServer()->GetTableManager()->Get<SpeciesTable>();
   SpeciesTableVOp s = table->GetSingle(speciesId);
   if (!s)
   {
@@ -73,7 +76,7 @@ void SpeciesAbilities::Sub(const std::string& name, float xp)
 
 size_t SpeciesAbilities::GetLevel(const std::string& name)
 {
-  return abilities->GetLevel(this->Get());
+  return abilities->GetLevel(this->Get(name));
 }
 
 void SpeciesAbilities::LoadFromDB()

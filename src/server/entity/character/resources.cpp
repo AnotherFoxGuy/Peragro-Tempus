@@ -113,8 +113,7 @@ size_t Resources::Resource::GetAbilityLevel() const
   {
     const ResourceTypesTableVOp& type = resources->fact->Get(id);
     const std::string& name = Server::getServer()->GetAbilitiesFactory()->GetName(type->abilityType_id);
-    boost::shared_ptr<Abilities> a = c->GetAbilities();
-    level = a->GetLevel(name);
+    level = c->GetAbilities()->GetLevel(name);
   }
   return level;
 }
