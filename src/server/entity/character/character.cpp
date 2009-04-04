@@ -88,7 +88,7 @@ void Character::LoadFromDB()
   CharactersTableVOp c = table->GetSingle(GetId());
   if (!c)
   {
-    printf("E: Invalid EntityId %"SIZET"!\n", GetId());
+    printf("E: Invalid EntityId %u!\n", GetId());
     throw "Invalid EntityId !";
   }
 
@@ -114,7 +114,7 @@ void Character::LoadFromDB()
   EntityPositionsTableVOp p = ptable->GetSingle(GetId());
   if (!p)
   {
-    printf("E: Invalid EntityId: no position %"SIZET"!\n", GetId());
+    printf("E: Invalid EntityId: no position %u!\n", GetId());
     throw "Invalid EntityId: no position!";
   }
   SetPosition(p->position);

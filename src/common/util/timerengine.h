@@ -37,26 +37,6 @@ class Timer;
  */
 class TimerEngine : public Thread
 {
-private:
-  /// The array of timers.
-  Array<Timer*> timers;
-
-  /// The big loop.
-  void Run();
-
-  /// The mutex locked when ticking all the timers.
-  Mutex mutex;
-
-  /// Stores the start time.
-  PTTime start;
-  /// Counter of total ticks since start.
-  size_t counter;
-  /// Maximum ticks before variables could overflow.
-  size_t counter_max;
-
-  /// Pointer to self.
-  static TimerEngine* self;
-
 public:
   /// Constructor.
   TimerEngine();
@@ -67,28 +47,41 @@ public:
    * Register a timer to this engine.
    * @param timer The timer.
    */
-  void registerTimer(Timer* timer)
-  {
-    mutex.lock();
-    timers.add(timer);
-    mutex.unlock();
-  }
+  void registerTimer(Timer* timer);
 
  /**
    * Unregister a timer from this engine.
    * @param timer The timer.
    */
-  void unregisterTimer(Timer* timer)
-  {
-    mutex.lock();
-    size_t pos = timers.find(timer);
-    if (pos < timers.getCount())
-      timers.remove(pos);
-    mutex.unlock();
-  }
+  void unregisterTimer(Timer* timer);
 
   /// Get self.
-  static TimerEngine* getTimerEngine() { return self; }
+  static TimerEngine* getTimerEngine();
+
+private:
+  /// The main loop for this thread.
+  void Run();
+
+  /// Pointer to self.
+  static TimerEngine* self;
+
+  /// The mutex locked when ticking all the timers.
+  Mutex mutex;
+
+  /// Stores the start time.
+  PTTime startTime;
+  /// Interval in milliseconds representing a timer tick.
+  const time_t intervalMS;
+  /// Counter of total ticks since start.
+  size_t counter;
+  /// Maximum ticks before variables could overflow.
+  const size_t counterMax;
+
+  /// The array of timers.
+  Array<Timer*> timers;
 };
+
+inline TimerEngine* TimerEngine::getTimerEngine()
+{ return self; }
 
 #endif // TIMERENGINE_H

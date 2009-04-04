@@ -1,44 +1,52 @@
-#include "sleep.h"
 #include "timerengine.h"
+#include "sleep.h"
 #include "timer.h"
 
-#define TIME_T_MAX static_cast<size_t>((((time_t)1 << ((sizeof(time_t) * 8) - 2)) * 2) - 1)
-//#define TIMERENGINE_DEBUG true
-#define INTERVAL_MS 100
+#include <limits>
 
-TimerEngine* TimerEngine::self;
+TimerEngine* TimerEngine::self = 0;
 
 TimerEngine::TimerEngine()
+  : intervalMS(100), counter(0),
+  counterMax((std::numeric_limits<time_t>::max() / intervalMS) - 1)
 {
   self = this;
-  start.Initialize();
-  counter = 0;
+}
 
-  // The maximum number of timer ticks that can be done before a time_t storing
-  // the milliseconds elapsed would overflow, one minute later.
-  counter_max = (TIME_T_MAX / INTERVAL_MS) - (60000 / INTERVAL_MS) - 2;
+void TimerEngine::registerTimer(Timer* timer)
+{
+  mutex.lock();
+  timers.add(timer);
+  mutex.unlock();
+}
+
+void TimerEngine::unregisterTimer(Timer* timer)
+{
+  mutex.lock();
+  size_t pos = timers.find(timer);
+  if (pos < timers.getCount())
+  {
+    timers.remove(pos);
+  }
+  mutex.unlock();
 }
 
 void TimerEngine::Run()
 {
   // Total time it should be since counter start.
-  time_t offset = counter * INTERVAL_MS;
+  const time_t offset = counter * intervalMS;
   // Time since when last tick should have been.
-  time_t elapsed = start.GetElapsedMS() - offset;
+  time_t elapsed = startTime.GetElapsedMS() - offset;
 
-  while (elapsed < INTERVAL_MS)
+  while (elapsed < intervalMS)
   {
-#ifdef TIMERENGINE_DEBUG
-    printf("TimerEngine: elapsed: %ld ms, sleeping: %ld ms, offset: %ld ms\n",
-      elapsed, INTERVAL_MS - elapsed, offset);
-#endif
     // Try sleep until the time to tick.
-    pt_sleep(INTERVAL_MS - elapsed);
+    pt_sleep(intervalMS - elapsed);
     // Just in case the sleep was not long enough.
-    elapsed = start.GetElapsedMS() - offset;
+    elapsed = startTime.GetElapsedMS() - offset;
   }
 
-  if (counter < counter_max)
+  if (counter < counterMax)
   {
     ++counter;
   }
@@ -47,11 +55,11 @@ void TimerEngine::Run()
     // Reset the timer before it can overflow. In practice this is about 20
     // days on a system with a 4 byte time_t, millions of years with 8 bytes.
     counter = 0;
-    start.Initialize();
+    startTime.Initialize();
   }
 
   mutex.lock();
-  for (size_t i=0; i<timers.getCount(); i++)
+  for (size_t i = 0; i < timers.getCount(); ++i)
   {
     timers.get(i)->tick();
   }
