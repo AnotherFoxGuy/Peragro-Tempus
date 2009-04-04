@@ -9,6 +9,7 @@ Application auth-server : [ Wildcard *.h *.cpp ] : console ;
 LinkWith auth-server : auth-network events sqlite_adp auth-dbtables util ;
 
 MsvcExternalLibrary auth-server : "wsock32.lib" ;
+MsvcCFlags auth-server : /wd4396 ;
 
 if $(WSOCK32.LFLAGS) {
     LFlags auth-server : $(WSOCK32.LFLAGS) ;

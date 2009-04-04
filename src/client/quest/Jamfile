@@ -4,3 +4,4 @@ Description client-questmanager : "client questmanager" ;
 Library client-questmanager :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-questmanager : CEGUI CRYSTAL CEL BOOST ;
+MsvcCFlags client-questmanager : /wd4396 ;

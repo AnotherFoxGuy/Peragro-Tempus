@@ -8,3 +8,4 @@ Library client-network :
 
 ExternalLibs client-network : CRYSTAL CEL CEGUI ;
 LinkWith client-network : network client-tcp-network ;
+MsvcCFlags client-network : /wd4396 ;

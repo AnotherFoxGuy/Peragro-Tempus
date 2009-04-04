@@ -7,3 +7,4 @@ Library auth-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith auth-network : network auth-tcp-network ;
+MsvcCFlags auth-network : /wd4396 ;
