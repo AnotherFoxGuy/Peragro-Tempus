@@ -4,6 +4,10 @@
 
 #include <limits>
 
+#ifdef max
+  #undef max
+#endif
+
 TimerEngine* TimerEngine::self = 0;
 
 TimerEngine::TimerEngine()
