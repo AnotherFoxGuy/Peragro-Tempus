@@ -51,6 +51,8 @@ class ResourcesFactory;
 
 class ItemTemplatesManager;
 
+class SpeciesManager;
+
 class Server
 {
 private:
@@ -80,6 +82,8 @@ private:
   ResourcesFactory* resourcesFactory;
 
   ItemTemplatesManager* itemTemplatesManager;
+
+  SpeciesManager* speciesManager;
 
 public:
   Server() { server = this; }
@@ -148,6 +152,9 @@ public:
 
   void SetItemTemplatesManager(ItemTemplatesManager* itemTemplatesManager) { this->itemTemplatesManager = itemTemplatesManager; }
   ItemTemplatesManager* GetItemTemplatesManager() { return this->itemTemplatesManager; }
+
+  void SetSpeciesManager(SpeciesManager* speciesManager) { this->speciesManager = speciesManager; }
+  SpeciesManager* GetSpeciesManager() { return this->speciesManager; }
 
   void delEntity(Entity* entity);
   void moveEntity(boost::shared_ptr<Character> entity, const WFMath::Point<3>& pos, float speed, bool run);

@@ -31,6 +31,7 @@ MeshesTable::MeshesTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
+    Insert(1, 1, "test", "/peragro/art/3d_art/characters/male01/male01");
   }
   delete rs;
 }

@@ -135,7 +135,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
   BOOST_PP_IF(SIZE_SK(s), BOOST_PP_SEQ_FILTER(PRED_SK, ~, s), PT_PKS_GETPKS_(s))
 
 #define PT_CKS_VALUENAMES_(r, d, i, e) \
-  BOOST_PP_IF(i, "AND ", "") BOOST_PP_STRINGIZE(PT_GETNAME_(e)) "=%s"
+  BOOST_PP_IF(i, " AND ", "") BOOST_PP_STRINGIZE(PT_GETNAME_(e)) "=%s"
 
 // Key Types
 //-----------------------------------------------------------------------------------

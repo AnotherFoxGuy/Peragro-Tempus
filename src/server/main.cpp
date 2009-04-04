@@ -51,6 +51,8 @@
 #include "server/network/network.h"
 #include "server/colldet/bullet.h"
 
+#include "server/species/speciesmanager.h"
+
 #include "common/util/wincrashdump.h"
 #include "server/combat/interactionmanager.h"
 
@@ -179,6 +181,9 @@ int main(int argc, char ** argv)
 
   ItemTemplatesManager itemTemplatesManager;
   server.SetItemTemplatesManager(&itemTemplatesManager);
+
+  SpeciesManager speciesManager;
+  server.SetSpeciesManager(&speciesManager);
 
   ent_mgr = new EntityManager();
   server.setEntityManager(ent_mgr);

@@ -28,10 +28,13 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/entity.h"
 #include "server/entity/character/character.h"
+#include "server/entity/pcentity.h"
+#include "server/entity/npcentity.h"
 
 #include "server/database/tablemanager.h"
 
 #include "server/database/table-species.h"
+/*
 #include "server/database/table-speciesabilities.h"
 #include "server/database/table-speciesskills.h"
 #include "server/database/table-speciesreputations.h"
@@ -39,8 +42,10 @@
 #include "server/database/table-speciesequipment.h"
 
 #include "server/database/table-itemtemplates.h"
-#include "server/database/table-meshes.h"
+
 #include "server/database/table-equiptypes.h"
+*/
+#include "server/database/table-meshes.h"
 
 
 SpeciesManager::SpeciesManager()
@@ -51,17 +56,70 @@ SpeciesManager::~SpeciesManager()
 {
 }
 
+boost::shared_ptr<PcEntity> SpeciesManager::CreatePCFromSpecies(size_t speciesId)
+{
+  Server* server = Server::getServer();
+
+  SpeciesTable* table = Server::getServer()->GetTableManager()->Get<SpeciesTable>();
+  SpeciesTableVOp s = table->GetSingle(speciesId);
+  if (!s)
+  {
+    printf("E: Invalid speciesId %"SIZET"!\n", speciesId);
+    throw "Invalid speciesId !";
+  }
+
+  Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType);
+  boost::shared_ptr<PcEntity> pc = boost::shared_dynamic_cast<PcEntity>(ent);
+  if (!pc) return boost::shared_ptr<PcEntity>();
+
+  pc->SetSpecies(speciesId);
+
+  MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
+  MeshesTableVOp m = mtable->GetSingle(s->meshes_id);
+  if (!m)
+  {
+    printf("E: Invalid meshId %"SIZET"!\n", s->meshes_id);
+    throw "Invalid meshId !";
+  }
+  pc->SetMeshName(m->factoryName);
+  pc->SetFileName(m->fileName);
+
+  pc->SetPosition(900.765f, 8.26544f, 11.1211f);
+
+  return pc;
+}
+
 boost::shared_ptr<NpcEntity> SpeciesManager::CreateNPCFromSpecies(size_t speciesId)
 {
   Server* server = Server::getServer();
 
-  SpeciesTable* table = server->GetTableManager()->Get<SpeciesTable>();
+  SpeciesTable* table = Server::getServer()->GetTableManager()->Get<SpeciesTable>();
   SpeciesTableVOp s = table->GetSingle(speciesId);
-  if (!s) return boost::shared_ptr<NpcEntity>();
+  if (!s)
+  {
+    printf("E: Invalid speciesId %"SIZET"!\n", speciesId);
+    throw "Invalid speciesId !";
+  }
 
-  Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType);
-  boost::shared_ptr<NpcEntity> npc = boost::shared_dynamic_cast<NpcEntity>(entity);
+  Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::NPCEntityType);
+  boost::shared_ptr<NpcEntity> npc = boost::shared_dynamic_cast<NpcEntity>(ent);
   if (!npc) return boost::shared_ptr<NpcEntity>();
+
+  npc->SetSpecies(speciesId);
+
+  MeshesTable* mtable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
+  MeshesTableVOp m = mtable->GetSingle(s->meshes_id);
+  if (!m)
+  {
+    printf("E: Invalid meshId %"SIZET"!\n", s->meshes_id);
+    throw "Invalid meshId !";
+  }
+  npc->SetMeshName(m->factoryName);
+  npc->SetFileName(m->fileName);
+
+  //TODO: use zones to define spawn locations.
+  npc->SetPosition(900.765f, 8.26544f, 15.1211f);
+
 
   return npc;
 }

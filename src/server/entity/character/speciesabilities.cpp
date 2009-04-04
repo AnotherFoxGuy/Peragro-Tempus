@@ -29,7 +29,7 @@
 #define lerp(a, b, x) ( a + x * (b - a) )
 
 
-SpeciesAbilities::SpeciesAbilities(Character* entity)
+SpeciesAbilities::SpeciesAbilities(Character* entity) : entity(entity)
 {
   abilities = Server::getServer()->GetAbilitiesFactory()->Create(entity);
 }

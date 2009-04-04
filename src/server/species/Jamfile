@@ -1,0 +1,7 @@
+SubDir TOP src server species ;
+
+Description server-species : "species" ;
+Library server-species :
+  [ Wildcard *.h *.cpp ] ;
+#LinkWith server-species :  ;
+MsvcCFlags server-species : /wd4396 ;

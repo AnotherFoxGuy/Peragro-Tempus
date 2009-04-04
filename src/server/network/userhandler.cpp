@@ -33,6 +33,8 @@
 #include "server/entity/entitymanager.h"
 #include "server/entity/pcentity.h"
 
+#include "server/species/speciesmanager.h"
+
 void UserHandler::handleLoginRequest(GenericMessage* msg)
 {
   LoginRequestMessage request_msg;
@@ -130,15 +132,13 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
 
-  Entityp entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType);
-  PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+  boost::shared_ptr<PcEntity> pc = server->GetSpeciesManager()->CreatePCFromSpecies(1); //Human
+  if (!pc) return;
   pc->SetName(*char_name);
   pc->SetUser(user.get());
-  //TODO
-  pc->SetMeshName("test");
-  pc->SetFileName("/peragro/art/3d_art/characters/male01/male01");
-  pc->SetPosition(900.765f, 8.26544f, 11.1211f);
   pc->SaveToDB();
+
+  //TODO: set colours.
 
   // Send response message
   CharCreateResponseMessage response_msg;

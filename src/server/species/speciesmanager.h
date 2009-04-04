@@ -25,6 +25,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
+class PcEntity;
 class NpcEntity;
 
 class SpeciesManager
@@ -35,6 +36,7 @@ public:
   SpeciesManager();
   virtual ~SpeciesManager();
 
+  boost::shared_ptr<PcEntity> CreatePCFromSpecies(size_t speciesId);
   boost::shared_ptr<NpcEntity> CreateNPCFromSpecies(size_t speciesId);
 };
 
