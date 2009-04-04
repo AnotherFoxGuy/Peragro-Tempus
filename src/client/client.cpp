@@ -414,6 +414,7 @@ namespace PT
     //pointerlib.setQuestManager(questManager);
 
     view.AttachNew(new csView(engine, g3d));
+    view->GetCamera()->SetViewportSize(g3d->GetWidth(), g3d->GetHeight());
 
     // We use some other "helper" event handlers to handle
     // pushing our work into the 3D engine and rendering it
