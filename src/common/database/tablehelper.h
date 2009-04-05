@@ -202,7 +202,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_DEFINE_Delete(Class, t, s) \
   void Class::Delete( BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)) ) \
   { \
-    db->update("select * from " BOOST_PP_STRINGIZE(t) " " \
+    db->update("delete from " BOOST_PP_STRINGIZE(t) " " \
     "where " \
     BOOST_PP_SEQ_FOR_EACH_I(PT_CKS_VALUENAMES_, ~, PT_PKS_GETPKS_(s)) \
     ";", \
