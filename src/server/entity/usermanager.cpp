@@ -111,13 +111,14 @@ void UserManager::RemoveUser(boost::shared_ptr<User> user)
 void UserManager::RemoveUser(User* user)
 {
   std::map<std::string, boost::shared_ptr<User> >::iterator it;
-  for (it=users.begin(); it != users.end(); it++)
+  for (it=users.begin(); it != users.end();)
   {
     if (it->second.get() == user)
     {
-      users.erase(it);
-      return;
+      users.erase(it++);
     }
+    else 
+      it++;
   }
 }
 
