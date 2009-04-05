@@ -128,12 +128,13 @@ float MovementManager::GetMovementSpeed(boost::shared_ptr<Character> entity)
 void MovementManager::timeOut()
 {
   size_t elapsedTime = 1000; //ms
-
-  EntityList::iterator it = entities.begin();
-  for ( ; it != entities.end(); it++)
+  EntityList::iterator it;
+  for ( it = entities.begin() ; it != entities.end(); )
   {
     if ((!(*it).first.lock()) || !Degenerate((*it).first.lock(), elapsedTime))
-      UnRegister((*it).first);
+      entities.erase(it++);
+    else
+      it++;
   }
 }
 
