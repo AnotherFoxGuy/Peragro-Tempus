@@ -33,7 +33,7 @@ class ResultSet;
   ((species_id,         size_t,             PT_PrimaryKeyS,  (Species, id) )) \
   ((slot,               size_t,             PT_PrimaryKey,   0)) \
   ((itemTemplates_id,   size_t,             0,               (ItemTemplates, id) )) \
-  ((chance,             float,              0,                0))
+  ((chance,             size_t,             0,                0))
 
 PT_DECLARE_VO(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
 
@@ -58,7 +58,7 @@ public:
   //PT_DECLARE_GetAll(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
   //PT_DECLARE_DeleteAll(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
 
-  //PT_DECLARE_Get(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
+  PT_DECLARE_Get(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
   //PT_DECLARE_GetSingle(SpeciesInventoryTable, DB_TABLE_SPECIESINVENTORY, DB_TABLE_SPECIESINVENTORY_FIELDS)
 };
 
