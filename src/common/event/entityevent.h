@@ -108,7 +108,7 @@ namespace PT
        * @param name The name of the event parameter to get the coordinates from.
        * @return The coordinates.
        */
-      static WFMath::Point<3> GetVector3(const iEvent* ev, const char* name)
+      static WFMath::Point<3> GetVector3(const iEvent* ev, const char* name, Reporter* r=0)
       {
         std::string nm = name;
         std::string nmX = nm + "_x";
@@ -118,12 +118,17 @@ namespace PT
         float x, y, z;
         x = y = z = 0.0f;
 
+        if (!r)
+        {
+          r = Reporter::GetInstance();
+        }
+
         if (ev->Retrieve(nmX.c_str(), x) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetVector3 failed! X attribute not present!");
+          r->Report(PT::Error, "EntityHelper::GetVector3 failed! X attribute not present!");
         if (ev->Retrieve(nmY.c_str(), y) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetVector3 failed! Y attribute not present!");
+          r->Report(PT::Error, "EntityHelper::GetVector3 failed! Y attribute not present!");
         if (ev->Retrieve(nmZ.c_str(), z) != csEventErrNone)
-          Report(PT::Error, "EntityHelper::GetVector3 failed! Z attribute not present!");
+          r->Report(PT::Error, "EntityHelper::GetVector3 failed! Z attribute not present!");
 
         WFMath::Point<3> pos(x, y, z);
         return pos;

@@ -106,7 +106,7 @@ bool ComponentNetworkMove::Move(iEvent& ev)
   bool local = false;
   csEventError error = csEventErrNone;
 
-  WFMath::Point<3> direction = PT::Events::EntityHelper::GetVector3(&ev, "moveDirection");
+  WFMath::Point<3> direction = PT::Events::EntityHelper::GetVector3(&ev, "moveDirection", pointerlib->getReporter());
   error = ev.Retrieve("run", run);
   error = ev.Retrieve("jump", jump);
   if (ev.AttributeExists("local"))
