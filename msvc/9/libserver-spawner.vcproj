@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libserver-dbtables"
-	ProjectGUID="{1F7CABF7-9375-8F92-7B42-144DBC405743}"
+	Name="libserver-spawner"
+	ProjectGUID="{1ABE7DE5-1F20-6480-9A5B-534999DE475A}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\release9\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\release9\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\release9\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,14 +25,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\libserver-dbtables\Win32\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\libserver-spawner\Win32\server-spawner.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libserver-dbtables\"
-				ObjectFile="..\..\out\release9\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libserver-spawner\"
+				ObjectFile="..\..\out\release9\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -56,7 +56,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\libserver-dbtables.lib"
+				OutputFile="..\..\out\release9\libs\libserver-spawner.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\release9\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\release9\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\release9\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -97,14 +97,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\libserver-dbtables\Win32\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\libserver-spawner\Win32\server-spawner.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libserver-dbtables\"
-				ObjectFile="..\..\out\release9\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libserver-spawner\"
+				ObjectFile="..\..\out\release9\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -128,7 +128,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\libserver-dbtables.lib"
+				OutputFile="..\..\out\release9\libs\libserver-spawner.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\debug9\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\debug9\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\debug9\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -169,14 +169,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\libserver-dbtables\Win32\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libserver-spawner\Win32\server-spawner.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libserver-dbtables\"
-				ObjectFile="..\..\out\debug9\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libserver-spawner\"
+				ObjectFile="..\..\out\debug9\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -198,7 +198,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\libserver-dbtables_d.lib"
+				OutputFile="..\..\out\debug9\libs\libserver-spawner_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\debug9\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\debug9\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\debug9\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -239,14 +239,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\libserver-dbtables\Win32\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libserver-spawner\Win32\server-spawner.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libserver-dbtables\"
-				ObjectFile="..\..\out\debug9\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libserver-spawner\"
+				ObjectFile="..\..\out\debug9\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -268,7 +268,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\libserver-dbtables_d.lib"
+				OutputFile="..\..\out\debug9\libs\libserver-spawner_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -297,8 +297,8 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\release9-x64\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -309,14 +309,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\libserver-dbtables\x64\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libserver-spawner\x64\server-spawner.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libserver-dbtables\"
-				ObjectFile="..\..\out\release9-x64\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libserver-spawner\"
+				ObjectFile="..\..\out\release9-x64\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -340,7 +340,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9-x64\libs\libserver-dbtables.lib"
+				OutputFile="..\..\out\release9-x64\libs\libserver-spawner.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -348,7 +348,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -369,8 +369,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\release9-x64\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -381,14 +381,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\libserver-dbtables\x64\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libserver-spawner\x64\server-spawner.pdb"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libserver-dbtables\"
-				ObjectFile="..\..\out\release9-x64\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libserver-spawner\"
+				ObjectFile="..\..\out\release9-x64\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -412,7 +412,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9-x64\libs\libserver-dbtables.lib"
+				OutputFile="..\..\out\release9-x64\libs\libserver-spawner.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -420,7 +420,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -441,8 +441,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\debug9-x64\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -453,14 +453,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libserver-dbtables\x64\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libserver-spawner\x64\server-spawner.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libserver-dbtables\"
-				ObjectFile="..\..\out\debug9-x64\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libserver-spawner\"
+				ObjectFile="..\..\out\debug9-x64\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -482,7 +482,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9-x64\libs\libserver-dbtables_d.lib"
+				OutputFile="..\..\out\debug9-x64\libs\libserver-spawner_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -490,7 +490,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -511,8 +511,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libserver-dbtables\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libserver-dbtables\"
+			OutputDirectory="..\..\out\debug9-x64\build\libserver-spawner\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libserver-spawner\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -523,14 +523,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libserver-dbtables\x64\server-dbtables.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libserver-spawner\x64\server-spawner.pdb"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions="/wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libserver-dbtables\libserver-dbtables.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libserver-dbtables\"
-				ObjectFile="..\..\out\debug9-x64\build\libserver-dbtables\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libserver-spawner\libserver-spawner.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libserver-spawner\"
+				ObjectFile="..\..\out\debug9-x64\build\libserver-spawner\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -552,7 +552,7 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9-x64\libs\libserver-dbtables_d.lib"
+				OutputFile="..\..\out\debug9-x64\libs\libserver-spawner_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -560,7 +560,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libserver-dbtables\libserver-dbtables.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libserver-spawner\libserver-spawner.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\server\database;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\server\spawn;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -585,284 +585,23 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\table-abilities.cpp">
+				RelativePath="..\..\src\server\spawn\creaturespawner.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-abilitytypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-books.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-channels.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-channeltypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characters.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-config.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-defaultchannels.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-doors.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entities.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitychannels.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitypositions.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitytypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-equipment.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-equiptypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-hobbies.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-hobbytypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-inventory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-items.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-itemtemplates.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-jointypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-meshes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcaisetting.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcdialoganswers.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcdialogs.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcentities.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-pcentities.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-permissions.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-reputations.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-reputationtypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-resources.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-resourcetypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-skills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-skilltypes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-spawnpoints.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-species.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesabilities.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesequipment.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesinventory.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesreputations.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesskills.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-specieszones.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-users.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-zonenodes.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-zones.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\tablemanager.cpp">
+				RelativePath="..\..\src\server\spawn\itemspawner.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\server\database\table-abilities.h">
+				RelativePath="..\..\src\server\spawn\creaturespawner.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-abilitytypes.h">
+				RelativePath="..\..\src\server\spawn\itemspawner.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-books.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-channels.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-channeltypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-characters.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-config.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-defaultchannels.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-doors.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entities.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitychannels.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitypositions.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-entitytypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-equipment.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-equiptypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-hobbies.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-hobbytypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-inventory.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-items.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-itemtemplates.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-jointypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-meshes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcaisetting.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcdialoganswers.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcdialogs.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-npcentities.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-pcentities.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-permissions.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-reputations.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-reputationtypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-resources.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-resourcetypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-skills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-skilltypes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-spawnpoints.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-species.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesabilities.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesequipment.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesinventory.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesreputations.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-speciesskills.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-specieszones.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-users.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-zonenodes.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\table-zones.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\database\tablemanager.h">
+				RelativePath="..\..\src\server\spawn\spawner.h">
 			</File>
 		</Filter>
 	</Files>

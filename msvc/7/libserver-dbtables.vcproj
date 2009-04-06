@@ -423,6 +423,9 @@
 				RelativePath="..\..\src\server\database\table-speciesskills.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-specieszones.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-users.cpp">
 			</File>
 			<File
@@ -560,6 +563,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-speciesskills.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-specieszones.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-users.h">
