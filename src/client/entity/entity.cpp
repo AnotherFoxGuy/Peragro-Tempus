@@ -54,6 +54,7 @@ namespace Client
     Entity::Entity(Common::Entity::EntityType type) : ::PT::Entity::Entity(type)
     {
       CreateCelEntity();
+      sectorName = "World";
     }
 
     void Entity::Initialize(const iEvent& ev)
@@ -66,6 +67,14 @@ namespace Client
       Common::Entity::Entity::SetPosition(PT::Events::EntityHelper::GetPosition(&ev));
       ev.Retrieve("rotation", rotation);
       sectorName = "World";
+
+      csRef<iPcProperties> pcprop =
+        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
+
+      // Add some properties.
+      pcprop->SetProperty("Entity Type", (long)type);
+      pcprop->SetProperty("Entity ID", (long)id);
+      pcprop->SetProperty("Entity Name", name.c_str());
     }
 
     void Entity::CreateCelEntity()
@@ -79,28 +88,17 @@ namespace Client
       pl->CreatePropertyClass(celEntity, "pcobject.mesh");
       pl->CreatePropertyClass(celEntity, "pcmove.solid");
       pl->CreatePropertyClass(celEntity, "pctools.properties");
-
-      csRef<iPcProperties> pcprop =
-        CEL_QUERY_PROPCLASS_ENT(celEntity, iPcProperties);
-
-      // Add some properties.
-      pcprop->SetProperty("Entity Type", (long)type);
-      pcprop->SetProperty("Entity ID", (long)id);
-      pcprop->SetProperty("Entity Name", name.c_str());
     }
 
     void Entity::SetFullPosition(const WFMath::Point<3>& pos,
                                  float rotation,
                                  const std::string& sector)
     {
-      std::string sec = sector;
-      if (sec == "Default_Sector") sec = GetSectorName();
-      Common::Entity::Entity::SetFullPosition(pos, rotation, sec);
+      Common::Entity::Entity::SetFullPosition(pos, rotation, sector);
 
       csRef<iObjectRegistry> obj_reg =
         PointerLibrary::getInstance()->getObjectRegistry();
       csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
-
 
       if (celEntity.IsValid())
       {
@@ -109,9 +107,9 @@ namespace Client
 
         if (!sec.IsValid())
         {
-          sec = engine->FindSector("Default_Sector");
+          sec = engine->FindSector("World");
           Report(PT::Debug,
-            "Entity: Failed to find sector %s switching to default!", sector.c_str());
+            "Entity: Failed to find sector '%s' switching to default!", sector.c_str());
         }
 
         if (pcmesh.IsValid() && sec.IsValid())
@@ -165,7 +163,7 @@ namespace Client
           pclinmove->InitCD(mesh, 50.0f);
         }
         this->SetFullPosition();
-
+        
         // TODO: Move this to playerentity instead?
         if (GetType() == Common::Entity::PlayerEntityType)
         {

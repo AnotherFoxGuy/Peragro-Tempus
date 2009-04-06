@@ -23,6 +23,7 @@
 #include "common/util/ptstring.h"
 
 #include <vector>
+#include <map>
 
 class Server;
 class ZonesTable;
@@ -40,18 +41,19 @@ public:
   {
     std::string type;
     std::vector<WFMath::Point<2> > coords;
+    WFMath::Point<3> GetRandomPosition() const;
   };
 private:
   Server* server;
-  std::vector<Zone> zones;
+  std::map<size_t, Zone> zones;
 public:
   /// Clear all zones.
   void delAll();
 
   /// Add a zone.
-  void addZone(Zone zone)
+  void AddZone(size_t zoneId, Zone zone)
   {
-    zones.push_back(zone);
+    zones[zoneId] = zone;
   }
 
   /**
@@ -59,7 +61,7 @@ public:
    * \param zonestable The database table containing the zones to load.
    * \param zonenodestable The database table containing the nodes of the zones to load.
    */
-  void loadFromDB(ZonesTable* zonestable, ZoneNodesTable* zonenodestable);
+  void LoadFromDB();
 
   /**
    * Get the zonetype a coordinate is in.
@@ -77,6 +79,8 @@ public:
              given coordinate, returns an empty vector if no zone is found.
    */
   std::vector<ptString> GetZones(float x, float z);
+
+  WFMath::Point<3> GetRandomPosition(size_t zoneId);
 };
 
 #endif // ZONEMANAGER_H

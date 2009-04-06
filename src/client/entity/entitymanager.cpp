@@ -77,8 +77,7 @@ namespace PT
       primaryId = 0;
 
       // Create a default sector for entities to be added in.
-      defaultSector = engine->CreateSector("Default_Sector");
-      engine->CreateSector("World");
+      defaultSector = engine->CreateSector("World");
 
       // Load the door animations.
       csRef<iThreadedLoader >loader = csQueryRegistry<iThreadedLoader> (obj_reg);
@@ -130,10 +129,12 @@ namespace PT
         //if (it->second) it->second->SetFullPosition();
       }
       */
+      /*
       if (::PT::Entity::PlayerEntity::Instance())
       {
         ::PT::Entity::PlayerEntity::Instance()->SetFullPosition();
       }
+      */
       return true;
     }
 

@@ -116,7 +116,7 @@ namespace Common
       ///Set the position of entity within a sector to a given value.
       virtual void SetPosition(float x, float y, float z)
       { SetPosition(WFMath::Point<3>(x,y,z)); }
-      virtual void SetPosition(const WFMath::Point<3>& value) { SetShape(value);}
+      virtual void SetPosition(const WFMath::Point<3>& value) { SetShape(value); }
 
       ///@return Position of entity within a sector.
       virtual std::string GetPositionStr() const { return WFMath::ToString(GetShape()); }

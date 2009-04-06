@@ -16,38 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef ITEMENTITY_H
-#define ITEMENTITY_H
+#ifndef SPAWNER_H
+#define SPAWNER_H
 
-#include "entity.h"
+#include "server/spawn/itemspawner.h"
+#include "server/spawn/creaturespawner.h"
 
-#include "itemtemplatesmanager.h"
-
-#include "common/inventory/item.h"
-
-
-class ItemEntity : public Entity, public Common::Inventory::Item
+class Spawner
 {
 private:
-  bool inWorld;
-  boost::shared_ptr<ItemTemplate> itemTemplate;
+  ItemSpawner* itemSpawner;
+  CreatureSpawner* creatureSpawner;
 
 public:
-  ItemEntity() : Entity(Common::Entity::ItemEntityType)
-  {
-    inWorld = false;
+  Spawner()
+  { 
+    itemSpawner = new ItemSpawner();
+    itemSpawner->LoadFromDB();
+    itemSpawner->start();
+
+    creatureSpawner = new CreatureSpawner();
+    //creatureSpawner->LoadFromDB();
+    creatureSpawner->start();
   }
 
-  ~ItemEntity() {}
-
-  bool GetInWorld() { return inWorld; }
-  void SetInWorld(bool value);
-
-  boost::shared_ptr<ItemTemplate> GetItemTemplate() { return itemTemplate; }
-  void SetItemTemplate(boost::shared_ptr<ItemTemplate> value) { itemTemplate = value; value->SetDataOn(this); }
-
-  virtual void LoadFromDB();
-  virtual void SaveToDB();
+  ~Spawner() 
+  {
+    delete itemSpawner;
+    delete creatureSpawner;
+  }
 };
 
-#endif // ITEMENTITY_H
+#endif // SPAWNER_H

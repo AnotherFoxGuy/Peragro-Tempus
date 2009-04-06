@@ -113,7 +113,9 @@ namespace Client
       void SetPosition(const csVector3& v)
         { Common::Entity::Entity::SetPosition(VectorHelper::Convert(v)); }
 
-      using Common::Entity::Entity::SetFullPosition;
+      //using Common::Entity::Entity::SetFullPosition;
+      virtual void SetFullPosition() { SetFullPosition(GetPosition(), GetRotation(), GetSectorName()); }
+
       /**
        * Changes the entity position and sector immediatelly.
        * @param pos New position of an entity.

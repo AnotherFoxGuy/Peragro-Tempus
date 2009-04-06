@@ -11,12 +11,13 @@ SubInclude TOP src server quest ;
 SubInclude TOP src server group ;
 SubInclude TOP src server zone ;
 SubInclude TOP src server species ;
+SubInclude TOP src server spawn ;
 
 Description peragro-server : "Peragro Tempus Server" ;
 Application peragro-server : [ Wildcard *.h *.cpp ] : console ;
 
 LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp
-  server-dbtables server-group server-species server-combat server-zonemanager network entity quest inventory util tinyxml wfmath ;
+  server-dbtables server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath ;
 
 MsvcExternalLibrary peragro-server : "wsock32.lib" ;
 MsvcCFlags peragro-server : /wd4396 ;
@@ -31,7 +32,7 @@ if [ Property build : projgen_version ] != 6
 
   Application peragro-server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith peragro-server_static : server-network server-entity server-environment server-ai server-colldet
-    sqlite_adp server-dbtables server-group server-species server-combat server-zonemanager network entity quest inventory util tinyxml wfmath ;
+    sqlite_adp server-dbtables server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath ;
   MsvcExternalLibrary peragro-server_static : "wsock32.lib" ;
   if $(WSOCK32.LFLAGS) {
       LFlags peragro-server_static : $(WSOCK32.LFLAGS) ;

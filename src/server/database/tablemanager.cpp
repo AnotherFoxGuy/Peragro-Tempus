@@ -79,6 +79,7 @@
 #include "table-speciesreputations.h"
 #include "table-speciesinventory.h"
 #include "table-speciesequipment.h"
+#include "table-specieszones.h"
 
 
 TableManager::TableManager(Database* db) : db(db)
@@ -150,6 +151,7 @@ void TableManager::Initialize()
   Register(new SpeciesReputationsTable(db));
   Register(new SpeciesInventoryTable(db));
   Register(new SpeciesEquipmentTable(db));
+  Register(new SpeciesZonesTable(db));
 
   db->update("commit");
 }

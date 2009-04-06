@@ -53,7 +53,7 @@ namespace PT
 
   namespace Entity
   {
-    PlayerEntity* PlayerEntity::instance;
+    PlayerEntity* PlayerEntity::instance = 0;
 
 
     PlayerEntity::PlayerEntity() : PcEntity()

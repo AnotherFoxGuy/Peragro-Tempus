@@ -21,8 +21,6 @@
 
 #include "server/server.h"
 
-#include "itemtemplatesmanager.h"
-
 #include "server/database/tablemanager.h"
 #include "server/database/table-items.h"
 #include "server/database/table-entitypositions.h"
@@ -72,7 +70,7 @@ void ItemEntity::SaveToDB()
 {
   if (!GetItemTemplate())
   {
-    printf("Invalid ItemTemplate!");
+    printf("Invalid ItemTemplate2!");
     throw "Invalid ItemTemplate!";
   }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2009 Development Team of Peragro Tempus
+    Copyright (C) 2005 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,39 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef SPECIESMANAGER_H
-#define SPECIESMANAGER_H
+#ifndef CREATURE_SPAWNER_H
+#define CREATURE_SPAWNER_H
 
-#include <string>
-#include <map>
-#include <list>
+#include <vector>
+
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+
 #include <wfmath/point.h>
 
-class Character;
-class PcEntity;
+#include "common/util/timer.h"
+
 class NpcEntity;
 
-class SpeciesManager
+
+class CreatureSpawner : public Timer
 {
 private:
+  Mutex mutex;
+  void timeOut();
+
+private:
+  std::vector<boost::weak_ptr<NpcEntity> > npcentities;
+  void CheckEntity(boost::shared_ptr<NpcEntity> npc);
 
 public:
-  SpeciesManager();
-  virtual ~SpeciesManager();
+  CreatureSpawner();
+  ~CreatureSpawner() { }
 
-  WFMath::Point<3> GetRandomPosition(size_t speciesId);
-
-  std::list<boost::shared_ptr<Character> > GetEntitiesOfSpecies(size_t speciesId);
-
-  size_t GetCurrentPopulation(size_t speciesId);
-  size_t GetMaxPopulation(size_t speciesId);
-
-  void Initialize(boost::shared_ptr<Character> c, size_t speciesId);
-
-  boost::shared_ptr<PcEntity> CreatePCFromSpecies(size_t speciesId);
-  boost::shared_ptr<NpcEntity> CreateNPCFromSpecies(size_t speciesId);
 };
 
-#endif // SPECIESMANAGER_H
+#endif // CREATURE_SPAWNER_H

@@ -95,6 +95,7 @@ void Inventory::LoadFromDB()
   for ( ; it != items.end(); it++)
   {
     Entityp entity = Server::getServer()->getEntityManager()->CreateNew(Common::Entity::ItemEntityType, (*it)->item_id);
+    entity->LoadFromDB();
     AddObjectAt(IdToPos((*it)->slot), Convert(entity));
   }
 }

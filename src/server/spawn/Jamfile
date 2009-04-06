@@ -1,0 +1,7 @@
+SubDir TOP src server spawn ;
+
+Description server-spawner : "spawner" ;
+Library server-spawner :
+  [ Wildcard *.h *.cpp ] ;
+#LinkWith server-spawner :  ;
+MsvcCFlags server-spawner : /wd4396 ;

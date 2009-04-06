@@ -26,6 +26,31 @@
 
 #include "zonemanager.h"
 
+WFMath::Point<3> ZoneManager::Zone::GetRandomPosition() const
+{
+  //TODO: if the zone is some odd polygon this doesn't guarantee
+  // the position is actually in the zone.
+  // Do several random tries with IsInArea()??
+  float minX, minZ; minX = minZ = 10000000000000.0f;
+  float maxX, maxZ; maxX = maxZ = -10000000000000.0f;
+  std::vector<WFMath::Point<2> >::const_iterator it;
+  for (it = coords.begin(); it != coords.end(); it++)
+  {
+    WFMath::Point<2> p = *it;
+    if (p.x() < minX) minX = p.x();
+    if (p.x() > maxX) maxX = p.x();
+
+    if (p.y() < minZ) minZ = p.y();
+    if (p.y() > maxZ) maxZ = p.y();
+  }
+
+  WFMath::Point<3> pos;
+  pos[0] = (rand() % (int)(maxX - minX + 1)) + minX;
+  pos[2] = (rand() % (int)(maxZ - minZ + 1)) + minZ;
+
+  return pos;
+}
+
 void ZoneManager::delAll()
 {
   Server::getServer()->GetTableManager()->Get<ZonesTable>()->DeleteAll();
@@ -33,10 +58,12 @@ void ZoneManager::delAll()
   zones.clear();
 }
 
-void ZoneManager::loadFromDB(ZonesTable* zonestable, ZoneNodesTable* zonenodestable)
+void ZoneManager::LoadFromDB()
 {
+  ZonesTable* zonestable = Server::getServer()->GetTableManager()->Get<ZonesTable>();
+  ZoneNodesTable* zonenodestable = Server::getServer()->GetTableManager()->Get<ZoneNodesTable>();
   ZonesTableVOArray rows = zonestable->GetAll();
-  for(size_t i = 0; i < rows.size(); ++i)
+  for (size_t i = 0; i < rows.size(); ++i)
   {
     Zone zone;
     zone.type = rows[i]->type;
@@ -45,19 +72,20 @@ void ZoneManager::loadFromDB(ZonesTable* zonestable, ZoneNodesTable* zonenodesta
     {
       zone.coords.push_back(nodes[j]->coordinate);
     }
-    zones.push_back(zone);
+    AddZone(rows[i]->id, zone);
   }
 }
 
 ptString ZoneManager::GetZone(float x, float z)
 {
   WFMath::Point<2> position(x, z);
-  for(size_t i = 0; i < zones.size(); ++i)
+  std::map<size_t, Zone>::iterator it;
+  for (it = zones.begin(); it != zones.end(); it++)
   {
-    if (PT::Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(),
+    if (PT::Math::IsInArea(&it->second.coords.front(), it->second.coords.size(),
       position))
     {
-      return zones[i].type;
+      return it->second.type;
     }
   }
   return ptString("", 0);
@@ -67,13 +95,24 @@ std::vector<ptString> ZoneManager::GetZones(float x, float z)
 {
   std::vector<ptString> inzones;
   WFMath::Point<2> position(x, z);
-  for(size_t i = 0; i < zones.size(); ++i)
+  std::map<size_t, Zone>::iterator it;
+  for (it = zones.begin(); it != zones.end(); it++)
   {
-    if (PT::Math::IsInArea(&zones[i].coords.front(), zones[i].coords.size(),
+    if (PT::Math::IsInArea(&it->second.coords.front(), it->second.coords.size(),
       position))
     {
-      inzones.push_back(zones[i].type);
+      inzones.push_back(it->second.type);
     }
   }
   return inzones;
+}
+
+WFMath::Point<3> ZoneManager::GetRandomPosition(size_t zoneId)
+{
+  std::map<size_t, Zone>::const_iterator it;
+  it = zones.find(zoneId);
+  if (it != zones.end())
+    return it->second.GetRandomPosition();
+  else
+    return WFMath::Point<3>();
 }

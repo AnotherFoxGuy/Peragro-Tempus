@@ -85,6 +85,8 @@ Entityp EntityManager::CreateNew(Common::Entity::EntityType type, size_t id)
   if (entity)
   {
     entity->SetId(entityId);
+    // Reserve a spot.
+    Server::getServer()->GetTableManager()->Get<EntityTable>()->Insert(entityId, (size_t)type);
   }
 
   return entity;
@@ -160,18 +162,8 @@ void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
 void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
 {
   using namespace Common::Entity;
-  // Send self.
-  if (entity->GetType() == PCEntityType)
-  {
-    PcEntity* e = dynamic_cast<PcEntity*>(entity.get());
-    if (!e || !e->GetUser())
-    {
-      printf("E: Invalid PcEntity or no user set!!\n");
-      return;
-    }
-    e->GetUser()->SendAddEntity(entity);
-  }
 
+  // Notify other players of this entity. This includes sending self to yourself.
   // TODO: replace 100 with something configurable.
   std::list<Common::Entity::Entityp> result = Query(WFMath::Ball<3>(entity->GetPosition(), 100));
   std::list<Common::Entity::Entityp>::const_iterator it;
@@ -187,6 +179,18 @@ void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
       }
       e->GetUser()->SendAddEntity(entity);
     }
+  }
+
+  // Send other entities to this player.
+  if (entity->GetType() == PCEntityType)
+  {
+    PcEntity* e = dynamic_cast<PcEntity*>(entity.get());
+    if (!e || !e->GetUser())
+    {
+      printf("E: Invalid PcEntity or no user set!!\n");
+      return;
+    }
+    e->GetUser()->SendEntityDiff(result);
   }
 }
 

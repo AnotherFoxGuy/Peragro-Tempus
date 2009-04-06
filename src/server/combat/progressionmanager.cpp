@@ -103,6 +103,11 @@ unsigned int ProgressionManager::RollDice(unsigned int lower, unsigned int highe
   return (rand() % (higher - lower + 1)) + lower;
 }
 
+bool ProgressionManager::RollCheck(unsigned int chance)
+{
+  return RollDice(1,100) <= chance;
+}
+
 unsigned int ProgressionManager::GetPenalty(boost::shared_ptr<Character> lockedCharacter,
                                const std::string& attackType)
 {

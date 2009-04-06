@@ -30,8 +30,8 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 #define DB_TABLE_ZONENODES ZoneNodes
 #define DB_TABLE_ZONENODES_FIELDS \
-  ((zone_id,            size_t,             PT_PrimaryKey, (Zones, id) )) \
-  ((coordinate,         WFMath::Point<2>,   0,              0)) \
+  ((zone_id,            size_t,             PT_PrimaryKeyS, (Zones, id) )) \
+  ((coordinate,         WFMath::Point<2>,   PT_PrimaryKey,  0)) \
 
 PT_DECLARE_VO(ZoneNodesTable, DB_TABLE_ZONENODES, DB_TABLE_ZONENODES_FIELDS)
 

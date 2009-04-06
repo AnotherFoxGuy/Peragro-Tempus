@@ -38,6 +38,7 @@
 
 #include "server/server.h"
 #include "common/database/sqlite/sqlite.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-entities.h"
 #include "server/database/table-spawnpoints.h"
 #include "server/database/table-config.h"
@@ -47,7 +48,7 @@
 
 #include "server/entity/usermanager.h"
 #include "server/environment/environmentmanager.h"
-#include "server/spawner.h"
+#include "server/spawn/spawner.h"
 #include "server/network/network.h"
 #include "server/colldet/bullet.h"
 
@@ -204,7 +205,7 @@ int main(int argc, char ** argv)
   //stat_mgr.loadFromDB(tablemgr.Get<StatTable>());
   //skill_mgr.loadFromDB(tablemgr.Get<SkillsTable>());
 
-  zone_mgr.loadFromDB(tablemgr.Get<ZonesTable>(), tablemgr.Get<ZoneNodesTable>());
+  zone_mgr.LoadFromDB();
 
   printf("Initialising collision detection... ");
   BulletCD cd;
@@ -215,8 +216,6 @@ int main(int argc, char ** argv)
 
   Spawner spawner;
   server.setSpawner(&spawner);
-  spawner.LoadFromDB(tablemgr.Get<SpawnPointsTable>());
-  spawner.start();
 
   NPCDialogManager dialog_mgr;
   dialog_mgr.LoadFromDB();

@@ -22,8 +22,6 @@
 #include "server/entity/character/character.h"
 #include "server/entity/entity.h"
 
-#include "server/spawner.h"
-
 void PlayerHandler::handleInventoryMoveItemRequest(GenericMessage* msg)
 {
   /*

@@ -26,6 +26,7 @@
 #include "server/quest/npcdialogmanager.h"
 
 #include "common/database/database.h"
+#include "server/database/tablemanager.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-npcaisetting.h"
 #include "server/database/table-zones.h"
@@ -34,7 +35,7 @@
 #include "server/database/table-channels.h"
 #include "server/database/table-defaultchannels.h"
 
-#include "server/spawner.h"
+#include "server/spawn/spawner.h"
 
 #include "server/environment/clock.h"
 #include "server/environment/environmentmanager.h"
@@ -352,7 +353,7 @@ void AdminHandler::handleCreateZone(GenericMessage* msg)
     zntbl->Insert(zonemsg.getZoneId(), WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)) );
     zone.coords.push_back(WFMath::Point<2>(zonemsg.getX(i), zonemsg.getZ(i)));
   }
-  zonemgr->addZone(zone);
+  zonemgr->AddZone(zonemsg.getZoneId(), zone);
 }
 
 void AdminHandler::handleSetDate(GenericMessage* msg)

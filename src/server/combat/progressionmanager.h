@@ -25,8 +25,6 @@
 #ifndef PROGRESSIONMANAGER
 #define PROGRESSIONMANAGER
 
-//#include "src/server/entity/pcentity.h"
-
 /**
  * Server progression manager.
  */
@@ -44,6 +42,9 @@ public:
                                const std::string& attackType);
   static unsigned int XPIncrease(unsigned int pointsExpended, unsigned int chance);
   static unsigned int RollDice(unsigned int lower, unsigned int higher);
+
+  /// Check if a roll with chance 1-100% succeeded.
+  static bool RollCheck(unsigned int chance);
 
 private:
   void AddXP(boost::shared_ptr<Character> lockedCharacter,
