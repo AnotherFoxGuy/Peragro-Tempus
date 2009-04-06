@@ -62,6 +62,8 @@ public:
   ~ItemTemplatesManager() {}
 
   boost::shared_ptr<ItemTemplate> Get(size_t templateId);
+
+  boost::shared_ptr<ItemEntity> CreateItemFromTemplate(size_t templateId);
 };
 
 #endif // ITEMTEMPLATESMANAGER_H

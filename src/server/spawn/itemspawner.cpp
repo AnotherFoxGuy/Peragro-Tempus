@@ -55,13 +55,11 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
     }
     if (timeCounter - sp->pickTime > sp->spawnInterval)
     {
-      Entityp entity = Server::getServer()->getEntityManager()->CreateNew(Common::Entity::ItemEntityType);
-      boost::shared_ptr<ItemEntity> item = boost::shared_dynamic_cast<ItemEntity>(entity);
+      boost::shared_ptr<ItemEntity> item;
       try
       {
-        boost::shared_ptr<ItemTemplate> temp = Server::getServer()->GetItemTemplatesManager()->Get(sp->itemTemplateId);
-        item->SetItemTemplate(temp);
-        temp->SetDataOn(item.get());
+        Server* server = Server::getServer();
+        item = server->GetItemTemplatesManager()->CreateItemFromTemplate(sp->itemTemplateId);
       }
       catch (char&)
       {

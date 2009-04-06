@@ -106,3 +106,12 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
     return it->second.lock();
 }
 
+boost::shared_ptr<ItemEntity> ItemTemplatesManager::CreateItemFromTemplate(size_t templateId)
+{
+  Entityp entity = Server::getServer()->getEntityManager()->CreateNew(Common::Entity::ItemEntityType);
+  boost::shared_ptr<ItemEntity> item = boost::shared_dynamic_cast<ItemEntity>(entity);
+  boost::shared_ptr<ItemTemplate> temp = Server::getServer()->GetItemTemplatesManager()->Get(templateId);
+  item->SetItemTemplate(temp);
+
+  return item;
+}
