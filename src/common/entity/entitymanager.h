@@ -62,6 +62,7 @@ namespace Common
       virtual void Remove(const Entityp entity);
       virtual void Remove(size_t entityId);
       virtual void RemoveAll() { entities.clear(); }
+      const std::map<size_t, Common::Entity::Entityp>& GetEntities() { return entities; };
 
       size_t GetCount() { return entities.size(); }
       Entityp FindById(size_t id);
