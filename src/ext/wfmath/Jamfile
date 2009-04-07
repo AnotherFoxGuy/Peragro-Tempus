@@ -47,7 +47,7 @@ MsvcCFlags shape_test : /wd4396 ;
 Description timestamp_test : "timestamp Test" ;
 Application timestamp_test : timestamp_test.cpp : console ;
 LinkWith timestamp_test : wfmath ;
-MsvcDefine wfmath : __WIN32__ ;
+MsvcDefine timestamp_test : __WIN32__ ;
 
 Description vector_test : "vector Test" ;
 Application vector_test : vector_test.cpp : console ;
