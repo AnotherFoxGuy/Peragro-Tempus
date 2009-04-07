@@ -610,6 +610,9 @@
 				RelativePath="..\..\src\common\util\clock.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\consoleapp.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\date.h">
 			</File>
 			<File
