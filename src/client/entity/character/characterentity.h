@@ -36,6 +36,12 @@ namespace PT
      */
     class CharacterEntity : public ::Client::Entity::Entity
     {
+    private:
+      void PlayAnimationGenMesh(const char* animationName, float blend_factor = 0.01f,
+                         bool loop = false, bool stopOthers = false);
+
+      void PlayAnimationAniMesh(const char* animationName, float blend_factor = 0.01f,
+                         bool loop = false, bool stopOthers = false);
     protected:
       virtual void Initialize(const iEvent& ev);
 

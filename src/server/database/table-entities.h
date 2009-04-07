@@ -54,8 +54,6 @@ public:
   PT_DECLARE_GetAll(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 
   size_t GetMaxId();
-  void Remove(size_t id);
-
   EntitiesTableVOArray GetWorldEntities();
 };
 

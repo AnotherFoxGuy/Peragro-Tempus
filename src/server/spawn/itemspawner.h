@@ -44,7 +44,7 @@ private:
     size_t pickTime;
 
     SpawnPoint() :  itemTemplateId(0), spawnInterval(0), pickTime(0) {}
-    ~SpawnPoint() { }
+    ~SpawnPoint() {}
   };
 
   size_t timeCounter;
@@ -59,8 +59,8 @@ private:
   void AddSpawnPoint(size_t itemTemplateId, WFMath::Point<3> position, size_t spawnInterval);
 
 public:
-  ItemSpawner() : timeCounter(0) { this->setInterval(10); }
-  ~ItemSpawner() { }
+  ItemSpawner();
+  ~ItemSpawner();
 
   void LoadFromDB();
   size_t GetSpawnPointCount() const { return spawnpoints.size(); }

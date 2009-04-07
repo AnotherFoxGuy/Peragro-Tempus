@@ -24,6 +24,10 @@
 #include <imesh/gmeshskel2.h>
 #include <imesh/skeleton.h>
 
+#include <imesh/animesh.h>
+#include <imesh/skeleton2.h>
+#include <imesh/skeleton2anim.h>
+
 #include <physicallayer/pl.h>
 #include <physicallayer/propfact.h>
 #include <physicallayer/propclas.h>
@@ -111,15 +115,10 @@ namespace PT
       SetFullPosition();
     }
 
-    void CharacterEntity::PlayAnimation(const char* animationName,
-      float blend_factor, bool loop,
-      bool stopOthers)
+    void CharacterEntity::PlayAnimationGenMesh(const char* animationName, float blend_factor,
+                         bool loop, bool stopOthers )
     {
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
-
-      if (!pcmesh.IsValid()) return;
-      if (!pcmesh->GetMesh()) return;
-      if (!pcmesh->GetMesh()->GetMeshObject()) return;
 
       csRef<iGeneralMeshState> spstate(scfQueryInterface<iGeneralMeshState>
         (pcmesh->GetMesh()->GetMeshObject()));
@@ -151,6 +150,73 @@ namespace PT
         script = skeleton->Execute (animationName);
         if (script) script->SetLoop (loop);
       }
+    }
+
+    void CharacterEntity::PlayAnimationAniMesh(const char* animationName, float blend_factor,
+                         bool loop, bool stopOthers)
+    {
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+
+      csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
+
+      iSkeletonAnimNode2* root = animesh->GetSkeleton ()->GetAnimationPacket ()->GetAnimationRoot ();
+      csRef<iSkeletonAnimNode2> anim;
+       
+      if (root)
+      {
+        anim = root->FindNode("standard");
+
+        bool played = false;
+        csRef<iSkeletonFSMNode2> fsm = scfQueryInterfaceSafe<iSkeletonFSMNode2> (anim);
+        if (fsm)
+        {
+          csRef<iSkeletonFSMNodeFactory2> fsmfact = scfQueryInterface<iSkeletonFSMNodeFactory2>(anim->GetFactory());
+          CS::Animation::StateID wanted_state = fsmfact->FindState(animationName);
+          if (wanted_state != CS::Animation::InvalidStateID)
+          {
+            fsm->SwitchToState(wanted_state);
+            played = true;
+            root->Play();
+          }
+        }
+
+        if (!played)
+        {
+          anim = root->FindNode(animationName);
+          if (anim)
+          {
+            anim->Play();
+          }
+        } // end if (!played)
+      } // end if (root)
+    } // end PlayAnimationAniMesh()
+
+    void CharacterEntity::PlayAnimation(const char* animationName,
+      float blend_factor, bool loop,
+      bool stopOthers)
+    {
+      csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
+
+      if (!pcmesh.IsValid()) return;
+      if (!pcmesh->GetMesh()) return;
+      if (!pcmesh->GetMesh()->GetMeshObject()) return;
+
+      csRef<iGeneralMeshState> spstate(scfQueryInterface<iGeneralMeshState>
+        (pcmesh->GetMesh()->GetMeshObject()));
+
+      if (spstate && spstate->GetAnimationControl())
+      {
+        PlayAnimationGenMesh(animationName, blend_factor, loop, stopOthers);
+        return;
+      }
+
+      csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
+      if (animesh)
+      {
+        PlayAnimationAniMesh(animationName, blend_factor, loop, stopOthers);
+        return;
+      }
+
     }
 
     void CharacterEntity::Pose(unsigned int poseId)

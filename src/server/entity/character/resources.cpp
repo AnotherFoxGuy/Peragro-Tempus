@@ -41,10 +41,10 @@
 #include "server/entity/character/character.h"
 
 //==[ Resource ]=============================================================
-Resources::Resource::Resource(Resources* resources, size_t id, int value) 
+Resources::Resource::Resource(Resources* resources, size_t id, int val) 
   : resources(resources), id(id), value(0.0f), registered(false)
 {
-  Set(value, false);
+  Set(val, false);
 }
 
 Resources::Resource::~Resource()

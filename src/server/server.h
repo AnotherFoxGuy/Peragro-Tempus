@@ -156,9 +156,7 @@ public:
   void SetSpeciesManager(SpeciesManager* speciesManager) { this->speciesManager = speciesManager; }
   SpeciesManager* GetSpeciesManager() { return this->speciesManager; }
 
-  void delEntity(Entity* entity);
   void moveEntity(boost::shared_ptr<Character> entity, const WFMath::Point<3>& pos, float speed, bool run);
-  void broadCast(const ByteStream& bs);
 };
 
 #endif // SERVER_H

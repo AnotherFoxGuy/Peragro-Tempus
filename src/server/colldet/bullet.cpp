@@ -34,6 +34,7 @@
 
 BulletCD::BulletCD()
 {
+  world = 0;
   collisionConfiguration = 0;
   dispatcher = 0;
   overlappingPairCache = 0;

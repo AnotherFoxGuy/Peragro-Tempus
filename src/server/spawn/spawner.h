@@ -42,6 +42,8 @@ public:
 
   ~Spawner() 
   {
+    itemSpawner->stop();
+    creatureSpawner->stop();
     delete itemSpawner;
     delete creatureSpawner;
   }

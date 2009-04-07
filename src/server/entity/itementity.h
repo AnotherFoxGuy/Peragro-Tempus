@@ -48,6 +48,7 @@ public:
 
   virtual void LoadFromDB();
   virtual void SaveToDB();
+  virtual void DeleteFromDB();
 };
 
 #endif // ITEMENTITY_H

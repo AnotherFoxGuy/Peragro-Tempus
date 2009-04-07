@@ -39,11 +39,11 @@ private:
   class Resource
   {
   public:
-    Resource(Resources* resources, size_t id, int value);
+    Resource(Resources* resources, size_t id, int val);
     virtual ~Resource();
     size_t GetId() { return id; }
     virtual int Get() const;
-    virtual void Set(float value, bool update = true);
+    virtual void Set(float val, bool update = true);
     virtual int GetMax() const;
     virtual void Regenerate(size_t elapsedTime);
   protected:
@@ -63,7 +63,7 @@ private:
   {
   public:
     HitPoints(Resources* resources, size_t id, int value);
-    virtual void Set(float value, bool update = true);
+    virtual void Set(float val, bool update = true);
     virtual void Regenerate(size_t elapsedTime);
   };
 
@@ -72,7 +72,7 @@ private:
   public:
     Stamina(Resources* resources, size_t id, int value);
     virtual int Get() const;
-    virtual void Set(float value, bool update = true);
+    virtual void Set(float val, bool update = true);
   };
 
   friend class Resource;

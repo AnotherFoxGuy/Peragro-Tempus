@@ -74,16 +74,16 @@ WFMath::Point<3> SpeciesManager::GetRandomPosition(size_t speciesId)
 std::list<boost::shared_ptr<Character> > SpeciesManager::GetEntitiesOfSpecies(size_t speciesId)
 {
   std::list<boost::shared_ptr<Character> > chars;
-  /*
-  std::map<size_t, Entityp> entities = Server::getServer()->GetEntityManager()->GetEntities();
-  std::map<size_t, Entityp>::const_iterator it;
+
+  const std::map<size_t, Common::Entity::Entityp>& entities = Server::getServer()->getEntityManager()->GetEntities();
+  std::map<size_t, Common::Entity::Entityp>::const_iterator it;
   for (it = entities.begin(); it != entities.end(); it++)
   {
-    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>((*it)->second);
+    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(it->second);
     if (c && c->GetSpecies() == speciesId) 
       chars.push_back(c);
   }
-  */
+
   return chars;
 }
 

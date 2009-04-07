@@ -39,6 +39,12 @@ void Entity::SaveToDB()
   table->Insert(GetId(), GetType());
 }
 
+void Entity::DeleteFromDB()
+{
+  EntityTable* table = Server::getServer()->GetTableManager()->Get<EntityTable>();
+  table->Delete(GetId());
+}
+
 /*
 unsigned short Entity::GetSector() const
 {

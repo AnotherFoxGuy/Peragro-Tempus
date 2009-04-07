@@ -25,9 +25,6 @@
 
 #include "server/species/speciesmanager.h"
 
-//#include "common/util/thread.h"
-//#include "common/util/sleep.h"
-#include "common/util/timer.h"
 #include "common/util/printhelper.h"
 #include "server/server.h"
 
@@ -40,7 +37,7 @@ CreatureSpawner::CreatureSpawner()
   boost::shared_ptr<NpcEntity> npc = Server::getServer()->GetSpeciesManager()->CreateNPCFromSpecies(2);
   npc->SaveToDB();
   npcentities.push_back(npc);
-  */
+ */
 }
 
 void CreatureSpawner::CheckEntity(boost::shared_ptr<NpcEntity> npc)
@@ -65,9 +62,4 @@ void CreatureSpawner::timeOut()
     CheckEntity(it->lock());
   }
   mutex.unlock();
-
-  //Remove me
-  //Server* server = Server::getServer();
-  //std::string pos = WFMath::ToString(server->GetSpeciesManager()->GetRandomPosition(2));
-  //printf("BLAAAH %s\n", pos.c_str());
 }

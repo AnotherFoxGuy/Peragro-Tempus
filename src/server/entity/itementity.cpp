@@ -87,7 +87,15 @@ void ItemEntity::SaveToDB()
   else
   {
     EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
-    ptable->Remove(GetId());
+    ptable->Delete(GetId());
   }
+}
+
+void ItemEntity::DeleteFromDB()
+{
+  Entity::DeleteFromDB();
+
+  EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+  ptable->Delete(GetId());
 }
 

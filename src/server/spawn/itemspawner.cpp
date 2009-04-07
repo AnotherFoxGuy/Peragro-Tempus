@@ -31,6 +31,28 @@
 #include "server/database/tablemanager.h"
 #include "server/database/table-spawnpoints.h"
 
+ItemSpawner::ItemSpawner() : timeCounter(0) 
+{ 
+  this->setInterval(10); 
+}
+
+ItemSpawner::~ItemSpawner() 
+{
+   printf("ItemSpawner Shutdown initialised!\n");
+  //mutex.lock();
+  std::vector<boost::shared_ptr<SpawnPoint> >::const_iterator it;
+  for (it = spawnpoints.begin(); it != spawnpoints.end(); it++)
+  {
+    boost::shared_ptr<ItemEntity> i = (*it)->itemEntity.lock();
+    if (i)
+    {
+      i->DeleteFromDB();
+      printf("DeleteFromDB!\n");
+    }
+  }
+  printf("ItemSpawner Shutdown initialised11!\n");
+  //mutex.unlock();
+}
 
 void ItemSpawner::timeOut()
 {
@@ -47,7 +69,7 @@ void ItemSpawner::timeOut()
 void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
 {
   // The item is gone or not in the world.
-  if (!sp->itemEntity.lock() || sp->itemEntity.lock()->GetInWorld())
+  if (!sp->itemEntity.lock() || !sp->itemEntity.lock()->GetInWorld())
   {
     if ( sp->pickTime == 0)
     {
@@ -55,11 +77,13 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
     }
     if (timeCounter - sp->pickTime > sp->spawnInterval)
     {
+      /*
       boost::shared_ptr<ItemEntity> item;
       try
       {
         Server* server = Server::getServer();
         item = server->GetItemTemplatesManager()->CreateItemFromTemplate(sp->itemTemplateId);
+        printf("Spawning  '%s'\n", item->GetName().c_str());
       }
       catch (char&)
       {
@@ -67,10 +91,13 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
         return;
       }
       item->SetPosition(sp->position);
+      item->SetInWorld(true);
+      item->SaveToDB();
 
       Server::getServer()->getEntityManager()->Add(item);
       sp->itemEntity = item;
       sp->pickTime = 0;
+      */
     }
   }
 }

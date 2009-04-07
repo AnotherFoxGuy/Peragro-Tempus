@@ -55,64 +55,95 @@
 #include "server/species/speciesmanager.h"
 
 #include "common/util/wincrashdump.h"
+#include "common/util/consoleapp.h"
+
 #include "server/combat/interactionmanager.h"
 
-#include <signal.h>
 
-int running = 2;
-EntityManager* ent_mgr;
-InteractionManager* interactionMgr;
-
-void shutdown()
+class App : public Application
 {
-  if (running < 2) return;
-  running = 1;
+private:
+  Database* db;
+  TableManager* tablemgr;
+  EntityManager* ent_mgr;
+  InteractionManager* interactionMgr;
+  TimerEngine * timerEngine;
+  Network* network;
+  Server* server;
 
+  ResourcesFactory* resourcesFactory;
+
+  int argc;
+  char** argv;
+
+public:
+  App();
+  virtual ~App();
+
+  virtual int Initialize(int argc, char* argv[]);
+  virtual void Run();
+};
+
+App::App()
+{
+}
+
+App::~App()
+{
   printf("Server Shutdown initialised!\n");
+
+  printf("- Shutdown Timer Engine:\t");
+  timerEngine->kill();
+  printf("done\n");
 
   printf("- Shutdown Interaction Manager:     \t");
   interactionMgr->shutdown();
   printf("done\n");
 
-  delete ent_mgr;
-
   printf("- Shutdown Network:     \t");
-  Server::getServer()->getNetwork()->shutdown();
+  network->shutdown();
   printf("done\n");
 
   printf("- Shutdown Database:     \t");
-  Server::getServer()->getDatabase()->shutdown();
+  db->shutdown();
   printf("done\n");
 
-  printf("- Shutdown Timer Engine:\t");
-  Server::getServer()->getTimerEngine()->kill();
-  printf("done\n");
+  delete db;
+  delete tablemgr;
+  delete ent_mgr;
+  delete interactionMgr;
+  delete timerEngine;
+  delete network;
+  delete server;
 
-  running = 0;
+  delete resourcesFactory;
+
+  StringStore::destroy();
+
+  printf("Time to quit now!\n");
 }
 
-void sigfunc(int sig)
+int App::Initialize(int argc, char* argv[])
 {
-   if (sig == SIGINT)
-   {
-     shutdown();
-   }
-}
-
-int main(int argc, char ** argv)
-{
-  signal(SIGINT, sigfunc);
+  App::argc = argc;
+  App::argv = argv;
 
   setWinCrashDump(argv[0]);
 
-  Server server;
+  return 0;
+}
 
-  dbSQLite db("test_db.sqlite");
-  TableManager tablemgr(&db);
-  tablemgr.Initialize();
+void App::Run()
+{
+  //--[Initialize]--------------------------------------------------------
+  server = new Server();
 
-  server.setDatabase(&db);
-  server.SetTableManager(&tablemgr);
+  db = new dbSQLite("test_db.sqlite");
+  tablemgr = new TableManager(db);
+  tablemgr->Initialize();
+
+  server->setDatabase(db);
+  server->SetTableManager(tablemgr);
 
   unsigned int port = 0;
   for(int i = 1; i < argc; i++)
@@ -130,13 +161,13 @@ int main(int argc, char ** argv)
       printf("Invalid argument: %s\n", argv[i]);
       printf("Valid arguments are:\n");
       printf("-port [port number] - Set which network port number the server will use.\n");
-      return true;
+      return;
     }
   }
 
   if (port == 0)
   {
-    ConfigTableVOp p(tablemgr.Get<ConfigTable>()->GetSingle("port"));
+    ConfigTableVOp p(tablemgr->Get<ConfigTable>()->GetSingle("port"));
     if (p)
     {
       port = atoi(p->value.c_str());
@@ -149,90 +180,84 @@ int main(int argc, char ** argv)
 
   // Save the port.
   std::stringstream portStr; portStr << port;
-  tablemgr.Get<ConfigTable>()->Insert("port", portStr.str());
+  tablemgr->Get<ConfigTable>()->Insert("port", portStr.str());
 
-  TimerEngine timeEngine;
-  timeEngine.begin();
-  server.setTimerEngine(&timeEngine);
+  timerEngine = new TimerEngine();
+  timerEngine->begin();
+  server->setTimerEngine(timerEngine);
 
   interactionMgr = new InteractionManager();
-  server.setInteractionManager(interactionMgr);
+  server->setInteractionManager(interactionMgr);
 
   UserManager usr_mgr;
-  server.setUserManager(&usr_mgr);
+  server->setUserManager(&usr_mgr);
 
   //Character stuff.
   MovementManager movementManager;
-  server.SetMovementManager(&movementManager);
+  server->SetMovementManager(&movementManager);
 
-  EquipmentFactory equipmentFactory(&tablemgr);
-  server.SetEquipmentFactory(&equipmentFactory);
+  EquipmentFactory equipmentFactory(tablemgr);
+  server->SetEquipmentFactory(&equipmentFactory);
 
-  SkillsFactory skillsFactory(&tablemgr);
-  server.SetSkillsFactory(&skillsFactory);
+  SkillsFactory skillsFactory(tablemgr);
+  server->SetSkillsFactory(&skillsFactory);
 
-  AbilitiesFactory abilitiesFactory(&tablemgr);
-  server.SetAbilitiesFactory(&abilitiesFactory);
+  AbilitiesFactory abilitiesFactory(tablemgr);
+  server->SetAbilitiesFactory(&abilitiesFactory);
 
-  ReputationsFactory reputationsFactory(&tablemgr);
-  server.SetReputationsFactory(&reputationsFactory);
+  ReputationsFactory reputationsFactory(tablemgr);
+  server->SetReputationsFactory(&reputationsFactory);
 
-  ResourcesFactory resourcesFactory(&tablemgr);
-  server.SetResourcesFactory(&resourcesFactory);
+  resourcesFactory = new ResourcesFactory(tablemgr);
+  server->SetResourcesFactory(resourcesFactory);
 
   ItemTemplatesManager itemTemplatesManager;
-  server.SetItemTemplatesManager(&itemTemplatesManager);
+  server->SetItemTemplatesManager(&itemTemplatesManager);
 
   SpeciesManager speciesManager;
-  server.SetSpeciesManager(&speciesManager);
+  server->SetSpeciesManager(&speciesManager);
 
   ent_mgr = new EntityManager();
-  server.setEntityManager(ent_mgr);
-  ent_mgr->LoadFromDB(tablemgr.Get<EntityTable>());
+  server->setEntityManager(ent_mgr);
+  ent_mgr->LoadFromDB(tablemgr->Get<EntityTable>());
 
   ChatManager::getChatManager();
 
-  //SkillManager skill_mgr;
-  //server.setSkillManager(&skill_mgr);
-
   ZoneManager zone_mgr;
-  server.setZoneManager(&zone_mgr);
+  server->setZoneManager(&zone_mgr);
+  zone_mgr.LoadFromDB();
 
   EnvironmentManager environment_mgr;
-  server.setEnvironmentManager(&environment_mgr);
+  server->setEnvironmentManager(&environment_mgr);
   environment_mgr.Initialize();
-
-  //stat_mgr.loadFromDB(tablemgr.Get<StatTable>());
-  //skill_mgr.loadFromDB(tablemgr.Get<SkillsTable>());
-
-  zone_mgr.LoadFromDB();
 
   printf("Initialising collision detection... ");
   BulletCD cd;
-  server.setCollisionDetection(&cd);
+  server->setCollisionDetection(&cd);
   cd.setup();
   printf("done\n");
   //cd.begin();
 
   Spawner spawner;
-  server.setSpawner(&spawner);
+  server->setSpawner(&spawner);
 
   NPCDialogManager dialog_mgr;
   dialog_mgr.LoadFromDB();
 
   // Finally initialising the network!
-  Network network(&server);
-  network.init(port);
+  network = new Network(server);
+  network->init(port);
+  //----------------------------------------------------------------------
 
   printf("Server up and running!\n");
 
   size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
-  size_t delay_time = 10000; //10 sec = 10000 ms
+  size_t delay_time = 1000; //1 sec = 1000 ms
 
-  while (running > 0)
+  while (IsRunning())
   {
     pt_sleep(delay_time);
-    network.getStats(sentbyte, recvbyte, timestamp);
+    network->getStats(sentbyte, recvbyte, timestamp);
     float uptraffic = sentbyte/(float)delay_time;
     float downtraffic = recvbyte/(float)delay_time;
     if (uptraffic > 0.001 || downtraffic > 0.001)
@@ -240,12 +265,9 @@ int main(int argc, char ** argv)
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
+}
 
-  delete interactionMgr;
-
-  StringStore::destroy();
-
-  printf("Time to quit now!\n");
-
-  return 0;
+int main(int argc, char ** argv)
+{
+  return ApplicationRunner<App>::Run(argc, argv);
 }

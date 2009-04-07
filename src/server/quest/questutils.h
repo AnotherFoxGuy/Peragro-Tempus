@@ -18,6 +18,8 @@
 
 #include "server/entity/entitymanager.h"
 
+#include "server/network/networkhelper.h"
+
 #include "server/entity/character/character.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
@@ -128,7 +130,6 @@ namespace QuestUtils
   {
     if (character->GetType() != Common::Entity::PCEntityType) return;
 
-    Server* server = Server::getServer();
     PcEntity* player = static_cast<PcEntity*>(character);
     NPCDialogState* dia_state = player->getNPCDialogState();
 
@@ -147,7 +148,7 @@ namespace QuestUtils
       endmsg.setNpcId(dia_state->getNpc()->GetId());
       ByteStream bs;
       endmsg.serialise(&bs);
-      server->broadCast(bs);
+      NetworkHelper::broadcast(bs);
     }
 
     for (size_t i = 0; i < dialog->GetAnswerCount(); i++)
@@ -454,7 +455,7 @@ namespace QuestUtils
           endmsg.setNpcId(dia_state->getNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
-          Server::getServer()->broadCast(bs2);
+          NetworkHelper::broadcast(bs2);
         }
       }
       else if (dialog->GetAction() == NPCDialog::START_SELL)
@@ -487,7 +488,7 @@ namespace QuestUtils
           endmsg.setNpcId(dia_state->getNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
-          Server::getServer()->broadCast(bs2);
+          NetworkHelper::broadcast(bs2);
         }
       }
       else if (dialog->GetAction() == NPCDialog::TELEPORT)

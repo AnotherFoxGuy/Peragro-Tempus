@@ -130,6 +130,8 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
 
 void EntityManager::Remove(const Common::Entity::Entityp entity)
 {
+  if (!entity) return;
+
   std::list<Common::Entity::EntityCallback*>::iterator it;
   for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
   {

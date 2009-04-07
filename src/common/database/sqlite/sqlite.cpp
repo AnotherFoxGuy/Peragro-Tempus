@@ -87,6 +87,9 @@ void dbSQLite::update(const char* query, ...)
 
 void dbSQLite::shutdown()
 {
+  while (updates.size())
+    update();
+
   kill();
 }
 
