@@ -183,7 +183,7 @@ private:
    * @param statName The stat's name.
    * @return The weapons bonuses given a special stat.
    */
-  unsigned int GetStatValueForEquipedWeapons(boost::shared_ptr<Character> lockedCharacter,
+  unsigned int GetAbilityLevelForEquipedWeapons(boost::shared_ptr<Character> lockedCharacter,
                                             const std::string& statName);
   /**
    * Get a random number between 0 and 100.

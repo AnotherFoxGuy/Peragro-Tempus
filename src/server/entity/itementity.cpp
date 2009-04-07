@@ -64,6 +64,8 @@ void ItemEntity::LoadFromDB()
   {
     SetInWorld(false);
   }
+
+  abilities->LoadFromDB();
 }
 
 void ItemEntity::SaveToDB()
@@ -89,6 +91,8 @@ void ItemEntity::SaveToDB()
     EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
     ptable->Delete(GetId());
   }
+
+  abilities->SaveToDB();
 }
 
 void ItemEntity::DeleteFromDB()
@@ -97,5 +101,7 @@ void ItemEntity::DeleteFromDB()
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
   ptable->Delete(GetId());
+
+  //TODO abilities->DeleteFromDB();
 }
 

@@ -40,7 +40,10 @@
 #include "interactionqueue.h"
 
 #include "interaction.h"
-#include "interactionutility.h"
+
+#include "abilityhelper.h"
+#include "skillhelper.h"
+#include "weaponhelper.h"
 
 #define IM "InteractionManager: "
 #define DEBUG(arg) printf(IM #arg "\n");
@@ -438,47 +441,45 @@ bool InteractionManager::QueueInteraction(boost::shared_ptr<PcEntity> sourceEnti
 
 unsigned int InteractionManager::GetBlock(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Block") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
+  return SkillHelper::GetSkillLevel(character, "Block") +
+         SkillHelper::GetSkillLevelForAllEquipedItems(character,
                                                             "Block");
 }
 
 unsigned int InteractionManager::GetDodge(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Dodge") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
+  return SkillHelper::GetSkillLevel(character, "Dodge") +
+         SkillHelper::GetSkillLevelForAllEquipedItems(character,
                                                             "Dodge");
 }
 
 unsigned int InteractionManager::GetParry(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Parry") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
+  return SkillHelper::GetSkillLevel(character, "Parry") +
+         SkillHelper::GetSkillLevelForAllEquipedItems(character,
                                                             "Parry");
 }
 
 unsigned int InteractionManager::GetStrength(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Strength") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
+  return AbilityHelper::GetAbilityLevel(character, "Strength") +
+         AbilityHelper::GetAbilityLevelForAllEquipedItems(character,
                                                             "Strength");
 }
 
 unsigned int InteractionManager::GetReach(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Reach") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
-                                                            "Reach") +
-         5;   // TODO This should not be here, just till the DB is setup
-              // to correctly set Reach to something...
+  //TODO
+  return WeaponHelper::GetReach(boost::shared_ptr<ItemEntity>());
 }
 
 unsigned int InteractionManager::GetWeaponDamage(boost::shared_ptr<Character> character)
 {
-  return GetStatValueForEquipedWeapons(character, "Damage");
+  //TODO
+  return WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity>());
 }
 
-unsigned int InteractionManager::GetStatValueForEquipedWeapons(boost::shared_ptr<Character> character,
+unsigned int InteractionManager::GetAbilityLevelForEquipedWeapons(boost::shared_ptr<Character> character,
                                                    const std::string& statName)
 {
   unsigned int value = 0;
@@ -509,8 +510,8 @@ unsigned int InteractionManager::GetStatValueForEquipedWeapons(boost::shared_ptr
 
 unsigned int InteractionManager::GetAgility(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Agility") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
+  return AbilityHelper::GetAbilityLevel(character, "Agility") +
+         AbilityHelper::GetAbilityLevelForAllEquipedItems(character,
                                                             "Agility");
 }
 
@@ -521,13 +522,14 @@ unsigned int InteractionManager::GetSkillBonus(boost::shared_ptr<Character> char
 
 unsigned int InteractionManager::GetSapience(boost::shared_ptr<Character> character)
 {
-  return InteractionUtility::GetStatValue(character, "Sapience") +
-         InteractionUtility::GetStatValueForAllEquipedItems(character, "Sapience");
+  return AbilityHelper::GetAbilityLevel(character, "Sapience") +
+         AbilityHelper::GetAbilityLevelForAllEquipedItems(character, "Sapience");
 }
 
 unsigned int InteractionManager::GetWeaponHeft(boost::shared_ptr<Character> character)
 {
-  return GetStatValueForEquipedWeapons(character, "Heft");
+  //TODO
+  return WeaponHelper::GetHeft(boost::shared_ptr<ItemEntity>());
 }
 
 unsigned int InteractionManager::RollDice()

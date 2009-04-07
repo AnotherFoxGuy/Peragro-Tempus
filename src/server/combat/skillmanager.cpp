@@ -18,7 +18,6 @@
 
 #include "server/entity/entitymanager.h"
 #include "skillmanager.h"
-#include "interactionutility.h"
 
 #ifdef WIN32
   #include <string.h>
@@ -73,11 +72,9 @@ float SkillManager::GetTimeUnusedThisLogin(boost::shared_ptr<Character> characte
 float SkillManager::GetTimeUnusedLastLogin(boost::shared_ptr<Character> character,
                                      const std::string& skill)
 {
+  //TODO
   const std::string& strSkillLastUsed = GetSkillLastUsedStr(skill);
-
-  return InteractionUtility::GetStatValue(character, strSkillLastUsed) +
-         InteractionUtility::GetStatValueForAllEquipedItems(character,
-                                                            strSkillLastUsed);
+  return 0.0f;
 }
 
 std::string SkillManager::GetSkillLastUsedStr(const std::string& skill)

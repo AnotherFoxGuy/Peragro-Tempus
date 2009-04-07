@@ -18,7 +18,8 @@
 
 #include <stdlib.h>
 #include "server/entity/entitymanager.h"
-#include "interactionutility.h"
+#include "abilityhelper.h"
+#include "skillhelper.h"
 #include "progressionmanager.h"
 #include "skillmanager.h"
 
@@ -37,12 +38,11 @@ void ProgressionManager::CalculateExperienceGain(boost::shared_ptr<Character> at
   std::string  abilityName = "Agility";
 
   penalty = GetPenalty(target, attackType);
-  //TODO skillLevel = GetSkillLevel(attacker, skillType);
+  skillLevel = SkillHelper::GetSkillLevel(attacker, skillType);
 
   abilityName = SkillManager::GetAbilityNameForSkill(skillType);
 
-  agilityLevel = (unsigned int) InteractionUtility::GetStatValue(attacker,
-                                                                 abilityName);
+  agilityLevel = AbilityHelper::GetAbilityLevel(attacker, abilityName);
 
   // Base chance for success should be 50%
   // http://wiki.peragro.org/index.php/Skill
@@ -50,38 +50,47 @@ void ProgressionManager::CalculateExperienceGain(boost::shared_ptr<Character> at
 
   failureChance = 100 - successChance;
 
-  if (randomNumber < successChance) {
-    if (randomNumber >= (successChance - (failureChance / 10))) {
+  if (randomNumber < successChance) 
+  {
+    if (randomNumber >= (successChance - (failureChance / 10))) 
+    {
       AddXP(attacker, skillType, abilityName);
     }
-  } else if (randomNumber > successChance) {
-    if (randomNumber <= successChance + (failureChance / 10)) {
+  } 
+  else if (randomNumber > successChance) 
+  {
+    if (randomNumber <= successChance + (failureChance / 10)) 
+    {
       AddXP(attacker, skillType, abilityName);
     }
-  } else if (randomNumber == successChance) {
+  } 
+  else if (randomNumber == successChance) 
+  {
     AddXP(attacker, skillType, abilityName);
   }
 }
 
 /* See: http://wiki.peragro.org/index.php/Experience_Implementation */
-void ProgressionManager::AddXP(boost::shared_ptr<Character> lockedCharacter,
+void ProgressionManager::AddXP(boost::shared_ptr<Character> character,
                           const std::string& skillName,
                           const std::string& abilityName)
 {
   unsigned int skillXP = 0;
   unsigned int abilityXP = 0;
-/*
-  skillXP = GetSkillOrAbilityXP(lockedCharacter, skillName);
-  abilityXP = GetSkillOrAbilityXP(lockedCharacter, abilityName);
+
+  skillXP = character->GetSkills()->Get(skillName);
+  abilityXP = character->GetAbilities()->Get(abilityName);
 
   // TODO ability skill that isn't right....
-  if (skillXP > abilityXP) {
-    IncreaseAbilityXP(lockedCharacter, abilityName, 1);
-  } else {
-    IncreaseSkillXP(lockedCharacter, skillName, 1);
-    IncreaseSpecialityXP(lockedCharacter, "speciality", 1);
+  if (skillXP > abilityXP) 
+  {
+    character->GetAbilities()->Add(abilityName, 1);
+  } 
+  else 
+  {
+    character->GetSkills()->Add(skillName, 1);
+    //IncreaseSpecialityXP(character, "speciality", 1);
   }
-*/
 }
 
 unsigned int ProgressionManager::XPIncrease(unsigned int pointsExpended, unsigned int chance)
@@ -108,7 +117,7 @@ bool ProgressionManager::RollCheck(unsigned int chance)
   return RollDice(1,100) <= chance;
 }
 
-unsigned int ProgressionManager::GetPenalty(boost::shared_ptr<Character> lockedCharacter,
+unsigned int ProgressionManager::GetPenalty(boost::shared_ptr<Character> character,
                                const std::string& attackType)
 {
   return 0;

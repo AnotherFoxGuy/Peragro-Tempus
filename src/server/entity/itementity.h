@@ -23,7 +23,11 @@
 
 #include "itemtemplatesmanager.h"
 
+#include "statistic/abilities.h"
+
 #include "common/inventory/item.h"
+
+#include "../server.h"
 
 
 class ItemEntity : public Entity, public Common::Inventory::Item
@@ -32,10 +36,13 @@ private:
   bool inWorld;
   boost::shared_ptr<ItemTemplate> itemTemplate;
 
+  boost::shared_ptr<Abilities> abilities;
+
 public:
   ItemEntity() : Entity(Common::Entity::ItemEntityType)
   {
     inWorld = false;
+    abilities = Server::getServer()->GetAbilitiesFactory()->Create(this);
   }
 
   ~ItemEntity() {}
@@ -45,6 +52,8 @@ public:
 
   boost::shared_ptr<ItemTemplate> GetItemTemplate() { return itemTemplate; }
   void SetItemTemplate(boost::shared_ptr<ItemTemplate> value) { itemTemplate = value; value->SetDataOn(this); }
+
+  boost::shared_ptr<Abilities> GetAbilities() const { return abilities; }
 
   virtual void LoadFromDB();
   virtual void SaveToDB();
