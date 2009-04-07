@@ -78,9 +78,6 @@ private:
   csRef<iMyBody> parent;  // Parent body, Null if none
   csRefArray<iMyBody> child_bodies;
 
-  long tmp;
-
-
 public:
 
 

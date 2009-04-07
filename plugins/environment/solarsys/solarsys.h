@@ -127,13 +127,12 @@ class SolarSysCameraCatcher : public scfImplementation1<SolarSysCameraCatcher, i
 
     virtual void StartFrame(iEngine* engine, iRenderView* rview)
     {
-
       if (!rview || !solarsys ) return;
-        if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
-        {
-          solarsys->DrawSolarSys(rview->GetCamera());
-        }
 
+      if (rview->GetCamera ()->GetSector () != solarsys->GetSector () )
+      {
+        solarsys->DrawSolarSys(rview->GetCamera());
+      }
     }
 
 }; // end class csCameraCatcher

@@ -42,8 +42,6 @@ Body::Body(iObjectRegistry* reg)
 
   Create_Body_Mesh(body_radius, body_verts, body_day_length, body_inclination);
 
-  tmp = 0;
-
 }
 
 Body::~Body ()
@@ -322,7 +320,8 @@ void Body::Pos_Light(const csVector3& npos)
   if (!light)
   {
     return;
-  }else  // update position
+  }
+  else  // update position
   {
     light->SetCenter (npos);
  //   if (csbody_report_lvl) printf("pos %s light( %4.2f, %4.2f, %4.2f)\n", name.c_str(), npos.x, npos.y, npos.z);
