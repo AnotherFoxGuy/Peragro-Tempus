@@ -24,15 +24,17 @@
 #include "server/server.h"
 #include "interactionmanager.h"
 #include "interaction.h"
-#include "server/entity/entitymanager.h"
+
 #include "common/network/entitymessages.h"
 
-#include "common/entity/entity.h"
+#include "server/entity/entitymanager.h"
+#include "server/entity/character/character.h"
 
 #include "common/util/math.h"
 #include "common/util/sleep.h"
 #include "common/network/playermessages.h"
 #include "common/network/combatmessages.h"
+#include "common/network/resourcemessages.h"
 #include "server/network/networkhelper.h"
 #include "server/database/table-inventory.h"
 #include "interactionqueue.h"
@@ -72,22 +74,23 @@ void InteractionManager::shutdown()
 
 void InteractionManager::Run()
 {
-  while(true) {
-    Interaction *interaction = NULL;
+  while(true) 
+  {
+    Interaction *interaction = 0;
     // caller must free allocation
     interaction = interactionQueue->GetInteraction();
-    while (!interaction) {
+    while (!interaction) 
+    {
       // No character have any outstanding interactions.
       pt_sleep(SLEEP);
       interaction = interactionQueue->GetInteraction();
     }
     PerformInteraction(interaction);
-    free(interaction);
+    delete interaction;
   }
 }
 
-bool
-InteractionManager::NormalAttack(Interaction *interaction)
+bool InteractionManager::NormalAttack(Interaction *interaction)
 {
   DEBUG("NormalAttack");
   unsigned int targetID = 0;
@@ -120,26 +123,19 @@ InteractionManager::NormalAttack(Interaction *interaction)
 
   damage = CalculateDamage(attacker, target);
 
-  /*
-  Stat* hp = Server::getServer()->getStatManager()->
-    findByName(ptString("Health", strlen("Health")));
+  printf("CombatManager: HP before deduction: %d\n", target->GetResources()->Get("Hit Points"));
+  target->GetResources()->Sub("Hit Points", static_cast<int>(damage));
+  printf("CombatManager: HP after deduction: %d\n", target->GetResources()->Get("Hit Points"));
 
-  CharacterStats* stats = attacker->getStats();
-  printf("CombatManager: HP before deduction: %d\n", stats->getAmount(hp));
-  stats->takeStat(hp, static_cast<int>(damage));
-  printf("CombatManager: HP after deduction: %d\n", stats->getAmount(hp));
-
-
-
-  if (static_cast<int>(stats->getAmount(hp)) < damage)
+  if (target->GetResources()->Get("Hit Points") <= 0)
   {
     ReportDeath(target);
-  } else {
-    if (damage > 0 ) {
-      ReportDamage(target);
-    }
+  } 
+  else if (damage > 0 ) 
+  {
+    ReportDamage(target);
   }
-  */
+
   return true;
 }
 
@@ -221,27 +217,22 @@ void InteractionManager::DropAllItems(boost::shared_ptr<Character> character)
 void InteractionManager::ReportDamage(boost::shared_ptr<Character> character)
 {
   DEBUG("ReportDamage");
-/*
-  CharacterStats* stats = character->getStats();
-  Stat* hp = Server::getServer()->getStatManager()->
-    findByName(ptString("Health", strlen("Health")));
+  size_t hpId = Server::getServer()->GetResourcesFactory()->GetID("Hit Points");
+  int hp = character->GetResources()->Get("Hit Points");
+  int hpMax = character->GetResources()->GetMax("Hit Points");
 
-  StatsChangeMessage msg;
+  ResourceUpdateMessage msg;
   ByteStream statsbs;
-  msg.setStatId(hp->GetId());
   msg.setEntityId(character->GetId());
-  msg.setName(ptString("Health", strlen("Health")));
-  msg.setLevel(stats->getAmount(hp));
+  msg.setResourceId(hpId);
+  msg.setValue(hp);
+  msg.setMaxValue(hpMax);
   msg.serialise(&statsbs);
   // Report the damage to everyone nearby.
-  NetworkHelper::distancecast(statsbs,
-                              character,
-                              GetNotificationDistance());
-*/
+  NetworkHelper::localcast(statsbs, character);
 }
 
-bool
-InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
+bool InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
                                   Interaction *interaction)
 {
   DEBUG("DeductStamin");
@@ -250,39 +241,23 @@ InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
   float staminaDeduction = static_cast<int>(GetWeaponHeft(character) /
                                             GetStrength(character) +
                                             interaction->staminaRequired);
-/*
-  Stat* stamina = Server::getServer()->getStatManager()->
-    findByName(ptString("Stamina", strlen("Stamina")));
 
-  CharacterStats* stats = character->getStats();
+  currentStamina = character->GetResources()->Get("Stamina");
 
-  if (!stamina || !stats)
-  {
-    printf(IM "Can't get stamina stat\n");
-    return false;
+  printf(IM "Stamina before deduction: %f\n", currentStamina);
+
+  if (currentStamina < staminaDeduction) 
+  { // Not enough stamina
+    return false; 
   }
 
-  currentStamina = stats->getAmount(stamina);
+  character->GetResources()->Sub("Stamina", (int)staminaDeduction);
 
-  printf(IM "Stamina before deduction: %f\n",
-    currentStamina);
-
-  if (currentStamina < staminaDeduction) {
-    // Not enough stamina
-    return false;
-  }
-
-  stats->takeStat(stamina, static_cast<int>(staminaDeduction));
-
-  SendStatUpdate(stamina, stats, character, "Stamina",
-    InteractionManagerSendTo::CHARACTER);
-*/
   return true;
 }
 
-unsigned int
-InteractionManager::GetAttackChance(boost::shared_ptr<Character> attacker,
-                                     boost::shared_ptr<Character> target)
+unsigned int InteractionManager::GetAttackChance(boost::shared_ptr<Character> attacker,
+                                                  boost::shared_ptr<Character> target)
 {
   DEBUG("GetAttackChance");
   return GetAgility(attacker) * GetSkillBonus(attacker) -
@@ -291,8 +266,7 @@ InteractionManager::GetAttackChance(boost::shared_ptr<Character> attacker,
       GetDodge(target)), GetParry(target));
 }
 
-int
-InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
+int InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
                                          boost::shared_ptr<Character> target)
 {
   DEBUG("CalculateDamage");
@@ -326,18 +300,19 @@ InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
   return damage;
 }
 
-bool
-InteractionManager::PerformInteraction(Interaction* interaction)
+bool InteractionManager::PerformInteraction(Interaction* interaction)
 {
   DEBUG("PerformInteraction");
-  if (!interaction) {
+  if (!interaction) 
+  {
     printf(IM "BUG this should not have happened, interaction  == NULL\n");
     return false;
   }
 
   printf("\nPerforming interaction with ID: %d\n", interaction->interactionID);
 
-  switch(interaction->interactionID) {
+  switch(interaction->interactionID) 
+  {
     case InteractionID::NORMAL_ATTACK:
       NormalAttack(interaction);
       break;
@@ -347,9 +322,8 @@ InteractionManager::PerformInteraction(Interaction* interaction)
   return true;
 }
 
-bool
-InteractionManager::TargetAttackable(boost::shared_ptr<Character> attacker,
-                                     boost::shared_ptr<Character> target)
+bool InteractionManager::TargetAttackable(boost::shared_ptr<Character> attacker,
+                                          boost::shared_ptr<Character> target)
 {
   DEBUG("TargetAttackable");
   float maxAttackDistance = 0;
@@ -560,34 +534,3 @@ unsigned int InteractionManager::RollDice()
 {
   return rand() % 101;
 }
-
-/*
-void
-InteractionManager::SendStatUpdate(const Stat* stat,
-                                   const CharacterStats* stats,
-                                   boost::shared_ptr<Character> character,
-                                   const char* name,
-                                   int target)
-{
-  DEBUG("SendStatUpdate");
-  StatsChangeMessage msg;
-  ByteStream statsbs;
-  msg.setStatId(stat->GetId());
-  msg.setEntityId(character->GetId());
-  msg.setName(ptString(name, strlen(name)));
-  msg.setLevel(stats->getAmount(stat));
-  msg.serialise(&statsbs);
-  if (target == InteractionManagerSendTo::BROADCAST)
-  {
-    NetworkHelper::broadcast(statsbs);
-  }
-  else if (target == InteractionManagerSendTo::LOCALCAST)
-  {
-    NetworkHelper::localcast(statsbs, character);
-  }
-  else if (target == InteractionManagerSendTo::CHARACTER)
-  {
-    NetworkHelper::sendMessage(character, statsbs);
-  }
-}
-*/
