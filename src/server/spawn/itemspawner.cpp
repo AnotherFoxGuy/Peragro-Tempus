@@ -38,20 +38,17 @@ ItemSpawner::ItemSpawner() : timeCounter(0)
 
 ItemSpawner::~ItemSpawner() 
 {
-   printf("ItemSpawner Shutdown initialised!\n");
-  //mutex.lock();
+  mutex.lock();
   std::vector<boost::shared_ptr<SpawnPoint> >::const_iterator it;
   for (it = spawnpoints.begin(); it != spawnpoints.end(); it++)
   {
     boost::shared_ptr<ItemEntity> i = (*it)->itemEntity.lock();
-    if (i)
+    if (i && i->GetInWorld())
     {
       i->DeleteFromDB();
-      printf("DeleteFromDB!\n");
     }
   }
-  printf("ItemSpawner Shutdown initialised11!\n");
-  //mutex.unlock();
+  mutex.unlock();
 }
 
 void ItemSpawner::timeOut()
