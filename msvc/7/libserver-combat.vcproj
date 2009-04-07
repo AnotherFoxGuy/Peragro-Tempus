@@ -300,6 +300,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\combat\abilityhelper.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\combat\interaction.cpp">
 			</File>
 			<File
@@ -309,18 +312,24 @@
 				RelativePath="..\..\src\server\combat\interactionqueue.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\combat\interactionutility.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\combat\progressionmanager.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\combat\skillhelper.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\combat\skillmanager.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\weaponhelper.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\server\combat\abilityhelper.h">
+			</File>
 			<File
 				RelativePath="..\..\src\server\combat\interaction.h">
 			</File>
@@ -331,13 +340,16 @@
 				RelativePath="..\..\src\server\combat\interactionqueue.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\combat\interactionutility.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\combat\progressionmanager.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\combat\skillhelper.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\combat\skillmanager.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\combat\weaponhelper.h">
 			</File>
 		</Filter>
 	</Files>
