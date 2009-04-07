@@ -77,7 +77,6 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
     }
     if (timeCounter - sp->pickTime > sp->spawnInterval)
     {
-      /*
       boost::shared_ptr<ItemEntity> item;
       try
       {
@@ -97,7 +96,6 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
       Server::getServer()->getEntityManager()->Add(item);
       sp->itemEntity = item;
       sp->pickTime = 0;
-      */
     }
   }
 }
