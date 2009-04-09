@@ -53,7 +53,7 @@ public:
   void SetPosition(const Point<dim>& v)
   {
     pos = v;
-    WFMath::AxisBox<dim> t(GetShape());
+    WFMath::AxisBox<dim> t(this->GetShape());
     t += pos;
     SetShape(t);
   }
@@ -98,7 +98,7 @@ void test_tree(T& t, bool allowOverlap)
 
   {
     // Add objects.
-    std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
+    typename std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
     for (it = objects.begin(); it != objects.end(); it++)
     {
       assert(t.Add(*it));
@@ -115,7 +115,7 @@ void test_tree(T& t, bool allowOverlap)
       boost::shared_ptr<Object<dim> > o(new Object<dim>(b));
       overlappingObjects.push_back(o);
     }
-    std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
+    typename std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
     for (it = overlappingObjects.begin(); it != overlappingObjects.end(); it++)
     {
       if (allowOverlap) assert(t.Add(*it));
@@ -132,10 +132,12 @@ void test_tree(T& t, bool allowOverlap)
   CoordType radius( sqrt(SquaredDistance(Point<dim>(0), furthest)) );
   std::cout << "The distance used to query: " << radius << std::endl;
 
+  Ball<dim> ball(Point<dim>(0), radius);
+
   {
     // Normal Query.
-    T::QueryResult result;
-    result = t.Query(Ball<dim>(Point<dim>(0), radius));
+    typename T::QueryResult result;
+    result = t.Query(ball);
     std::cout << "Normal query: Found " << result.size() 
                           << " out of " << t.Size() << "." << std::endl;
     assert(result.size() == t.Size());
@@ -144,7 +146,7 @@ void test_tree(T& t, bool allowOverlap)
   {
     // Type Query.
     std::list<boost::shared_ptr<Object<dim> > > result;
-    result = t.Query<Object<dim> >(Ball<dim>(Point<dim>(0), radius));
+    result = t.template Query<Object<dim> >(ball);
     std::cout << "Type query: Found " << result.size() 
                         << " out of " << t.Size() << "." << std::endl;
     assert(result.size() == t.Size());
@@ -152,7 +154,7 @@ void test_tree(T& t, bool allowOverlap)
 
   // Move objects
   {
-    std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
+    typename std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
     for (size_t i = 0; i < NR; i++)
     {
       for (it = objects.begin(); it != objects.end(); it++)
@@ -167,7 +169,7 @@ void test_tree(T& t, bool allowOverlap)
 
   {
     // Remove objects.
-    std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
+    typename std::list<boost::shared_ptr<Object<dim> > >::const_iterator it;
     for (it = objects.begin(); it != objects.end(); it++)
     {
       assert(t.Remove(*it));
