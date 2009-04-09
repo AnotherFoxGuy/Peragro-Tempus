@@ -80,8 +80,11 @@ public:
   /// Destructor.
   ~CacheEntry();
 
-  /// The file name.
+  /// The full file name including path.
   std::string fileName;
+
+  /// Just the path to the file.
+  std::string path;
 
   /// Returns true if finished loading, false otherwise.
   bool IsFinished() const;

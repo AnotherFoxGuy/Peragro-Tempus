@@ -72,7 +72,7 @@ CacheEntry::CacheEntry(const std::string& fileName, iObjectRegistry* object_reg)
 
   // Seperate the path of the filename.
   size_t p = fileName.find_last_of("/");
-  const std::string path(fileName.substr(0,p+1));
+  this->path = fileName.substr(0,p+1);
 
   threadReturn = loader->LoadLibraryFile(path.c_str(), fileName.c_str(), collection);
 } // end CacheEntry()
