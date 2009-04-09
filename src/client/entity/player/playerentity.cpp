@@ -21,6 +21,7 @@
 #include <iengine/engine.h>
 #include <iengine/sector.h>
 #include <iengine/camera.h>
+#include <ivideo/graph2d.h>
 #include <iutil/plugin.h>
 
 #include <physicallayer/pl.h>
@@ -60,6 +61,9 @@ namespace PT
     {
       type = Common::Entity::PlayerEntityType;
 
+      iObjectRegistry* object_reg =
+        PointerLibrary::getInstance()->getObjectRegistry();
+
       pl->CreatePropertyClass(celEntity, "pccamera.old");
       camera = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcDefaultCamera);
       if (camera.IsValid())
@@ -69,12 +73,18 @@ namespace PT
         camera->SetAutoDraw(false);
         camera->SetMode(iPcDefaultCamera::thirdperson, true);
         camera->SetPitch(-0.18f);
+
+        csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (object_reg);
+        if (g3d)
+        {
+          iGraphics2D* g2d = g3d->GetDriver2D();
+          camera->GetCamera()->SetViewportSize(g2d->GetWidth(), g2d->GetHeight());
+        }
       }
       else
         Report(PT::Error, "Failed to get PcDefaultCamera for %s!(%d)", name.c_str(), id);
 
-      iObjectRegistry* object_reg =
-        PointerLibrary::getInstance()->getObjectRegistry();
+
 
       PT::Component::ComponentManager* componentManager =
         PointerLibrary::getInstance()->getComponentManager();
