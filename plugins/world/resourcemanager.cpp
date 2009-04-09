@@ -271,12 +271,13 @@ WFMath::RotMatrix<3> GetRotation(iDocumentNode* node)
   if (!matrix) return rot;
 
   WFMath::Vector<3> vec(0);
+
   csRef<iDocumentNode> x = matrix->GetNode ("rotx");
-  if (x!=NULL) vec[0] = x->GetContentsValueAsFloat();
+  if (x) vec[0] = x->GetContentsValueAsFloat();
   csRef<iDocumentNode> y = matrix->GetNode ("roty");
-  if (y!=NULL) vec[1] = y->GetContentsValueAsFloat();
+  if (y) vec[1] = y->GetContentsValueAsFloat();
   csRef<iDocumentNode> z = matrix->GetNode ("rotz");
-  if (z!=NULL) vec[2] = z->GetContentsValueAsFloat();
+  if (z) vec[2] = z->GetContentsValueAsFloat();
 
   rot = rot.rotation(vec);
 
