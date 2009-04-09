@@ -23,7 +23,7 @@
 #define DEBUG
 #endif
 
-#include "src/sommon/inventory.h"
+#include "common/inventory/inventory.h"
 
 using namespace Common::Inventory;
 

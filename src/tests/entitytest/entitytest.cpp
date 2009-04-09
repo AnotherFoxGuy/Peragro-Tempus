@@ -23,7 +23,10 @@
 #define DEBUG
 #endif
 
-#include "src/sommon/entitymanager.h"
+#include <string>
+#include <iostream>
+
+#include "common/entity/entitymanager.h"
 
 using namespace Common::Entity;
 
