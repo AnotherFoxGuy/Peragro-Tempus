@@ -30,12 +30,12 @@ namespace WFMath
 {
   /**
    * An quadtree class.
-   * AllowCollission is wether to allow intersection when adding to the tree.
+   * AllowOverlap is wether to allow intersection when adding to the tree.
    **/
-  template<typename G, bool AllowCollission>
+  template<typename G, bool AllowOverlap>
   struct QuadTree
   {
-    typedef Tree<G, 2, 2, 4, AllowCollission> Type;
+    typedef Tree<G, 2, 2, 4, AllowOverlap> Type;
   };
 
 } // namespace WFMath

@@ -30,12 +30,12 @@ namespace WFMath
 {
   /**
    * An octree class.
-   * AllowCollission is wether to allow intersection when adding to the tree.
+   * AllowOverlap is wether to allow intersection when adding to the tree.
    **/
-  template<typename G, bool AllowCollission>
+  template<typename G, bool AllowOverlap>
   struct OcTree
   {
-    typedef Tree<G, 3, 2, 8, AllowCollission> Type;
+    typedef Tree<G, 3, 2, 8, AllowOverlap> Type;
   };
 
 } // namespace WFMath
