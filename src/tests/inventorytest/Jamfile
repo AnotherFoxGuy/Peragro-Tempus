@@ -1,0 +1,8 @@
+SubDir TOP src tests inventorytest ;
+
+Description inventorytest : "Inventory Test" ;
+Application inventorytest : [ Wildcard *.h *.cpp ] : console ;
+LinkWith inventorytest : inventory ;
+
+ExternalLibs inventorytest : CRYSTAL ;
+

@@ -4,3 +4,4 @@ SubInclude TOP src tests colldettest ;
 SubInclude TOP src tests eventstest ;
 SubInclude TOP src tests compilertest ;
 SubInclude TOP src tests entitytest ;
+SubInclude TOP src tests inventorytest ;
