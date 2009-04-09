@@ -79,7 +79,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libdatabase", "libdatabase.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-serversetup", "libclient-serversetup.vcproj", "{201A43AC-5DD4-7943-5969-7379D030EA98}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}" 
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plgcomponent_viewbob.vcproj", "{1EED6EED-AFE2-424B-386C-37378CECF6BF}" 
+	ProjectSection(ProjectDependencies) = postProject
+		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
+		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
+		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcmdgroup", "plgcmdgroup.vcproj", "{947FC274-4AF7-4EE1-E3B4-60ABB28E1497}" 
 	ProjectSection(ProjectDependencies) = postProject
@@ -150,12 +155,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libworld", "libworld.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbulletmath", "libbulletmath.vcproj", "{7D6E339F-9C2C-31DA-FDB0-5EE50973CF2A}" 
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plgcomponent_viewbob", "plgcomponent_viewbob.vcproj", "{1EED6EED-AFE2-424B-386C-37378CECF6BF}" 
-	ProjectSection(ProjectDependencies) = postProject
-		{B993A6F5-E010-8165-6D43-292D91AE7634} = {B993A6F5-E010-8165-6D43-292D91AE7634}
-		{CF3AAB33-A89F-E6BC-395D-5AC5C6396E12} = {CF3AAB33-A89F-E6BC-395D-5AC5C6396E12}
-		{F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6} = {F429C19B-AFAC-44A0-D816-C8BB6DCE1BA6}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libudp-network", "libudp-network.vcproj", "{01373DD0-AA91-AD26-E258-03C3692713F9}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-chatmanager", "libclient-chatmanager.vcproj", "{C007A05D-5A86-5DDF-1151-4D6C236BBF8F}" 
 EndProject
@@ -246,6 +246,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-entitybase", "libclient-entitybase.vcproj", "{F78845ED-4592-F19B-E292-0919E5F6A5E2}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apppolygon_test", "apppolygon_test.vcproj", "{2F1A7050-BBC4-9D10-5189-3439B3F11108}" 
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "apptree_test", "apptree_test.vcproj", "{F3BD380E-BB1E-E473-C895-1CDECA63C733}" 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libclient-statemanager", "libclient-statemanager.vcproj", "{461015F5-EAE8-E6F0-C08F-6A74BA95F6C6}" 
 EndProject
@@ -367,6 +369,7 @@ Global
 		{5B7D9DF5-2B19-D6AB-7F46-3B98902541DF}.0 = {3EF9A570-0820-D1BC-F902-95454796C6F6}
 		{842318F7-CF65-77A8-5861-B34D76398254}.0 = {3EF9A570-0820-D1BC-F902-95454796C6F6}
 		{5852499D-38B3-6F7F-64EF-73B05C4FF523}.0 = {3EF9A570-0820-D1BC-F902-95454796C6F6}
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.0 = {3EF9A570-0820-D1BC-F902-95454796C6F6}
 		{CDCA0AD8-0E7F-738F-A998-7FC7369B996B}.0 = {3EF9A570-0820-D1BC-F902-95454796C6F6}
 		{ABA7F684-5B9E-B83A-8662-7C2B18E2D61C}.0 = {98F814EC-CCF7-3461-8E89-1A9A93FCAAD5}
 		{ABA7F684-5B9E-B83A-8662-7C2B18E2D61C}.1 = {F5342C71-4E6F-72A9-E16A-9669A5A62054}
@@ -731,6 +734,22 @@ Global
 		{5852499D-38B3-6F7F-64EF-73B05C4FF523}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
     		{5852499D-38B3-6F7F-64EF-73B05C4FF523}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|x64
 		{5852499D-38B3-6F7F-64EF-73B05C4FF523}.Debug (with DLLs).Build.0 = Debug (with DLLs)|x64
+            		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with static libs).Build.0 = Release (with static libs)|Win32
+    		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with static libs).ActiveCfg = Release (with static libs)|x64
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with static libs).Build.0 = Release (with static libs)|x64
+          		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with DLLs).ActiveCfg = Release (with DLLs)|Win32
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with DLLs).Build.0 = Release (with DLLs)|Win32
+    		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with DLLs).ActiveCfg = Release (with DLLs)|x64
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Release (with DLLs).Build.0 = Release (with DLLs)|x64
+            		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with static libs).ActiveCfg = Debug (with static libs)|Win32
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with static libs).Build.0 = Debug (with static libs)|Win32
+    		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with static libs).ActiveCfg = Debug (with static libs)|x64
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with static libs).Build.0 = Debug (with static libs)|x64
+          		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|Win32
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with DLLs).Build.0 = Debug (with DLLs)|Win32
+    		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with DLLs).ActiveCfg = Debug (with DLLs)|x64
+		{F3BD380E-BB1E-E473-C895-1CDECA63C733}.Debug (with DLLs).Build.0 = Debug (with DLLs)|x64
             		{CDCA0AD8-0E7F-738F-A998-7FC7369B996B}.Release (with static libs).ActiveCfg = Release (with static libs)|Win32
 		{CDCA0AD8-0E7F-738F-A998-7FC7369B996B}.Release (with static libs).Build.0 = Release (with static libs)|Win32
     		{CDCA0AD8-0E7F-738F-A998-7FC7369B996B}.Release (with static libs).ActiveCfg = Release (with static libs)|x64
