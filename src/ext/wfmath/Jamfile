@@ -53,3 +53,8 @@ Description vector_test : "vector Test" ;
 Application vector_test : vector_test.cpp : console ;
 LinkWith vector_test : wfmath ;
 MsvcCFlags vector_test : /wd4396 ;
+
+Description tree_test : "tree Test" ;
+Application tree_test : tree_test.cpp : console ;
+LinkWith tree_test : wfmath ;
+MsvcCFlags tree_test : /wd4396 ;

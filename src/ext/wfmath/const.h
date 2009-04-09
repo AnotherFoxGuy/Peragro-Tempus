@@ -36,7 +36,12 @@
   #elif _MSC_VER > 1310 // MSVC >= 8
     #pragma warning (disable: 4661)
     #pragma warning (disable: 4667)
-    #pragma warning (disable: 4244) // conversion from 'double' to 'WFMath::CoordType', possible loss of data
+    #pragma warning (disable: 4244) // "conversion from 'double' to 'WFMath::CoordType', possible loss of data"
+    #if _MSC_VER == 1500 // MSVC == 9
+      //"the inline specifier cannot be used when a friend declaration 
+      //refers to a specialization of a function template"
+      #pragma warning (disable: 4396) 
+    #endif
   #else // MSVC 7 and 7.1
     // The name of this one is somewhat misleading. The problem is,
     // while you can _define_ specializations of template functions,
@@ -45,6 +50,8 @@
     // This one means exactly what it says
     #define WFMATH_NO_TEMPLATES_AS_TEMPLATE_PARAMETERS 1
   #endif
+
+
 #endif
 
 /// Generic library namespace

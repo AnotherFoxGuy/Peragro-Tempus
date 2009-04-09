@@ -56,15 +56,15 @@ namespace WFMath
   protected:
     void NotifyDestroyed()
     {
-      std::list<Listener*>::iterator iter;
+      std::list<Listener*>::const_iterator iter;
       for( iter = listeners.begin(); iter != listeners.end(); iter++ )
         (*iter)->Destroyed(this);
     }
 
     void NotifyMoved()
     {
-      std::list<Listener*>::iterator iter;
-      for( iter = listeners.begin(); iter != listeners.end(); iter++ )
+      std::list<Listener*>::const_iterator iter;
+      for( iter = listeners.begin(); iter != listeners.end(); ++iter )
         (*iter)->Moved(this);
     }
 
@@ -107,7 +107,7 @@ namespace WFMath
   /**
    * Tree class.
    */
-  template<typename G, const int Dim, unsigned short MAXSHAPES, unsigned short CHILDREN, bool ALLOWCOLLISSION>
+  template<typename G, const int Dim, unsigned short MAXSHAPES, unsigned short CHILDREN, bool ALLOWOVERLAP>
   class Tree
   {
   public:
@@ -146,7 +146,7 @@ namespace WFMath
         iShape* s;
       public:
         Equal(iShape* shape) : s(shape) {}
-        bool operator() (const boost::weak_ptr<iShape>& v) { return s == v.lock().get(); }
+        bool operator() (const boost::weak_ptr<iShape>& v) { return !v.lock() || s == v.lock().get(); }
       };
 
     private:
@@ -180,13 +180,18 @@ namespace WFMath
       /** Destructor. */
       ~Node()
       {
+        ConstIterator it;
+        for (it = shapes.begin() ; it != shapes.end(); it++ )
+          if ((*it).lock())
+            (*it).lock()->RemoveListener(this);
+
         for (size_t i = 0; i < children.size(); ++i)
           delete children[i];
       }
 
       bool Add(boost::shared_ptr<iShape> shape)
       {
-        if (!ALLOWCOLLISSION)
+        if (!ALLOWOVERLAP)
         {
           ConstIterator it;
           for (it = shapes.begin() ; it != shapes.end(); it++ )
