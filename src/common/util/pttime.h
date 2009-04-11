@@ -26,7 +26,7 @@
 
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
-#include <time.h>
+#include <windows.h>
 #else // not WIN32
 #include <sys/time.h>
 #endif // WIN32

@@ -19,6 +19,7 @@
 #ifndef SLEEP_H
 #define SLEEP_H
 
+#include <boost/thread/thread.hpp>
 #include <boost/thread/xtime.hpp>
 
 inline void pt_sleep(size_t ms)
