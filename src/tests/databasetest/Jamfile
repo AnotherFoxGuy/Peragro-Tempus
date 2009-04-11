@@ -1,0 +1,6 @@
+SubDir TOP src tests databasetest ;
+
+Description databasetest : "Database Test" ;
+Application databasetest : [ Wildcard *.h *.cpp ] : console ;
+LinkWith databasetest : database ;
+
