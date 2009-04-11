@@ -108,6 +108,9 @@ App::~App()
   db->shutdown();
   printf("done\n");
 
+  // This has to be delete before the timerEngine!
+  delete resourcesFactory;
+
   delete db;
   delete tablemgr;
   delete ent_mgr;
@@ -115,8 +118,6 @@ App::~App()
   delete timerEngine;
   delete network;
   delete server;
-
-  delete resourcesFactory;
 
   StringStore::destroy();
 
