@@ -61,36 +61,34 @@ extern "C" void __cxa_pure_virtual()
 InteractionManager::InteractionManager()
 {
   interactionQueue = new InteractionQueue();
-  begin();
+  Begin();
 }
 
 InteractionManager::~InteractionManager()
 {
-  kill();
+  Kill();
   delete interactionQueue;
 }
 
 void InteractionManager::shutdown()
 {
-  kill();
+  Kill();
 }
 
 void InteractionManager::Run()
 {
-  while(true) 
+  Interaction *interaction = 0;
+  // caller must free allocation
+  interaction = interactionQueue->GetInteraction();
+  while (!interaction && isRunning) 
   {
-    Interaction *interaction = 0;
-    // caller must free allocation
+    // No character have any outstanding interactions.
+    pt_sleep(SLEEP);
     interaction = interactionQueue->GetInteraction();
-    while (!interaction) 
-    {
-      // No character have any outstanding interactions.
-      pt_sleep(SLEEP);
-      interaction = interactionQueue->GetInteraction();
-    }
-    PerformInteraction(interaction);
-    delete interaction;
   }
+  if (!isRunning) return;
+  PerformInteraction(interaction);
+  delete interaction;
 }
 
 bool InteractionManager::NormalAttack(Interaction *interaction)

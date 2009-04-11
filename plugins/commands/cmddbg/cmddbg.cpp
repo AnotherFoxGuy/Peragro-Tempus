@@ -16,9 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <sstream>
-#include <iomanip>
-
 #include <cssysdef.h>
 #include <iutil/objreg.h>
 #include <iutil/plugin.h>
@@ -37,6 +34,9 @@
 #include <physicallayer/propclas.h>
 #include <physicallayer/entity.h>
 #include <propclass/linmove.h>
+
+#include <sstream>
+#include <iomanip>
 
 #include "include/ipointerplug.h"
 #include "client/pointer/pointer.h"

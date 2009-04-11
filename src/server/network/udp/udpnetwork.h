@@ -48,8 +48,8 @@ public:
 
   void start()
   {
-    receiver.begin();
-    conn_pinger.begin();
+    receiver.Begin();
+    conn_pinger.Begin();
   }
 
   void registerHandler(MessageHandler* msg_h)
@@ -64,10 +64,10 @@ public:
 
   void shutdown()
   {
-    conn_pinger.kill();
-    receiver.end();
+    conn_pinger.Kill();
+    receiver.End();
     socket.kill();
-    receiver.kill();
+    receiver.Kill();
   }
 };
 

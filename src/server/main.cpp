@@ -93,7 +93,7 @@ App::~App()
   printf("Server Shutdown initialised!\n");
 
   printf("- Shutdown Timer Engine:\t");
-  timerEngine->kill();
+  timerEngine->Kill();
   printf("done\n");
 
   printf("- Shutdown Interaction Manager:     \t");
@@ -183,7 +183,7 @@ void App::Run()
   tablemgr->Get<ConfigTable>()->Insert("port", portStr.str());
 
   timerEngine = new TimerEngine();
-  timerEngine->begin();
+  timerEngine->Begin();
   server->setTimerEngine(timerEngine);
 
   interactionMgr = new InteractionManager();

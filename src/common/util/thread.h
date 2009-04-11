@@ -19,96 +19,106 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-#ifdef WIN32
-  #define WIN32_LEAN_AND_MEAN
-  #include "windows.h"
-  #define ThreadHandle HANDLE
-  #define ThreadReturn DWORD WINAPI
-  #define QuitThread(); return 0;
-#else
-  #include <pthread.h>
-#ifndef HAVE_PTHREAD_TIMEDJOIN_NP
-  #include <signal.h>
-  #include <time.h>
-  #include <stdio.h>
-#endif /* HAVE_PTHREAD_TIMEDJOIN_NP */
-  #include "src/common/util/sleep.h"
-  #define ThreadHandle pthread_t
-  #define ThreadReturn void*
-  #define QuitThread(); pthread_exit(NULL);
+#include <boost/thread.hpp>
+#include <boost/lambda/bind.hpp>
+
+#ifdef Yield
+  #undef Yield
 #endif
 
-class Thread
+/**
+ * A OO thread which calls Run() once.
+ */
+class ThreadBase
 {
-private:
-  ThreadHandle threadHandle;
-
-  static ThreadReturn ThreadStart (void *pArg)
-  {
-    Thread* This = (Thread*)pArg;
-    while (This->runThread) This->Run();
-    QuitThread();
-  };
-
 protected:
-  bool runThread;
+  boost::shared_ptr<boost::thread> m_thread_ptr;
+public:
+  ThreadBase() : m_thread_ptr() { }
+  virtual ~ThreadBase() { }
+
   virtual void Run() = 0;
 
-public:
-  Thread()
+  virtual void Begin()
   {
-    runThread = false;
-  }
-
-  virtual ~Thread() {}
-
-  void begin()
-  {
-    runThread = true;
-#ifdef WIN32
-    threadHandle = CreateThread(0,0,(LPTHREAD_START_ROUTINE)ThreadStart, this, 0, 0);
-#else
-    pthread_create(&threadHandle, 0, ThreadStart, this);
-#endif
-  }
-
-  void end()
-  {
-    runThread = false;
-  }
-
-  void kill()
-  {
-    runThread = false;
-#ifdef WIN32
-    WaitForSingleObject(threadHandle, 1000);
-#else
-    timespec timeout;
-    timeout.tv_sec = 1;
-    timeout.tv_nsec = 0;
-#ifdef HAVE_PTHREAD_TIMEDJOIN_NP
-    pthread_timedjoin_np(threadHandle, NULL, &timeout);
-#else
-    printf("pthread_timedjoin_np_alt wait: %d\n", (int)threadHandle);
-    ///@todo: I'm not entirely sure if threadHandle is a process id. It it is not then the line below is incorrect.
-    // The assumption that pthread_t == pid_t is a Linux-ism, where threads are actually
-    // processes.  Unfortunately, pthread_t should be treated as an opaque type, and should
-    // not be assumed to be an unsigned long. On FreeBSD, pthread_t is a typedef for
-    // a pointer to struct pthread. struct pthread is a FreeBSD specific data structure.
-    // Therefore, we are using a typecast to unsigned long to make sure the
-    // proper conversion is made and compatible on all linux-based OSes.
-    while(::kill((unsigned long)threadHandle, 0) == -1){
-      pt_sleep(1000);
+    if (!m_thread_ptr)
+    {
+      m_thread_ptr.reset(
+        new boost::thread(
+        boost::lambda::bind(&ThreadBase::Run, this)));
     }
-    printf("pthread_timedjoin_np_alt join: %d\n", (int)threadHandle);
-    pthread_join(threadHandle, NULL);
-#endif /* HAVE_PTHREAD_TIMEDJOIN_NP */
-#endif
+    else
+    {
+      throw std::runtime_error("multiple start");
+    }
   }
 
-  inline bool isRunning()
+  virtual void Kill()
   {
-    return runThread;
+    if (m_thread_ptr)
+    {
+      m_thread_ptr->join();
+    }
+  }
+
+  virtual void Yield()
+  {
+    if (m_thread_ptr)
+    {
+      m_thread_ptr->yield();
+    }
+  }
+};
+
+/**
+ * A OO thread which repeatly calls Run()
+ */
+class Thread : public ThreadBase
+{
+protected:
+  bool isRunning;
+
+  void running()
+  {
+    while (isRunning) this->Run();
+  }
+
+public:
+  Thread() : ThreadBase(), isRunning(false) { }
+  virtual ~Thread() { }
+
+  virtual void Begin()
+  {
+    if (!m_thread_ptr)
+    {
+      m_thread_ptr.reset(
+        new boost::thread(
+        boost::lambda::bind(&Thread::running, this)));
+      isRunning = true;
+    }
+    else
+    {
+      throw std::runtime_error("multiple start");
+    }
+  }
+
+  virtual void Kill()
+  {
+    isRunning = false;
+    if (m_thread_ptr)
+    {
+      m_thread_ptr->join();
+    }
+  }
+
+  void End()
+  {
+    isRunning = false;
+  }
+
+  bool IsRunning()
+  {
+    return isRunning;
   }
 };
 

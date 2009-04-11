@@ -43,7 +43,7 @@ public:
 
   virtual ~Network()
   {
-    if(receiver.isRunning()){receiver.kill();}
+    if(receiver.IsRunning()){receiver.Kill();}
   }
 
   bool init()
@@ -51,7 +51,7 @@ public:
     if (socket.init(serveraddress.port, serveraddress.ip, false))
     {
       receiver.registerHandler(&conn_handler);
-      receiver.begin();
+      receiver.Begin();
       return true;
     }
     return false;
@@ -59,12 +59,12 @@ public:
 
   bool isRunning()
   {
-    return receiver.isRunning();
+    return receiver.IsRunning();
   }
 
   void stop()
   {
-    receiver.end();
+    receiver.End();
     socket.kill();
   }
 
@@ -76,7 +76,7 @@ public:
 
   void send(NetMessage* msg)
   {
-    if (!receiver.isRunning()){return;}
+    if (!receiver.IsRunning()){return;}
     ByteStream bs;
     if (msg->serialise(&bs) == true)
     {

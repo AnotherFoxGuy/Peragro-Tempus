@@ -19,24 +19,19 @@
 #ifndef SLEEP_H
 #define SLEEP_H
 
-#ifdef WIN32
-  #define WIN32_LEAN_AND_MEAN
-  #include <windows.h>
-#else
-  #include <unistd.h>
-  #include <time.h>
-#endif
+#include <boost/thread/xtime.hpp>
 
 inline void pt_sleep(size_t ms)
 {
-  #ifdef WIN32
-    Sleep(DWORD(ms));
-  #else
-    timespec sleeptime;
-    sleeptime.tv_sec = ms/1000;
-    sleeptime.tv_nsec = (ms%1000)*1000000;
-    nanosleep(&sleeptime, 0);
-  #endif
+  boost::xtime::xtime_nsec_t total_ns(ms * 1000000);
+  boost::xtime::xtime_sec_t seconds(total_ns / 1000000000);
+  boost::xtime::xtime_nsec_t remainder_ns(total_ns % 1000000000);
+
+  boost::xtime xt;
+  boost::xtime_get(&xt, boost::TIME_UTC);
+  xt.sec += seconds;
+  xt.nsec += remainder_ns;
+  boost::thread::sleep(xt);
 }
 
 #endif // SLEEP_H

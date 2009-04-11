@@ -24,7 +24,6 @@
 #include "common/entity/entitymanager.h"
 
 #include "entity.h"
-#include "entitycallback.h"
 
 class EntityTable;
 
@@ -33,12 +32,6 @@ typedef boost::shared_ptr<Entity> Entityp;
 class EntityManager : public Common::Entity::EntityManager, WFMath::iShape::Listener
 {
 private:
-  std::list<Common::Entity::EntityCallback*> callback_list;
-
-  Mutex mutex;
-  void lock() { mutex.lock(); }
-  void unlock() { mutex.unlock(); }
-
   virtual void Moved(WFMath::iShape*);
   virtual void Destroyed(WFMath::iShape*) {}
 
@@ -54,9 +47,6 @@ public:
 
   virtual bool Add(Common::Entity::Entityp entity);
   virtual void Remove(const Common::Entity::Entityp entity);
-
-  void AddEntityCallback(Common::Entity::EntityCallback* cb);
-  void RemoveEntityCallback(Common::Entity::EntityCallback* cb);
 };
 
 #endif // ENTITYMANAGER_H

@@ -34,7 +34,6 @@ private:
   ptMonitor<T> ref;
 
   bool isLocked;
-  PT::Thread::ThreadID threadID;
 
 protected:
   ptMonitorable() { ref.set((T*)this); isLocked = false; }
@@ -45,7 +44,6 @@ protected:
     T* const me = (T*) this;
     me->mutex.lock();
     me->isLocked = true;
-    me->threadID = PT::Thread::CurrentThreadID();
     return me;
   }
 
@@ -62,7 +60,6 @@ public:
   const ptMonitor<T>& getRef() const { return ref; }
 
   bool IsLocked() const { return isLocked; }
-  PT::Thread::ThreadID GetThreadID() const { return threadID; }
   void lockUnsafe() { mutex.lock(); }
 };
 

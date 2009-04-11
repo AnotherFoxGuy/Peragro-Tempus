@@ -42,7 +42,7 @@ public:
   {
     for (size_t i = 0; i<workers.size(); i++)
     {
-      workers[i]->begin();
+      workers[i]->Begin();
     }
   }
 
@@ -50,7 +50,7 @@ public:
   {
     for (size_t i = 0; i<workers.size(); i++)
     {
-      workers[i]->kill();
+      workers[i]->Kill();
     }
   }
 };

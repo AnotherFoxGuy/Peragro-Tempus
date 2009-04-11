@@ -46,7 +46,7 @@ public:
 
   void start()
   {
-    receiver.begin();
+    receiver.Begin();
   }
 
   void registerHandler(MessageHandler* msg_h)
@@ -61,9 +61,9 @@ public:
 
   void shutdown()
   {
-    receiver.end();
+    receiver.End();
     socket.kill();
-    receiver.kill();
+    receiver.Kill();
   }
 };
 

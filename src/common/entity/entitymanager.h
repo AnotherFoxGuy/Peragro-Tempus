@@ -21,17 +21,21 @@
 
 #include <string>
 #include <map>
+#include <list>
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include "ext/wfmath/octree.h"
 #include "ext/wfmath/point.h"
 
+#include "common/util/mutex.h"
+
 namespace Common
 {
   namespace Entity
   {
     class Entity;
+    struct EntityCallback;
   } // namespace Entity
 } // namespace Common
 
@@ -44,12 +48,20 @@ namespace Common
     typedef boost::shared_ptr<Entity> Entityp;
     typedef boost::weak_ptr<Entity> WeakEntityp;
 
+    typedef std::map<size_t, Entityp> Entities;
+    typedef std::pair<ptScopedMutexCopyAble, Entities> EntitiesSafe;
+
     class EntityManager
     {
     protected:
-      std::map<size_t, Entityp> entities;
-      typedef std::map<size_t, Entityp>::iterator Iterator;
-      typedef std::map<size_t, Entityp>::const_iterator ConstIterator;
+      Mutex cbMutex;
+      std::list<EntityCallback*> callback_list;
+      
+    protected:
+      Mutex mutex;
+      Entities entities;
+      typedef Entities::iterator Iterator;
+      typedef Entities::const_iterator ConstIterator;
       size_t primaryId; // for example, player ID
 
       Octree octree;
@@ -62,9 +74,15 @@ namespace Common
       virtual void Remove(const Entityp entity);
       virtual void Remove(size_t entityId);
       virtual void RemoveAll() { entities.clear(); }
-      const std::map<size_t, Common::Entity::Entityp>& GetEntities() { return entities; };
 
-      size_t GetCount() { return entities.size(); }
+      /// This isn't threadsafe.
+      const Entities& GetEntities() { return entities; }
+
+      /// This is threadsafe, but do NOT keep a reference!
+      /// It will keep a lock as long as the EntitiesSafe exists.
+      EntitiesSafe GetEntitiesSafe() { return EntitiesSafe(ptScopedMutexCopyAble(mutex), entities); }
+
+      size_t GetCount() { ptScopedMutex p(mutex); return entities.size(); }
       Entityp FindById(size_t id);
 
       Entityp FindByName(const std::string& name);
@@ -76,6 +94,9 @@ namespace Common
       virtual void Reset();
 
       virtual std::list<Entityp> Query(const WFMath::Ball<3>& s);
+
+      virtual void AddEntityCallback(EntityCallback* cb);
+      virtual void RemoveEntityCallback(EntityCallback* cb);
 
       // Helpers
       Entityp Getp(Entity*);

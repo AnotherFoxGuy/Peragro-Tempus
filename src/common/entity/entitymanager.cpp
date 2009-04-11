@@ -19,6 +19,7 @@
 #include "entitymanager.h"
 
 #include "entity.h"
+#include "entitycallback.h"
 
 namespace Common
 {
@@ -35,17 +36,46 @@ namespace Common
 
     bool EntityManager::Add(Entityp entity)
     {
-      // If object is already present return false.
-      if (entities.count(entity->GetId()) > 0)
-        return false;
+      {
+        ptScopedMutex p(mutex);
+        // If object is already present return false.
+        if (entities.count(entity->GetId()) > 0)
+          return false;
+      }
 
       bool succes = octree.Add(entity);
-      if (succes) entities[entity->GetId()] = entity;
+      if (succes) 
+      {
+        {
+          ptScopedMutex p(mutex);
+          entities[entity->GetId()] = entity;
+        }
+
+        {
+          ptScopedMutex p(cbMutex);
+          std::list<Common::Entity::EntityCallback*>::iterator it;
+          for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+          {
+            (*it)->OnEntityAdd(entity);
+          }
+        }
+      }
+
       return succes;
     }
 
     void EntityManager::Remove(const Entityp entity)
     {
+      {
+        ptScopedMutex p(cbMutex);
+        std::list<Common::Entity::EntityCallback*>::iterator it;
+        for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+        {
+          (*it)->OnEntityRemove(entity);
+        }
+      }
+
+      ptScopedMutex p(mutex);
       // TODO: throw when the entity hasn't been found?
       entities.erase(entity->GetId());
       // Entity will automatically be removed from the octree.
@@ -53,13 +83,12 @@ namespace Common
 
     void EntityManager::Remove(size_t entityId)
     {
-      // TODO: throw when the entity hasn't been found?
-      entities.erase(entityId);
-      // Entity will automatically be removed from the octree.
+      Remove(FindById(entityId));
     }
 
     Entityp EntityManager::FindById(size_t id)
     {
+      ptScopedMutex p(mutex);
       Iterator it;
       it = entities.find(id);
       if (it != entities.end())
@@ -70,6 +99,7 @@ namespace Common
 
     Entityp EntityManager::FindByName(const std::string& name)
     {
+      ptScopedMutex p(mutex);
       //TODO
       return Entityp();
     }
@@ -82,7 +112,22 @@ namespace Common
 
     std::list<Entityp> EntityManager::Query(const WFMath::Ball<3>& s)
     {
-      return octree.Query<Entity>(s);
+      ptScopedMutex p(mutex);
+      std::list<Entityp> r = octree.Query<Entity>(s);
+      return r;
+    }
+
+    void EntityManager::AddEntityCallback(Common::Entity::EntityCallback* cb)
+    {
+      ptScopedMutex p(cbMutex);
+      callback_list.remove(cb);
+      callback_list.push_back(cb);
+    }
+
+    void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
+    {
+      ptScopedMutex p(cbMutex);
+      callback_list.remove(cb);
     }
 
     Entityp EntityManager::Getp(Entity* e)

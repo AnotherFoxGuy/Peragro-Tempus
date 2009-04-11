@@ -19,95 +19,24 @@
 #ifndef MUTEX_H
 #define MUTEX_H
 
-#ifdef WIN32
-#  define WIN32_LEAN_AND_MEAN
-#  include "windows.h"
-#else
-#  include <pthread.h>
-#endif
+#include <boost/thread/mutex.hpp>
 
-//============================================================================
-namespace PT
+typedef boost::mutex Mutex;
+
+typedef boost::mutex::scoped_lock ptScopedMutex;
+
+class ptScopedMutexCopyAble : public boost::unique_lock<Mutex>
 {
-  struct Thread
-  {
-#ifdef WIN32
-    typedef DWORD ThreadID;
-    static ThreadID CurrentThreadID() { return GetCurrentThreadId(); }
-#else
-    typedef pthread_t ThreadID;
-    static ThreadID CurrentThreadID() { return pthread_self(); }
-#endif
-  };
-}
-//============================================================================
-
-class Mutex
-{
-private:
-
-#ifdef WIN32
-    CRITICAL_SECTION mutex;
-#else
-    pthread_mutex_t mutex;
-    pthread_mutexattr_t attr;
-#endif
-
 public:
-  Mutex()
+  ptScopedMutexCopyAble(Mutex& m_):
+    boost::unique_lock<Mutex>(m_)
   {
-#ifdef WIN32
-    InitializeCriticalSection(&mutex);
-#else
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&mutex, &attr);
-#endif
   }
 
-  ~Mutex()
+  ptScopedMutexCopyAble(const ptScopedMutexCopyAble& s):
+    boost::unique_lock<Mutex>(Mutex())
   {
-#ifdef WIN32
-    DeleteCriticalSection(&mutex);
-#else
-    pthread_mutex_destroy(&mutex);
-    pthread_mutexattr_destroy(&attr);
-#endif
-  }
-
-  void lock()
-  {
-#ifdef WIN32
-    EnterCriticalSection(&mutex);
-#else
-    pthread_mutex_lock(&mutex);
-#endif
-  }
-
-  void unlock()
-  {
-#ifdef WIN32
-    LeaveCriticalSection(&mutex);
-#else
-    pthread_mutex_unlock(&mutex);
-#endif
-  }
-};
-
-class ptScopedMutex
-{
-private:
-  Mutex& mutex;
-
-public:
-  ptScopedMutex(Mutex& mutex) : mutex(mutex)
-  {
-    mutex.lock();
-  }
-
-  ~ptScopedMutex()
-  {
-    mutex.unlock();
+    swap(*const_cast<ptScopedMutexCopyAble*>(&s));
   }
 };
 

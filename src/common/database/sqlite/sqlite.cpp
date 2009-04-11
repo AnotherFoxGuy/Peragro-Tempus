@@ -34,12 +34,12 @@ dbSQLite::dbSQLite(const char* database) : Database()
     printf("Can't open database: %s\n", sqlite3_errmsg(db));
   }
 
-  begin();
+  Begin();
 }
 
 dbSQLite::~dbSQLite()
 {
-  kill();
+  Kill();
   sqlite3_close(db);
 }
 
@@ -90,7 +90,7 @@ void dbSQLite::shutdown()
   while (updates.size())
     update();
 
-  kill();
+  Kill();
 }
 
 void dbSQLite::Run()

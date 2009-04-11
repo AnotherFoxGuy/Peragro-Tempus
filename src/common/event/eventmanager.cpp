@@ -94,10 +94,10 @@ namespace PT
     {
       ///@TODO: Don't make everything broadcast, requires all handlers
       /// to return correct values.
-      if (!fromNetwork)
+      //if (!fromNetwork)
         return eventQueue->CreateBroadcastEvent(eventId);
-      else
-        return csPtr<iEvent>(new csEvent(0, eventId, true));
+      //else
+        //return csPtr<iEvent>(new csEvent(0, eventId, true));
     }
 
     void EventManager::AddEvent(iEvent* ev)

@@ -18,6 +18,8 @@
 
 #include "entitymanager.h"
 
+#include "common/entity/entitycallback.h"
+
 #include "common/database/database.h"
 #include "server/database/tablemanager.h"
 #include "server/database/table-entities.h"
@@ -41,6 +43,11 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
+  ConstIterator it = entities.begin();
+  for ( ; it != entities.end(); it++)
+  {
+    if (it->second) it->second->RemoveListener(this);
+  }
 }
 
 void EntityManager::LoadFromDB(EntityTable* table)
@@ -94,9 +101,7 @@ Entityp EntityManager::CreateNew(Common::Entity::EntityType type, size_t id)
 
 bool EntityManager::Add(Common::Entity::Entityp entity)
 {
-  lock();
   bool success = Common::Entity::EntityManager::Add(entity);
-  unlock();
 
   if (success)
   {
@@ -117,12 +122,6 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
     }
     
     NetworkAddEntity(entity);
-
-    std::list<Common::Entity::EntityCallback*>::iterator it;
-    for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
-    {
-      (*it)->OnEntityAdd(entity);
-    }
   }
 
   return success;
@@ -132,33 +131,10 @@ void EntityManager::Remove(const Common::Entity::Entityp entity)
 {
   if (!entity) return;
 
-  std::list<Common::Entity::EntityCallback*>::iterator it;
-  for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
-  {
-    (*it)->OnEntityRemove(entity);
-  }
-
   // Stop listening for movement.
   entity->RemoveListener(this);
 
-  lock();
   Common::Entity::EntityManager::Remove(entity);
-  unlock();
-}
-
-void EntityManager::AddEntityCallback(Common::Entity::EntityCallback* cb)
-{
-  lock();
-  callback_list.remove(cb);
-  callback_list.push_back(cb);
-  unlock();
-}
-
-void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
-{
-  lock();
-  callback_list.remove(cb);
-  unlock();
 }
 
 void EntityManager::NetworkAddEntity(const Common::Entity::Entityp entity)
@@ -204,10 +180,13 @@ void EntityManager::Moved(WFMath::iShape* shape)
   if (ent) return;
 
   Common::Entity::Entityp entity(ent, DontDelete); //TODO: hack :/
-  std::list<Common::Entity::EntityCallback*>::iterator mit;
-  for ( mit=callback_list.begin() ; mit != callback_list.end(); mit++ )
   {
-    (*mit)->OnEntityMove(entity);
+    ptScopedMutex p(cbMutex);
+    std::list<Common::Entity::EntityCallback*>::iterator mit;
+    for ( mit=callback_list.begin() ; mit != callback_list.end(); mit++ )
+    {
+      (*mit)->OnEntityMove(entity);
+    }
   }
 
   using namespace Common::Entity;

@@ -22,7 +22,7 @@
 #include "chatgroupset.h"
 #include "charchats.h"
 
-#include "server/entity/entitycallback.h"
+#include "common/entity/entitycallback.h"
 
 class ChatManager : public ChatGroupSet, public Common::Entity::EntityCallback
 {
