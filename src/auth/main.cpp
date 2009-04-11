@@ -25,44 +25,69 @@
 
 #include "common/util/sleep.h"
 #include "common/util/wincrashdump.h"
+#include "common/util/consoleapp.h"
 
 #include "common/events/engine.h"
 
-#include <signal.h>
-
-int running = 2;
-
-void shutdown()
+class App : public Application
 {
-  if (running < 2) return;
-  running = 1;
+private:
+  Database* db;
+  Tables* tables;
+  Network* network;
 
+  int argc;
+  char** argv;
+
+public:
+  App();
+  virtual ~App();
+
+  virtual int Initialize(int argc, char* argv[]);
+  virtual void Run();
+};
+
+App::App()
+{
+}
+
+App::~App()
+{
   printf("Server Shutdown initialised!\n");
 
   printf("- Shutdown Network:     \t");
-  //Server::getServer()->getNetwork()->shutdown();
+  network->shutdown();
   printf("done\n");
 
-  running = 0;
+  printf("- Shutdown Database:     \t");
+  db->shutdown();
+  printf("done\n");
+
+  delete db;
+  delete tables;
+  delete network;
+
+  StringStore::destroy();
+
+  printf("Time to quit now!\n");
 }
 
-void sigfunc(int sig)
+int App::Initialize(int argc, char* argv[])
 {
-   if (sig == SIGINT)
-   {
-     shutdown();
-   }
-}
-
-int main(int argc, char ** argv)
-{
-  signal(SIGINT, sigfunc);
+  App::argc = argc;
+  App::argv = argv;
 
   setWinCrashDump(argv[0]);
 
-  Tables tables;
-  dbSQLite db("auth_db.sqlite");
-  tables.init(&db);
+  return 0;
+}
+
+
+void App::Run()
+{
+  tables = new Tables();
+  db = new dbSQLite("auth_db.sqlite");
+  tables->init(db);
 
   EventEngine eng;
 
@@ -78,18 +103,18 @@ int main(int argc, char ** argv)
   unsigned int port = 12345;
 
   // Finally initialising the network!
-  Network network;
-  network.init(port);
+  network = new Network();
+  network->init(port);
 
   printf("Server up and running!\n");
 
   size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
   size_t delay_time = 10000; //10 sec = 10000 ms
 
-  while (running > 0)
+  while (IsRunning())
   {
     pt_sleep(delay_time);
-    network.getStats(sentbyte, recvbyte, timestamp);
+    network->getStats(sentbyte, recvbyte, timestamp);
     float uptraffic = sentbyte/(float)delay_time;
     float downtraffic = recvbyte/(float)delay_time;
     if (uptraffic > 0.001 || downtraffic > 0.001)
@@ -97,12 +122,9 @@ int main(int argc, char ** argv)
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);
     }
   }
+}
 
-  //cd.kill();
-
-  StringStore::destroy();
-
-  printf("Time to quit now!\n");
-
-  return 0;
+int main(int argc, char ** argv)
+{
+  return ApplicationRunner<App>::Run(argc, argv);
 }
