@@ -400,9 +400,6 @@
 				RelativePath="..\..\src\server\entity\entity.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\entity\entitycallback.h">
-			</File>
-			<File
 				RelativePath="..\..\src\server\entity\entitymanager.h">
 			</File>
 			<File
