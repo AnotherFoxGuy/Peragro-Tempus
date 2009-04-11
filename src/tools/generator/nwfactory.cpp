@@ -126,6 +126,18 @@ void nwFactory::createMessageParameter(const char* msgName, const char* paramNam
   {
     param->type = nwParamType::UINT32;
   }
+  else if (!strncmp(type, "int8", 4))
+  {
+    param->type = nwParamType::INT8;
+  }
+  else if (!strncmp(type, "int16", 5))
+  {
+    param->type = nwParamType::INT16;
+  }
+  else if (!strncmp(type, "int32", 5))
+  {
+    param->type = nwParamType::INT32;
+  }
   else if (!strncmp(type, "float", 6))
   {
     param->type = nwParamType::FLOAT;
@@ -179,6 +191,18 @@ void nwFactory::createListParameter(const char* msgName, const char* listName, c
   else if (!strncmp(type, "uint32", 6))
   {
     param->type = nwParamType::UINT32;
+  }
+  else if (!strncmp(type, "int8", 5))
+  {
+    param->type = nwParamType::INT8;
+  }
+  else if (!strncmp(type, "int16", 6))
+  {
+    param->type = nwParamType::INT16;
+  }
+  else if (!strncmp(type, "int32", 6))
+  {
+    param->type = nwParamType::INT32;
   }
   else if (!strncmp(type, "float", 6))
   {

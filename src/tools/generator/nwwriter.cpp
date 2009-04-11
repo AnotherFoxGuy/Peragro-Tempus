@@ -142,6 +142,18 @@ void nwWriter::writeParamDeclaration(std::ofstream& out, nwParams* param)
   {
     out <<  "  unsigned int " << toVariable(param->name).c_str() << ";\n";
   }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "  char " << toVariable(param->name).c_str() << ";\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "  short " << toVariable(param->name).c_str() << ";\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "  int " << toVariable(param->name).c_str() << ";\n";
+  }
   else if (param->type == nwParamType::FLOAT)
   {
     out <<  "  float " << toVariable(param->name).c_str() << ";\n";
@@ -194,6 +206,18 @@ void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
     out <<  "  serial.setInt16(" << toVariable(param->name).c_str() << ");\n";
   }
   else if (param->type == nwParamType::UINT32)
+  {
+    out <<  "  serial.setInt32(" << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "  serial.setInt8(" << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "  serial.setInt16(" << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT32)
   {
     out <<  "  serial.setInt32(" << toVariable(param->name).c_str() << ");\n";
   }
@@ -253,6 +277,18 @@ void nwWriter::writeParamDeserialisation(std::ofstream& out, nwParams* param)
   else if (param->type == nwParamType::UINT32)
   {
     out <<  "  " << toVariable(param->name).c_str() << " = (unsigned int) serial.getInt32();\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "  " << toVariable(param->name).c_str() << " = (char) serial.getInt8();\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "  " << toVariable(param->name).c_str() << " = (short) serial.getInt16();\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "  " << toVariable(param->name).c_str() << " = (int) serial.getInt32();\n";
   }
   else if (param->type == nwParamType::FLOAT)
   {
@@ -328,6 +364,27 @@ void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
     out <<  "  unsigned int get" << param->name.c_str() << "() const { return "
         << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(unsigned int x) { "
+        << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "  char get" << param->name.c_str() << "() const { return "
+        << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(char x) { "
+        << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "  short get" << param->name.c_str() << "() const { return "
+        << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(short x) { "
+        << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "  int get" << param->name.c_str() << "() const { return "
+        << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(int x) { "
         << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::FLOAT)
@@ -415,6 +472,18 @@ void nwWriter::writeParamListDefinition(std::ofstream& out, nwParams* param)
   {
     out <<  "    unsigned int " << toVariable(param->name).c_str() << ";\n";
   }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "    char " << toVariable(param->name).c_str() << ";\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "    short " << toVariable(param->name).c_str() << ";\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "    int " << toVariable(param->name).c_str() << ";\n";
+  }
   else if (param->type == nwParamType::FLOAT)
   {
     out <<  "    float " << toVariable(param->name).c_str() << ";\n";
@@ -456,6 +525,18 @@ void nwWriter::writeParamListSerialisation(std::ofstream& out, std::string listn
     out <<  "    serial.setInt16(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ");\n";
   }
   else if (param->type == nwParamType::UINT32)
+  {
+    out <<  "    serial.setInt32(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "    serial.setInt8(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "    serial.setInt16(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ");\n";
+  }
+  else if (param->type == nwParamType::INT32)
   {
     out <<  "    serial.setInt32(" << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << ");\n";
   }
@@ -506,6 +587,18 @@ void nwWriter::writeParamListDeserialisation(std::ofstream& out, std::string lis
   else if (param->type == nwParamType::UINT32)
   {
     out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = (unsigned int) serial.getInt32();\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = (char) serial.getInt8();\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = (short) serial.getInt16();\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "    " << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = (int) serial.getInt32();\n";
   }
   else if (param->type == nwParamType::FLOAT)
   {
@@ -571,6 +664,27 @@ void nwWriter::writeParamListGetterSetter(std::ofstream& out, std::string listna
     out <<  "  unsigned int get" << param->name.c_str() << "(size_t i) { return "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
         <<  "  void set" << param->name.c_str() << "(size_t i, unsigned int x) { "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT8)
+  {
+    out <<  "  char get" << param->name.c_str() << "(size_t i) { return "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, char x) { "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT16)
+  {
+    out <<  "  short get" << param->name.c_str() << "(size_t i) { return "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, short x) { "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
+  }
+  else if (param->type == nwParamType::INT32)
+  {
+    out <<  "  int get" << param->name.c_str() << "(size_t i) { return "
+        << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << "; }\n"
+        <<  "  void set" << param->name.c_str() << "(size_t i, int x) { "
         << toVariable(listname).c_str() << "[i]." << toVariable(param->name).c_str() << " = x; }\n\n";
   }
   else if (param->type == nwParamType::FLOAT)
