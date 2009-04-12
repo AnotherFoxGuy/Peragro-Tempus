@@ -482,7 +482,7 @@ namespace PT
     pointerlib.setEnvironmentManager(environmentManager);
 
     environmentManager->SetMinLight(
-      app_cfg->GetFloat("Peragro.Video.MinLight", min_light));
+      app_cfg->GetFloat("Peragro.Video.MinLight", 0.30 ));
 
     // Register the PointerPlug pseudo-plugin
     csRef<PointerPlug> ptrplug = new PointerPlug(NULL);
