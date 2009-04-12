@@ -32,6 +32,7 @@ namespace Common
 
     EntityManager::~EntityManager()
     {
+      entities.clear();
     }
 
     bool EntityManager::Add(Entityp entity)
