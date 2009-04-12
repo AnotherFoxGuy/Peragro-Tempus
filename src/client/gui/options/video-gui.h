@@ -53,9 +53,6 @@ namespace PT
         bool OnReflectionUpdateIntervalSliderChanged(const CEGUI::EventArgs &e);
         void CreateReflectionUpdateIntervalSlider();
 
-        bool OnMinLightSliderChanged(const CEGUI::EventArgs &e);
-        void CreateMinLightSlider();
-
       public:
         VideoOptionsWindow(GUIManager* guiManager);
         virtual ~VideoOptionsWindow();

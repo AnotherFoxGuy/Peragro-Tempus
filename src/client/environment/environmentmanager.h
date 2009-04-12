@@ -31,6 +31,7 @@
 #include <csgfx/shadervar.h>
 
 #include "common/event/event.h"
+#include "common/event/eventmanager.h"
 
 // Solarsystem plugins.
 #include "imystarbox.h"
@@ -86,6 +87,10 @@ namespace PT
       /// Allows the setting of the base ambient lighting in options.
       float min_light;
 
+      bool UpdateOptions(iEvent& ev);
+      void UpdateOptions();
+      PT_CALLBACK_HANDLER_LISTENERS
+
       struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
       {
         EnvironmentManager* envmgr;
@@ -126,7 +131,6 @@ namespace PT
        * @return Clock*
        */
       const Clock* GetClock() const { return clock; }
-      void SetMinLight(float light) { min_light = light; }
 
     };
   } // Environment namespace

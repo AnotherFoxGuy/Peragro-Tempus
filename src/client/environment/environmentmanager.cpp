@@ -61,10 +61,29 @@ namespace PT
       delete clock;
     }
 
+    bool EnvironmentManager::UpdateOptions(iEvent& ev)
+    {
+      UpdateOptions();
+      return true;
+    } // end UpdateOptions(iEvent& ev)
+
+    void EnvironmentManager::UpdateOptions()
+    {
+      csRef<iConfigManager> app_cfg = csQueryRegistry<iConfigManager>(
+        PointerLibrary::getInstance()->getObjectRegistry());
+
+      min_light = app_cfg->GetFloat("Peragro.Video.MinLight",
+        min_light);
+    } // end UpdateOptions()
+
     bool EnvironmentManager::Initialize()
     {
       clock = new Clock();
       clock->Initialize();
+
+      PT_SETUP_HANDLER
+      PT_REGISTER_LISTENER(EnvironmentManager, UpdateOptions, "interface.options.video")
+      UpdateOptions();
 
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
       engine = csQueryRegistry<iEngine> (object_reg);
