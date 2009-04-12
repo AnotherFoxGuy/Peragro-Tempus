@@ -603,6 +603,9 @@
 				RelativePath="..\..\src\server\entity\character\speciesabilities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\character\speciesvulnerabilities.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\character\tradepeer.cpp">
 			</File>
 			<File
@@ -674,6 +677,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\speciesabilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\character\speciesvulnerabilities.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\character\tradepeer.h">
