@@ -336,7 +336,7 @@ void Resources::SendAll(Connection* conn)
 ResourcesFactory::ResourcesFactory(TableManager* db) : db(db)
 {
   LoadFromDB();
-  this->setInterval(100); // Every second. 100 * 10MS
+  this->setInterval(10); // Every second. 10 * 100MS
   start();
 }
 

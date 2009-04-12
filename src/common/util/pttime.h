@@ -60,8 +60,14 @@ private:
     } _now;
 
     GetSystemTimeAsFileTime(&_now.ft);
-    tv->tv_usec = (long)(_now.ns100 % 1000000UL);
-    tv->tv_sec = (long)(_now.ns100 / 1000000UL);
+
+    // FILETIME contains a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601.
+    // Since posix' gettimeofday starts at January 1, 1970 we have to correct that.
+    _now.ns100 -= 116444736000000000LL;
+
+    // 100 ns = 1 / 10 us = 1 / 10.000 ms = 1 / 10.000.000 s
+    tv->tv_usec = (long)(_now.ns100 % 10000000UL);
+    tv->tv_sec = (long)(_now.ns100 / 10000000UL);
     return 0;
   }
 

@@ -63,6 +63,7 @@ public:
     running = false;
   }
 
+  /// an interval equals 100 ms, therefore an interval of 10 equals 1 second.
   void setInterval(size_t interval)
   {
     duration = interval;
