@@ -708,10 +708,19 @@
 				RelativePath="..\..\src\server\database\table-speciesskills.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-speciesvulnerabilities.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-specieszones.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-users.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vulnerabilities.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vulnerabilitytypes.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zonenodes.cpp">
@@ -850,10 +859,19 @@
 				RelativePath="..\..\src\server\database\table-speciesskills.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-speciesvulnerabilities.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-specieszones.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-users.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vulnerabilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-vulnerabilitytypes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-zonenodes.h">
