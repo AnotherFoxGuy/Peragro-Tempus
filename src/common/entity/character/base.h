@@ -187,7 +187,7 @@ typename Bases<T, startXp>::Base*
 
 template<size_t multiplier, typename T, size_t startXp>
 inline size_t BasesLevel<multiplier, T, startXp>::GetLevel(const std::string& name)
-{ return GetLevel(GetBase(name)->Get()); }
+{ return GetLevel(Bases<T, startXp>::GetBase(name)->Get()); }
 
 template<size_t multiplier, typename T, size_t startXp>
 size_t BasesLevel<multiplier, T, startXp>::GetLevel(T xp) const
