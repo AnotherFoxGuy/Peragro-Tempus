@@ -279,9 +279,11 @@ int InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
 
   if (attackResult <= attackChance)
   {
-    damage = (attackChance - attackResult) *
-      GetWeaponDamage(attacker) +
-      GetStrength(attacker);
+    Types types = GetTypes(attacker);
+    int basedam = ( (attackChance - attackResult) * GetDamage(attacker) ) / GetTotal(types);
+    Types::const_iterator it;
+    for (it = types.begin(); it != types.end(); it++)
+      damage += basedam * it->second * GetVulnerability(target, it->first);
   }
 
   // If attackResult was 10% or less of attackChance, critcal hit.
@@ -295,10 +297,17 @@ int InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
   printf("Damage:%d\n", damage);
   printf("attackChance is set to:%d\n", attackChance);
   printf("attackResult is set to:%d\n", attackResult);
-  printf("weapondamage is set to:%d\n", GetWeaponDamage(attacker));
+  printf("weapondamage is set to:%d\n", GetDamage(attacker));
   printf("strength is set to:%d\n", GetStrength(attacker));
 
   return damage;
+}
+
+unsigned int InteractionManager::GetVulnerability(boost::shared_ptr<Character> character, const std::string& name)
+{
+  //If you wanted to add bonus/buffs values
+  //this would be the place to do it.
+  return (character->GetVulnerabilities()->Get(name)/100.0f);
 }
 
 bool InteractionManager::PerformInteraction(Interaction* interaction)
@@ -471,10 +480,25 @@ unsigned int InteractionManager::GetReach(boost::shared_ptr<Character> character
   return WeaponHelper::GetReach(boost::shared_ptr<ItemEntity>());
 }
 
-unsigned int InteractionManager::GetWeaponDamage(boost::shared_ptr<Character> character)
+unsigned int InteractionManager::GetDamage(boost::shared_ptr<Character> character)
 {
   //TODO
-  return WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity>());
+  return WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity>()) + GetStrength(character);
+}
+
+InteractionManager::Types InteractionManager::GetTypes(boost::shared_ptr<Character> character)
+{
+  //TODO
+  return WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity>());
+}
+
+unsigned int InteractionManager::GetTotal(const Types& types)
+{
+  unsigned int value = 0;
+  Types::const_iterator it;
+  for (it = types.begin(); it != types.end(); it++)
+    value += it->second;
+  return value;
 }
 
 unsigned int InteractionManager::GetAbilityLevelForEquipedWeapons(boost::shared_ptr<Character> character,

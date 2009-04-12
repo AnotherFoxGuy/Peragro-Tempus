@@ -100,6 +100,8 @@ public:
 
   const std::string& GetName(size_t id) const;
 
+  const std::map<std::string, size_t>& Get() const { return names; }
+
   //boost::shared_ptr<Bases> Create(Entity* entity);
 
 protected:

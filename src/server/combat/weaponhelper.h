@@ -24,6 +24,9 @@
 #ifndef WEAPONHELPER_H
 #define WEAPONHELPER_H
 
+#include <string>
+#include <list>
+#include <utility>
 #include <boost/shared_ptr.hpp>
 
 class ItemEntity;
@@ -61,6 +64,11 @@ public:
    * @return The weapon's damage.
    */
   static unsigned int GetDamage(boost::shared_ptr<ItemEntity> item);
+
+  typedef std::pair<std::string, int> Type;
+  typedef std::list<Type> Types;
+
+  static Types GetTypes(boost::shared_ptr<ItemEntity> item);
 };
 
 #endif // WEAPONHELPER_H

@@ -32,6 +32,7 @@
 
 #include "../statistic/skills.h"
 #include "speciesabilities.h"
+#include "speciesvulnerabilities.h"
 #include "../statistic/reputations.h"
 #include "resources.h"
 
@@ -79,6 +80,7 @@ protected:
 
   boost::shared_ptr<Skills> skills;
   boost::shared_ptr<SpeciesAbilities> abilities;
+  boost::shared_ptr<SpeciesVulnerabilities> vulnerabilities;
   boost::shared_ptr<Reputations> reputations;
   boost::shared_ptr<Resources> resources;
 
@@ -91,6 +93,7 @@ public:
     equipment = Server::getServer()->GetEquipmentFactory()->Create(this);
     skills = Server::getServer()->GetSkillsFactory()->Create(this);
     abilities = boost::shared_ptr<SpeciesAbilities>(new SpeciesAbilities(this));
+    vulnerabilities = boost::shared_ptr<SpeciesVulnerabilities>(new SpeciesVulnerabilities(this));
     reputations = Server::getServer()->GetReputationsFactory()->Create(this);
     resources = Server::getServer()->GetResourcesFactory()->Create(this);
   }
@@ -128,6 +131,7 @@ public:
 
   boost::shared_ptr<Skills> GetSkills() const { return skills; }
   boost::shared_ptr<SpeciesAbilities> GetAbilities() const { return abilities; }
+  boost::shared_ptr<SpeciesVulnerabilities> GetVulnerabilities() const { return vulnerabilities; }
   boost::shared_ptr<Reputations> GetReputations() const { return reputations; }
   boost::shared_ptr<Resources> GetResources() const { return resources; }
 

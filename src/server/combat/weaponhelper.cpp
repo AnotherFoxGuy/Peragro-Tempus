@@ -45,3 +45,25 @@ unsigned int WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity> item)
 {  
   return GetBaseDamage(item); //TODO * item->GetQuality()/item->GetMaxQuality(); 
 }
+
+WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
+{  
+  Types types;
+  boost::shared_ptr<Vulnerabilities> vuls = item->GetVulnerabilities();
+
+  VulnerabilitiesFactory* fact = Server::getServer()->GetVulnerabilitiesFactory();
+  const std::map<std::string, size_t>& names = fact->Get();
+
+  std::map<std::string, size_t>::const_iterator it;
+  for (it = names.begin(); it != names.end(); it++)
+  {
+    if (vuls->Get(it->first)) // Only add if value != 0
+      types.push_back( Type(it->first, vuls->Get(it->first)) );
+  }
+
+  //TODO: What when the item doesn't have any types?
+  if (types.size() == 0)
+    types.push_back(Type("Slash", 1));
+
+  return types;
+}

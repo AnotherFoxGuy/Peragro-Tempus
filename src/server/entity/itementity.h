@@ -24,6 +24,7 @@
 #include "itemtemplatesmanager.h"
 
 #include "statistic/abilities.h"
+#include "statistic/vulnerabilities.h"
 
 #include "common/inventory/item.h"
 
@@ -40,12 +41,14 @@ private:
   boost::shared_ptr<ItemTemplate> itemTemplate;
 
   boost::shared_ptr<Abilities> abilities;
+  boost::shared_ptr<Vulnerabilities> vulnerabilities;
 
 public:
   ItemEntity() : Entity(Common::Entity::ItemEntityType)
   {
     inWorld = false;
     abilities = Server::getServer()->GetAbilitiesFactory()->Create(this);
+    vulnerabilities = Server::getServer()->GetVulnerabilitiesFactory()->Create(this);
   }
 
   ~ItemEntity() {}
@@ -57,6 +60,7 @@ public:
   void SetItemTemplate(boost::shared_ptr<ItemTemplate> value) { itemTemplate = value; value->SetDataOn(this); }
 
   boost::shared_ptr<Abilities> GetAbilities() const { return abilities; }
+  boost::shared_ptr<Vulnerabilities> GetVulnerabilities() const { return vulnerabilities; }
 
   virtual void LoadFromDB();
   virtual void SaveToDB();

@@ -46,6 +46,7 @@ class EquipmentFactory;
 
 class SkillsFactory;
 class AbilitiesFactory;
+class VulnerabilitiesFactory;
 class ReputationsFactory;
 class ResourcesFactory;
 
@@ -78,6 +79,7 @@ private:
 
   SkillsFactory* skillsFactory;
   AbilitiesFactory* abilitiesFactory;
+  VulnerabilitiesFactory* vulnerabilitiesFactory;
   ReputationsFactory* reputationsFactory;
   ResourcesFactory* resourcesFactory;
 
@@ -142,6 +144,9 @@ public:
 
   void SetAbilitiesFactory(AbilitiesFactory* abilitiesFactory) { this->abilitiesFactory = abilitiesFactory; }
   AbilitiesFactory* GetAbilitiesFactory() { return this->abilitiesFactory; }
+
+  void SetVulnerabilitiesFactory(VulnerabilitiesFactory* vulnerabilitiesFactory) { this->vulnerabilitiesFactory = vulnerabilitiesFactory; }
+  VulnerabilitiesFactory* GetVulnerabilitiesFactory() { return this->vulnerabilitiesFactory; }
 
   void SetReputationsFactory(ReputationsFactory* reputationsFactory) { this->reputationsFactory = reputationsFactory; }
   ReputationsFactory* GetReputationsFactory() { return this->reputationsFactory; }

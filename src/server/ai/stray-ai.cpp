@@ -57,7 +57,7 @@ void StrayAI::LoadFromDB()
   // TODO
   base = npc.lock()->GetPosition();
   radius = WFMath::Point<3>(5);
-  interval_base = 1500;
+  interval_base = 15;
   interval_rand = 5;
 
   // Timer

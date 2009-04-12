@@ -172,11 +172,23 @@ private:
    */
   unsigned int GetWeaponHeft(boost::shared_ptr<Character> character);
   /**
-   * Calculates the damage given by the character's weapon(s).
-   * @param character The locked version of the character.
-   * @return The weapon damage.
+   * Calculates the damage given by the character.
+   * @param character the character.
+   * @return The damage.
    */
-  unsigned int GetWeaponDamage(boost::shared_ptr<Character> character);
+  unsigned int GetDamage(boost::shared_ptr<Character> character);
+
+  typedef std::list<std::pair<std::string, int> > Types;
+  /**
+   */
+  Types GetTypes(boost::shared_ptr<Character> character);
+
+  /**
+   */
+  unsigned int GetTotal(const Types&  types);
+
+  unsigned int GetVulnerability(boost::shared_ptr<Character> character, const std::string& name);
+
   /**
    * Combines the characters weapon stat values, based on stat name
    * @param character The locked version of the character.

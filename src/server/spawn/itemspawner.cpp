@@ -81,7 +81,7 @@ void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
         item = server->GetItemTemplatesManager()->CreateItemFromTemplate(sp->itemTemplateId);
         printf("Spawning  '%s'\n", item->GetName().c_str());
       }
-      catch (InvalidItemTemplate& ex)
+      catch (InvalidItemTemplate& /*ex*/)
       {
         printf("E: Invalid template %"SIZET"!\n", sp->itemTemplateId);
         return;

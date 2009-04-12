@@ -206,6 +206,9 @@ void App::Run()
   AbilitiesFactory abilitiesFactory(tablemgr);
   server->SetAbilitiesFactory(&abilitiesFactory);
 
+  VulnerabilitiesFactory vulnerabilitiesFactory(tablemgr);
+  server->SetVulnerabilitiesFactory(&vulnerabilitiesFactory);
+
   ReputationsFactory reputationsFactory(tablemgr);
   server->SetReputationsFactory(&reputationsFactory);
 

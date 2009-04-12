@@ -108,9 +108,9 @@ public:
       EntitiesSafe ents = entityManager->GetEntitiesSafe();
       assert(ents.first.owns_lock());
       Entities::const_iterator it;
-      for (size_t i = 0; i < NR; i++)
+      for (it = ents.second.begin(); it != ents.second.end(); it++)
       {
-        for (it = ents.second.begin(); it != ents.second.end(); it++)
+        for (size_t i = 0; i < NR; i++)
         {
           it->second->SetPosition(Point<3>(0));
         }
