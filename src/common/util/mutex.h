@@ -34,7 +34,7 @@ public:
   }
 
   ptScopedMutexCopyAble(const ptScopedMutexCopyAble& s):
-    boost::unique_lock<Mutex>(Mutex())
+    boost::unique_lock<Mutex>()
   {
     swap(*const_cast<ptScopedMutexCopyAble*>(&s));
   }

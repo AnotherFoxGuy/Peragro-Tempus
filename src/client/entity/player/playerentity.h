@@ -19,8 +19,8 @@
 #ifndef PT_ENTITYPLAYERENTITY_H
 #define PT_ENTITYPLAYERENTITY_H
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
+//#include <boost/weak_ptr.hpp>
 
 #include "client/entity/pc/pcentity.h"
 #include "common/event/event.h"
