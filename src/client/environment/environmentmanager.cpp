@@ -47,6 +47,7 @@ namespace PT
     {
       sun_alpha = 3.21f;//2.91f; //horizontal
       sun_theta = 0.206f;//0.256f; //vertical
+      min_light = 0.3f; // default min light level
     }
 
     EnvironmentManager::~EnvironmentManager()
@@ -152,8 +153,7 @@ namespace PT
       sunlight.ClampDown();
       // The ambient color is adjusted to give a slightly more yellow colour at
       // midday, graduating to a purplish blue at midnight. Adjust "min_light"
-      // to make it playable at night.
-      const float min_light = 0.3f;
+      // in options to make it playable at night.
       float amb = cos((step - 0.5f) * PI * 2.2f);
       csColor ambient((amb*0.125f)+0.075f+min_light, (amb*0.15f)+0.05f+min_light,
         (amb*0.1f)+0.08f+min_light);

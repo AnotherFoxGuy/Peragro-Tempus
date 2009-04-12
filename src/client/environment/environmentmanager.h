@@ -83,6 +83,8 @@ namespace PT
       CS::ShaderVarStringID string_sunDirection;
       /// Elapsed ticks counter to limit the calculations done.
       csTicks elapsedTicks;
+      /// Allows the setting of the base ambient lighting in options.
+      float min_light;
 
       struct FrameCallBack : public scfImplementation1<FrameCallBack, iEngineFrameCallback>
       {
@@ -124,6 +126,7 @@ namespace PT
        * @return Clock*
        */
       const Clock* GetClock() const { return clock; }
+      void SetMinLight(float light) { min_light = light; }
 
     };
   } // Environment namespace
