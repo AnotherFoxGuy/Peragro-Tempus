@@ -481,6 +481,9 @@ namespace PT
       return Report(PT::Error, "Failed to create EnvironmentManager object!");
     pointerlib.setEnvironmentManager(environmentManager);
 
+    environmentManager->SetMinLight(
+      app_cfg->GetFloat("Peragro.Video.MinLight", min_light));
+
     // Register the PointerPlug pseudo-plugin
     csRef<PointerPlug> ptrplug = new PointerPlug(NULL);
     if (ptrplug)
@@ -552,11 +555,15 @@ namespace PT
           engine->SetClearScreen(true);
         }
 
-        // Show the connect window.
+        // Show the connect window. 
         LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
         loginWindow->ShowWindow();
         ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
         serverWindow->ShowWindow ();
+
+        // Show the Avatar creation window // testing
+        //AvatarCreationWindow* avatarWindow = guiManager->GetWindow<AvatarCreationWindow>(AVATARCREATIONWINDOW);
+        //avatarWindow->ShowWindow ();
 
         if (cmdline)
         {
