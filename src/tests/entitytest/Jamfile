@@ -2,7 +2,7 @@ SubDir TOP src tests entitytest ;
 
 Description entitytest : "Entity Test" ;
 Application entitytest : [ Wildcard *.h *.cpp ] : console ;
-LinkWith entitytest : entity ;
+LinkWith entitytest : entity util ;
 
 ExternalLibs entitytest : CRYSTAL ;
 

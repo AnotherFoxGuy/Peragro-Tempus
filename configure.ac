@@ -106,12 +106,14 @@ CS_CHECK_HOST
 #----------------------------------------------------------------------------
 CS_CHECK_CPPUNIT([emit])
 
-AX_BOOST_BASE([1.33])
+AX_BOOST_BASE([1.37])
 CS_EMIT_BUILD_PROPERTY([BOOST.AVAILABLE], [$HAVE_BOOST])
 CS_EMIT_BUILD_PROPERTY([BOOST.CFLAGS], [$BOOST_CPPFLAGS])
 CS_EMIT_BUILD_PROPERTY([BOOST.LFLAGS], [$BOOST_LDFLAGS])
 
 CS_CHECK_BOOST_PYTHON([emit])
+#CS_CHECK_BOOST_FILESYSTEM([emit])
+CS_CHECK_BOOST_THREAD([emit])
 
 #----------------------------------------------------------------------------
 # Check for pthread_timedjoin_np support in pthread
