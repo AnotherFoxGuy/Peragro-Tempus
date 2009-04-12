@@ -116,6 +116,13 @@ namespace PT
         btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
           CEGUI::Event::Subscriber(&VideoOptionsWindow::OnReflectionUpdateIntervalSliderChanged, this));
 
+        // Set up the min light slider.
+        CreateMinLightSlider();
+        btn = winMgr->getWindow("Options/Video/MinLight/Slider");
+        btn->subscribeEvent(CEGUI::Slider::EventValueChanged,
+          CEGUI::Event::Subscriber(&VideoOptionsWindow::OnMinLightSliderChanged, this));
+
+
         return true;
       } // end ReloadWindow()
 
@@ -324,6 +331,36 @@ namespace PT
         CEGUI::EventArgs e;
         OnReflectionUpdateIntervalSliderChanged(e);
       } // end CreateReflectionSkipSlider()
+
+      bool VideoOptionsWindow::OnMinLightSliderChanged(const CEGUI::EventArgs &e)
+      {
+        btn = winMgr->getWindow("Options/Video/MinLight/Slider");
+        float ml = ((CEGUI::Slider*)btn)->getCurrentValue();
+
+        std::stringstream ss;
+        ss << ml;
+
+        btn = winMgr->getWindow("Options/Video/MinLight/Slider");
+        btn->setText(ss.str());
+
+        btn = winMgr->getWindow("Options/Video/Minlight/Value");
+        btn->setText(ss.str());
+
+        app_cfg->SetFloat("Peragro.Video.MinLight", ml);
+        SaveConfig();
+        return true;
+      } // end OnMinLightSliderChanged()
+
+      void VideoOptionsWindow::CreateMinLightSlider()
+      {
+        btn = winMgr->getWindow("Options/Video/MinLight/Slider");
+        float ml = app_cfg->GetFloat("Peragro.Video.MinLight", 0.3f);
+
+        ((CEGUI::Slider*)btn)->setCurrentValue(ml);
+        CEGUI::EventArgs e;
+        OnMinLightSliderChanged(e);
+      } // end CreateMinLightSlider()
+
 
     } // Windows namespace
   } // GUI namespace
