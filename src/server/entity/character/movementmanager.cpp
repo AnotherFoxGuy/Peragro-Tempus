@@ -42,8 +42,7 @@
 
 MovementManager::MovementManager()
 {
-  //this->setInterval(10); // Every second. 10 * 100MS
-  this->setInterval(25); //TODO: code says 100MS, but 25 feels more like 1 second.
+  this->setInterval(100); // Every second. 100 * 10MS
   start();
 }
 
