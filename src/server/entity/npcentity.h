@@ -27,6 +27,10 @@
 
 #include "server/ai/ai.h"
 
+#include "common/util/exception.h"
+
+PT_DEFINE_EXCEPTION(InvalidNpcEntity);
+
 class NpcEntity : public Character
 {
 private:

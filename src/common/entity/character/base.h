@@ -24,13 +24,15 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 
+#include "common/util/exception.h"
+
 class TableManager;
 class Entity;
 class BasesFactory;
 
-class Exception
-{
-};
+PT_DEFINE_EXCEPTION_WHAT(BaseNotFound, "Base not found");
+PT_DEFINE_ERRORINFO(BaseName, std::string);
+PT_DEFINE_ERRORINFO(BaseType, std::string);
 
 template<typename T, size_t startXp = 0>
 class Bases
@@ -176,9 +178,9 @@ typename Bases<T, startXp>::Base*
     }
     return it->second.get();
   }
-  catch (Exception&)
+  catch (BaseNotFound& ex)
   {
-    printf("No %s with name '%s'!\n", type.c_str(), name.c_str());
+    ex << BaseTypeInfo(type) << BaseNameInfo(name);
     throw;
   }
 }

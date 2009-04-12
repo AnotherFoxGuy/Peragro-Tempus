@@ -27,6 +27,7 @@
 #include "src/server/database/table-resourcetypes.h"
 
 #include "common/util/timer.h"
+#include "common/util/exception.h"
 
 class TableManager;
 class Entity;
@@ -107,13 +108,12 @@ public:
   void SendAll(Connection* conn);
 };
 
+PT_DEFINE_EXCEPTION_WHAT(ResourceNotFound, "Resource not found");
+PT_DEFINE_ERRORINFO(ResourceName, std::string);
+PT_DEFINE_ERRORINFO(ResourceId, size_t);
+
 class ResourcesFactory : public Timer
 {
-public:
-  class Exception
-  {
-  };
-
 private:
   std::map<std::string, size_t> names;
   std::map<size_t, ResourceTypesTableVOp> ids;
@@ -142,7 +142,7 @@ public:
   {
     std::map<size_t, ResourceTypesTableVOp>::const_iterator it = ids.find(id);
     if (it == ids.end())
-      throw Exception();
+      throw PT_EX(ResourceNotFound()) << ResourceIdInfo(id);
     return it->second;
   }
 
@@ -150,7 +150,7 @@ public:
   {
     std::map<std::string, size_t>::const_iterator it = names.find(name);
     if (it == names.end())
-      throw Exception();
+      throw PT_EX(ResourceNotFound()) << ResourceNameInfo(name);
     return it->second;
   }
 
@@ -158,7 +158,7 @@ public:
   {
     std::map<size_t, ResourceTypesTableVOp>::const_iterator it = ids.find(id);
     if (it == ids.end())
-      throw Exception();
+      throw PT_EX(ResourceNotFound()) << ResourceIdInfo(id);
     return it->second->name;
   }
 

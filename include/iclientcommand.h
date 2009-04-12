@@ -25,6 +25,8 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
+#include "common/util/exception.h"
+
 namespace PT
 {
   namespace Command
@@ -40,7 +42,9 @@ namespace PT
 
     /* exception thrown by iClientCommand::Execute when bad command
        syntax is used */
-    struct BadUsage {};
+    PT_DEFINE_EXCEPTION_WHAT(IncorrectParameters,
+      "Incorrect parameters for command");
+    PT_DEFINE_EXCEPTION_WHAT(NoSuchCommand, "No such command");
 
     struct iClientCommand : public virtual iBase
     {

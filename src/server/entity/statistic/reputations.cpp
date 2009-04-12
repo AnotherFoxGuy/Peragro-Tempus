@@ -32,7 +32,7 @@ Reputations::Reputations(ReputationsFactory* fact, Entity* entity, TableManager*
 void Reputations::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Entity id NoEntity for reputations"));
 
   ReputationsTable* table = db->Get<ReputationsTable>();
   ReputationsTableVOArray arr = table->Get(entity->GetId());

@@ -60,7 +60,7 @@ void cmdSay::Say(unsigned char volume, const StringArray& args, const char* pre)
   size_t i = 0;
   if (args.size() > 0 && args[0].compare("/") == 0) i = 2;
 
-  if (args.size() <= i) throw BadUsage();
+  if (args.size() <= i) throw PT_EX(IncorrectParameters());
 
   PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
   if (!ptrlib) return;

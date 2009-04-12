@@ -51,8 +51,8 @@ void PcEntity::LoadFromDB()
   PcEntitiesTableVOArray arr = table->Get(GetId());
   if (arr.size() != 1)
   {
-    printf("None or multiple pcentity rows for pcentity?!\n");
-    throw "None or multiple pcentity rows for pcentity?!";
+    throw PT_EX(InvalidPcEntity("None or multiple rows for pcentity"))
+      << EntityIdInfo(GetId());
   }
 
   //User* user = Server::getServer()->getUserManager()->FindByName(arr[0]->users_login);

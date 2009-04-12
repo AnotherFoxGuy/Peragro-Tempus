@@ -100,8 +100,8 @@ size_t SpeciesManager::GetMaxPopulation(size_t speciesId)
   SpeciesTableVOp s = table->GetSingle(speciesId);
   if (!s)
   {
-    printf("E: Invalid speciesId %"SIZET"!\n", speciesId);
-    throw "Invalid speciesId !";
+    throw PT_EX(InvalidSpeciesId("Invalid species id"))
+      << SpeciesIdInfo(speciesId);
   }
   return 0;
   //TODO return s->maxPopulation;
@@ -114,8 +114,7 @@ void SetMesh(boost::shared_ptr<Character> entity, size_t meshId)
   MeshesTableVOp m = mtable->GetSingle(meshId);
   if (!m)
   {
-    printf("E: Invalid meshId %"SIZET"!\n", meshId);
-    throw "Invalid meshId !";
+    throw PT_EX(InvalidSpeciesMesh("Invalid mesh id")) << MeshIdInfo(meshId);
   }
   entity->SetMeshName(m->factoryName);
   entity->SetFileName(m->fileName);
@@ -152,8 +151,8 @@ void SpeciesManager::Initialize(boost::shared_ptr<Character> c, size_t speciesId
   SpeciesTableVOp s = table->GetSingle(speciesId);
   if (!s)
   {
-    printf("E: Invalid speciesId %"SIZET"!\n", speciesId);
-    throw "Invalid speciesId !";
+    throw PT_EX(InvalidSpeciesId("Invalid species id"))
+      << SpeciesIdInfo(speciesId);
   }
 
   c->SetSpecies(speciesId);

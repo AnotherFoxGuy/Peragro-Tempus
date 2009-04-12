@@ -24,6 +24,11 @@
 
 #include "server/entity/statistic/abilities.h"
 
+#include "common/util/exception.h"
+
+PT_DEFINE_EXCEPTION(InvalidSpeciesAbilities);
+PT_DEFINE_ERRORINFO(SpeciesId, size_t);
+
 class SpeciesAbilities
 {
 private:

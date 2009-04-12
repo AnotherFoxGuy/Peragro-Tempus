@@ -141,7 +141,7 @@ namespace PT
         if (delta != 0) Hit(player, delta);
         if (res->Get("Hit Points") <= 0) Die(player);
       }
-      catch (PT::Entity::ResourcesFactory::Exception&){}
+      catch (PT::Entity::ResourceNotFound&){}
 
       return true;
     } // end UpdatePlayerResource()

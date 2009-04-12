@@ -47,7 +47,7 @@ std::string cmdRelocate::HelpUsage (const char*) const
 std::string cmdRelocate::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is 'relocate'
-  if (args.size() < 2) throw BadUsage();
+  if (args.size() < 2) throw PT_EX(IncorrectParameters());
 
   PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
   if (!ptrlib) return "";

@@ -34,8 +34,8 @@ void ItemTemplate::LoadFromDB()
   ItemTemplatesTableVOp it = ttable->GetSingle(templateId);
   if (!it)
   {
-    printf("E: Invalid template %"SIZET"!\n", templateId);
-    throw "Invalid template !";
+    throw PT_EX(InvalidItemTemplate("Invalid item template"))
+      << ItemTemplateIdInfo(templateId);
   }
 
   name = it->name;
@@ -49,8 +49,8 @@ void ItemTemplate::LoadFromDB()
   EquipTypesTableVOp e = etable->GetSingle(equipTypeId);
   if (!e)
   {
-    printf("E: Invalid EquipType %"SIZET"!\n", equipTypeId);
-    throw "Invalid EquipType !";
+    throw PT_EX(InvalidItemTemplate("Invalid equip type for item template"))
+      << EquipTypeIdInfo(equipTypeId) << ItemTemplateIdInfo(templateId);
   }
   equipType = e->slotName;
   equipTypeName = e->name;
@@ -59,8 +59,8 @@ void ItemTemplate::LoadFromDB()
   MeshesTableVOp m = mtable->GetSingle(meshId);
   if (!e)
   {
-    printf("E: Invalid MeshId %"SIZET"!\n", meshId);
-    throw "Invalid MeshId !";
+    throw PT_EX(InvalidItemTemplate("Invalid mesh for item template"))
+      << MeshIdInfo(meshId) << ItemTemplateIdInfo(templateId);
   }
   factoryName = m->factoryName;
   fileName = m->fileName;
@@ -90,15 +90,7 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
   if (it == templates.end() || it->second.expired())
   {
     boost::shared_ptr<ItemTemplate> t(new ItemTemplate(templateId));
-    try
-    {
-      t->LoadFromDB();
-    }
-    catch (char)
-    {
-      printf("E: Invalid template %"SIZET"!\n", templateId);
-      throw "Invalid template !";
-    }
+    t->LoadFromDB();
     templates[templateId] = t;
     return t;
   }

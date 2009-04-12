@@ -117,7 +117,7 @@ std::string cmdEmote::HelpFull (const char* cmd) const
 std::string cmdEmote::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is emote
-  if (args.size() < 2 || args.size() > 3) throw BadUsage();
+  if (args.size() < 2 || args.size() > 3) throw PT_EX(IncorrectParameters());
 
   std::string emote = args[1];
   std::string target = "";

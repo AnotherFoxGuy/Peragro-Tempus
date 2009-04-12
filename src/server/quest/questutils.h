@@ -283,7 +283,7 @@ namespace QuestUtils
       Server* server = Server::getServer();
       EntityManager* entitymanager = server->getEntityManager();
       std::string reputation = args[0];
-      try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
+      try { character->GetReputations()->Get(reputation); } catch (BaseNotFound&) { return 0; }
       if (args.size() > 2)
       {
         if (args.size() > 3)
@@ -293,7 +293,7 @@ namespace QuestUtils
           Character* character = dynamic_cast<Character*>(entity.get());
           if (!character) { printf("Error: Entity named \"%s\" isn't a character!\n", args[1].c_str()); return 0; }
 
-          try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
+          try { character->GetReputations()->Get(reputation); } catch (BaseNotFound&) { return 0; }
 
           int val = Parse(character, args[3]);
           if (args[2].compare("add") == 0)
@@ -328,7 +328,7 @@ namespace QuestUtils
           Character* character = dynamic_cast<Character*>(entity.get());
           if (!character) { printf("Error: Entity named \"%s\" isn't a character!\n", args[1].c_str()); return 0; }
 
-          try { character->GetReputations()->Get(reputation); } catch (Exception&) { return 0; }
+          try { character->GetReputations()->Get(reputation); } catch (BaseNotFound&) { return 0; }
 
           return character->GetReputations()->Get(reputation);
         }

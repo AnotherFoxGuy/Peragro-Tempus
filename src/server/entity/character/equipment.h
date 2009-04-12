@@ -25,9 +25,16 @@
 
 #include "server/entity/itementity.h"
 
+#include "common/util/exception.h"
+
 class TableManager;
 class Entity;
 class EquipmentFactory;
+
+PT_DEFINE_EXCEPTION(InvalidSlot);
+PT_DEFINE_ERRORINFO(SlotId, size_t);
+PT_DEFINE_EXCEPTION_WHAT(SlotNotFound, "Slot not found");
+PT_DEFINE_ERRORINFO(SlotName, std::string);
 
 class Equipment
 {
@@ -88,11 +95,6 @@ public:
 
 class EquipmentFactory
 {
-public:
-  class Exception
-  {
-  };
-
 private:
   std::map<std::string, size_t> slots;
   std::map<size_t, std::string> ids;
@@ -114,7 +116,7 @@ public:
   {
     std::map<std::string, size_t>::const_iterator it = slots.find(name);
     if (it == slots.end())
-      throw Exception();
+      throw PT_EX(SlotNotFound()) << SlotNameInfo(name);
     return it->second;
   }
 
@@ -122,7 +124,7 @@ public:
   {
     std::map<size_t, std::string>::const_iterator it = ids.find(id);
     if (it == ids.end())
-      throw Exception();
+      throw PT_EX(SlotNotFound()) << SlotIdInfo(id);
     return it->second;
   }
 

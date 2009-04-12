@@ -32,7 +32,7 @@ Skills::Skills(SkillsFactory* fact, Entity* entity, TableManager* db)
 void Skills::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Entity id NoEntity for skills"));
 
   SkillsTable* table = db->Get<SkillsTable>();
   SkillsTableVOArray arr = table->Get(entity->GetId());

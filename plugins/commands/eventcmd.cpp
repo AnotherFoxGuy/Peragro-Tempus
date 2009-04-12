@@ -36,7 +36,7 @@ cmdEventLaunch::~cmdEventLaunch () { }
 
 std::string cmdEventLaunch::Execute (const StringArray& args)
 {
-  if (args.size() != 2) throw BadUsage();
+  if (args.size() != 2) throw PT_EX(IncorrectParameters());
 
   csRef<iEventQueue> evQueue = csQueryRegistry<iEventQueue> (object_reg);
   csRef<iEventNameRegistry> nameReg = csEventNameRegistry::GetRegistry(object_reg);

@@ -26,9 +26,16 @@
 #include <boost/weak_ptr.hpp>
 #include <wfmath/point.h>
 
+#include "common/util/exception.h"
+
 class Character;
 class PcEntity;
 class NpcEntity;
+
+PT_DEFINE_EXCEPTION(InvalidSpeciesId);
+PT_DEFINE_ERRORINFO(SpeciesId, size_t);
+PT_DEFINE_EXCEPTION(InvalidSpeciesMesh);
+PT_DEFINE_ERRORINFO(MeshId, size_t);
 
 class SpeciesManager
 {

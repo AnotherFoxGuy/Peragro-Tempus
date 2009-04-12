@@ -37,6 +37,9 @@
 #include "server/server.h"
 #include "server/colldet/colldet.h"
 
+#include <boost/format.hpp>
+#include "common/util/exception.h"
+
 EntityManager::EntityManager()
 {
 }
@@ -85,8 +88,8 @@ Entityp EntityManager::CreateNew(Common::Entity::EntityType type, size_t id)
   case Common::Entity::MountEntityType: entity = Entityp(new MountEntity()); break;
   default:
     {
-      printf("E: Invalid EntityType %d\n", type);
-      throw "Invalid EntityType!";
+      throw PT_EX(PT::Exception("Invalid EntityType"))
+        << PT_FORMAT_INFO("EntityType: %1%", % type);
     }
   }
   if (entity)

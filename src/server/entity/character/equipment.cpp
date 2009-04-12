@@ -60,8 +60,7 @@ void Equipment::Equip(size_t slotId, boost::shared_ptr<ItemEntity> item)
 {
   if (Equiped(slotId))
   {
-    printf("E: Equipment::Equip: slot %"SIZET" already occupied!", slotId);
-    throw EquipmentFactory::Exception();
+    throw PT_EX(InvalidSlot("Slot already occupied")) << SlotIdInfo(slotId);
   }
   // We added the item to the equipment, so remove it from the world.
   item->SetInWorld(false);
@@ -80,8 +79,7 @@ boost::shared_ptr<ItemEntity> Equipment::UnEquip(size_t slotId)
 {
   if (!Equiped(slotId))
   {
-    printf("E: Equipment::UnEquip: slot %"SIZET" empty!", slotId);
-    throw EquipmentFactory::Exception();
+    throw PT_EX(InvalidSlot("Slot empty")) << SlotIdInfo(slotId);
   }
   Iterator it = equipment.find(slotId);
   boost::shared_ptr<ItemEntity> item(it->second);
@@ -98,7 +96,7 @@ boost::shared_ptr<ItemEntity> Equipment::UnEquip(const std::string& slotName)
 void Equipment::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Invalid entity id NoEntity for equipment"));
 
   EquipmentTable* table = db->Get<EquipmentTable>();
   EquipmentTableVOArray arr = table->Get(entity->GetId());

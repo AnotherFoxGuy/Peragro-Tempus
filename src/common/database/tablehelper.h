@@ -33,7 +33,7 @@
 #include <boost/preprocessor/seq/filter.hpp>
 #include <boost/preprocessor/seq/for_each_i.hpp>
 
-
+#include "common/util/exception.h"
 
 #include "fieldhelper.h"
 
@@ -302,6 +302,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_DECLARE_GetSingle(Class, t, s) \
   BOOST_PP_CAT(t, TableVOp) GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s)));
 
+PT_DEFINE_EXCEPTION(MultipleRowsGetSingle);
+
 #define PT_DEFINE_GetSingle(Class, t, s) \
   BOOST_PP_CAT(t, TableVOp) Class::GetSingle(BOOST_PP_SEQ_FOR_EACH_I(PT_FIELD_ARGLIST_, ~, PT_PKS_GETPKS_(s))) \
   { \
@@ -318,8 +320,7 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
     if (arr.size() == 0) return BOOST_PP_CAT(t, TableVOp)(); \
     else if (arr.size() != 1) \
     { \
-      printf("E: Multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!\n"); \
-      throw "Multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle()?!"; \
+      throw PT_EX(MultipleRowsGetSingle("Multiple rows for " BOOST_PP_STRINGIZE(t) " calling GetSingle")); \
     } \
     return arr[0]; \
   }

@@ -121,7 +121,7 @@ std::string CommandManager::Execute(const char* cmd, const StringArray& args)
     if ((*it)->CommandHandled(cmd))
     {
       try { output = (*it)->Execute(args); }
-      catch (BadUsage& /* error */)
+      catch (IncorrectParameters& /* error */)
       {
         output = "Usage: " + (*it)->Help(cmd, CMD_HELP_USAGE);
       }

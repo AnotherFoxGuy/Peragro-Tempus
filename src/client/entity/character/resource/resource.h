@@ -30,6 +30,8 @@
 
 //#include "common/entity/character/base.h"
 
+#include "common/util/exception.h"
+
 struct iObjectRegistry;
 struct iEvent;
 
@@ -86,12 +88,12 @@ namespace PT
       int GetOld(const std::string& name);
     };
 
+    PT_DEFINE_EXCEPTION_WHAT(ResourceNotFound, "Resource not found");
+    PT_DEFINE_ERRORINFO(ResourceName, std::string);
+    PT_DEFINE_ERRORINFO(ResourceId, size_t);
+
     class ResourcesFactory
     {
-    public:
-      class Exception
-      {
-      };
     public:
       ResourcesFactory();
       virtual ~ResourcesFactory() {}

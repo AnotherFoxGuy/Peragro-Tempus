@@ -259,7 +259,7 @@ boost::shared_ptr<Resources::Resource> Resources::Create(const std::string& name
 void Resources::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Entity id NoEntity for resource"));
 
   ResourcesTable* table = db->Get<ResourcesTable>();
   ResourcesTableVOArray arr = table->Get(entity->GetId());
@@ -291,9 +291,9 @@ Resources::Resource* Resources::GetResource(const std::string& name)
     }
     return it->second.get();
   }
-  catch (Exception&)
+  catch (ResourceNotFound& ex)
   {
-    printf("No resource with name '%s'!\n", name.c_str());
+    ex << ResourceNameInfo(name);
     throw;
   }
 }

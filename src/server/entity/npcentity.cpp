@@ -32,15 +32,14 @@ void NpcEntity::LoadFromDB()
   NpcEntitiesTableVOp npc = table->GetSingle(GetId());
   if (!npc)
   {
-    printf("E: No rows for npcentity?!\n");
-    throw "E: No rows for npcentity?!";
+    throw PT_EX(InvalidNpcEntity("Invalid NPC entity")) << EntityIdInfo(GetId());
   }
 
   AI* ai = AI::createAI(npc->ainame, boost::shared_dynamic_cast<NpcEntity>(this_));
   if (!ai)
   {
-    printf("E: Invalid AI setting for NpcEntity!\n");
-    //throw "Invalid AI setting for NpcEntity!";
+    throw PT_EX(InvalidNpcEntity("Invalid AI for NPC entity"))
+      << EntityIdInfo(GetId());
   }
   else
   {

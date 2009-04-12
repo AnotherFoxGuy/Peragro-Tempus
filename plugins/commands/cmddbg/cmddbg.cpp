@@ -98,13 +98,13 @@ std::string cmdDbg::Execute (const StringArray& args)
     iCelEntity* entity = ent_mgr->findCelEntById(ent_mgr->GetPlayerId());
 
     // Element 0 is '/', 1 is 'relocate'
-    if (args.size() < 3) throw BadUsage();
+    if (args.size() < 3) throw PT_EX(IncorrectParameters());
 
   //----------------------------------------------
 
     if (args[2].compare("write") == 0)
     {
-      if (args.size() < 7) throw BadUsage();
+      if (args.size() < 7) throw PT_EX(IncorrectParameters());
 
       BookWriteRequestMessage msg;
       msg.setItemId(atoi(args[3].c_str()));
@@ -149,7 +149,7 @@ std::string cmdDbg::Execute (const StringArray& args)
 
     else if (args[2].compare("spawn") == 0)
     {
-      if (args.size() < 6) throw BadUsage();
+      if (args.size() < 6) throw PT_EX(IncorrectParameters());
 
       csRef<iPcLinearMovement> pclinmove =
         CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
@@ -179,7 +179,7 @@ std::string cmdDbg::Execute (const StringArray& args)
 
     else if (args[2].compare("goto") == 0)
     {
-      if (args.size() < 6) throw BadUsage();
+      if (args.size() < 6) throw PT_EX(IncorrectParameters());
 
       csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
@@ -206,7 +206,7 @@ std::string cmdDbg::Execute (const StringArray& args)
 
     else if (args[2].compare("move") == 0)
     {
-      if (args.size() < 4) throw BadUsage();
+      if (args.size() < 4) throw PT_EX(IncorrectParameters());
 
       std::string result;
 
@@ -288,7 +288,7 @@ std::string cmdDbg::Execute (const StringArray& args)
 
     else if (args[2].compare("rm") == 0)
     {
-      if (args.size() < 5) throw BadUsage();
+      if (args.size() < 5) throw PT_EX(IncorrectParameters());
 
       if (args[3].compare("entity") == 0)
       {

@@ -43,8 +43,8 @@ float SpeciesAbilities::GetAbilityXP(size_t speciesId, float age, const std::str
   SpeciesTableVOp s = table->GetSingle(speciesId);
   if (!s)
   {
-    printf("E: Invalid speciesId %"SIZET"!\n", speciesId);
-    throw "Invalid speciesId !";
+    throw PT_EX(InvalidSpeciesAbilities("Invalid species id"))
+      << SpeciesIdInfo(speciesId);
   }
 
   SpeciesAbilitiesTable* tablesa = Server::getServer()->GetTableManager()->Get<SpeciesAbilitiesTable>();

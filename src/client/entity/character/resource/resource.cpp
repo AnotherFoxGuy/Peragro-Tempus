@@ -67,10 +67,10 @@ namespace PT
         }
         return it->second.get();
       }
-      catch (ResourcesFactory::Exception&)
+      catch (ResourceNotFound& ex)
       {
-        printf("No resource with name '%s'!\n", name.c_str());
-        throw ResourcesFactory::Exception();
+        ex << ResourceNameInfo(name);
+        throw;
       }
     }
 
@@ -206,7 +206,7 @@ namespace PT
     {
       std::map<std::string, size_t>::const_iterator it = names.find(name);
       if (it == names.end())
-        throw Exception();
+        throw PT_EX(ResourceNotFound()) << ResourceNameInfo(name);
       return it->second;
     }
 
@@ -214,7 +214,7 @@ namespace PT
     {
       std::map<size_t, std::string>::const_iterator it = ids.find(id);
       if (it == ids.end())
-        throw Exception();
+        throw PT_EX(ResourceNotFound()) << ResourceIdInfo(id);
       return it->second;
     }
 
@@ -229,8 +229,6 @@ namespace PT
       boost::shared_ptr<Resources> resources(new Resources(this, entity));
       return resources;
     }
-
-    
 
   } // namespace Entity
 } //  namespace PT

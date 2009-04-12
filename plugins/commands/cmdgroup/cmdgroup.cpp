@@ -77,7 +77,7 @@ std::string cmdGroup::HelpFull (const char* cmd) const
 std::string cmdGroup::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is 'group'
-  if (args.size() < 3) throw BadUsage();
+  if (args.size() < 3) throw PT_EX(IncorrectParameters());
 
   std::string channel = PT_DEFAULT_CHAT_GROUP;
   std::string text = "";
@@ -86,7 +86,7 @@ std::string cmdGroup::Execute (const StringArray& args)
   // if invoked as /g, then extract the channel name from the command line
   if (args[1].size() == 1)
   {
-    if (args.size() < 4) throw BadUsage();
+    if (args.size() < 4) throw PT_EX(IncorrectParameters());
     channel = args[2];
     i = 3;
   }

@@ -29,6 +29,9 @@
 
 #include "../server.h"
 
+#include "common/util/exception.h"
+
+PT_DEFINE_EXCEPTION(InvalidItemEntity);
 
 class ItemEntity : public Entity, public Common::Inventory::Item
 {

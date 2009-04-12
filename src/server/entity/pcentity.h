@@ -27,9 +27,13 @@
 
 #include "server/quest/npcdialogstate.h"
 
+#include "common/util/exception.h"
+
 class User;
 class MountEntity;
 class CharChats;
+
+PT_DEFINE_EXCEPTION(InvalidPcEntity);
 
 class PcEntity : public Character
 {

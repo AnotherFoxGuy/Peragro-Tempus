@@ -22,9 +22,13 @@
 #include <boost/thread.hpp>
 #include <boost/lambda/bind.hpp>
 
+#include "common/util/exception.h"
+
 #ifdef Yield
   #undef Yield
 #endif
+
+PT_DEFINE_EXCEPTION(ThreadMultipleStart);
 
 /**
  * A OO thread which calls Run() once.
@@ -49,7 +53,7 @@ public:
     }
     else
     {
-      throw std::runtime_error("multiple start");
+      throw PT_EX(ThreadMultipleStart("multiple start"));
     }
   }
 
@@ -98,7 +102,7 @@ public:
     }
     else
     {
-      throw std::runtime_error("multiple start");
+      throw PT_EX(ThreadMultipleStart("multiple start"));
     }
   }
 

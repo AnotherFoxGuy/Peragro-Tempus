@@ -30,7 +30,7 @@ Entity::~Entity()
 void Entity::LoadFromDB()
 {
   if(GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Invalid entity, id equals NoEntity"));
 }
 
 void Entity::SaveToDB()

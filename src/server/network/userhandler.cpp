@@ -210,16 +210,8 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
     entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
     boost::shared_ptr<PcEntity> pc = boost::shared_dynamic_cast<PcEntity>(entity);
-    
-    try
-    {
-      entity->LoadFromDB();
-    }
-    catch(const char*)
-    {
-      printf("E: handleCharSelectRequest(): Invalid entity '%d'!\n", request_msg.getCharId());
-      return;
-    }
+
+    entity->LoadFromDB();
 
     user->SetEntity(pc);
   }

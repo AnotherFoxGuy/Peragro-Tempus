@@ -32,7 +32,7 @@ Abilities::Abilities(AbilitiesFactory* fact, Entity* entity, TableManager* db)
 void Abilities::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Entity id NoEntity for abilities"));
 
   AbilitiesTable* table = db->Get<AbilitiesTable>();
   AbilitiesTableVOArray arr = table->Get(entity->GetId());

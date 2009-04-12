@@ -88,8 +88,8 @@ void Character::LoadFromDB()
   CharactersTableVOp c = table->GetSingle(GetId());
   if (!c)
   {
-    printf("E: Invalid EntityId %u!\n", GetId());
-    throw "Invalid EntityId !";
+    throw PT_EX(InvalidCharacter("Invalid entity id for character"))
+      << EntityIdInfo(GetId());
   }
 
   SetName(c->name);
@@ -104,8 +104,8 @@ void Character::LoadFromDB()
   MeshesTableVOp m = mtable->GetSingle(meshId);
   if (!m)
   {
-    printf("E: Invalid meshId %"SIZET"!\n", meshId);
-    throw "Invalid meshId !";
+    throw PT_EX(InvalidCharacter("Invalid mesh id for character"))
+      << MeshIdInfo(meshId);
   }
   SetMeshName(m->factoryName);
   SetFileName(m->fileName);
@@ -114,8 +114,8 @@ void Character::LoadFromDB()
   EntityPositionsTableVOp p = ptable->GetSingle(GetId());
   if (!p)
   {
-    printf("E: Invalid EntityId: no position %u!\n", GetId());
-    throw "Invalid EntityId: no position!";
+    throw PT_EX(InvalidCharacter("Invalid entity id, no position"))
+      << EntityIdInfo(GetId());
   }
   SetPosition(p->position);
   SetRotation(p->rotation[1]); //TODO: just Y atm.
@@ -140,8 +140,8 @@ void Character::SaveToDB()
   {
     if (GetMeshName().empty() || GetFileName().empty())
     {
-      printf("E: Invalid mesh for Character %d!\n", GetId());
-      throw "Invalid mesh for Character!";
+      throw PT_EX(InvalidCharacter("Invalid mesh for character"))
+        << EntityIdInfo(GetId());
     }
     else // Create a new mesh.
     {

@@ -23,7 +23,14 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
+#include "common/util/exception.h"
+
 class ItemEntity;
+
+PT_DEFINE_EXCEPTION(InvalidItemTemplate);
+PT_DEFINE_ERRORINFO(ItemTemplateId, size_t);
+PT_DEFINE_ERRORINFO(EquipTypeId, size_t);
+PT_DEFINE_ERRORINFO(MeshId, size_t);
 
 class ItemTemplate
 {

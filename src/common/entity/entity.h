@@ -54,14 +54,15 @@ namespace Common
     class Entity : public WFMath::Shape<WFMath::Point<3> >
     {
     public:
-      static const size_t NoEntity = 0;
+      typedef unsigned int IdType;
+      static const IdType NoEntity = 0;
 
     public:
       ///Name of the entity.
       std::string name; // TODO: Remove after tree debug printfs are removed, uncomment the lower one.
     protected:
       ///Unique ID of the entity.
-      unsigned int id;
+      IdType id;
       ///Type of the entity.
       EntityType type;
       ///Name of the entity.
@@ -88,10 +89,10 @@ namespace Common
       virtual ~Entity() { Reset(); }
 
       ///@return Entity's unique ID.
-      virtual unsigned int GetId () const { return id; }
+      virtual IdType GetId () const { return id; }
       ///Set the entity's unique ID to a given value.
       ///@todo Should we really be allowed to do this?
-      virtual void SetId (unsigned int value) { id = value; }
+      virtual void SetId (IdType value) { id = value; }
 
       ///@return Entity's type.
       virtual int GetType () const { return type; }

@@ -38,6 +38,9 @@
 class MountEntity;
 class Race;
 
+PT_DEFINE_EXCEPTION(InvalidCharacter);
+PT_DEFINE_ERRORINFO(MeshId, size_t);
+
 class Character : public Entity
 {
 public:

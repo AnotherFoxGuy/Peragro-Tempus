@@ -27,6 +27,8 @@
 #include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
+#include "common/util/exception.h"
+
 class Tables;
 
 #define SAFEMUTABLE(funcname, type)         \
@@ -94,5 +96,8 @@ public:
   virtual void SaveToDB();
   virtual void DeleteFromDB();
 };
+
+PT_DEFINE_EXCEPTION(InvalidEntity);
+PT_DEFINE_ERRORINFO(EntityId, Entity::IdType);
 
 #endif // ENTITY_H

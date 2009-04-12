@@ -50,7 +50,7 @@ std::string cmdDate::HelpFull (const char*) const
 std::string cmdDate::Execute (const StringArray& args)
 {
   // Element 0 is '/', 1 is 'date'
-  if (args.size() != 2 && args.size() != 3) throw BadUsage();
+  if (args.size() != 2 && args.size() != 3) throw PT_EX(IncorrectParameters());
 
   PointerLibrary* ptrlib = PT::getPointerLibrary(object_reg);
   if (!ptrlib) return "";

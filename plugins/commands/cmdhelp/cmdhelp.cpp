@@ -53,7 +53,7 @@ std::string cmdHelp::Execute (const StringArray& args)
 {
 
   // Element 0 is '/', 1 is 'help'
-  if (args.size() < 2 || args.size() > 3) throw BadUsage();
+  if (args.size() < 2 || args.size() > 3) throw PT_EX(IncorrectParameters());
 
   const char* cmd = NULL;
   if (args.size() == 3) cmd = args[2].c_str();   // '/help cmd'

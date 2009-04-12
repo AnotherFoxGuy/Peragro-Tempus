@@ -31,7 +31,7 @@ size_t BasesFactory::GetID(const std::string& name) const
 {
   std::map<std::string, size_t>::const_iterator it = names.find(name);
   if (it == names.end())
-    throw Exception();
+    throw PT_EX(BaseNotFound()) << BaseNameInfo(name);
   return it->second;
 }
 
@@ -39,7 +39,7 @@ const std::string& BasesFactory::GetName(size_t id) const
 {
   std::map<size_t, std::string>::const_iterator it = ids.find(id);
   if (it == ids.end())
-    throw Exception();
+    throw PT_EX(BaseNotFound());
   return it->second;
 }
 

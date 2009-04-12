@@ -58,7 +58,7 @@ std::string cmdWhisper::Execute (const StringArray& args)
 {
 
   // Element 0 is '/', 1 is 'whisper'
-  if (args.size() < 4) throw BadUsage();
+  if (args.size() < 4) throw PT_EX(IncorrectParameters());
 
   // nick of the person you're whispering to
   std::string nick = args[2];

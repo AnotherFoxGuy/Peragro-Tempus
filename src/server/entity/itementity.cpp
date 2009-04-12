@@ -45,8 +45,8 @@ void ItemEntity::LoadFromDB()
   ItemsTableVOp i = table->GetSingle(GetId());
   if (!i)
   {
-    printf("E: Invalid ItemId %u!\n", GetId());
-    throw "Invalid ItemId !";
+    throw PT_EX(InvalidItemEntity("Invalid item id for item entity"));
+    //  << ItemIdInfo(GetId());
   }
 
   itemTemplate = Server::getServer()->GetItemTemplatesManager()->Get(i->itemTemplates_id);
@@ -72,8 +72,7 @@ void ItemEntity::SaveToDB()
 {
   if (!GetItemTemplate())
   {
-    printf("Invalid ItemTemplate2!");
-    throw "Invalid ItemTemplate!";
+    throw PT_EX(InvalidItemEntity("Invalid item template for item entity"));
   }
 
   Entity::SaveToDB();
