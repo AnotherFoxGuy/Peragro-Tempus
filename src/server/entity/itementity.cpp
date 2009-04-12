@@ -45,7 +45,7 @@ void ItemEntity::LoadFromDB()
   ItemsTableVOp i = table->GetSingle(GetId());
   if (!i)
   {
-    printf("E: Invalid ItemId %"SIZET"!\n", GetId());
+    printf("E: Invalid ItemId %u!\n", GetId());
     throw "Invalid ItemId !";
   }
 

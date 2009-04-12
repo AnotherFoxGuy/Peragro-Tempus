@@ -10,7 +10,7 @@ protected:
   void timeOut()
   {
     counter--;
-    printf("Counter: %i (%d)\n", counter, time(0));
+    printf("Counter: %i (%d)\n", counter, (int)time(0));
   }
 };
 

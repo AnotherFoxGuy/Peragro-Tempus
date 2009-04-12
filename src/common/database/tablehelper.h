@@ -89,8 +89,8 @@ PT_DEFINE_Insert(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 #define PT_IS_SK_(c) \
   BOOST_PP_EQUAL(c, PT_PrimaryKeyS)
 
-//#define PT_IF_PK_(c) \
-  //BOOST_PP_IF(PT_IS_PK_(c), " PRIMARY KEY", "")
+/*#define PT_IF_PK_(c) \
+  BOOST_PP_IF(PT_IS_PK_(c), " PRIMARY KEY", "")*/
 
 #define PT_IF_PK_(c) \
   BOOST_PP_IF(PT_IS_PK_(c), "", "")
