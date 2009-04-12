@@ -561,10 +561,6 @@ namespace PT
         ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);
         serverWindow->ShowWindow ();
 
-        // Show the Avatar creation window // testing
-        //AvatarCreationWindow* avatarWindow = guiManager->GetWindow<AvatarCreationWindow>(AVATARCREATIONWINDOW);
-        //avatarWindow->ShowWindow ();
-
         if (cmdline)
         {
           const char* host = cmdline->GetOption("host");
