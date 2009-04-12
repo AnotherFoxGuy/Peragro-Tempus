@@ -26,7 +26,7 @@
 
 class AbilitiesFactory;
 
-class Abilities : public Bases<10, float, 10>
+class Abilities : public BasesLevel<10, float, 10>
 {
 public:
   Abilities(AbilitiesFactory* fact, Entity* entity, TableManager* db);

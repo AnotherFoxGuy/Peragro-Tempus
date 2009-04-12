@@ -16,35 +16,35 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef REPUTATIONS_H
-#define REPUTATIONS_H
+#ifndef VULNERABILITIES_H
+#define VULNERABILITIES_H
 
 #include <string.h>
 #include <boost/shared_ptr.hpp>
 
 #include "common/entity/character/base.h"
 
-class ReputationsFactory;
+class VulnerabilitiesFactory;
 
-class Reputations : public Bases<size_t>
+class Vulnerabilities : public Bases<int>
 {
 public:
-  Reputations(ReputationsFactory* fact, Entity* entity, TableManager* db);
+  Vulnerabilities(VulnerabilitiesFactory* fact, Entity* entity, TableManager* db);
 
   virtual void LoadFromDB();
   virtual void SaveToDB();
 };
 
-class ReputationsFactory : public BasesFactory
+class VulnerabilitiesFactory : public BasesFactory
 {
 private:
   virtual void LoadFromDB();
 
 public:
-  ReputationsFactory(TableManager* db);
-  virtual ~ReputationsFactory() {}
+  VulnerabilitiesFactory(TableManager* db);
+  virtual ~VulnerabilitiesFactory() {}
 
-  boost::shared_ptr<Reputations> Create(Entity* entity);
+  boost::shared_ptr<Vulnerabilities> Create(Entity* entity);
 };
 
-#endif // REPUTATIONS_H
+#endif // VULNERABILITIES_H

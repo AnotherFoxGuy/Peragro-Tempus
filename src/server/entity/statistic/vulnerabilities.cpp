@@ -17,37 +17,37 @@
 */
 
 #include "../entity.h"
-#include "abilities.h"
+#include "vulnerabilities.h"
 
 #include "src/server/database/tablemanager.h"
-#include "src/server/database/table-abilitytypes.h"
-#include "src/server/database/table-abilities.h"
+#include "src/server/database/table-vulnerabilitytypes.h"
+#include "src/server/database/table-vulnerabilities.h"
 
 
-Abilities::Abilities(AbilitiesFactory* fact, Entity* entity, TableManager* db)
-  : BasesLevel<10, float, 10>("Abilities", fact, entity, db)
+Vulnerabilities::Vulnerabilities(VulnerabilitiesFactory* fact, Entity* entity, TableManager* db)
+  : Bases<int>("Vulnerabilities", fact, entity, db)
 {
 }
 
-void Abilities::LoadFromDB()
+void Vulnerabilities::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
     throw "Invalid entity!";
 
-  AbilitiesTable* table = db->Get<AbilitiesTable>();
-  AbilitiesTableVOArray arr = table->Get(entity->GetId());
-  AbilitiesTableVOArray::const_iterator it = arr.begin();
+  VulnerabilitiesTable* table = db->Get<VulnerabilitiesTable>();
+  VulnerabilitiesTableVOArray arr = table->Get(entity->GetId());
+  VulnerabilitiesTableVOArray::const_iterator it = arr.begin();
   for ( ; it != arr.end(); it++)
   {
-    size_t id = (*it)->AbilityTypes_id;
-    bases[id] = boost::shared_ptr<Base> (new Base(id, (*it)->xp));
-    printf("Added entity ability %s\n", fact->GetName(id).c_str());
+    size_t id = (*it)->VulnerabilityTypes_id;
+    bases[id] = boost::shared_ptr<Base> (new Base(id, (*it)->value));
+    printf("Added entity vulnerability %s\n", fact->GetName(id).c_str());
   }
 }
 
-void Abilities::SaveToDB()
+void Vulnerabilities::SaveToDB()
 {
-  AbilitiesTable* table = db->Get<AbilitiesTable>();
+  VulnerabilitiesTable* table = db->Get<VulnerabilitiesTable>();
   std::map<size_t, boost::shared_ptr<Base> >::const_iterator it = bases.begin();
   for ( ; it != bases.end(); it++)
   {
@@ -58,16 +58,16 @@ void Abilities::SaveToDB()
   }
 }
 
-AbilitiesFactory::AbilitiesFactory(TableManager* db) : BasesFactory(db)
+VulnerabilitiesFactory::VulnerabilitiesFactory(TableManager* db) : BasesFactory(db)
 {
   LoadFromDB();
 }
 
-void AbilitiesFactory::LoadFromDB()
+void VulnerabilitiesFactory::LoadFromDB()
 {
-  AbilityTypesTable* table = db->Get<AbilityTypesTable>();
-  AbilityTypesTableVOArray arr = table->GetAll();
-  AbilityTypesTableVOArray::const_iterator it = arr.begin();
+  VulnerabilityTypesTable* table = db->Get<VulnerabilityTypesTable>();
+  VulnerabilityTypesTableVOArray arr = table->GetAll();
+  VulnerabilityTypesTableVOArray::const_iterator it = arr.begin();
   for ( ; it != arr.end(); it++)
   {
     Add((*it)->id, (*it)->name);
@@ -75,9 +75,9 @@ void AbilitiesFactory::LoadFromDB()
   }
 }
 
-boost::shared_ptr<Abilities> AbilitiesFactory::Create(Entity* entity)
+boost::shared_ptr<Vulnerabilities> VulnerabilitiesFactory::Create(Entity* entity)
 {
-  boost::shared_ptr<Abilities> abilities(new Abilities(this, entity, db));
-  return abilities;
+  boost::shared_ptr<Vulnerabilities> vul(new Vulnerabilities(this, entity, db));
+  return vul;
 }
 

@@ -25,7 +25,7 @@
 
 
 Reputations::Reputations(ReputationsFactory* fact, Entity* entity, TableManager* db)
-  : Bases<1, size_t>("Reputations", fact, entity, db)
+  : Bases<size_t>("Reputations", fact, entity, db)
 {
 }
 

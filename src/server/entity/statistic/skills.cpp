@@ -25,7 +25,7 @@
 
 
 Skills::Skills(SkillsFactory* fact, Entity* entity, TableManager* db)
-  : Bases<3, float>("Skills", fact, entity, db)
+  : BasesLevel<3, float>("Skills", fact, entity, db)
 {
 }
 

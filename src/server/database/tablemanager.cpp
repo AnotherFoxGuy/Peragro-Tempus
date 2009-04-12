@@ -58,6 +58,9 @@
 #include "table-resourcetypes.h"
 #include "table-resources.h"
 
+#include "table-vulnerabilitytypes.h"
+#include "table-vulnerabilities.h"
+
 // NPC stuff
 #include "table-npcaisetting.h"
 #include "table-npcdialogs.h"
@@ -80,6 +83,7 @@
 #include "table-speciesinventory.h"
 #include "table-speciesequipment.h"
 #include "table-specieszones.h"
+#include "table-speciesvulnerabilities.h"
 
 
 TableManager::TableManager(Database* db) : db(db)
@@ -129,6 +133,9 @@ void TableManager::Initialize()
   Register(new ResourceTypesTable(db));
   Register(new ResourcesTable(db));
 
+  Register(new VulnerabilityTypesTable(db));
+  Register(new VulnerabilitiesTable(db));
+
   // NPC stuff
   Register(new NpcAiSettingTable(db));
   Register(new NpcDialogsTable(db));
@@ -152,6 +159,7 @@ void TableManager::Initialize()
   Register(new SpeciesInventoryTable(db));
   Register(new SpeciesEquipmentTable(db));
   Register(new SpeciesZonesTable(db));
+  Register(new SpeciesVulnerabilitiesTable(db));
 
   db->update("commit");
 }

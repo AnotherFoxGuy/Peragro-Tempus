@@ -32,7 +32,7 @@ class Exception
 {
 };
 
-template<size_t multiplier, typename T, size_t startXp = 0>
+template<typename T, size_t startXp = 0>
 class Bases
 {
 public:
@@ -44,9 +44,6 @@ public:
   void Set(const std::string& name, T xp);
   void Add(const std::string& name, T xp);
   void Sub(const std::string& name, T xp);
-  size_t GetLevel(const std::string& name);
-
-  size_t GetLevel(T xp) const;
 
   virtual void LoadFromDB() = 0;
   virtual void SaveToDB() = 0;
@@ -79,6 +76,18 @@ private:
   std::string type;
 };
 
+template<size_t multiplier, typename T, size_t startXp = 0>
+class BasesLevel : public Bases<T, startXp>
+{
+public:
+  BasesLevel(const std::string& type, BasesFactory* fact, Entity* entity,
+    TableManager* db) : Bases<T, startXp>(type, fact, entity, db) {}
+  virtual ~BasesLevel() {}
+
+  size_t GetLevel(const std::string& name);
+  size_t GetLevel(T xp) const;
+};
+
 class BasesFactory
 {
 public:
@@ -101,72 +110,54 @@ private:
   std::map<size_t, std::string> ids;
 };
 
-template<size_t multiplier, typename T, size_t startXp>
-inline Bases<multiplier, T, startXp>::Base::Base(size_t id, T xp)
+template<typename T, size_t startXp>
+inline Bases<T, startXp>::Base::Base(size_t id, T xp)
   : id(id), xp(xp), dirty(false) {}
 
-template<size_t multiplier, typename T, size_t startXp>
-inline T Bases<multiplier, T, startXp>::Base::Get()
+template<typename T, size_t startXp>
+inline T Bases<T, startXp>::Base::Get()
 { return xp; }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline void Bases<multiplier, T, startXp>::Base::Set(T xp)
+template<typename T, size_t startXp>
+inline void Bases<T, startXp>::Base::Set(T xp)
 { dirty = true; Base::xp = xp; }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline bool Bases<multiplier, T, startXp>::Base::IsDirty()
+template<typename T, size_t startXp>
+inline bool Bases<T, startXp>::Base::IsDirty()
 { return dirty; }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline void Bases<multiplier, T, startXp>::Base::SetDirty(bool dirty)
+template<typename T, size_t startXp>
+inline void Bases<T, startXp>::Base::SetDirty(bool dirty)
 { Base::dirty = dirty; }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline Bases<multiplier, T, startXp>::Bases(const std::string& type, BasesFactory* fact, Entity* entity,
+template<typename T, size_t startXp>
+inline Bases<T, startXp>::Bases(const std::string& type, BasesFactory* fact, Entity* entity,
   TableManager* db)
   : fact(fact), entity(entity),  db(db), type(type) {}
 
-template<size_t multiplier, typename T, size_t startXp>
-inline Bases<multiplier, T, startXp>::~Bases()
+template<typename T, size_t startXp>
+inline Bases<T, startXp>::~Bases()
 {}
 
-template<size_t multiplier, typename T, size_t startXp>
-inline T Bases<multiplier, T, startXp>::Get(const std::string& name)
+template<typename T, size_t startXp>
+inline T Bases<T, startXp>::Get(const std::string& name)
 { return GetBase(name)->Get(); }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline void Bases<multiplier, T, startXp>::Set(const std::string& name, T xp)
+template<typename T, size_t startXp>
+inline void Bases<T, startXp>::Set(const std::string& name, T xp)
 { GetBase(name)->Set(xp); SaveToDB(); }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline void Bases<multiplier, T, startXp>::Add(const std::string& name, T xp)
+template<typename T, size_t startXp>
+inline void Bases<T, startXp>::Add(const std::string& name, T xp)
 { Base* base = GetBase(name); base->Set(base->Get() + xp); SaveToDB(); }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline void Bases<multiplier, T, startXp>::Sub(const std::string& name, T xp)
+template<typename T, size_t startXp>
+inline void Bases<T, startXp>::Sub(const std::string& name, T xp)
 { Base* base = GetBase(name); base->Set(base->Get() - xp); SaveToDB(); }
 
-template<size_t multiplier, typename T, size_t startXp>
-inline size_t Bases<multiplier, T, startXp>::GetLevel(const std::string& name)
-{ return GetLevel(GetBase(name)->Get()); }
-
-template<size_t multiplier, typename T, size_t startXp>
-size_t Bases<multiplier, T, startXp>::GetLevel(T xp) const
-{
-  //@todo Maybe this could be done in a faster way?
-  size_t nextLevel = 1;
-  size_t nextLevelXp;
-  while (xp >= (nextLevelXp = nextLevel * multiplier))
-  {
-    xp -= nextLevelXp;
-    ++nextLevel;
-  }
-  return nextLevel - 1;
-}
-
-template<size_t multiplier, typename T, size_t startXp>
-typename Bases<multiplier, T, startXp>::Base*
-  Bases<multiplier, T, startXp>::GetBase(const std::string& name)
+template<typename T, size_t startXp>
+typename Bases<T, startXp>::Base*
+  Bases<T, startXp>::GetBase(const std::string& name)
 {
   try
   {
@@ -190,6 +181,24 @@ typename Bases<multiplier, T, startXp>::Base*
     printf("No %s with name '%s'!\n", type.c_str(), name.c_str());
     throw;
   }
+}
+
+template<size_t multiplier, typename T, size_t startXp>
+inline size_t BasesLevel<multiplier, T, startXp>::GetLevel(const std::string& name)
+{ return GetLevel(GetBase(name)->Get()); }
+
+template<size_t multiplier, typename T, size_t startXp>
+size_t BasesLevel<multiplier, T, startXp>::GetLevel(T xp) const
+{
+  //@todo Maybe this could be done in a faster way?
+  size_t nextLevel = 1;
+  size_t nextLevelXp;
+  while (xp >= (nextLevelXp = nextLevel * multiplier))
+  {
+    xp -= nextLevelXp;
+    ++nextLevel;
+  }
+  return nextLevel - 1;
 }
 
 #endif // BASE_H

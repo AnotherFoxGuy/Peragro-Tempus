@@ -26,7 +26,7 @@
 
 class SkillsFactory;
 
-class Skills : public Bases<3, float>
+class Skills : public BasesLevel<3, float>
 {
 public:
   Skills(SkillsFactory* fact, Entity* entity, TableManager* db);

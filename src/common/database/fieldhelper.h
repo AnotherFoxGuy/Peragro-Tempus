@@ -42,6 +42,7 @@ namespace DB
     template<typename T>
     inline const char* DBType() { return ""; }
     template<> inline const char* DBType<size_t>() { return "INTEGER"; }
+    template<> inline const char* DBType<int>() { return "INTEGER"; }
     template<> inline const char* DBType<float>() { return "FLOAT"; }
     template<> inline const char* DBType<bool>() { return "BOOLEAN"; }
     template<> inline const char* DBType<std::string>() { return "TEXT"; }
@@ -53,6 +54,7 @@ namespace DB
     template<typename T>
     inline void Convert(T& val, const std::string& str) { val = str; }
     template<> inline void Convert(size_t& val, const std::string& str) { val = atoi(str.c_str()); }
+    template<> inline void Convert(int& val, const std::string& str) { val = atoi(str.c_str()); }
     template<> inline void Convert(float& val, const std::string& str) { val = atof(str.c_str()); }
     template<> inline void Convert(bool& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     // std::string by default template.
@@ -64,6 +66,7 @@ namespace DB
     template<typename T>
     inline std::string Convert(const T& val) { return val; }
     template<> inline std::string Convert(const size_t& val) { std::stringstream o; o << val; return o.str(); }
+    template<> inline std::string Convert(const int& val) { std::stringstream o; o << val; return o.str(); }
     template<> inline std::string Convert(const float& val) { std::stringstream o; o << val; return o.str(); }
     template<> inline std::string Convert(const bool& val) { std::stringstream o; o << val; return o.str(); }
     template<> inline std::string Convert(const std::string& val) { return Quote(val); }
