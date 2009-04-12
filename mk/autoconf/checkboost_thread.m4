@@ -1,6 +1,7 @@
 AC_DEFUN([CS_CHECK_BOOST_THREAD],
 [
     AC_REQUIRE([AX_BOOST_BASE])
+if test "x$want_boost" = "xyes"; then
 
     CS_CHECK_LIB_WITH([boost_thread], [AC_LANG_PROGRAM([[#include <boost/thread.hpp>]],
         [boost::thread_group thrds; return 0;])], [], [C++],
@@ -16,4 +17,5 @@ AC_DEFUN([CS_CHECK_BOOST_THREAD],
             [],
             [$BOOST_LDFLAGS],
             [boost_thread-gcc, boost_thread-mingw])
+fi
 ])

@@ -1,6 +1,7 @@
 AC_DEFUN([CS_CHECK_BOOST_FILESYSTEM],
 [
 	AC_REQUIRE([AX_BOOST_BASE])
+if test "x$want_boost" = "xyes"; then
 
 	CS_CHECK_LIB_WITH([boost_filesystem], [AC_LANG_PROGRAM([[#include <boost/filesystem/path.hpp>]],
 		    [boost::filesystem::path test("configure");])], [], [C++],
@@ -16,4 +17,5 @@ AC_DEFUN([CS_CHECK_BOOST_FILESYSTEM],
 		    [],
 		    [$BOOST_LDFLAGS],
 		    [boost_filesystem-gcc, boost_filesystem-mingw])
+fi
 ])
