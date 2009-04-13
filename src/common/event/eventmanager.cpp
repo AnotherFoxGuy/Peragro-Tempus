@@ -87,6 +87,10 @@ namespace PT
       //Register for the Frame event, for Handle().
       eventQueue->RegisterListener (this, Retrieve("crystalspace.frame"));
 
+      //If this is big enough, AddListener called from another thread won't
+      //cause the "Memory block has wrong cookie" error
+      listeners.SetCapacity(100);
+
       return true;
     }
 
