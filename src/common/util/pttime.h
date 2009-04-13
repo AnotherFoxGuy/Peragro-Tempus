@@ -24,13 +24,6 @@
 #ifndef PT_TIME_H
 #define PT_TIME_H
 
-#ifdef WIN32
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#else // not WIN32
-#include <sys/time.h>
-#endif // WIN32
-
 /**
  * Wrapper class around operating system specific time functions.
  */
@@ -42,66 +35,35 @@ public:
   /// Destructor.
   ~PTTime() {}
 
-#ifdef WIN32
-
-private:
-  struct timeval
-  {
-    long tv_sec;
-    long tv_usec;
-  };
-
-  inline int gettimeofday(struct timeval *tv, void *tzp)
-  {
-    union
-    {
-      long long ns100;
-      FILETIME ft;
-    } _now;
-
-    GetSystemTimeAsFileTime(&_now.ft);
-
-    // FILETIME contains a 64-bit value representing the number of 100-nanosecond intervals since January 1, 1601.
-    // Since posix' gettimeofday starts at January 1, 1970 we have to correct that.
-    _now.ns100 -= 116444736000000000LL;
-
-    // 100 ns = 1 / 10 us = 1 / 10.000 ms = 1 / 10.000.000 s
-    tv->tv_usec = (long)(_now.ns100 % 10000000UL);
-    tv->tv_sec = (long)(_now.ns100 / 10000000UL);
-    return 0;
-  }
-
-#endif
-
-  timeval time_init;
+  boost::xtime time_init;
 
 public:
   /// Stores the current time, with a millisecond offset.
   void Initialize(time_t offset = 0)
   {
-    gettimeofday(&time_init, 0);
+    boost::xtime_get(&time_init, boost::TIME_UTC);
     // The quotient of the conversion is the seconds value.
-    time_init.tv_sec += (long) offset / 1000;
+    time_init.sec += (long) offset / 1000;
     // Convert the remainder to microseconds.
-    time_init.tv_usec += (long) (offset % 1000) * 1000;
+    time_init.nsec += (long) (offset % 1000) * 1000000;
   }
 
   /// Returns the milliseconds elapsed since the clock was initialized.
   time_t GetElapsedMS()
   {
-    timeval time_now;
-    gettimeofday(&time_now, 0);
+    boost::xtime time_now;
+    boost::xtime_get(&time_now, boost::TIME_UTC);
     // Truncate to milliseconds.
-    return (((time_now.tv_sec - time_init.tv_sec) * 1000) +
-      ((time_now.tv_usec - time_init.tv_usec) / 1000));
+    return (((time_now.sec - time_init.sec) * 1000) +
+      ((time_now.nsec - time_init.nsec) / 1000000));
   }
 
   /// Returns the seconds elapsed since the clock was initialized.
   time_t GetElapsedS()
   {
-    timeval time_now;
-    gettimeofday(&time_now, 0);
-    return (time_now.tv_sec - time_init.tv_sec);
+    boost::xtime time_now;
+    boost::xtime_get(&time_now, boost::TIME_UTC);
+    return (time_now.sec - time_init.sec);
   }
 };
 
