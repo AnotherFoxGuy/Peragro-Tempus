@@ -29,6 +29,7 @@
 #include <utility>
 #include <boost/shared_ptr.hpp>
 
+class Character;
 class ItemEntity;
 
 /**
@@ -37,6 +38,13 @@ class ItemEntity;
 class WeaponHelper
 {
 public:
+  /**
+   * Queries the weapon.
+   * @param character.
+   * @return The weapon.
+   */
+  static boost::shared_ptr<ItemEntity> GetWeapon(boost::shared_ptr<Character> character);
+
   /**
    * Queries the Reach value from a weapon item.
    * @param item The item to return the value for.

@@ -18,9 +18,15 @@
 
 #include "weaponhelper.h"
 
+#include "server/entity/character/character.h"
 #include "server/entity/itementity.h"
 
 #include "server/server.h"
+
+boost::shared_ptr<ItemEntity> WeaponHelper::GetWeapon(boost::shared_ptr<Character> character)
+{
+  return character->GetEquipment()->Equiped("Right Hand");
+}
 
 unsigned int WeaponHelper::GetReach(boost::shared_ptr<ItemEntity> item)
 {
@@ -43,12 +49,15 @@ unsigned int WeaponHelper::GetBaseDamage(boost::shared_ptr<ItemEntity> item)
 
 unsigned int WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity> item)
 {  
-  return GetBaseDamage(item); //TODO * item->GetQuality()/item->GetMaxQuality(); 
+  return GetBaseDamage(item); //TODO * item->GetQuality()/item->GetMaxQuality();
 }
 
 WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
 {  
   Types types;
+
+  if (!item) return types;
+
   boost::shared_ptr<Vulnerabilities> vuls = item->GetVulnerabilities();
 
   VulnerabilitiesFactory* fact = Server::getServer()->GetVulnerabilitiesFactory();
@@ -63,7 +72,7 @@ WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
 
   //TODO: What when the item doesn't have any types?
   if (types.size() == 0)
-    types.push_back(Type("Slash", 1));
+    types.push_back(Type("Blunt", 1));
 
   return types;
 }
