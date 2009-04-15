@@ -95,10 +95,10 @@ public:
   {
     if (!m_thread_ptr)
     {
+      isRunning = true;
       m_thread_ptr.reset(
         new boost::thread(
         boost::lambda::bind(&Thread::running, this)));
-      isRunning = true;
     }
     else
     {
