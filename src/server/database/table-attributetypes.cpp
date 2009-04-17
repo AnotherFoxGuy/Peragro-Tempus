@@ -33,20 +33,20 @@ AttributeTypesTable::AttributeTypesTable(Database* db) : Table(db)
     CreateTable();
     // General.
     Insert(1, "Quality");
-    Insert(1, "Durability");
-    Insert(1, "Weight");
+    Insert(2, "Durability");
+    Insert(3, "Weight");
     // Weapons.
-    Insert(1, "Reach");
-    Insert(1, "Damage");
-    Insert(1, "Heft");
+    Insert(4, "Reach");
+    Insert(5, "Damage");
+    Insert(6, "Heft");
     // Ranged Weapons.
-    Insert(1, "Pull");
-    Insert(1, "Range");
+    Insert(7, "Pull");
+    Insert(8, "Range");
     // Armor.
-    Insert(1, "Mobility");
-    Insert(1, "Hardness");
-    Insert(1, "Bulk");
-    Insert(1, "Toughness");
+    Insert(9, "Mobility");
+    Insert(10, "Hardness");
+    Insert(11, "Bulk");
+    Insert(12, "Toughness");
 
   }
   delete rs;
