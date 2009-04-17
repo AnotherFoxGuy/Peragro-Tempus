@@ -111,9 +111,7 @@ CS_EMIT_BUILD_PROPERTY([BOOST.AVAILABLE], [$HAVE_BOOST])
 CS_EMIT_BUILD_PROPERTY([BOOST.CFLAGS], [$BOOST_CPPFLAGS])
 CS_EMIT_BUILD_PROPERTY([BOOST.LFLAGS], [$BOOST_LDFLAGS])
 
-CS_CHECK_BOOST_PYTHON([emit])
-#CS_CHECK_BOOST_FILESYSTEM([emit])
-CS_CHECK_BOOST_THREAD([emit])
+PT_CHECK_BOOST([THREAD])
 
 #----------------------------------------------------------------------------
 # Check for pthread_timedjoin_np support in pthread
