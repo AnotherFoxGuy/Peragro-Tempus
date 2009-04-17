@@ -357,6 +357,9 @@
 				RelativePath="..\..\src\server\entity\statistic\abilities.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\entity\statistic\attributes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\entity\statistic\reputations.cpp">
 			</File>
 			<File
@@ -431,6 +434,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\statistic\abilities.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\entity\statistic\attributes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\entity\statistic\reputations.h">

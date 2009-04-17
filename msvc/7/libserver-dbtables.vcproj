@@ -306,6 +306,12 @@
 				RelativePath="..\..\src\server\database\table-abilitytypes.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-attributes.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-attributetypes.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-books.cpp">
 			</File>
 			<File
@@ -355,6 +361,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-items.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-itemtemplateattributes.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-itemtemplates.cpp">
@@ -457,6 +466,12 @@
 				RelativePath="..\..\src\server\database\table-abilitytypes.h">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-attributes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-attributetypes.h">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-books.h">
 			</File>
 			<File
@@ -506,6 +521,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-items.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-itemtemplateattributes.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-itemtemplates.h">
