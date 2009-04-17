@@ -49,6 +49,7 @@ class AbilitiesFactory;
 class VulnerabilitiesFactory;
 class ReputationsFactory;
 class ResourcesFactory;
+class AttributesFactory;
 
 class ItemTemplatesManager;
 
@@ -82,6 +83,7 @@ private:
   VulnerabilitiesFactory* vulnerabilitiesFactory;
   ReputationsFactory* reputationsFactory;
   ResourcesFactory* resourcesFactory;
+  AttributesFactory* attributesFactory;
 
   ItemTemplatesManager* itemTemplatesManager;
 
@@ -150,6 +152,9 @@ public:
 
   void SetReputationsFactory(ReputationsFactory* reputationsFactory) { this->reputationsFactory = reputationsFactory; }
   ReputationsFactory* GetReputationsFactory() { return this->reputationsFactory; }
+
+  void SetAttributesFactory(AttributesFactory* attributesFactory) { this->attributesFactory = attributesFactory; }
+  AttributesFactory* GetAttributesFactory() { return this->attributesFactory; }
 
   void SetResourcesFactory(ResourcesFactory* resourcesFactory) { this->resourcesFactory = resourcesFactory; }
   ResourcesFactory* GetResourcesFactory() { return this->resourcesFactory; }

@@ -45,7 +45,6 @@ public:
   std::string name;
   std::string iconFile;
   std::string description;
-  float weight;
   std::string equipType;
   std::string equipTypeName;
   std::string factoryName;

@@ -43,6 +43,9 @@
 // Item stuff
 #include "table-itemtemplates.h"
 #include "table-equiptypes.h"
+#include "table-itemtemplateattributes.h"
+#include "table-attributetypes.h"
+#include "table-attributes.h"
 
 // Character stuff
 #include "table-inventory.h"
@@ -118,6 +121,9 @@ void TableManager::Initialize()
   // Item stuff
   Register(new ItemTemplatesTable(db));
   Register(new EquipTypesTable(db));
+  Register(new ItemTemplateAttributesTable(db));
+  Register(new AttributeTypesTable(db));
+  Register(new AttributesTable(db));
 
   // Character stuff
   Register(new InventoryTable(db));

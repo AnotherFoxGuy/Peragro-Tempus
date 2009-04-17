@@ -53,8 +53,8 @@ private:
 public:
   Equipment(EquipmentFactory* fact, Entity* entity, TableManager* db);
 
-  bool Equiped(size_t slotId);
-  bool Equiped(const std::string& slotName);
+  boost::shared_ptr<ItemEntity> Equipped(size_t slotId);
+  boost::shared_ptr<ItemEntity> Equipped(const std::string& slotName);
 
   void Equip(size_t slotId, boost::shared_ptr<ItemEntity> item);
   void Equip(const std::string& slotName, boost::shared_ptr<ItemEntity> item);

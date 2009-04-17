@@ -212,6 +212,9 @@ void App::Run()
   ReputationsFactory reputationsFactory(tablemgr);
   server->SetReputationsFactory(&reputationsFactory);
 
+  AttributesFactory attributesFactory(tablemgr);
+  server->SetAttributesFactory(&attributesFactory);
+
   resourcesFactory = new ResourcesFactory(tablemgr);
   server->SetResourcesFactory(resourcesFactory);
 

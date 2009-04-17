@@ -482,8 +482,10 @@ unsigned int InteractionManager::GetReach(boost::shared_ptr<Character> character
 
 unsigned int InteractionManager::GetDamage(boost::shared_ptr<Character> character)
 {
-  //TODO
-  return WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity>()) + GetStrength(character);
+  if (WeaponHelper::GetWeapon(character))
+    return WeaponHelper::GetDamage(WeaponHelper::GetWeapon(character)) + GetStrength(character);
+  else
+    return 1; //TODO: fill in fist damage here.
 }
 
 InteractionManager::Types InteractionManager::GetTypes(boost::shared_ptr<Character> character)

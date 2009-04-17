@@ -42,7 +42,6 @@ void ItemTemplate::LoadFromDB()
   size_t meshId = it->meshes_id;
   iconFile = it->iconFile;
   description = it->description;
-  weight = it->weight;
   size_t equipTypeId = it->equipType_id;
 
   EquipTypesTable* etable = Server::getServer()->GetTableManager()->Get<EquipTypesTable>();
@@ -75,7 +74,7 @@ void ItemTemplate::SetDataOn(ItemEntity* item)
   item->SetName(name);
   item->SetIcon(iconFile);
   item->SetDescription(description);
-  item->SetWeight(weight);
+  //item->SetWeight(weight);
   item->SetEquipType(equipType);
   item->SetEquipTypeName(equipTypeName);
   item->SetMeshName(factoryName);

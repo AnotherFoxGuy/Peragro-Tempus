@@ -46,6 +46,14 @@ public:
   static boost::shared_ptr<ItemEntity> GetWeapon(boost::shared_ptr<Character> character);
 
   /**
+   * Checks if an weapon is 'heavy' (has Weight greater than the character's Strength)
+   * @param character.
+   * @param item.
+   * @return True if the weapon is heavy for this character, false otherwise.
+   */
+  bool IsHeavy(boost::shared_ptr<Character> character, boost::shared_ptr<ItemEntity> item);
+
+  /**
    * Queries the Reach value from a weapon item.
    * @param item The item to return the value for.
    * @return The weapon's reach.

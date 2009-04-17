@@ -31,6 +31,8 @@ SkillTypesTable::SkillTypesTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
+    Insert(0, "N", "None");
+
     Insert(1, "O", "One Handed Axe");
     Insert(2, "O", "One Handed Blunt");
     Insert(3, "O", "One Handed Flail");
@@ -46,6 +48,37 @@ SkillTypesTable::SkillTypesTable(Database* db) : Table(db)
     Insert(11, "R", "Bow");
     Insert(12, "R", "Crossbow");
     Insert(13, "R", "Throw");
+
+    Insert(13, "D", "Armor Proficiency");
+    Insert(14, "D", "Block");
+    Insert(15, "D", "Dodge");
+    Insert(16, "D", "Parry");
+
+    Insert(17, "RO", "Sneak");
+    Insert(18, "RO", "Pick Lock");
+    Insert(19, "RO", "Pick Pocket");
+    Insert(20, "RO", "Perception");
+
+    Insert(21, "P", "Farmer");
+    Insert(22, "P", "Fisher");
+    Insert(23, "P", "Herbalist");
+    Insert(24, "P", "Miner");
+    Insert(25, "P", "Skinner");
+
+    Insert(26, "C", "Apothecary");
+    Insert(27, "C", "Blacksmith");
+    Insert(28, "C", "Carpenter");
+    Insert(29, "C", "Cook");
+    Insert(30, "C", "Mason");
+    Insert(31, "C", "Tailor");
+
+    Insert(32, "S", "Bard");
+    Insert(33, "S", "Merchant");
+    Insert(34, "S", "Sage");
+    Insert(35, "S", "Teacher");
+
+    Insert(36, "OT", "Healer");
+    Insert(37, "OT", "Trainer");
   }
   delete rs;
 }

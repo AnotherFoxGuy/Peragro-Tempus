@@ -35,8 +35,8 @@ class ResultSet;
   ((meshes_id,         size_t,             0,             (Meshes, id) )) \
   ((iconFile,          std::string,        0,             0)) \
   ((description,       std::string,        0,             0)) \
-  ((weight,            float,              0,             0)) \
-  ((equipType_id,      size_t,             0,             (EquipTypes, id) ))
+  ((equipType_id,      size_t,             0,             (EquipTypes, id) )) \
+  ((SkillTypes_id,     size_t,             0,             (SkillTypes, id) ))
 
 PT_DECLARE_VO(ItemTemplatesTable, DB_TABLE_ITEMTEMPLATES, DB_TABLE_ITEMTEMPLATES_FIELDS)
 

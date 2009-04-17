@@ -25,6 +25,7 @@
 
 #include "statistic/abilities.h"
 #include "statistic/vulnerabilities.h"
+#include "statistic/attributes.h"
 
 #include "common/inventory/item.h"
 
@@ -42,6 +43,7 @@ private:
 
   boost::shared_ptr<Abilities> abilities;
   boost::shared_ptr<Vulnerabilities> vulnerabilities;
+  boost::shared_ptr<Attributes> attributes;
 
 public:
   ItemEntity() : Entity(Common::Entity::ItemEntityType)
@@ -49,6 +51,7 @@ public:
     inWorld = false;
     abilities = Server::getServer()->GetAbilitiesFactory()->Create(this);
     vulnerabilities = Server::getServer()->GetVulnerabilitiesFactory()->Create(this);
+    attributes = Server::getServer()->GetAttributesFactory()->Create(this);
   }
 
   ~ItemEntity() {}
@@ -61,6 +64,7 @@ public:
 
   boost::shared_ptr<Abilities> GetAbilities() const { return abilities; }
   boost::shared_ptr<Vulnerabilities> GetVulnerabilities() const { return vulnerabilities; }
+  boost::shared_ptr<Attributes> GetAttributes() const { return attributes; }
 
   virtual void LoadFromDB();
   virtual void SaveToDB();

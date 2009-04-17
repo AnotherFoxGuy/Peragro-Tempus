@@ -34,6 +34,7 @@
 #include "common/util/printhelper.h"
 
 #include "server/entity/entitymanager.h"
+#include "server/entity/itementity.h"
 
 boost::shared_ptr<ItemEntity> Convert1(Entityp e)
 {
@@ -45,20 +46,23 @@ Equipment::Equipment(EquipmentFactory* fact, Entity* entity, TableManager* db)
 {
 }
 
-bool Equipment::Equiped(size_t slotId)
+boost::shared_ptr<ItemEntity> Equipment::Equipped(size_t slotId)
 {
   fact->GetSlotName(slotId); // Will throw exception when the slotId doesn't exists.
-  return equipment.find(slotId) != equipment.end();
+  if (equipment.find(slotId) != equipment.end())
+    return equipment[slotId];
+  else
+    return boost::shared_ptr<ItemEntity>();
 }
 
-bool Equipment::Equiped(const std::string& slotName)
+boost::shared_ptr<ItemEntity> Equipment::Equipped(const std::string& slotName)
 {
-  return Equiped(fact->GetSlotID(slotName));
+  return Equipped(fact->GetSlotID(slotName));
 }
 
 void Equipment::Equip(size_t slotId, boost::shared_ptr<ItemEntity> item)
 {
-  if (Equiped(slotId))
+  if (Equipped(slotId))
   {
     throw PT_EX(InvalidSlot("Slot already occupied")) << SlotIdInfo(slotId);
   }
@@ -77,7 +81,7 @@ void Equipment::Equip(const std::string& slotName, boost::shared_ptr<ItemEntity>
 
 boost::shared_ptr<ItemEntity> Equipment::UnEquip(size_t slotId)
 {
-  if (!Equiped(slotId))
+  if (!Equipped(slotId))
   {
     throw PT_EX(InvalidSlot("Slot empty")) << SlotIdInfo(slotId);
   }

@@ -25,31 +25,33 @@
 
 boost::shared_ptr<ItemEntity> WeaponHelper::GetWeapon(boost::shared_ptr<Character> character)
 {
-  return character->GetEquipment()->Equiped("Right Hand");
+  return character->GetEquipment()->Equipped("Right Hand");
+}
+
+bool WeaponHelper::IsHeavy(boost::shared_ptr<Character> character, boost::shared_ptr<ItemEntity> item)
+{  
+  // Weight is in grams, need kilograms, divide by 1000.
+  return item->GetAttributes()->Get("Weight")/1000 > character->GetAbilities()->Get("Strength");
 }
 
 unsigned int WeaponHelper::GetReach(boost::shared_ptr<ItemEntity> item)
 {
-  // TODO This should not be here, just till the DB is setup
-  // to correctly set Reach to something...
-  return 5;   
+  return item->GetAttributes()->Get("Reach");
 }
 
 unsigned int WeaponHelper::GetHeft(boost::shared_ptr<ItemEntity> item)
 {
-  // TODO This should not be here, just till the DB is setup
-  // to correctly set Heft to something...
-  return 5;   
+  return item->GetAttributes()->Get("Heft");
 }
 
 unsigned int WeaponHelper::GetBaseDamage(boost::shared_ptr<ItemEntity> item)
 {  
-  return 1; //TODO
+  return item->GetAttributes()->Get("Damage");
 }
 
 unsigned int WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity> item)
 {  
-  return GetBaseDamage(item); //TODO * item->GetQuality()/item->GetMaxQuality();
+  return GetBaseDamage(item) * ((float)item->GetAttributes()->Get("Quality")/100.0f);
 }
 
 WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
@@ -70,7 +72,7 @@ WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
       types.push_back( Type(it->first, vuls->Get(it->first)) );
   }
 
-  //TODO: What when the item doesn't have any types?
+  //If the item doesn't have any types, treat as blunt.
   if (types.size() == 0)
     types.push_back(Type("Blunt", 1));
 
