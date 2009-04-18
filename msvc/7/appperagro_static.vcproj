@@ -325,18 +325,12 @@
 			<File
 				RelativePath="..\..\src\client\client.cpp">
 			</File>
-			<File
-				RelativePath="..\..\src\client\pointer\pointer.cpp">
-			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
 				RelativePath="..\..\src\client\client.h">
-			</File>
-			<File
-				RelativePath="..\..\src\client\pointer\pointer.h">
 			</File>
 		</Filter>
 		<Filter
