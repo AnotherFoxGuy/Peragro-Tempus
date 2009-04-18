@@ -50,8 +50,11 @@ public:
   {
     if (socket.init(serveraddress.port, serveraddress.ip, false))
     {
-      receiver.registerHandler(&conn_handler);
-      receiver.Begin();
+      if (!receiver.IsRunning())
+      {
+        receiver.registerHandler(&conn_handler);
+        receiver.Begin();
+      }
       return true;
     }
     return false;
