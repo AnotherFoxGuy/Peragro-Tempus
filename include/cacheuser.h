@@ -96,8 +96,6 @@ protected:
 public:
   iCacheUser(iObjectRegistry* object_reg, const std::string& tag = "iCacheManager") : registered(false)
   {
-    loadingCacheEntries.SetCapacity(16);
-    loadedCacheEntries.SetCapacity(16);
     cacheManager = csQueryRegistryTagInterface<iCacheManager> (object_reg, tag.c_str());
     if (!cacheManager.IsValid())
     {
@@ -125,6 +123,8 @@ public:
         || (loadingCacheEntries.Contains(e)) != csArrayItemNotFound)
       return;
     loadingCacheEntries.Push(e);
+    // Grow the target array for when the item finishes.
+    loadedCacheEntries.SetMinimalCapacity(loadingCacheEntries.GetSize());
     Register();
   }
 
