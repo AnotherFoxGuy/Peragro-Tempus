@@ -42,8 +42,6 @@ namespace Common
   }
 }
 
-typedef WFMath::OcTree<WFMath::AxisBox<3>, true>::Type Octree;
-
 namespace Common
 {
   namespace World
@@ -78,6 +76,8 @@ namespace Common
     };
 
     typedef boost::shared_ptr<Object> Objectp;
+
+    typedef WFMath::OcTree<WFMath::AxisBox<3>, true>::Type Octree;
 
     class WorldManager
     {

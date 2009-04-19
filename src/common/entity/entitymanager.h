@@ -39,8 +39,6 @@ namespace Common
   } // namespace Entity
 } // namespace Common
 
-typedef WFMath::OcTree<WFMath::Point<3>, true>::Type Octree;
-
 namespace Common
 {
   namespace Entity
@@ -50,6 +48,8 @@ namespace Common
 
     typedef std::map<size_t, Entityp> Entities;
     typedef std::pair<ptScopedMutexCopyAble, Entities> EntitiesSafe;
+
+    typedef WFMath::OcTree<WFMath::Point<3>, true>::Type Octree;
 
     class EntityManager
     {

@@ -57,6 +57,8 @@
 #include "common/util/wincrashdump.h"
 #include "common/util/consoleapp.h"
 
+#include "common/world/world.h"
+
 #include "server/combat/interactionmanager.h"
 
 
@@ -65,6 +67,7 @@ class App : public Application
 private:
   Database* db;
   TableManager* tablemgr;
+  Common::World::WorldManager* worldManager;
   EntityManager* ent_mgr;
   InteractionManager* interactionMgr;
   TimerEngine * timerEngine;
@@ -118,6 +121,7 @@ App::~App()
   delete timerEngine;
   delete network;
   delete server;
+  delete worldManager;
 
   StringStore::destroy();
 
@@ -142,6 +146,8 @@ void App::Run()
   db = new dbSQLite("test_db.sqlite");
   tablemgr = new TableManager(db);
   tablemgr->Initialize();
+
+  worldManager = new Common::World::WorldManager();
 
   server->setDatabase(db);
   server->SetTableManager(tablemgr);
