@@ -2,6 +2,6 @@ SubDir TOP src client pointer ;
 
 Description client-pointer : "client pointer" ;
 Library client-pointer :
-  [ Wildcard *.h *.cpp ]
-ExternalLibs client-data : CRYSTAL CEL BOOST ;
-MsvcCFlags client-data : /wd4396 ;
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs client-pointer : CRYSTAL CEL BOOST ;
+MsvcCFlags client-pointer : /wd4396 ;
