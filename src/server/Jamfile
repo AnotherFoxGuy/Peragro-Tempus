@@ -18,7 +18,7 @@ Application peragro-server : [ Wildcard *.h *.cpp ] : console ;
 
 ExternalLibs peragro-server : ;
 LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp
-  server-dbtables server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath ;
+  server-dbtables server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath world ;
 
 MsvcExternalLibrary peragro-server : "wsock32.lib" ;
 MsvcCFlags peragro-server : /wd4396 ;
