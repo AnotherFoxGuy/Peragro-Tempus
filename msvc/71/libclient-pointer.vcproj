@@ -25,10 +25,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release71\build\libclient-pointer\Win32\client-pointer.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalOptions=" /wd4396 "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release71\build\libclient-pointer\libclient-pointer.pch"
 				AssemblerListingLocation="..\..\out\release71\build\libclient-pointer\"
 				ObjectFile="..\..\out\release71\build\libclient-pointer\"
@@ -49,9 +49,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -59,7 +59,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -74,8 +74,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -97,10 +97,10 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release71\build\libclient-pointer\Win32\client-pointer.pdb"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalOptions=" /wd4396 "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\release71\build\libclient-pointer\libclient-pointer.pch"
 				AssemblerListingLocation="..\..\out\release71\build\libclient-pointer\"
 				ObjectFile="..\..\out\release71\build\libclient-pointer\"
@@ -121,9 +121,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -131,7 +131,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -146,8 +146,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;_CRT_SECURE_NO_DEPRECATE;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -169,10 +169,10 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-pointer\Win32\client-pointer.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalOptions=" /wd4396 "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-pointer\libclient-pointer.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\libclient-pointer\"
 				ObjectFile="..\..\out\debug71\build\libclient-pointer\"
@@ -191,9 +191,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -201,7 +201,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -216,8 +216,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -239,10 +239,10 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug71\build\libclient-pointer\Win32\client-pointer.pdb"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalOptions=" /wd4396 "
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				PrecompiledHeaderFile="..\..\out\debug71\build\libclient-pointer\libclient-pointer.pch"
 				AssemblerListingLocation="..\..\out\debug71\build\libclient-pointer\"
 				ObjectFile="..\..\out\debug71\build\libclient-pointer\"
@@ -261,9 +261,9 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\libs\csutil\win32\libs;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\libs\csutil\win32\libs;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
@@ -271,7 +271,7 @@
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
@@ -286,8 +286,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;_CRT_SECURE_NO_DEPRECATE;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;PROJECTGEN_VERSION=71"
+				AdditionalIncludeDirectories=".;..\..\src\client\pointer;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\include\csutil\win32;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\include\csutil\win32;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
