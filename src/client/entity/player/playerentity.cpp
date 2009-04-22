@@ -167,7 +167,7 @@ namespace PT
       csRef<iWorld> world =  csQueryRegistry<iWorld> (obj_reg);
 
       world->EnterWorld(pos);
-      this->SetFullPosition();
+      this->SetFullPosition(pos,rotation,sector);
     }
 
   } //Entity namespace

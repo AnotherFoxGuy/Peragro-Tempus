@@ -22,6 +22,7 @@
 #include "server/entity/entitymanager.h"
 #include "server/zone/zonemanager.h"
 #include "server/entity/user.h"
+#include "server/entity/pcentity.h"
 
 #include "server/quest/npcdialogmanager.h"
 
@@ -322,15 +323,11 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 
 void AdminHandler::handleToggleFlashStep(GenericMessage* msg)
 {
-  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
-  const PcEntity* c_pcent = NetworkHelper::getPcEntity(msg);
-  if (!c_pcent) return;
-
-  ptScopedMonitorable<PcEntity> pcent (c_pcent);
+  boost::shared_ptr<PcEntity> pcent = NetworkHelper::GetEntity(msg);
+  if (!pcent) return;
   pcent->toggleFlashStep();
-  */
 }
 
 void AdminHandler::handleCreateZone(GenericMessage* msg)

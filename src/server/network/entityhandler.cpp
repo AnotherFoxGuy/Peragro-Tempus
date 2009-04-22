@@ -95,7 +95,7 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
   NetworkHelper::localcast(bs, mover);
 
   server->GetMovementManager()->Register(mover);
-}
+} // handleMoveRequest
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 {
@@ -323,61 +323,56 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
 
   Server::getServer()->addEntity(ent, true);
   */
-}
+} // handleDropRequest
 
 void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 {
-  /*
-  const PcEntity* c_entity = NetworkHelper::getPcEntity(msg);
-  if (!c_entity) return;
-
-  const Character* c_char = NetworkHelper::getCharacter(msg);
-  if (!c_char) return;
-
-  ptScopedMonitorable<PcEntity> entity (c_entity);
-  ptScopedMonitorable<Character> character (c_char);
+  boost::shared_ptr<PcEntity> pcentity = NetworkHelper::GetEntity(msg);
+  if (!pcentity) return;
 
   MoveToRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  Stat* speed_stat = server->getStatManager()->findByName(ptString("Speed", 5));
-
-  if (entity->getMount())
+  boost::shared_ptr<Character> mover;
+  if (pcentity->GetMount())
   {
-    ptScopedMonitorable<MountEntity> mount (entity->getMount());
-    float speed = mount->getSpeed();
-    // TODO
-    // moveEntity must be called without holding the lock.
-    // This is ugly since 'speed' could potentinally be
-    // changed since there is no lock.
-    server->moveEntity(mount, request_msg.getTo(), speed, request_msg.getRun());
-  }
-  else if (entity->usesFlashStep())
-  {
-    ptScopedMonitorable<Entity> ent (entity->getEntity());
-    ent->SetPosition(request_msg.getTo());
-
-    TeleportResponseMessage telemsg;
-    telemsg.setEntityId(ent->GetId());
-    telemsg.SetSectorId(ent->GetSector());
-    telemsg.SetPosition(ent->GetPosition());
-    telemsg.SetRotation(ent->GetRotation());
-
-    ByteStream bs;
-    telemsg.serialise(&bs);
-    server->broadCast(bs);
+    mover = pcentity->GetMount();
   }
   else
   {
-    float speed = (float)character->getStats()->getAmount(speed_stat);
-    server->moveEntity(entity, request_msg.getTo(), speed, request_msg.getRun());
+    mover = pcentity;
   }
 
-  server->getCharacterManager()->checkForSave(entity);
-  */
-}
+  mover->SetState(Character::StateWalking);
+
+  float speed = server->GetMovementManager()->GetMovementSpeed(mover); 
+
+  if (pcentity->usesFlashStep())
+  {
+
+    mover->SetPosition(request_msg.getTo());
+
+    TeleportResponseMessage telemsg;
+    telemsg.setEntityId(mover->GetId());
+    telemsg.setPosition(request_msg.getTo());
+    telemsg.setRotation(mover->GetRotation());
+    ByteStream bs;
+    telemsg.serialise(&bs);
+    NetworkHelper::localcast(bs, mover);
+
+  }
+  else
+  {
+  
+    server->GetMovementManager()->Register(mover);  
+    server->moveEntity(mover, request_msg.getTo(), speed, request_msg.getRun());
+  } // end if usesFlashStep
+
+//  server->getCharacterManager()->checkForSave(pcentity);
+  
+} // handleMoveToRequest
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
 {
@@ -427,8 +422,7 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
-  /*
-  const User* user = NetworkHelper::getUser(msg);
+  boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
@@ -437,37 +431,32 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
   TeleportRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  Server* server = Server::getServer();
-
-  const Entity* target_ent = server->getEntityManager()->findById(request_msg.getEntityId());
+  boost::shared_ptr<PcEntity> target_ent = NetworkHelper::GetEntity(msg);
   if (!target_ent) return;
 
-  const Entity* c_ent = 0;
-  if (target_ent->getPlayerEntity()->getMount())
+  boost::shared_ptr<Character> mover;
+  if (target_ent->GetMount())
   {
-    c_ent = target_ent->getPlayerEntity()->getMount()->getEntity();
+    mover = target_ent->GetMount();
   }
   else
   {
-    c_ent = target_ent;
+    mover = target_ent;
   }
-  ptScopedMonitorable<Entity> ent (c_ent);
-  ent->SetSector(request_msg.GetSectorId());
-  ent->SetPosition(request_msg.GetPosition());
-  ent->SetRotation(request_msg.GetRotation());
 
-  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
+  mover->SetPosition(request_msg.getPosition());
+  mover->SetRotation(request_msg.getRotation());
+
+//  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
 
   TeleportResponseMessage response_msg;
-  response_msg.setEntityId(ent->GetId());
-  response_msg.SetSectorId(ent->GetSector());
-  response_msg.SetPosition(ent->GetPosition());
-  response_msg.SetRotation(ent->GetRotation());
+  response_msg.setEntityId(mover->GetId());
+  response_msg.setPosition(request_msg.getPosition());
+  response_msg.setRotation(mover->GetRotation());
 
   ByteStream bs;
   response_msg.serialise(&bs);
-  server->broadCast(bs);
-  */
+  NetworkHelper::localcast(bs, mover);
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
