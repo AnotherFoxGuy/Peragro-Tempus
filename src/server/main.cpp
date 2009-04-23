@@ -34,7 +34,6 @@
 #include "server/quest/npcdialogmanager.h"
 #include "common/util/sleep.h"
 #include "common/util/timer.h"
-#include "common/items/itemsid.h"
 
 #include "server/server.h"
 #include "common/database/sqlite/sqlite.h"
