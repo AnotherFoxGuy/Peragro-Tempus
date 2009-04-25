@@ -2,7 +2,7 @@
   
   <sound>
     <event value="world.loaded" />
-    <file value="/peragro/art/audio/others/tada.wav"/>
+    <file value="/peragro/art/audio/others/bell.wav"/>
     <priority value='Normal'/>
   </sound>
   
