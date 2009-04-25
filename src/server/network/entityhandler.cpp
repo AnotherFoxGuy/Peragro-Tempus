@@ -351,8 +351,16 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 
   if (pcentity->usesFlashStep())
   {
+    // calc rotation
+    WFMath::Vector<3> direction = mover->GetPosition() - request_msg.getTo();
+    direction = WFMath::Vector<3>(direction.x(), 0, direction.z()).normalize();
+    // TODO: FIX IT.
+    float diff = direction.x() / direction.z();
+    float rotation = atan2(direction.x(), direction.z());
 
     mover->SetPosition(request_msg.getTo());
+    float oldRot = mover->GetRotation();
+    mover->SetRotation(rotation);
 
     TeleportResponseMessage telemsg;
     telemsg.setEntityId(mover->GetId());

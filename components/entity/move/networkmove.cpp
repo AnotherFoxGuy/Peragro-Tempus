@@ -154,22 +154,22 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
   using namespace PT::Events;
 
   unsigned int entityId = EntityHelper::GetEntityID(&ev);
-  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+  // unsigned int sectorId = EntityHelper::GetSectorId(&ev);
 
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
 
-  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
-  PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
-  std::string sectorName = "Default_Sector";
-  if (dataSector)
-    sectorName = dataSector->GetName();
+  //PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
+  //PT::Data::Sector* dataSector = sectorDataMgr->GetSectorById(sectorId);
+  std::string sectorName = entity->GetSectorName();
+  //if (dataSector)
+  //  sectorName = dataSector->GetName();
 
-  pointerlib->getReporter()->Report(PT::Debug,
-    "NetworkMove: Teleporting entity '%d' to %s(%d)",
-    entityId, sectorName.c_str(), sectorId);
+  //pointerlib->getReporter()->Report(PT::Debug,
+  //  "NetworkMove: Teleporting entity '%d' to %s(%d)",
+  //  entityId, sectorName.c_str(), sectorId);
 
-  entity->Teleport(EntityHelper::GetPosition(&ev), rotation, sectorName.c_str());
+  entity->Teleport(EntityHelper::GetPosition(&ev), rotation, sectorName);
 
   return true;
 } // end Teleport()
