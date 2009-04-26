@@ -4,5 +4,5 @@ Description inventorytest : "Inventory Test" ;
 Application inventorytest : [ Wildcard *.h *.cpp ] : console ;
 LinkWith inventorytest : inventory ;
 
-ExternalLibs inventorytest : CRYSTAL ;
+ExternalLibs inventorytest : BOOST CRYSTAL ;
 
