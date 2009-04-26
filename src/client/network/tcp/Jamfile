@@ -5,3 +5,4 @@ Library client-tcp-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith client-tcp-network : tcp-network ;
+ExternalLibs client-tcp-network : BOOST ;

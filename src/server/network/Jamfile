@@ -8,4 +8,5 @@ Library server-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith server-network : network server-tcp-network server-entity server-environment ;
+ExternalLibs server-network : BOOST ;
 MsvcCFlags server-network : /wd4396 ;

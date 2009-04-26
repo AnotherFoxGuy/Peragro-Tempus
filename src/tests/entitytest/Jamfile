@@ -4,5 +4,5 @@ Description entitytest : "Entity Test" ;
 Application entitytest : [ Wildcard *.h *.cpp ] : console ;
 LinkWith entitytest : entity util ;
 
-ExternalLibs entitytest : CRYSTAL ;
+ExternalLibs entitytest : BOOST CRYSTAL ;
 

@@ -3,3 +3,4 @@ SubDir TOP src auth database ;
 Description auth-dbtables : "auth-database" ;
 Library auth-dbtables :
   [ Wildcard *.h *.cpp ] ;
+ExternalLibs auth-dbtables : BOOST ;

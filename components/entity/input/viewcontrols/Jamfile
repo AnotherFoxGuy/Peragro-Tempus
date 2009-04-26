@@ -2,6 +2,6 @@ SubDir TOP components entity input viewcontrols ;
 
 Description component_viewcontrols : "viewcontrols" ;
 Plugin component_viewcontrols : [ Wildcard *.cpp *.h ] ;
-ExternalLibs component_viewcontrols : CRYSTAL CEL ;
+ExternalLibs component_viewcontrols : BOOST CRYSTAL CEL ;
 LinkWith component_viewcontrols : reporter eventmanager-cs client-component client-entitybase ;
 MsvcCFlags component_viewcontrols : /wd4396 ;

@@ -5,4 +5,5 @@ Library server-udp-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith server-udp-network : udp-network ;
+ExternalLibs server-udp-network : BOOST ;
 MsvcCFlags server-udp-network : /wd4396 ;

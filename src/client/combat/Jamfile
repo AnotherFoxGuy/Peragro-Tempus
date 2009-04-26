@@ -3,5 +3,5 @@ SubDir TOP src client combat ;
 Description client-combatmanager : "client combatmanager" ;
 Library client-combatmanager :
   [ Wildcard *.h *.cpp ] ;
-ExternalLibs client-combatmanager : CRYSTAL CEL CEGUI ;
+ExternalLibs client-combatmanager : BOOST CRYSTAL CEL CEGUI ;
 MsvcCFlags client-combatmanager : /wd4396 ;

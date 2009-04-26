@@ -10,5 +10,5 @@ Library client-gui :
   [ Wildcard [ ConcatDirs common ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs options ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs config ] : *.h *.cpp ] ;
-ExternalLibs client-gui : CRYSTAL CEGUI CEL ;
+ExternalLibs client-gui : BOOST CRYSTAL CEGUI CEL ;
 MsvcCFlags client-gui : /wd4396 ;

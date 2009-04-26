@@ -2,5 +2,5 @@ SubDir TOP plugins commands cmdquit ;
 
 Description cmdquit : "quit command" ;
 Plugin cmdquit : [ Wildcard *.cpp *.h ] ;
-ExternalLibs cmdquit : CRYSTAL ;
+ExternalLibs cmdquit : BOOST CRYSTAL ;
 LinkWith cmdquit : plugins-commands ;

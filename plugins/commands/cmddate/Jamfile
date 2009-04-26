@@ -2,5 +2,5 @@ SubDir TOP plugins commands cmddate ;
 
 Description cmddate : "Date Command" ;
 Plugin cmddate : [ Wildcard *.cpp *.h ] ;
-ExternalLibs cmddate : CRYSTAL ;
+ExternalLibs cmddate : BOOST CRYSTAL ;
 LinkWith cmddate : plugins-commands util client-environmentmanager ;

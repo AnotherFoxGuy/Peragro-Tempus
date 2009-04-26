@@ -3,4 +3,4 @@ SubDir TOP src tests timertest ;
 Description timertest : "Timer Test" ;
 Application timertest : [ Wildcard *.h *.cpp ] : console ;
 LinkWith timertest : util ;
-
+ExternalLibs timertest : BOOST ;

@@ -5,3 +5,4 @@ Library server-spawner :
   [ Wildcard *.h *.cpp ] ;
 #LinkWith server-spawner :  ;
 MsvcCFlags server-spawner : /wd4396 ;
+ExternalLibs server-spawner : BOOST ;

@@ -4,3 +4,4 @@ Description events : "events" ;
 Library events :
   [ Wildcard *.h *.cpp ] ;
 LinkWith events : util ;
+ExternalLibs events : BOOST ;

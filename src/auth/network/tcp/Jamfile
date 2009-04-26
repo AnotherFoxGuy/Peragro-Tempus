@@ -5,3 +5,4 @@ Library auth-tcp-network :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith auth-tcp-network : tcp-network ;
+ExternalLibs auth-tcp-network : BOOST ;

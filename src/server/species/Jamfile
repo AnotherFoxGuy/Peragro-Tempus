@@ -5,3 +5,4 @@ Library server-species :
   [ Wildcard *.h *.cpp ] ;
 #LinkWith server-species :  ;
 MsvcCFlags server-species : /wd4396 ;
+ExternalLibs server-species : BOOST ;

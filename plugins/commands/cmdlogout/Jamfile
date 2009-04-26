@@ -2,5 +2,5 @@ SubDir TOP plugins commands cmdlogout ;
 
 Description cmdlogout : "logout command" ;
 Plugin cmdlogout : [ Wildcard *.cpp *.h ] ;
-ExternalLibs cmdlogout : CRYSTAL ;
+ExternalLibs cmdlogout : BOOST CRYSTAL ;
 LinkWith cmdlogout : plugins-commands ;

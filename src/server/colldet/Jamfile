@@ -4,4 +4,5 @@ Description server-colldet : "server collision detection" ;
 Library server-colldet :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-colldet : bulletcollision bulletdynamics bulletmath ;
+ExternalLibs server-colldet : BOOST ;
 MsvcCFlags server-colldet : /wd4396 ;

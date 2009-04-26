@@ -5,3 +5,4 @@ Library server-ai :
   [ Wildcard *.h *.cpp ] ;
 
 MsvcCFlags server-ai : /wd4396 ;
+ExternalLibs server-ai : BOOST ;

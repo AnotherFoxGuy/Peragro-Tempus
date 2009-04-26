@@ -5,3 +5,4 @@ Library sqlite_adp :
   [ Wildcard *.h *.cpp ] ;
 
 LinkWith sqlite_adp : sqlite_lib ;
+ExternalLibs sqlite_adp : BOOST ;

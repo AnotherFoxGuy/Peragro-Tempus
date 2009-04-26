@@ -8,4 +8,5 @@ Library server-entity :
   [ Wildcard [ ConcatDirs character ] : *.h *.cpp ]
   [ Wildcard [ ConcatDirs statistic ] : *.h *.cpp ] ;
 LinkWith server-entity : util ;
+ExternalLibs server-entity : BOOST ;
 MsvcCFlags server-entity : /wd4396 ;

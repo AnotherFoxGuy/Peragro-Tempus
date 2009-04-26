@@ -4,4 +4,5 @@ Description server-combat : "combat" ;
 Library server-combat :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-combat : util wfmath ;
+ExternalLibs server-combat : BOOST ;
 MsvcCFlags server-combat : /wd4396 ;

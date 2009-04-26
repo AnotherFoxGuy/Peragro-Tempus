@@ -7,6 +7,7 @@ Description auth-server : "Peragro Tempus Auth Server" ;
 Application auth-server : [ Wildcard *.h *.cpp ] : console ;
 
 LinkWith auth-server : auth-network events sqlite_adp auth-dbtables util ;
+ExternalLibs auth-server : BOOST ;
 
 MsvcExternalLibrary auth-server : "wsock32.lib" ;
 MsvcCFlags auth-server : /wd4396 ;

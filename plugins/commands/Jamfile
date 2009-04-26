@@ -2,7 +2,7 @@ SubDir TOP plugins commands ;
 
 Description plugins-commands : "command plugin lib" ;
 Library plugins-commands : [ Wildcard *.h *.cpp ] ;
-ExternalLibs plugins-commands : CRYSTAL ;
+ExternalLibs plugins-commands : BOOST CRYSTAL ;
 
 SubInclude TOP plugins commands manager ;
 SubInclude TOP plugins commands cmddate ;

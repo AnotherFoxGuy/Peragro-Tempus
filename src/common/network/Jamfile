@@ -7,3 +7,4 @@ Description network : "network" ;
 Library network :
   [ Wildcard *.h *.cpp ] ;
 LinkWith network : udp-network ;
+ExternalLibs network : BOOST ;

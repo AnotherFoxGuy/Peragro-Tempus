@@ -4,4 +4,5 @@ Description server-zonemanager : "zonemanager" ;
 Library server-zonemanager :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-zonemanager : util ;
+ExternalLibs server-zonemanager : BOOST ;
 MsvcCFlags server-zonemanager : /wd4396 ;

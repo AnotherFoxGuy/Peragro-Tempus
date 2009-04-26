@@ -4,4 +4,5 @@ Description server-environment : "environment" ;
 Library server-environment :
   [ Wildcard *.h *.cpp ] ;
 LinkWith server-environment : network ;
+ExternalLibs server-environment : BOOST ;
 MsvcCFlags server-environment : /wd4396 ;
