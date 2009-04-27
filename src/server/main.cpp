@@ -16,7 +16,17 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "stdio.h"
+#include <stdio.h>
+#include <string>
+
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+
+#include <iostream>
+#include <fstream>
+#include <iterator>
+#include <sys/stat.h>
+#include "ext/sqlite/sqlite3.h" 
 
 #include "server/entity/entitymanager.h"
 #include "server/entity/character/movementmanager.h"
@@ -60,10 +70,22 @@
 
 #include "server/combat/interactionmanager.h"
 
+using namespace std;
+
+
+// A helper function to simplify multi line option part.
+template<class T>
+ostream& operator<<(ostream& os, const vector<T>& v)
+{
+    copy(v.begin(), v.end(), ostream_iterator<T>(cout, " ")); 
+    return os;
+}
+
 
 class App : public Application
 {
 private:
+  unsigned int port;
   Database* db;
   TableManager* tablemgr;
   Common::World::WorldManager* worldManager;
@@ -84,6 +106,7 @@ public:
 
   virtual int Initialize(int argc, char* argv[]);
   virtual void Run();
+  bool FileExists(string strFilename);
 };
 
 App::App()
@@ -95,23 +118,24 @@ App::~App()
   printf("Server Shutdown initialised!\n");
 
   printf("- Shutdown Timer Engine:\t");
-  timerEngine->Kill();
+  if (timerEngine) timerEngine->Kill();
   printf("done\n");
 
   printf("- Shutdown Interaction Manager:     \t");
-  interactionMgr->shutdown();
+  if (interactionMgr) interactionMgr->shutdown();
   printf("done\n");
 
   printf("- Shutdown Network:     \t");
-  network->shutdown();
+  if (network) network->shutdown();
   printf("done\n");
 
   printf("- Shutdown Database:     \t");
-  db->shutdown();
+  if (db) db->shutdown();
   printf("done\n");
 
+
   // This has to be delete before the timerEngine!
-  delete resourcesFactory;
+  if (resourcesFactory) delete resourcesFactory;
 
   delete db;
   delete tablemgr;
@@ -134,6 +158,134 @@ int App::Initialize(int argc, char* argv[])
 
   setWinCrashDump(argv[0]);
 
+  po::variables_map vm;
+  // load server config file and cml options 
+  try
+  {
+    string cfgfile;
+    string dbname;
+    string sqlscript;
+
+    // Declare the config file options.
+    po::options_description config_options("Config file server options");
+    config_options.add_options()
+      ("port,p", po::value<unsigned int>(&port)->default_value(12345), 
+        "Set which network port number the server will use.")
+      ("sqlitedb", po::value<string>(&dbname)->default_value("test_db.sqlite")
+        ,"Name of SQLite database file.")
+      ("sqlcreatedb", po::value<string>(&dbname)->default_value("createdb.sql")
+        , "Name of SQL script to create\ndefault database.")
+    ;
+
+
+    // Declare the cmdline options.
+    po::options_description cmdline_options("cmd line server options");
+    cmdline_options.add_options()
+      ("help,h", "Help message")
+      ("port,p", po::value<unsigned int>(&port)->default_value(12345), 
+       "Set which network port number the server will use.")
+      ("cfg", po::value<string>(&cfgfile)->default_value("pt-server.cfg")
+       ,"Name of server config file.")
+    ;
+    cmdline_options.add(config_options);
+
+    // parse cmd line options 
+    po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
+    po::notify(vm);    
+
+    // parse cfg file options
+    ifstream ifs( vm["cfg"].as<string>().c_str() );
+    po::store(parse_config_file(ifs, config_options), vm);
+    po::notify(vm);
+
+    // clean up 
+    ifs.close();
+
+
+    if (vm.count("help")) 
+    {
+      cout << cmdline_options << "\n";
+      return 1;
+    }
+
+    // output server settings 
+    if (vm.count("port"))
+     {
+       cout << "port: " 
+       << vm["port"].as<unsigned int>() << "\n";
+     }
+
+     if (vm.count("cfg"))
+     {
+        cout << "configure file: " 
+        << vm["cfg"].as<string>() << "\n";
+     }
+
+     if (vm.count("sqlitedb"))
+     {
+        cout << "db name: " 
+        << vm["sqlitedb"].as<string>() << "\n";
+     }
+
+     if (vm.count("sqlcreatedb"))
+     {
+        cout << "db create script: " 
+        << vm["sqlcreatedb"].as<string>() << "\n";
+     }
+  }
+  catch(exception& e)
+  {
+    cout << e.what() << "\n";
+    return 1;
+  } // end load server options 
+
+  // Check sqlite database.
+ // cout << vm["sqlitedb"].as<string>() << "\n";
+  int rc;
+  if (!FileExists(vm["sqlitedb"].as<string>()))  
+  { // no sqlite database file so create one
+    sqlite3 *sqlitedb;
+    rc = sqlite3_open(vm["sqlitedb"].as<string>().c_str(), &sqlitedb);
+    if (rc!=SQLITE_OK)
+    {
+      cout << "Error(" << rc << ") Creating sqlite database:" 
+        <<  vm["sqlitedb"].as<string>().c_str() << "\n";
+      return 1;
+    }
+    cout << "database '" << vm["sqlcreatedb"].as<string>() 
+         << "' created succesfully!\n"; 
+    
+    if (FileExists(vm["sqlcreatedb"].as<string>()) )
+    { // database script exists, setup database tables and data using script
+      fstream ifs_sql(vm["sqlcreatedb"].as<string>().c_str(),ios::in);
+      string sql_line;
+      char *errmsg = 0;
+
+      // load and execute sql script.      
+      while(!ifs_sql.eof())
+      {
+        getline(ifs_sql, sql_line);
+        rc = sqlite3_exec( sqlitedb, sql_line.c_str(), NULL, NULL, &errmsg );
+        if (rc!=SQLITE_OK)
+        { // Error executing a sql statment
+          cout << "ERROR: failed executing sql statment\n"
+           << "sql:\n" << sql_line.c_str() << "\n"
+           << "error:\n" << errmsg << "\n";
+          // clean up and exit   
+          sqlite3_free(errmsg);
+          ifs_sql.close();
+          sqlite3_close(sqlitedb);
+          remove (vm["sqlitedb"].as<string>().c_str()); // make sure incomplete db file goes away
+          return 1;
+        }
+      } // end while sql 
+      ifs_sql.close();
+      cout << "database script '" << vm["sqlcreatedb"].as<string>() 
+           << "' completed succesfully!\n";
+    } // end if sqlcreatedb
+    sqlite3_close(sqlitedb);
+  } // end if !sqlitedb
+
   return 0;
 }
 
@@ -143,6 +295,12 @@ void App::Run()
   server = new Server();
 
   db = new dbSQLite("test_db.sqlite");
+  if (!db)
+  {
+    printf("Checking For DB init file\n");
+    return;
+  }
+
   tablemgr = new TableManager(db);
   tablemgr->Initialize();
 
@@ -151,26 +309,7 @@ void App::Run()
   server->setDatabase(db);
   server->SetTableManager(tablemgr);
 
-  unsigned int port = 0;
-  for(int i = 1; i < argc; i++)
-  {
-    if (!strcmp(argv[i], "-port"))
-    {
-      i++;
-      if (i < argc)
-      {
-        port = atoi(argv[i]);
-      }
-    }
-    else
-    {
-      printf("Invalid argument: %s\n", argv[i]);
-      printf("Valid arguments are:\n");
-      printf("-port [port number] - Set which network port number the server will use.\n");
-      return;
-    }
-  }
-
+  /// @TODO think this can be removed
   if (port == 0)
   {
     ConfigTableVOp p(tablemgr->Get<ConfigTable>()->GetSingle("port"));
@@ -185,7 +324,7 @@ void App::Run()
   }
 
   // Save the port.
-  std::stringstream portStr; portStr << port;
+  stringstream portStr; portStr << port;
   tablemgr->Get<ConfigTable>()->Insert("port", portStr.str());
 
   timerEngine = new TimerEngine();
@@ -279,7 +418,31 @@ void App::Run()
   }
 }
 
+bool App::FileExists(string strFilename) {
+  struct stat stFileInfo;
+  bool blnReturn;
+  int intStat;
+
+  // Attempt to get the file attributes
+  intStat = stat(strFilename.c_str(),&stFileInfo);
+  if(intStat == 0) {
+    // We were able to get the file attributes
+    blnReturn = true;
+  } else {
+    // We were not able to get the file attributes.
+    blnReturn = false;
+  }
+  
+  return(blnReturn);
+}
+
 int main(int argc, char ** argv)
 {
   return ApplicationRunner<App>::Run(argc, argv);
 }
+
+
+
+
+
+
