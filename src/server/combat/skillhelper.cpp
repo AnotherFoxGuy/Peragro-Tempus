@@ -23,7 +23,7 @@
 unsigned int SkillHelper::GetSkillLevel(boost::shared_ptr<Character> character,
                                               const std::string& skillName)
 {
-  /* 
+  /*
   If you wanted to add bonus/buffs values
   this would be the place to do it.
   */
@@ -40,7 +40,7 @@ unsigned int SkillHelper::GetSkillLevelForAllEquipedItems(boost::shared_ptr<Char
   {
     return 0;
   }
-  
+
   const std::list<boost::shared_ptr<ItemEntity> > items; //TODO = equipment->GetAllItems();
   std::list<boost::shared_ptr<ItemEntity> >::const_iterator it;
   for (it = items.begin(); it != items.end(); it++)

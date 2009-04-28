@@ -45,7 +45,7 @@ namespace Common
       }
 
       bool succes = octree.Add(entity);
-      if (succes) 
+      if (succes)
       {
         {
           ptScopedMutex p(mutex);

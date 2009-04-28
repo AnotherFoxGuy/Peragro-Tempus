@@ -91,7 +91,7 @@ namespace Common
       FactoriesTableVOp factory(factoryTable.GetSingle(
         object->factoryFile, object->factoryName));
 
-      if (factory) 
+      if (factory)
       {
         box = factory->boundingBox;
         // TODO: do proper transform.
@@ -117,8 +117,8 @@ namespace Common
 
     bool WorldManager::Add(const Factory& factory)
     {
-      factoryTable.Insert(factory.factoryFile, 
-                          factory.factoryName, 
+      factoryTable.Insert(factory.factoryFile,
+                          factory.factoryName,
                           factory.boundingBox,
                           factory.detailLevel,
                           factory.hash);

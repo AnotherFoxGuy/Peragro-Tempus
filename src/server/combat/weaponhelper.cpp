@@ -29,7 +29,7 @@ boost::shared_ptr<ItemEntity> WeaponHelper::GetWeapon(boost::shared_ptr<Characte
 }
 
 bool WeaponHelper::IsHeavy(boost::shared_ptr<Character> character, boost::shared_ptr<ItemEntity> item)
-{  
+{
   // Weight is in grams, need kilograms, divide by 1000.
   return item->GetAttributes()->Get("Weight")/1000 > character->GetAbilities()->Get("Strength");
 }
@@ -45,17 +45,17 @@ unsigned int WeaponHelper::GetHeft(boost::shared_ptr<ItemEntity> item)
 }
 
 unsigned int WeaponHelper::GetBaseDamage(boost::shared_ptr<ItemEntity> item)
-{  
+{
   return item->GetAttributes()->Get("Damage");
 }
 
 unsigned int WeaponHelper::GetDamage(boost::shared_ptr<ItemEntity> item)
-{  
+{
   return GetBaseDamage(item) * ((float)item->GetAttributes()->Get("Quality")/100.0f);
 }
 
 WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
-{  
+{
   Types types;
 
   if (!item) return types;

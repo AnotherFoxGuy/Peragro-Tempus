@@ -49,8 +49,8 @@ namespace PT
 {
   namespace Entity
   {
-    CharacterEntity::CharacterEntity(Common::Entity::EntityType type) 
-      : ::Client::Entity::Entity(type), equipment(this), resourcesFact(new ResourcesFactory()) 
+    CharacterEntity::CharacterEntity(Common::Entity::EntityType type)
+      : ::Client::Entity::Entity(type), equipment(this), resourcesFact(new ResourcesFactory())
     {
       sitting = false;
       hasMount = false;
@@ -161,7 +161,7 @@ namespace PT
 
       iSkeletonAnimNode2* root = animesh->GetSkeleton ()->GetAnimationPacket ()->GetAnimationRoot ();
       csRef<iSkeletonAnimNode2> anim;
-       
+
       if (root)
       {
         anim = root->FindNode("standard");

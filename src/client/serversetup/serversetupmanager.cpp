@@ -242,7 +242,7 @@ namespace PT
         Report(PT::Debug, "Adding InitGroup %s", group);
 
         CreateChanDefaultMessage ccdmsg;
-        ccdmsg.setIsInitChan(true);  
+        ccdmsg.setIsInitChan(true);
         ccdmsg.setPermanent(false); //dummy value - not used
         ccdmsg.setGroup(ptString::create(group));
 
@@ -257,7 +257,7 @@ namespace PT
 
         CreateChanDefaultMessage ccdmsg;
         ccdmsg.setIsInitChan(false);
-        ccdmsg.setPermanent(group.second); 
+        ccdmsg.setPermanent(group.second);
         ccdmsg.setGroup(ptString::create(group.first.c_str()));
 
         PointerLibrary::getInstance()->getNetwork()->send(&ccdmsg);
@@ -286,7 +286,7 @@ namespace PT
         ccsmsg.setInviteVal(cspace->GetInviteVal());
         ccsmsg.setVisChannel(cspace->GetVisibilityChannel());
         ccsmsg.setVisMembers(cspace->GetVisibilityMembers());
-        
+
         PointerLibrary::getInstance()->getNetwork()->send(&ccsmsg);
       }
       // ======================================================================

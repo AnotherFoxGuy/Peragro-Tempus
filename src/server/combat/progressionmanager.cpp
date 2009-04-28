@@ -50,21 +50,21 @@ void ProgressionManager::CalculateExperienceGain(boost::shared_ptr<Character> at
 
   failureChance = 100 - successChance;
 
-  if (randomNumber < successChance) 
+  if (randomNumber < successChance)
   {
-    if (randomNumber >= (successChance - (failureChance / 10))) 
+    if (randomNumber >= (successChance - (failureChance / 10)))
     {
       AddXP(attacker, skillType, abilityName);
     }
-  } 
-  else if (randomNumber > successChance) 
+  }
+  else if (randomNumber > successChance)
   {
-    if (randomNumber <= successChance + (failureChance / 10)) 
+    if (randomNumber <= successChance + (failureChance / 10))
     {
       AddXP(attacker, skillType, abilityName);
     }
-  } 
-  else if (randomNumber == successChance) 
+  }
+  else if (randomNumber == successChance)
   {
     AddXP(attacker, skillType, abilityName);
   }
@@ -82,11 +82,11 @@ void ProgressionManager::AddXP(boost::shared_ptr<Character> character,
   abilityXP = character->GetAbilities()->Get(abilityName);
 
   // TODO ability skill that isn't right....
-  if (skillXP > abilityXP) 
+  if (skillXP > abilityXP)
   {
     character->GetAbilities()->Add(abilityName, 1);
-  } 
-  else 
+  }
+  else
   {
     character->GetSkills()->Add(skillName, 1);
     //IncreaseSpecialityXP(character, "speciality", 1);
@@ -97,7 +97,7 @@ unsigned int ProgressionManager::XPIncrease(unsigned int pointsExpended, unsigne
 {
   unsigned int randomNumber = 0;
   unsigned int progression = 0;
-  while (pointsExpended > 0) 
+  while (pointsExpended > 0)
   {
     randomNumber = RollDice(1,100);
     if (randomNumber <= chance)

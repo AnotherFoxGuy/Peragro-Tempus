@@ -66,7 +66,7 @@ bool MovementManager::Degenerate(boost::shared_ptr<Character> entity, size_t ela
     // let the 'idle states' rewind the total time.
     return false;
   case Character::StateHustling: // Per 10 minutes.
-    { // Nothing to be done. 
+    { // Nothing to be done.
     } break;
   case Character::StateRunning: // Per minute.
     {
@@ -87,8 +87,8 @@ bool MovementManager::Degenerate(boost::shared_ptr<Character> entity, size_t ela
     int points = current / 600000;
     entity->GetResources()->Sub("Stamina", points);
 
-    // 10% chance of gaining an experience point towards Speed 
-    // each time a point of Stamina is expended for movement. 
+    // 10% chance of gaining an experience point towards Speed
+    // each time a point of Stamina is expended for movement.
     unsigned int xp = ProgressionManager::XPIncrease(points, 10);
     entity->GetAbilities()->Add("Speed", xp);
 
@@ -137,14 +137,14 @@ void MovementManager::timeOut()
   }
 }
 
-void MovementManager::Register(boost::shared_ptr<Character> entity) 
+void MovementManager::Register(boost::shared_ptr<Character> entity)
 {
   EntityList::iterator it = entities.find(entity);
   if (it == entities.end())
     entities[entity] = 0;
 }
 
-void MovementManager::UnRegister(boost::weak_ptr<Character> entity) 
+void MovementManager::UnRegister(boost::weak_ptr<Character> entity)
 {
   EntityList::iterator it = entities.find(entity);
   if (it != entities.end())

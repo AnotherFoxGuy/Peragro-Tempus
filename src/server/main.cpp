@@ -26,7 +26,7 @@ namespace po = boost::program_options;
 #include <fstream>
 #include <iterator>
 #include <sys/stat.h>
-#include "ext/sqlite/sqlite3.h" 
+#include "ext/sqlite/sqlite3.h"
 
 #include "server/entity/entitymanager.h"
 #include "server/entity/character/movementmanager.h"
@@ -72,15 +72,13 @@ namespace po = boost::program_options;
 
 using namespace std;
 
-
 // A helper function to simplify multi line option part.
 template<class T>
 ostream& operator<<(ostream& os, const vector<T>& v)
 {
-    copy(v.begin(), v.end(), ostream_iterator<T>(cout, " ")); 
+    copy(v.begin(), v.end(), ostream_iterator<T>(cout, " "));
     return os;
 }
-
 
 class App : public Application
 {
@@ -106,7 +104,7 @@ public:
 
   virtual int Initialize(int argc, char* argv[]);
   virtual void Run();
-  bool FileExists(string strFilename);
+  bool FileExists(const string& fileName);
 };
 
 App::App()
@@ -133,7 +131,6 @@ App::~App()
   if (db) db->shutdown();
   printf("done\n");
 
-
   // This has to be delete before the timerEngine!
   if (resourcesFactory) delete resourcesFactory;
 
@@ -159,7 +156,7 @@ int App::Initialize(int argc, char* argv[])
   setWinCrashDump(argv[0]);
 
   po::variables_map vm;
-  // load server config file and cml options 
+  // load server config file and cml options
   try
   {
     string cfgfile;
@@ -169,7 +166,7 @@ int App::Initialize(int argc, char* argv[])
     // Declare the config file options.
     po::options_description config_options("Config file server options");
     config_options.add_options()
-      ("port,p", po::value<unsigned int>(&port)->default_value(12345), 
+      ("port,p", po::value<unsigned int>(&port)->default_value(12345),
         "Set which network port number the server will use.")
       ("sqlitedb", po::value<string>(&dbname)->default_value("test_db.sqlite")
         ,"Name of SQLite database file.")
@@ -177,91 +174,89 @@ int App::Initialize(int argc, char* argv[])
         , "Name of SQL script to create\ndefault database.")
     ;
 
-
     // Declare the cmdline options.
-    po::options_description cmdline_options("cmd line server options");
+    po::options_description cmdline_options("Command line server options");
     cmdline_options.add_options()
       ("help,h", "Help message")
-      ("port,p", po::value<unsigned int>(&port)->default_value(12345), 
+      ("port,p", po::value<unsigned int>(&port)->default_value(12345),
        "Set which network port number the server will use.")
       ("cfg", po::value<string>(&cfgfile)->default_value("pt-server.cfg")
        ,"Name of server config file.")
     ;
     cmdline_options.add(config_options);
 
-    // parse cmd line options 
+    // parse cmd line options
     po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
-    po::notify(vm);    
+    po::notify(vm);
 
     // parse cfg file options
     ifstream ifs( vm["cfg"].as<string>().c_str() );
     po::store(parse_config_file(ifs, config_options), vm);
     po::notify(vm);
 
-    // clean up 
+    // clean up
     ifs.close();
 
-
-    if (vm.count("help")) 
+    if (vm.count("help"))
     {
-      cout << cmdline_options << "\n";
+      cout << cmdline_options << endl;
       return 1;
     }
 
-    // output server settings 
+    // output server settings
     if (vm.count("port"))
-     {
-       cout << "port: " 
-       << vm["port"].as<unsigned int>() << "\n";
-     }
+    {
+      cout << "port: "
+        << vm["port"].as<unsigned int>() << endl;
+    }
 
-     if (vm.count("cfg"))
-     {
-        cout << "configure file: " 
-        << vm["cfg"].as<string>() << "\n";
-     }
+    if (vm.count("cfg"))
+    {
+       cout << "configure file: "
+         << vm["cfg"].as<string>() << endl;
+    }
 
-     if (vm.count("sqlitedb"))
-     {
-        cout << "db name: " 
-        << vm["sqlitedb"].as<string>() << "\n";
-     }
+    if (vm.count("sqlitedb"))
+    {
+       cout << "db name: "
+         << vm["sqlitedb"].as<string>() << endl;
+    }
 
-     if (vm.count("sqlcreatedb"))
-     {
-        cout << "db create script: " 
-        << vm["sqlcreatedb"].as<string>() << "\n";
-     }
+    if (vm.count("sqlcreatedb"))
+    {
+       cout << "db create script: "
+         << vm["sqlcreatedb"].as<string>() << endl;
+    }
   }
   catch(exception& e)
   {
-    cout << e.what() << "\n";
+    cout << e.what() << endl;
     return 1;
-  } // end load server options 
+  } // end load server options
 
   // Check sqlite database.
- // cout << vm["sqlitedb"].as<string>() << "\n";
+  //cout << vm["sqlitedb"].as<string>() << "\n";
   int rc;
-  if (!FileExists(vm["sqlitedb"].as<string>()))  
+  if (!FileExists(vm["sqlitedb"].as<string>()))
   { // no sqlite database file so create one
     sqlite3 *sqlitedb;
     rc = sqlite3_open(vm["sqlitedb"].as<string>().c_str(), &sqlitedb);
-    if (rc!=SQLITE_OK)
+    if (rc != SQLITE_OK)
     {
-      cout << "Error(" << rc << ") Creating sqlite database:" 
-        <<  vm["sqlitedb"].as<string>().c_str() << "\n";
+      cout << "Error(" << rc << ") Creating sqlite database:"
+        <<  vm["sqlitedb"].as<string>().c_str() << endl;
       return 1;
     }
-    cout << "database '" << vm["sqlcreatedb"].as<string>() 
-         << "' created succesfully!\n"; 
-    
+    cout << "database '" << vm["sqlcreatedb"].as<string>()
+      << "' created succesfully!" << endl;
+
     if (FileExists(vm["sqlcreatedb"].as<string>()) )
     { // database script exists, setup database tables and data using script
       fstream ifs_sql(vm["sqlcreatedb"].as<string>().c_str(),ios::in);
       string sql_line;
       char *errmsg = 0;
 
-      // load and execute sql script.      
+      // load and execute sql script.
       while(!ifs_sql.eof())
       {
         getline(ifs_sql, sql_line);
@@ -269,19 +264,19 @@ int App::Initialize(int argc, char* argv[])
         if (rc!=SQLITE_OK)
         { // Error executing a sql statment
           cout << "ERROR: failed executing sql statment\n"
-           << "sql:\n" << sql_line.c_str() << "\n"
-           << "error:\n" << errmsg << "\n";
-          // clean up and exit   
+            << "sql:\n" << sql_line.c_str() << "\n"
+            << "error:\n" << errmsg << endl;
+          // clean up and exit
           sqlite3_free(errmsg);
           ifs_sql.close();
           sqlite3_close(sqlitedb);
           remove (vm["sqlitedb"].as<string>().c_str()); // make sure incomplete db file goes away
           return 1;
         }
-      } // end while sql 
+      } // end while sql
       ifs_sql.close();
-      cout << "database script '" << vm["sqlcreatedb"].as<string>() 
-           << "' completed succesfully!\n";
+      cout << "database script '" << vm["sqlcreatedb"].as<string>()
+        << "' completed succesfully!" << endl;
     } // end if sqlcreatedb
     sqlite3_close(sqlitedb);
   } // end if !sqlitedb
@@ -418,31 +413,18 @@ void App::Run()
   }
 }
 
-bool App::FileExists(string strFilename) {
-  struct stat stFileInfo;
-  bool blnReturn;
-  int intStat;
+bool App::FileExists(const string& fileName)
+{
+  struct stat fileInfo;
 
   // Attempt to get the file attributes
-  intStat = stat(strFilename.c_str(),&stFileInfo);
-  if(intStat == 0) {
-    // We were able to get the file attributes
-    blnReturn = true;
-  } else {
-    // We were not able to get the file attributes.
-    blnReturn = false;
-  }
-  
-  return(blnReturn);
+  const int statResult = stat(fileName.c_str(), &fileInfo);
+
+  return (statResult == 0);
 }
 
 int main(int argc, char ** argv)
 {
   return ApplicationRunner<App>::Run(argc, argv);
 }
-
-
-
-
-
 

@@ -65,7 +65,7 @@ protected:
     bool dirty;
   };
 
-  
+
   Base* GetBase(const std::string& name);
 
   std::map<size_t, boost::shared_ptr<Base> > bases;

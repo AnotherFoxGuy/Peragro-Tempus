@@ -27,7 +27,7 @@ namespace PT
   {
     /**
      * @ingroup data_handlers
-     * Helper class that contains basic information about chanspace. Usually 
+     * Helper class that contains basic information about chanspace. Usually
      * not created directly, but accessed via ChatDataManager instance. Use the
      * Set/Get methods to access the chanspace properties.
      * @see ChatDataManager
@@ -61,8 +61,8 @@ namespace PT
       bool vis_channel, vis_members;
 
     public:
-      ChanSpace() 
-        : type(""), form(""), maxchannels(-1), 
+      ChanSpace()
+        : type(""), form(""), maxchannels(-1),
         create_type("user"), create_val(0), create_max(-1), create_perm(false),
         join_type("user"), join_val(0), join_perm(false),
         invite_type("none"), invite_val(0),
@@ -80,10 +80,10 @@ namespace PT
 
       void SetCreateType(const std::string& t) { create_type = t; }
       const std::string& GetCreateType() const { return create_type; }
-      
+
       void SetCreateVal(unsigned v) { create_val = v; }
       unsigned GetCreateVal() const { return create_val; }
-      
+
       void SetCreateMax(int m) { create_max = m; }
       int GetCreateMax() const { return create_max; }
 
@@ -107,7 +107,7 @@ namespace PT
 
       void SetVisibilityChannel(bool v) { vis_channel = v; }
       bool GetVisibilityChannel() const { return vis_channel; }
- 
+
       void SetVisibilityMembers(bool v) { vis_members = v; }
       bool GetVisibilityMembers() const { return vis_members; }
 

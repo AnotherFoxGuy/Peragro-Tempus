@@ -47,7 +47,7 @@ namespace PT
       if ( (tnode=node->GetNode("initgroups")) )
       {
         csRef<iDocumentNodeIterator> groups(tnode->GetNodes("group"));
-        
+
         while (groups->HasNext())
         {
           csRef<iDocumentNode> gnode = groups->Next();
@@ -60,7 +60,7 @@ namespace PT
       if ( (tnode=node->GetNode("defgroups")) )
       {
         csRef<iDocumentNodeIterator> groups(tnode->GetNodes("group"));
-        
+
         while (groups->HasNext())
         {
           csRef<iDocumentNode> gnode = groups->Next();
@@ -77,7 +77,7 @@ namespace PT
       listmax = -1;
       if ( (tnode=node->GetNode("list")) )
       {
-        if (tnode->GetAttribute("default")) 
+        if (tnode->GetAttribute("default"))
           listdef = tnode->GetAttributeValueAsInt("default");
         if (tnode->GetAttribute("max"))
           listmax = tnode->GetAttributeValueAsInt("max");
@@ -102,7 +102,7 @@ namespace PT
         if (str) chanspace->SetType(str);
         str = cnode->GetAttributeValue("form");
         if (str) chanspace->SetForm(str);
-        if (cnode->GetAttribute("max")) 
+        if (cnode->GetAttribute("max"))
           chanspace->SetMaxChannels(cnode->GetAttributeValueAsInt("max"));
         if (cnode->GetNode("maxchannels"))
           chanspace->SetMaxChannels(cnode->GetNode("maxchannels")->GetAttributeValueAsInt("value"));

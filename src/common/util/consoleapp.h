@@ -47,15 +47,15 @@ private:
       return FALSE;  // unhandled.Some other in the call back list can process
     }
     return TRUE; // handled the events
-  } 
+  }
 #endif
 
 protected:
   virtual int Initialize(int argc, char* argv[]) = 0;
   virtual void Run() = 0;
-  
+
 public:
-  Application() 
+  Application()
   {
     signal(SIGINT, &sigfunc);
 #if (_MSC_VER >= 1300)
@@ -63,7 +63,7 @@ public:
 #endif
   }
 
-  virtual ~Application() 
+  virtual ~Application()
   {
   }
 

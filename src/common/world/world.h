@@ -56,7 +56,7 @@ namespace Common
       Object() {}
       Object(const ObjectsTableVO& vo)
       {
-        id = vo.id; 
+        id = vo.id;
         name = vo.name;
         factoryFile = vo.factoryFile;
         factoryName = vo.factoryName;

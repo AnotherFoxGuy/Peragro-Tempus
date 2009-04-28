@@ -184,7 +184,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
       printf("I: handleCharSelectRequest(): User '%s' continuing with char %d!\n", user->GetName().c_str(), request_msg.getCharId());
       server->getEntityManager()->Add(entity);
       return;
-    }    
+    }
   }
 
   if (!entity)

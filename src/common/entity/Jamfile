@@ -4,7 +4,7 @@ SubInclude TOP src common entity character ;
 
 Description entity : "Entity" ;
 Library entity :
-  [ Wildcard *.h *.cpp ] 
+  [ Wildcard *.h *.cpp ]
   [ Wildcard [ ConcatDirs character ] : *.h *.cpp ] ;
 ExternalLibs entity : BOOST ;
 LinkWith entity : wfmath ;

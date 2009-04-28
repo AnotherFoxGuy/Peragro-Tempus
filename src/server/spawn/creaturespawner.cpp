@@ -29,8 +29,8 @@
 #include "server/server.h"
 
 CreatureSpawner::CreatureSpawner()
-{ 
-  this->setInterval(10); 
+{
+  this->setInterval(10);
 
 /*
   //TODO: Remove me.

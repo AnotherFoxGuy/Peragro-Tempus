@@ -117,7 +117,7 @@ void UserManager::RemoveUser(User* user)
     {
       users.erase(it++);
     }
-    else 
+    else
       it++;
   }
 }

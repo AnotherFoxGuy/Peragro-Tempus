@@ -130,7 +130,7 @@ bool ComponentPlayerControls::PerformMovementAction()
     entityEvent->Add("entityId", entity->GetId());
     ///@TODO
     WFMath::Point<3> dir (float(/*pointerlib->getStatManager()->GetStat("Speed")*/4*walk*(char(run)+1)),
-                          0, 
+                          0,
                           float(walk == -1 && backwardReverse ? -turn : turn));
     PT::Events::EntityHelper::SetVector3(entityEvent, "moveDirection", dir);
     entityEvent->Add("run", run);

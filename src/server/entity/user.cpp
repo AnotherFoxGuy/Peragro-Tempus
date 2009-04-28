@@ -29,8 +29,8 @@
 
 #include "server/server.h"
 
-User::~User() 
-{ 
+User::~User()
+{
 }
 
 void User::SetEntity(boost::shared_ptr<PcEntity> entity)
@@ -135,7 +135,7 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     eq->AddEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
   }
- 
+
   else if (entity->GetType() == Common::Entity::NPCEntityType)
   {
     AddNpcEntityMessage msg;

@@ -51,7 +51,7 @@ class Test : public Thread
   bool firstRun;
 
 public:
-  Test(EntityManager* e, size_t NR, size_t offset=0) 
+  Test(EntityManager* e, size_t NR, size_t offset=0)
     : entityManager(e), NR(NR), offset(offset) { firstRun = true; Begin(); }
   ~Test() { }
 
@@ -124,7 +124,7 @@ public:
       std::list<Entityp> result;
       result = entityManager->Query(ball);
       ptScopedMutex p(io_mutex);
-      //std::cout << "Normal query: Found " << result.size() 
+      //std::cout << "Normal query: Found " << result.size()
       //  << " out of " << entities.size() << "." << std::endl;
     }
 

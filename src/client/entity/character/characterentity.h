@@ -71,7 +71,7 @@ namespace PT
     public:
       void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector);
 
-      ///@todo 
+      ///@todo
       boost::shared_ptr<Resources> GetResources() const { return resources; }
       bool GetResourcesReady() const { return resourcesFact->listRecieved; }
 

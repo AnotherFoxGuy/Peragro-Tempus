@@ -58,16 +58,16 @@ namespace PT
        */
       ChanSpace* GetChanSpaceByName(const std::string& name) const;
 
-      void GetAllChanSpaces(std::vector<ChanSpace*>& list) 
+      void GetAllChanSpaces(std::vector<ChanSpace*>& list)
       { list = chanspaces; }
 
       int GetMaxChannels() const { return maxchannels; }
       int GetListDefault() const { return listdef; }
       int GetListMax() const { return listmax; }
 
-      const std::vector<std::string>& GetInitGroups() const 
+      const std::vector<std::string>& GetInitGroups() const
       { return initgroups; }
-      const std::vector< std::pair<std::string, bool> >& GetDefGroups() const 
+      const std::vector< std::pair<std::string, bool> >& GetDefGroups() const
       { return defgroups; }
 
       /// Implements the DataManager superclass

@@ -66,7 +66,7 @@ void NetworkHelper::localcast(const ByteStream& bs, boost::shared_ptr<Entity> en
 void NetworkHelper::broadcast(const ByteStream& bs)
 {
   UserManager* um = Server::getServer()->getUserManager();
-  for (UserManager::const_UserMapIter i=um->GetUsers().begin(); 
+  for (UserManager::const_UserMapIter i=um->GetUsers().begin();
        i!=um->GetUsers().end();  i++)
   {
     boost::shared_ptr<User> user = (*i).second;

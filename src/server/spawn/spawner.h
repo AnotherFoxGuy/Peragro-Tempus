@@ -30,7 +30,7 @@ private:
 
 public:
   Spawner()
-  { 
+  {
     itemSpawner = new ItemSpawner();
     itemSpawner->LoadFromDB();
     itemSpawner->start();
@@ -40,7 +40,7 @@ public:
     creatureSpawner->start();
   }
 
-  ~Spawner() 
+  ~Spawner()
   {
     itemSpawner->stop();
     creatureSpawner->stop();

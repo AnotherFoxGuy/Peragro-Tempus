@@ -56,7 +56,7 @@ namespace Common
     protected:
       Mutex cbMutex;
       std::list<EntityCallback*> callback_list;
-      
+
     protected:
       Mutex mutex;
       Entities entities;

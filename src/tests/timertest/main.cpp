@@ -74,7 +74,7 @@ int main(int argc, char ** argv)
   jam->start();
 
   while (counter > 0) pt_sleep(1000);
-  
+
   timer->stop();
   jam->stop();
 

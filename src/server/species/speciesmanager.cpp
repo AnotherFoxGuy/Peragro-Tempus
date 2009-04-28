@@ -80,7 +80,7 @@ std::list<boost::shared_ptr<Character> > SpeciesManager::GetEntitiesOfSpecies(si
   for (it = entities.begin(); it != entities.end(); it++)
   {
     boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(it->second);
-    if (c && c->GetSpecies() == speciesId) 
+    if (c && c->GetSpecies() == speciesId)
       chars.push_back(c);
   }
 

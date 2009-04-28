@@ -123,7 +123,7 @@ bool EntityManager::Add(Common::Entity::Entityp entity)
     {
       entity->AddListener(this);
     }
-    
+
     NetworkAddEntity(entity);
   }
 

@@ -163,7 +163,7 @@ namespace Client
           pclinmove->InitCD(mesh, 50.0f);
         }
         this->SetFullPosition();
-        
+
         // TODO: Move this to playerentity instead?
         if (GetType() == Common::Entity::PlayerEntityType)
         {

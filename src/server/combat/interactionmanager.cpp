@@ -80,7 +80,7 @@ void InteractionManager::Run()
   Interaction *interaction = 0;
   // caller must free allocation
   interaction = interactionQueue->GetInteraction();
-  while (!interaction && isRunning) 
+  while (!interaction && isRunning)
   {
     // No character have any outstanding interactions.
     pt_sleep(SLEEP);
@@ -131,8 +131,8 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
   if (target->GetResources()->Get("Hit Points") <= 0)
   {
     ReportDeath(target);
-  } 
-  else if (damage > 0 ) 
+  }
+  else if (damage > 0 )
   {
     ReportDamage(target);
   }
@@ -247,9 +247,9 @@ bool InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
 
   printf(IM "Stamina before deduction: %f\n", currentStamina);
 
-  if (currentStamina < staminaDeduction) 
+  if (currentStamina < staminaDeduction)
   { // Not enough stamina
-    return false; 
+    return false;
   }
 
   character->GetResources()->Sub("Stamina", (int)staminaDeduction);
@@ -313,7 +313,7 @@ unsigned int InteractionManager::GetVulnerability(boost::shared_ptr<Character> c
 bool InteractionManager::PerformInteraction(Interaction* interaction)
 {
   DEBUG("PerformInteraction");
-  if (!interaction) 
+  if (!interaction)
   {
     printf(IM "BUG this should not have happened, interaction  == NULL\n");
     return false;
@@ -321,7 +321,7 @@ bool InteractionManager::PerformInteraction(Interaction* interaction)
 
   printf("\nPerforming interaction with ID: %d\n", interaction->interactionID);
 
-  switch(interaction->interactionID) 
+  switch(interaction->interactionID)
   {
     case InteractionID::NORMAL_ATTACK:
       NormalAttack(interaction);

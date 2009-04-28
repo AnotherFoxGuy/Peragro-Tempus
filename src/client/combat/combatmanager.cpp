@@ -128,7 +128,7 @@ namespace PT
 
       GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
       StatsHUDWindow* statshudWindow = guimanager->GetWindow<StatsHUDWindow>(STATSHUDWINDOW);
-      
+
       try
       {
         statshudWindow->SetHP(res->Get("Hit Points"), res->GetMax("Hit Points"));
@@ -162,7 +162,7 @@ namespace PT
       // Damage is negative, we got healed.
       else if (damage < 0)
       {
-        // idle, Sit_up, walk, jump, attack, run, levitate, Sit_down, horse_mount, Sit, die, 
+        // idle, Sit_up, walk, jump, attack, run, levitate, Sit_down, horse_mount, Sit, die,
         //target->PlayAnimation("levitate", 0.1f, false, true);
       }
       else if (damage == 0)

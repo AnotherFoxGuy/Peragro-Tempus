@@ -27,9 +27,9 @@
 
 #include "common/util/printhelper.h"
 
-void ItemEntity::SetInWorld(bool value) 
-{ 
-  inWorld = value; 
+void ItemEntity::SetInWorld(bool value)
+{
+  inWorld = value;
   if (!inWorld)
   {
     // Removed from the octree.

@@ -44,7 +44,7 @@ void ChatHandler::handleChat(GenericMessage* msg)
   if (in_msg.getVolume() == 0xFF) NetworkHelper::broadcast(bs);
   else
     NetworkHelper::localcast(bs, ent, in_msg.getVolume()*100);
-  
+
   /* TODO: client decides how loud a message is.  If there is to be a
      policy to limit how far one can shout, here's the place to implement
      it. */
@@ -62,7 +62,7 @@ void ChatHandler::handleWhisperTo(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  boost::shared_ptr<PcEntity> target = 
+  boost::shared_ptr<PcEntity> target =
     boost::shared_dynamic_cast<PcEntity>(server->getEntityManager()->FindByName(*in_msg.getListenerName()));
   if (!target) return;
 

@@ -41,7 +41,7 @@
 #include "server/entity/character/character.h"
 
 //==[ Resource ]=============================================================
-Resources::Resource::Resource(Resources* resources, size_t id, int val) 
+Resources::Resource::Resource(Resources* resources, size_t id, int val)
   : resources(resources), id(id), value(0.0f), registered(false)
 {
   Set(val, false);
@@ -90,12 +90,12 @@ int Resources::Resource::Get() const
 }
 
 void Resources::Resource::Set(float value, bool update)
-{ 
+{
   bool changed = Get() != (int)value;
 
   float max = (float)GetMax();
   this->value = std::min<float>(value, max);
-  if (this->value < max) 
+  if (this->value < max)
     Register();
 
   if (changed)
@@ -152,13 +152,13 @@ void Resources::Resource::Regenerate(size_t elapsedTime)
 }
 
 //==[ Hit Points ]===========================================================
-Resources::HitPoints::HitPoints(Resources* resources, size_t id, int value) 
+Resources::HitPoints::HitPoints(Resources* resources, size_t id, int value)
 : Resources::Resource(resources, id, value)
 {
 }
 
 void Resources::HitPoints::Set(float value, bool update)
-{ 
+{
 /* TODO
   if (value <= 0.0f)
     resources->entity->SetDead(true);
@@ -170,12 +170,12 @@ void Resources::HitPoints::Set(float value, bool update)
 
 void Resources::HitPoints::Regenerate(size_t elapsedTime)
 {
-  // Hit Points recover as Stamina recovers. 
+  // Hit Points recover as Stamina recovers.
   // Do nothing.
 }
 
 //==[ Stamina ]==============================================================
-Resources::Stamina::Stamina(Resources* resources, size_t id, int value) 
+Resources::Stamina::Stamina(Resources* resources, size_t id, int value)
 : Resources::Resource(resources, id, value)
 {
 }
@@ -187,7 +187,7 @@ int Resources::Stamina::Get() const
 }
 
 void Resources::Stamina::Set(float value, bool update)
-{ 
+{
   //http://wiki.peragro.org/index.php/Talk:Stamina
   if (value >= GetMax())
   {
@@ -227,20 +227,20 @@ int Resources::GetMax(const std::string& name)
 
 void Resources::Set(const std::string& name, int value)
 {
-  Resource* res = GetResource(name); 
-  res->Set(value); 
+  Resource* res = GetResource(name);
+  res->Set(value);
 }
 
 void Resources::Add(const std::string& name, int value)
 {
-  Resource* res = GetResource(name); 
+  Resource* res = GetResource(name);
   res->Set(res->Get() + value);
 }
 
 void Resources::Sub(const std::string& name, int value)
 {
-  Resource* res = GetResource(name); 
-  res->Set(res->Get() - value); 
+  Resource* res = GetResource(name);
+  res->Set(res->Get() - value);
 }
 
 boost::shared_ptr<Resources::Resource> Resources::Create(const std::string& name, Resources* r, size_t id, int value)
@@ -381,13 +381,13 @@ void ResourcesFactory::timeOut()
     (*it2)->UnRegister();
 }
 
-void ResourcesFactory::Register(Resources::Resource* resource) 
+void ResourcesFactory::Register(Resources::Resource* resource)
 {
   UnRegister(resource); // Make sure there are no doubles!
   resources.push_back(resource);
 }
 
-void ResourcesFactory::UnRegister(Resources::Resource* resource) 
+void ResourcesFactory::UnRegister(Resources::Resource* resource)
 {
   resources.remove(resource);
 }

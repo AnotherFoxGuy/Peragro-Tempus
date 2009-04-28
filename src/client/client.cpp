@@ -552,7 +552,7 @@ namespace PT
           engine->SetClearScreen(true);
         }
 
-        // Show the connect window. 
+        // Show the connect window.
         LoginWindow* loginWindow = guiManager->GetWindow<LoginWindow>(LOGINWINDOW);
         loginWindow->ShowWindow();
         ServerWindow* serverWindow = guiManager->GetWindow<ServerWindow>(SERVERWINDOW);

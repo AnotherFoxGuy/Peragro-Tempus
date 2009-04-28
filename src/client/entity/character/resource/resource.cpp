@@ -39,7 +39,7 @@ namespace PT
     //==[ Resources ]============================================================
     Resources::Resources(ResourcesFactory* fact, Entity* entity)
       : fact(fact), entity(entity)
-    {   
+    {
     }
 
     void Resources::Initialize()
@@ -91,8 +91,8 @@ namespace PT
 
     void Resources::Set(const std::string& name, int value, int maxValue)
     {
-      Resource* res = GetResource(name); 
-      res->Set(value, maxValue); 
+      Resource* res = GetResource(name);
+      res->Set(value, maxValue);
     }
 
     bool Resources::Update(iEvent& ev)
@@ -164,7 +164,7 @@ namespace PT
     } // end AddSkill()
 
     //==[ Resource ]=============================================================
-    Resources::Resource::Resource(size_t id, int value, int maxValue) 
+    Resources::Resource::Resource(size_t id, int value, int maxValue)
       : id(id), value(value), maxValue(maxValue), oldValue(value)
     {
     }
@@ -175,7 +175,7 @@ namespace PT
     }
 
     void Resources::Resource::Set(int value, int maxValue)
-    { 
+    {
       this->oldValue = this->value;
       if (maxValue > 0)
       {
@@ -197,7 +197,7 @@ namespace PT
     }
 
     //==[ ResourcesFactory ]============================================================
-    ResourcesFactory::ResourcesFactory() 
+    ResourcesFactory::ResourcesFactory()
       : listRecieved(false)
     {
     }

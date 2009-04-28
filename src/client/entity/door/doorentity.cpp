@@ -44,7 +44,7 @@ namespace PT
 
     DoorEntity::DoorEntity() : ::Client::Entity::Entity(Common::Entity::DoorEntityType)
     {
-      pl->CreatePropertyClass(celEntity, "pclogic.quest");  
+      pl->CreatePropertyClass(celEntity, "pclogic.quest");
     }
 
     DoorEntity::~DoorEntity()
@@ -76,7 +76,7 @@ namespace PT
       celQuestParams parameters;
       pcquest->StopQuest();
       pcquest->NewQuest(animationName.c_str(), parameters);
-      
+
       //@TODO
       //Loaded(ev);
 

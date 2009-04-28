@@ -31,12 +31,12 @@
 #include "server/database/tablemanager.h"
 #include "server/database/table-spawnpoints.h"
 
-ItemSpawner::ItemSpawner() : timeCounter(0) 
-{ 
-  this->setInterval(10); 
+ItemSpawner::ItemSpawner() : timeCounter(0)
+{
+  this->setInterval(10);
 }
 
-ItemSpawner::~ItemSpawner() 
+ItemSpawner::~ItemSpawner()
 {
   mutex.lock();
   std::vector<boost::shared_ptr<SpawnPoint> >::const_iterator it;

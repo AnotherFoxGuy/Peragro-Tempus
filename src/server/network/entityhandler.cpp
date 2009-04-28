@@ -32,9 +32,9 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
   MoveRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  
+
   boost::shared_ptr<PcEntity> entity = NetworkHelper::GetEntity(msg);
-  if (!entity) return; 
+  if (!entity) return;
 
   Server* server = Server::getServer();
 
@@ -347,7 +347,7 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 
   mover->SetState(Character::StateWalking);
 
-  float speed = server->GetMovementManager()->GetMovementSpeed(mover); 
+  float speed = server->GetMovementManager()->GetMovementSpeed(mover);
 
   if (pcentity->usesFlashStep())
   {
@@ -371,13 +371,13 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
   }
   else
   {
-  
-    server->GetMovementManager()->Register(mover);  
+
+    server->GetMovementManager()->Register(mover);
     server->moveEntity(mover, request_msg.getTo(), speed, request_msg.getRun());
   } // end if usesFlashStep
 
 //  server->getCharacterManager()->checkForSave(pcentity);
-  
+
 } // handleMoveToRequest
 
 void EntityHandler::handleRelocate(GenericMessage* msg)

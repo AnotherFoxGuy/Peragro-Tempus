@@ -168,7 +168,7 @@ void AdminHandler::handleSetConfig(GenericMessage* msg)
 
   SetConfigMessage scmsg;
   scmsg.deserialise(msg->getByteStream());
-  
+
   ConfigTable* ct = Server::getServer()->GetTableManager()->Get<ConfigTable>();
   ct->Insert( *(scmsg.getOption()), *(scmsg.getValue()) );
 }
@@ -374,7 +374,7 @@ void AdminHandler::handleCreateChanDefault(GenericMessage* msg)
 
   CreateChanDefaultMessage ccdmsg;
   ccdmsg.deserialise(msg->getByteStream());
-  
+
   std::string channel = *(ccdmsg.getGroup());
   TableManager* tablemgr = Server::getServer()->GetTableManager();
 
