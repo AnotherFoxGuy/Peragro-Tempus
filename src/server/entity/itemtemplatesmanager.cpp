@@ -30,7 +30,9 @@
 
 void ItemTemplate::LoadFromDB()
 {
-  ItemTemplatesTable* ttable = Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
+  ItemTemplatesTable* ttable = 
+    Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
+
   ItemTemplatesTableVOp it = ttable->GetSingle(templateId);
   if (!it)
   {
@@ -44,7 +46,9 @@ void ItemTemplate::LoadFromDB()
   description = it->description;
   size_t equipTypeId = it->equipType_id;
 
-  EquipTypesTable* etable = Server::getServer()->GetTableManager()->Get<EquipTypesTable>();
+  EquipTypesTable* etable =
+    Server::getServer()->GetTableManager()->Get<EquipTypesTable>();
+
   EquipTypesTableVOp e = etable->GetSingle(equipTypeId);
   if (!e)
   {
@@ -85,7 +89,6 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
 {
   std::map<size_t, boost::weak_ptr<ItemTemplate> >::const_iterator it;
   it = templates.find(templateId);
-
   if (it == templates.end() || it->second.expired())
   {
     boost::shared_ptr<ItemTemplate> t(new ItemTemplate(templateId));
@@ -99,10 +102,15 @@ boost::shared_ptr<ItemTemplate> ItemTemplatesManager::Get(size_t templateId)
 
 boost::shared_ptr<ItemEntity> ItemTemplatesManager::CreateItemFromTemplate(size_t templateId)
 {
-  Entityp entity = Server::getServer()->getEntityManager()->CreateNew(Common::Entity::ItemEntityType);
-  boost::shared_ptr<ItemEntity> item = boost::shared_dynamic_cast<ItemEntity>(entity);
-  boost::shared_ptr<ItemTemplate> temp = Server::getServer()->GetItemTemplatesManager()->Get(templateId);
-  item->SetItemTemplate(temp);
+  Entityp entity = Server::getServer()->getEntityManager()
+    ->CreateNew(Common::Entity::ItemEntityType);
 
+  boost::shared_ptr<ItemEntity> item = 
+    boost::shared_dynamic_cast<ItemEntity>(entity);
+
+  boost::shared_ptr<ItemTemplate> temp = 
+    Server::getServer()->GetItemTemplatesManager()->Get(templateId);
+
+  item->SetItemTemplate(temp);
   return item;
 }

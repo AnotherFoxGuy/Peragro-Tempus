@@ -35,6 +35,7 @@
 #include "server/database/table-config.h"
 #include "server/database/table-channels.h"
 #include "server/database/table-defaultchannels.h"
+#include "server/database/table-itemtemplates.h"
 
 #include "server/spawn/spawner.h"
 
@@ -173,30 +174,6 @@ void AdminHandler::handleSetConfig(GenericMessage* msg)
   ct->Insert( *(scmsg.getOption()), *(scmsg.getValue()) );
 }
 
-void AdminHandler::handleCreateItem(GenericMessage* msg)
-{
-  /*
-  if (CheckAdminLevel(msg, 2) == false) return;
-
-  CreateItemMessage itemmsg;
-  itemmsg.deserialise(msg->getByteStream());
-
-  Server* server = Server::getServer();
-
-  const Mesh* mesh = server->getMeshManager()->addMeshUpdate(itemmsg.getMesh(), itemmsg.getFile());
-
-  ItemManager* items = server->getItemManager();
-  ItemTable* it = server->getTables()->getItemTable();
-  it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
-             itemmsg.getDescription(), mesh->GetId(),
-             itemmsg.getWeight(), itemmsg.getEquipType());
-
-  Item* item = it->getItem(itemmsg.getName(), server->getMeshManager());
-
-  items->addItem(item);
-  */
-}
-
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
   /*
@@ -226,22 +203,32 @@ void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 
 void AdminHandler::handleSpawnItem(GenericMessage* msg)
 {
-  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   SpawnItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
 
-  ItemEntity* item_ent = new ItemEntity();
-  item_ent->createFromItem(itemmsg.getItemId());
+  // check that ItemTemplate exists in db first 
+  ItemTemplatesTable* ttable = 
+    Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
 
-  ptScopedMonitorable<Entity> e (item_ent->getEntity());
-  e->SetPosition(itemmsg.GetPosition());
-  e->SetSector(itemmsg.GetSectorId());
-  e->SetRotation(0.0f);
+  ItemTemplatesTableVOp it = ttable->GetSingle(itemmsg.getItemTemplateId());
+  if (!it)
+  {
+    printf("Error: ItemTemplate(%i) does not exists in database\n"
+      ,itemmsg.getItemTemplateId());
+    return; // do nothing 
+    ///@TODO maybe add a say msg back to client letting him know why 
+    ///      it failed. 
+  }
+  Server* server = Server::getServer();
+  boost::shared_ptr<ItemEntity> item = server->GetItemTemplatesManager()
+    ->CreateItemFromTemplate(itemmsg.getItemTemplateId()); 
 
-  Server::getServer()->addEntity(item_ent->getEntity(), true);
-  */
+  item->SetPosition(itemmsg.getPosition());
+  item->SetInWorld(true);
+  item->SaveToDB();
+  server->getEntityManager()->Add(item);
 }
 
 void AdminHandler::handleSpawnMount(GenericMessage* msg)

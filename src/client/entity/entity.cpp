@@ -155,7 +155,7 @@ namespace Client
         if (mesh)
           pcmesh->SetMesh(mesh, true);
         else
-          pcmesh->CreateNullMesh("ErrorMesh", csBox3());
+          pcmesh->CreateNullMesh("ErrorMesh", csBox3(csVector3(0), csVector3(1)));
 
         csRef<iPcLinearMovement> pclinmove = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcLinearMovement);
         if (mesh && pclinmove)
