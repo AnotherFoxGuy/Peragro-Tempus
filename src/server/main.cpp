@@ -84,6 +84,8 @@ class App : public Application
 {
 private:
   unsigned int port;
+  string dbname;
+
   Database* db;
   TableManager* tablemgr;
   Common::World::WorldManager* worldManager;
@@ -160,7 +162,6 @@ int App::Initialize(int argc, char* argv[])
   try
   {
     string cfgfile;
-    string dbname;
     string sqlscript;
 
     // Declare the config file options.
@@ -206,25 +207,26 @@ int App::Initialize(int argc, char* argv[])
     // output server settings
     if (vm.count("port"))
     {
-      cout << "port: "
+      cout << "Port: "
         << vm["port"].as<unsigned int>() << endl;
+      port = vm["port"].as<unsigned int>();
     }
 
     if (vm.count("cfg"))
     {
-       cout << "configure file: "
+       cout << "Configure file: "
          << vm["cfg"].as<string>() << endl;
     }
 
     if (vm.count("sqlitedb"))
     {
-       cout << "db name: "
+       cout << "DB name: "
          << vm["sqlitedb"].as<string>() << endl;
     }
 
     if (vm.count("sqlcreatedb"))
     {
-       cout << "db create script: "
+       cout << "DB create script: "
          << vm["sqlcreatedb"].as<string>() << endl;
     }
   }
@@ -264,8 +266,8 @@ int App::Initialize(int argc, char* argv[])
         if (rc!=SQLITE_OK)
         { // Error executing a sql statment
           cout << "ERROR: failed executing sql statment\n"
-            << "sql:\n" << sql_line.c_str() << "\n"
-            << "error:\n" << errmsg << endl;
+            << "sql:" << endl << sql_line.c_str() << endl
+            << "error:" << endl << errmsg << endl;
           // clean up and exit
           sqlite3_free(errmsg);
           ifs_sql.close();
@@ -275,7 +277,7 @@ int App::Initialize(int argc, char* argv[])
         }
       } // end while sql
       ifs_sql.close();
-      cout << "database script '" << vm["sqlcreatedb"].as<string>()
+      cout << "Database script '" << vm["sqlcreatedb"].as<string>()
         << "' completed succesfully!" << endl;
     } // end if sqlcreatedb
     sqlite3_close(sqlitedb);
@@ -288,11 +290,11 @@ void App::Run()
 {
   //--[Initialize]--------------------------------------------------------
   server = new Server();
-
-  db = new dbSQLite("test_db.sqlite");
+  printf ("Opening DB '%s'\n", dbname.c_str());
+  db = new dbSQLite(dbname.c_str());
   if (!db)
   {
-    printf("Checking For DB init file\n");
+    printf("Failed opening DB!\n");
     return;
   }
 
