@@ -100,6 +100,8 @@ std::string cmdDbg::Execute (const StringArray& args)
     // Element 0 is '/', 1 is 'relocate'
     if (args.size() < 3) throw PT_EX(IncorrectParameters());
 
+  Report(PT::Debug, "dbg: %s", args[2].c_str());
+
   //----------------------------------------------
 
     if (args[2].compare("write") == 0)
@@ -149,8 +151,8 @@ std::string cmdDbg::Execute (const StringArray& args)
 
     else if (args[2].compare("spawn") == 0)
     {
-      if (args.size() < 6) throw PT_EX(IncorrectParameters());
-
+      if (args.size() < 4) throw PT_EX(IncorrectParameters());
+      
       csRef<iPcLinearMovement> pclinmove =
         CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 
