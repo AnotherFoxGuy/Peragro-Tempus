@@ -1,92 +1,81 @@
 <message-implementation>
-	<message type="Admin" name="RemoveAll">
-		<string>DataType</string>
-	</message>
+  <message type="Admin" name="RemoveAll">
+    <string>DataType</string>
+  </message>
 
-	<message type="Admin" name="SetConfig">
-		<string>Option</string>
-		<string>Value</string>
-	</message>
+  <message type="Admin" name="SetConfig">
+    <string>Option</string>
+    <string>Value</string>
+  </message>
 
-	<message type="Admin" name="CreateItem">
-                <uint32>ItemTemplateId</uint32>
-		<string>Name</string>
-		<string>Icon</string>
-		<string>Description</string>
-		<string>File</string>
-		<string>Mesh</string>
-		<float>Weight</float>
-		<string>EquipType</string>
-	</message>
+  <message type="Admin" name="CreateSpawnPoint">
+    <uint32>ItemTemplateId</uint32>
+    <vector3f>Position</vector3f>
+    <uint32>Interval</uint32>
+  </message>
 
-	<message type="Admin" name="CreateSpawnPoint">
-		<uint32>ItemTemplateId</uint32>
-		<vector3f>Position</vector3f>
-		<uint32>Interval</uint32>
-	</message>
+  <message type="Admin" name="SpawnItem">
+    <uint32>ItemTemplateId</uint32>
+    <vector3f>Position</vector3f>
+  </message>
 
-	<message type="Admin" name="SpawnItem">
-		<uint32>ItemTemplateId</uint32>
-		<vector3f>Position</vector3f>
-        </message>
+  <message type="Admin" name="SpawnMount">
+    <string>Name</string>
+    <string>Mesh</string>
+    <vector3f>Position</vector3f>
+    <float>Rotation</float>
+  </message>
 
-        <message type="Admin" name="SpawnMount">
-                <string>Name</string>
-                <string>Mesh</string>
-                <vector3f>Position</vector3f>
-		<float>Rotation</float>
-	</message>
+  <message type="Admin" name="SpawnDoor">
+    <uint32>EntityId</uint32>
+    <string>Name</string>
+    <string>Mesh</string>
+    <vector3f>Position</vector3f>
+    <bool>IsOpen</bool>
+    <bool>IsLocked</bool>
+    <string>Animation</string>
+  </message>
+  
+  <message type="Admin" name="RemoveSpawnedEntity">
+    <uint32>EntityId</uint32>
+  </message>
+  
+  <message type="Admin" name="ToggleFlashStep"></message>
 
-	<message type="Admin" name="SpawnDoor">
-                <uint32>EntityId</uint32>
-		<string>Name</string>
-		<string>Mesh</string>
-		<vector3f>Position</vector3f>
-		<bool>IsOpen</bool>
-		<bool>IsLocked</bool>
-		<string>Animation</string>
-	</message>
-	
-	<message type="Admin" name="RemoveSpawnedEntity">
-		<uint32>EntityId</uint32>
-	</message>
-	
-	<message type="Admin" name="ToggleFlashStep"></message>
+  <message type="Admin" name="CreateZone">
+    <uint16>ZoneId</uint16>
+    <string>ZoneType</string>
+    <list name="Nodes">
+    <float>X</float>
+    <float>Z</float>
+    </list>
+  </message>
 
-	<message type="Admin" name="CreateZone">
-		<uint16>ZoneId</uint16>
-		<string>ZoneType</string>
-		<list name="Nodes">
-			<float>X</float>
-			<float>Z</float>
-		</list>
-	</message>
+  <message type="Admin" name="SetDate">
+    <uint32>Seconds</uint32>
+  </message>
 
-	<message type="Admin" name="SetDate">
-		<uint32>Seconds</uint32>
-	</message>
+  <message type="Admin" name="CreateChanDefault">
+    <bool>IsInitChan</bool>
+    <string>Group</string>
+    <bool>Permanent</bool>
+  </message>
 
-        <message type="Admin" name="CreateChanDefault">
-		<bool>IsInitChan</bool>
-		<string>Group</string>
-		<bool>Permanent</bool>
-        </message>
-
-	<message type="Admin" name="CreateChanSpace">
-		<string>Name</string>
-		<string>Form</string>
-		<!-- int MaxChannels -->
-		<string>CreateType</string>
-		<uint16>CreateVal</uint16>
-		<bool>CreatePerm</bool>
-		<!-- int CreateMax -->		
-		<string>JoinType</string>
-		<uint16>JoinVal</uint16>
-		<bool>JoinPerm</bool>
-		<string>InviteType</string>
-		<uint16>InviteVal</uint16>
-		<bool>VisChannel</bool>
-		<bool>VisMembers</bool>
-	</message>
+  <message type="Admin" name="CreateChanSpace">
+    <string>Name</string>
+    <string>Form</string>
+    <!-- int MaxChannels -->
+    <string>CreateType</string>
+    <uint16>CreateVal</uint16>
+    <bool>CreatePerm</bool>
+    <!-- int CreateMax -->    
+    <string>JoinType</string>
+    <uint16>JoinVal</uint16>
+    <bool>JoinPerm</bool>
+    <string>InviteType</string>
+    <uint16>InviteVal</uint16>
+    <bool>VisChannel</bool>
+    <bool>VisMembers</bool>
+  </message>
 
 </message-implementation>
