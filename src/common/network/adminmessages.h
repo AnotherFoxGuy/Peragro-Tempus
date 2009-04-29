@@ -31,17 +31,17 @@ namespace ADMIN
   {
     REMOVEALL=0,
     SETCONFIG=1,
-    CREATEITEM=2,
-    CREATESPAWNPOINT=3,
-    SPAWNITEM=4,
-    SPAWNMOUNT=5,
-    SPAWNDOOR=6,
-    REMOVESPAWNEDENTITY=7,
-    TOGGLEFLASHSTEP=8,
-    CREATEZONE=9,
-    SETDATE=10,
-    CREATECHANDEFAULT=11,
-    CREATECHANSPACE=12
+    CREATESPAWNPOINT=2,
+    SPAWNITEM=3,
+    SPAWNMOUNT=4,
+    SPAWNDOOR=5,
+    REMOVESPAWNEDENTITY=6,
+    TOGGLEFLASHSTEP=7,
+    CREATEZONE=8,
+    SETDATE=9,
+    CREATECHANDEFAULT=10,
+    CREATECHANSPACE=11,
+    CREATEMESH=12
   };
 }
 
@@ -91,52 +91,37 @@ public:
 
 };
 
-class CreateItemMessage : public NetMessage
+class CreateMeshMessage : public NetMessage
 {
-  unsigned int itemtemplateid;
-  ptString name;
-  ptString icon;
-  ptString description;
+  unsigned int meshid;
+  unsigned int revision;
   ptString file;
-  ptString mesh;
-  float weight;
-  ptString equiptype;
+  ptString factory;
 
 public:
-  CreateItemMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATEITEM)
+  CreateMeshMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATEMESH)
   {
   }
 
-  ~CreateItemMessage()
+  ~CreateMeshMessage()
   {
   }
 
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getItemTemplateId() const { return itemtemplateid; }
-  void setItemTemplateId(unsigned int x) { itemtemplateid = x; }
+  // ItemTemplate data
+  unsigned int getMeshId() const { return meshid; }
+  void setMeshId(unsigned int x) { meshid = x; }
 
-  ptString getName() const { return name; }
-  void setName(ptString x) { name = x; }
-
-  ptString getIcon() const { return icon; }
-  void setIcon(ptString x) { icon = x; }
-
-  ptString getDescription() const { return description; }
-  void setDescription(ptString x) { description = x; }
+  unsigned int getRevision() const { return revision; }
+  void setRevision(unsigned int x) { revision = x; }
 
   ptString getFile() const { return file; }
   void setFile(ptString x) { file = x; }
 
-  ptString getMesh() const { return mesh; }
-  void setMesh(ptString x) { mesh = x; }
-
-  float getWeight() const { return weight; }
-  void setWeight(float x) { weight = x; }
-
-  ptString getEquipType() const { return equiptype; }
-  void setEquipType(ptString x) { equiptype = x; }
+  ptString getfactory() const { return factory; }
+  void setfactory(ptString x) { factory = x; }
 
 };
 

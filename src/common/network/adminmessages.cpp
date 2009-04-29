@@ -60,35 +60,25 @@ void SetConfigMessage::deserialise(ByteStream* bs)
   value = serial.getString();
 }
 
-bool CreateItemMessage::serialise(ByteStream* bs)
+bool CreateMeshMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setInt32(itemtemplateid);
-  serial.setString(name);
-  serial.setString(icon);
-  serial.setString(description);
+  serial.setInt32(id);
+  serial.setInt32(revision);
   serial.setString(file);
-  serial.setString(mesh);
-  serial.setFloat(weight);
-  serial.setString(equiptype);
+  serial.setString(factory);
   return serial.isValid();
 }
 
-void CreateItemMessage::deserialise(ByteStream* bs)
+void CreateMeshMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
-  id = serial.getInt8();
-  itemtemplateid = (unsigned int) serial.getInt32();
-  name = serial.getString();
-  icon = serial.getString();
-  description = serial.getString();
+  id = serial.getInt32();
+  revision = serial.getInt32();
   file = serial.getString();
-  mesh = serial.getString();
-  weight = serial.getFloat();
-  equiptype = serial.getString();
+  factory = serial.getString();
 }
 
 bool CreateSpawnPointMessage::serialise(ByteStream* bs)
