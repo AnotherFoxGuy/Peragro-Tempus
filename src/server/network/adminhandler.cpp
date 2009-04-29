@@ -35,7 +35,7 @@
 #include "server/database/table-config.h"
 #include "server/database/table-channels.h"
 #include "server/database/table-defaultchannels.h"
-#include "server/database/table-itemtemplates.h"
+//#include "server/database/table-itemtemplates.h"
 
 #include "server/spawn/spawner.h"
 
@@ -208,27 +208,24 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   SpawnItemMessage itemmsg;
   itemmsg.deserialise(msg->getByteStream());
 
-  // check that ItemTemplate exists in db first 
-  ItemTemplatesTable* ttable = 
-    Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
+  try
+  {
+    Server* server = Server::getServer();
+    boost::shared_ptr<ItemEntity> item = server->GetItemTemplatesManager()
+      ->CreateItemFromTemplate(itemmsg.getItemTemplateId()); 
 
-  ItemTemplatesTableVOp it = ttable->GetSingle(itemmsg.getItemTemplateId());
-  if (!it)
+    item->SetPosition(itemmsg.getPosition());
+    item->SetInWorld(true);
+    item->SaveToDB();
+    server->getEntityManager()->Add(item); 
+  }
+  catch (InvalidItemTemplate& )
   {
     printf("Error: ItemTemplate(%i) does not exists in database\n"
       ,itemmsg.getItemTemplateId());
-    return; // do nothing 
     ///@TODO maybe add a say msg back to client letting him know why 
     ///      it failed. 
   }
-  Server* server = Server::getServer();
-  boost::shared_ptr<ItemEntity> item = server->GetItemTemplatesManager()
-    ->CreateItemFromTemplate(itemmsg.getItemTemplateId()); 
-
-  item->SetPosition(itemmsg.getPosition());
-  item->SetInWorld(true);
-  item->SaveToDB();
-  server->getEntityManager()->Add(item);
 }
 
 void AdminHandler::handleSpawnMount(GenericMessage* msg)
