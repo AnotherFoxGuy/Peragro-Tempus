@@ -55,6 +55,9 @@ namespace PT
     {
       ::Client::Entity::Entity::Initialize(ev);
 
+      csRef<iMesh> mesh = GetComponent<iMesh>("peragro.entity.mesh");
+      mesh->Load();
+
       ev.Retrieve("itemId", itemId);
 
       csString buffer;
