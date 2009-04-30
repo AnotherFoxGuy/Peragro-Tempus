@@ -154,6 +154,7 @@ namespace PT
       }
 
       // ==[ Items ]===========================================================
+/*
       std::vector<PT::Data::Item*> items;
 
       itemDataManager->GetAllItems(items);
@@ -182,7 +183,7 @@ namespace PT
         itemmsg.setEquipType(equiptype);
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
       }
-
+*/
       // ==[ SpawnPoints ]=====================================================
       std::vector<PT::Data::SpawnPoint*> spawnpoints;
 

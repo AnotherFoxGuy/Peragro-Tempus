@@ -8,6 +8,12 @@
     <string>Value</string>
   </message>
 
+  <message type="Admin" name="CreateMesh">
+    <uint32>Revision</uint32>
+    <string>File</string>
+    <string>Factory</string>
+  </message>
+
   <message type="Admin" name="CreateSpawnPoint">
     <uint32>ItemTemplateId</uint32>
     <vector3f>Position</vector3f>
@@ -35,11 +41,11 @@
     <bool>IsLocked</bool>
     <string>Animation</string>
   </message>
-  
+
   <message type="Admin" name="RemoveSpawnedEntity">
     <uint32>EntityId</uint32>
   </message>
-  
+
   <message type="Admin" name="ToggleFlashStep"></message>
 
   <message type="Admin" name="CreateZone">

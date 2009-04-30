@@ -64,7 +64,7 @@ bool CreateMeshMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);
   serial.setInt8(type);
-  serial.setInt32(id);
+  serial.setInt8(id);
   serial.setInt32(revision);
   serial.setString(file);
   serial.setString(factory);
@@ -75,8 +75,8 @@ void CreateMeshMessage::deserialise(ByteStream* bs)
 {
   Deserialiser serial(bs);
   type = serial.getInt8();
-  id = serial.getInt32();
-  revision = serial.getInt32();
+  id = serial.getInt8();
+  revision = (unsigned int) serial.getInt32();
   file = serial.getString();
   factory = serial.getString();
 }

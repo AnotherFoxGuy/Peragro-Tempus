@@ -174,6 +174,31 @@ void AdminHandler::handleSetConfig(GenericMessage* msg)
   ct->Insert( *(scmsg.getOption()), *(scmsg.getValue()) );
 }
 
+void AdminHandler::handleCreateMesh(GenericMessage* msg)
+{
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  CreateMeshMessage meshMsg;
+  meshMsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+
+  printf("AdminHandler::handleCreateMesh unimplemented\n");
+/*
+  const Mesh* mesh = server->getMeshManager()->addMeshUpdate(itemmsg.getMesh(), itemmsg.getFile());
+
+  ItemManager* items = server->getItemManager();
+  ItemTable* it = server->getTables()->getItemTable();
+  it->insert(itemmsg.getItemId(), itemmsg.getName(), itemmsg.getIcon(),
+             itemmsg.getDescription(), mesh->GetId(),
+             itemmsg.getWeight(), itemmsg.getEquipType());
+
+  Item* item = it->getItem(itemmsg.getName(), server->getMeshManager());
+
+  items->addItem(item);
+*/
+}
+
 void AdminHandler::handleCreateSpawnPoint(GenericMessage* msg)
 {
   /*

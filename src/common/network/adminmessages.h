@@ -31,17 +31,17 @@ namespace ADMIN
   {
     REMOVEALL=0,
     SETCONFIG=1,
-    CREATESPAWNPOINT=2,
-    SPAWNITEM=3,
-    SPAWNMOUNT=4,
-    SPAWNDOOR=5,
-    REMOVESPAWNEDENTITY=6,
-    TOGGLEFLASHSTEP=7,
-    CREATEZONE=8,
-    SETDATE=9,
-    CREATECHANDEFAULT=10,
-    CREATECHANSPACE=11,
-    CREATEMESH=12
+    CREATEMESH=2,
+    CREATESPAWNPOINT=3,
+    SPAWNITEM=4,
+    SPAWNMOUNT=5,
+    SPAWNDOOR=6,
+    REMOVESPAWNEDENTITY=7,
+    TOGGLEFLASHSTEP=8,
+    CREATEZONE=9,
+    SETDATE=10,
+    CREATECHANDEFAULT=11,
+    CREATECHANSPACE=12
   };
 }
 
@@ -93,7 +93,6 @@ public:
 
 class CreateMeshMessage : public NetMessage
 {
-  unsigned int meshid;
   unsigned int revision;
   ptString file;
   ptString factory;
@@ -110,18 +109,14 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  // ItemTemplate data
-  unsigned int getMeshId() const { return meshid; }
-  void setMeshId(unsigned int x) { meshid = x; }
-
   unsigned int getRevision() const { return revision; }
   void setRevision(unsigned int x) { revision = x; }
 
   ptString getFile() const { return file; }
   void setFile(ptString x) { file = x; }
 
-  ptString getfactory() const { return factory; }
-  void setfactory(ptString x) { factory = x; }
+  ptString getFactory() const { return factory; }
+  void setFactory(ptString x) { factory = x; }
 
 };
 

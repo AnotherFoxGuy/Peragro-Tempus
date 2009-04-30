@@ -115,7 +115,7 @@
 		<type id="11" name="Admin">
 			<message id="0" name="RemoveAll" />
 			<message id="1" name="SetConfig" />
-			<message id="2" name="CreateItem" />
+			<message id="2" name="CreateMesh" />
 			<!-- <message id="3" name="CreateNpc" /> -->
 			<message id="3" name="CreateSpawnPoint" />
 			<message id="4" name="SpawnItem" />

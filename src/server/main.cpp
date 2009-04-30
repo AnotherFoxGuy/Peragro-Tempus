@@ -207,9 +207,8 @@ int App::Initialize(int argc, char* argv[])
     // output server settings
     if (vm.count("port"))
     {
-      cout << "Port: "
-        << vm["port"].as<unsigned int>() << endl;
       port = vm["port"].as<unsigned int>();
+      cout << "Port: " << port << endl;
     }
 
     if (vm.count("cfg"))
