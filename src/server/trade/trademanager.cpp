@@ -18,6 +18,8 @@
 
 #include "trademanager.h"
 
+#include <stdio.h>
+
 #include "exchange.h"
 #include "buy.h"
 
@@ -42,13 +44,19 @@ namespace PT
       delete exchange;
       exchange = new PT::Trade::Exchange ();
       if (!exchange->Initialize())
-        return printf("Failed to initialize Exchange!");
+      {
+        printf("Failed to initialize Exchange!");
+        return false;
+      }
 
       // Create and Initialize the buy.
       delete buy;
       buy = new PT::Trade::Buy ();
       if (!buy->Initialize())
-        return printf("Failed to initialize buy!");
+      {
+        printf("Failed to initialize buy!");
+        return false;
+      }
 
       return true;
     }
