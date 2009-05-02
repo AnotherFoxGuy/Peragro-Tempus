@@ -325,7 +325,7 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
   if (ent->GetType() == Common::Entity::ItemEntityType ||
       ent->GetType() == Common::Entity::MountEntityType)
   {
-    boost::dynamic_pointer_cast<ItemEntity>(ent)->DeleteFromDB();
+    boost::dynamic_pointer_cast<Entity>(ent)->DeleteFromDB();
     server->getEntityManager()->Remove(ent); 
   }
 }
