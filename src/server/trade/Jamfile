@@ -1,0 +1,6 @@
+SubDir TOP src server trade ;
+
+Description server-trade : "trade" ;
+Library server-trade :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs server-trade : BOOST ;
