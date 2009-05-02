@@ -311,23 +311,23 @@ void AdminHandler::handleSpawnDoor(GenericMessage* msg)
 
 void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 {
-  /*
   if (CheckAdminLevel(msg, 1) == false) return;
 
   RemoveSpawnedEntityMessage rmmsg;
   rmmsg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
+  EntityManager* entmgr = server->getEntityManager();
+  Common::Entity::Entityp ent = entmgr->FindById(rmmsg.getEntityId()); 
 
-  unsigned int entid = rmmsg.getEntityId();
-  const Entity* e = server->getEntityManager()->findById(entid);
-  if (e == 0) return;
-  if (e->GetType() == Common::Entity::ItemEntityType ||
-      e->GetType() == Common::Entity::MountEntityType)
+  if (ent == 0) return;
+
+  if (ent->GetType() == Common::Entity::ItemEntityType ||
+      ent->GetType() == Common::Entity::MountEntityType)
   {
-    server->delEntity(e);
+    boost::dynamic_pointer_cast<ItemEntity>(ent)->DeleteFromDB();
+    server->getEntityManager()->Remove(ent); 
   }
-  */
 }
 
 void AdminHandler::handleToggleFlashStep(GenericMessage* msg)

@@ -96,10 +96,14 @@ void ItemEntity::SaveToDB()
 
 void ItemEntity::DeleteFromDB()
 {
+  // @TODO think this should really be wrapped in a transaction 
   Entity::DeleteFromDB();
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
   ptable->Delete(GetId());
+
+  ItemsTable* itable = Server::getServer()->GetTableManager()->Get<ItemsTable>();
+  itable->Delete(GetId());
 
   //TODO abilities->DeleteFromDB();
 }
