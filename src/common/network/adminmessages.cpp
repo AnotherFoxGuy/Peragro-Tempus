@@ -24,23 +24,6 @@
 #include "deserialiser.h"
 #include "serialiser.h"
 
-bool RemoveAllMessage::serialise(ByteStream* bs)
-{
-  Serialiser serial(bs);
-  serial.setInt8(type);
-  serial.setInt8(id);
-  serial.setString(datatype);
-  return serial.isValid();
-}
-
-void RemoveAllMessage::deserialise(ByteStream* bs)
-{
-  Deserialiser serial(bs);
-  type = serial.getInt8();
-  id = serial.getInt8();
-  datatype = serial.getString();
-}
-
 bool SetConfigMessage::serialise(ByteStream* bs)
 {
   Serialiser serial(bs);

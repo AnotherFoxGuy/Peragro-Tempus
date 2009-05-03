@@ -1,7 +1,4 @@
 <message-implementation>
-  <message type="Admin" name="RemoveAll">
-    <string>DataType</string>
-  </message>
 
   <message type="Admin" name="SetConfig">
     <string>Option</string>

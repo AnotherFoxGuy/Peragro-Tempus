@@ -95,7 +95,6 @@
 		<message type="Book" name="BookWriteRequest" />
 		<!--message type="Book" name="BookWriteResponse" /-->
 
-		<message type="Admin" name="RemoveAll" />
 		<message type="Admin" name="SetConfig" />
 		<message type="Admin" name="CreateMesh" />
 		<!-- <message type="Admin" name="CreateNpc" /> -->

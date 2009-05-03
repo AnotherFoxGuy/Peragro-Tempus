@@ -29,42 +29,20 @@ namespace ADMIN
 {
   enum MESSAGES
   {
-    REMOVEALL=0,
-    SETCONFIG=1,
-    CREATEMESH=2,
-    CREATESPAWNPOINT=3,
-    SPAWNITEM=4,
-    SPAWNMOUNT=5,
-    SPAWNDOOR=6,
-    REMOVESPAWNEDENTITY=7,
-    TOGGLEFLASHSTEP=8,
-    CREATEZONE=9,
-    SETDATE=10,
-    CREATECHANDEFAULT=11,
-    CREATECHANSPACE=12
+    SETCONFIG=0,
+    CREATEMESH=1,
+    CREATESPAWNPOINT=2,
+    SPAWNITEM=3,
+    SPAWNMOUNT=4,
+    SPAWNDOOR=5,
+    REMOVESPAWNEDENTITY=6,
+    TOGGLEFLASHSTEP=7,
+    CREATEZONE=8,
+    SETDATE=9,
+    CREATECHANDEFAULT=10,
+    CREATECHANSPACE=11
   };
 }
-
-class RemoveAllMessage : public NetMessage
-{
-  ptString datatype;
-
-public:
-  RemoveAllMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::REMOVEALL)
-  {
-  }
-
-  ~RemoveAllMessage()
-  {
-  }
-
-  bool serialise(ByteStream* bs);
-  void deserialise(ByteStream* bs);
-
-  ptString getDataType() const { return datatype; }
-  void setDataType(ptString x) { datatype = x; }
-
-};
 
 class SetConfigMessage : public NetMessage
 {

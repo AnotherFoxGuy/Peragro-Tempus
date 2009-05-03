@@ -42,8 +42,7 @@ public:
     if (type != MESSAGES::ADMIN) assert("wrong message type");
     char id = msg->getMsgId();
 
-    if (id == ADMIN::REMOVEALL) handleRemoveAll(msg);
-    else if (id == ADMIN::SETCONFIG) handleSetConfig(msg);
+    if (id == ADMIN::SETCONFIG) handleSetConfig(msg);
     else if (id == ADMIN::CREATEMESH) handleCreateMesh(msg);
     else if (id == ADMIN::CREATESPAWNPOINT) handleCreateSpawnPoint(msg);
     else if (id == ADMIN::SPAWNITEM) handleSpawnItem(msg);
@@ -57,7 +56,6 @@ public:
     else if (id == ADMIN::CREATECHANSPACE) handleCreateChanSpace(msg);
   }
 
-  void handleRemoveAll(GenericMessage* msg);
   void handleSetConfig(GenericMessage* msg);
   void handleCreateMesh(GenericMessage* msg);
   void handleCreateSpawnPoint(GenericMessage* msg);

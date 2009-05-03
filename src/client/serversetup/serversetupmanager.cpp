@@ -93,7 +93,7 @@ namespace PT
     bool ServerSetupManager::UploadServerData()
     {
       // Be careful about the order!
-
+/*
       RemoveAllMessage rmmsg;
 
       rmmsg.setDataType(ptString::create("item-entities"));
@@ -119,7 +119,7 @@ namespace PT
 
       Report(PT::Notify, "Not yet fully implemented");
       // TODO: Send a message to tell the server to wipe its current settings to make room for the new ones (otherwise database entries cannot be updated, nor will they be possible to remove by removing them from the XML)
-
+*/
       // ==[ Doors ]===========================================================
       std::vector<PT::Data::Door*> doors;
 
@@ -167,20 +167,22 @@ namespace PT
         ptString file = ptString::create(items[i]->GetMeshFile());
         ptString mesh = ptString::create(items[i]->GetMeshName());
         float weight = items[i]->GetWeight();
-        ptString equiptype = ptString::create(items[i]->GetEquiptype());
+        unsigned int equiptypeid = ptString::create(items[i]->GetEquiptype());
+        unsigned int skilltypeid = ptString::create(items[i]->GetSkilltype());
 
         Report(PT::Debug, "Loading item, name=\"%s\", icon=\"%s\", description=\"%s\", file=\"%s\", mesh=\"%s\", weight=%f, equiptype=\"%s\"", *name, *icon, *description, *file, *mesh, weight, *equiptype);
 
         // Just send the data here, one item/package
-        CreateItemMessage itemmsg;
+        CreateItemTemplateMessage itemmsg;
         itemmsg.setItemTemplateId(0); // 0 means create new.
         itemmsg.setName(name);
+        itemmsg.setMeshId(0);
         itemmsg.setIcon(icon);
         itemmsg.setDescription(description);
-        itemmsg.setFile(file);
-        itemmsg.setMesh(mesh);
-        itemmsg.setWeight(weight);
         itemmsg.setEquipType(equiptype);
+        itemmsg.setSkillType(skilltype);
+        itemmsg.setRevision(1); 
+        itemmsg.setFile(file);
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
       }
 */

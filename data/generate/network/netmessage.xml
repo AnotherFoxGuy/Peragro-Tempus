@@ -113,20 +113,19 @@
 			<message id="3" name="BookWriteResponse" />
 		</type>
 		<type id="11" name="Admin">
-			<message id="0" name="RemoveAll" />
-			<message id="1" name="SetConfig" />
-			<message id="2" name="CreateMesh" />
+			<message id="0" name="SetConfig" />
+			<message id="1" name="CreateMesh" />
 			<!-- <message id="3" name="CreateNpc" /> -->
-			<message id="3" name="CreateSpawnPoint" />
-			<message id="4" name="SpawnItem" />
-			<message id="5" name="SpawnMount" />
-			<message id="6" name="SpawnDoor" />
-			<message id="7" name="RemoveSpawnedEntity" />
-			<message id="8" name="ToggleFlashStep" />
-			<message id="9" name="CreateZone" />
-			<message id="10" name="SetDate" />
-			<message id="11" name="CreateChanDefault" />
-			<message id="12" name="CreateChanSpace" />
+			<message id="2" name="CreateSpawnPoint" />
+			<message id="3" name="SpawnItem" />
+			<message id="4" name="SpawnMount" />
+			<message id="5" name="SpawnDoor" />
+			<message id="6" name="RemoveSpawnedEntity" />
+			<message id="7" name="ToggleFlashStep" />
+			<message id="8" name="CreateZone" />
+			<message id="9" name="SetDate" />
+			<message id="10" name="CreateChanDefault" />
+			<message id="11" name="CreateChanSpace" />
 		</type>
 		<type id="12" name="Player">
 			<message id="1" name="InventoryList" />
