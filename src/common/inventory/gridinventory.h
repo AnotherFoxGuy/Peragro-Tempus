@@ -62,10 +62,9 @@ namespace Common
       };
 
     private:
-      typedef WFMath::QuadTree<WFMath::AxisBox<2>, false>::Type Quadtree;
-      /// Quadtree, doesn't hold a ref to the object.
+      /// Quadtree, doesn't hold refs to the objects.
       Quadtree quadtree;
-      /// Container that holds a ref to all the objects.
+      /// Container that holds refs to all the objects.
       std::list<boost::shared_ptr<PositionedObject> > objects;
 
       static WFMath::AxisBox<2> GetBB(const PositionRef& pos, const WFMath::AxisBox<2>& size, float offset = 0.0f);
