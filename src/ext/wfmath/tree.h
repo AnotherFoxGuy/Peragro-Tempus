@@ -97,6 +97,12 @@ namespace WFMath
       NotifyMoved();
     }
 
+    inline bool ContainedIn(const Point<2>& s) const { return Intersect<2>(geom, s, false); }
+    inline bool ContainedIn(const Point<3>& s) const { return Intersect<3>(geom, s, false); }
+
+    inline bool ContainedIn(const AxisBox<2>& s) const { return Intersect<2>(geom, s, false); }
+    inline bool ContainedIn(const AxisBox<3>& s) const { return Intersect<3>(geom, s, false); }
+
     template<const int Dim>
     inline bool ContainedIn(const Ball<Dim>& s) const { return Intersect<Dim>(s, geom, false); }
   };
@@ -167,7 +173,7 @@ namespace WFMath
 
       virtual void Destroyed(iShape* shape)
       {
-        printf("Node::Destroyed!\n");
+        //printf("Node::Destroyed!\n");
         shapes.remove_if(Equal(shape));
       }
 
@@ -214,7 +220,8 @@ namespace WFMath
         return true;
       }
 
-      QueryResult Query(const Ball<Dim>& s) const
+      template <template <const int> class S>
+      QueryResult Query(const S<Dim>& s) const
       {
         QueryResult result;
         ConstIterator it;
@@ -228,8 +235,8 @@ namespace WFMath
         return result;
       }
 
-      template<typename T>
-      std::list<boost::shared_ptr<T> > Query(const Ball<Dim>& s) const
+      template<typename T, template <const int> class S>
+      std::list<boost::shared_ptr<T> > Query(const S<Dim>& s) const
       {
         std::list<boost::shared_ptr<T> > result;
         ConstIterator it;
@@ -287,17 +294,17 @@ namespace WFMath
       return rootNode->Remove(shape);
     }
 
-    QueryResult Query(const Ball<Dim>& s) const
+    template <template <const int> class S>
+    QueryResult Query(const S<Dim>& s) const
     {
       return rootNode->Query(s);
     }
 
-    template<typename T>
-    std::list<boost::shared_ptr<T> > Query(const Ball<Dim>& s) const
+    template<typename T, template <const int> class S>
+    std::list<boost::shared_ptr<T> > Query(const S<Dim>& s) const
     {
       return rootNode->Query<T>(s);
     }
-
   };
 
 } // namespace WFMath
