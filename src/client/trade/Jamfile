@@ -3,5 +3,6 @@ SubDir TOP src client trade ;
 Description client-trademanager : "client trademanager" ;
 Library client-trademanager :
   [ Wildcard *.h *.cpp ] ;
+LinkWith client-trademanager : inventory ;
 ExternalLibs client-trademanager : CEGUI CRYSTAL CEL BOOST ;
 MsvcCFlags client-trademanager : /wd4396 ;

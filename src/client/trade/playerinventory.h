@@ -24,14 +24,27 @@
 #include "common/event/tradeevent.h"
 #include "common/event/eventmanager.h"
 
+#include "common/inventory/item.h"
+#include "common/inventory/slotinventory.h"
+
 struct iEvent;
 
 namespace PT
 {
   namespace Trade
   {
+    class Item : public Common::Inventory::Item
+    {
+      size_t entityId;
+    public:
+      Item(iEvent& ev);
+    };
+
     class PlayerInventory
     {
+    private:
+      boost::shared_ptr<Common::Inventory::SlotInventory> inventory;
+
     private:
       PT_CALLBACK_HANDLER_LISTENERS
       bool PickUp(iEvent& ev);

@@ -22,11 +22,16 @@ namespace Common
 {
   namespace Inventory
   {
+    PositionRef::PositionRef()
+    {
+      valid = false;
+    }
 
     PositionRef::PositionRef(int column, int row)
     {
       PositionRef::row = row;
       PositionRef::column = column;
+      valid = true;
     }
 
     PositionRef::~PositionRef()

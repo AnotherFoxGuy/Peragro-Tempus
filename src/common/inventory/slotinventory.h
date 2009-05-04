@@ -77,7 +77,7 @@ namespace Common
       ///@todo Make these functions throw an exception instead of returning 0.
       virtual boost::shared_ptr<Object> RemoveObjectAt(const PositionRef& position);
       virtual boost::shared_ptr<Object> RemoveObjectAt(unsigned int id);
-      virtual bool RemoveObject(boost::shared_ptr<Object> object);
+      virtual PositionRef RemoveObject(boost::shared_ptr<Object> object);
 
       virtual bool HasObjectAt(const PositionRef& position) const;
       virtual bool HasObjectAt(unsigned int id) const;

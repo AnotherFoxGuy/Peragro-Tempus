@@ -64,7 +64,7 @@ public:
 
   boost::shared_ptr<CI::Object> RemoveObjectAt(const CI::PositionRef& position);
   boost::shared_ptr<CI::Object> RemoveObjectAt(unsigned int id);
-  boost::shared_ptr<CI::Slot> RemoveObject(boost::shared_ptr<CI::Object> object);
+  CI::PositionRef RemoveObject(boost::shared_ptr<CI::Object> object);
 
   void LoadFromDB();
   void SaveToDB();

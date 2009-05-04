@@ -99,6 +99,20 @@ namespace PT
        * @param name The name of the parameter.
        * @return The parameter's value.
        */
+      static float GetFloat(const iEvent* event, const char* name)
+      {
+        float i = 0.0f;
+        if (event->Retrieve(name, i) != csEventErrNone)
+          Report(PT::Error, "Helper::GetFloat '%s' failed!", name);
+        return i;
+      }
+
+      /**
+       * Get an event parameter's value.
+       * @param ev An event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
       static unsigned char GetUChar(const iEvent* event, const char* name)
       {
         unsigned char i = 0;

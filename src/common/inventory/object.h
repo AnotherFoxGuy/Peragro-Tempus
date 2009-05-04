@@ -20,6 +20,7 @@
 #define COMMON_OBJECT_H
 
 #include <string>
+#include <iostream>
 #include <wfmath/point.h>
 #include <wfmath/axisbox.h>
 

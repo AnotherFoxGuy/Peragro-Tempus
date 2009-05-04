@@ -163,7 +163,7 @@ namespace Common
       return RemoveObjectAt(IdToPos(id));
     }
 
-    bool SlotInventory::RemoveObject(boost::shared_ptr<Object> object) 
+    PositionRef SlotInventory::RemoveObject(boost::shared_ptr<Object> object) 
     { 
       std::list<boost::shared_ptr<Slot> >::iterator it;
       for (it=slots.begin(); it != slots.end(); it++)
@@ -171,12 +171,13 @@ namespace Common
         if((*it)->GetContents() == object)
         {
           if (object && object->GetParent() == this) object->SetParent(0);
-          NotifyObjectRemoved(object, (*it)->GetPosition());
+          PositionRef ref = (*it)->GetPosition();
+          NotifyObjectRemoved(object, ref);
           slots.erase(it);
-          return true;
+          return ref;
         }
       }
-      return false; 
+      return PositionRef(); 
     }
 
     bool SlotInventory::HasObjectAt(const PositionRef& position) const

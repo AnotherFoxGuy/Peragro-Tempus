@@ -22,11 +22,6 @@
 
 #include "gridinventory.h"
 
-#include <iostream>
-#include <sstream>
-#include <istream>
-#include <wfmath/stream.h>
-
 namespace Common
 {
   namespace Inventory
@@ -67,12 +62,6 @@ namespace Common
       std::list<boost::shared_ptr<PositionedObject> > result;
       result = quadtree.Query<PositionedObject>(WFMath::Point<2>(position.column+0.0001f, position.row+0.0001f));
       if (result.size() == 1) return result.front();  
-      /*
-      printf("blah %d [%d, %d]\n", result.size(), position.column, position.row);
-      std::list<boost::shared_ptr<PositionedObject> >::const_iterator it;
-      for (it = result.begin() ; it != result.end(); it++ )
-        std::cout << (*it)->GetShape() << "|"<< (*it)->object->GetSize() << "|"<< (*it)->position.row <<std::endl;
-      */
       return boost::shared_ptr<PositionedObject>();
     }
 
@@ -115,20 +104,21 @@ namespace Common
       return boost::shared_ptr<Object>();
     }
 
-    bool GridInventory::RemoveObject(boost::shared_ptr<Object> object)
+    PositionRef GridInventory::RemoveObject(boost::shared_ptr<Object> object)
     {
       std::list<boost::shared_ptr<PositionedObject> >::iterator it;
       for (it = objects.begin(); it != objects.end(); it++)
       {
         if ((*it)->object == object)
         {
-          NotifyObjectRemoved(object, (*it)->position);
+          PositionRef ref = (*it)->position;
+          NotifyObjectRemoved(object, ref);
           quadtree.Remove(*it);
           objects.erase(it);
-          return true;
+          return ref;
         }
       }
-      return false;
+      return PositionRef();
     }
 
     bool GridInventory::MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap)

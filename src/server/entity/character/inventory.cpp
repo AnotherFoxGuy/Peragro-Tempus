@@ -77,14 +77,14 @@ boost::shared_ptr<CI::Object> Inventory::RemoveObjectAt(unsigned int id)
   return RemoveObjectAt(IdToPos(id));
 }
 
-boost::shared_ptr<CI::Slot> Inventory::RemoveObject(boost::shared_ptr<CI::Object> object)
+CI::PositionRef Inventory::RemoveObject(boost::shared_ptr<CI::Object> object)
 {
-  boost::shared_ptr<CI::Slot> slot = CI::SlotInventory::RemoveObject(object);
-  if (slot)
+  CI::PositionRef ref = CI::SlotInventory::RemoveObject(object);
+  if (ref)
   {
-    DeleteItemFromDB(slot->GetPosition());
+    DeleteItemFromDB(ref);
   }
-  return slot;
+  return ref;
 }
 
 void Inventory::LoadFromDB()

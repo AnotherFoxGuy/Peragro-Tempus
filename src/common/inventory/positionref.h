@@ -25,9 +25,11 @@ namespace Common
   {
     struct PositionRef
     {
+      bool valid;
       unsigned int row;
       unsigned int column;
 
+      PositionRef();
       PositionRef(int column, int row);
       virtual ~PositionRef();
 
@@ -36,6 +38,8 @@ namespace Common
       PositionRef& operator=(const PositionRef& reference);
       PositionRef& operator+=(const PositionRef& reference);
       PositionRef& operator-=(const PositionRef& reference);
+
+      operator bool() const { return valid; }
     };
 
   } // Inventory namespace

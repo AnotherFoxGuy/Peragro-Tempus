@@ -27,13 +27,28 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/gui.h"
 
+using namespace Common::Inventory;
 
 namespace PT
 {
   namespace Trade
   {
+    Item::Item(iEvent& ev)
+    {
+      using namespace PT::Events;
+      entityId = Helper::GetUInt(&ev, "entityId");
+      name = Helper::GetString(&ev, "name");
+      objectIcon = Helper::GetString(&ev, "iconName");
+      objectDescription = Helper::GetString(&ev, "description");
+      weight = Helper::GetFloat(&ev, "weight");
+      equipType = Helper::GetString(&ev, "equipType");
+
+      //slotId = Helper::GetUInt(&ev, "slotId");
+    }
+
     PlayerInventory::PlayerInventory ()
     {
+      inventory = boost::shared_ptr<SlotInventory>(new SlotInventory("Inventory", ALLOW_ITEMS, 10, 5));
     }
 
     PlayerInventory::~PlayerInventory ()
@@ -42,6 +57,15 @@ namespace PT
 
     bool PlayerInventory::Initialize ()
     {
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      if (!guimanager) return false;
+      InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
+      if (!inventoryWindow) return false;
+
+      //if (!inventoryWindow->Initialize(inventory)) return false;
+
       // Register listener for InventoryAddEvent.
       PT_SETUP_HANDLER
       PT_REGISTER_LISTENER(PlayerInventory, PickUp, "trade.inventory.pickup")
@@ -73,19 +97,13 @@ namespace PT
     bool PlayerInventory::Drop(iEvent& ev)
     {
       using namespace PT::Events;
-      using namespace PT::GUI;
-      using namespace PT::GUI::Windows;
 
       unsigned int slotId = -1;
       ev.Retrieve("slotId", slotId);
 
       if (!Helper::HasError(&ev))
       {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if (!guimanager) return true;
-        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-        if (!inventoryWindow) return true;
-        inventoryWindow->RemoveItem(slotId);
+        if (!inventory->RemoveObjectAt(slotId)) Report(PT::Error, "Inventory error: Drop!");
       }
       else
         Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, Helper::GetError(&ev).c_str());
@@ -116,19 +134,11 @@ namespace PT
     bool PlayerInventory::Add(iEvent& ev)
     {
       using namespace PT::Events;
-      using namespace PT::GUI;
-      using namespace PT::GUI::Windows;
-
-      unsigned int itemId = Helper::GetUInt(&ev, "itemId");
-      std::string name = Helper::GetString(&ev, "name");
-      std::string iconName = Helper::GetString(&ev, "iconName");
       unsigned int slotId = Helper::GetUInt(&ev, "slotId");
 
-      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-      if (!guimanager) return true;
-      InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-      if (!inventoryWindow) return true;
-      inventoryWindow->AddItem(itemId, name.c_str(), iconName.c_str(), slotId);
+      boost::shared_ptr<Item> item(new Item(ev));
+
+      if (!inventory->AddObjectAt(slotId, item)) Report(PT::Error, "Inventory error: Add!");
 
       return true;
     } // end Add()
@@ -144,11 +154,7 @@ namespace PT
 
       if (!Helper::HasError(&ev))
       {
-        GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
-        if (!guimanager) return true;
-        InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-        if (!inventoryWindow) return true;
-        inventoryWindow->MoveItem(oldSlotId, newSlotId);
+        if (!inventory->MoveObject(oldSlotId, newSlotId)) Report(PT::Error, "Inventory error: Move!");
       }
       else
         Report(PT::Notify, "You can't move object from slot %d to slot %d! Reason: '%s'.",

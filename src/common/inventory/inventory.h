@@ -146,9 +146,9 @@ namespace Common
 
       /**
        * Remove the given object from this inventory.
-       * @return The slot containing the object if successful, 0 if an error occured.
+       * @return The PositionRef at which the object was removed if successful, invalid PositionRef if an error occured.
        */
-      virtual bool RemoveObject(boost::shared_ptr<Object> object) = 0;
+      virtual PositionRef RemoveObject(boost::shared_ptr<Object> object) = 0;
 
       /**
        * Move an object at the given position to the new location.
