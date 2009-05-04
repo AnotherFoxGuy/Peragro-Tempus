@@ -594,9 +594,6 @@
 				RelativePath="..\..\src\common\inventory\positionref.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\inventory\size.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\inventory\slot.cpp">
 			</File>
 			<File
@@ -620,9 +617,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\inventory\positionref.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\inventory\size.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\inventory\slot.h">

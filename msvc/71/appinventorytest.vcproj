@@ -318,6 +318,16 @@
 			</File>
 		</Filter>
 		<Filter
+			Name="Header Files"
+			Filter="">
+			<File
+				RelativePath="..\..\src\tests\inventorytest\gridinventory.h">
+			</File>
+			<File
+				RelativePath="..\..\src\tests\inventorytest\slotinventory.h">
+			</File>
+		</Filter>
+		<Filter
 			Name="Resource Files"
 			Filter="">
 			<File
