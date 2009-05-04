@@ -28,7 +28,7 @@ namespace Common
       unsigned int row;
       unsigned int column;
 
-      PositionRef(int row, int column);
+      PositionRef(int column, int row);
       virtual ~PositionRef();
 
       bool operator==(const PositionRef& reference) const;

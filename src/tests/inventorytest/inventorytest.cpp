@@ -23,12 +23,39 @@
 #define DEBUG
 #endif
 
-#include "common/inventory/inventory.h"
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <istream>
+
+#include "common/inventory/item.h"
+#include "common/inventory/slotinventory.h"
+#include "common/inventory/gridinventory.h"
 
 using namespace Common::Inventory;
 
+typedef std::list<boost::shared_ptr<Object> > Objects;
+
+struct CallBack : public InventoryCallBack
+{
+  virtual void ObjectAdded(boost::shared_ptr<Object> o, const PositionRef& r)
+  {
+    std::cout << "Added: " << *o.get() << " at " << r.column<<","<< r.row<< std::endl;
+  }
+  virtual void ObjectRemoved(boost::shared_ptr<Object> o, const PositionRef& r)
+  {
+    std::cout << "Removed: " << *o.get() << " at " << r.column<<","<< r.row<< std::endl;
+  }
+};
+
+#include "slotinventory.h"
+
+#include "gridinventory.h"
+
 int main()
 {
+  //TestSlotInventory();
+  TestGridInventory();
 
   return 0;
 }

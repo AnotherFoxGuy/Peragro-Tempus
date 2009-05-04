@@ -35,7 +35,6 @@ namespace Common
       inventoryColumns = columns;
     }
 
-
     Inventory::~Inventory()
     {
     }
@@ -67,6 +66,61 @@ namespace Common
       return false;
     }
 
+    void Inventory::AddInventoryCallBack(InventoryCallBack* cb)
+    {
+      callback_list.remove(cb);
+      callback_list.push_back(cb);
+    }
+
+    void Inventory::RemoveInventoryCallBack(InventoryCallBack* cb)
+    {
+      callback_list.remove(cb);
+    }
+
+    void Inventory::NotifyObjectAdded(boost::shared_ptr<Object> o, const PositionRef& r)
+    {
+      std::list<Common::Inventory::InventoryCallBack*>::const_iterator it;
+      for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+      {
+        (*it)->ObjectAdded(o, r);
+      }
+    }
+
+    void Inventory::NotifyObjectRemoved(boost::shared_ptr<Object> o, const PositionRef& r)
+    {
+      std::list<Common::Inventory::InventoryCallBack*>::const_iterator it;
+      for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+      {
+        (*it)->ObjectRemoved(o, r);
+      }
+    }
+
+    std::ostream& operator<< (std::ostream& os, const Inventory& i)
+    {
+      for (size_t r = 0; r < i.GetRowCount(); r++)
+      {
+        os << std::endl <<"-";
+        for (size_t c = 0; c < i.GetColumnCount(); c++)
+          os << "-----";
+        os << std::endl;
+
+        for (size_t c = 0; c < i.GetColumnCount(); c++)
+        {
+          boost::shared_ptr<Object> o = i.GetObjectAt(PositionRef(c, r));
+          if (o) {os << "| "<<std::setw(2)<< *o.get() << " ";} else {os << "|    ";}
+          if (c == i.GetColumnCount()-1) os << "|";
+        }
+
+        if (r == i.GetRowCount()-1)
+        {
+          os << std::endl <<"-";
+          for (size_t c = 0; c < i.GetColumnCount(); c++)
+            os << "-----";
+          os << std::endl;
+        }
+      }
+      return os;
+    }
 
   } // Inventory namespace
 } // Common namespace

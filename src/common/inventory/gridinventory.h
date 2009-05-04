@@ -23,7 +23,9 @@
 #ifndef COMMON_GRIDINVENTORY_H
 #define COMMON_GRIDINVENTORY_H
 
-#include "src/common/inventory/inventory.h"
+#include "object.h"
+
+#include "inventory.h"
 
 #include <wfmath/quadtree.h>
 
@@ -31,6 +33,8 @@ namespace Common
 {
   namespace Inventory
   {
+    class Object;
+
     /**
      * @ingroup Inventory
      * A Diablo style grid based inventory.
@@ -38,17 +42,37 @@ namespace Common
     class GridInventory : public Inventory
     {
     private:
-      struct PositionedObject;
       typedef WFMath::QuadTree<WFMath::AxisBox<2>, false>::Type Quadtree;
       struct PositionedObject : public WFMath::Shape<WFMath::AxisBox<2> >
       {
-        std::string name;
-        Object* object;
+        PositionRef position;
+        boost::shared_ptr<Object> object;
+
+        PositionedObject(boost::shared_ptr<Object> o, const PositionRef& pos) : position(pos)
+        {
+          object = o;
+          SetPosition(pos);
+        }
+
+        void SetPosition(const PositionRef& pos)
+        {
+          position = pos;
+          SetShape(GridInventory::GetBB(pos, object->GetSize()));
+        }
       };
 
     private:
-      /// Thing that holds all the objects.
-      Quadtree container;
+      typedef WFMath::QuadTree<WFMath::AxisBox<2>, false>::Type Quadtree;
+      /// Quadtree, doesn't hold a ref to the object.
+      Quadtree quadtree;
+      /// Container that holds a ref to all the objects.
+      std::list<boost::shared_ptr<PositionedObject> > objects;
+
+      static WFMath::AxisBox<2> GetBB(const PositionRef& pos, const WFMath::AxisBox<2>& size, float offset = 0.0f);
+
+      bool IsInInventory(const WFMath::AxisBox<2>& bb);
+
+      boost::shared_ptr<PositionedObject> GetPositionedObjectAt(const PositionRef& position) const;
 
     public:
       /**
@@ -56,6 +80,55 @@ namespace Common
        */
       GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
       virtual ~GridInventory();
+
+      /**
+       * Clears the inventory, removing all slots their contents.
+       * @return void.
+       */
+      virtual void ClearInventory();
+
+      /**
+       * Check if there is an object at the given position.
+       * @return True if there is an object, false if the slot is empty.
+       */
+      virtual bool HasObjectAt(const PositionRef& position) const;
+
+      /**
+       * Returns the object at the given position.
+       * @return Object.
+       */
+      virtual boost::shared_ptr<Object> GetObjectAt(const PositionRef& position) const;
+
+      /**
+       * Adds an object at the given position.
+       * @return True if successful, false if an error occured.
+       */
+      virtual bool AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object);
+
+      /**
+       * Remove the object at the given position.
+       * @return The object if successful, 0 if an error occured.
+       */
+      virtual boost::shared_ptr<Object> RemoveObjectAt(const PositionRef& position);
+
+      /**
+       * Remove the given object from this inventory.
+       * @return The slot containing the object if successful, 0 if an error occured.
+       */
+      virtual bool RemoveObject(boost::shared_ptr<Object> object);
+
+      /**
+       * Move an object at the given position to the new location.
+       * @return True if successful, false if an error occured.
+       */
+      virtual bool MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap=true);
+
+      /**
+       * This is called from the other inventory to notify this inventory
+       * that the object has moved. This inventory would then do some cleanup
+       * and remove the object from it's list.
+       */
+      virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object);
     };
 
 

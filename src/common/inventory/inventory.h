@@ -24,11 +24,14 @@
 #define COMMON_INVENTORY_H
 
 #include <string>
+#include <list>
 
 #include <boost/shared_ptr.hpp>
 
 #include "src/common/util/flags.h"
 #include "src/common/inventory/positionref.h"
+
+#include "common/util/exception.h"
 
 namespace Common
 {
@@ -39,8 +42,28 @@ namespace Common
     #define ALLOW_ACTIONS  0x00000100
 
     class Object;
-    class Slot;
 
+    PT_DEFINE_EXCEPTION(InventoryException);
+
+    struct InventoryCallBack
+    {
+      virtual void ObjectAdded(boost::shared_ptr<Object>, const PositionRef&) = 0;
+      virtual void ObjectRemoved(boost::shared_ptr<Object>, const PositionRef&) = 0;
+    };
+
+    /*
+     * Inventory base class.
+     *
+     *      columns/x -->
+     * (0,0)-----------
+     *      |    |    |  rows/y
+     *      -----------   |
+     *      |    |    |   |
+     *      -----------   v
+     *      |    |    |
+     *      ----------- (columns, rows)
+     *
+     */
     class Inventory
     {
     protected:
@@ -50,7 +73,15 @@ namespace Common
       unsigned int inventoryColumns;
 
     protected:
+      std::list<InventoryCallBack*> callback_list;
+      void NotifyObjectAdded(boost::shared_ptr<Object>, const PositionRef&);
+      void NotifyObjectRemoved(boost::shared_ptr<Object>, const PositionRef&);
+
+    protected:
       bool AllowsType(boost::shared_ptr<Object> object);
+
+    public:
+      friend std::ostream& operator<< (std::ostream&, const Inventory&);
 
     public:
       /**
@@ -117,7 +148,13 @@ namespace Common
        * Remove the given object from this inventory.
        * @return The slot containing the object if successful, 0 if an error occured.
        */
-      virtual boost::shared_ptr<Slot> RemoveObject(boost::shared_ptr<Object> object) = 0;
+      virtual bool RemoveObject(boost::shared_ptr<Object> object) = 0;
+
+      /**
+       * Move an object at the given position to the new location.
+       * @return True if successful, false if an error occured.
+       */
+      virtual bool MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap=true) = 0;
 
       /**
        * This is called from the other inventory to notify this inventory
@@ -125,8 +162,17 @@ namespace Common
        * and remove the object from it's list.
        */
       virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object) = 0;
-    };
 
+      /**
+       * Add the callback to this inventory.
+       */
+      void AddInventoryCallBack(InventoryCallBack*);
+
+      /**
+       * Remove the callback to this inventory.
+       */
+      void RemoveInventoryCallBack(InventoryCallBack*);
+    };
 
   } // Inventory namespace
 } // Common namespace

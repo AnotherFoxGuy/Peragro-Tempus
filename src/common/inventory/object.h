@@ -20,8 +20,8 @@
 #define COMMON_OBJECT_H
 
 #include <string>
-
-#include "size.h"
+#include <wfmath/point.h>
+#include <wfmath/axisbox.h>
 
 namespace Common
 {
@@ -44,13 +44,20 @@ namespace Common
     protected:
       Inventory* parent;
       unsigned int objectId;
+      std::string name;
       ObjectType objectType;
       std::string objectIcon;
       std::string objectDescription;
-      Size objectSize;
+      WFMath::AxisBox<2> objectSize;
 
     public:
-      Object(ObjectType type) : parent(0), objectType(type), objectSize(1,1) {}
+      friend inline std::ostream& operator<< (std::ostream&, const Object&);
+
+    public:
+      Object(ObjectType type) : parent(0), objectType(type), objectSize(WFMath::Point<2>(0),WFMath::Point<2>(1)) 
+      {
+      }
+
       virtual ~Object() {}
 
       /**
@@ -63,6 +70,9 @@ namespace Common
       virtual void SetId(unsigned int type) { objectId = type; }
       virtual unsigned int GetId() const { return objectId; }
 */
+      virtual void SetObjectName(const std::string& value) { name = value; }
+      virtual const std::string& GetObjectName() const { return name; }
+
       virtual void SetDescription(const std::string& description) { objectDescription = description; }
       virtual const std::string& GetDescription() const { return objectDescription; }
 
@@ -71,13 +81,18 @@ namespace Common
 
       ObjectType GetType() const { return objectType; }
 
-      virtual void SetSize(const Size& size) { objectSize = size; }
-      virtual const Size& GetSize() const { return objectSize; }
+      virtual void SetSize(const WFMath::AxisBox<2>& size) { objectSize = size; }
+      virtual const WFMath::AxisBox<2>& GetSize() const { return objectSize; }
 
       virtual bool Execute() = 0;
       virtual bool Execute(const std::string& action) = 0;
 
     };
+
+    inline std::ostream& operator<< (std::ostream& os, const Object& i)
+    {
+      return os << i.GetObjectName();
+    }
 
   } // Inventory namespace
 } // Common namespace

@@ -23,7 +23,7 @@ namespace Common
   namespace Inventory
   {
 
-    PositionRef::PositionRef(int row, int column)
+    PositionRef::PositionRef(int column, int row)
     {
       PositionRef::row = row;
       PositionRef::column = column;

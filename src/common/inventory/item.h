@@ -31,6 +31,7 @@ namespace Common
     class Item : public Object
     {
     protected:
+      
       unsigned int price;
       float weight;
       std::string equipType;
