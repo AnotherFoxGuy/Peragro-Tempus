@@ -1,5 +1,5 @@
 # ===========================================================================
-#        http://autoconf-archive.cryp.to/ax_boost_program_options.html
+#    http://www.nongnu.org/autoconf-archive/ax_boost_program_options.html
 # ===========================================================================
 #
 # SYNOPSIS
@@ -20,11 +20,7 @@
 #
 #     HAVE_BOOST_PROGRAM_OPTIONS
 #
-# LAST MODIFICATION
-#
-#   2009-04-20
-#
-# COPYLEFT
+# LICENSE
 #
 #   Copyright (c) 2009 Thomas Porschberg <thomas@randspringer.de>
 #
@@ -104,4 +100,3 @@ AC_DEFUN([AX_BOOST_PROGRAM_OPTIONS],
         LDFLAGS="$LDFLAGS_SAVED"
     fi
 ])
-
