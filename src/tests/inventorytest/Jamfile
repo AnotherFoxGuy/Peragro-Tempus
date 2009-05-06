@@ -2,7 +2,7 @@ SubDir TOP src tests inventorytest ;
 
 Description inventorytest : "Inventory Test" ;
 Application inventorytest : [ Wildcard *.h *.cpp ] : console ;
-LinkWith inventorytest : inventory ;
+LinkWith inventorytest : inventory wfmath ;
 
 ExternalLibs inventorytest : BOOST CRYSTAL ;
 
