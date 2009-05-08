@@ -166,32 +166,21 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 
   MeshesTableVOp meshvo = mtable->GetSingle(meshid);
 
-  try 
-  {
-    // Create the Mount entity
-    Entityp entity = Server::getServer()->getEntityManager()
+  // Create the Mount entity
+  Entityp entity = Server::getServer()->getEntityManager()
     ->CreateNew(Common::Entity::MountEntityType);
     
-    entity->SetName(*mountmsg.getName());
-    entity->SetMeshName(*mountmsg.getMesh());
-    entity->SetFileName( meshvo->fileName);
-    entity->SetPosition( mountmsg.getPosition());
-    entity->SetRotation( mountmsg.getRotation());
+  entity->SetName(*mountmsg.getName());
+  entity->SetMeshName(*mountmsg.getMesh());
+  entity->SetFileName( meshvo->fileName);
+  entity->SetPosition( mountmsg.getPosition());
+  entity->SetRotation( mountmsg.getRotation());
 
-    boost::shared_ptr<MountEntity> mount = 
-      boost::shared_dynamic_cast<MountEntity>(entity);
+  boost::shared_ptr<MountEntity> mount = 
+    boost::shared_dynamic_cast<MountEntity>(entity);
 
- //   mount->SetInWorld(true);
-    mount->SaveToDB();
-    server->getEntityManager()->Add(mount);     
-  }
-  catch (InvalidItemTemplate& )
-  {
-    printf("Error: Mesh(%s) does not exists in database\n"
-      , *mountmsg.getName() );
-    ///@TODO maybe add a say msg back to client letting him know why 
-    ///      it failed. 
-  }
+  mount->SaveToDB();
+  server->getEntityManager()->Add(mount);     
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)
