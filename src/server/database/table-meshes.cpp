@@ -70,3 +70,16 @@ size_t MeshesTable::FindBy(const std::string& factoryName, const std::string& fi
   return arr[0]->id;
 }
 
+size_t MeshesTable::FindByName(const std::string& factoryName)
+{
+  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
+    "where factoryName='%s';",
+    factoryName.c_str());
+  std::vector<MeshesTableVOp> arr;
+  if (!rs) return 0;
+  arr = ParseMultiResultSet(rs);
+  delete rs;
+  if (arr.size() != 1)
+    return 0;
+  return arr[0]->id;
+}

@@ -23,6 +23,7 @@
 #include "server/zone/zonemanager.h"
 #include "server/entity/user.h"
 #include "server/entity/pcentity.h"
+#include "server/entity/mountentity.h"
 
 #include "server/quest/npcdialogmanager.h"
 
@@ -35,6 +36,7 @@
 #include "server/database/table-config.h"
 #include "server/database/table-channels.h"
 #include "server/database/table-defaultchannels.h"
+#include "server/database/table-meshes.h"
 //#include "server/database/table-itemtemplates.h"
 
 #include "server/spawn/spawner.h"
@@ -65,6 +67,7 @@ void AdminHandler::handleSetConfig(GenericMessage* msg)
 
 void AdminHandler::handleCreateMesh(GenericMessage* msg)
 {
+/*
   if (CheckAdminLevel(msg, 2) == false) return;
 
   CreateMeshMessage meshMsg;
@@ -73,7 +76,7 @@ void AdminHandler::handleCreateMesh(GenericMessage* msg)
   Server* server = Server::getServer();
 
   printf("AdminHandler::handleCreateMesh unimplemented\n");
-/*
+
   const Mesh* mesh = server->getMeshManager()->addMeshUpdate(itemmsg.getMesh(), itemmsg.getFile());
 
   ItemManager* items = server->getItemManager();
@@ -144,7 +147,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
 
 void AdminHandler::handleSpawnMount(GenericMessage* msg)
 {
-  /*
+
   if (CheckAdminLevel(msg, 1) == false) return;
 
   Server* server = Server::getServer();
@@ -152,20 +155,43 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
 
-  const Mesh* mesh = server->getMeshManager()->findByName(mountmsg.getMesh());
-  if (mesh == 0) mesh = server->getMeshManager()->addMeshUpdate(mountmsg.getMesh(), ptString::Null);
+  // Get Mesh ID 
+  MeshesTable* mtable = server->GetTableManager()->Get<MeshesTable>();
+  size_t meshid = mtable->FindByName( *mountmsg.getMesh());
+  if (!meshid)
+  {
+    printf("Error Spawning mount, Mesh '%s' does not exist.", *mountmsg.getMesh());
+    return;
+  }
 
-  MountEntity* mount_ent = new MountEntity();
+  MeshesTableVOp meshvo = mtable->GetSingle(meshid);
 
-  ptScopedMonitorable<Entity> e (mount_ent->getEntity());
-  e->SetName(*mountmsg.getName());
-  e->setMesh(mesh);
-  e->SetPosition(mountmsg.GetPosition());
-  e->SetRotation(mountmsg.GetRotation());
-  e->SetSector(mountmsg.GetSectorId());
+  try 
+  {
+    // Create the Mount entity
+    Entityp entity = Server::getServer()->getEntityManager()
+    ->CreateNew(Common::Entity::MountEntityType);
+    
+    entity->SetName(*mountmsg.getName());
+    entity->SetMeshName(*mountmsg.getMesh());
+    entity->SetFileName( meshvo->fileName);
+    entity->SetPosition( mountmsg.getPosition());
+    entity->SetRotation( mountmsg.getRotation());
 
-  Server::getServer()->addEntity(mount_ent->getEntity(), true);
-  */
+    boost::shared_ptr<MountEntity> mount = 
+      boost::shared_dynamic_cast<MountEntity>(entity);
+
+ //   mount->SetInWorld(true);
+    mount->SaveToDB();
+    server->getEntityManager()->Add(mount);     
+  }
+  catch (InvalidItemTemplate& )
+  {
+    printf("Error: Mesh(%s) does not exists in database\n"
+      , *mountmsg.getName() );
+    ///@TODO maybe add a say msg back to client letting him know why 
+    ///      it failed. 
+  }
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)

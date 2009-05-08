@@ -158,7 +158,7 @@ namespace WFMath
     private:
       virtual void Moved(iShape* shape)
       {
-        printf("Node::Moved!\n");
+        //printf("Node::Moved!\n");
         if (Contains<Dim>(Cast(shape)->GetShape(), nodeShape, false)) // TODO: is this false correct?
           return;
         else if (parent)

@@ -60,6 +60,7 @@ public:
 
   size_t GetMaxId();
   size_t FindBy(const std::string& factoryName, const std::string& fileName);
+  size_t FindByName(const std::string& factoryName);
 };
 
 #endif //TABLE_MESHES_H
