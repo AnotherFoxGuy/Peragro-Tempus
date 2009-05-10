@@ -156,29 +156,35 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
-
-  SpeciesTable* stable = server->GetTableManager()->Get<SpeciesTable>();
-  size_t speciesid = stable->FindByName( *mountmsg.getSpecies());
-  if (!speciesid)
-  {
-    printf("Error Spawning mount, species '%s' does not exist.", *mountmsg.getSpecies());
-    return;
-  }
-
-  SpeciesTableVOp speciesvo = stable->GetSingle(speciesid);
-
-  // Create the Mount entity
-
-  boost::shared_ptr<MountEntity> mount = server->GetSpeciesManager()
-    ->CreateMountFromSpecies(speciesid); 
   
-  mount->SetName(*mountmsg.getName());
-  mount->SetPosition( mountmsg.getPosition());
-  mount->SetRotation( mountmsg.getRotation());
+  try
+  { 
+    SpeciesTable* stable = server->GetTableManager()->Get<SpeciesTable>();
+    size_t speciesid = stable->FindByName( *mountmsg.getSpecies());
+    if (!speciesid)
+    {
+      printf("Error Spawning mount, species '%s' does not exist.", *mountmsg.getSpecies());
+      return;
+    }
 
-  mount->SaveToDB();
-  server->getEntityManager()->Add(mount);
+    SpeciesTableVOp speciesvo = stable->GetSingle(speciesid);
 
+    // Create the Mount entity
+
+    boost::shared_ptr<MountEntity> mount = server->GetSpeciesManager()
+      ->CreateMountFromSpecies(speciesid); 
+  
+    mount->SetName(*mountmsg.getName());
+    mount->SetPosition( mountmsg.getPosition());
+    mount->SetRotation( mountmsg.getRotation());
+
+    mount->SaveToDB();
+    server->getEntityManager()->Add(mount);
+  }
+  catch( char * str )
+ {
+   printf( "Exception raised: %s \n", str);
+ }
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)

@@ -136,6 +136,21 @@ namespace PT
         std::string text = str;
         return text;
       }
+
+      /**
+       * Get an event parameter's value.
+       * @param ev An event.
+       * @param name The name of the parameter.
+       * @return The parameter's value.
+       */
+      static bool GetBool(const iEvent* event, const char* name)
+      {
+        bool flg = false;
+        if (event->Retrieve(name, flg) != csEventErrNone)
+          Report(PT::Error, "Helper::GetString '%s' failed!", name);
+
+        return flg;
+      }
     };
 
   } // Events namespace

@@ -252,15 +252,17 @@ namespace PT
 
     bool EntityManager::Mount(iEvent& ev)
     {
+      PT::Events::Helper::DisplayEvent(&ev);
       using namespace PT::Events;
 
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+      unsigned int entityId = -1;
+      entityId = PT::Events::Helper::GetUInt(&ev,"playerEntityId");
 
       unsigned int mountId = -1;
-      ev.Retrieve("mountId", mountId);
+      mountId = PT::Events::Helper::GetUInt(&ev,"mountEntityId");
 
       bool canControl = false;
-      ev.Retrieve("canControl", canControl);
+      canControl = PT::Events::Helper::GetBool(&ev,"canControl");
 
       Common::Entity::Entityp entity = FindById(entityId);
       Common::Entity::Entityp mount = FindById(mountId);
@@ -277,7 +279,6 @@ namespace PT
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
         }
       }
-
       return true;
     }
 
@@ -285,10 +286,11 @@ namespace PT
     {
       using namespace PT::Events;
 
-      unsigned int entityId = EntityHelper::GetEntityID(&ev);
+      unsigned int entityId = -1;
+      entityId = entityId = PT::Events::Helper::GetUInt(&ev,"playerEntityId");
 
       unsigned int mountId = -1;
-      ev.Retrieve("mountId", mountId);
+      mountId = PT::Events::Helper::GetUInt(&ev,"mountEntityId");
 
       Common::Entity::Entityp entity = FindById(entityId);
       Common::Entity::Entityp mount = FindById(mountId);
