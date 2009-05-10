@@ -75,7 +75,7 @@ std::string cmdDbg::HelpUsage (const char*) const
       "  - Player Pos: '/dbg pos'\n"
       "  - Flash Step: '/dbg flashstep'\n"
       "  - Spawn Item: '/dbg spawn item #itemtemplateid'\n"
-      "  - Spawn Mount: '/dbg spawn mount meshname entityname'\n"
+      "  - Spawn Mount: '/dbg spawn mount speciesname entityname'\n"
       "  - Sector: '/dbg goto x y z'\n"
       "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
       "  - Remove: '/dbg rm entity #id'";
