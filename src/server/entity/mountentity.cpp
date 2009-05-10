@@ -27,13 +27,11 @@
 
 void MountEntity::AddPassenger(boost::shared_ptr<Character> e)
 {
-  boost::weak_ptr<Character>  char_ent = boost::dynamic_pointer_cast<Character>(e) ;
-  passengers.push_back(char_ent);
+  passengers.push_back(e);
 }
 
 void MountEntity::RemovePassenger(boost::shared_ptr<Character> e)
 {
-//  boost::weak_ptr<Character>  char_ent = boost::dynamic_pointer_cast<Character>(e) ;
   passengers.remove_if(Equal(e));
 }
 
