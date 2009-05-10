@@ -130,7 +130,7 @@ void Inventory::SendAllItems(Connection* conn)
     if (!(*it)->HasContents()) continue;
 
     boost::shared_ptr<ItemEntity> item( Convert((*it)->GetContents()) );
-    itemlist_msg.setItemId(n, item->GetId());
+//    itemlist_msg.setItemId(n, item->GetId()); //TODO
 
     itemlist_msg.setName(n, item->GetName());
     itemlist_msg.setIconName(n, item->GetIcon());

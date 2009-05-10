@@ -43,7 +43,7 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
       std::stringstream itemName;
       itemName << "inventory" << "_" << i;
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
-      item->Add("EntityId", pmsg.getItemId(i));
+      item->Add("entityId", pmsg.getEntityId(i));
       item->Add("slotId", pmsg.getSlotId(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");

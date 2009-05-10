@@ -30,6 +30,7 @@
 #include "server/entity/character/character.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/npcentity.h"
+#include "server/entity/mountentity.h"
 
 #include "server/database/tablemanager.h"
 
@@ -187,4 +188,17 @@ boost::shared_ptr<NpcEntity> SpeciesManager::CreateNPCFromSpecies(size_t species
   Initialize(npc, speciesId);
 
   return npc;
+}
+
+boost::shared_ptr<MountEntity> SpeciesManager::CreateMountFromSpecies(size_t speciesId)
+{
+  Server* server = Server::getServer();
+
+  Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::MountEntityType);
+  boost::shared_ptr<MountEntity> mpc = boost::shared_dynamic_cast<MountEntity>(ent);
+  if (!mpc) return boost::shared_ptr<MountEntity>();
+
+  Initialize(mpc, speciesId);
+
+  return mpc;
 }

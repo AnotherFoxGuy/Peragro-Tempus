@@ -118,7 +118,7 @@ bool SpawnMountMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(name);
-  serial.setString(mesh);
+  serial.setString(species);
   serial.setFloat(position[0]);
   serial.setFloat(position[1]);
   serial.setFloat(position[2]);
@@ -132,7 +132,7 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   name = serial.getString();
-  mesh = serial.getString();
+  species = serial.getString();
   position[0] = serial.getFloat();
   position[1] = serial.getFloat();
   position[2] = serial.getFloat();

@@ -60,6 +60,9 @@ public:
 
   //PT_DECLARE_Get(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
   PT_DECLARE_GetSingle(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
+
+  size_t FindByName(const std::string& name);
+
 };
 
 #endif //TABLE_SPECIES_H

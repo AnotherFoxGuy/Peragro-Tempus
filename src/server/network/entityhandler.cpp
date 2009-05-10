@@ -467,45 +467,39 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
 {
-  /*
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
+
+  boost::shared_ptr<Entity> user_ent = NetworkHelper::GetEntity(msg);
   if (!user_ent) return;
 
   MountRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
-
   unsigned int mount_id = request_msg.getMountEntityId();
 
-  const PcEntity* pc_ent = user_ent->getPlayerEntity();
+  boost::shared_ptr<PcEntity> pc_ent = NetworkHelper::GetEntity(msg);
   if (!pc_ent) return;
 
-  const MountEntity* c_mount = pc_ent->getMount();
-  if (c_mount) return;
+  boost::shared_ptr<Character>  char_ent = boost::dynamic_pointer_cast<Character>(pc_ent) ;
+  if (!char_ent) return;
 
-  const Entity* mount_ent = server->getEntityManager()->findById(mount_id);
-  if (!mount_ent) return;
-
-  c_mount = mount_ent->getMountEntity();
+  boost::shared_ptr<MountEntity> c_mount = boost::dynamic_pointer_cast<MountEntity> 
+    (server->getEntityManager()->FindById(mount_id));
   if (!c_mount) return;
 
-  if (c_mount->getPassengerCount() >= c_mount->getMaxPassengers())
-    return;
-
-  ptScopedMonitorable<PcEntity> e (pc_ent);
-  ptScopedMonitorable<MountEntity> mount (c_mount);
-
-  e->setMount(mount);
-  mount->addPassenger(e);
+  Common::Entity::Entityp mount_ent = server->getEntityManager()->FindById(mount_id);
+  if (!mount_ent) return;
+ 
+  char_ent->SetMount(c_mount);
+  c_mount->AddPassenger(char_ent);
 
   // Don't run into the horse!
   MoveMessage mmsg;
-  mmsg.setEntityId(user_ent->GetId());
+  mmsg.setEntityId(pc_ent->GetId());
+
   mmsg.setMoveDirection(0, 0, 0);
   mmsg.setJump(false);
   mmsg.setRun(false);
-
   ByteStream bs1;
   mmsg.serialise(&bs1);
 
@@ -515,45 +509,43 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   umount_msg.setMountEntityId(mount_ent->GetId());
   umount_msg.setPlayerEntityId(user_ent->GetId());
   umount_msg.setCanControl(true);
-
   ByteStream bs;
   umount_msg.serialise(&bs);
-
   NetworkHelper::localcast(bs, user_ent);
-  */
+  
 }
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
-  /*
   printf("Start unmount character\n");
 
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
+  boost::shared_ptr<Entity> user_ent = NetworkHelper::GetEntity(msg);
   if (!user_ent) return;
 
   UnmountRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  const PcEntity* pc_ent = user_ent->getPlayerEntity();
+  boost::shared_ptr<PcEntity> pc_ent = NetworkHelper::GetEntity(msg);
   if (!pc_ent) return;
 
+  boost::shared_ptr<Character>  char_ent = boost::dynamic_pointer_cast<Character>(pc_ent) ;
+  if (!char_ent) return;
+
+  Server* server = Server::getServer();
   unsigned int mount_id = request_msg.getMountEntityId();
 
-  const MountEntity* c_mount = pc_ent->getMount();
-  if (!c_mount) return;
+  boost::shared_ptr<MountEntity> c_mount = boost::dynamic_pointer_cast<MountEntity> 
+    (server->getEntityManager()->FindById(mount_id));
 
-  const Entity* mount_ent = c_mount->getEntity();
+  Common::Entity::Entityp mount_ent = server->getEntityManager()->FindById(mount_id);
   if (!mount_ent) return;
 
-  if (mount_ent->GetId() != mount_id) return;
-
   printf("Remove player from mount!\n");
-  ptScopedMonitorable<MountEntity> mount (c_mount);
-  mount->delPassenger(pc_ent);
+  c_mount->RemovePassenger(char_ent);
 
   printf("Reset the player's mount status!\n");
-  ptScopedMonitorable<PcEntity> e (pc_ent);
-  e->setMount(0);
+  boost::shared_ptr<MountEntity> no_mount;
+  char_ent->SetMount(no_mount);
 
   printf("Unmount finished\n");
 
@@ -565,7 +557,7 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   umount_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, user_ent);
-  */
+
 }
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)

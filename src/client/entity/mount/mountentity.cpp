@@ -142,6 +142,8 @@ namespace PT
 
         Report(PT::Notify, "OnMouseDown: UnMounting.");
       }
-    }
-  }
-}
+    }  // end interact
+
+
+  } // end entity ns
+} // end PT ns

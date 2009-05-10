@@ -41,7 +41,7 @@ class InventoryListMessage : public NetMessage
   class ListInventory
   {
   public:
-    unsigned int itemid;
+    unsigned int entityid;
     unsigned char slotid;
     ptString name;
     ptString iconname;
@@ -81,8 +81,8 @@ public:
 
   // --- begin ListInventory Getter and Setter ---
 
-  unsigned int getItemId(size_t i) { return inventory[i].itemid; }
-  void setItemId(size_t i, unsigned int x) { inventory[i].itemid = x; }
+  unsigned int getEntityId(size_t i) { return inventory[i].entityid; }
+  void setEntityId(size_t i, unsigned int x) { inventory[i].entityid = x; }
 
   unsigned char getSlotId(size_t i) { return inventory[i].slotid; }
   void setSlotId(size_t i, unsigned char x) { inventory[i].slotid = x; }

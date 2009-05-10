@@ -24,7 +24,7 @@
 
   <message type="Admin" name="SpawnMount">
     <string>Name</string>
-    <string>Mesh</string>
+    <string>Species</string>
     <vector3f>Position</vector3f>
     <float>Rotation</float>
   </message>

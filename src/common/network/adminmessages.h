@@ -173,7 +173,7 @@ public:
 class SpawnMountMessage : public NetMessage
 {
   ptString name;
-  ptString mesh;
+  ptString species;
   WFMath::Point<3> position;
   float rotation;
 
@@ -192,8 +192,8 @@ public:
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getMesh() const { return mesh; }
-  void setMesh(ptString x) { mesh = x; }
+  ptString getSpecies() const { return species; }
+  void setSpecies(ptString x) { species = x; }
 
   WFMath::Point<3> getPosition() { return position; }
   void setPosition(const WFMath::Point<3>& x)

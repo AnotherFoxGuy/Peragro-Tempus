@@ -19,13 +19,13 @@
 #include "network.h"
 #include "networkhelper.h"
 
-#include "server/entity/entitymanager.h"
 #include "server/zone/zonemanager.h"
+#include "server/quest/npcdialogmanager.h"
+#include "server/species/speciesmanager.h"
+#include "server/entity/entitymanager.h"
 #include "server/entity/user.h"
 #include "server/entity/pcentity.h"
 #include "server/entity/mountentity.h"
-
-#include "server/quest/npcdialogmanager.h"
 
 #include "common/database/database.h"
 #include "server/database/tablemanager.h"
@@ -37,6 +37,7 @@
 #include "server/database/table-channels.h"
 #include "server/database/table-defaultchannels.h"
 #include "server/database/table-meshes.h"
+#include "server/database/table-species.h"
 //#include "server/database/table-itemtemplates.h"
 
 #include "server/spawn/spawner.h"
@@ -145,6 +146,7 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   }
 }
 
+
 void AdminHandler::handleSpawnMount(GenericMessage* msg)
 {
 
@@ -155,32 +157,28 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
 
-  // Get Mesh ID 
-  MeshesTable* mtable = server->GetTableManager()->Get<MeshesTable>();
-  size_t meshid = mtable->FindByName( *mountmsg.getMesh());
-  if (!meshid)
+  SpeciesTable* stable = server->GetTableManager()->Get<SpeciesTable>();
+  size_t speciesid = stable->FindByName( *mountmsg.getSpecies());
+  if (!speciesid)
   {
-    printf("Error Spawning mount, Mesh '%s' does not exist.", *mountmsg.getMesh());
+    printf("Error Spawning mount, species '%s' does not exist.", *mountmsg.getSpecies());
     return;
   }
 
-  MeshesTableVOp meshvo = mtable->GetSingle(meshid);
+  SpeciesTableVOp speciesvo = stable->GetSingle(speciesid);
 
   // Create the Mount entity
-  Entityp entity = Server::getServer()->getEntityManager()
-    ->CreateNew(Common::Entity::MountEntityType);
-    
-  entity->SetName(*mountmsg.getName());
-  entity->SetMeshName(*mountmsg.getMesh());
-  entity->SetFileName( meshvo->fileName);
-  entity->SetPosition( mountmsg.getPosition());
-  entity->SetRotation( mountmsg.getRotation());
 
-  boost::shared_ptr<MountEntity> mount = 
-    boost::shared_dynamic_cast<MountEntity>(entity);
+  boost::shared_ptr<MountEntity> mount = server->GetSpeciesManager()
+    ->CreateMountFromSpecies(speciesid); 
+  
+  mount->SetName(*mountmsg.getName());
+  mount->SetPosition( mountmsg.getPosition());
+  mount->SetRotation( mountmsg.getRotation());
 
   mount->SaveToDB();
-  server->getEntityManager()->Add(mount);     
+  server->getEntityManager()->Add(mount);
+
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)

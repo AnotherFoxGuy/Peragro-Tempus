@@ -169,7 +169,7 @@ std::string cmdDbg::Execute (const StringArray& args)
       else if(args[3].compare("mount") == 0)
       {
         SpawnMountMessage mountmsg;
-        mountmsg.setMesh(ptString(args[4].c_str(), args[4].length()));
+        mountmsg.setSpecies(ptString(args[4].c_str(), args[4].length()));
         mountmsg.setName(ptString(args[5].c_str(), args[5].length()));
         mountmsg.setPosition(pos.x, pos.y, pos.z);
         mountmsg.setRotation(rotation);

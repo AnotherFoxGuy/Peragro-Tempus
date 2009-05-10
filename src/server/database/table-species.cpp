@@ -46,3 +46,20 @@ PT_DEFINE_Insert(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
 //PT_DEFINE_DeleteAll(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
 //PT_DEFINE_Get(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
 PT_DEFINE_GetSingle(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
+
+
+size_t SpeciesTable::FindByName(const std::string& name)
+{
+  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_SPECIES) " "
+    "where name='%s';",
+    name.c_str());
+  std::vector<SpeciesTableVOp> arr;
+  if (!rs) return 0;
+  arr = ParseMultiResultSet(rs);
+  delete rs;
+  if (arr.size() != 1)
+    return 0;
+  return arr[0]->id;
+}
+
+

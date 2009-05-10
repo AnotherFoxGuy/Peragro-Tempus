@@ -31,6 +31,7 @@
 class Character;
 class PcEntity;
 class NpcEntity;
+class MountEntity;
 
 PT_DEFINE_EXCEPTION(InvalidSpeciesId);
 PT_DEFINE_ERRORINFO(SpeciesId, size_t);
@@ -56,6 +57,7 @@ public:
 
   boost::shared_ptr<PcEntity> CreatePCFromSpecies(size_t speciesId);
   boost::shared_ptr<NpcEntity> CreateNPCFromSpecies(size_t speciesId);
+  boost::shared_ptr<MountEntity> CreateMountFromSpecies(size_t speciesId);
 };
 
 #endif // SPECIESMANAGER_H
