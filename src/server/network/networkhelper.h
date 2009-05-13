@@ -36,6 +36,7 @@ public:
   static boost::shared_ptr<User> getUser(GenericMessage* msg);
   static boost::shared_ptr<PcEntity> GetEntity(GenericMessage* msg);
 
+  static void sendMessage(boost::shared_ptr<Entity> entity, const ByteStream& bs);
   static void sendMessage(Entity*, const ByteStream& bs);
   static void sendMessage(User*, const ByteStream& bs);
 

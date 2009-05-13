@@ -277,6 +277,7 @@ namespace PT
           //Set camera to follow the mount after mounting. Only done for player's mount.
           //TODO: This is just a temporary solution. It will not work nicely with boats etc.
           if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
+          iPcDefaultCamera* PcCam = PT::Entity::PlayerEntity::Instance()->GetCamera();
         }
       }
       return true;

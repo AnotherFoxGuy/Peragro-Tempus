@@ -27,6 +27,17 @@ boost::shared_ptr<PcEntity> NetworkHelper::GetEntity(GenericMessage* msg)
   return user->GetEntity();
 }
 
+void NetworkHelper::sendMessage(boost::shared_ptr<Entity> entity, const ByteStream& bs)
+{
+  boost::shared_ptr<PcEntity> pcEnt = boost::dynamic_pointer_cast<PcEntity>(entity);
+  if (!pcEnt) return;
+
+  User* user = pcEnt->GetUser();
+  if (!user) return;
+
+  sendMessage(user, bs);
+}
+
 void NetworkHelper::sendMessage(Entity* ent, const ByteStream& bs)
 {
   PcEntity* pc_ent = dynamic_cast<PcEntity*>(ent);

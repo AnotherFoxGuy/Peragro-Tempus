@@ -195,9 +195,9 @@ INSERT INTO "Meshes" VALUES(1,1,'test','/peragro/art/3d_art/characters/male01/ma
 INSERT INTO "Meshes" VALUES(2,1,'apple','/peragro/art/3d_art/props/others/apple01/apple.xml');
 INSERT INTO "Meshes" VALUES(3,1,'book','/peragro/art/3d_art/props/books/book01/book.xml');
 INSERT INTO "Meshes" VALUES(4,1,'genbastardsword01','/peragro/art/3d_art/props/weapons/swords/bastardsword01/library');
-#INSERT INTO "Meshes" VALUES(5,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
-#INSERT INTO "Meshes" VALUES(6,1,'helmet','/peragro/art/armor/helmets/bogus.xml');
-#INSERT INTO "Meshes" VALUES(7,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
+--INSERT INTO "Meshes" VALUES(5,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
+--INSERT INTO "Meshes" VALUES(6,1,'helmet','/peragro/art/armor/helmets/bogus.xml');
+--INSERT INTO "Meshes" VALUES(7,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
 INSERT INTO "Meshes" VALUES(8,1,'buckler1','/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml');
 INSERT INTO "Meshes" VALUES(9,1,'genscythe001','/peragro/art/3d_art/props/others/scythes/scythe001/library.xml');
 INSERT INTO "Meshes" VALUES(10,1,'Stuff001_smallplate_64_plates','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
@@ -208,9 +208,9 @@ CREATE TABLE ItemTemplates ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes
 INSERT INTO "ItemTemplates" VALUES(1, 'Apple', 2, 'set:Inventory image:apple', 'An tasty looking apple.', 1, 0);
 INSERT INTO "ItemTemplates" VALUES(2, 'Book', 3, 'set:Inventory image:oldbook', 'An old book.', 1, 0 );
 INSERT INTO "ItemTemplates" VALUES(3, 'Daedalian Claymore', 4, 'set:Inventory image:fancyclaymore', 'A masterful sword for those born out of wedlock.', 1, 1);
-#INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 5, 'set:Inventory image:DragonEdgeSword', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
-#INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '6', 'set:Helmet image:Helmet', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
-#INSERT INTO "ItemTemplates" VALUES(6, 'Key', 7, 'set:Inventory image:Key01', 'A small gold key.', 1, 0);
+--INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 5, 'set:Inventory image:DragonEdgeSword', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
+--INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '6', 'set:Helmet image:Helmet', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
+--INSERT INTO "ItemTemplates" VALUES(6, 'Key', 7, 'set:Inventory image:Key01', 'A small gold key.', 1, 0);
 INSERT INTO "ItemTemplates" VALUES(7, 'Prima Buckler', 8, 'set:Inventory image:primabuckler', 'A small buckler style shield.', 1, 0)
 INSERT INTO "ItemTemplates" VALUES(8, 'Scythe', 9, '/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
 INSERT INTO "ItemTemplates" VALUES(9, 'Small Plate', 10, 'set:Inventory image:smallplate', 'A small plate.', 1, 0)

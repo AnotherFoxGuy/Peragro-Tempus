@@ -152,177 +152,144 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
-  /*
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
-  if (!user_ent) return;
+  
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity (msg);
+  if (!charEnt) return;
 
-  std::string name = user_ent->GetName();
+  std::string name = charEnt->GetName();
 
-  PickRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
+  PickRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  printf("Received PickRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getItemEntityId());
+  printf("Received PickRequest from: '%s' -> '%d' to slot %i \n", name.c_str(), requestMsg.getItemEntityId(), requestMsg.getSlot());
+  
+  // Get Item
+  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity> 
+    (server->getEntityManager()->FindById(requestMsg.getItemEntityId()));
 
-  const Entity* e = server->getEntityManager()->findById(request_msg.getItemEntityId());
-
-  PickResponseMessage response_msg;
-  if (!e)
+  // Check for problems
+  PickResponseMessage responseMsg;
+  if (!charEnt) 
   {
-    response_msg.setError(ptString("Entity doesn't exist",20)); // <-- TODO: Error Message Storage
+    responseMsg.setError(ptString("Character Entity doesn't exist",30)); // <-- TODO: Error Message Storage 
   }
-  else if (e->GetType() == Common::Entity::ItemEntityType)
+  else if (!itemEnt)
   {
-    response_msg.setError(ptString(0,0));
+    responseMsg.setError(ptString("Item Entity doesn't exist",30)); // <-- TODO: Error Message Storage
   }
-  else if (e->GetType() == Common::Entity::PlayerEntityType)
+  else if (!itemEnt->GetInWorld())
   {
-    response_msg.setError(ptString("Don't pick on others!",21)); // <-- TODO: Error Message Storage
-  }
-  else
-  {
-    response_msg.setError(ptString("Unpickable",10)); // <-- TODO: Error Message Storage
+    responseMsg.setError(ptString("Item Entity not in world",30)); // <-- TODO: Error Message Storage
   }
 
-  if (response_msg.getError().isNull())
+
+  if (responseMsg.getError().isNull())
   {
-    const ItemEntity* item_entity = e->getItemEntity();
-    if (!item_entity) return;
+    unsigned char slot = requestMsg.getSlot();
 
-    const Item* item = item_entity->getItem();
-
-    if (!item) return; //send Error message?
-
-    const Character* c_char = NetworkHelper::getCharacter(msg);
-
-    //request_msg.getInventoryId();
-    unsigned char slot = request_msg.getSlot();
-
-    if (c_char->getInventory()->getItem(slot)->id == Item::NoItem)
+    if (!charEnt->GetInventory()->HasObjectAt(slot))
     {
-      const InventoryEntry entry(item->GetId());
 
-      ptScopedMonitorable<Character> character (c_char);
-      bool retval = character->getInventory()->addItem(entry, slot);
-
-      if (retval)
+      bool retVal = charEnt->GetInventory()->AddObjectAt(slot,itemEnt);
+      if (retVal)
       {
         bool equip = (slot < 10);
-        if (equip && response_msg.getError() == ptString::Null)
+        if (equip && responseMsg.getError() == ptString::Null)
         {
-          EquipMessage equip_msg;
-          equip_msg.setEntityId(user_ent->GetId());
-          if (item) equip_msg.setItemId(item->GetId());
-          equip_msg.setSlotId(slot);
-          equip_msg.setMeshId(item->getMesh()->GetId()); // Not used yet!
-          equip_msg.setFileName(item->getMesh()->getFile());
-          equip_msg.setMeshName(item->getMesh()->getName());
+          EquipMessage equipMsg;
+          equipMsg.setEntityId(charEnt->GetId());
+          if (itemEnt) equipMsg.setEntityId(itemEnt->GetId());
+          equipMsg.setSlotId(slot);
+//          equipMsg.setMeshId(itemEnt->getMesh()->GetId()); // Not used yet!
+          equipMsg.setFileName(itemEnt->GetFileName());
+          equipMsg.setMeshName(itemEnt->GetMeshName());
 
           ByteStream bs;
-          equip_msg.serialise(&bs);
-          Server::getServer()->broadCast(bs);
-        }
+          equipMsg.serialise(&bs);
+          NetworkHelper::localcast(bs,charEnt);
+        } // end if Equip Item 
 
-        response_msg.setItemId(item->GetId());
-        response_msg.setSlotId(slot);
+        responseMsg.setEntityId(itemEnt->GetId());
+        responseMsg.setSlotId(slot);
 
-        response_msg.setName(item->getName());
-        response_msg.setIconName(item->getIcon());
-        response_msg.setDescription(item->getDescription());
-        response_msg.setWeight(item->getWeight());
-        response_msg.setEquipType(item->getEquiptype());
+        responseMsg.setName(itemEnt->GetName());
+        responseMsg.setIconName(itemEnt->GetIcon());
+        responseMsg.setDescription(itemEnt->GetDescription());
+        responseMsg.setWeight(itemEnt->GetWeight());
+        responseMsg.setEquipType(itemEnt->GetEquipType());
 
         ByteStream bs;
-        response_msg.serialise(&bs);
-        NetworkHelper::sendMessage(user_ent, bs);
+        responseMsg.serialise(&bs);
+        NetworkHelper::localcast(bs,charEnt);
 
-        server->delEntity(e);
         return;
       }
-      response_msg.setError(ptString("Couldn't add item!",18)); // <-- TODO: Error Message Storage
-    }
-  }
+      responseMsg.setError(ptString("Couldn't add item!",18)); // <-- TODO: Error Message Storage
+    }  // end if slot empty
+  }  // end if no errMsg 
+
   ByteStream bs;
-  response_msg.serialise(&bs);
-  NetworkHelper::sendMessage(user_ent, bs);
-  */
+  responseMsg.serialise(&bs);
+  NetworkHelper::sendMessage(charEnt, bs);
+  
 }
 
 void EntityHandler::handleDropRequest(GenericMessage* msg)
 {
-  /*
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
-  if (!user_ent) return;
 
-  std::string name = user_ent->GetName();
-  DropRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", name.c_str(), request_msg.getSlot());
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
+  if (!charEnt) return;
 
-  DropResponseMessage response_msg;
-  unsigned char slot_id = request_msg.getSlot();
+  std::string name = charEnt->GetName();
+  DropRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
+  printf("Received DropRequest from: '%s' -> '%d' \n", name.c_str(), requestMsg.getSlot());
 
-  const Character* c_char = NetworkHelper::getCharacter(msg);
-  if (!c_char) return;
+  DropResponseMessage responseMsg;
+  unsigned char slotId = requestMsg.getSlot();
 
-  ptScopedMonitorable<Character> character (c_char);
+  // Get Item
+  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity> 
+    (charEnt->GetInventory()->RemoveObjectAt(slotId));
 
-  const InventoryEntry item = *character->getInventory()->getItem(slot_id);
-  if (item.id == Item::NoItem)
+  if (!itemEnt)
   {
-    response_msg.setError(ptString("Unexpected item", strlen("Unexpected item")));
+    responseMsg.setError(ptString("Unable to drop, slot empty!", strlen("Unable to drop, slot empty!")));
     ByteStream bs;
-    response_msg.serialise(&bs);
-    NetworkHelper::sendMessage(user_ent, bs);
+    responseMsg.serialise(&bs);
+    NetworkHelper::sendMessage(charEnt, bs);
     return;
   }
 
-  // Check if in Inventory
-  bool couldTake = character->getInventory()->takeItem(slot_id);
-
-  if (!couldTake)
-  {
-    response_msg.setError(ptString("Failed to drop item", strlen("Failed to drop item")));
-    ByteStream bs;
-    response_msg.serialise(&bs);
-    NetworkHelper::sendMessage(user_ent, bs);
-    return;
-  }
-
-  response_msg.setSlotId(slot_id);
+  responseMsg.setSlotId(slotId);
 
   ByteStream bs;
-  response_msg.serialise(&bs);
-  NetworkHelper::sendMessage(user_ent, bs);
+  responseMsg.serialise(&bs);
+  NetworkHelper::sendMessage(charEnt, bs);
 
-  if (slot_id < 10)
+  if (slotId < 10)
   {
     printf("Dropped an equiped item, so unequip it!\n");
     // Tell the world to unequip it!
-    EquipMessage unequip_msg;
-    unequip_msg.setEntityId(user_ent->GetId());
-    unequip_msg.setSlotId(slot_id);
-    unequip_msg.setItemId(Item::NoItem); // No Item!
-    unequip_msg.setMeshId(0); // Not used yet!
-    unequip_msg.setFileName(ptString::Null);
-    unequip_msg.setMeshName(ptString::Null);
+    EquipMessage unequipMsg;
+    unequipMsg.setEntityId(charEnt->GetId());
+    unequipMsg.setSlotId(slotId);
+//    unequipMsg.setItemId(Item::NoItem); // No Item!
+//    unequipMsg.setMeshId(0); // Not used yet!
+    unequipMsg.setFileName(ptString::Null);
+    unequipMsg.setMeshName(ptString::Null);
     ByteStream bs;
-    unequip_msg.serialise(&bs);
-    NetworkHelper::localcast(bs, user_ent);
+    unequipMsg.serialise(&bs);
+    NetworkHelper::localcast(bs, charEnt);
   }
 
-  // Create new entity from item.
-  ItemEntity* e = new ItemEntity();
-  e->createFromItem(item.id);
-
-  ptScopedMonitorable<Entity> ent (e->getEntity());
-  ent->SetPosition(user_ent->GetPosition());
-  ent->SetRotation(user_ent->GetRotation());
-  ent->SetSector(user_ent->GetSector());
-
-  Server::getServer()->addEntity(ent, true);
-  */
+  itemEnt->SetPosition(charEnt->GetPosition());
+  itemEnt->SetRotation(charEnt->GetRotation());
+//  itemEnt->SetSector(charEnt->GetSector());
+  itemEnt->SetInWorld(true);
+  
 } // handleDropRequest
 
 void EntityHandler::handleMoveToRequest(GenericMessage* msg)
@@ -357,7 +324,6 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
     float rotation = atan2(direction.x(), direction.z());
 
     mover->SetPosition(request_msg.getTo());
-    float oldRot = mover->GetRotation();
     mover->SetRotation(rotation);
 
     TeleportResponseMessage telemsg;
@@ -434,8 +400,8 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
   if (admin == 0) return;
 
-  TeleportRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
+  TeleportRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
 
   boost::shared_ptr<PcEntity> target_ent = NetworkHelper::GetEntity(msg);
   if (!target_ent) return;
@@ -450,39 +416,32 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
     mover = target_ent;
   }
 
-  mover->SetPosition(request_msg.getPosition());
-  mover->SetRotation(request_msg.getRotation());
+  mover->SetPosition(requestMsg.getPosition());
+  mover->SetRotation(requestMsg.getRotation());
 
-//  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());
+//  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());  /// @TODO need to save position when entity moves
 
-  TeleportResponseMessage response_msg;
-  response_msg.setEntityId(mover->GetId());
-  response_msg.setPosition(request_msg.getPosition());
-  response_msg.setRotation(mover->GetRotation());
+  TeleportResponseMessage responseMsg;
+  responseMsg.setEntityId(mover->GetId());
+  responseMsg.setPosition(requestMsg.getPosition());
+  responseMsg.setRotation(mover->GetRotation());
 
   ByteStream bs;
-  response_msg.serialise(&bs);
+  responseMsg.serialise(&bs);
   NetworkHelper::localcast(bs, mover);
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
 {
-  printf("Start mount character\n");
 
-  boost::shared_ptr<Entity> userEnt = NetworkHelper::GetEntity(msg);
-  if (!userEnt) return;
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
+  if (!charEnt) return;
 
-  MountRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
+  MountRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
-  unsigned int mount_id = request_msg.getMountEntityId();
-
-  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity(msg);
-  if (!pcEnt) return;
-
-  boost::shared_ptr<Character>  charEnt = boost::dynamic_pointer_cast<Character>(pcEnt);
-  if (!charEnt) return;
+  unsigned int mount_id = requestMsg.getMountEntityId();
 
   boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity>
     (server->getEntityManager()->FindById(mount_id));
@@ -491,11 +450,9 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   charEnt->SetMount(cMount);
   cMount->AddPassenger(charEnt);
 
-  printf("Mount finished\n");
-
-  // Don't run into the horse!
+  // Don't run into the horse! 
   MoveMessage mmsg;
-  mmsg.setEntityId(pcEnt->GetId());
+  mmsg.setEntityId(charEnt->GetId());
 
   mmsg.setMoveDirection(0, 0, 0);
   mmsg.setJump(false);
@@ -503,54 +460,49 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   ByteStream bs1;
   mmsg.serialise(&bs1);
 
-  NetworkHelper::localcast(bs1, userEnt);
+  NetworkHelper::localcast(bs1, charEnt);
 
   MountMessage umount_msg;
   umount_msg.setMountEntityId(cMount->GetId());
-  umount_msg.setPlayerEntityId(userEnt->GetId());
+  umount_msg.setPlayerEntityId(charEnt->GetId());
   umount_msg.setCanControl(true);
   ByteStream bs;
   umount_msg.serialise(&bs);
-  NetworkHelper::localcast(bs, userEnt);
+  NetworkHelper::localcast(bs, charEnt);
 }
 
 void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 {
-  printf("Start unmount character\n");
 
-  boost::shared_ptr<Entity> userEnt = NetworkHelper::GetEntity(msg);
-  if (!userEnt) return;
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
+  if (!charEnt) return;
 
-  UnmountRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
-
-  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity(msg);
-  if (!pcEnt) return;
+  UnmountRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
-  unsigned int mountId = request_msg.getMountEntityId();
+  unsigned int mountId = requestMsg.getMountEntityId();
 
   boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity>
     (server->getEntityManager()->FindById(mountId));
   if (!cMount) return;
 
-  printf("Remove player from mount!\n");
-  cMount->RemovePassenger(pcEnt);
+  //Remove player from mount!
+  cMount->RemovePassenger(charEnt);
 
-  printf("Reset the player's mount status!\n");
+  //Reset the player's mount status!
   boost::shared_ptr<MountEntity> noMount;
-  pcEnt->SetMount(noMount);
+  charEnt->SetMount(noMount);
 
-  printf("Unmount finished\n");
-
+  // Send unmount message to peers
   UnmountMessage umountMsg;
   umountMsg.setMountEntityId(cMount->GetId());
-  umountMsg.setPlayerEntityId(userEnt->GetId());
+  umountMsg.setPlayerEntityId(charEnt->GetId());
 
   ByteStream bs;
   umountMsg.serialise(&bs);
 
-  NetworkHelper::localcast(bs, userEnt);
+  NetworkHelper::localcast(bs, charEnt);
 }
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
