@@ -210,7 +210,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     }
 
     entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
-    boost::shared_ptr<PcEntity> pc = boost::shared_polymorphic_downcast<PcEntity>(entity);
+    pc = boost::shared_polymorphic_downcast<PcEntity>(entity);
 
     entity->LoadFromDB();
 
