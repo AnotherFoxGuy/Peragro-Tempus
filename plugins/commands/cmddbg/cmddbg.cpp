@@ -152,7 +152,7 @@ std::string cmdDbg::Execute (const StringArray& args)
     else if (args[2].compare("spawn") == 0)
     {
       if (args.size() < 4) throw PT_EX(IncorrectParameters());
-      
+
       csRef<iPcLinearMovement> pclinmove =
         CEL_QUERY_PROPCLASS_ENT(entity, iPcLinearMovement);
 

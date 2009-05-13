@@ -55,7 +55,7 @@ namespace Common
       friend inline std::ostream& operator<< (std::ostream&, const Object&);
 
     public:
-      Object(ObjectType type) : parent(0), objectType(type), objectSize(WFMath::Point<2>(0),WFMath::Point<2>(1)) 
+      Object(ObjectType type) : parent(0), objectType(type), objectSize(WFMath::Point<2>(0),WFMath::Point<2>(1))
       {
       }
 

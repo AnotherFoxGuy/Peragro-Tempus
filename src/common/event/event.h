@@ -75,8 +75,8 @@ namespace PT
          if (event->Retrieve("error", str) != csEventErrNone)
            Report(PT::Error, "Helper::HasError failed!");
 
-         std::string text = str;
-         return text;
+         if (!str) str = "";
+         return std::string(str);
        }
 
       /**
@@ -133,8 +133,8 @@ namespace PT
         if (event->Retrieve(name, str) != csEventErrNone)
           Report(PT::Error, "Helper::GetString '%s' failed!", name);
 
-        std::string text = str;
-        return text;
+        if (!str) str = "";
+        return std::string(str);
       }
 
       /**

@@ -30,7 +30,7 @@
 
 void ItemTemplate::LoadFromDB()
 {
-  ItemTemplatesTable* ttable = 
+  ItemTemplatesTable* ttable =
     Server::getServer()->GetTableManager()->Get<ItemTemplatesTable>();
 
   ItemTemplatesTableVOp it = ttable->GetSingle(templateId);
@@ -108,7 +108,7 @@ boost::shared_ptr<ItemEntity> ItemTemplatesManager::CreateItemFromTemplate(size_
   boost::shared_ptr<ItemEntity> item =
     boost::shared_polymorphic_downcast<ItemEntity>(entity);
 
-  boost::shared_ptr<ItemTemplate> temp = 
+  boost::shared_ptr<ItemTemplate> temp =
     Server::getServer()->GetItemTemplatesManager()->Get(templateId);
 
   item->SetItemTemplate(temp);

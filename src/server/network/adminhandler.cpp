@@ -130,19 +130,19 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   {
     Server* server = Server::getServer();
     boost::shared_ptr<ItemEntity> item = server->GetItemTemplatesManager()
-      ->CreateItemFromTemplate(itemmsg.getItemTemplateId()); 
+      ->CreateItemFromTemplate(itemmsg.getItemTemplateId());
 
     item->SetPosition(itemmsg.getPosition());
     item->SetInWorld(true);
     item->SaveToDB();
-    server->getEntityManager()->Add(item); 
+    server->getEntityManager()->Add(item);
   }
   catch (InvalidItemTemplate& )
   {
     printf("Error: ItemTemplate(%i) does not exists in database\n"
       ,itemmsg.getItemTemplateId());
-    ///@TODO maybe add a say msg back to client letting him know why 
-    ///      it failed. 
+    ///@TODO maybe add a say msg back to client letting him know why
+    ///      it failed.
   }
 }
 
@@ -156,9 +156,9 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
 
   SpawnMountMessage mountmsg;
   mountmsg.deserialise(msg->getByteStream());
-  
+
   try
-  { 
+  {
     SpeciesTable* stable = server->GetTableManager()->Get<SpeciesTable>();
     size_t speciesid = stable->FindByName( *mountmsg.getSpecies());
     if (!speciesid)
@@ -172,8 +172,8 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
     // Create the Mount entity
 
     boost::shared_ptr<MountEntity> mount = server->GetSpeciesManager()
-      ->CreateMountFromSpecies(speciesid); 
-  
+      ->CreateMountFromSpecies(speciesid);
+
     mount->SetName(*mountmsg.getName());
     mount->SetPosition( mountmsg.getPosition());
     mount->SetRotation( mountmsg.getRotation());
@@ -226,7 +226,7 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
 
   Server* server = Server::getServer();
   EntityManager* entmgr = server->getEntityManager();
-  Common::Entity::Entityp ent = entmgr->FindById(rmmsg.getEntityId()); 
+  Common::Entity::Entityp ent = entmgr->FindById(rmmsg.getEntityId());
 
   if (ent == 0) return;
 
@@ -234,7 +234,7 @@ void AdminHandler::handleRemoveSpawnedEntity(GenericMessage* msg)
       ent->GetType() == Common::Entity::MountEntityType)
   {
     boost::dynamic_pointer_cast<Entity>(ent)->DeleteFromDB();
-    server->getEntityManager()->Remove(ent); 
+    server->getEntityManager()->Remove(ent);
   }
 }
 

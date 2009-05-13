@@ -181,7 +181,7 @@ namespace PT
         itemmsg.setDescription(description);
         itemmsg.setEquipType(equiptype);
         itemmsg.setSkillType(skilltype);
-        itemmsg.setRevision(1); 
+        itemmsg.setRevision(1);
         itemmsg.setFile(file);
         PointerLibrary::getInstance()->getNetwork()->send(&itemmsg);
       }

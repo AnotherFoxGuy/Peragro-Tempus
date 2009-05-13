@@ -96,7 +96,7 @@ void ItemEntity::SaveToDB()
 
 void ItemEntity::DeleteFromDB()
 {
-  // @TODO think this should really be wrapped in a transaction 
+  // @TODO think this should really be wrapped in a transaction
   Entity::DeleteFromDB();
 
   EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();

@@ -61,7 +61,7 @@ namespace Common
     {
       std::list<boost::shared_ptr<PositionedObject> > result;
       result = quadtree.Query<PositionedObject>(WFMath::Point<2>(position.column+0.0001f, position.row+0.0001f));
-      if (result.size() == 1) return result.front();  
+      if (result.size() == 1) return result.front();
       return boost::shared_ptr<PositionedObject>();
     }
 
@@ -93,7 +93,7 @@ namespace Common
     boost::shared_ptr<Object> GridInventory::RemoveObjectAt(const PositionRef& position)
     {
       boost::shared_ptr<PositionedObject> o = GetPositionedObjectAt(position);
-      if (o) 
+      if (o)
       {
         boost::shared_ptr<Object> obj = o->object;
         NotifyObjectRemoved(obj, position);
@@ -126,7 +126,7 @@ namespace Common
       if (curpos == newpos) return true;
       boost::shared_ptr<PositionedObject> curpo = GetPositionedObjectAt(curpos);
       if (!curpo || !curpo->object) return false; // No object at curpos
-      
+
       // Update position for the swapped object to position of the moving object.
       PositionRef curposU = curpo->position;
       // idem.
@@ -163,7 +163,7 @@ namespace Common
       /*boost::shared_ptr<Object>*/ curo = RemoveObjectAt(curpos);
       boost::shared_ptr<Object> newo = RemoveObjectAt(newposU);
       if (!AddObjectAt(newposU, curo)) { throw PT_EX(InventoryException("Failed to add object for unknown reason!"));}
-      if (newo) 
+      if (newo)
       {
         if (!AddObjectAt(curposU, newo)) throw PT_EX(InventoryException("Failed to add object for unknown reason!"));
       }

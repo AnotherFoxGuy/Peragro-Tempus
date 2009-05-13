@@ -23,7 +23,6 @@
 #include "src/server/database/table-vulnerabilitytypes.h"
 #include "src/server/database/table-vulnerabilities.h"
 
-
 Vulnerabilities::Vulnerabilities(VulnerabilitiesFactory* fact, Entity* entity, TableManager* db)
   : Bases<int>("Vulnerabilities", fact, entity, db)
 {

@@ -481,13 +481,13 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity(msg);
   if (!pcEnt) return;
 
-  boost::shared_ptr<Character>  charEnt = boost::dynamic_pointer_cast<Character>(pcEnt) ;
+  boost::shared_ptr<Character>  charEnt = boost::dynamic_pointer_cast<Character>(pcEnt);
   if (!charEnt) return;
 
-  boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity> 
+  boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity>
     (server->getEntityManager()->FindById(mount_id));
   if (!cMount) return;
- 
+
   charEnt->SetMount(cMount);
   cMount->AddPassenger(charEnt);
 
@@ -530,8 +530,9 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   Server* server = Server::getServer();
   unsigned int mountId = request_msg.getMountEntityId();
 
-  boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity> 
+  boost::shared_ptr<MountEntity> cMount = boost::dynamic_pointer_cast<MountEntity>
     (server->getEntityManager()->FindById(mountId));
+  if (!cMount) return;
 
   printf("Remove player from mount!\n");
   cMount->RemovePassenger(pcEnt);
@@ -550,7 +551,6 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
   umountMsg.serialise(&bs);
 
   NetworkHelper::localcast(bs, userEnt);
-
 }
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)

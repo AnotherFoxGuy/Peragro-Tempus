@@ -57,7 +57,7 @@ namespace Common
 
     PositionRef SlotInventory::IdToPos(unsigned int id) const
     {
-      if (id >= inventoryColumns*inventoryRows) 
+      if (id >= inventoryColumns*inventoryRows)
         throw PT_EX(InventoryException("ID out of inventory range."));
       unsigned int c = id%inventoryColumns;
       unsigned int r = id/inventoryColumns;
@@ -163,8 +163,8 @@ namespace Common
       return RemoveObjectAt(IdToPos(id));
     }
 
-    PositionRef SlotInventory::RemoveObject(boost::shared_ptr<Object> object) 
-    { 
+    PositionRef SlotInventory::RemoveObject(boost::shared_ptr<Object> object)
+    {
       std::list<boost::shared_ptr<Slot> >::iterator it;
       for (it=slots.begin(); it != slots.end(); it++)
       {
@@ -177,7 +177,7 @@ namespace Common
           return ref;
         }
       }
-      return PositionRef(); 
+      return PositionRef();
     }
 
     bool SlotInventory::HasObjectAt(const PositionRef& position) const
@@ -209,7 +209,7 @@ namespace Common
       AddObjectAt(newpos, curo);
       return true;
     }
-    
+
     bool SlotInventory::MoveObject(unsigned int curpos, unsigned int newpos, bool allowSwap)
     {
       return MoveObject(IdToPos(curpos), IdToPos(newpos), allowSwap);
@@ -218,7 +218,7 @@ namespace Common
     void SlotInventory::ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object)
     {
       //TODO
-    } 
+    }
 
   } // Inventory namespace
 } // Common namespace
