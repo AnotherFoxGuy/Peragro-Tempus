@@ -181,10 +181,10 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
     mount->SaveToDB();
     server->getEntityManager()->Add(mount);
   }
-  catch( char * str )
- {
-   printf( "Exception raised: %s \n", str);
- }
+  catch (std::exception& ex)
+  {
+    printf("Exception raised: %s\n", ex.what());
+  }
 }
 
 void AdminHandler::handleSpawnDoor(GenericMessage* msg)

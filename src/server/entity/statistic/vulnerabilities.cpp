@@ -32,7 +32,7 @@ Vulnerabilities::Vulnerabilities(VulnerabilitiesFactory* fact, Entity* entity, T
 void Vulnerabilities::LoadFromDB()
 {
   if(entity->GetId() == Common::Entity::Entity::NoEntity)
-    throw "Invalid entity!";
+    throw PT_EX(InvalidEntity("Invalid entity!"));
 
   VulnerabilitiesTable* table = db->Get<VulnerabilitiesTable>();
   VulnerabilitiesTableVOArray arr = table->Get(entity->GetId());
