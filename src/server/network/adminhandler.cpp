@@ -139,8 +139,8 @@ void AdminHandler::handleSpawnItem(GenericMessage* msg)
   }
   catch (InvalidItemTemplate& )
   {
-    printf("Error: ItemTemplate(%i) does not exists in database\n"
-      ,itemmsg.getItemTemplateId());
+    printf("Error: item template (%i) does not exist in database\n",
+      itemmsg.getItemTemplateId());
     ///@TODO maybe add a say msg back to client letting him know why
     ///      it failed.
   }
@@ -163,7 +163,7 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
     size_t speciesid = stable->FindByName( *mountmsg.getSpecies());
     if (!speciesid)
     {
-      printf("Error Spawning mount, species '%s' does not exist.", *mountmsg.getSpecies());
+      printf("Error spawning mount, species '%s' does not exist.", *mountmsg.getSpecies());
       return;
     }
 
@@ -175,15 +175,18 @@ void AdminHandler::handleSpawnMount(GenericMessage* msg)
       ->CreateMountFromSpecies(speciesid);
 
     mount->SetName(*mountmsg.getName());
-    mount->SetPosition( mountmsg.getPosition());
-    mount->SetRotation( mountmsg.getRotation());
+    mount->SetPosition(mountmsg.getPosition());
+    mount->SetRotation(mountmsg.getRotation());
 
     mount->SaveToDB();
     server->getEntityManager()->Add(mount);
   }
-  catch (std::exception& ex)
+  catch (InvalidSpeciesId&)
   {
-    printf("Exception raised: %s\n", ex.what());
+    printf("Error spawning mount, species '%s' does not exist in database\n",
+      *mountmsg.getSpecies());
+    ///@TODO maybe add a say msg back to client letting him know why
+    ///      it failed.
   }
 }
 
