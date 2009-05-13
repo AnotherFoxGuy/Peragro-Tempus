@@ -35,12 +35,12 @@ namespace CI = Common::Inventory;
 
 boost::shared_ptr<ItemEntity> Convert(boost::shared_ptr<CI::Object> o)
 {
-  return boost::shared_dynamic_cast<ItemEntity>(o);
+  return boost::shared_polymorphic_downcast<ItemEntity>(o);
 }
 
 boost::shared_ptr<ItemEntity> Convert(Entityp e)
 {
-  return boost::shared_dynamic_cast<ItemEntity>(e);
+  return boost::shared_polymorphic_downcast<ItemEntity>(e);
 }
 
 bool Inventory::AddObjectAt(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item)

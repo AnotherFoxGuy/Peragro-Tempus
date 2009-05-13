@@ -38,7 +38,7 @@
 
 boost::shared_ptr<ItemEntity> Convert1(Entityp e)
 {
-  return boost::shared_dynamic_cast<ItemEntity>(e);
+  return boost::shared_polymorphic_downcast<ItemEntity>(e);
 }
 
 Equipment::Equipment(EquipmentFactory* fact, Entity* entity, TableManager* db)

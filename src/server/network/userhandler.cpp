@@ -187,6 +187,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     }
   }
 
+  boost::shared_ptr<PcEntity> pc;
   if (!entity)
   {
     // Check if the send Id is valid and the entity belongs to that user.
@@ -209,7 +210,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
     }
 
     entity = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType, request_msg.getCharId());
-    boost::shared_ptr<PcEntity> pc = boost::shared_dynamic_cast<PcEntity>(entity);
+    boost::shared_ptr<PcEntity> pc = boost::shared_polymorphic_downcast<PcEntity>(entity);
 
     entity->LoadFromDB();
 
@@ -225,8 +226,7 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
   response_msg.serialise(&bs);
   msg->getConnection()->send(bs);
 
-
-  PcEntity* pc = dynamic_cast<PcEntity*>(entity.get());
+  if (!pc) pc = boost::shared_polymorphic_downcast<PcEntity>(entity);
   pc->GetResources()->SendAll(msg->getConnection());
 /*
   pc->getInventory()->sendAllItems(msg->getConnection());

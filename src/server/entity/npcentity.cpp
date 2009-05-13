@@ -35,7 +35,7 @@ void NpcEntity::LoadFromDB()
     throw PT_EX(InvalidNpcEntity("Invalid NPC entity")) << EntityIdInfo(GetId());
   }
 
-  AI* ai = AI::createAI(npc->ainame, boost::shared_dynamic_cast<NpcEntity>(this_));
+  AI* ai = AI::createAI(npc->ainame, boost::shared_polymorphic_downcast<NpcEntity>(this_));
   if (!ai)
   {
     throw PT_EX(InvalidNpcEntity("Invalid AI for NPC entity"))

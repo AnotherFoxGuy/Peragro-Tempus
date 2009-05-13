@@ -126,7 +126,8 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     //msg.SetSectorId(entity->GetSector());
     //msg.setPoseId(entity->GetPoseId());
 
-    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(entity);
+    boost::shared_ptr<Character> c =
+      boost::shared_polymorphic_downcast<Character>(entity);
 
     //msg.setDecalColour(c->GetDecalColour());
     //msg.setHairColour(c->GetHairColour());
@@ -148,7 +149,8 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     //msg.SetSectorId(entity->GetSector());
     //msg.setPoseId(entity->GetPoseId());
 
-    boost::shared_ptr<Character> c = boost::shared_dynamic_cast<Character>(entity);
+    boost::shared_ptr<Character> c =
+      boost::shared_polymorphic_downcast<Character>(entity);
 
     //msg.setDecalColour(c->GetDecalColour());
     //msg.setHairColour(c->GetHairColour());

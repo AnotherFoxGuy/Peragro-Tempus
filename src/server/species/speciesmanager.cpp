@@ -134,7 +134,7 @@ void AddInventory(boost::shared_ptr<Character> entity, size_t speciesId)
     {
       // An item with a certain chance to be added succeeded.
       Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::ItemEntityType);
-      boost::shared_ptr<ItemEntity> item = boost::shared_dynamic_cast<ItemEntity>(ent);
+      boost::shared_ptr<ItemEntity> item = boost::shared_polymorphic_downcast<ItemEntity>(ent);
       boost::shared_ptr<ItemTemplate> itemTemplate = Server::getServer()->GetItemTemplatesManager()->Get((*it)->itemTemplates_id);
       item->SetItemTemplate(itemTemplate);
       item->SetInWorld(false);
@@ -169,8 +169,7 @@ boost::shared_ptr<PcEntity> SpeciesManager::CreatePCFromSpecies(size_t speciesId
   Server* server = Server::getServer();
 
   Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::PCEntityType);
-  boost::shared_ptr<PcEntity> pc = boost::shared_dynamic_cast<PcEntity>(ent);
-  if (!pc) return boost::shared_ptr<PcEntity>();
+  boost::shared_ptr<PcEntity> pc = boost::shared_polymorphic_downcast<PcEntity>(ent);
 
   Initialize(pc, speciesId);
 
@@ -182,8 +181,7 @@ boost::shared_ptr<NpcEntity> SpeciesManager::CreateNPCFromSpecies(size_t species
   Server* server = Server::getServer();
 
   Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::NPCEntityType);
-  boost::shared_ptr<NpcEntity> npc = boost::shared_dynamic_cast<NpcEntity>(ent);
-  if (!npc) return boost::shared_ptr<NpcEntity>();
+  boost::shared_ptr<NpcEntity> npc = boost::shared_polymorphic_downcast<NpcEntity>(ent);
 
   Initialize(npc, speciesId);
 
@@ -195,8 +193,7 @@ boost::shared_ptr<MountEntity> SpeciesManager::CreateMountFromSpecies(size_t spe
   Server* server = Server::getServer();
 
   Entityp ent = server->getEntityManager()->CreateNew(Common::Entity::MountEntityType);
-  boost::shared_ptr<MountEntity> mpc = boost::shared_dynamic_cast<MountEntity>(ent);
-  if (!mpc) return boost::shared_ptr<MountEntity>();
+  boost::shared_ptr<MountEntity> mpc = boost::shared_polymorphic_downcast<MountEntity>(ent);
 
   Initialize(mpc, speciesId);
 

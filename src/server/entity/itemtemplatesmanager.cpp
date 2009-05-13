@@ -105,8 +105,8 @@ boost::shared_ptr<ItemEntity> ItemTemplatesManager::CreateItemFromTemplate(size_
   Entityp entity = Server::getServer()->getEntityManager()
     ->CreateNew(Common::Entity::ItemEntityType);
 
-  boost::shared_ptr<ItemEntity> item = 
-    boost::shared_dynamic_cast<ItemEntity>(entity);
+  boost::shared_ptr<ItemEntity> item =
+    boost::shared_polymorphic_downcast<ItemEntity>(entity);
 
   boost::shared_ptr<ItemTemplate> temp = 
     Server::getServer()->GetItemTemplatesManager()->Get(templateId);
