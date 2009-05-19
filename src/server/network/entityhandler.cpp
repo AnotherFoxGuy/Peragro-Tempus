@@ -154,16 +154,19 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
   
   boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity (msg);
-  if (!charEnt) return;
-
-  std::string name = charEnt->GetName();
 
   PickRequestMessage requestMsg;
   requestMsg.deserialise(msg->getByteStream());
 
+  if (charEnt)
+  {
+    std::string name = charEnt->GetName();
+    printf("Received PickRequest from: '%s' -> '%d' to slot %i \n", name.c_str(),
+      requestMsg.getItemEntityId(), requestMsg.getSlot());
+  }
+
   Server* server = Server::getServer();
 
-  printf("Received PickRequest from: '%s' -> '%d' to slot %i \n", name.c_str(), requestMsg.getItemEntityId(), requestMsg.getSlot());
   
   // Get Item
   boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity> 
@@ -173,21 +176,25 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   PickResponseMessage responseMsg;
   if (!charEnt) 
   {
-    responseMsg.setError(ptString("Character Entity doesn't exist",30)); // <-- TODO: Error Message Storage 
+    responseMsg.setError(ptString("Character Entity doesn't exist",
+      strlen("Character Entity doesn't exist"))); // <-- TODO: Error Message Storage 
   }
   else if (!itemEnt)
   {
-    responseMsg.setError(ptString("Item Entity doesn't exist",30)); // <-- TODO: Error Message Storage
+    responseMsg.setError(ptString("Item Entity doesn't exist",
+      strlen("Item Entity doesn't exist"))); // <-- TODO: Error Message Storage
   }
   else if (!itemEnt->GetInWorld())
   {
-    responseMsg.setError(ptString("Item Entity not in world",30)); // <-- TODO: Error Message Storage
+    responseMsg.setError(ptString("Item Entity not in world",
+      strlen("Item Entity not in world"))); // <-- TODO: Error Message Storage
   }
-
 
   if (responseMsg.getError().isNull())
   {
-    unsigned char slot = requestMsg.getSlot();
+    unsigned int slot = requestMsg.getSlot();
+    responseMsg.setItemEntityId(itemEnt->GetId());
+    responseMsg.setSlotId(slot);
 
     if (!charEnt->GetInventory()->HasObjectAt(slot))
     {
@@ -195,25 +202,6 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
       bool retVal = charEnt->GetInventory()->AddObjectAt(slot,itemEnt);
       if (retVal)
       {
-        bool equip = (slot < 10);
-        if (equip && responseMsg.getError() == ptString::Null)
-        {
-          EquipMessage equipMsg;
-          equipMsg.setEntityId(charEnt->GetId());
-          if (itemEnt) equipMsg.setEntityId(itemEnt->GetId());
-          equipMsg.setSlotId(slot);
-//          equipMsg.setMeshId(itemEnt->getMesh()->GetId()); // Not used yet!
-          equipMsg.setFileName(itemEnt->GetFileName());
-          equipMsg.setMeshName(itemEnt->GetMeshName());
-
-          ByteStream bs;
-          equipMsg.serialise(&bs);
-          NetworkHelper::localcast(bs,charEnt);
-        } // end if Equip Item 
-
-        responseMsg.setEntityId(itemEnt->GetId());
-        responseMsg.setSlotId(slot);
-
         responseMsg.setName(itemEnt->GetName());
         responseMsg.setIconName(itemEnt->GetIcon());
         responseMsg.setDescription(itemEnt->GetDescription());
@@ -222,17 +210,20 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
         ByteStream bs;
         responseMsg.serialise(&bs);
-        NetworkHelper::localcast(bs,charEnt);
-
+        NetworkHelper::sendMessage(charEnt,bs);
         return;
-      }
-      responseMsg.setError(ptString("Couldn't add item!",18)); // <-- TODO: Error Message Storage
+      }        
+      responseMsg.setError(ptString("Couldn't add item!",strlen("Couldn't add item!"))); // <-- TODO: Error Message Storage
+    } else
+    {
+      responseMsg.setError(ptString("Failed adding inventory,Slot is full!",
+        strlen("Failed adding inventory,Slot is full!"))); // <-- TODO: Error Message Storage
     }  // end if slot empty
   }  // end if no errMsg 
 
   ByteStream bs;
   responseMsg.serialise(&bs);
-  NetworkHelper::sendMessage(charEnt, bs);
+  NetworkHelper::sendMessage(charEnt, bs); // error msg
   
 }
 
@@ -269,27 +260,12 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   responseMsg.serialise(&bs);
   NetworkHelper::sendMessage(charEnt, bs);
 
-  if (slotId < 10)
-  {
-    printf("Dropped an equiped item, so unequip it!\n");
-    // Tell the world to unequip it!
-    EquipMessage unequipMsg;
-    unequipMsg.setEntityId(charEnt->GetId());
-    unequipMsg.setSlotId(slotId);
-//    unequipMsg.setItemId(Item::NoItem); // No Item!
-//    unequipMsg.setMeshId(0); // Not used yet!
-    unequipMsg.setFileName(ptString::Null);
-    unequipMsg.setMeshName(ptString::Null);
-    ByteStream bs;
-    unequipMsg.serialise(&bs);
-    NetworkHelper::localcast(bs, charEnt);
-  }
-
   itemEnt->SetPosition(charEnt->GetPosition());
   itemEnt->SetRotation(charEnt->GetRotation());
 //  itemEnt->SetSector(charEnt->GetSector());
   itemEnt->SetInWorld(true);
-  
+  Server::getServer()->getEntityManager()->Add(itemEnt);
+
 } // handleDropRequest
 
 void EntityHandler::handleMoveToRequest(GenericMessage* msg)
