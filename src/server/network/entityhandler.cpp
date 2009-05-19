@@ -264,6 +264,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   itemEnt->SetRotation(charEnt->GetRotation());
 //  itemEnt->SetSector(charEnt->GetSector());
   itemEnt->SetInWorld(true);
+  itemEnt->SaveToDB();
   Server::getServer()->getEntityManager()->Add(itemEnt);
 
 } // handleDropRequest
