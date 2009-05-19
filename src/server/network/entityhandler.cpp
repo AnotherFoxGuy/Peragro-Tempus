@@ -193,7 +193,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   if (responseMsg.getError().isNull())
   {
     unsigned int slot = requestMsg.getSlot();
-    responseMsg.setItemEntityId(itemEnt->GetId());
+    responseMsg.setEntityId(itemEnt->GetId());
     responseMsg.setSlotId(slot);
 
     if (!charEnt->GetInventory()->HasObjectAt(slot))
