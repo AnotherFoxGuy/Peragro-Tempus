@@ -372,6 +372,7 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
   boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
+
   if (!user) return;
 
   size_t admin = user->getPermissionList().getLevel(Permission::Admin);
@@ -405,7 +406,9 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 
   ByteStream bs;
   responseMsg.serialise(&bs);
+
   NetworkHelper::localcast(bs, mover);
+
 }
 
 void EntityHandler::handleMountRequest(GenericMessage* msg)
@@ -484,28 +487,24 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
 {
-  /*
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
-  if (!user_ent) return;
+ 
+  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity(msg);
+  if (!pcEnt) return;
 
   PoseRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
-  const PcEntity* pc_ent = user_ent->getPlayerEntity();
-  if (!pc_ent) return;
+  unsigned char poseId = request_msg.getPoseId();
 
-  unsigned char pose_id = request_msg.getPoseId();
-
-  ptScopedMonitorable<PcEntity> e (pc_ent);
-  e->setPoseId(pose_id);
+  pcEnt->setPoseId(poseId);
 
   PoseMessage pose_msg;
-  pose_msg.setEntityId(user_ent->GetId());
-  pose_msg.setPoseId(e->getPoseId());
+  pose_msg.setEntityId(pcEnt->GetId());
+  pose_msg.setPoseId(pcEnt->getPoseId());
 
   ByteStream bs;
   pose_msg.serialise(&bs);
 
-  NetworkHelper::localcast(bs, user_ent);
-  */
+  NetworkHelper::localcast(bs, pcEnt);
+ 
 }
