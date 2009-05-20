@@ -63,11 +63,9 @@ SCF_IMPLEMENT_FACTORY(cmdEmote)
 
 cmdEmote::cmdEmote (iBase* parent)
   : ptClientCommand(parent), emotes()
-{/*
-  printf("blaah %d\n", EMOTELISTSIZE);
-  printf("blaah %s\n", emotelist[0].emote);
+{
   for (unsigned int i = 0;  i < EMOTELISTSIZE;  i++)
-    emotes.push_back(emotelist[i].emote);*/
+    emotes.push_back(emotelist[i].emote);
 }
 
 cmdEmote::~cmdEmote ()
@@ -76,7 +74,7 @@ cmdEmote::~cmdEmote ()
 
 bool cmdEmote::CommandHandled (const char* cmd) const
 {
-  for (unsigned int i = 0;  i < emotes.size();  i++)
+  for (unsigned int i = 0;  i < EMOTELISTSIZE;  i++)
   {
     if (emotes[i].compare(cmd) == 0)
       return true;
