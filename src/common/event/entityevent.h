@@ -42,6 +42,7 @@
 #include "common/reporter/reporter.h"
 
 #include "common/entity/entity.h"
+#include "common/event/event.h"
 
 namespace PT
 {
@@ -118,17 +119,11 @@ namespace PT
         float x, y, z;
         x = y = z = 0.0f;
 
-        if (!r)
-        {
-          r = Reporter::GetInstance();
-        }
+        using namespace PT::Events;
 
-        if (ev->Retrieve(nmX.c_str(), x) != csEventErrNone)
-          r->Report(PT::Error, "EntityHelper::GetVector3 failed! X attribute not present!");
-        if (ev->Retrieve(nmY.c_str(), y) != csEventErrNone)
-          r->Report(PT::Error, "EntityHelper::GetVector3 failed! Y attribute not present!");
-        if (ev->Retrieve(nmZ.c_str(), z) != csEventErrNone)
-          r->Report(PT::Error, "EntityHelper::GetVector3 failed! Z attribute not present!");
+        x = Helper::GetFloat(ev,nmX.c_str());
+        y = Helper::GetFloat(ev,nmY.c_str());
+        z = Helper::GetFloat(ev,nmZ.c_str());
 
         WFMath::Point<3> pos(x, y, z);
         return pos;

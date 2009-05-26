@@ -28,6 +28,7 @@
 
 #include "server/database/tablemanager.h"
 #include "server/database/table-pcentities.h"
+#include "server/database/table-entitypositions.h"
 
 
 void PcEntity::SetUser(User* user)
@@ -55,6 +56,14 @@ void PcEntity::LoadFromDB()
       << EntityIdInfo(GetId());
   }
 
+  EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+  EntityPositionsTableVOp p = ptable->GetSingle(GetId());
+  if (p)
+  {
+    SetPosition(p->position);
+    SetRotation(p->rotation[1]); //TODO: just Y atm.
+  }
+
   //User* user = Server::getServer()->getUserManager()->FindByName(arr[0]->users_login);
   //SetUser(user);
 }
@@ -63,7 +72,11 @@ void PcEntity::SaveToDB()
 {
   Character::SaveToDB();
 
-  PcEntitiesTable* table = Server::getServer()->GetTableManager()->Get<PcEntitiesTable>();
+  PcEntitiesTable* pcTable = Server::getServer()->GetTableManager()->Get<PcEntitiesTable>();
   if (user)
-    table->Insert(GetId(), user->GetName());
+  {
+    pcTable->Insert(GetId(), user->GetName());
+    EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
+    ptable->Insert(GetId(), GetPosition(), WFMath::Point<3>(0, GetRotation(),0)); //TODO: just Y atm. 
+  }
 }

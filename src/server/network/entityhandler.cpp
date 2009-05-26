@@ -99,55 +99,46 @@ void EntityHandler::handleMoveRequest(GenericMessage* msg)
 
 void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 {
-  /*
-  const Entity* ent = NetworkHelper::getEntity(msg);
-  if (!ent) return;
 
-  DrUpdateRequestMessage request_msg;
-  request_msg.deserialise(msg->getByteStream());
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity (msg);
+  if (!charEnt) return;
 
-  Server* server = Server::getServer();
+  DrUpdateRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
 
-  server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+  boost::shared_ptr <MountEntity> mountEnt = charEnt->GetMount();
+  boost::shared_ptr <Character> replyEnt;
 
-  int name_id;
-  if (ent->getPlayerEntity()->getMount())
+  WFMath::Point<3> pos = requestMsg.getPosition();
+  if (mountEnt)
   {
-    WFMath::Point<3> pos = request_msg.GetPosition();
-
     // Make sure the character is up in the saddle
     // TODO: Maybe use a confirmation message from the client instead
     //WFMath::Point<3> mountpos = ent->getPlayerEntity()->getMount()->getEntity()->GetPosition();
     //if (pos.y < mountpos.y + 0.5f){ return; }
 
     pos[1] -= 1.0f; // Adjust the offset from the rider
-    ptScopedMonitorable<Entity> user_ent (ent->getPlayerEntity()->getMount()->getEntity());
-    user_ent->SetPosition(pos);
-    user_ent->SetRotation(request_msg.GetRotation());
-    user_ent->SetSector(request_msg.GetSectorId());
-
-    name_id = ent->getPlayerEntity()->getMount()->getEntity()->GetId();
+    replyEnt = mountEnt;
   }
   else
   {
-    name_id = ent->GetId();
+    replyEnt = charEnt;
   }
 
-  ptScopedMonitorable<Entity> user_ent (ent);
-  user_ent->SetPosition(request_msg.GetPosition());
-  user_ent->SetRotation(request_msg.GetRotation());
-  user_ent->SetSector(request_msg.GetSectorId());
+  replyEnt->SetPosition(pos);
+  replyEnt->SetRotation(requestMsg.getRotation());
+//  replyEnt->SetSector(requestMsg.getSectorId());
 
   DrUpdateMessage response_msg;
-  response_msg.SetRotation(request_msg.GetRotation());
-  response_msg.SetPosition(request_msg.GetPosition());
-  response_msg.SetSectorId(request_msg.GetSectorId());
-  response_msg.setEntityId(name_id);
+  response_msg.setRotation(requestMsg.getRotation());
+  response_msg.setPosition(requestMsg.getPosition());
+//  response_msg.SetSectorId(requestMsg.getSectorId());
+  response_msg.setEntityId(replyEnt->GetId());
   ByteStream bs;
   response_msg.serialise(&bs);
+  NetworkHelper::localcast(bs, replyEnt);
 
-  NetworkHelper::localcast(bs, user_ent);
-  */
+  replyEnt->SaveToDB();
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
@@ -396,8 +387,6 @@ void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 
   mover->SetPosition(requestMsg.getPosition());
   mover->SetRotation(requestMsg.getRotation());
-
-//  server->getCharacterManager()->checkForSave(target_ent->getPlayerEntity());  /// @TODO need to save position when entity moves
 
   TeleportResponseMessage responseMsg;
   responseMsg.setEntityId(mover->GetId());

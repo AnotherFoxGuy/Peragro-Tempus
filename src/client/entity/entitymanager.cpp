@@ -288,7 +288,7 @@ namespace PT
       using namespace PT::Events;
 
       unsigned int entityId = -1;
-      entityId = entityId = PT::Events::Helper::GetUInt(&ev,"playerEntityId");
+      entityId = PT::Events::Helper::GetUInt(&ev,"playerEntityId");
 
       unsigned int mountId = -1;
       mountId = PT::Events::Helper::GetUInt(&ev,"mountEntityId");
