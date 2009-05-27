@@ -119,10 +119,14 @@ void Inventory::SaveToDB()
 
 void Inventory::SendAllItems(Connection* conn)
 {
-  InventoryListMessage itemlist_msg;
-  itemlist_msg.setInventoryCount((char)GetObjectCount());
-  itemlist_msg.setInventoryId(0); //TODO unused
+  std::list<CI::PositionRef> positions;
+  std::list<boost::shared_ptr<CI::Object> > objects;
+  GetObjects(positions, objects);
 
+  InventoryListMessage itemlist_msg;
+  itemlist_msg.setInventoryCount((char)objects.size());
+  itemlist_msg.setInventoryId(0); //TODO unused
+/* TODO
   std::list<boost::shared_ptr<CI::Slot> >::const_iterator it;
   size_t n = 0;
   for (it=slots.begin(); it != slots.end(); it++)
@@ -142,7 +146,7 @@ void Inventory::SendAllItems(Connection* conn)
 
     n++;
   }
-
+*/
   ByteStream bs2;
   itemlist_msg.serialise(&bs2);
   conn->send(bs2);

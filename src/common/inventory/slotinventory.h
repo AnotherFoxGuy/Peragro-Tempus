@@ -65,6 +65,10 @@ namespace Common
       virtual ~SlotInventory();
 
       virtual void ClearInventory();
+      virtual void AutoArrange();
+
+      virtual bool FindFreePosition(PositionRef& position, boost::shared_ptr<Object> object) const;
+      virtual bool FindFreePositions(std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects) const;
 
       ///@todo Make these functions throw an exception instead of returning 0.
       virtual boost::shared_ptr<Object> GetObjectAt(const PositionRef& position) const;
@@ -73,6 +77,9 @@ namespace Common
       ///@todo Make these functions throw an exception instead of returning bool.
       virtual bool AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object);
       virtual bool AddObjectAt(unsigned int id, boost::shared_ptr<Object> object);
+
+      virtual bool AddObjectsArrange(const std::list<boost::shared_ptr<Object> >& objects);
+      virtual void AddObjectsAt(const std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects);
 
       ///@todo Make these functions throw an exception instead of returning 0.
       virtual boost::shared_ptr<Object> RemoveObjectAt(const PositionRef& position);
@@ -85,9 +92,9 @@ namespace Common
       virtual bool MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap=true);
       virtual bool MoveObject(unsigned int curpos, unsigned int newpos, bool allowSwap=true);
 
-      virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object);
+      virtual void GetObjects(std::list<PositionRef>& positions, std::list<boost::shared_ptr<Object> >& objects);
 
-      virtual size_t GetObjectCount() const;
+      virtual void ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object);
     };
 
 

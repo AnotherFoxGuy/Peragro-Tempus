@@ -17,7 +17,7 @@
 */
 
 /**
- * @file slotinventory.cpp
+ * @file gridinventory.cpp
  */
 
 #include "gridinventory.h"
@@ -52,18 +52,32 @@ namespace Common
       return true;
     }
 
+	  boost::shared_ptr<GridInventory::PositionedObject> GridInventory::GetPositionedObjectAt(const PositionRef& position) const
+    {
+      std::list<boost::shared_ptr<PositionedObject> > result;
+      result = quadtree.Query<PositionedObject>(WFMath::Point<2>(position.column+0.0001f, position.row+0.0001f));
+      if (result.size() == 1) return result.front();  
+      return boost::shared_ptr<PositionedObject>();
+    }
+
     void GridInventory::ClearInventory()
     {
       objects.clear();
     }
 
-    boost::shared_ptr<GridInventory::PositionedObject> GridInventory::GetPositionedObjectAt(const PositionRef& position) const
+    void GridInventory::AutoArrange()
     {
-      std::list<boost::shared_ptr<PositionedObject> > result;
-      result = quadtree.Query<PositionedObject>(WFMath::Point<2>(position.column+0.0001f, position.row+0.0001f));
-      if (result.size() == 1) return result.front();
-      return boost::shared_ptr<PositionedObject>();
     }
+
+    bool GridInventory::FindFreePosition(PositionRef& position, boost::shared_ptr<Object> object) const
+    {
+      return false;
+    }
+
+    bool GridInventory::FindFreePositions(std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects) const
+    {
+      return false;
+	  }
 
     bool GridInventory::HasObjectAt(const PositionRef& position) const
     {
@@ -75,6 +89,38 @@ namespace Common
       boost::shared_ptr<PositionedObject> o = GetPositionedObjectAt(position);
       if (o) return o->object;
       return boost::shared_ptr<Object>();
+    }
+
+    bool GridInventory::AddObjectsArrange(const std::list<boost::shared_ptr<Object> >& objects)
+    {
+      std::list<boost::shared_ptr<Object> > current;
+      std::list<PositionRef> notUsed;
+      GetObjects(notUsed, current);
+
+      // Append and make one list with all objects.
+      std::list<boost::shared_ptr<Object> > all;
+      std::merge(current.begin(), current.end(), objects.begin(), objects.end(), 
+        std::insert_iterator<std::list<boost::shared_ptr<Object> > >(all, all.end()));
+/*
+      std::list<PositionRef>& poss;
+      RectanglePacker packer(columns, rows);
+
+      all.sort(); //Sort from big to small
+
+      if (!packer.FindPositions(all, poss)) return false;
+
+      ClearInventory();
+      AddObjectsAt(all, poss);
+*/
+      return true;
+    }
+
+    void GridInventory::AddObjectsAt(const std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects)
+    {
+      std::list<PositionRef>::const_iterator it1 = positions.begin();
+      std::list<boost::shared_ptr<Object> >::const_iterator it2 = objects.begin();
+      for (; ((it1 != positions.end()) || (it2 != objects.end())); it1++, it2++)
+        if(!AddObjectAt(*it1, *it2)) throw PT_EX(InventoryException("Invalid position for AddObjectsAt!")); //TODO: undo possible adds?
     }
 
     bool GridInventory::AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object)
@@ -168,6 +214,10 @@ namespace Common
         if (!AddObjectAt(curposU, newo)) throw PT_EX(InventoryException("Failed to add object for unknown reason!"));
       }
       return true;
+    }
+
+    void GridInventory::GetObjects(std::list<PositionRef>& positions, std::list<boost::shared_ptr<Object> >& objects)
+    {
     }
 
     void GridInventory::ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object)

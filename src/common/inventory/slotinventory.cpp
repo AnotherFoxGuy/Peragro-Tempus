@@ -50,9 +50,18 @@ namespace Common
       slots.clear();
     }
 
-    size_t SlotInventory::GetObjectCount() const
+    void SlotInventory::AutoArrange()
     {
-      return slots.size();
+    }
+
+    bool SlotInventory::FindFreePosition(PositionRef& position, boost::shared_ptr<Object> object) const
+    {
+      return false;
+    }
+
+    bool SlotInventory::FindFreePositions(std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects) const
+    {
+      return false;
     }
 
     PositionRef SlotInventory::IdToPos(unsigned int id) const
@@ -141,6 +150,15 @@ namespace Common
       return AddObjectAt(IdToPos(id), object);
     }
 
+    bool SlotInventory::AddObjectsArrange(const std::list<boost::shared_ptr<Object> >& objects)
+    {
+      return false;
+    }
+
+    void SlotInventory::AddObjectsAt(const std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects)
+    {
+    }
+
     boost::shared_ptr<Object> SlotInventory::RemoveObjectAt(const PositionRef& position)
     {
       std::list<boost::shared_ptr<Slot> >::iterator it;
@@ -213,6 +231,10 @@ namespace Common
     bool SlotInventory::MoveObject(unsigned int curpos, unsigned int newpos, bool allowSwap)
     {
       return MoveObject(IdToPos(curpos), IdToPos(newpos), allowSwap);
+    }
+
+    void SlotInventory::GetObjects(std::list<PositionRef>& positions, std::list<boost::shared_ptr<Object> >& objects)
+    {
     }
 
     void SlotInventory::ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object)

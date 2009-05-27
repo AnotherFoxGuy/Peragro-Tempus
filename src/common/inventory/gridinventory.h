@@ -87,6 +87,24 @@ namespace Common
       virtual void ClearInventory();
 
       /**
+       * Auto arranges the inventory.
+       * @return void.
+       */
+      virtual void AutoArrange();
+
+      /**
+       * Find a free position in the inventory for the given object.
+       * @return True if a valid position was found, false otherwise.
+       */
+      virtual bool FindFreePosition(PositionRef& position, boost::shared_ptr<Object> object) const;
+
+      /**
+       * Find free positions in the inventory for the given objects.
+       * @return True if valid positions for all objects were found, false otherwise.
+       */
+      virtual bool FindFreePositions(std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects) const;
+
+      /**
        * Check if there is an object at the given position.
        * @return True if there is an object, false if the slot is empty.
        */
@@ -105,6 +123,20 @@ namespace Common
       virtual bool AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object);
 
       /**
+       * Try to add a list of objects by rearranging the contents.
+       * @return True if successful, false otherwise.
+       */
+      virtual bool AddObjectsArrange(const std::list<boost::shared_ptr<Object> >& objects);
+
+      /**
+       * Adds objects at the given positions.
+       * All the positions NEED to be valid.
+       * Use with FindFreePositions() only.
+       * @return void.
+       */
+      virtual void AddObjectsAt(const std::list<PositionRef>& position, const std::list<boost::shared_ptr<Object> >& objects);
+
+      /**
        * Remove the object at the given position.
        * @return The object if successful, 0 if an error occured.
        */
@@ -121,6 +153,12 @@ namespace Common
        * @return True if successful, false if an error occured.
        */
       virtual bool MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap=true);
+
+      /**
+       *
+       * @return void.
+       */
+      virtual void GetObjects(std::list<PositionRef>& positions, std::list<boost::shared_ptr<Object> >& objects);
 
       /**
        * This is called from the other inventory to notify this inventory
