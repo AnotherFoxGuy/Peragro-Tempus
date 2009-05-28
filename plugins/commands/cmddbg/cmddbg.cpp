@@ -166,7 +166,7 @@ std::string cmdDbg::Execute (const StringArray& args)
         itemmsg.setPosition(pos.x, pos.y, pos.z);
         network->send(&itemmsg);
       }
-      else if(args[3].compare("mount") == 0)
+      else if( (args[3].compare("mount") == 0) && (args.size() == 6) )
       {
         SpawnMountMessage mountmsg;
         mountmsg.setSpecies(ptString(args[4].c_str(), args[4].length()));
