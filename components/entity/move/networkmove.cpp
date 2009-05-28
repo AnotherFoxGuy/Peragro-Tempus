@@ -165,9 +165,12 @@ bool ComponentNetworkMove::Teleport(iEvent& ev)
   //if (dataSector)
   //  sectorName = dataSector->GetName();
 
-  //pointerlib->getReporter()->Report(PT::Debug,
-  //  "NetworkMove: Teleporting entity '%d' to %s(%d)",
-  //  entityId, sectorName.c_str(), sectorId);
+  WFMath::Point<3> pos;
+  pos = EntityHelper::GetPosition(&ev);
+
+  pointerlib->getReporter()->Report(PT::Debug,
+    "NetworkMove: Teleporting entity '%d' to %s(%4.2f,%4.2f,%4.2f)",
+    entityId, sectorName.c_str(), pos[0], pos[1], pos[2]);
 
   entity->Teleport(EntityHelper::GetPosition(&ev), rotation, sectorName);
 
@@ -186,7 +189,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
     entity->GetType() == Common::Entity::PlayerEntityType) return false;
 
 //unsigned int entityId = EntityHelper::GetEntityID(&ev);
-  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+//  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
 
   csVector3 position = VectorHelper::Convert(EntityHelper::GetVector3(&ev, "position"));
 

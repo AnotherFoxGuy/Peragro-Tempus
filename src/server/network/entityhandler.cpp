@@ -316,48 +316,38 @@ void EntityHandler::handleMoveToRequest(GenericMessage* msg)
 
 void EntityHandler::handleRelocate(GenericMessage* msg)
 {
-  /*
-  const Entity* user_ent = NetworkHelper::getEntity(msg);
-  if (!user_ent) return;
 
-  TeleportResponseMessage telemsg;
+  boost::shared_ptr<PcEntity> pcEntity = NetworkHelper::GetEntity(msg);
+  if (!pcEntity) return;
 
   Server* server = Server::getServer();
 
-  const Character* character = NetworkHelper::getCharacter(msg);
-  if (!character) return;
-
-  int race_id = character->getRace();
-  Race* race = server->getRaceManager()->findById(race_id);
-
-  if (!race) return;
-
-  const Entity* c_ent = 0;
-  if (user_ent->getPlayerEntity()->getMount())
+  boost::shared_ptr<Character> replyEnt;
+  if (pcEntity->GetMount())
   {
-    c_ent = user_ent->getPlayerEntity()->getMount()->getEntity();
+    replyEnt = pcEntity->GetMount();
   }
   else
   {
-    c_ent = user_ent;
+    replyEnt = pcEntity;
   }
-  ptScopedMonitorable<Entity> ent (c_ent);
-  unsigned int ent_id = ent->GetId();
-  ent->SetSectorName(*race->GetSector());
-  ent->SetPosition(race->GetPosition());
 
-  server->getCharacterManager()->checkForSave(user_ent->getPlayerEntity());
+//  unsigned int ent_id = ent->GetId();
+//  ent->SetSectorName(*race->GetSector());
+  WFMath::Point<3> defultPos(900.765,8.26531,12.1211); // TODO need to create a place to store rece positions. location table.
+  replyEnt->SetPosition(defultPos);
 
-  telemsg.setEntityId(ent_id);
-  unsigned short sector_id = server->GetSectorManager()->GetSectorId(race->GetSector());
-  telemsg.SetSectorId(sector_id);
-  telemsg.SetPosition(race->GetPosition());
-  telemsg.SetRotation(ent->GetRotation());
+  TeleportResponseMessage teleMsg;
+
+  teleMsg.setEntityId(replyEnt->GetId());
+//  unsigned short sector_id = server->GetSectorManager()->GetSectorId(race->GetSector());
+//  telemsg.SetSectorId(sector_id);
+  teleMsg.setPosition(defultPos);
+  teleMsg.setRotation(replyEnt->GetRotation());
 
   ByteStream bs;
-  telemsg.serialise(&bs);
-  server->broadCast(bs);
-  */
+  teleMsg.serialise(&bs);
+  NetworkHelper::localcast(bs, replyEnt);
 }
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
