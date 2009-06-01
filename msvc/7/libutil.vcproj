@@ -306,9 +306,6 @@
 				RelativePath="..\..\src\common\util\date.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\exception.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\util\ptstring.cpp">
 			</File>
 			<File
@@ -353,6 +350,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\mutex.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\util\preformattedinfo.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\printhelper.h">
