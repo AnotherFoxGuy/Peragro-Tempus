@@ -37,8 +37,7 @@
 #include "server/server.h"
 #include "server/colldet/colldet.h"
 
-#include <boost/format.hpp>
-#include "common/util/exception.h"
+#include "common/util/preformattedinfo.h"
 
 EntityManager::EntityManager()
 {
