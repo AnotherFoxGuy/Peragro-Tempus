@@ -57,18 +57,9 @@
 #define PT_DEFINE_ERRORINFO(n, t) \
   typedef PT_BOOST_ERRORINFO(n, t) BOOST_PP_CAT(n, Info)
 
-#define PT_FORMAT_INFO(f, a) \
-  ::PT::PreformattedInfo((::boost::format(f) a ).str())
-
 namespace PT
 {
   PT_DEFINE_EXCEPTION(Exception);
-  PT_DEFINE_ERRORINFO(Preformatted, std::string);
-
-  struct ExceptionInfo
-  {
-    static std::string Format(const boost::exception& ex);
-  };
 }
 
 #endif
