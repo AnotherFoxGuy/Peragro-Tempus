@@ -52,6 +52,9 @@
 #include "client/data/sector/sector.h"
 #include "client/data/sector/sectordatamanager.h"
 
+#include "client/environment/clock.h"
+#include "client/environment/environmentmanager.h"
+
 #include "cmddbg.h"
 
 using namespace PT::Command;
@@ -78,7 +81,8 @@ std::string cmdDbg::HelpUsage (const char*) const
       "  - Spawn Mount: '/dbg spawn mount speciesname entityname'\n"
       "  - Sector: '/dbg goto x y z'\n"
       "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
-      "  - Remove: '/dbg rm entity #id'";
+      "  - Remove: '/dbg rm entity #id'\n"
+      "  - Set Date: '/dbg date hh:mm [dd/mm/yyyy]'";
 }
 
 std::string cmdDbg::Execute (const StringArray& args)
@@ -392,6 +396,41 @@ std::string cmdDbg::Execute (const StringArray& args)
       }
 
       return "Data dumped to file.";
+    }
+
+  //----------------------------------------------
+
+    else if (args[2].compare("date") == 0)
+    {
+      if (args.size() < 4) throw PT_EX(IncorrectParameters());
+
+      const Environment::Clock* clock =
+        ptrlib->getEnvironmentManager()->GetClock();
+
+      Date::SplitDate newDate(clock->GetSplitDate());
+      std::stringstream ss;
+      ss << args[3];
+
+      if (args.size() > 4)
+      {
+        // Change the full date.
+        ss << " " << args[4];
+        ss >> newDate;
+      }
+      else
+      {
+        // Change only the time of day, keep the current date.
+        Date::DayTime dayTime;
+        ss >> dayTime;
+        newDate = dayTime;
+      }
+
+      Date::LongType seconds =
+        clock->GetCalendar()->ToIntegerDate(newDate).seconds;
+
+      SetDateMessage msg;
+      msg.setSeconds(seconds);
+      network->send(&msg);
     }
 
   //----------------------------------------------
