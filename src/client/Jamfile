@@ -54,6 +54,7 @@ wfmath ;
    component_viewcontrols
    component_networkmove
    component_viewbob
+   componentmesh
    soundmanager
    worldloader
    cachemanager
