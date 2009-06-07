@@ -83,7 +83,7 @@ namespace PT
       // position the Character
       SetFullPosition( PT::Events::EntityHelper::GetVector3(&ev, "position"),
         PT::Events::Helper::GetFloat(&ev, "rotation"),
-        "world" ); // TODO: "world" is a hardcoded value, needs fixing
+        "World" ); // TODO: "world" is a hardcoded value, needs fixing
 
       equipment.ClearAll();
 

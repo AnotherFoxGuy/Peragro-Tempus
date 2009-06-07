@@ -131,7 +131,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   DrUpdateMessage response_msg;
   response_msg.setRotation(requestMsg.getRotation());
-  response_msg.setPosition(requestMsg.getPosition());
+  response_msg.setPosition(pos);
 //  response_msg.SetSectorId(requestMsg.getSectorId());
   response_msg.setEntityId(replyEnt->GetId());
   ByteStream bs;

@@ -510,7 +510,7 @@ void WorldManager::MovableCallBack::MovableChanged(iMovable* movable)
     return;
   }
 
-  world->position = VectorHelper::Convert(movable->GetTransform().GetOrigin());
+  world->position = VectorHelper::Convert(movable->GetFullPosition ());
 
   world->CameraMoved();
 
