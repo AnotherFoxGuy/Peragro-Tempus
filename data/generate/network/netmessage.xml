@@ -126,6 +126,8 @@
 			<message id="9" name="SetDate" />
 			<message id="10" name="CreateChanDefault" />
 			<message id="11" name="CreateChanSpace" />
+			<message id="12" name="CreateLocation" />
+			<message id="13" name="TeleportLocation" />
 		</type>
 		<type id="12" name="Player">
 			<message id="1" name="InventoryList" />

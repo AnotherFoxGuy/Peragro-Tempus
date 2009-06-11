@@ -124,11 +124,12 @@
 	<message type="Entity" name="PickRequest">
 		<uint32>ItemEntityId</uint32>
 		<uint8>Slot</uint8>
-	</message>
+	</message> 
 
 	<message type="Entity" name="PickResponse">
-          <event name="trade.inventory.pickup" specific="None">
-		<uint32>EntityId</uint32>
+          <event name="trade.inventory.pickup" specific="None">  
+                <!-- Must match msgs_player.xml trade.inventory.list -->
+		<uint32>ItemEntityId</uint32>
 		<uint8>SlotId</uint8>
 		<string>Name</string>
 		<string>IconName</string>

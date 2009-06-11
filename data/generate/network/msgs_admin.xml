@@ -81,4 +81,12 @@
     <bool>VisMembers</bool>
   </message>
 
+  <message type="Admin" name="CreateLocation">
+    <string>Name</string>
+  </message>
+
+  <message type="Admin" name="TeleportLocation">
+    <string>Name</string>
+  </message>
+
 </message-implementation>

@@ -109,6 +109,8 @@
 		<!--message type="Admin" name="SetDate" /-->
 		<!--message type="Admin" name="CreateChanDefault" /-->
 		<!--message type="Admin" name="CreateChanSpace" /-->
+		<!--message type="Admin" name="CreateLocation" /-->
+		<!--message type="Admin" name="TeleportLocation" /-->
 
 		<message type="Player" name="InventoryList" />
 		<!--message type="Player" name="InventoryMoveItemRequest" /-->
@@ -221,6 +223,8 @@
 		<message type="Admin" name="SetDate" />
 		<message type="Admin" name="CreateChanDefault" />
 		<message type="Admin" name="CreateChanSpace" />
+		<message type="Admin" name="CreateLocation" />
+		<message type="Admin" name="TeleportLocation" />
 
 		<!--message type="Player" name="InventoryList" /-->
 		<message type="Player" name="InventoryMoveItemRequest" />
