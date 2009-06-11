@@ -197,7 +197,7 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   ev.Retrieve("rotation", rotation);
 
 //  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
-  std::string sectorName = "world";  //todo recon69 , 
+  std::string sectorName = "World";  //todo recon69 , 
 
   csRef<iObjectRegistry> obj_reg = pointerlib->getObjectRegistry();
   csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);
