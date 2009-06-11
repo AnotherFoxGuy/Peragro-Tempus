@@ -79,10 +79,12 @@ std::string cmdDbg::HelpUsage (const char*) const
       "  - Flash Step: '/dbg flashstep'\n"
       "  - Spawn Item: '/dbg spawn item #itemtemplateid'\n"
       "  - Spawn Mount: '/dbg spawn mount speciesname entityname'\n"
-      "  - Sector: '/dbg goto x y z'\n"
+      "  - Goto position: '/dbg goto x y z'\n"
       "  - Move: '/dbg move f|b|l|r|u|d [distance]'\n"
       "  - Remove: '/dbg rm entity #id'\n"
-      "  - Set Date: '/dbg date hh:mm [dd/mm/yyyy]'";
+      "  - Set Date: '/dbg date hh:mm [dd/mm/yyyy]'\n"
+      "  - Teleport: '/dbg teleport locationname'\n"
+      "  - Create Location: '/dbg teleport create locationname'\n";
 }
 
 std::string cmdDbg::Execute (const StringArray& args)
@@ -432,6 +434,32 @@ std::string cmdDbg::Execute (const StringArray& args)
       msg.setSeconds(seconds);
       network->send(&msg);
     }
+  //----------------------------------------------
+
+    else if (args[2].compare("teleport") == 0)
+    {
+
+      printf("Teleport args %i\n",args.size());
+      if (args.size() == 4 ) 
+      {
+        TeleportLocationMessage msg;
+        // teleport to location
+        msg.setName(ptString(args[3].c_str(),args[3].length()));
+        network->send(&msg);
+      } //end if create location
+ 
+      if (args.size() == 5 )
+      { 
+        if (args[3].compare("create") == 0)
+        {
+          CreateLocationMessage msg;
+          // create a location with passed name at current char position
+          msg.setName(ptString(args[4].c_str(),args[4].length()));
+          network->send(&msg);
+        } 
+      } // end if teleport location
+    } 
+
 
   //----------------------------------------------
 

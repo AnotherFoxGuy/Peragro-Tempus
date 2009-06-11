@@ -39,6 +39,7 @@ namespace po = boost::program_options;
 #include "server/entity/doorentity.h"
 #include "server/group/chatmanager.h"
 #include "server/zone/zonemanager.h"
+#include "server/zone/locationmanager.h"
 #include "server/quest/npcdialog.h"
 #include "server/quest/npcdialoganswer.h"
 #include "server/quest/npcdialogmanager.h"
@@ -373,6 +374,10 @@ void App::Run()
   ZoneManager zone_mgr;
   server->setZoneManager(&zone_mgr);
   zone_mgr.LoadFromDB();
+
+  LocationManager locationMgr;
+  server->setLocationManager(&locationMgr);
+  locationMgr.LoadFromDB();
 
   EnvironmentManager environment_mgr;
   server->setEnvironmentManager(&environment_mgr);

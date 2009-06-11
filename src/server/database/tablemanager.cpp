@@ -88,6 +88,8 @@
 #include "table-specieszones.h"
 #include "table-speciesvulnerabilities.h"
 
+// Misc stuff
+#include "table-locations.h"
 
 TableManager::TableManager(Database* db) : db(db)
 {
@@ -166,6 +168,9 @@ void TableManager::Initialize()
   Register(new SpeciesEquipmentTable(db));
   Register(new SpeciesZonesTable(db));
   Register(new SpeciesVulnerabilitiesTable(db));
+
+  // Misc stuff
+  Register(new LocationsTable(db));
 
   db->update("commit");
 }

@@ -33,7 +33,7 @@ bool InventoryListMessage::serialise(ByteStream* bs)
   serial.setInt24(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
-    serial.setInt32(inventory[i].entityid);
+    serial.setInt32(inventory[i].itementityid);
     serial.setInt8(inventory[i].slotid);
     serial.setString(inventory[i].name);
     serial.setString(inventory[i].iconname);
@@ -55,7 +55,7 @@ void InventoryListMessage::deserialise(ByteStream* bs)
   setInventoryCount(inventorycount);
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
-    inventory[i].entityid = (unsigned int) serial.getInt32();
+    inventory[i].itementityid = (unsigned int) serial.getInt32();
     inventory[i].slotid = (unsigned char) serial.getInt8();
     inventory[i].name = serial.getString();
     inventory[i].iconname = serial.getString();

@@ -40,7 +40,9 @@ namespace ADMIN
     CREATEZONE=8,
     SETDATE=9,
     CREATECHANDEFAULT=10,
-    CREATECHANSPACE=11
+    CREATECHANSPACE=11,
+    CREATELOCATION=12,
+    TELEPORTLOCATION=13
   };
 }
 
@@ -471,6 +473,48 @@ public:
 
   bool getVisMembers() const { return vismembers; }
   void setVisMembers(bool x) { vismembers = x; }
+
+};
+
+class CreateLocationMessage : public NetMessage
+{
+  ptString name;
+
+public:
+  CreateLocationMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::CREATELOCATION)
+  {
+  }
+
+  ~CreateLocationMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getName() const { return name; }
+  void setName(ptString x) { name = x; }
+
+};
+
+class TeleportLocationMessage : public NetMessage
+{
+  ptString name;
+
+public:
+  TeleportLocationMessage() : NetMessage(MESSAGES::ADMIN,ADMIN::TELEPORTLOCATION)
+  {
+  }
+
+  ~TeleportLocationMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  ptString getName() const { return name; }
+  void setName(ptString x) { name = x; }
 
 };
 

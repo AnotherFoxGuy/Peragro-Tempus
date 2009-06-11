@@ -27,6 +27,8 @@
 #include "network.h"
 #include "networkhelper.h"
 #include "server/entity/usermanager.h"
+#include "server/zone/locationmanager.h"
+
 
 void EntityHandler::handleMoveRequest(GenericMessage* msg)
 {
@@ -139,6 +141,8 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
   NetworkHelper::localcast(bs, replyEnt);
 
   replyEnt->SaveToDB();
+  if (mountEnt) charEnt->SaveToDB();
+  
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
@@ -184,7 +188,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   if (responseMsg.getError().isNull())
   {
     unsigned int slot = requestMsg.getSlot();
-    responseMsg.setEntityId(itemEnt->GetId());
+    responseMsg.setItemEntityId(itemEnt->GetId());
     responseMsg.setSlotId(slot);
 
     if (!charEnt->GetInventory()->HasObjectAt(slot))
@@ -322,6 +326,9 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
+  WFMath::Point<3> defaultPos(0);
+  defaultPos = server->getLocationManager()->GetLocation("default");
+
   boost::shared_ptr<Character> replyEnt;
   if (pcEntity->GetMount())
   {
@@ -332,17 +339,10 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
     replyEnt = pcEntity;
   }
 
-//  unsigned int ent_id = ent->GetId();
-//  ent->SetSectorName(*race->GetSector());
-  WFMath::Point<3> defultPos(900.765,8.26531,12.1211); // TODO need to create a place to store rece positions. location table.
-  replyEnt->SetPosition(defultPos);
-
   TeleportResponseMessage teleMsg;
 
   teleMsg.setEntityId(replyEnt->GetId());
-//  unsigned short sector_id = server->GetSectorManager()->GetSectorId(race->GetSector());
-//  telemsg.SetSectorId(sector_id);
-  teleMsg.setPosition(defultPos);
+  teleMsg.setPosition(defaultPos);
   teleMsg.setRotation(replyEnt->GetRotation());
 
   ByteStream bs;
@@ -352,6 +352,7 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
+  printf ("EntityHandler::handleTeleportRequest\n");
   boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
 
   if (!user) return;

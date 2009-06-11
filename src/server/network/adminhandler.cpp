@@ -20,6 +20,7 @@
 #include "networkhelper.h"
 
 #include "server/zone/zonemanager.h"
+#include "server/zone/locationmanager.h"
 #include "server/quest/npcdialogmanager.h"
 #include "server/species/speciesmanager.h"
 #include "server/entity/entitymanager.h"
@@ -307,6 +308,54 @@ void AdminHandler::handleCreateChanDefault(GenericMessage* msg)
 
 void AdminHandler::handleCreateChanSpace(GenericMessage* msg)
 {
-/* TODO */
+/* TODO */ 
 }
 
+void AdminHandler::handleCreateLocation(GenericMessage* msg)
+{
+  printf("AdminHandler::handleCreateLocation\n");
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
+  if (!charEnt) return;
+
+  CreateLocationMessage locMsg;
+  locMsg.deserialise(msg->getByteStream());
+
+  Server* server = Server::getServer();
+  server->getLocationManager()->Insert( *locMsg.getName(), charEnt->GetPosition());
+
+}
+
+void AdminHandler::handleTeleportLocation(GenericMessage* msg)
+{
+  printf("AdminHandler::handleTeleportLocation\n");
+  if (CheckAdminLevel(msg, 2) == false) return;
+
+  TeleportLocationMessage teleMsg;
+  teleMsg.deserialise(msg->getByteStream());
+
+  boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
+  if (!charEnt) return;
+
+  Server* server = Server::getServer();
+
+  WFMath::Point<3> location(0), nowhere(0);
+  location = server->getLocationManager()->GetLocation(*teleMsg.getName());
+
+  charEnt->SetPosition(location);
+  charEnt->SetRotation(charEnt->GetRotation());
+
+  if (location!=nowhere)
+  {
+    TeleportResponseMessage teleRqstMsg;
+    teleRqstMsg.setEntityId(charEnt->GetId());
+    teleRqstMsg.setPosition(location);
+    teleRqstMsg.setRotation(charEnt->GetRotation());
+
+    ByteStream bs;
+    teleRqstMsg.serialise(&bs);
+    NetworkHelper::localcast(bs, charEnt);
+    printf("teleport msg sent\n");
+  }
+}

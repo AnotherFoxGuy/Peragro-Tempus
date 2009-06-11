@@ -400,7 +400,7 @@ bool PickResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt32(entityid);
+  serial.setInt32(itementityid);
   serial.setInt8(slotid);
   serial.setString(name);
   serial.setString(iconname);
@@ -416,7 +416,7 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
+  itementityid = (unsigned int) serial.getInt32();
   slotid = (unsigned char) serial.getInt8();
   name = serial.getString();
   iconname = serial.getString();

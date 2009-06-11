@@ -137,4 +137,7 @@ CREATE TABLE SpeciesInventory ("species_id" INTEGER NOT NULL REFERENCES "Species
 CREATE TABLE SpeciesEquipment ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "equipType_id" INTEGER NOT NULL REFERENCES "EquipTypes" ("id"), "itemTemplates_id" INTEGER NOT NULL REFERENCES "ItemTemplates" ("id"), "chance" FLOAT NOT NULL, UNIQUE ("species_id", "equipType_id"));
 CREATE TABLE SpeciesZones ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "zone_id" INTEGER NOT NULL REFERENCES "Zones" ("id"), "maxPopulation" INTEGER NOT NULL, UNIQUE ("species_id", "zone_id"));
 CREATE TABLE SpeciesVulnerabilities ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "VulnerabilityTypes_id" INTEGER NOT NULL REFERENCES "AbilityTypes" ("id"), "minValue" INTEGER NOT NULL, "maxValue" INTEGER NOT NULL, UNIQUE ("species_id", "VulnerabilityTypes_id"));
+CREATE TABLE Locations ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "location" TEXT NOT NULL, UNIQUE ("id"));
+INSERT INTO "Locations" VALUES(1,'default','(900.765,8.26531,12.1211)');
+INSERT INTO "Locations" VALUES(2,'testloc1','(1021.44,14.8183,73.7772)');
 COMMIT;

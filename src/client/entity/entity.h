@@ -94,7 +94,8 @@ namespace Client
        * @param pos New position of an entity.
        * @param sector New sector where the entity should reside.
        */
-      virtual void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector) {}
+      virtual void Teleport(const WFMath::Point<3>& pos, float rotation, const std::string& sector)
+        { SetFullPosition (pos,rotation,sector); }
 
       /**
        * Method called when player wants to interact with an entity.

@@ -114,5 +114,5 @@ WFMath::Point<3> ZoneManager::GetRandomPosition(size_t zoneId)
   if (it != zones.end())
     return it->second.GetRandomPosition();
   else
-    return WFMath::Point<3>();
+    return WFMath::Point<3>(0);
 }

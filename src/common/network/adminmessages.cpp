@@ -315,3 +315,37 @@ void CreateChanSpaceMessage::deserialise(ByteStream* bs)
   vismembers = serial.getInt8() != 0;
 }
 
+bool CreateLocationMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  return serial.isValid();
+}
+
+void CreateLocationMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+}
+
+bool TeleportLocationMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setString(name);
+  return serial.isValid();
+}
+
+void TeleportLocationMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  name = serial.getString();
+}
+

@@ -671,7 +671,7 @@ public:
 
 class PickResponseMessage : public NetMessage
 {
-  unsigned int entityid;
+  unsigned int itementityid;
   unsigned char slotid;
   ptString name;
   ptString iconname;
@@ -692,8 +692,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned int getEntityId() const { return entityid; }
-  void setEntityId(unsigned int x) { entityid = x; }
+  unsigned int getItemEntityId() const { return itementityid; }
+  void setItemEntityId(unsigned int x) { itementityid = x; }
 
   unsigned char getSlotId() const { return slotid; }
   void setSlotId(unsigned char x) { slotid = x; }

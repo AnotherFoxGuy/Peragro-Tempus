@@ -202,7 +202,7 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.pickup", true);
-    pEvent->Add("entityId", pmsg.getEntityId());
+    pEvent->Add("itemEntityId", pmsg.getItemEntityId());
     pEvent->Add("slotId", pmsg.getSlotId());
     pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
     pEvent->Add("iconName", *pmsg.getIconName()?*pmsg.getIconName():"");

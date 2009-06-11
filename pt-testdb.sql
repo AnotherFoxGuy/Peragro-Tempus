@@ -23,9 +23,11 @@ CREATE TABLE EntityChannels ("entity_id" INTEGER NOT NULL REFERENCES "Entities" 
 
 
 CREATE TABLE Users ("login" TEXT NOT NULL, "passwordHash" TEXT NOT NULL, UNIQUE ("login"));
+INSERT INTO "Users" VALUES('mec','jbegood');
+
 
 CREATE TABLE Permissions ("users_login" TEXT NOT NULL REFERENCES "Users" ("login"), "type" TEXT NOT NULL, "level" INTEGER NOT NULL, UNIQUE ("users_login", "type"));
-
+INSERT INTO "Permissions" VALUES('mec','Admin',2);
 
 CREATE TABLE EntityTypes ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, UNIQUE ("id"));
 INSERT INTO "EntityTypes" VALUES(1,'PCEntityType');
@@ -252,5 +254,9 @@ CREATE TABLE SpeciesZones ("species_id" INTEGER NOT NULL REFERENCES "Species" ("
 
 CREATE TABLE SpeciesVulnerabilities ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "VulnerabilityTypes_id" INTEGER NOT NULL REFERENCES "AbilityTypes" ("id"), "minValue" INTEGER NOT NULL, "maxValue" INTEGER NOT NULL, UNIQUE ("species_id", "VulnerabilityTypes_id"));
 
+CREATE TABLE Locations ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "location" TEXT NOT NULL, UNIQUE ("id"));
+INSERT INTO "Locations" VALUES(1,'default','(900.765,8.26531,12.1211)');
+INSERT INTO "Locations" VALUES(2,'testloc1','(1021.44,14.8183,73.7772)');
+INSERT INTO "Locations" VALUES(3,'testloc2','(1021.44,14.8183,73.7772)');
 
 COMMIT;

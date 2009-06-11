@@ -54,6 +54,8 @@ public:
     else if (id == ADMIN::SETDATE) handleSetDate(msg);
     else if (id == ADMIN::CREATECHANDEFAULT) handleCreateChanDefault(msg);
     else if (id == ADMIN::CREATECHANSPACE) handleCreateChanSpace(msg);
+    else if (id == ADMIN::CREATELOCATION) handleCreateLocation(msg);
+    else if (id == ADMIN::TELEPORTLOCATION) handleTeleportLocation(msg);
   }
 
   void handleSetConfig(GenericMessage* msg);
@@ -68,6 +70,8 @@ public:
   void handleSetDate(GenericMessage* msg);
   void handleCreateChanDefault(GenericMessage* msg);
   void handleCreateChanSpace(GenericMessage* msg);
+  void handleCreateLocation(GenericMessage* msg);
+  void handleTeleportLocation(GenericMessage* msg);
 };
 
 #endif // ADMINHANDLER_H

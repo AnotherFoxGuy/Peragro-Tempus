@@ -36,6 +36,7 @@ class Spawner;
 class ByteStream;
 class CollisionDetection;
 class ZoneManager;
+class LocationManager;
 class EnvironmentManager;
 class InteractionManager;
 
@@ -70,6 +71,7 @@ private:
   Spawner* spawner;
   CollisionDetection* colldet;
   ZoneManager* zone_mgr;
+  LocationManager* locationMgr;
   EnvironmentManager* environment_mgr;
   InteractionManager* interactionMgr;
 
@@ -127,6 +129,9 @@ public:
 
   void setZoneManager(ZoneManager* zone_mgr) { this->zone_mgr = zone_mgr; }
   ZoneManager* getZoneManager() { return this->zone_mgr; }
+
+  void setLocationManager(LocationManager* locationMgr) { this->locationMgr = locationMgr; }
+  LocationManager* getLocationManager() { return this->locationMgr; }
 
   //void setSkillEngine(SkillEngine* spawner) { this->skillengine = skillengine; }
   //SkillEngine* getSkillEngine() { return this->skillengine; }
