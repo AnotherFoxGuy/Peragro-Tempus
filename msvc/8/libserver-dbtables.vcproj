@@ -657,6 +657,9 @@
 				RelativePath="..\..\src\server\database\table-jointypes.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\server\database\table-locations.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\database\table-meshes.cpp">
 			</File>
 			<File
@@ -815,6 +818,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-jointypes.h">
+			</File>
+			<File
+				RelativePath="..\..\src\server\database\table-locations.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-meshes.h">

@@ -585,12 +585,18 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\server\zone\locationmanager.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\server\zone\zonemanager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
+			<File
+				RelativePath="..\..\src\server\zone\locationmanager.h">
+			</File>
 			<File
 				RelativePath="..\..\src\server\zone\zonemanager.h">
 			</File>
