@@ -36,7 +36,7 @@ namespace PT
     Item::Item(iEvent& ev)
     {
       using namespace PT::Events;
-      entityId = Helper::GetUInt(&ev, "entityId");
+      entityId = Helper::GetUInt(&ev, "itemEntityId");
       name = Helper::GetString(&ev, "name");
       objectIcon = Helper::GetString(&ev, "iconName");
       objectDescription = Helper::GetString(&ev, "description");
