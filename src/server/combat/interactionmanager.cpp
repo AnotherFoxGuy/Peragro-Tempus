@@ -560,3 +560,4 @@ unsigned int InteractionManager::RollDice()
 {
   return rand() % 101;
 }
+

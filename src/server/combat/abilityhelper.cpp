@@ -57,3 +57,4 @@ unsigned int AbilityHelper::GetAbilityLevelForItem(boost::shared_ptr<ItemEntity>
 {
   return item->GetAbilities()->GetLevel(abilityName);
 }
+

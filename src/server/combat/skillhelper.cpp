@@ -59,3 +59,4 @@ unsigned int SkillHelper::GetSkillLevelForItem(boost::shared_ptr<ItemEntity> ite
   //return item->GetSkills()->GetLevel(skillName);
   return 0;
 }
+

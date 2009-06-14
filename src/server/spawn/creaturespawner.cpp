@@ -63,3 +63,4 @@ void CreatureSpawner::timeOut()
   }
   mutex.unlock();
 }
+

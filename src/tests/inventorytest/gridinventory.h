@@ -84,3 +84,4 @@ void TestGridInventory()
   // Remove the callback.
   inv->RemoveInventoryCallBack(&cb);
 }
+

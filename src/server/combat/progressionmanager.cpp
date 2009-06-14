@@ -122,3 +122,4 @@ unsigned int ProgressionManager::GetPenalty(boost::shared_ptr<Character> charact
 {
   return 0;
 }
+

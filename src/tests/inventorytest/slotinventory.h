@@ -165,3 +165,4 @@ void TestSlotInventory()
   invRef->RemoveInventoryCallBack(&cb);
   invId->RemoveInventoryCallBack(&cb);
 }
+

@@ -78,3 +78,4 @@ WeaponHelper::Types WeaponHelper::GetTypes(boost::shared_ptr<ItemEntity> item)
 
   return types;
 }
+
