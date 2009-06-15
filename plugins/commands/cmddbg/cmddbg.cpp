@@ -439,7 +439,7 @@ std::string cmdDbg::Execute (const StringArray& args)
     else if (args[2].compare("teleport") == 0)
     {
 
-      printf("Teleport args %i\n",args.size());
+      printf("Teleport args %Zu\n",args.size());
       if (args.size() == 4 ) 
       {
         TeleportLocationMessage msg;
