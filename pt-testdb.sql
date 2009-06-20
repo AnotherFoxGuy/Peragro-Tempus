@@ -23,11 +23,8 @@ CREATE TABLE EntityChannels ("entity_id" INTEGER NOT NULL REFERENCES "Entities" 
 
 
 CREATE TABLE Users ("login" TEXT NOT NULL, "passwordHash" TEXT NOT NULL, UNIQUE ("login"));
-INSERT INTO "Users" VALUES('mec','jbegood');
-
 
 CREATE TABLE Permissions ("users_login" TEXT NOT NULL REFERENCES "Users" ("login"), "type" TEXT NOT NULL, "level" INTEGER NOT NULL, UNIQUE ("users_login", "type"));
-INSERT INTO "Permissions" VALUES('mec','Admin',2);
 
 CREATE TABLE EntityTypes ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, UNIQUE ("id"));
 INSERT INTO "EntityTypes" VALUES(1,'PCEntityType');
@@ -193,32 +190,9 @@ CREATE TABLE NpcDialogAnswers ("entity_id" INTEGER NOT NULL REFERENCES "Entities
 CREATE TABLE SpawnPoints ("id" INTEGER NOT NULL, "ItemTemplate_id" INTEGER NOT NULL REFERENCES "ItemTemplates" ("id"), "position" TEXT NOT NULL, "interval" INTEGER NOT NULL, UNIQUE ("id"));
 CREATE TABLE Books ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "name" TEXT NOT NULL, "text" TEXT NOT NULL, UNIQUE ("entity_id"));
 CREATE TABLE Meshes ("id" INTEGER NOT NULL, "revision" INTEGER NOT NULL, "factoryName" TEXT NOT NULL, "fileName" TEXT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Meshes" VALUES(1,1,'test','/peragro/art/3d_art/characters/male01/male01');
-INSERT INTO "Meshes" VALUES(2,1,'apple','/peragro/art/3d_art/props/others/apple01/apple.xml');
-INSERT INTO "Meshes" VALUES(3,1,'book','/peragro/art/3d_art/props/books/book01/book.xml');
-INSERT INTO "Meshes" VALUES(4,1,'genbastardsword01','/peragro/art/3d_art/props/weapons/swords/bastardsword01/library');
---INSERT INTO "Meshes" VALUES(5,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
---INSERT INTO "Meshes" VALUES(6,1,'helmet','/peragro/art/armor/helmets/bogus.xml');
---INSERT INTO "Meshes" VALUES(7,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "Meshes" VALUES(8,1,'buckler1','/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml');
-INSERT INTO "Meshes" VALUES(9,1,'genscythe001','/peragro/art/3d_art/props/others/scythes/scythe001/library.xml');
-INSERT INTO "Meshes" VALUES(10,1,'Stuff001_smallplate_64_plates','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "Meshes" VALUES(11,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "Meshes" VALUES(12,1,'horse','/peragro/art/3d_art/animals/horse/horse.xml');
+
 
 CREATE TABLE ItemTemplates ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "iconFile" TEXT NOT NULL, "description" TEXT NOT NULL, "equipType_id" INTEGER NOT NULL REFERENCES "EquipTypes" ("id"), "SkillTypes_id" INTEGER NOT NULL REFERENCES "SkillTypes" ("id"), UNIQUE ("id"));
-INSERT INTO "ItemTemplates" VALUES(1, 'Apple', 2, 'set:Inventory image:apple', 'An tasty looking apple.', 1, 0);
-INSERT INTO "ItemTemplates" VALUES(2, 'Book', 3, 'set:Inventory image:oldbook', 'An old book.', 1, 0 );
-INSERT INTO "ItemTemplates" VALUES(3, 'Daedalian Claymore', 4, 'set:Inventory image:fancyclaymore', 'A masterful sword for those born out of wedlock.', 1, 1);
---INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 5, 'set:Inventory image:DragonEdgeSword', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
---INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '6', 'set:Helmet image:Helmet', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
---INSERT INTO "ItemTemplates" VALUES(6, 'Key', 7, 'set:Inventory image:Key01', 'A small gold key.', 1, 0);
-INSERT INTO "ItemTemplates" VALUES(7, 'Prima Buckler', 8, 'set:Inventory image:primabuckler', 'A small buckler style shield.', 1, 0)
-INSERT INTO "ItemTemplates" VALUES(8, 'Scythe', 9, '/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
-INSERT INTO "ItemTemplates" VALUES(9, 'Small Plate', 10, 'set:Inventory image:smallplate', 'A small plate.', 1, 0)
-INSERT INTO "ItemTemplates" VALUES(10, 'Tiny Ballpot', 11, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
-
-
 
 CREATE TABLE Config ("name" TEXT NOT NULL, "value" TEXT NOT NULL, UNIQUE ("name"));
 INSERT INTO "Config" VALUES('port','12345');
@@ -256,7 +230,103 @@ CREATE TABLE SpeciesVulnerabilities ("species_id" INTEGER NOT NULL REFERENCES "S
 
 CREATE TABLE Locations ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "location" TEXT NOT NULL, UNIQUE ("id"));
 INSERT INTO "Locations" VALUES(1,'default','(900.765,8.26531,12.1211)');
-INSERT INTO "Locations" VALUES(2,'testloc1','(1021.44,14.8183,73.7772)');
-INSERT INTO "Locations" VALUES(3,'testloc2','(1021.44,14.8183,73.7772)');
+INSERT INTO "Locations" VALUES(2,'relocate','(900.765,8.26531,12.1211)');
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Game Start Settings
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- Locations of interest 
+INSERT INTO "Locations" VALUES(3,'smithy','(906.177,6.45269,56.4562)');
+
+
+-- Charater Meshes 
+INSERT INTO "Meshes" VALUES(1,1,'test','/peragro/art/3d_art/characters/male01/male01');
+--INSERT INTO "Meshes" VALUES(13,1,'female01','/peragro/art/3d_art/characters/female01/female01');
+
+-- Mount Meshes
+INSERT INTO "Meshes" VALUES(12,1,'horse','/peragro/art/3d_art/animals/horse/horse.xml');
+
+-- Item Meshes and Templates
+
+-- Apple
+INSERT INTO "Meshes" VALUES(2,1,'apple','/peragro/art/3d_art/props/others/apple01/apple.xml');
+INSERT INTO "ItemTemplates" VALUES(1, 'Apple', 2, 'set:Inventory image:apple', 'An tasty looking apple.', 1, 0);
+
+-- Book
+INSERT INTO "Meshes" VALUES(3,1,'book','/peragro/art/3d_art/props/books/book01/book.xml');
+INSERT INTO "ItemTemplates" VALUES(2, 'Book', 3, 'set:Inventory image:oldbook', 'An old book.', 1, 0 );
+
+-- Daedalian Claymore
+INSERT INTO "Meshes" VALUES(4,1,'genbastardsword01','/peragro/art/3d_art/props/weapons/swords/bastardsword01/library');
+INSERT INTO "ItemTemplates" VALUES(3, 'Daedalian Claymore', 4, 'set:Inventory image:fancyclaymore', 'A masterful sword for those born out of wedlock.', 1, 1);
+
+-- Flaming Dragon Edge Sword
+--INSERT INTO "Meshes" VALUES(5,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
+--INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 5, 'set:Inventory image:DragonEdgeSword', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
+
+
+-- Mighty Helmet of the Holy Monkey
+--INSERT INTO "Meshes" VALUES(6,1,'helmet','/peragro/art/armor/helmets/bogus.xml');
+--INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '6', 'set:Helmet image:Helmet', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
+
+-- Key
+--INSERT INTO "Meshes" VALUES(7,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
+--INSERT INTO "ItemTemplates" VALUES(6, 'Key', 7, 'set:Inventory image:Key01', 'A small gold key.', 1, 0);
+
+-- Prima Buckler
+INSERT INTO "Meshes" VALUES(8,1,'buckler1','/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml');
+INSERT INTO "ItemTemplates" VALUES(7, 'Prima Buckler', 8, 'set:Inventory image:primabuckler', 'A small buckler style shield.', 1, 0)
+
+-- Scythe
+INSERT INTO "Meshes" VALUES(9,1,'genscythe001','/peragro/art/3d_art/props/others/scythes/scythe001/library.xml');
+INSERT INTO "ItemTemplates" VALUES(8, 'Scythe', 9, '/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
+
+-- Small Plate
+INSERT INTO "Meshes" VALUES(10,1,'Stuff001_smallplate_64_plates','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
+INSERT INTO "ItemTemplates" VALUES(9, 'Small Plate', 10, 'set:Inventory image:smallplate', 'A small plate.', 1, 0)
+
+-- Tiny Ballpot
+INSERT INTO "Meshes" VALUES(11,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
+INSERT INTO "ItemTemplates" VALUES(10, 'Tiny Ballpot', 11, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
+
+
+
+-- My account stuff
+INSERT INTO "Users" VALUES('mec','123456');
+INSERT INTO "Permissions" VALUES('mec','Admin',2);
+
+-- My character stuff
+INSERT INTO "Characters" VALUES(1,'recon',1,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
+INSERT INTO "Abilities" VALUES(1,2,10.0);
+INSERT INTO "Abilities" VALUES(1,3,10.0);
+INSERT INTO "Abilities" VALUES(1,5,10.0);
+INSERT INTO "Resources" VALUES(1,1,1.0);
+INSERT INTO "Resources" VALUES(1,2,10.0);
+INSERT INTO "Resources" VALUES(1,3,10.0);
+
+INSERT INTO "PcEntities" VALUES(1,'mec');
+INSERT INTO "EntityPositions" VALUES(1,'(900.765,8.29213,12.1211)','(0,3.51598,0)');
+
+
+-- Add 'Ilmarine' blacksmith NPC 
+INSERT INTO "Characters" VALUES(2,'Ilmarine',1,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
+INSERT INTO "Abilities" VALUES(2,2,10.0);
+INSERT INTO "Abilities" VALUES(2,3,10.0);
+INSERT INTO "Abilities" VALUES(2,5,10.0);
+INSERT INTO "Resources" VALUES(2,1,1.0);
+INSERT INTO "Resources" VALUES(2,2,10.0);
+INSERT INTO "Resources" VALUES(2,3,10.0);
+
+INSERT INTO "Entities" VALUES(2,2);
+INSERT INTO "EntityPositions" VALUES(2,'(908.005,6.65221,48.0815)','(0,0.861332,0)');
+INSERT INTO "NPCEntities" VALUES(2,'idle');
+
+-- A mount called 'silver'
+INSERT INTO "Characters" VALUES(3,'Silver',12,'(0,0,0)','(0,0,0)','(0,0,0)',2,0.0);
+INSERT INTO "Entities" VALUES(3,5);
+INSERT INTO "EntityPositions" VALUES(3,'(898.258,6.21756,60.9568)','(0,2.72429,0)');
+
+
 
 COMMIT;
