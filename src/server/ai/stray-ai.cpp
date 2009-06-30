@@ -35,10 +35,10 @@
 
 void StrayAI::LoadFromDB()
 {
+  /*
   NpcAiSettingTable* table =
     Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
 
-  /*
   // load settings
   int id = npc->GetId();
 
@@ -67,8 +67,10 @@ void StrayAI::LoadFromDB()
 
 void StrayAI::SaveToDB()
 {
+  /*
   NpcAiSettingTable* table =
     Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+  */
 }
 
 void StrayAI::timeOut()
