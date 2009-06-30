@@ -327,9 +327,6 @@
 				RelativePath="..\..\src\server\network\questhandler.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\network\skillhandler.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\server\network\tradehandler.cpp">
 			</File>
 			<File
@@ -374,9 +371,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\questhandler.h">
-			</File>
-			<File
-				RelativePath="..\..\src\server\network\skillhandler.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\network\tradehandler.h">
