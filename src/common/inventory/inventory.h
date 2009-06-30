@@ -49,6 +49,7 @@ namespace Common
     {
       virtual void ObjectAdded(boost::shared_ptr<Object>, const PositionRef&) = 0;
       virtual void ObjectRemoved(boost::shared_ptr<Object>, const PositionRef&) = 0;
+      virtual ~InventoryCallBack() {};
     };
 
     /*
