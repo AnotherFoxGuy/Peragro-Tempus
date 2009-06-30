@@ -26,7 +26,6 @@
 #include "server/network/userhandler.h"
 #include "server/network/doorhandler.h"
 #include "server/network/questhandler.h"
-#include "server/network/skillhandler.h"
 #include "server/network/tradehandler.h"
 #include "server/network/entityhandler.h"
 #include "server/network/chathandler.h"
@@ -44,7 +43,6 @@ private:
   ChatHandler chat_handler;
   DoorHandler door_handler;
   QuestHandler quest_handler;
-  SkillHandler skill_handler;
   TradeHandler trade_handler;
   EnvironmentHandler environment_handler;
   BookHandler book_handler;
@@ -68,7 +66,6 @@ public:
     tcp_nw.registerHandler(&chat_handler);
     tcp_nw.registerHandler(&door_handler);
     tcp_nw.registerHandler(&quest_handler);
-    tcp_nw.registerHandler(&skill_handler);
     tcp_nw.registerHandler(&trade_handler);
     tcp_nw.registerHandler(&environment_handler);
     tcp_nw.registerHandler(&book_handler);
