@@ -603,6 +603,13 @@
 				RelativePath="..\..\msvc\common\appperagro_static_staticuse.cpp">
 			</File>
 		</Filter>
+		<Filter
+			Name="Resource Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\libperagro_static_plugins.rc">
+			</File>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
