@@ -74,20 +74,23 @@ namespace PT
         }
         else
         {
-          // Connect to selected server
-          ConnectRequestMessage msg(CLIENTVERSION);
-          network->setServerAddress(serverWindow->GetServerHost(),
-            serverWindow->GetServerPort());
-          if (! network->init())
+          if (!network->isRunning())
           {
-            //unable to etablish tcp connection
-            GUIWindow::EnableWindow();
-            serverWindow->EnableWindow();
-            OkDialogWindow* dialog = new OkDialogWindow(guimanager);
-            dialog->SetText("Unable to connect to server!");
-            return true;
+            // Connect to selected server
+            ConnectRequestMessage msg(CLIENTVERSION);
+            network->setServerAddress(serverWindow->GetServerHost(),
+              serverWindow->GetServerPort());
+            if (! network->init())
+            {
+              //unable to etablish tcp connection
+              GUIWindow::EnableWindow();
+              serverWindow->EnableWindow();
+              OkDialogWindow* dialog = new OkDialogWindow(guimanager);
+              dialog->SetText("Unable to connect to server!");
+              return true;
+            }
+            network->send(&msg);
           }
-          network->send(&msg);
         }
         if (login.length() > 255)
         {
