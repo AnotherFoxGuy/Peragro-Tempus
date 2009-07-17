@@ -80,12 +80,24 @@ if test "x$want_boost" = "xyes"; then
     dnl this location ist chosen if boost libraries are installed with the --layout=system option
     dnl or if you install boost with RPM
     if test "$ac_boost_path" != ""; then
-        BOOST_LDFLAGS="-L$ac_boost_path/lib"
+        for ac_boost_lib_dir_tmp in lib64 lib lib32 ; do
+            ac_boost_lib_path_tmp="$ac_boost_path/$ac_boost_lib_dir_tmp"
+            if test -d "$ac_boost_lib_path_tmp" && test -r "$ac_boost_lib_path_tmp"; then
+                BOOST_LDFLAGS="-L$ac_boost_lib_path_tmp"
+                break;
+            fi
+        done
         BOOST_CPPFLAGS="-I$ac_boost_path/include"
     else
         for ac_boost_path_tmp in /usr /usr/local /opt /opt/local ; do
             if test -d "$ac_boost_path_tmp/include/boost" && test -r "$ac_boost_path_tmp/include/boost"; then
-                BOOST_LDFLAGS="-L$ac_boost_path_tmp/lib"
+                for ac_boost_lib_dir_tmp in lib64 lib lib32 ; do
+                    ac_boost_lib_path_tmp="$ac_boost_path_tmp/$ac_boost_lib_dir_tmp"
+                    if test -d "$ac_boost_lib_path_tmp" && test -r "$ac_boost_lib_path_tmp"; then
+                        BOOST_LDFLAGS="-L$ac_boost_lib_path_tmp"
+                        break;
+                    fi
+                done
                 BOOST_CPPFLAGS="-I$ac_boost_path_tmp/include"
                 break;
             fi
