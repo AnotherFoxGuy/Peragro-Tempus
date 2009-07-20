@@ -155,6 +155,7 @@ namespace PT
         script = skeleton->Execute (animationName);
         if (script) script->SetLoop (loop);
       }
+    if (!script) printf("Error Playing Animation Script:%s\n", animationName);
     }
 
     void CharacterEntity::PlayAnimationAniMesh(const char* animationName, float blend_factor,

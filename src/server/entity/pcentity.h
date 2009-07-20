@@ -54,7 +54,7 @@ public:
   PcEntity() : Character(Common::Entity::PCEntityType), user(0)
   {
     tradepeer.setEntity(this);
-    dialog_state.setCharacter(this);
+    dialog_state.SetCharacter(this);
 
     pose_id = 0;
 

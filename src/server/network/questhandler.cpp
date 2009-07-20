@@ -34,89 +34,75 @@
 #include "server/database/table-npcdialoganswers.h"
 #include "server/database/table-npcentities.h"
 #include "server/database/table-characters.h"
+#include "common/entity/entity.h"
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
-  /*
-  const Character* c_char = NetworkHelper::getCharacter(msg);
-  if (!c_char) return;
+  
+  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity (msg);
+  if (!pcEnt) return;
 
-  ptScopedMonitorable<Character> character (c_char);
-
-  NPCDialogState* dia_state = character->getNPCDialogState();
+  NPCDialogState* diaState = pcEnt->getNPCDialogState();
 
   NpcDialogAnswerMessage message;
   message.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  const NPCDialog* dialog = dia_state->giveAnswer(message.getDialogId(), message.getAnswerId());
+  const NPCDialog* dialog = diaState->GiveAnswer(message.getDialogId(), message.getAnswerId());
+
+  boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
+  npcEnt->Pause(false);
 
   if (dialog == 0)
   {
-    ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
-    npc_entity->pause(false);
-
     NpcEndDialogMessage endmsg;
-    endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+    endmsg.setNpcId(diaState->GetNpc()->GetId());
     ByteStream bs;
     endmsg.serialise(&bs);
-    server->broadCast(bs);
-
+    NetworkHelper::sendMessage(pcEnt, bs);
     return;
   }
 
-  if (dialog->getAction() == NPCDialog::SHOW_TEXT)
+  if (dialog->GetAction() == NPCDialog::SHOW_TEXT)
   {
-    QuestUtils::SendDialog(character, dialog);
+    QuestUtils::SendDialog(pcEnt.get(), dialog);
   }
-  else if (dialog->getAction() == NPCDialog::START_BUY)
+  else if (dialog->GetAction() == NPCDialog::START_BUY)
   {
-    const NpcEntity* c_npc = dia_state->getNpc();
-    if (c_npc)
+    boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
+    if (npcEnt)
     {
       // hardcoded! just to test it!
       // All this should go to the trade handler anyway!
       TradeOffersListNpcMessage trade_msg;
       trade_msg.setIsBuy(1);
-      trade_msg.setOffersCount(4);
+      trade_msg.setOffersCount(1);
 
-      trade_msg.setItemId(0, 4);
-      trade_msg.setName(0, ptString("Pot", 3));
-      trade_msg.setIconName(0, ptString("set:Inventory image:tinyballpot", 31));
+      unsigned int itemId = 7; // Prima Buckler in the test_db
+      boost::shared_ptr<ItemTemplate> itemTemplate = server->GetItemTemplatesManager()
+      ->Get(itemId);
+
+      trade_msg.setItemId(0, itemId );
+      trade_msg.setName(0, ptString(itemTemplate->name.c_str(),strlen(itemTemplate->name.c_str())));
+      trade_msg.setIconName(0, ptString(itemTemplate->iconFile.c_str() ,strlen(itemTemplate->iconFile.c_str())));
       trade_msg.setPrice(0, 200);
-
-      trade_msg.setItemId(1, 3);
-      trade_msg.setName(1, ptString("Scythe", 6));
-      trade_msg.setIconName(1, ptString("set:Inventory image:Scythe", 26));
-      trade_msg.setPrice(1, 100);
-
-      trade_msg.setItemId(2, 6); //empty book
-      trade_msg.setName(2, ptString("Empty book", 10));
-      trade_msg.setIconName(2, ptString("set:Inventory image:oldbook", 27));
-      trade_msg.setPrice(2, 10);
-
-      trade_msg.setItemId(3, 7); //gate key
-      trade_msg.setName(3, ptString("Gate key", 8));
-      trade_msg.setIconName(3, ptString("set:Inventory image:key01", 25));
-      trade_msg.setPrice(3, 300);
-
+      
       ByteStream bs;
       trade_msg.serialise(&bs);
-
-      NetworkHelper::sendMessage(character, bs);
+      NetworkHelper::sendMessage(pcEnt, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+      endmsg.setNpcId(diaState->GetNpc()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
-      server->broadCast(bs2);
+      NetworkHelper::sendMessage(pcEnt, bs2);
     }
   }
-  else if (dialog->getAction() == NPCDialog::START_SELL)
+  else if (dialog->GetAction() == NPCDialog::START_SELL)
   {
-    const NpcEntity* c_npc = dia_state->getNpc();
-    if (c_npc)
+    boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
+    if (npcEnt)
     {
       // hardcoded! just to test it!
       // All this should go to the trade handler anyway!
@@ -136,17 +122,17 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
       ByteStream bs;
       trade_msg.serialise(&bs);
-
-      NetworkHelper::sendMessage(character, bs);
+      NetworkHelper::sendMessage(pcEnt, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+      endmsg.setNpcId(diaState->GetNpc()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
-      server->broadCast(bs2);
+      NetworkHelper::sendMessage(pcEnt, bs2);
     }
   }
-  else if (dialog->getAction() == NPCDialog::TELEPORT)
+/*
+  else if (dialog->GetAction() == NPCDialog::TELEPORT)
   {
     // yes, it's a hack. This shouldn't go here either.
     // sector_id <0.5, 0.6, 0.8>
@@ -180,29 +166,32 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   {
     QuestUtils::Parse(character, dialog->getText());
   } // end ABILITYCHECK
-  */
+ */
 }
 
 void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 {
-  /*
-  const Character* c_char = NetworkHelper::getCharacter(msg);
-  if (!c_char) return;
+  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity (msg);
+  if (!pcEnt) return;
 
-  ptScopedMonitorable<Character> character (c_char);
-
-  NPCDialogState* dia_state = character->getNPCDialogState();
+  NPCDialogState* diaState = pcEnt->getNPCDialogState();
 
   NpcStartDialogMessage message;
   message.deserialise(msg->getByteStream());
 
   Server* server = Server::getServer();
 
-  unsigned int npc_id = message.getNpcId();
-  const Entity* npc_ent = server->getEntityManager()->findById(npc_id);
+  unsigned int npcId = message.getNpcId();
+  printf("handleNpcStartDialog::Get NPC ID:%i\n", npcId);
+  // @TODO this is a crash point, the dialogs cause a invalid pointer here. 
+  Common::Entity::Entityp ent = server->getEntityManager()->FindById(npcId);
+  if (!ent) { return; }
 
-  if (!npc_ent || npc_ent->GetType() != Common::Entity::NPCEntityType)
+  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent); 
+  if (!npcEnt)
     return;
+
+
 
   // TODO: NPC will be unpaused when its done with the chat.
   // However, the player might press the "X" before the chat is over
@@ -214,25 +203,23 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   // Or is it impossible for someone else to start a chat with the NPC
   // before we press the "X" this could be really bad too since then a player
   // could hold up an NPC forever - need a time out for that then.
-  ptScopedMonitorable<NpcEntity> npc_entity (npc_ent->getNpcEntity());
-  npc_entity->pause(true);
+  npcEnt->GetAI()->Pause(true);
 
-  dia_state->setNpc(npc_entity);
-  const NPCDialog* dialog = dia_state->startDialog(npc_id);
+  diaState->SetNpc(npcEnt.get());
+  const NPCDialog* dialog = diaState->StartDialog(npcId);
 
   if (!dialog)
   {
     return;
   }
 
-  if (dialog->getAction() == NPCDialog::SHOW_TEXT)
+  if (dialog->GetAction() == NPCDialog::SHOW_TEXT)
   {
-    QuestUtils::SendDialog(character, dialog);
+    QuestUtils::SendDialog(pcEnt.get(), dialog);
   }
-  else if (dialog->getAction() == NPCDialog::START_BUY)
+  else if (dialog->GetAction() == NPCDialog::START_BUY)
   {
-    const NpcEntity* c_npc = dia_state->getNpc();
-    if (c_npc)
+    if (npcEnt)
     {
       // hardcoded! just to test it!
       // All this should go to the trade handler anyway!
@@ -263,18 +250,19 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
       ByteStream bs;
       trade_msg.serialise(&bs);
 
-      NetworkHelper::sendMessage(character, bs);
+      NetworkHelper::sendMessage(pcEnt, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+      endmsg.setNpcId(diaState->GetNpc()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
-      server->broadCast(bs2);
+      NetworkHelper::sendMessage(pcEnt,bs2);
+
     }
   }
-  else if (dialog->getAction() == NPCDialog::START_SELL)
+  else if (dialog->GetAction() == NPCDialog::START_SELL)
   {
-    const NpcEntity* c_npc = dia_state->getNpc();
+    const NpcEntity* c_npc = diaState->GetNpc();
     if (c_npc)
     {
       // hardcoded! just to test it!
@@ -296,70 +284,79 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
       ByteStream bs;
       trade_msg.serialise(&bs);
 
-      NetworkHelper::sendMessage(character, bs);
+      NetworkHelper::sendMessage(pcEnt, bs);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+      endmsg.setNpcId(diaState->GetNpc()->GetId());
       ByteStream bs2;
       endmsg.serialise(&bs2);
-      server->broadCast(bs2);
+      NetworkHelper::sendMessage(pcEnt,bs2);
     }
   }
-  else if (dialog->getAction() == NPCDialog::TELEPORT)
+  else if (dialog->GetAction() == NPCDialog::TELEPORT)
   {
     // yes, it's a hack. This shouldn't go here either.
     // sector_id <0.5, 0.6, 0.8>
     unsigned short sector = 0;
     float x = 0, y = 0, z = 0;
-    sscanf(dialog->getText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
+ //   sscanf(dialog->GetText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-    ptScopedMonitorable<Entity> ent (character->getEntity());
-    ent->SetSector(sector);
-    ent->SetPosition(x, y, z);
+//    ptScopedMonitorable<Entity> ent (pcEnt->getEntity());
+//    ent->SetSector(sector);
+    pcEnt->SetPosition(x, y, z);
 
-    server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+//    server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
     TeleportResponseMessage telemsg;
-    telemsg.setEntityId(ent->GetId());
-    telemsg.SetPosition(ent->GetPosition());
-    telemsg.SetRotation(ent->GetRotation());
-    telemsg.SetSectorId(ent->GetSector());
+    telemsg.setEntityId(pcEnt->GetId());
+    telemsg.setPosition(pcEnt->GetPosition());
+    telemsg.setRotation(pcEnt->GetRotation());
+//    telemsg.setSectorId(pcEnt->GetSector());
 
     ByteStream bs;
     telemsg.serialise(&bs);
-    server->broadCast(bs);
+//    server->broadCast(bs);
 
     NpcEndDialogMessage endmsg;
-    endmsg.setNpcId(dia_state->getNpc()->getEntity()->GetId());
+    endmsg.setNpcId(diaState->GetNpc()->GetId());
     ByteStream bs2;
     endmsg.serialise(&bs2);
-    server->broadCast(bs2);
+//    server->BroadCast(bs2);
+    NetworkHelper::sendMessage(pcEnt,bs2);
   }
-  else if (dialog->getAction() == NPCDialog::FUNCTION)
+  else if (dialog->GetAction() == NPCDialog::FUNCTION)
   {
-    QuestUtils::Parse(character, dialog->getText());
+    QuestUtils::Parse(pcEnt.get(), dialog->GetText());
   }
-  */
+
 }
 
 void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 {
-  /*
-  const Character* c_char = NetworkHelper::getCharacter(msg);
-  if (!c_char) return;
 
-  ptScopedMonitorable<Character> character (c_char);
-
-  NPCDialogState* dia_state = character->getNPCDialogState();
+  boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity (msg);
+  if (!pcEnt) return;
+  
+  NPCDialogState* diaState = pcEnt->getNPCDialogState();
 
   NpcEndDialogMessage message;
   message.deserialise(msg->getByteStream());
 
-  dia_state->endDialog(message.getNpcId(),0);
-  ptScopedMonitorable<NpcEntity> npc_entity (dia_state->getNpc());
-  printf("Unpausing npc\n");
-  npc_entity->pause(false);
-  */
+  diaState->EndDialog(message.getNpcId(),0);
+
+  Server* server = Server::getServer();
+
+  unsigned int npcId = message.getNpcId();
+
+  Common::Entity::Entityp ent = server->getEntityManager()->FindById(npcId);
+  if (!ent) return;
+
+  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent); 
+  if (!npcEnt)
+    return;
+
+  npcEnt->Pause(false);
+ 
 }
 
 void QuestHandler::handleSetupDialogs(GenericMessage* msg)

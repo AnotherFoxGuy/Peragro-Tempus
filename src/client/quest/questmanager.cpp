@@ -65,7 +65,7 @@ namespace PT
       npcWindow->AddDialog(dialogId, dialogText);
 
       csRef<iEvent> list;
-      if (ev.Retrieve("answersList", list) == csEventErrNone)
+     if (ev.Retrieve("answersList", list) == csEventErrNone)
       {
         csRef<iEventAttributeIterator> answers = list->GetAttributeIterator();
         while (answers->HasNext())
@@ -77,7 +77,7 @@ namespace PT
         } // end while
       }
       else
-        Report(PT::Error, "PlayerInventory failed to get inventory list!");
+        Report(PT::Error, "PlayerInventory failed to get dialog answer list!");
 
       return true;
     } // end NPCDialog()

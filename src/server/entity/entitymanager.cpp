@@ -62,7 +62,7 @@ void EntityManager::LoadFromDB(EntityTable* table)
     Entityp entity = CreateNew((Common::Entity::EntityType)(*it)->EntityTypes_id, (*it)->id);
     entity->LoadFromDB();
     Add(entity);
-    printf("NAME %d %s\n", entity->GetId(), entity->GetName().c_str());
+    printf("Loading Entity %d %s\n", entity->GetId(), entity->GetName().c_str());
   }
 }
 

@@ -81,7 +81,7 @@ void StrayAI::timeOut()
 void StrayAI::think()
 {
   // Busy trading, chatting or something else
-  if (isPaused())
+  if (IsPaused())
   {
     return;
   }

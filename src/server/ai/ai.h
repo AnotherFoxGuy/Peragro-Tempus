@@ -45,8 +45,8 @@ public:
 
   const std::string& GetName() { return name; }
 
-  void pause(bool pause) { paused = pause; }
-  bool isPaused(void) { return paused; }
+  void Pause(bool pause) { paused = pause; }
+  bool IsPaused(void) { return paused; }
 
   static AI* createAI(const std::string& ai_name, boost::shared_ptr<NpcEntity> npc);
 

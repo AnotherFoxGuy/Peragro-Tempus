@@ -44,7 +44,7 @@ void NpcEntity::LoadFromDB()
   else
   {
     ai->LoadFromDB();
-    setAI(ai);
+    SetAI(ai);
   }
 }
 

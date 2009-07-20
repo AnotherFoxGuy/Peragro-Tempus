@@ -60,28 +60,27 @@ namespace PT
       {
         btn = winMgr->getWindow("NpcDialog/Answers");
 
-        if (((CEGUI::Listbox*)btn)->getSelectedCount() == 0)
+        if (((CEGUI::MultiColumnList*)btn)->getSelectedCount() == 0)
           return true;
 
         CEGUI::ListboxItem* answerItem =
-          ((CEGUI::Listbox*)btn)->getFirstSelectedItem();
+          ((CEGUI::MultiColumnList*)btn)->getFirstSelectedItem();
 
         if (!answerItem->isSelected()) return true;
 
-        uint answer_id = answerItem->getID();
+        int answerId = atoi(answerItem->getText().c_str());
 
         Report(PT::Debug, "NpcDialogWindow: Answered dialog %d with answer %d.",
-          dialogId, answer_id);
+          dialogId, answerId);
 
-        if (answer_id == 0xff)
+        if (answerId == 0xff)
         {
           GUIWindow::HideWindow();
           return true;
         }
-
         NpcDialogAnswerMessage answer_msg;
         answer_msg.setDialogId(dialogId);
-        answer_msg.setAnswerId(answer_id);
+        answer_msg.setAnswerId(answerId);
         network->send(&answer_msg);
 
         return true;
@@ -91,7 +90,7 @@ namespace PT
       {
         // Clear the previous answers.
         btn = winMgr->getWindow("NpcDialog/Answers");
-        ((CEGUI::Listbox*)btn)->resetList();
+        ((CEGUI::MultiColumnList*)btn)->resetList();
       } // end ClearAnswers()
 
       void NpcDialogWindow::SetName(const std::string& name)
@@ -120,18 +119,27 @@ namespace PT
 
       void NpcDialogWindow::AddAnswer(unsigned int number, const std::string& answer)
       {
-        if (newDialog)
-        {
-          ClearAnswers();
-          newDialog = false;
-        }
-
         btn = winMgr->getWindow("NpcDialog/Answers");
-        CEGUI::ListboxItem* answerItem =
-          new CEGUI::ListboxTextItem(answer.c_str(), number);
+        char answerIdstr[10];
+        snprintf(answerIdstr, 10, "%d", number);
+        CEGUI::ListboxItem* answerIdItem = new CEGUI::ListboxTextItem(answerIdstr);
+        CEGUI::ListboxItem* answerItem = new CEGUI::ListboxTextItem(answer);
 
-        ((CEGUI::Listbox*)btn)->addItem(answerItem);
+        answerIdItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
+          (CEGUI::utf8*)"TextSelectionBrush");
+        answerItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
+          (CEGUI::utf8*)"TextSelectionBrush");
+
+        unsigned int row = ((CEGUI::MultiColumnList*)btn)->addRow();
+        ((CEGUI::MultiColumnList*)btn)->setItem(answerIdItem, 0, row);
+        ((CEGUI::MultiColumnList*)btn)->setItem(answerItem, 1, row);
+        ((CEGUI::MultiColumnList*)btn)->
+          setSelectionMode(CEGUI::MultiColumnList::RowSingle);
+//        SelectFirstAnswer();
+        ShowWindow();
       } // end AddAnswer()
+
+
 
       bool NpcDialogWindow::Create()
       {
@@ -152,15 +160,35 @@ namespace PT
         frame->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
           CEGUI::Event::Subscriber(&NpcDialogWindow::OnCloseButton, this));
 
-        // Get the frame window
-        CEGUI::Listbox* answers = static_cast<CEGUI::Listbox*>
-          (winMgr->getWindow("NpcDialog/Answers"));
-        answers->setMultiselectEnabled(false);
-        answers->subscribeEvent(CEGUI::Listbox::EventSelectionChanged,
+        btn = winMgr->getWindow("NpcDialog/Answers");
+        btn->subscribeEvent(CEGUI::MultiColumnList::EventSelectionChanged,
           CEGUI::Event::Subscriber(&NpcDialogWindow::OnAnswer, this));
-
+        CEGUI::String str_id("Id");
+        CEGUI::String str_name("Answer");
+        ((CEGUI::MultiColumnList*)btn)->
+          addColumn(str_id,0,CEGUI::UDim(0.05f,0));
+        ((CEGUI::MultiColumnList*)btn)->
+          addColumn(str_name,1,CEGUI::UDim(0.95f,0));
+        ((CEGUI::MultiColumnList*)btn)->
+          setSelectionMode(CEGUI::MultiColumnList::RowSingle);
         return true;
       } // end ReloadWindow()
+
+      void NpcDialogWindow::SelectFirstAnswer()
+      {
+        btn = winMgr->getWindow("NpcDialog/Answers");
+
+        CEGUI::MCLGridRef ref(0,0);
+
+        ((CEGUI::MultiColumnList*)btn)->setItemSelectState(ref ,true);
+      } // end SelectFirstAnswer()
+
+      void NpcDialogWindow::ShowWindow()
+      {
+        btn = winMgr->getWindow("NpcDialog/Frame");
+        btn->setVisible(true);
+        btn->activate();
+      }
 
     } // Windows namespace
   } // GUI namespace

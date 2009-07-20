@@ -93,9 +93,14 @@ namespace Common
       Iterator it;
       it = entities.find(id);
       if (it != entities.end())
+      {
+//         printf("found common Ent(%i)%s\n", it->second->GetId(), it->second->GetName().c_str());
          return it->second;
+      }
       else
+      {
         return Entityp();
+      }
     }
 
     Entityp EntityManager::FindByName(const std::string& name)

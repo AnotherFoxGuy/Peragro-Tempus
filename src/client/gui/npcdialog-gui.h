@@ -48,6 +48,8 @@ namespace PT
         void SetName(const std::string& name);
         void AddDialog(unsigned int dialogId, const std::string& dialog);
         void AddAnswer(unsigned int number, const std::string& answer);
+        void SelectFirstAnswer();
+        void ShowWindow();
       };
 
     } // Windows namespace

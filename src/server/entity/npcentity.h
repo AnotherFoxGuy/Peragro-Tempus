@@ -51,10 +51,10 @@ public:
     delete ai;
   }
 
-  void setAI(AI* ai) { this->ai = ai; }
-  AI* getAI() { return ai; }
+  void SetAI(AI* ai) { this->ai = ai; }
+  AI* GetAI() { return ai; }
 
-  void pause(bool pause) { if (ai) ai->pause(pause); }
+  void Pause(bool pause) { if (ai) ai->Pause(pause); }
 
   virtual void LoadFromDB();
   virtual void SaveToDB();

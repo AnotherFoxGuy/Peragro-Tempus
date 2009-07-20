@@ -36,24 +36,24 @@ private:
 public:
   NPCDialogState() {}
 
-  void setCharacter(Character* character);
+  void SetCharacter(Character* character);
 
   /**
    *Start a dialog between the player and an NPC.
    *@param npc_id Which NPC to start the dialog with
    */
-  const NPCDialog* startDialog(unsigned int npc_id, unsigned int dialog_id = 0);
+  const NPCDialog* StartDialog(unsigned int npc_id, unsigned int dialog_id = 1);
   /**
    *End a dialog between the player and an NPC.
    *@param npc_id ID of the NPC which the dialog is with.
    *@param dialog_id ID of the dialog you are on.
    */
-  void endDialog(unsigned int npc_id, unsigned int dialog_id);
+  void EndDialog(unsigned int npc_id, unsigned int dialog_id);
 
-  const NPCDialog* giveAnswer(unsigned int dialog_id, unsigned int answer_number);
+  const NPCDialog* GiveAnswer(unsigned int dialog_id, unsigned int answer_number);
 
-  void setNpc(NpcEntity* npc);
-  NpcEntity* getNpc() { return npc; }
+  void SetNpc(NpcEntity* npc);
+  NpcEntity* GetNpc() { return npc; }
 };
 
 #endif // NPC_DIALOG_STATE_H

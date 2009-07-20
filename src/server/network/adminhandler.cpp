@@ -39,7 +39,6 @@
 #include "server/database/table-defaultchannels.h"
 #include "server/database/table-meshes.h"
 #include "server/database/table-species.h"
-//#include "server/database/table-itemtemplates.h"
 
 #include "server/spawn/spawner.h"
 
@@ -313,7 +312,6 @@ void AdminHandler::handleCreateChanSpace(GenericMessage* msg)
 
 void AdminHandler::handleCreateLocation(GenericMessage* msg)
 {
-  printf("AdminHandler::handleCreateLocation\n");
   if (CheckAdminLevel(msg, 2) == false) return;
 
   boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity(msg);
@@ -329,7 +327,6 @@ void AdminHandler::handleCreateLocation(GenericMessage* msg)
 
 void AdminHandler::handleTeleportLocation(GenericMessage* msg)
 {
-  printf("AdminHandler::handleTeleportLocation\n");
   if (CheckAdminLevel(msg, 2) == false) return;
 
   TeleportLocationMessage teleMsg;
@@ -356,6 +353,5 @@ void AdminHandler::handleTeleportLocation(GenericMessage* msg)
     ByteStream bs;
     teleRqstMsg.serialise(&bs);
     NetworkHelper::localcast(bs, charEnt);
-    printf("teleport msg sent\n");
   }
 }

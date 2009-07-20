@@ -88,8 +88,9 @@ namespace PT
       static unsigned int GetUInt(const iEvent* event, const char* name)
       {
         unsigned int i = 0;
-        if (event->Retrieve(name, i) != csEventErrNone)
+        if (event->Retrieve(name, i) != csEventErrNone) 
           Report(PT::Error, "Helper::GetUInt '%s' failed!", name);
+
         return i;
       }
 
@@ -147,7 +148,7 @@ namespace PT
       {
         bool flg = false;
         if (event->Retrieve(name, flg) != csEventErrNone)
-          Report(PT::Error, "Helper::GetString '%s' failed!", name);
+          Report(PT::Error, "Helper::GetBool '%s' failed!", name);
 
         return flg;
       }

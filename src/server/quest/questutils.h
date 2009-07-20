@@ -141,14 +141,15 @@ namespace QuestUtils
     // The npc has nothing more to say, let him walk away.
     if (!dialog->GetAnswerCount())
     {
-      NpcEntity* npc_entity = dia_state->getNpc();
-      npc_entity->pause(false);
+      NpcEntity* npc_entity = dia_state->GetNpc();
+      npc_entity->Pause(false);
 
       NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(dia_state->getNpc()->GetId());
+      endmsg.setNpcId(dia_state->GetNpc()->GetId());
       ByteStream bs;
       endmsg.serialise(&bs);
-      NetworkHelper::broadcast(bs);
+      //NetworkHelper::broadcast(bs);
+      NetworkHelper::sendMessage(character, bs);
     }
 
     for (size_t i = 0; i < dialog->GetAnswerCount(); i++)
@@ -409,7 +410,7 @@ namespace QuestUtils
 
       unsigned int id = Parse(character, args[0]);
       NPCDialogState* dia_state = player->getNPCDialogState();
-      const NPCDialog* dialog = dia_state->startDialog(dia_state->getNpc()->GetId(), id);
+      const NPCDialog* dialog = dia_state->StartDialog(dia_state->GetNpc()->GetId(), id);
 
       if (dialog->GetAction() == NPCDialog::SHOW_TEXT)
       {
@@ -417,10 +418,11 @@ namespace QuestUtils
       }
       else if (dialog->GetAction() == NPCDialog::START_BUY)
       {
-        const NpcEntity* c_npc = dia_state->getNpc();
+        printf("questutils.h:(dialog->GetAction() == NPCDialog::START_BUY\n");
+        const NpcEntity* c_npc = dia_state->GetNpc();
         if (c_npc)
         {
-          // hardcoded! just to test it!
+/*          // hardcoded! just to test it!
           // All this should go to the trade handler anyway!
           TradeOffersListNpcMessage trade_msg;
           trade_msg.setIsBuy(1);
@@ -452,15 +454,17 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->GetId());
+          endmsg.setNpcId(dia_state->GetNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           NetworkHelper::broadcast(bs2);
+*/
         }
       }
       else if (dialog->GetAction() == NPCDialog::START_SELL)
       {
-        const NpcEntity* c_npc = dia_state->getNpc();
+        printf("(dialog->GetAction() == NPCDialog::START_SELL)\n");
+        const NpcEntity* c_npc = dia_state->GetNpc();
         if (c_npc)
         {
           // hardcoded! just to test it!
@@ -485,7 +489,7 @@ namespace QuestUtils
           NetworkHelper::sendMessage(character, bs);
 
           NpcEndDialogMessage endmsg;
-          endmsg.setNpcId(dia_state->getNpc()->GetId());
+          endmsg.setNpcId(dia_state->GetNpc()->GetId());
           ByteStream bs2;
           endmsg.serialise(&bs2);
           NetworkHelper::broadcast(bs2);
@@ -516,7 +520,7 @@ namespace QuestUtils
         Server::getServer()->broadCast(bs);
 
         NpcEndDialogMessage endmsg;
-        endmsg.setNpcId(dia_state->getNpc()->GetId());
+        endmsg.setNpcId(dia_state->GetNpc()->GetId());
         ByteStream bs2;
         endmsg.serialise(&bs2);
         Server::getServer()->broadCast(bs2);

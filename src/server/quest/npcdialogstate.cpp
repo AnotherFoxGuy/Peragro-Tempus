@@ -24,23 +24,23 @@
 #include "server/entity/character/character.h"
 #include "server/entity/npcentity.h"
 
-void NPCDialogState::setCharacter(Character* character)
+void NPCDialogState::SetCharacter(Character* character)
 {
   this->character = character;
 }
 
-const NPCDialog* NPCDialogState::startDialog(unsigned int npc_id, unsigned int dialog_id)
+const NPCDialog* NPCDialogState::StartDialog(unsigned int npc_id, unsigned int dialog_id)
 {
-  current_dialog = NPCDialogManager::getDialogManager().GetDialog(npc_id, dialog_id); // Start-dialogs are always 0
+  current_dialog = NPCDialogManager::getDialogManager().GetDialog(npc_id, dialog_id); // Start-dialogs are always 1
   if (!current_dialog)
   {
     current_dialog = 0;
-    printf("Dialog not found! (npc_id=%u, dialog id=0)\n",npc_id);
+    printf("Dialog not found! (npc_id=%u, dialog id=%u)\n", npc_id, dialog_id);
   }
   return current_dialog;
 }
 
-void NPCDialogState::endDialog(unsigned int npc_id, unsigned int dialog_id)
+void NPCDialogState::EndDialog(unsigned int npc_id, unsigned int dialog_id)
 {
   if (current_dialog != 0 && npc_id == current_dialog->GetNpcId() && dialog_id == current_dialog->GetDialogId())
   {
@@ -48,7 +48,7 @@ void NPCDialogState::endDialog(unsigned int npc_id, unsigned int dialog_id)
   }
 }
 
-const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int answer_number)
+const NPCDialog* NPCDialogState::GiveAnswer(unsigned int dialog_id, unsigned int answer_number)
 {
   if (current_dialog == 0 || dialog_id != current_dialog->GetDialogId()) return 0;
 
@@ -63,7 +63,7 @@ const NPCDialog* NPCDialogState::giveAnswer(unsigned int dialog_id, unsigned int
   return answer->GetNextDialog();
 }
 
-void NPCDialogState::setNpc(NpcEntity* npc)
+void NPCDialogState::SetNpc(NpcEntity* npc)
 {
   this->npc = npc;
 }
