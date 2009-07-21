@@ -65,6 +65,13 @@ public:
     str_cache = s;
   }
 
+  inline ptString& operator=(const ptString& other)
+  {
+    string_id = other.string_id;
+    str_cache = other.str_cache;
+    return *this;
+  }
+
   static ptString create(const std::string& str);
 
   inline const char* operator*() const

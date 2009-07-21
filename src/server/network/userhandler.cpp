@@ -132,18 +132,33 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
 
-  boost::shared_ptr<PcEntity> pc = server->GetSpeciesManager()->CreatePCFromSpecies(1); //Human
-  if (!pc) return;
-  pc->SetName(*char_name);
-  pc->SetUser(user.get());
-  pc->SaveToDB();
+  ptString error(ptString::Null);
+  Common::Entity::Entity::IdType pcId = Common::Entity::Entity::NoEntity;
+  try
+  {
+    boost::shared_ptr<PcEntity> pc =
+      server->GetSpeciesManager()->CreatePCFromSpecies(1); //Human
+    pc->SetName(*char_name);
+    pc->SetUser(user.get());
+    pc->SaveToDB();
 
-  //TODO: set colours.
+    pcId = pc->GetId();
+
+    //TODO: set colours.
+
+  }
+  catch (std::exception& ex)
+  {
+    std::cout << "Failed to create character" << std::endl <<
+      boost::diagnostic_information(ex);
+
+    error = ex.what();
+  }
 
   // Send response message
   CharCreateResponseMessage response_msg;
-  response_msg.setError(ptString::Null);
-  response_msg.setCharId(pc->GetId());
+  response_msg.setError(error);
+  response_msg.setCharId(pcId);
   response_msg.setName(char_name);
   response_msg.setHairColour(haircolour);
   response_msg.setSkinColour(skincolour);
