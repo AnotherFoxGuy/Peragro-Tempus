@@ -123,13 +123,13 @@ CREATE TABLE NpcDialogAnswers ("entity_id" INTEGER NOT NULL REFERENCES "Entities
 CREATE TABLE SpawnPoints ("id" INTEGER NOT NULL, "ItemTemplate_id" INTEGER NOT NULL REFERENCES "ItemTemplates" ("id"), "position" TEXT NOT NULL, "interval" INTEGER NOT NULL, UNIQUE ("id"));
 CREATE TABLE Books ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "name" TEXT NOT NULL, "text" TEXT NOT NULL, UNIQUE ("entity_id"));
 CREATE TABLE Meshes ("id" INTEGER NOT NULL, "revision" INTEGER NOT NULL, "factoryName" TEXT NOT NULL, "fileName" TEXT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Meshes" VALUES(1,1,'test','/peragro/art/3d_art/characters/male01/male01');
+INSERT INTO "Meshes" VALUES(101,1,'test','/peragro/art/3d_art/characters/male01/male01');
 CREATE TABLE Config ("name" TEXT NOT NULL, "value" TEXT NOT NULL, UNIQUE ("name"));
 INSERT INTO "Config" VALUES('port','12345');
 CREATE TABLE Zones ("id" INTEGER NOT NULL, "type" TEXT NOT NULL, UNIQUE ("id"));
 CREATE TABLE ZoneNodes ("zone_id" INTEGER NOT NULL REFERENCES "Zones" ("id"), "coordinate" TEXT NOT NULL, UNIQUE ("zone_id", "coordinate"));
 CREATE TABLE Species ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "maxAge" FLOAT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Species" VALUES(1,'Human',1,60.0);
+INSERT INTO "Species" VALUES(1,'Human',101,60.0);
 CREATE TABLE SpeciesAbilities ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "AbilityTypes_id" INTEGER NOT NULL REFERENCES "AbilityTypes" ("id"), "minXP" FLOAT NOT NULL, "maxXP" FLOAT NOT NULL, UNIQUE ("species_id", "AbilityTypes_id"));
 CREATE TABLE SpeciesSkills ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "SkillTypes_id" INTEGER NOT NULL REFERENCES "SkillTypes" ("id"), "minXP" FLOAT NOT NULL, "maxXP" FLOAT NOT NULL, UNIQUE ("species_id", "SkillTypes_id"));
 CREATE TABLE SpeciesReputations ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "ReputationTypes_id" INTEGER NOT NULL REFERENCES "ReputationTypes" ("id"), "minLevel" INTEGER NOT NULL, "maxLevel" INTEGER NOT NULL, UNIQUE ("species_id", "ReputationTypes_id"));

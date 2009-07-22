@@ -203,8 +203,8 @@ CREATE TABLE ZoneNodes ("zone_id" INTEGER NOT NULL REFERENCES "Zones" ("id"), "c
 
 
 CREATE TABLE Species ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "maxAge" FLOAT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Species" VALUES(1,'Human',1,60.0);
-INSERT INTO "Species" VALUES(2,'Horse',12,60.0);
+INSERT INTO "Species" VALUES(1,'Human',101,60.0);
+INSERT INTO "Species" VALUES(2,'Horse',201,60.0);
 
 CREATE TABLE SpeciesAbilities ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "AbilityTypes_id" INTEGER NOT NULL REFERENCES "AbilityTypes" ("id"), "minXP" FLOAT NOT NULL, "maxXP" FLOAT NOT NULL, UNIQUE ("species_id", "AbilityTypes_id"));
 

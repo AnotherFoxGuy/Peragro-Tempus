@@ -31,7 +31,7 @@ SpeciesTable::SpeciesTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
-    Insert(1, "Human", 1, 60.0f);
+    Insert(1, "Human", 101, 60.0f);
   }
   delete rs;
 }
