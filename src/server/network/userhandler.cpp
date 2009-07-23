@@ -18,6 +18,8 @@
 
 #include "server/entity/character/character.h"
 
+#include "common/util/diagnosticinformation.h"
+
 #include "network.h"
 #include "networkhelper.h"
 
@@ -150,7 +152,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   catch (std::exception& ex)
   {
     std::cout << "Failed to create character" << std::endl <<
-      boost::diagnostic_information(ex);
+      PT::DiagnosticInformation(ex);
 
     error = ex.what();
   }
