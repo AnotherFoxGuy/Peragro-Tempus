@@ -331,6 +331,9 @@
 				RelativePath="..\..\src\common\util\date.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\diagnosticinformation.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\exception.h">
 			</File>
 			<File
