@@ -51,7 +51,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 
   const NPCDialog* dialog = diaState->GiveAnswer(message.getDialogId(), message.getAnswerId());
 
-  boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
+  NpcEntity* npcEnt= diaState->GetNpc();
   npcEnt->Pause(false);
 
   if (dialog == 0)
@@ -70,7 +70,6 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   }
   else if (dialog->GetAction() == NPCDialog::START_BUY)
   {
-    boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
     if (npcEnt)
     {
       // hardcoded! just to test it!
@@ -79,7 +78,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.setIsBuy(1);
       trade_msg.setOffersCount(1);
 
-      unsigned int itemId = 7; // Prima Buckler in the test_db
+      unsigned int itemId = 1007; // Prima Buckler in the test_db
       boost::shared_ptr<ItemTemplate> itemTemplate = server->GetItemTemplatesManager()
       ->Get(itemId);
 
@@ -101,7 +100,6 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   }
   else if (dialog->GetAction() == NPCDialog::START_SELL)
   {
-    boost::shared_ptr<NpcEntity> npcEnt (diaState->GetNpc());
     if (npcEnt)
     {
       // hardcoded! just to test it!
@@ -110,12 +108,12 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.setIsBuy(0);
       trade_msg.setOffersCount(2);
 
-      trade_msg.setItemId(0, 4);
+      trade_msg.setItemId(0, 1004);
       trade_msg.setName(0, ptString("Pot", 3));
       trade_msg.setIconName(0, ptString("set:Inventory image:tinyballpot", 31));
       trade_msg.setPrice(0, 175);
 
-      trade_msg.setItemId(1, 3);
+      trade_msg.setItemId(1, 1003);
       trade_msg.setName(1, ptString("Scythe", 6));
       trade_msg.setIconName(1, ptString("set:Inventory image:Scythe", 26));
       trade_msg.setPrice(1,  75);
