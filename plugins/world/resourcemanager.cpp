@@ -200,6 +200,8 @@ void ResourceManager::ScanFactories(const std::string& path)
     else
       if (1 /*EndsWith(path, ".xml")*/)
       {
+        if (EndsWith(path, "~")) // Ignore gedit temporary files;
+          continue;
         std::vector<Common::World::Factory> facts = FindMeshFacts(path);
         //printf("%s (%d)\n", path.c_str(), facts.size());
         std::vector<Common::World::Factory>::iterator it;
@@ -358,7 +360,7 @@ void ResourceManager::ScanObjects(const std::string& path)
       std::string file = path.substr(p+1, path.length());
 
       csString csfile = file.c_str();
-      if (csfile.StartsWith("tile-"))
+      if (csfile.StartsWith("tile-") && !(EndsWith(file, "~"))) // Ignore gedit temporary files;
       {
         std::vector<Object> objs = FindMeshObjects(path);
         std::vector<Object>::iterator it;
