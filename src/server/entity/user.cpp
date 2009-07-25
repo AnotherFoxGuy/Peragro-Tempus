@@ -96,7 +96,6 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setAnimationName(door->GetAnimationName());
     msg.setMeshName(door->GetMeshName());
     msg.setFileName(door->GetFileName());
-    //msg.SetSectorId(entity->GetSector());
     msg.setEntityName(entity->GetName());
     msg.serialise(&bs);
   }
@@ -106,7 +105,6 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setEntityId(entity->GetId());
     msg.setPosition(entity->GetPosition());
     msg.setRotation(entity->GetRotation());
-    //msg.SetSectorId(entity->GetSector());
 
     msg.setEntityName(entity->GetName());
     msg.setMeshName(entity->GetMeshName());
@@ -123,15 +121,17 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setFileName(entity->GetFileName());
     msg.setPosition(entity->GetPosition());
     msg.setRotation(entity->GetRotation());
-    //msg.SetSectorId(entity->GetSector());
-    //msg.setPoseId(entity->GetPoseId());
+    msg.setPoseId(0); // TODO
 
     boost::shared_ptr<Character> c =
       boost::shared_polymorphic_downcast<Character>(entity);
 
-    //msg.setDecalColour(c->GetDecalColour());
-    //msg.setHairColour(c->GetHairColour());
-    //msg.setSkinColour(c->GetSkinColour());
+    WFMath::Vector<3> decalColour(c->GetDecalColour());
+    msg.setDecalColour(decalColour[0], decalColour[1], decalColour[2]);
+    WFMath::Vector<3> hairColour(c->GetHairColour());
+    msg.setHairColour(hairColour[0], hairColour[1], hairColour[2]);
+    WFMath::Vector<3> skinColour(c->GetSkinColour());
+    msg.setSkinColour(skinColour[0], skinColour[1], skinColour[2]);
     boost::shared_ptr<Equipment> eq = c->GetEquipment();
     eq->AddEquipment<AddPlayerEntityMessage>(msg);
     msg.serialise(&bs);
@@ -146,15 +146,11 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setFileName(entity->GetFileName());
     msg.setPosition(entity->GetPosition());
     msg.setRotation(entity->GetRotation());
-    //msg.SetSectorId(entity->GetSector());
-    //msg.setPoseId(entity->GetPoseId());
+    msg.setPoseId(0); // TODO
 
     boost::shared_ptr<Character> c =
       boost::shared_polymorphic_downcast<Character>(entity);
 
-    //msg.setDecalColour(c->GetDecalColour());
-    //msg.setHairColour(c->GetHairColour());
-    //msg.setSkinColour(c->GetSkinColour());
     boost::shared_ptr<Equipment> eq = c->GetEquipment();
     eq->AddEquipment<AddNpcEntityMessage>(msg);
     msg.serialise(&bs);
@@ -168,7 +164,6 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setFileName(entity->GetFileName());
     msg.setPosition(entity->GetPosition());
     msg.setRotation(entity->GetRotation());
-    //msg.SetSectorId(entity->GetSector());
     msg.serialise(&bs);
   }
   else
