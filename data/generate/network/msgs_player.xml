@@ -1,36 +1,36 @@
 <message-implementation>
 
-	<message type="Player" name="InventoryList">
-          <event name="trade.inventory.list" specific="None">
-		<uint32>InventoryId</uint32>
-		<list name="Inventory">
-                        <!-- Must match msgs_entity.xml trade.inventory.pickup -->
-			<uint32>ItemEntityId</uint32>
-			<uint8>SlotId</uint8>
-			<string>Name</string>
-			<string>IconName</string>
-			<string>Description</string>
-			<float>Weight</float>
-			<string>EquipType</string>
-		</list>
-          </event>
-        </message>
+  <message type="Player" name="InventoryList">
+    <event name="trade.inventory.list" specific="None">
+      <uint32>InventoryId</uint32>
+      <list name="Inventory">
+        <!-- Must match msgs_entity.xml trade.inventory.pickup -->
+        <uint32>ItemEntityId</uint32>
+        <uint8>SlotId</uint8>
+        <string>Name</string>
+        <string>IconName</string>
+        <string>Description</string>
+        <float>Weight</float>
+        <string>EquipType</string>
+      </list>
+    </event>
+  </message>
 
-	<message type="Player" name="InventoryMoveItemRequest">
-		<uint8>OldSlot</uint8>
-		<uint32>OldInventoryId</uint32>
-		<uint8>NewSlot</uint8>
-		<uint32>NewInventoryId</uint32>
-	</message>
+  <message type="Player" name="InventoryMoveItemRequest">
+    <uint8>OldSlot</uint8>
+    <uint32>OldInventoryId</uint32>
+    <uint8>NewSlot</uint8>
+    <uint32>NewInventoryId</uint32>
+  </message>
 
-	<message type="Player" name="InventoryMoveItem">
-          <event name="trade.inventory.move" specific="None">
-		<uint8>OldSlot</uint8>
-		<uint32>OldInventoryId</uint32>
-		<uint8>NewSlot</uint8>
-		<uint32>NewInventoryId</uint32>
-		<string>Error</string> <!-- null if successful -->
-          </event>
-	</message>
+  <message type="Player" name="InventoryMoveItem">
+    <event name="trade.inventory.move" specific="None">
+      <uint8>OldSlot</uint8>
+      <uint32>OldInventoryId</uint32>
+      <uint8>NewSlot</uint8>
+      <uint32>NewInventoryId</uint32>
+      <string>Error</string> <!-- null if successful -->
+    </event>
+  </message>
 
 </message-implementation>

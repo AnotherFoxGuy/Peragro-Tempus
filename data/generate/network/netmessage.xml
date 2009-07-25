@@ -1,181 +1,181 @@
 <pt-gen plugin="network">
-	<peers>
-		<peer name="Client" src="peer_client.xml" />
-		<peer name="Server" src="peer_server.xml" />
-		<peer name="Auth" src="peer_auth.xml" />
-		<!-- peer name="NPCServer" src="peer_npcserver.xml" / -->
-		<!-- peer name="admin tools" / -->
-		<!-- peer name="other tools" / -->
-	</peers>
-	<message-definitions>
-		<type id="0" name="Connection">
-			<message id="0" name="Request" />
-			<message id="1" name="Response" />
-			<message id="2" name="Ping" />
-			<message id="3" name="Pong" />
-		</type>
-		<type id="1" name="User">
-			<message id="0" name="LoginRequest" />
-			<message id="1" name="LoginResponse" />
-			<message id="2" name="RegisterRequest" />
-			<message id="3" name="RegisterResponse" />
-			<message id="4" name="CharList" />
-			<message id="5" name="CharCreateRequest" />
-			<message id="6" name="CharCreateResponse" />
-			<message id="7" name="CharSelectRequest" />
-			<message id="8" name="CharSelectResponse" />
-			<message id="9" name="MeshListRequest" />
-			<message id="10" name="MeshListResponse" />
-		</type>
-		<type id="2" name="Entity">
-			<message id="0" name="AddNpcEntity" />
-			<message id="1" name="AddItemEntity" />
-			<message id="2" name="AddDoorEntity" />
-			<message id="3" name="AddPlayerEntity" />
-			<message id="4" name="AddMountEntity" />
-			<message id="5" name="RemoveEntity" />
-			<message id="6" name="Move" />
-			<message id="7" name="MoveRequest" />
-			<message id="8" name="MoveTo" />
-			<message id="9" name="MoveToRequest" />
-			<message id="10" name="PickRequest" />
-			<message id="11" name="PickResponse" />
-			<message id="12" name="DropRequest" />
-			<message id="13" name="DropResponse" />
-			<message id="14" name="Equip" />
-			<message id="15" name="Relocate" />
-			<message id="16" name="TeleportRequest" />
-			<message id="17" name="TeleportResponse" />
-			<message id="18" name="DrUpdateRequest" />
-			<message id="19" name="DrUpdate" />
-			<message id="20" name="MountRequest" />
-			<message id="21" name="Mount" />
-			<message id="22" name="UnmountRequest" />
-			<message id="23" name="Unmount" />
-			<message id="24" name="PoseRequest" />
-			<message id="25" name="Pose" />
-		</type>
-		<type id="3" name="Chat">
-			<message id="0" name="Chat" />
-			<!--message id="1" name="Shout" /-->
-			<message id="2" name="WhisperTo" />
-			<!--message id="3" name="WhisperFrom" /-->
-			<message id="4" name="Group" />
-			<!--message id="4" name="Party" /-->
-			<!--message id="5" name="Guild" /-->
-			<!--message id="6" name="Family" /-->
-		</type>
-		<type id="4" name="Skill">
-			<message id="0" name="SkillList" />
-			<message id="1" name="SkillUpdate" />
-		</type>
-                <type id="5" name="Resource">
-			<message id="0" name="ResourceList" />
-			<message id="1" name="ResourceUpdate" />
-		</type>
-		<type id="6" name="Door">
-			<message id="0" name="OpenDoorRequest" />
-			<message id="1" name="OpenDoorResponse" />
-			<message id="2" name="CloseDoorRequest" />
-			<message id="3" name="CloseDoorResponse" />
-			<message id="4" name="LockDoorRequest" />
-			<message id="5" name="LockDoorResponse" />
-			<message id="6" name="UnlockDoorRequest" />
-			<message id="7" name="UnlockDoorResponse" />
-		</type>
-		<type id="7" name="Quest">
-			<message id="0" name="NpcDialog" />
-			<message id="1" name="NpcDialogAnswer" />
-			<message id="2" name="NpcStartDialog" />
-			<message id="3" name="NpcEndDialog" />
-			<message id="4" name="SetupDialogs" />
-		</type>
-		<type id="8" name="Trade">
-			<message id="0" name="ExchangeRequest" />
-			<message id="1" name="ExchangeResponse" />
-			<message id="2" name="TradeOffersListNpc" />
-			<message id="3" name="ExchangeOffersList" />
-			<message id="4" name="TradeOrderListNpc" />
-			<message id="5" name="TradeCancel" />
-			<message id="6" name="TradeOfferAccept" />
-			<message id="7" name="TradeConfirmRequest" />
-			<message id="8" name="TradeConfirmResponse" />
-		</type>
-		<type id="9" name="Environment">
-			<message id="0" name="InitTime" />
-			<message id="1" name="UpdateTime" />
-			<message id="2" name="Weather" />
-		</type>
-		<type id="10" name="Book">
-			<message id="0" name="BookReadRequest" />
-			<message id="1" name="BookReadResponse" />
-			<message id="2" name="BookWriteRequest" />
-			<message id="3" name="BookWriteResponse" />
-		</type>
-		<type id="11" name="Admin">
-			<message id="0" name="SetConfig" />
-			<message id="1" name="CreateMesh" />
-			<!-- <message id="3" name="CreateNpc" /> -->
-			<message id="2" name="CreateSpawnPoint" />
-			<message id="3" name="SpawnItem" />
-			<message id="4" name="SpawnMount" />
-			<message id="5" name="SpawnDoor" />
-			<message id="6" name="RemoveSpawnedEntity" />
-			<message id="7" name="ToggleFlashStep" />
-			<message id="8" name="CreateZone" />
-			<message id="9" name="SetDate" />
-			<message id="10" name="CreateChanDefault" />
-			<message id="11" name="CreateChanSpace" />
-			<message id="12" name="CreateLocation" />
-			<message id="13" name="TeleportLocation" />
-		</type>
-		<type id="12" name="Player">
-			<message id="1" name="InventoryList" />
-			<message id="2" name="InventoryMoveItemRequest" />
-			<message id="3" name="InventoryMoveItem" />
-		</type>
-		<type id="13" name="Combat">
-			<message id="0" name="AttackRequest" />
-			<message id="1" name="AttackNotification" />
-			<message id="2" name="Death" />
-			<message id="3" name="SelectTarget" />
-		</type>
-		<type id="14" name="Auth">
-			<message id="0" name="ClientLoginRequest" />
-			<message id="1" name="ClientLoginChallenge" />
-			<message id="2" name="ClientLoginResponse" />
-			<message id="3" name="ServerLoginRequest" />
-			<message id="4" name="ServerLoginChallenge" />
-			<message id="5" name="ServerLoginResponse" />
-			<message id="6" name="JoinServerRequest" />
-			<message id="7" name="SessionId" />
-			<message id="8" name="ClientJoined" />
-			<message id="9" name="ClientLeft" />
-			<message id="10" name="RegisterGameRequest" />
-			<message id="11" name="RegisterServerRequest" />
-			<message id="12" name="RegisterServerResponse" />
-			<message id="13" name="RegisterGameResponse" />
-			<message id="14" name="ServerList" />
-			<message id="15" name="ServerListAdd" />
-			<message id="16" name="ServerListRemove" />
-			<message id="17" name="ServerListUpdate" />
-		</type>
-	</message-definitions>
-	<message-implementations>
-		<message-implementation src="msgs_connection.xml" />
-		<message-implementation src="msgs_user.xml" />
-		<message-implementation src="msgs_entity.xml" />
-		<message-implementation src="msgs_chat.xml" />
-		<message-implementation src="msgs_skill.xml" />
-                <message-implementation src="msgs_resource.xml" />
-		<message-implementation src="msgs_door.xml" />
-		<message-implementation src="msgs_quest.xml" />
-		<message-implementation src="msgs_trade.xml" />
-		<message-implementation src="msgs_environment.xml" />
-		<message-implementation src="msgs_book.xml" />
-		<message-implementation src="msgs_admin.xml" />
-		<message-implementation src="msgs_player.xml" />
-		<message-implementation src="msgs_combat.xml" />
-		<message-implementation src="msgs_auth.xml" />
-	</message-implementations>
+  <peers>
+    <peer name="Client" src="peer_client.xml" />
+    <peer name="Server" src="peer_server.xml" />
+    <peer name="Auth" src="peer_auth.xml" />
+    <!-- peer name="NPCServer" src="peer_npcserver.xml" / -->
+    <!-- peer name="admin tools" / -->
+    <!-- peer name="other tools" / -->
+  </peers>
+  <message-definitions>
+    <type id="0" name="Connection">
+      <message id="0" name="Request" />
+      <message id="1" name="Response" />
+      <message id="2" name="Ping" />
+      <message id="3" name="Pong" />
+    </type>
+    <type id="1" name="User">
+      <message id="0" name="LoginRequest" />
+      <message id="1" name="LoginResponse" />
+      <message id="2" name="RegisterRequest" />
+      <message id="3" name="RegisterResponse" />
+      <message id="4" name="CharList" />
+      <message id="5" name="CharCreateRequest" />
+      <message id="6" name="CharCreateResponse" />
+      <message id="7" name="CharSelectRequest" />
+      <message id="8" name="CharSelectResponse" />
+      <message id="9" name="MeshListRequest" />
+      <message id="10" name="MeshListResponse" />
+    </type>
+    <type id="2" name="Entity">
+      <message id="0" name="AddNpcEntity" />
+      <message id="1" name="AddItemEntity" />
+      <message id="2" name="AddDoorEntity" />
+      <message id="3" name="AddPlayerEntity" />
+      <message id="4" name="AddMountEntity" />
+      <message id="5" name="RemoveEntity" />
+      <message id="6" name="Move" />
+      <message id="7" name="MoveRequest" />
+      <message id="8" name="MoveTo" />
+      <message id="9" name="MoveToRequest" />
+      <message id="10" name="PickRequest" />
+      <message id="11" name="PickResponse" />
+      <message id="12" name="DropRequest" />
+      <message id="13" name="DropResponse" />
+      <message id="14" name="Equip" />
+      <message id="15" name="Relocate" />
+      <message id="16" name="TeleportRequest" />
+      <message id="17" name="TeleportResponse" />
+      <message id="18" name="DrUpdateRequest" />
+      <message id="19" name="DrUpdate" />
+      <message id="20" name="MountRequest" />
+      <message id="21" name="Mount" />
+      <message id="22" name="UnmountRequest" />
+      <message id="23" name="Unmount" />
+      <message id="24" name="PoseRequest" />
+      <message id="25" name="Pose" />
+    </type>
+    <type id="3" name="Chat">
+      <message id="0" name="Chat" />
+      <!--message id="1" name="Shout" /-->
+      <message id="2" name="WhisperTo" />
+      <!--message id="3" name="WhisperFrom" /-->
+      <message id="4" name="Group" />
+      <!--message id="4" name="Party" /-->
+      <!--message id="5" name="Guild" /-->
+      <!--message id="6" name="Family" /-->
+    </type>
+    <type id="4" name="Skill">
+      <message id="0" name="SkillList" />
+      <message id="1" name="SkillUpdate" />
+    </type>
+    <type id="5" name="Resource">
+      <message id="0" name="ResourceList" />
+      <message id="1" name="ResourceUpdate" />
+    </type>
+    <type id="6" name="Door">
+      <message id="0" name="OpenDoorRequest" />
+      <message id="1" name="OpenDoorResponse" />
+      <message id="2" name="CloseDoorRequest" />
+      <message id="3" name="CloseDoorResponse" />
+      <message id="4" name="LockDoorRequest" />
+      <message id="5" name="LockDoorResponse" />
+      <message id="6" name="UnlockDoorRequest" />
+      <message id="7" name="UnlockDoorResponse" />
+    </type>
+    <type id="7" name="Quest">
+      <message id="0" name="NpcDialog" />
+      <message id="1" name="NpcDialogAnswer" />
+      <message id="2" name="NpcStartDialog" />
+      <message id="3" name="NpcEndDialog" />
+      <message id="4" name="SetupDialogs" />
+    </type>
+    <type id="8" name="Trade">
+      <message id="0" name="ExchangeRequest" />
+      <message id="1" name="ExchangeResponse" />
+      <message id="2" name="TradeOffersListNpc" />
+      <message id="3" name="ExchangeOffersList" />
+      <message id="4" name="TradeOrderListNpc" />
+      <message id="5" name="TradeCancel" />
+      <message id="6" name="TradeOfferAccept" />
+      <message id="7" name="TradeConfirmRequest" />
+      <message id="8" name="TradeConfirmResponse" />
+    </type>
+    <type id="9" name="Environment">
+      <message id="0" name="InitTime" />
+      <message id="1" name="UpdateTime" />
+      <message id="2" name="Weather" />
+    </type>
+    <type id="10" name="Book">
+      <message id="0" name="BookReadRequest" />
+      <message id="1" name="BookReadResponse" />
+      <message id="2" name="BookWriteRequest" />
+      <message id="3" name="BookWriteResponse" />
+    </type>
+    <type id="11" name="Admin">
+      <message id="0" name="SetConfig" />
+      <message id="1" name="CreateMesh" />
+      <!-- <message id="3" name="CreateNpc" /> -->
+      <message id="2" name="CreateSpawnPoint" />
+      <message id="3" name="SpawnItem" />
+      <message id="4" name="SpawnMount" />
+      <message id="5" name="SpawnDoor" />
+      <message id="6" name="RemoveSpawnedEntity" />
+      <message id="7" name="ToggleFlashStep" />
+      <message id="8" name="CreateZone" />
+      <message id="9" name="SetDate" />
+      <message id="10" name="CreateChanDefault" />
+      <message id="11" name="CreateChanSpace" />
+      <message id="12" name="CreateLocation" />
+      <message id="13" name="TeleportLocation" />
+    </type>
+    <type id="12" name="Player">
+      <message id="1" name="InventoryList" />
+      <message id="2" name="InventoryMoveItemRequest" />
+      <message id="3" name="InventoryMoveItem" />
+    </type>
+    <type id="13" name="Combat">
+      <message id="0" name="AttackRequest" />
+      <message id="1" name="AttackNotification" />
+      <message id="2" name="Death" />
+      <message id="3" name="SelectTarget" />
+    </type>
+    <type id="14" name="Auth">
+      <message id="0" name="ClientLoginRequest" />
+      <message id="1" name="ClientLoginChallenge" />
+      <message id="2" name="ClientLoginResponse" />
+      <message id="3" name="ServerLoginRequest" />
+      <message id="4" name="ServerLoginChallenge" />
+      <message id="5" name="ServerLoginResponse" />
+      <message id="6" name="JoinServerRequest" />
+      <message id="7" name="SessionId" />
+      <message id="8" name="ClientJoined" />
+      <message id="9" name="ClientLeft" />
+      <message id="10" name="RegisterGameRequest" />
+      <message id="11" name="RegisterServerRequest" />
+      <message id="12" name="RegisterServerResponse" />
+      <message id="13" name="RegisterGameResponse" />
+      <message id="14" name="ServerList" />
+      <message id="15" name="ServerListAdd" />
+      <message id="16" name="ServerListRemove" />
+      <message id="17" name="ServerListUpdate" />
+    </type>
+  </message-definitions>
+  <message-implementations>
+    <message-implementation src="msgs_connection.xml" />
+    <message-implementation src="msgs_user.xml" />
+    <message-implementation src="msgs_entity.xml" />
+    <message-implementation src="msgs_chat.xml" />
+    <message-implementation src="msgs_skill.xml" />
+    <message-implementation src="msgs_resource.xml" />
+    <message-implementation src="msgs_door.xml" />
+    <message-implementation src="msgs_quest.xml" />
+    <message-implementation src="msgs_trade.xml" />
+    <message-implementation src="msgs_environment.xml" />
+    <message-implementation src="msgs_book.xml" />
+    <message-implementation src="msgs_admin.xml" />
+    <message-implementation src="msgs_player.xml" />
+    <message-implementation src="msgs_combat.xml" />
+    <message-implementation src="msgs_auth.xml" />
+  </message-implementations>
 </pt-gen>

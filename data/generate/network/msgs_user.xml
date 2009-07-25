@@ -1,79 +1,79 @@
 <message-implementation>
-	<message type="User" name="LoginRequest">
-		<string>Username</string>
-		<text>Password</text>
-	</message>
+  <message type="User" name="LoginRequest">
+    <string>Username</string>
+    <text>Password</text>
+  </message>
 
-	<message type="User" name="LoginResponse">
-          <event name="user.login" specific="None">
-		<string>Error</string> <!-- null is successful -->
-		<bool>IsAdmin</bool>
-          </event>
-	</message>
+  <message type="User" name="LoginResponse">
+    <event name="user.login" specific="None">
+      <string>Error</string> <!-- null is successful -->
+      <bool>IsAdmin</bool>
+    </event>
+  </message>
 
-	<message type="User" name="RegisterRequest">
-		<string>Username</string>
-		<text>Password</text>
-	</message>
+  <message type="User" name="RegisterRequest">
+    <string>Username</string>
+    <text>Password</text>
+  </message>
 
-	<message type="User" name="RegisterResponse">
-          <event name="user.register" specific="None">
-		<string>Error</string> <!-- null is successful -->
-          </event>
-	</message>
+  <message type="User" name="RegisterResponse">
+    <event name="user.register" specific="None">
+      <string>Error</string> <!-- null is successful -->
+    </event>
+  </message>
 
-	<message type="User" name="MeshListRequest">
-	</message>
+  <message type="User" name="MeshListRequest">
+  </message>
 
-	<message type="User" name="MeshListResponse">
-          <event name="user.mesh.list" specific="None">
-		<list name="Meshes">
-			<uint32>MeshId</uint32>
-			<string>MeshName</string>
-			<string>FileName</string>
-		</list>
-          </event>
-	</message>
+  <message type="User" name="MeshListResponse">
+    <event name="user.mesh.list" specific="None">
+      <list name="Meshes">
+        <uint32>MeshId</uint32>
+        <string>MeshName</string>
+        <string>FileName</string>
+      </list>
+    </event>
+  </message>
 
-	<message type="User" name="CharList">
-          <event name="user.character.list" specific="None">
-		<list name="Character">
-			<uint32>CharId</uint32>
-			<string>Name</string>
-			<colour24>HairColour</colour24>
-			<colour24>SkinColour</colour24>
-			<colour24>DecalColour</colour24>
-		</list>
-          </event>
-	</message>
+  <message type="User" name="CharList">
+    <event name="user.character.list" specific="None">
+      <list name="Character">
+        <uint32>CharId</uint32>
+        <string>Name</string>
+        <colour24>HairColour</colour24>
+        <colour24>SkinColour</colour24>
+        <colour24>DecalColour</colour24>
+      </list>
+    </event>
+  </message>
 
-	<message type="User" name="CharCreateRequest">
-		<string>Name</string>
-		<string>RaceName</string>
-		<colour24>HairColour</colour24>
-		<colour24>SkinColour</colour24>
-		<colour24>DecalColour</colour24>
-	</message>
+  <message type="User" name="CharCreateRequest">
+    <string>Name</string>
+    <string>RaceName</string>
+    <colour24>HairColour</colour24>
+    <colour24>SkinColour</colour24>
+    <colour24>DecalColour</colour24>
+  </message>
 
-	<message type="User" name="CharCreateResponse">
-          <event name="user.character.create" specific="None">
-		<uint32>CharId</uint32>
-		<string>Name</string>
-		<colour24>HairColour</colour24>
-		<colour24>SkinColour</colour24>
-		<colour24>DecalColour</colour24>
-		<string>Error</string> <!-- null is successful -->
-          </event>
-	</message>
+  <message type="User" name="CharCreateResponse">
+    <event name="user.character.create" specific="None">
+      <uint32>CharId</uint32>
+      <string>Name</string>
+      <colour24>HairColour</colour24>
+      <colour24>SkinColour</colour24>
+      <colour24>DecalColour</colour24>
+      <string>Error</string> <!-- null is successful -->
+    </event>
+  </message>
 
-	<message type="User" name="CharSelectRequest">
-		<uint32>CharId</uint32>
-	</message>
+  <message type="User" name="CharSelectRequest">
+    <uint32>CharId</uint32>
+  </message>
 
-	<message type="User" name="CharSelectResponse">
-            <event name="state.play" specific="None">
-		<uint32>EntityId</uint32>
-		<string>Error</string> <!-- null is successful -->
-            </event>
-	</message>
+  <message type="User" name="CharSelectResponse">
+    <event name="state.play" specific="None">
+      <uint32>EntityId</uint32>
+      <string>Error</string> <!-- null is successful -->
+    </event>
+  </message>
 </message-implementation>

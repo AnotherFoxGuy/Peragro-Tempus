@@ -1,83 +1,83 @@
 <message-implementation>
-	<!--
-	Buy/Sell
-	- C -> S: In dialog
-	- S -> C: TradeOffersListNpc
-	- C -> S: TradeOrderListNpc
-	- S -> C: TradeConfirmResponse
-	-->
+  <!--
+  Buy/Sell
+  - C -> S: In dialog
+  - S -> C: TradeOffersListNpc
+  - C -> S: TradeOrderListNpc
+  - S -> C: TradeConfirmResponse
+  -->
 
-	<!--
-	Exchange (PVP Trade) (Msg via Server)
-	- C1 -> C1: ExchangeRequest
-	- C2 -> C1: ExchangeResponse
-	- Cx -> Cy: ExchangeOffersList // both send offers. 
-	- Cx -> Cy: TradeOfferAccept   // both send accept.
-	// if another offer is sent, all accepts are reset.
-	// if both accepted
-	- Cn -> S: TradeConfirmRequest
-	// if both confirmed
-	- S -> Cn: TradeConfirmResponse
-	-->
-        <message type="Trade" name="ExchangeRequest">
-          <event name="trade.exchange.request" specific="None">
-            <uint32>EntityId</uint32>
-          </event>
-        </message>
+  <!--
+  Exchange (PVP Trade) (Msg via Server)
+  - C1 -> C1: ExchangeRequest
+  - C2 -> C1: ExchangeResponse
+  - Cx -> Cy: ExchangeOffersList // both send offers.
+  - Cx -> Cy: TradeOfferAccept   // both send accept.
+  // if another offer is sent, all accepts are reset.
+  // if both accepted
+  - Cn -> S: TradeConfirmRequest
+  // if both confirmed
+  - S -> Cn: TradeConfirmResponse
+  -->
+  <message type="Trade" name="ExchangeRequest">
+    <event name="trade.exchange.request" specific="None">
+      <uint32>EntityId</uint32>
+    </event>
+  </message>
 
-        <message type="Trade" name="ExchangeResponse">
-          <event name="trade.exchange.response" specific="None">
-              <string>Error</string> <!-- Null if success, else contains reason -->
-          </event>
-        </message>
+  <message type="Trade" name="ExchangeResponse">
+    <event name="trade.exchange.response" specific="None">
+      <string>Error</string> <!-- Null if success, else contains reason -->
+    </event>
+  </message>
 
-        <message type="Trade" name="TradeOffersListNpc">
-          <event name="trade.general.offer.list" specific="IsBuy">
-            <uint8>IsBuy</uint8>
-            <list name="Offers">
-              <uint32>ItemId</uint32>
-              <uint32>Price</uint32>
-              <string>Name</string>
-              <string>IconName</string>
-            </list>
-          </event>
-        </message>
+  <message type="Trade" name="TradeOffersListNpc">
+    <event name="trade.general.offer.list" specific="IsBuy">
+      <uint8>IsBuy</uint8>
+      <list name="Offers">
+        <uint32>ItemId</uint32>
+        <uint32>Price</uint32>
+        <string>Name</string>
+        <string>IconName</string>
+      </list>
+    </event>
+  </message>
 
-        <message type="Trade" name="ExchangeOffersList">
-          <event name="trade.exchange.offer.list" specific="None">
-		<list name="Offers">
-			<uint32>ItemId</uint32>
-			<uint32>Amount</uint32>
-			<string>Name</string>
-			<string>IconName</string>
-			<uint8>SlotId</uint8>
-		</list>
-          </event>
-	</message>
+  <message type="Trade" name="ExchangeOffersList">
+    <event name="trade.exchange.offer.list" specific="None">
+      <list name="Offers">
+        <uint32>ItemId</uint32>
+        <uint32>Amount</uint32>
+        <string>Name</string>
+        <string>IconName</string>
+        <uint8>SlotId</uint8>
+      </list>
+    </event>
+  </message>
 
-	<message type="Trade" name="TradeOrderListNpc">
-		<uint8>IsBuy</uint8>
-		<list name="Orders">
-			<uint32>ItemId</uint32>
-		</list>
-	</message>
+  <message type="Trade" name="TradeOrderListNpc">
+    <uint8>IsBuy</uint8>
+    <list name="Orders">
+      <uint32>ItemId</uint32>
+    </list>
+  </message>
 
-	<message type="Trade" name="TradeCancel">
-          <event name="trade.general.cancel" specific="None">
-          </event>
-	</message>
+  <message type="Trade" name="TradeCancel">
+    <event name="trade.general.cancel" specific="None">
+    </event>
+  </message>
 
-	<message type="Trade" name="TradeOfferAccept">
-          <event name="trade.exchange.offer.accept" specific="None">
-          </event>
-	</message>
+  <message type="Trade" name="TradeOfferAccept">
+    <event name="trade.exchange.offer.accept" specific="None">
+    </event>
+  </message>
 
-	<message type="Trade" name="TradeConfirmRequest">
-	</message>
+  <message type="Trade" name="TradeConfirmRequest">
+  </message>
 
-	<message type="Trade" name="TradeConfirmResponse">
-          <event name="trade.general.confirm" specific="None">
-		<string>Error</string> <!-- Null if success, else contains reason -->
-          </event>
-	</message>
+  <message type="Trade" name="TradeConfirmResponse">
+    <event name="trade.general.confirm" specific="None">
+      <string>Error</string> <!-- Null if success, else contains reason -->
+    </event>
+  </message>
 </message-implementation>

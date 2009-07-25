@@ -1,42 +1,42 @@
 <peer name="Auth">
-	<send>
-		<!--message type="Auth" name="ClientLoginRequest" /-->
-		<message type="Auth" name="ClientLoginChallenge" />
-		<!--message type="Auth" name="ClientLoginResponse" /-->
-		<!--message type="Auth" name="ServerLoginRequest" /-->
-		<message type="Auth" name="ServerLoginChallenge" />
-		<!--message type="Auth" name="ServerLoginResponse" /-->
-		<!--message type="Auth" name="JoinServerRequest" /-->
-		<message type="Auth" name="SessionId" />
-		<!--message type="Auth" name="ClientJoined" /-->
-		<!--message type="Auth" name="ClientLeft" /-->
-		<!--message type="Auth" name="RegisterGameRequest" /-->
-		<message type="Auth" name="RegisterServerRequest" />
-		<!--message type="Auth" name="RegisterServerResponse" /-->
-		<message type="Auth" name="RegisterGameResponse" />
-		<message type="Auth" name="ServerList" />
-		<message type="Auth" name="ServerListAdd" />
-		<message type="Auth" name="ServerListRemove" />
-		<message type="Auth" name="ServerListUpdate" />
-	</send>
-	<receive>
-		<message type="Auth" name="ClientLoginRequest" />
-		<!--message type="Auth" name="ClientLoginChallenge" /-->
-		<message type="Auth" name="ClientLoginResponse" />
-		<message type="Auth" name="ServerLoginRequest" />
-		<!--message type="Auth" name="ServerLoginChallenge" /-->
-		<message type="Auth" name="ServerLoginResponse" />
-		<message type="Auth" name="JoinServerRequest" />
-		<!--message type="Auth" name="SessionId" /-->
-		<message type="Auth" name="ClientJoined" />
-		<message type="Auth" name="ClientLeft" />
-		<message type="Auth" name="RegisterGameRequest" />
-		<!--message type="Auth" name="RegisterServerRequest" /-->
-		<message type="Auth" name="RegisterServerResponse" />
-		<!--message type="Auth" name="RegisterGameResponse" /-->
-		<!--message type="Auth" name="ServerList" /-->
-		<!--message type="Auth" name="ServerListAdd" /-->
-		<!--message type="Auth" name="ServerListRemove" /-->
-		<!--message type="Auth" name="ServerListUpdate" /-->
-	</receive>
+  <send>
+    <!--message type="Auth" name="ClientLoginRequest" /-->
+    <message type="Auth" name="ClientLoginChallenge" />
+    <!--message type="Auth" name="ClientLoginResponse" /-->
+    <!--message type="Auth" name="ServerLoginRequest" /-->
+    <message type="Auth" name="ServerLoginChallenge" />
+    <!--message type="Auth" name="ServerLoginResponse" /-->
+    <!--message type="Auth" name="JoinServerRequest" /-->
+    <message type="Auth" name="SessionId" />
+    <!--message type="Auth" name="ClientJoined" /-->
+    <!--message type="Auth" name="ClientLeft" /-->
+    <!--message type="Auth" name="RegisterGameRequest" /-->
+    <message type="Auth" name="RegisterServerRequest" />
+    <!--message type="Auth" name="RegisterServerResponse" /-->
+    <message type="Auth" name="RegisterGameResponse" />
+    <message type="Auth" name="ServerList" />
+    <message type="Auth" name="ServerListAdd" />
+    <message type="Auth" name="ServerListRemove" />
+    <message type="Auth" name="ServerListUpdate" />
+  </send>
+  <receive>
+    <message type="Auth" name="ClientLoginRequest" />
+    <!--message type="Auth" name="ClientLoginChallenge" /-->
+    <message type="Auth" name="ClientLoginResponse" />
+    <message type="Auth" name="ServerLoginRequest" />
+    <!--message type="Auth" name="ServerLoginChallenge" /-->
+    <message type="Auth" name="ServerLoginResponse" />
+    <message type="Auth" name="JoinServerRequest" />
+    <!--message type="Auth" name="SessionId" /-->
+    <message type="Auth" name="ClientJoined" />
+    <message type="Auth" name="ClientLeft" />
+    <message type="Auth" name="RegisterGameRequest" />
+    <!--message type="Auth" name="RegisterServerRequest" /-->
+    <message type="Auth" name="RegisterServerResponse" />
+    <!--message type="Auth" name="RegisterGameResponse" /-->
+    <!--message type="Auth" name="ServerList" /-->
+    <!--message type="Auth" name="ServerListAdd" /-->
+    <!--message type="Auth" name="ServerListRemove" /-->
+    <!--message type="Auth" name="ServerListUpdate" /-->
+  </receive>
 </peer>

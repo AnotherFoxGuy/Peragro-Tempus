@@ -1,236 +1,236 @@
 <peer name="Server">
-	<!-- please note that the messages are only commented out and not removed to
-	     make it easier to find wrong decisions -->
-	<send>
-		<message type="Connection" name="Request" />
-		<!--message type="Connection" name="Response" /-->
-		<message type="Connection" name="Ping" />
-		<message type="Connection" name="Pong" />
+  <!-- please note that the messages are only commented out and not removed to
+     make it easier to find wrong decisions -->
+  <send>
+    <message type="Connection" name="Request" />
+    <!--message type="Connection" name="Response" /-->
+    <message type="Connection" name="Ping" />
+    <message type="Connection" name="Pong" />
 
-		<!--message type="User" name="LoginRequest" /-->
-		<message type="User" name="LoginResponse" />
-		<!--message type="User" name="RegisterRequest" /-->
-		<message type="User" name="RegisterResponse" />
-		<message type="User" name="CharList" />
-		<!--message type="User" name="CharCreateRequest" /-->
-		<message type="User" name="CharCreateResponse" />
-		<!--message type="User" name="CharSelectRequest" /-->
-		<message type="User" name="CharSelectResponse" />
-		<!--message type="User" name="MeshListRequest" /-->
-		<message type="User" name="MeshListResponse" />
+    <!--message type="User" name="LoginRequest" /-->
+    <message type="User" name="LoginResponse" />
+    <!--message type="User" name="RegisterRequest" /-->
+    <message type="User" name="RegisterResponse" />
+    <message type="User" name="CharList" />
+    <!--message type="User" name="CharCreateRequest" /-->
+    <message type="User" name="CharCreateResponse" />
+    <!--message type="User" name="CharSelectRequest" /-->
+    <message type="User" name="CharSelectResponse" />
+    <!--message type="User" name="MeshListRequest" /-->
+    <message type="User" name="MeshListResponse" />
 
-		<message type="Entity" name="AddNpcEntity" />
-		<message type="Entity" name="AddItemEntity" />
-		<message type="Entity" name="AddDoorEntity" />
-		<message type="Entity" name="AddPlayerEntity" />
-		<message type="Entity" name="RemoveEntity" />
-		<message type="Entity" name="Move" />
-		<!--message type="Entity" name="MoveRequest" /-->
-		<!--message type="Entity" name="PickRequest" /-->
-		<message type="Entity" name="PickResponse" />
-		<!--message type="Entity" name="DropRequest" /-->
-		<message type="Entity" name="DropResponse" />
-		<message type="Entity" name="Equip" />
-		<message type="Entity" name="MoveTo" />
-		<!--message type="Entity" name="MoveToRequest" /-->
-		<!--message type="Entity" name="Relocate" /-->
-		<!--message type="Entity" name="TeleportRequest" /-->
-		<message type="Entity" name="TeleportResponse" />
-		<!--message type="Entity" name="DrUpdateRequest" /-->
-		<message type="Entity" name="DrUpdate" />
-		<message type="Entity" name="AddMountEntity" />
-		<!--message type="Entity" name="MountRequest" /-->
-		<message type="Entity" name="Mount" />
-		<!--message type="Entity" name="UnmountRequest" /-->
-		<message type="Entity" name="Unmount" />
-		<!--message type="Entity" name="PoseRequest" /-->
-		<message type="Entity" name="Pose" />
+    <message type="Entity" name="AddNpcEntity" />
+    <message type="Entity" name="AddItemEntity" />
+    <message type="Entity" name="AddDoorEntity" />
+    <message type="Entity" name="AddPlayerEntity" />
+    <message type="Entity" name="RemoveEntity" />
+    <message type="Entity" name="Move" />
+    <!--message type="Entity" name="MoveRequest" /-->
+    <!--message type="Entity" name="PickRequest" /-->
+    <message type="Entity" name="PickResponse" />
+    <!--message type="Entity" name="DropRequest" /-->
+    <message type="Entity" name="DropResponse" />
+    <message type="Entity" name="Equip" />
+    <message type="Entity" name="MoveTo" />
+    <!--message type="Entity" name="MoveToRequest" /-->
+    <!--message type="Entity" name="Relocate" /-->
+    <!--message type="Entity" name="TeleportRequest" /-->
+    <message type="Entity" name="TeleportResponse" />
+    <!--message type="Entity" name="DrUpdateRequest" /-->
+    <message type="Entity" name="DrUpdate" />
+    <message type="Entity" name="AddMountEntity" />
+    <!--message type="Entity" name="MountRequest" /-->
+    <message type="Entity" name="Mount" />
+    <!--message type="Entity" name="UnmountRequest" /-->
+    <message type="Entity" name="Unmount" />
+    <!--message type="Entity" name="PoseRequest" /-->
+    <message type="Entity" name="Pose" />
 
-		<message type="Chat" name="Chat" />
-		<!--message type="Chat" name="Shout" /-->
-		<!--message type="Chat" name="WhisperTo" /-->
-		<!--message type="Chat" name="WhisperFrom" /-->
-		<message type="Chat" name="Group" />
-		<!--message type="Chat" name="Party" /-->
-		<!--message type="Chat" name="Guild" /-->
-		<!--message type="Chat" name="Family" /-->
+    <message type="Chat" name="Chat" />
+    <!--message type="Chat" name="Shout" /-->
+    <!--message type="Chat" name="WhisperTo" /-->
+    <!--message type="Chat" name="WhisperFrom" /-->
+    <message type="Chat" name="Group" />
+    <!--message type="Chat" name="Party" /-->
+    <!--message type="Chat" name="Guild" /-->
+    <!--message type="Chat" name="Family" /-->
 
-		<message type="Skill" name="SkillList" />
-		<message type="Skill" name="SkillUpdate" />
+    <message type="Skill" name="SkillList" />
+    <message type="Skill" name="SkillUpdate" />
 
-                <message type="Resource" name="ResourceList" />
-                <message type="Resource" name="ResourceUpdate" />
+    <message type="Resource" name="ResourceList" />
+    <message type="Resource" name="ResourceUpdate" />
 
-		<!--message type="Door" name="OpenDoorRequest" /-->
-		<message type="Door" name="OpenDoorResponse" />
-		<!--message type="Door" name="CloseDoorRequest" /-->
-		<message type="Door" name="CloseDoorResponse" />
-		<!--message type="Door" name="LockDoorRequest" /-->
-		<message type="Door" name="LockDoorResponse" />
-		<!--message type="Door" name="UnlockDoorRequest" /-->
-		<message type="Door" name="UnlockDoorResponse" />
+    <!--message type="Door" name="OpenDoorRequest" /-->
+    <message type="Door" name="OpenDoorResponse" />
+    <!--message type="Door" name="CloseDoorRequest" /-->
+    <message type="Door" name="CloseDoorResponse" />
+    <!--message type="Door" name="LockDoorRequest" /-->
+    <message type="Door" name="LockDoorResponse" />
+    <!--message type="Door" name="UnlockDoorRequest" /-->
+    <message type="Door" name="UnlockDoorResponse" />
 
-		<message type="Quest" name="NpcDialog" />
-		<!--message type="Quest" name="NpcDialogAnswer" /-->
-		<!--message type="Quest" name="NpcStartDialog" /-->
-		<message type="Quest" name="NpcEndDialog" />
-		<!--message type="Quest" name="SetupDialogs" /-->		
+    <message type="Quest" name="NpcDialog" />
+    <!--message type="Quest" name="NpcDialogAnswer" /-->
+    <!--message type="Quest" name="NpcStartDialog" /-->
+    <message type="Quest" name="NpcEndDialog" />
+    <!--message type="Quest" name="SetupDialogs" /-->
 
-		<message type="Trade" name="ExchangeRequest" />
-		<message type="Trade" name="ExchangeResponse" />
-		<message type="Trade" name="TradeOffersListNpc" />
-		<message type="Trade" name="ExchangeOffersList" />
-		<!--message type="Trade" name="TradeOrderListNpc" /-->
-		<message type="Trade" name="TradeCancel" />
-		<message type="Trade" name="TradeOfferAccept" />
-		<!--message type="Trade" name="TradeConfirmRequest" /-->
-		<message type="Trade" name="TradeConfirmResponse" />
-		
-		<message type="Environment" name="InitTime" />
-		<message type="Environment" name="UpdateTime" />
-		<message type="Environment" name="Weather" />
-		
-		<!--message type="Door" name="BookReadRequest" /-->
-		<message type="Door" name="BookReadResponse" />
-		<!--message type="Door" name="BookWriteRequest" /-->
-		<message type="Door" name="BookWriteResponse" />
+    <message type="Trade" name="ExchangeRequest" />
+    <message type="Trade" name="ExchangeResponse" />
+    <message type="Trade" name="TradeOffersListNpc" />
+    <message type="Trade" name="ExchangeOffersList" />
+    <!--message type="Trade" name="TradeOrderListNpc" /-->
+    <message type="Trade" name="TradeCancel" />
+    <message type="Trade" name="TradeOfferAccept" />
+    <!--message type="Trade" name="TradeConfirmRequest" /-->
+    <message type="Trade" name="TradeConfirmResponse" />
 
-		<!--message type="Admin" name="RemoveAll" /-->
-		<!--message type="Admin" name="SetConig" /-->
-		<!--message type="Admin" name="CreateMesh" /-->
-		<!--message type="Admin" name="CreateNpc" /-->
-		<!--message type="Admin" name="CreateSpawnPoint" /-->
-		<!--message type="Admin" name="SpawnItem" /-->
-		<!--message type="Admin" name="SpawnMount" /-->
-		<!--message type="Admin" name="SpawnDoor" /-->
-		<!--message type="Admin" name="RemoveSpawnedEntity" /-->
-		<!--message type="Admin" name="ToggleFlashStep" /-->
-		<!--message type="Admin" name="CreateZone" /-->
-		<!--message type="Admin" name="SetDate" /-->
-		<!--message type="Admin" name="CreateChanDefault" /-->
-		<!--message type="Admin" name="CreateChanSpace" /-->
-		<!--message type="Admin" name="CreateLocation" /-->
-		<!--message type="Admin" name="TeleportLocation" /-->
+    <message type="Environment" name="InitTime" />
+    <message type="Environment" name="UpdateTime" />
+    <message type="Environment" name="Weather" />
 
-		<message type="Player" name="InventoryList" />
-		<!--message type="Player" name="InventoryMoveItemRequest" /-->
-		<message type="Player" name="InventoryMoveItem" />
-	</send>
-	<receive>
-		<message type="Connection" name="Request" />
-		<!--message type="Connection" name="Response" /-->
-		<message type="Connection" name="Ping" />
-		<message type="Connection" name="Pong" />
+    <!--message type="Door" name="BookReadRequest" /-->
+    <message type="Door" name="BookReadResponse" />
+    <!--message type="Door" name="BookWriteRequest" /-->
+    <message type="Door" name="BookWriteResponse" />
 
-		<message type="User" name="LoginRequest" />
-		<!--message type="User" name="LoginResponse" /-->
-		<message type="User" name="RegisterRequest" />
-		<!--message type="User" name="RegisterResponse" /-->
-		<!--message type="User" name="CharList" /-->
-		<message type="User" name="CharCreateRequest" />
-		<!--message type="User" name="CharCreateResponse" /-->
-		<message type="User" name="CharSelectRequest" />
-		<!--message type="User" name="CharSelectResponse" /-->
-		<message type="User" name="MeshListRequest" />
-		<!--message type="User" name="MeshListResponse" /-->
+    <!--message type="Admin" name="RemoveAll" /-->
+    <!--message type="Admin" name="SetConig" /-->
+    <!--message type="Admin" name="CreateMesh" /-->
+    <!--message type="Admin" name="CreateNpc" /-->
+    <!--message type="Admin" name="CreateSpawnPoint" /-->
+    <!--message type="Admin" name="SpawnItem" /-->
+    <!--message type="Admin" name="SpawnMount" /-->
+    <!--message type="Admin" name="SpawnDoor" /-->
+    <!--message type="Admin" name="RemoveSpawnedEntity" /-->
+    <!--message type="Admin" name="ToggleFlashStep" /-->
+    <!--message type="Admin" name="CreateZone" /-->
+    <!--message type="Admin" name="SetDate" /-->
+    <!--message type="Admin" name="CreateChanDefault" /-->
+    <!--message type="Admin" name="CreateChanSpace" /-->
+    <!--message type="Admin" name="CreateLocation" /-->
+    <!--message type="Admin" name="TeleportLocation" /-->
 
-		<!--message type="Entity" name="AddNpcEntity" /-->
-		<!--message type="Entity" name="AddItemEntity" /-->
-		<!--message type="Entity" name="AddDoorEntity" /-->
-		<!--message type="Entity" name="AddPlayerEntity" /-->
-		<!--message type="Entity" name="RemoveEntity" /-->
-		<!--message type="Entity" name="Move" /-->
-		<message type="Entity" name="MoveRequest" />
-		<message type="Entity" name="PickRequest" />
-		<!--message type="Entity" name="PickResponse" /-->
-		<message type="Entity" name="DropRequest" />
-		<!--message type="Entity" name="DropResponse" /-->
-		<!--message type="Entity" name="Equip" /-->
-		<!--message type="Entity" name="MoveTo" /-->
-		<message type="Entity" name="MoveToRequest" />
-		<message type="Entity" name="Relocate" />
-		<message type="Entity" name="TeleportRequest" />
-		<!--message type="Entity" name="TeleportResponse" /-->
-		<message type="Entity" name="DrUpdateRequest" />
-		<!--message type="Entity" name="DrUpdate" /-->
-		<!--message type="Entity" name="AddMountEntity" /-->
-		<message type="Entity" name="MountRequest" />
-		<!--message type="Entity" name="Mount" /-->
-		<message type="Entity" name="UnmountRequest" />
-		<!--message type="Entity" name="Unmount" /-->
-		<message type="Entity" name="PoseRequest" />
-		<!--message type="Entity" name="Pose" /-->
+    <message type="Player" name="InventoryList" />
+    <!--message type="Player" name="InventoryMoveItemRequest" /-->
+    <message type="Player" name="InventoryMoveItem" />
+  </send>
+  <receive>
+    <message type="Connection" name="Request" />
+    <!--message type="Connection" name="Response" /-->
+    <message type="Connection" name="Ping" />
+    <message type="Connection" name="Pong" />
 
-		<message type="Chat" name="Chat" />
-		<!--message type="Chat" name="Shout" /-->
-		<message type="Chat" name="WhisperTo" />
-		<!--message type="Chat" name="WhisperFrom" /-->
-		<message type="Chat" name="Group" />
-		<!--message type="Chat" name="Party" /-->
-		<!--message type="Chat" name="Guild" /-->
-		<!--message type="Chat" name="Family" /-->
+    <message type="User" name="LoginRequest" />
+    <!--message type="User" name="LoginResponse" /-->
+    <message type="User" name="RegisterRequest" />
+    <!--message type="User" name="RegisterResponse" /-->
+    <!--message type="User" name="CharList" /-->
+    <message type="User" name="CharCreateRequest" />
+    <!--message type="User" name="CharCreateResponse" /-->
+    <message type="User" name="CharSelectRequest" />
+    <!--message type="User" name="CharSelectResponse" /-->
+    <message type="User" name="MeshListRequest" />
+    <!--message type="User" name="MeshListResponse" /-->
 
-		<!--message type="Skill" name="SkillList" /-->
-                <!--message type="Skill" name="SkillUpdate" /-->
-          
-                <!--message type="Resource" name="ResourceList" /-->
-                <!--message type="Resource" name="ResourceUpdate" /-->
+    <!--message type="Entity" name="AddNpcEntity" /-->
+    <!--message type="Entity" name="AddItemEntity" /-->
+    <!--message type="Entity" name="AddDoorEntity" /-->
+    <!--message type="Entity" name="AddPlayerEntity" /-->
+    <!--message type="Entity" name="RemoveEntity" /-->
+    <!--message type="Entity" name="Move" /-->
+    <message type="Entity" name="MoveRequest" />
+    <message type="Entity" name="PickRequest" />
+    <!--message type="Entity" name="PickResponse" /-->
+    <message type="Entity" name="DropRequest" />
+    <!--message type="Entity" name="DropResponse" /-->
+    <!--message type="Entity" name="Equip" /-->
+    <!--message type="Entity" name="MoveTo" /-->
+    <message type="Entity" name="MoveToRequest" />
+    <message type="Entity" name="Relocate" />
+    <message type="Entity" name="TeleportRequest" />
+    <!--message type="Entity" name="TeleportResponse" /-->
+    <message type="Entity" name="DrUpdateRequest" />
+    <!--message type="Entity" name="DrUpdate" /-->
+    <!--message type="Entity" name="AddMountEntity" /-->
+    <message type="Entity" name="MountRequest" />
+    <!--message type="Entity" name="Mount" /-->
+    <message type="Entity" name="UnmountRequest" />
+    <!--message type="Entity" name="Unmount" /-->
+    <message type="Entity" name="PoseRequest" />
+    <!--message type="Entity" name="Pose" /-->
 
-                <message type="Door" name="OpenDoorRequest" />
-		<!--message type="Door" name="OpenDoorResponse" /-->
-		<message type="Door" name="CloseDoorRequest" />
-		<!--message type="Door" name="CloseDoorResponse" /-->
-		<message type="Door" name="LockDoorRequest" />
-		<!--message type="Door" name="LockDoorResponse" /-->
-		<message type="Door" name="UnlockDoorRequest" />
-		<!--message type="Door" name="UnlockDoorResponse" /-->
+    <message type="Chat" name="Chat" />
+    <!--message type="Chat" name="Shout" /-->
+    <message type="Chat" name="WhisperTo" />
+    <!--message type="Chat" name="WhisperFrom" /-->
+    <message type="Chat" name="Group" />
+    <!--message type="Chat" name="Party" /-->
+    <!--message type="Chat" name="Guild" /-->
+    <!--message type="Chat" name="Family" /-->
 
-		<!--message type="Quest" name="NpcDialog" /-->
-		<message type="Quest" name="NpcDialogAnswer" />
-		<message type="Quest" name="NpcStartDialog" />
-		<message type="Quest" name="NpcEndDialog" />
-		<message type="Quest" name="SetupDialogs" />
+    <!--message type="Skill" name="SkillList" /-->
+    <!--message type="Skill" name="SkillUpdate" /-->
 
-		<message type="Trade" name="ExchangeRequest" />
-		<message type="Trade" name="ExchangeResponse" />
-		<!--message type="Trade" name="TradeOffersListNpc" /-->
-		<message type="Trade" name="ExchangeOffersList" />
-		<message type="Trade" name="TradeOrderListNpc" />
-		<message type="Trade" name="TradeCancel" />
-		<message type="Trade" name="TradeOfferAccept" />
-		<message type="Trade" name="TradeConfirmRequest" />
-		<!--message type="Trade" name="TradeConfirmResponse" /-->
-		
-		<!--message type="Environment" name="InitTime" /-->
-		<!--message type="Environment" name="UpdateTime" /-->
-		<!--message type="Environment" name="Weather" /-->
-		
-		<message type="Book" name="BookReadRequest" />
-		<!--message type="Book" name="BookReadResponse" /-->
-		<message type="Book" name="BookWriteRequest" />
-		<!--message type="Book" name="BookWriteResponse" /-->
+    <!--message type="Resource" name="ResourceList" /-->
+    <!--message type="Resource" name="ResourceUpdate" /-->
 
-		<message type="Admin" name="SetConfig" />
-		<message type="Admin" name="CreateMesh" />
-		<!-- <message type="Admin" name="CreateNpc" /> -->
-		<message type="Admin" name="CreateSpawnPoint" />
-		<message type="Admin" name="SpawnItem" />
-		<message type="Admin" name="SpawnMount" />
-		<message type="Admin" name="SpawnDoor" />
-		<message type="Admin" name="RemoveSpawnedEntity" />
-		<message type="Admin" name="ToggleFlashStep" />
-		<message type="Admin" name="CreateZone" />
-		<message type="Admin" name="SetDate" />
-		<message type="Admin" name="CreateChanDefault" />
-		<message type="Admin" name="CreateChanSpace" />
-		<message type="Admin" name="CreateLocation" />
-		<message type="Admin" name="TeleportLocation" />
+    <message type="Door" name="OpenDoorRequest" />
+    <!--message type="Door" name="OpenDoorResponse" /-->
+    <message type="Door" name="CloseDoorRequest" />
+    <!--message type="Door" name="CloseDoorResponse" /-->
+    <message type="Door" name="LockDoorRequest" />
+    <!--message type="Door" name="LockDoorResponse" /-->
+    <message type="Door" name="UnlockDoorRequest" />
+    <!--message type="Door" name="UnlockDoorResponse" /-->
 
-		<!--message type="Player" name="InventoryList" /-->
-		<message type="Player" name="InventoryMoveItemRequest" />
-		<!--message type="Player" name="InventoryMoveItem" /-->
+    <!--message type="Quest" name="NpcDialog" /-->
+    <message type="Quest" name="NpcDialogAnswer" />
+    <message type="Quest" name="NpcStartDialog" />
+    <message type="Quest" name="NpcEndDialog" />
+    <message type="Quest" name="SetupDialogs" />
 
-		<message type="Combat" name="AttackRequest" />
-		<message type="Combat" name="SelectTarget" />
-	</receive>
+    <message type="Trade" name="ExchangeRequest" />
+    <message type="Trade" name="ExchangeResponse" />
+    <!--message type="Trade" name="TradeOffersListNpc" /-->
+    <message type="Trade" name="ExchangeOffersList" />
+    <message type="Trade" name="TradeOrderListNpc" />
+    <message type="Trade" name="TradeCancel" />
+    <message type="Trade" name="TradeOfferAccept" />
+    <message type="Trade" name="TradeConfirmRequest" />
+    <!--message type="Trade" name="TradeConfirmResponse" /-->
+
+    <!--message type="Environment" name="InitTime" /-->
+    <!--message type="Environment" name="UpdateTime" /-->
+    <!--message type="Environment" name="Weather" /-->
+
+    <message type="Book" name="BookReadRequest" />
+    <!--message type="Book" name="BookReadResponse" /-->
+    <message type="Book" name="BookWriteRequest" />
+    <!--message type="Book" name="BookWriteResponse" /-->
+
+    <message type="Admin" name="SetConfig" />
+    <message type="Admin" name="CreateMesh" />
+    <!-- <message type="Admin" name="CreateNpc" /> -->
+    <message type="Admin" name="CreateSpawnPoint" />
+    <message type="Admin" name="SpawnItem" />
+    <message type="Admin" name="SpawnMount" />
+    <message type="Admin" name="SpawnDoor" />
+    <message type="Admin" name="RemoveSpawnedEntity" />
+    <message type="Admin" name="ToggleFlashStep" />
+    <message type="Admin" name="CreateZone" />
+    <message type="Admin" name="SetDate" />
+    <message type="Admin" name="CreateChanDefault" />
+    <message type="Admin" name="CreateChanSpace" />
+    <message type="Admin" name="CreateLocation" />
+    <message type="Admin" name="TeleportLocation" />
+
+    <!--message type="Player" name="InventoryList" /-->
+    <message type="Player" name="InventoryMoveItemRequest" />
+    <!--message type="Player" name="InventoryMoveItem" /-->
+
+    <message type="Combat" name="AttackRequest" />
+    <message type="Combat" name="SelectTarget" />
+  </receive>
 </peer>

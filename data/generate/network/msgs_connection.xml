@@ -1,17 +1,17 @@
 <message-implementation>
-	<message type="Connection" name="Request">
-		<uint32>NetworkId</uint32>
-	</message>
+  <message type="Connection" name="Request">
+    <uint32>NetworkId</uint32>
+  </message>
 
-	<message type="Connection" name="Response">
-		<uint8>SessionId</uint8>
-	</message>
+  <message type="Connection" name="Response">
+    <uint8>SessionId</uint8>
+  </message>
 
-	<message type="Connection" name="Ping">
-		<!-- no data needed -->
-	</message>
+  <message type="Connection" name="Ping">
+    <!-- no data needed -->
+  </message>
 
-	<message type="Connection" name="Pong">
-		<!-- no data needed -->
-	</message>
+  <message type="Connection" name="Pong">
+    <!-- no data needed -->
+  </message>
 </message-implementation>

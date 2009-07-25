@@ -1,47 +1,47 @@
 <message-implementation>
-	<message type="Quest" name="NpcDialog">
-          <event name="quest.dialog.npc.add" specific="None">
-		<uint32>DialogId</uint32>
-		<text>DialogText</text>
-		<list name="Answers">
-			<uint32>AnswerId</uint32>
-			<text>AnswerText</text>
-		</list>
-          </event>
-	</message>
+  <message type="Quest" name="NpcDialog">
+    <event name="quest.dialog.npc.add" specific="None">
+      <uint32>DialogId</uint32>
+      <text>DialogText</text>
+      <list name="Answers">
+        <uint32>AnswerId</uint32>
+        <text>AnswerText</text>
+      </list>
+    </event>
+  </message>
 
-	<message type="Quest" name="NpcDialogAnswer">
-		<uint32>DialogId</uint32>
-		<uint32>AnswerId</uint32>
-	</message>
+  <message type="Quest" name="NpcDialogAnswer">
+    <uint32>DialogId</uint32>
+    <uint32>AnswerId</uint32>
+  </message>
 
-	<message type="Quest" name="NpcStartDialog">
-		<uint32>NpcId</uint32>
-	</message>
+  <message type="Quest" name="NpcStartDialog">
+    <uint32>NpcId</uint32>
+  </message>
 
-	<message type="Quest" name="NpcEndDialog">
-            <event name="quest.dialog.npc.end" specific="None">
-		<uint32>NpcId</uint32>
-            </event>
-	</message>
+  <message type="Quest" name="NpcEndDialog">
+    <event name="quest.dialog.npc.end" specific="None">
+      <uint32>NpcId</uint32>
+    </event>
+  </message>
 
-	<message type="Quest" name="SetupDialogs">
-		<bool>DeleteExisting</bool>
-		<list name="Dialogs">
-			<string>NpcName</string>
-			<uint32>DialogId</uint32>
-			<string>Action</string>
-			<text>Value</text>
-		</list>
-		<!-- nested lists are not yet possible -->
-		<list name="Answers">
-			<string>AnswerNpcName</string>
-			<uint32>AnswerDialogId</uint32>
-			<uint32>AnswerId</uint32>
-			<text>AnswerText</text>
-			<uint32>AnswerLink</uint32>
-			<bool>IsEndAnswer</bool>
-		</list>
-	</message>
+  <message type="Quest" name="SetupDialogs">
+    <bool>DeleteExisting</bool>
+    <list name="Dialogs">
+      <string>NpcName</string>
+      <uint32>DialogId</uint32>
+      <string>Action</string>
+      <text>Value</text>
+    </list>
+    <!-- nested lists are not yet possible -->
+    <list name="Answers">
+      <string>AnswerNpcName</string>
+      <uint32>AnswerDialogId</uint32>
+      <uint32>AnswerId</uint32>
+      <text>AnswerText</text>
+      <uint32>AnswerLink</uint32>
+      <bool>IsEndAnswer</bool>
+    </list>
+  </message>
 
 </message-implementation>

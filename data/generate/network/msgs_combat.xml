@@ -1,23 +1,23 @@
 <message-implementation>
-	<message type="Combat" name="AttackRequest">
-		<uint32>AttackType</uint32>
-	</message>
+  <message type="Combat" name="AttackRequest">
+    <uint32>AttackType</uint32>
+  </message>
 
-	<message type="Combat" name="AttackNotification">
+  <message type="Combat" name="AttackNotification">
     <event name="combat.death" specific="None">
       <uint32>PlayerID</uint32>
       <uint32>Health</uint32>
     </event>
-	</message>
+  </message>
 
-	<message type="Combat" name="Death">
+  <message type="Combat" name="Death">
     <event name="combat.death" specific="None">
       <uint16>EntityId</uint16>
     </event>
-	</message>
+  </message>
 
-	<message type="Combat" name="SelectTarget">
-		<uint32>TargetID</uint32>
-	</message>
+  <message type="Combat" name="SelectTarget">
+    <uint32>TargetID</uint32>
+  </message>
 
 </message-implementation>

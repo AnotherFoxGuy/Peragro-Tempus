@@ -1,20 +1,20 @@
 <message-implementation>
-	<message type="Skill" name="SkillList">
-          <event name="entity.skill.list" specific="EntityId">
-                <uint32>EntityId</uint32>
-		<list name="Stats">
-			<uint16>SkillId</uint16>
-			<string>Name</string>
-			<float>Xp</float>
-		</list>
-          </event>
-	</message>
-  
-        <message type="Skill" name="SkillUpdate">
-          <event name="entity.skill.update" specific="EntityId">
-                <uint32>EntityId</uint32>
-                <uint16>SkillId</uint16>
-                 <float>Xp</float>
-          </event>
-	</message>
+  <message type="Skill" name="SkillList">
+    <event name="entity.skill.list" specific="EntityId">
+      <uint32>EntityId</uint32>
+      <list name="Stats">
+        <uint16>SkillId</uint16>
+        <string>Name</string>
+        <float>Xp</float>
+      </list>
+    </event>
+  </message>
+
+  <message type="Skill" name="SkillUpdate">
+    <event name="entity.skill.update" specific="EntityId">
+      <uint32>EntityId</uint32>
+      <uint16>SkillId</uint16>
+      <float>Xp</float>
+    </event>
+  </message>
 </message-implementation>

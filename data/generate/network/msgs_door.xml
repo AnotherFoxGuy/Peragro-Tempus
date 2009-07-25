@@ -1,45 +1,45 @@
 <message-implementation>
-	<message type="Door" name="OpenDoorRequest">
-		<uint32>DoorId</uint32>
-	</message>
+  <message type="Door" name="OpenDoorRequest">
+    <uint32>DoorId</uint32>
+  </message>
 
-	<message type="Door" name="OpenDoorResponse">
-          <event name="entity.door.open" specific="DoorId">
-		<uint32>DoorId</uint32>
-		<string>Error</string>
-          </event>
-	</message>
+  <message type="Door" name="OpenDoorResponse">
+    <event name="entity.door.open" specific="DoorId">
+      <uint32>DoorId</uint32>
+      <string>Error</string>
+    </event>
+  </message>
 
-	<message type="Door" name="CloseDoorRequest">
-		<uint32>DoorId</uint32>
-	</message>
+  <message type="Door" name="CloseDoorRequest">
+    <uint32>DoorId</uint32>
+  </message>
 
-	<message type="Door" name="CloseDoorResponse">
-          <event name="entity.door.close" specific="DoorId">
-		<uint32>DoorId</uint32>
-		<string>Error</string>
-          </event>
-	</message>
+  <message type="Door" name="CloseDoorResponse">
+    <event name="entity.door.close" specific="DoorId">
+      <uint32>DoorId</uint32>
+      <string>Error</string>
+    </event>
+  </message>
 
-	<message type="Door" name="LockDoorRequest">
-		<uint32>DoorId</uint32>
-	</message>
+  <message type="Door" name="LockDoorRequest">
+    <uint32>DoorId</uint32>
+  </message>
 
-	<message type="Door" name="LockDoorResponse">
-            <event name="entity.door.lock" specific="DoorId">
-		<uint32>DoorId</uint32>
-		<string>Error</string>
-            </event>
-	</message>
+  <message type="Door" name="LockDoorResponse">
+    <event name="entity.door.lock" specific="DoorId">
+      <uint32>DoorId</uint32>
+      <string>Error</string>
+    </event>
+  </message>
 
-	<message type="Door" name="UnlockDoorRequest">
-		<uint32>DoorId</uint32>
-	</message>
+  <message type="Door" name="UnlockDoorRequest">
+    <uint32>DoorId</uint32>
+  </message>
 
-	<message type="Door" name="UnlockDoorResponse">
-          <event name="entity.door.unlock" specific="DoorId">
-		<uint32>DoorId</uint32>
-		<string>Error</string>
-          </event>
-	</message>
+  <message type="Door" name="UnlockDoorResponse">
+    <event name="entity.door.unlock" specific="DoorId">
+      <uint32>DoorId</uint32>
+      <string>Error</string>
+    </event>
+  </message>
 </message-implementation>

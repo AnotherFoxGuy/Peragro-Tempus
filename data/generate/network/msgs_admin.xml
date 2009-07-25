@@ -71,7 +71,7 @@
     <string>CreateType</string>
     <uint16>CreateVal</uint16>
     <bool>CreatePerm</bool>
-    <!-- int CreateMax -->    
+    <!-- int CreateMax -->
     <string>JoinType</string>
     <uint16>JoinVal</uint16>
     <bool>JoinPerm</bool>
