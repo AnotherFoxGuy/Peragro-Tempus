@@ -19,6 +19,8 @@
 #include "network.h"
 #include "networkhelper.h"
 
+#include <sstream>
+
 #include "server/zone/zonemanager.h"
 #include "server/zone/locationmanager.h"
 #include "server/quest/npcdialogmanager.h"
@@ -45,14 +47,35 @@
 #include "server/environment/clock.h"
 #include "server/environment/environmentmanager.h"
 
-bool CheckAdminLevel(GenericMessage* msg, size_t level)
+bool CheckAdminLevel(GenericMessage* msg, size_t requiredLevel)
 {
   boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
   if (!user) return false;
 
-  size_t admin = user->getPermissionList().getLevel(Permission::Admin);
-  if (admin < level) return false;
-  else return true;
+  const size_t userLevel = user->getPermissionList().getLevel(Permission::Admin);
+  const size_t levelToReply = 1;
+  if (userLevel < requiredLevel)
+  {
+    if (userLevel < levelToReply) return false;
+
+    std::stringstream ss;
+    ss << "Insufficient admin level (" << userLevel << ") for command (" <<
+      requiredLevel << ")";
+
+    ChatMessage errorMsg;
+    errorMsg.setSpeakerName(ptString::Null);
+    errorMsg.setVolume(1);
+    errorMsg.setMessage(ss.str().c_str());
+    ByteStream bs;
+    errorMsg.serialise(&bs);
+    msg->getConnection()->send(bs);
+
+    return false;
+  }
+  else
+  {
+    return true;
+  }
 }
 
 void AdminHandler::handleSetConfig(GenericMessage* msg)
