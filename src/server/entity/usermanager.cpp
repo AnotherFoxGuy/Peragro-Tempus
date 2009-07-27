@@ -84,15 +84,8 @@ const ptString UserManager::Signup(const std::string& username, const std::strin
 
   UsersTableVOp user = ut->GetSingle(username);
 
-  if (ut->GetAll().size() == 1) // first User, all rights!
-  {
-    User(user->login).getPermissionList().setLevel(Permission::Admin, 2);
-  }
-  else
-  {
-    // Temporary override for development, admin for all!
-    User(user->login).getPermissionList().setLevel(Permission::Admin, 1);
-  }
+  // Temporary override for development, admin for all!
+  User(user->login).getPermissionList().setLevel(Permission::Admin, 1);
 
   return ptString::Null;
 }

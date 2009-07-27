@@ -303,8 +303,8 @@ INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory im
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- My account stuff
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-INSERT INTO "Users" VALUES('mec','123456');
-INSERT INTO "Permissions" VALUES('mec','Admin',2);
+INSERT INTO "Users" VALUES('admin','admin');
+INSERT INTO "Permissions" VALUES('admin','Admin',2);
 
 -- My character stuff
 INSERT INTO "Characters" VALUES(1,'recon',101,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
