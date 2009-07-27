@@ -21,27 +21,14 @@
 //  Body member functions     -----------------------------------------------------//
 // --------------------------------------------------------------------------------//
 Body::Body(iObjectRegistry* reg)
+  : object_reg(reg), engine(csQueryRegistry<iEngine>(object_reg)), sector(),
+  light(), name("defaultbody"), filename(), mat_name(),
+  ellips(csVector3(0), csVector3(10)),  body_radius(10), body_verts(100),
+  body_day_length(0.1), body_inclination(0.0), body_rotation(0.0), mesh(),
+  abs_pos(), scale(0.0), last_update_seconds(0), parent(), child_bodies()
 {
-  object_reg = reg;
-  engine = csQueryRegistry<iEngine> (object_reg );
-
   if (!engine) printf ("Body::Body() no engine\n");
-
-  last_update_seconds = 1;
-
-  body_verts = 100;
-  body_radius = 10;
-  ellips.SetRadius(10 );
-  ellips.SetCenter (csVector3 (0) );
-
-
-  name = "defaultbody";
-
-  body_day_length =0.1; // in hours
-  body_inclination = 0; // in deg
-
-  Create_Body_Mesh(body_radius, body_verts, body_day_length, body_inclination);
-
+  Create_Body_Mesh();
 }
 
 Body::~Body ()
@@ -61,7 +48,6 @@ void Body::Create_Body_Mesh(float radius, int verts, double day, double i)
   body_inclination = i ;
   Create_Body_Mesh();
 }
-
 
 void Body::Create_Body_Mesh()
 {
@@ -323,7 +309,7 @@ void Body::Pos_Light(const csVector3& npos)
   }
   else  // update position
   {
-    light->SetCenter (npos);
+    light->GetMovable()->SetPosition(npos);
  //   if (csbody_report_lvl) printf("pos %s light( %4.2f, %4.2f, %4.2f)\n", name.c_str(), npos.x, npos.y, npos.z);
   }
 }
