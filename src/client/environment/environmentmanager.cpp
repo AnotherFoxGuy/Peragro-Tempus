@@ -134,7 +134,8 @@ namespace PT
       lastStep = step;
 
       //=[ Sun position ]===================================
-      if (solarsys)
+      // TODO Temporarily removed, the light doesn't match up to the skybox.
+      if (false) // (solarsys)
       {
         csVector3 sunpos(solarsys->GetRelatveRootPos());
         if ( sunpos.x != 0 || sunpos.y !=0 || sunpos.z !=0)
