@@ -243,7 +243,7 @@ INSERT INTO "Locations" VALUES(4,'site1','(2351.67,44.3489,655.91)');
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- Charater Meshes
 ----------------------------------------------------------------------------------------------------------------------------------------------------- 
-INSERT INTO "Meshes" VALUES(101,1,'test','/peragro/art/3d_art/characters/male01/male01');
+INSERT INTO "Meshes" VALUES(101,1,'male','/peragro/art/3d_art/characters/male01/male01');
 --INSERT INTO "Meshes" VALUES(102,1,'MaleBase','/peragro/art/3d_art/characters/MaleBase/library');
 --INSERT INTO "Meshes" VALUES(103,1,'pesant','/peragro/art/3d_art/characters/pesant/library');
 --INSERT INTO "Meshes" VALUES(13,1,'MaleBase','/peragro/art/3d_art/characters/Pesant/library');

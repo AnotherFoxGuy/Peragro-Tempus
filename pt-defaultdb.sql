@@ -123,7 +123,7 @@ CREATE TABLE NpcDialogAnswers ("entity_id" INTEGER NOT NULL REFERENCES "Entities
 CREATE TABLE SpawnPoints ("id" INTEGER NOT NULL, "ItemTemplate_id" INTEGER NOT NULL REFERENCES "ItemTemplates" ("id"), "position" TEXT NOT NULL, "interval" INTEGER NOT NULL, UNIQUE ("id"));
 CREATE TABLE Books ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "name" TEXT NOT NULL, "text" TEXT NOT NULL, UNIQUE ("entity_id"));
 CREATE TABLE Meshes ("id" INTEGER NOT NULL, "revision" INTEGER NOT NULL, "factoryName" TEXT NOT NULL, "fileName" TEXT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Meshes" VALUES(101,1,'test','/peragro/art/3d_art/characters/male01/male01');
+INSERT INTO "Meshes" VALUES(101,1,'male','/peragro/art/3d_art/characters/male01/male01');
 CREATE TABLE Config ("name" TEXT NOT NULL, "value" TEXT NOT NULL, UNIQUE ("name"));
 INSERT INTO "Config" VALUES('port','12345');
 CREATE TABLE Zones ("id" INTEGER NOT NULL, "type" TEXT NOT NULL, UNIQUE ("id"));
