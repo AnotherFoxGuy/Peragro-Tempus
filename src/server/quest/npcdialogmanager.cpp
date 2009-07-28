@@ -92,7 +92,7 @@ void NPCDialogManager::LoadFromDB()
       if (!dialog){printf("Failed to match answer to dialog, npcid=%"SIZET", dialogid=%"SIZET"\n", vo->entity_id, vo->dialog_id);continue;} // This only happens if you edit the DB without knowing what you're doing
       dialog->AddAnswer(answer);
     }
-    
+
   }
 }
 

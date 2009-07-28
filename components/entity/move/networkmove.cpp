@@ -188,16 +188,16 @@ bool ComponentNetworkMove::DrUpdate(iEvent& ev)
   if (localMovement &&
     entity->GetType() == Common::Entity::PlayerEntityType) return false;
 
-//unsigned int entityId = EntityHelper::GetEntityID(&ev);
-//  unsigned int sectorId = EntityHelper::GetSectorId(&ev);
+  //unsigned int entityId = EntityHelper::GetEntityID(&ev);
+  //unsigned int sectorId = EntityHelper::GetSectorId(&ev);
 
   csVector3 position = VectorHelper::Convert(EntityHelper::GetVector3(&ev, "position"));
 
   float rotation = 0.0f;
   ev.Retrieve("rotation", rotation);
 
-//  PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
-  std::string sectorName = "World";  //todo recon69 , 
+  //PT::Data::SectorDataManager* sectorDataMgr = pointerlib->GetSectorDataManager();
+  std::string sectorName = "World"; // TODO recon69
 
   csRef<iObjectRegistry> obj_reg = pointerlib->getObjectRegistry();
   csRef<iEngine> engine =  csQueryRegistry<iEngine> (obj_reg);

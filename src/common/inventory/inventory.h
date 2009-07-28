@@ -121,19 +121,19 @@ namespace Common
        */
       virtual void ClearInventory() = 0;
 
-	    /**
+      /**
        * Auto arranges the inventory.
        * @return void.
        */
       virtual void AutoArrange() = 0;
 
-	    /**
+      /**
        * Find a free position in the inventory for the given object.
        * @return True if a valid position was found, false otherwise.
        */
       virtual bool FindFreePosition(PositionRef& position, boost::shared_ptr<Object> object) const = 0;
 
-	    /**
+      /**
        * Find free positions in the inventory for the given objects.
        * @return True if valid positions for all objects were found, false otherwise.
        */
@@ -188,7 +188,7 @@ namespace Common
        * @return True if successful, false if an error occured.
        */
       virtual bool MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap=true) = 0;
-     
+
       /**
        *
        * @return void.

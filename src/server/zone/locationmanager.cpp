@@ -95,8 +95,8 @@ size_t LocationManager::GetId(const std::string& name)
 void LocationManager::Insert(size_t locationId, std::string name, WFMath::Point<3> location)
 {
 
-  LocationsTable* locationsTable = Server::getServer()->GetTableManager()->Get<LocationsTable>();  
-  try 
+  LocationsTable* locationsTable = Server::getServer()->GetTableManager()->Get<LocationsTable>();
+  try
   {
 
     if (locationId == 0) locationId = locationsTable->GetMaxId() + 1;
@@ -104,7 +104,7 @@ void LocationManager::Insert(size_t locationId, std::string name, WFMath::Point<
     locationsTable->Insert(locationId,name,location);
     std::map<size_t, Location>::const_iterator it;
     it = locations.find(locationId);
-    
+
     Location loc;
 
     loc.name = name;

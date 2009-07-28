@@ -77,6 +77,6 @@ void PcEntity::SaveToDB()
   {
     pcTable->Insert(GetId(), user->GetName());
     EntityPositionsTable* ptable = Server::getServer()->GetTableManager()->Get<EntityPositionsTable>();
-    ptable->Insert(GetId(), GetPosition(), WFMath::Point<3>(0, GetRotation(),0)); //TODO: just Y atm. 
+    ptable->Insert(GetId(), GetPosition(), WFMath::Point<3>(0, GetRotation(),0)); //TODO: just Y atm.
   }
 }

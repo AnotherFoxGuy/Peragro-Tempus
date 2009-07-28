@@ -59,7 +59,7 @@ public:
   bool GetInWorld() { return inWorld; }
   void SetInWorld(bool value);
 
-  std::string GetEquipType() {assert(itemTemplate); return itemTemplate->equipTypeName; }  /// @TODO needs changing to a id value 
+  std::string GetEquipType() {assert(itemTemplate); return itemTemplate->equipTypeName; }  /// @TODO needs changing to a id value
 
   boost::shared_ptr<ItemTemplate> GetItemTemplate() { return itemTemplate; }
   void SetItemTemplate(boost::shared_ptr<ItemTemplate> value) { itemTemplate = value; value->SetDataOn(this); }

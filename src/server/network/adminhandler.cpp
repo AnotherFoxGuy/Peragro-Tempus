@@ -330,7 +330,7 @@ void AdminHandler::handleCreateChanDefault(GenericMessage* msg)
 
 void AdminHandler::handleCreateChanSpace(GenericMessage* msg)
 {
-/* TODO */ 
+/* TODO */
 }
 
 void AdminHandler::handleCreateLocation(GenericMessage* msg)

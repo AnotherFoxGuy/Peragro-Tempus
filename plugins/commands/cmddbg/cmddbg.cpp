@@ -441,25 +441,25 @@ std::string cmdDbg::Execute (const StringArray& args)
     {
 
       printf("Teleport args %"SIZET"\n",args.size());
-      if (args.size() == 4 ) 
+      if (args.size() == 4)
       {
         TeleportLocationMessage msg;
         // teleport to location
         msg.setName(ptString(args[3].c_str(),args[3].length()));
         network->send(&msg);
       } //end if create location
- 
-      if (args.size() == 5 )
-      { 
+
+      if (args.size() == 5)
+      {
         if (args[3].compare("create") == 0)
         {
           CreateLocationMessage msg;
           // create a location with passed name at current char position
           msg.setName(ptString(args[4].c_str(),args[4].length()));
           network->send(&msg);
-        } 
+        }
       } // end if teleport location
-    } 
+    }
 
 
   //----------------------------------------------

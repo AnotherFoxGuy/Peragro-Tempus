@@ -52,11 +52,11 @@ namespace Common
       return true;
     }
 
-	  boost::shared_ptr<GridInventory::PositionedObject> GridInventory::GetPositionedObjectAt(const PositionRef& position) const
+    boost::shared_ptr<GridInventory::PositionedObject> GridInventory::GetPositionedObjectAt(const PositionRef& position) const
     {
       std::list<boost::shared_ptr<PositionedObject> > result;
       result = quadtree.Query<PositionedObject>(WFMath::Point<2>(position.column+0.0001f, position.row+0.0001f));
-      if (result.size() == 1) return result.front();  
+      if (result.size() == 1) return result.front();
       return boost::shared_ptr<PositionedObject>();
     }
 
@@ -77,7 +77,7 @@ namespace Common
     bool GridInventory::FindFreePositions(std::list<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects) const
     {
       return false;
-	  }
+    }
 
     bool GridInventory::HasObjectAt(const PositionRef& position) const
     {
@@ -99,7 +99,7 @@ namespace Common
 
       // Append and make one list with all objects.
       std::list<boost::shared_ptr<Object> > all;
-      std::merge(current.begin(), current.end(), objects.begin(), objects.end(), 
+      std::merge(current.begin(), current.end(), objects.begin(), objects.end(),
         std::insert_iterator<std::list<boost::shared_ptr<Object> > >(all, all.end()));
 /*
       std::list<PositionRef>& poss;

@@ -38,7 +38,7 @@
 
 void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
 {
-  
+
   boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity (msg);
   if (!pcEnt) return;
 
@@ -86,7 +86,7 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
       trade_msg.setName(0, ptString(itemTemplate->name.c_str(),strlen(itemTemplate->name.c_str())));
       trade_msg.setIconName(0, ptString(itemTemplate->iconFile.c_str() ,strlen(itemTemplate->iconFile.c_str())));
       trade_msg.setPrice(0, 200);
-      
+
       ByteStream bs;
       trade_msg.serialise(&bs);
       NetworkHelper::sendMessage(pcEnt, bs);
@@ -181,11 +181,11 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
 
   unsigned int npcId = message.getNpcId();
   printf("handleNpcStartDialog::Get NPC ID:%i\n", npcId);
-  // @TODO this is a crash point, the dialogs cause a invalid pointer here. 
+  // @TODO this is a crash point, the dialogs cause a invalid pointer here.
   Common::Entity::Entityp ent = server->getEntityManager()->FindById(npcId);
   if (!ent) { return; }
 
-  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent); 
+  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent);
   if (!npcEnt)
     return;
 
@@ -334,7 +334,7 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
 
   boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity (msg);
   if (!pcEnt) return;
-  
+
   NPCDialogState* diaState = pcEnt->getNPCDialogState();
 
   NpcEndDialogMessage message;
@@ -349,12 +349,12 @@ void QuestHandler::handleNpcEndDialog(GenericMessage* msg)
   Common::Entity::Entityp ent = server->getEntityManager()->FindById(npcId);
   if (!ent) return;
 
-  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent); 
+  boost::shared_ptr<NpcEntity> npcEnt = boost::dynamic_pointer_cast<NpcEntity>(ent);
   if (!npcEnt)
     return;
 
   npcEnt->Pause(false);
- 
+
 }
 
 void QuestHandler::handleSetupDialogs(GenericMessage* msg)

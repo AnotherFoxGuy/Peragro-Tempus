@@ -142,12 +142,12 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
   replyEnt->SaveToDB();
   if (mountEnt) charEnt->SaveToDB();
-  
+
 }
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
-  
+
   boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity (msg);
 
   PickRequestMessage requestMsg;
@@ -162,17 +162,17 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
   Server* server = Server::getServer();
 
-  
+
   // Get Item
-  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity> 
+  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity>
     (server->getEntityManager()->FindById(requestMsg.getItemEntityId()));
 
   // Check for problems
   PickResponseMessage responseMsg;
-  if (!charEnt) 
+  if (!charEnt)
   {
     responseMsg.setError(ptString("Character Entity doesn't exist",
-      strlen("Character Entity doesn't exist"))); // <-- TODO: Error Message Storage 
+      strlen("Character Entity doesn't exist"))); // <-- TODO: Error Message Storage
   }
   else if (!itemEnt)
   {
@@ -207,19 +207,19 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         responseMsg.serialise(&bs);
         NetworkHelper::sendMessage(charEnt,bs);
         return;
-      }        
+      }
       responseMsg.setError(ptString("Couldn't add item!",strlen("Couldn't add item!"))); // <-- TODO: Error Message Storage
     } else
     {
       responseMsg.setError(ptString("Failed adding inventory,Slot is full!",
         strlen("Failed adding inventory,Slot is full!"))); // <-- TODO: Error Message Storage
     }  // end if slot empty
-  }  // end if no errMsg 
+  }  // end if no errMsg
 
   ByteStream bs;
   responseMsg.serialise(&bs);
   NetworkHelper::sendMessage(charEnt, bs); // error msg
-  
+
 }
 
 void EntityHandler::handleDropRequest(GenericMessage* msg)
@@ -237,7 +237,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   unsigned char slotId = requestMsg.getSlot();
 
   // Get Item
-  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity> 
+  boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity>
     (charEnt->GetInventory()->RemoveObjectAt(slotId));
 
   if (!itemEnt)
@@ -410,7 +410,7 @@ void EntityHandler::handleMountRequest(GenericMessage* msg)
   charEnt->SetMount(cMount);
   cMount->AddPassenger(charEnt);
 
-  // Don't run into the horse! 
+  // Don't run into the horse!
   MoveMessage mmsg;
   mmsg.setEntityId(charEnt->GetId());
 
@@ -467,7 +467,7 @@ void EntityHandler::handleUnmountRequest(GenericMessage* msg)
 
 void EntityHandler::handlePoseRequest(GenericMessage* msg)
 {
- 
+
   boost::shared_ptr<PcEntity> pcEnt = NetworkHelper::GetEntity(msg);
   if (!pcEnt) return;
 
@@ -486,5 +486,5 @@ void EntityHandler::handlePoseRequest(GenericMessage* msg)
   pose_msg.serialise(&bs);
 
   NetworkHelper::localcast(bs, pcEnt);
- 
+
 }

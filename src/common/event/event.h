@@ -88,7 +88,7 @@ namespace PT
       static unsigned int GetUInt(const iEvent* event, const char* name)
       {
         unsigned int i = 0;
-        if (event->Retrieve(name, i) != csEventErrNone) 
+        if (event->Retrieve(name, i) != csEventErrNone)
           Report(PT::Error, "Helper::GetUInt '%s' failed!", name);
 
         return i;
