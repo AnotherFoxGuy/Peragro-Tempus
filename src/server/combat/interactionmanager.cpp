@@ -435,6 +435,7 @@ bool InteractionManager::QueueInteraction(boost::shared_ptr<PcEntity> sourceEnti
   {
     // Invalid source.
     printf(IM "Invalid source.\n");
+    delete interaction;
     return false;
   }
 
