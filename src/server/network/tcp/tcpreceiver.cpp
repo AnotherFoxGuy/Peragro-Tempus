@@ -34,6 +34,11 @@ void Receiver::Run()
   }
 
   const int* ready_sockets = TcpSocket::select(sockets, len, len_out);
+  if (!ready_sockets)
+  {
+    delete [] sockets;
+    return;
+  }
 
   for (size_t i = 0; i < len_out; i++)
   {

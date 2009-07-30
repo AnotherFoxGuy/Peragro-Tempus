@@ -25,23 +25,24 @@
 #include "tcpsocket.h"
 #include "common/util/printhelper.h"
 
-size_t TcpSocket::sent_bytes;
-size_t TcpSocket::received_bytes;
-size_t TcpSocket::last_checked;
-
+bool TcpSocket::running = false;
+size_t TcpSocket::sent_bytes = 0;
+size_t TcpSocket::received_bytes = 0;
+size_t TcpSocket::last_checked = static_cast<size_t>(time(0));
 
 TcpSocket::TcpSocket()
+  : ready(false), socket_handler(0)
 {
 #ifdef WIN32
   WSADATA info;
   WSAStartup(MAKEWORD(1,1), &info);
   printf("Max number of sockets: %d\n", info.iMaxSockets);
 #endif
-  ready = false;
+  running = false;
 
   sent_bytes = 0;
   received_bytes = 0;
-  last_checked = (size_t)time(0);
+  last_checked = static_cast<size_t>(time(0));
 }
 
 bool TcpSocket::init(unsigned short port, unsigned ip, bool server)
@@ -80,6 +81,7 @@ bool TcpSocket::init(unsigned short port, unsigned ip, bool server)
         return false;
     }
   }
+  running = true;
   return true;
 }
 
@@ -91,6 +93,7 @@ TcpSocket::~TcpSocket()
 void TcpSocket::kill()
 {
   ready = false;
+  running = false;
 #ifdef WIN32
   closesocket(socket_handler);
   //WSACleanup();
@@ -163,14 +166,33 @@ SocketAddress TcpSocket::getSocketAddress(const char* host, unsigned short port)
 const int* TcpSocket::select(const int* sockets, size_t len, size_t& len_out)
 {
   fd_set socks;
-  FD_ZERO(&socks);
+  struct timeval timeout;
+  int length_out = 0;
 
-  for (size_t i = 0; i < len; i++)
+  while (length_out == 0)
   {
-    FD_SET(sockets[i], &socks);
-  }
+    FD_ZERO(&socks);
+    for (size_t i = 0; i < len; i++)
+    {
+      FD_SET(sockets[i], &socks);
+    }
 
-  len_out = ::select(FD_SETSIZE, &socks, 0, 0, 0);
+    timeout.tv_sec = 1;
+    timeout.tv_usec = 0;
+
+    length_out = ::select(FD_SETSIZE, &socks, 0, 0, &timeout);
+
+    if (length_out < 0)
+    {
+      printf("select() returned error: %d\n", length_out);
+      return 0;
+    }
+    if (!running)
+    {
+      return 0;
+    }
+  }
+  len_out = length_out;
 
   size_t ready_socks_count = 0;
   int* ready_socks = new int[len_out];

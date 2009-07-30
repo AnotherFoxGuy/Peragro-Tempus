@@ -42,6 +42,7 @@ private:
   bool ready;
   int socket_handler;
 
+  static bool running;
   static size_t sent_bytes;
   static size_t received_bytes;
   static size_t last_checked;
