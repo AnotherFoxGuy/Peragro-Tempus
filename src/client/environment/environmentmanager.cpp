@@ -91,6 +91,7 @@ namespace PT
 
       // Create our sun.
       sun = engine->CreateLight("Sun", csVector3(0,40,0),9999999999.0f, csColor(1.0f), CS_LIGHT_DYNAMICTYPE_DYNAMIC);
+      sun->SetType(CS_LIGHT_DIRECTIONAL);
 
       iSector* world = engine->FindSector("World");
       if (!world)
@@ -120,10 +121,7 @@ namespace PT
     {
       if (!clock) return;
 
-      // Move the sun relative to the player.
-      if (cam && sun)
-        sun->GetMovable()->SetPosition(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
-        //sun->SetCenter(cam->GetTransform().GetOrigin()+csVector3(500,2000,0));
+      csVector3 sun_vec;
 
       static float lastStep = clock->GetFractionOfDay();
       float step = clock->GetFractionOfDay();
@@ -156,12 +154,20 @@ namespace PT
         sun_alpha = 1.605f * sin(-step * 2.0f * PI) - 3.21f;
 
         // Update the values.
-        csVector3 sun_vec;
         sun_vec.x = cos(sun_theta) * sin(sun_alpha);
         sun_vec.y = sin(sun_theta);
         sun_vec.z = cos(sun_theta) * cos(sun_alpha);
         csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
         var->SetValue(sun_vec);
+      }
+
+      // Move the sun light.
+      if (cam && sun)
+      {
+        csReversibleTransform trans(csMatrix3(), (sun_vec*1000.0f)+cam->GetTransform().GetOrigin());
+        trans.LookAt(sun_vec*-1, csVector3(0,1,0));
+        sun->GetMovable()->SetTransform( trans );
+        sun->GetMovable()->UpdateMove();
       }
 
       //=[ Sun brightness ]===================================
