@@ -57,6 +57,11 @@ svn add *
 cd ../..
 echo "--> Deleting files no longer part of build system."
 svn status | grep "\!" | grep -v "appperagro.rc" | grep -v "appperagro_static.rc" | awk ' { print $2 } ' | xargs svn del
+echo "--> Setting eol-style on MSVC project files."
+find ./msvc/ -type f -name "*.sln" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style CRLF
+find ./msvc/ -type f -name "*.vcproj" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style CRLF
+find ./msvc/ -type f -name "*.manifest" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style native
+find ./msvc/ -type f -name "*.rc" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style native
 echo "--> Committing to SVN Repository if changes were found."
 svn ci . -m "Automated MSVC project file regeneration."
 cd ../..
