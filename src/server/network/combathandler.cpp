@@ -17,7 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "network.h"
+#include "server/network/combathandler.h"
 #include "networkhelper.h"
 
 #include "server/entity/entitymanager.h"

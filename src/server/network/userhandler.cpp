@@ -20,7 +20,7 @@
 
 #include "common/util/diagnosticinformation.h"
 
-#include "network.h"
+#include "server/network/userhandler.h"
 #include "networkhelper.h"
 
 #include "server/database/tablemanager.h"

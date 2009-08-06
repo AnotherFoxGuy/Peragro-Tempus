@@ -24,6 +24,7 @@
 #define BOOKHANDLER_H
 
 #include "common/network/nwtypes.h"
+#include "common/network/messagehandler.h"
 
 #include "common/network/bookmessages.h"
 

@@ -904,7 +904,8 @@ void nwWriter::writeHandler(std::ofstream& out, nwPeer* peer, nwType* type)
   out << "#ifndef " << toConst(type->name) << "HANDLER_H\n";
   out << "#define " << toConst(type->name) << "HANDLER_H\n\n";
 
-  out << "#include \"common/network/nwtypes.h\"\n\n";
+  out << "#include \"common/network/nwtypes.h\"\n";
+  out << "#include \"common/network/messagehandler.h\"\n\n";
   out << "#include \"common/network/" << toVariable(type->name) << "messages.h\"\n\n";
 
   //out << "class " << peer->name << ";\n\n";
@@ -974,7 +975,7 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
 {
   writeLicenceHeader(out);
 
-  out << "#include \"client/network/network.h\"\n\n";
+  out << "#include \"client/network/" << toVariable(type->name) << "handler.h\"\n\n";
 
   out << "#include \"common/event/eventmanager.h\"\n";
   out << "#include \"common/event/entityevent.h\"\n\n";

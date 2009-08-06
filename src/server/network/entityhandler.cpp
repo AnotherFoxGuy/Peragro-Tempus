@@ -24,7 +24,7 @@
 #include "server/entity/itementity.h"
 #include "server/entity/mountentity.h"
 #include "server/entity/user.h"
-#include "network.h"
+#include "server/network/entityhandler.h"
 #include "networkhelper.h"
 #include "server/entity/usermanager.h"
 #include "server/zone/locationmanager.h"

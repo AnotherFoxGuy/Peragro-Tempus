@@ -16,10 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "network.h"
+#include "server/network/adminhandler.h"
 #include "networkhelper.h"
 
 #include <sstream>
+
+#include "common/network/entitymessages.h"
+#include "common/network/chatmessages.h"
 
 #include "server/zone/zonemanager.h"
 #include "server/zone/locationmanager.h"
