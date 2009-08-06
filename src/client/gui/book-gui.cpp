@@ -17,7 +17,6 @@
 */
 
 #include "client/gui/book-gui.h"
-#include "client/gui/gui.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
@@ -25,12 +24,14 @@
 
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 
 #include "common/reporter/reporter.h"
 
 #include "common/event/eventmanager.h"
 #include "common/event/bookevent.h"
+
+#include "client/gui/guimanager.h"
+#include "client/gui/inventory-gui.h"
 
 namespace PT
 {

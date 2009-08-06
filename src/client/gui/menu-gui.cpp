@@ -17,15 +17,15 @@
 */
 
 #include "client/gui/menu-gui.h"
-#include "client/gui/gui.h"
-#include "client/gui/guimanager.h"
-#include "client/gui/skinmanager.h"
-#include "client/gui/menumanager.h"
 
 #include <CEGUI.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUILogger.h>
 #include <ivaria/icegui.h>
+
+#include "client/gui/guimanager.h"
+#include "client/gui/skinmanager.h"
+#include "client/gui/menumanager.h"
 
 namespace PT
 {

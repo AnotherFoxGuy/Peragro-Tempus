@@ -16,8 +16,11 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "client/gui/options/chatoptions-gui.h"
+
+#include <iutil/cfgmgr.h>
+
 #include "client/pointer/pointer.h"
-#include "client/gui/gui.h"
 
 namespace PT
 {

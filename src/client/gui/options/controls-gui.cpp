@@ -16,20 +16,23 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
-#include "client/gui/guimanager.h"
-#include "client/gui/skinmanager.h"
-#include "client/pointer/pointer.h"
+#include "client/gui/options/controls-gui.h"
 
 #include <CEGUI.h>
 #include <CEGUIWindowManager.h>
 #include <CEGUILogger.h>
 #include <ivaria/icegui.h>
+
+#include <iutil/cfgmgr.h>
 #include <iutil/stringarray.h>
 
-#include "common/reporter/reporter.h"
 #include "common/event/eventmanager.h"
 #include "common/event/inputevent.h"
+
+#include "common/reporter/reporter.h"
+#include "client/pointer/pointer.h"
+
+#include "client/gui/skinmanager.h"
 
 namespace PT
 {

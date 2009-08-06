@@ -23,8 +23,11 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
-#include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+#include "client/gui/login-gui.h"
+#include "client/gui/servers-gui.h"
+#include "client/gui/charsel-gui.h"
+#include "client/gui/confirmdialog-gui.h"
 
 #include "client/entity/entitymanager.h"
 #include "client/network/network.h"

@@ -25,7 +25,8 @@
 #include "client/pointer/pointer.h"
 
 #include "client/gui/guimanager.h"
-#include "client/gui/gui.h"
+#include "client/gui/trade-gui.h"
+#include "client/gui/confirmdialog-gui.h"
 
 #include "client/network/network.h"
 #include "common/network/trademessages.h"

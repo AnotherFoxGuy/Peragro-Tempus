@@ -16,11 +16,13 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "menuitem.h"
-#include "menumanager.h"
+#include "client/gui/menuitem.h"
+
 #include <vector>
 #include <cctype>
 #include <algorithm>
+
+#include "client/gui/menumanager.h"
 
 namespace PT
 {

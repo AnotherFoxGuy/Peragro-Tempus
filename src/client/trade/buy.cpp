@@ -25,8 +25,8 @@
 #include "client/pointer/pointer.h"
 
 #include "client/gui/guimanager.h"
-#include "client/gui/gui.h"
-
+#include "client/gui/buy-gui.h"
+#include "client/gui/confirmdialog-gui.h"
 
 namespace PT
 {

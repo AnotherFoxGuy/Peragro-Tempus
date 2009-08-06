@@ -16,14 +16,13 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
+#include "client/gui/interactdialog-gui.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 #include "client/cursor/cursor.h"
 #include "client/entity/entitymanager.h"
 #include "client/entity/door/doorentity.h"
@@ -37,6 +36,12 @@
 
 #include "client/trade/trademanager.h"
 #include "client/trade/exchange.h"
+
+#include "client/gui/guimanager.h"
+#include "client/gui/inventory-gui.h"
+#include "client/gui/skillshud-gui.h"
+#include "client/gui/status-gui.h"
+#include "client/gui/book-gui.h"
 
 #define CANCEL_BUTTON "InteractDialog/Cancel"
 

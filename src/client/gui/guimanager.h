@@ -71,7 +71,6 @@ namespace PT
     class DialogConfiguration;
     class MenuManager;
 
-
     class GUIManager
     {
     private:

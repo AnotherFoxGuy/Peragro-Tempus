@@ -20,6 +20,8 @@
 
 #include "common/reporter/reporter.h"
 
+#include "client/gui/guimanager.h"
+
 Inventory::Inventory(PT::GUI::GUIManager* guimanager)
 {
   this->guimanager = guimanager;

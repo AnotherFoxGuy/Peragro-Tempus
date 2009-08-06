@@ -23,9 +23,6 @@
 
 #include "common/event/eventmanager.h"
 
-#include "client/gui/guimanager.h"
-#include "client/gui/gui.h"
-
 #include "client/trade/playerinventory.h"
 #include "client/trade/exchange.h"
 #include "client/trade/buy.h"

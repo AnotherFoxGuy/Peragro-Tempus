@@ -19,7 +19,11 @@
 #ifndef PT_GUI_CHATOPTIONSWINDOW_H
 #define PT_GUI_CHATOPTIONSWINDOW_H
 
+#include "client/gui/base-gui.h"
+
 #define CHATOPTIONSWINDOW "Options/Chat"
+
+struct iConfigManager;
 
 namespace PT
 {

@@ -17,6 +17,7 @@
 */
 
 #include "client/gui/guimanager.h"
+
 #include "client/gui/skinmanager.h"
 #include "client/gui/menumanager.h"
 #include "client/gui/dialogconfiguration.h"

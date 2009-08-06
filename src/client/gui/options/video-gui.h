@@ -23,6 +23,8 @@
 
 #define VIDEOOPTIONSWINDOW "Options/Video"
 
+struct iConfigManager;
+
 namespace PT
 {
   namespace GUI

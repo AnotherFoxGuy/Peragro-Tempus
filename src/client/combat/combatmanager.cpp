@@ -37,8 +37,9 @@
 
 #include "common/reporter/reporter.h"
 
-#include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+#include "client/gui/chat-gui.h"
+#include "client/gui/statshud-gui.h"
 
 #include "client/cursor/cursor.h"
 

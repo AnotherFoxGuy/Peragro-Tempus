@@ -23,6 +23,8 @@
 
 #define MOVEMENTOPTIONSWINDOW "Options/Movement"
 
+struct iConfigManager;
+
 namespace PT
 {
   namespace GUI

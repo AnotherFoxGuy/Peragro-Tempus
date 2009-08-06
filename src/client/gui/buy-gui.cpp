@@ -17,17 +17,18 @@
 */
 
 #include "client/gui/buy-gui.h"
-#include "client/gui/gui.h"
-#include "client/gui/common/dragdrop-gui.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 
 #include "common/reporter/reporter.h"
+
+#include "client/gui/guimanager.h"
+#include "client/gui/common/dragdrop-gui.h"
+#include "client/gui/inventory-gui.h"
 
 namespace PT
 {

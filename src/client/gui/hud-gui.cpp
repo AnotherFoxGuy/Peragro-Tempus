@@ -16,7 +16,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
 #include "client/gui/hud-gui.h"
 
 #include "CEGUI.h"
@@ -24,7 +23,6 @@
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"

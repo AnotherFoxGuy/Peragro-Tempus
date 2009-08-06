@@ -17,22 +17,23 @@
 */
 
 #include "client/gui/login-gui.h"
-#include "client/gui/gui.h"
-#include "client/gui/servers-gui.h"
-
-#include "client/user/usermanager.h"
 
 #include "CEGUI.h"
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 #include "client/state/statemanager.h"
 #include "common/version.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
+
+#include "client/gui/confirmdialog-gui.h"
+#include "client/gui/servers-gui.h"
+#include "client/gui/guimanager.h"
+
+#include "client/user/usermanager.h"
 
 namespace PT
 {

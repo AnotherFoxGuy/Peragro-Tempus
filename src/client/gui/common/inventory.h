@@ -29,7 +29,6 @@
 #include "CEGUI.h"
 #include "ivaria/icegui.h"
 
-#include "client/gui/guimanager.h"
 
 #include "client/gui/common/dragdrop-gui.h"
 

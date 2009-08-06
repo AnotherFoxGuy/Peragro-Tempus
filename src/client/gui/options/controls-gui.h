@@ -23,6 +23,8 @@
 
 #define CONTROLOPTIONSWINDOW "Options/Controls"
 
+struct iConfigManager;
+
 namespace PT
 {
   namespace GUI

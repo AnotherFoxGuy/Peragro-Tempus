@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
+#include "client/gui/servers-gui.h"
 
 #include "client/client.h"
 
@@ -25,11 +25,13 @@
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 #include "common/version.h"
 
 #include "client/data/connection/server.h"
 #include "client/data/connection/connectiondatamanager.h"
+
+#include "client/gui/guimanager.h"
+#include "client/gui/login-gui.h"
 
 namespace PT
 {

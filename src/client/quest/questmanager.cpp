@@ -21,8 +21,8 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
-#include "client/gui/gui.h"
 #include "client/gui/guimanager.h"
+#include "client/gui/npcdialog-gui.h"
 
 #include "common/event/eventmanager.h"
 

@@ -16,7 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
+#include "client/gui/charsel-gui.h"
 
 #include "client/user/usermanager.h"
 
@@ -25,7 +25,6 @@
 #include "CEGUILogger.h"
 
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"

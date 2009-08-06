@@ -16,7 +16,8 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "menumanager.h"
+#include "client/gui/menumanager.h"
+
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <csutil/array.h>

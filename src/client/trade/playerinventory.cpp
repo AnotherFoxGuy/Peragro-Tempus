@@ -25,7 +25,7 @@
 #include "client/pointer/pointer.h"
 
 #include "client/gui/guimanager.h"
-#include "client/gui/gui.h"
+#include "client/gui/inventory-gui.h"
 
 using namespace Common::Inventory;
 

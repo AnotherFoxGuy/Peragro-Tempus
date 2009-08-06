@@ -29,12 +29,14 @@
 
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"
-#include "client/gui/guimanager.h"
-#include "client/gui/gui.h"
 
 #include "common/event/interfaceevent.h"
 
 #include "common/reporter/reporter.h"
+
+#include "client/gui/guimanager.h"
+#include "client/gui/buy-gui.h"
+#include "client/gui/trade-gui.h"
 
 using namespace PT;
 
