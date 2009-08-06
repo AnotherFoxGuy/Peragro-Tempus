@@ -22,6 +22,8 @@
 #include "CEGUIWindowManager.h"
 #include "CEGUILogger.h"
 
+#include <csutil/csstring.h>
+
 #include "client/network/network.h"
 #include "client/state/statemanager.h"
 #include "common/version.h"

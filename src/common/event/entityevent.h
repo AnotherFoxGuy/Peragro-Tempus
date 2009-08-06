@@ -42,7 +42,9 @@
 #include "common/reporter/reporter.h"
 
 #include "common/entity/entity.h"
+
 #include "common/event/event.h"
+#include "common/event/eventmanager.h"
 
 namespace PT
 {

@@ -28,11 +28,9 @@
 #include <CEGUI.h>
 #include <ivaria/icegui.h>
 
-#include "common/event/inputevent.h"
-#include "common/network/netmessage.h"
-#include "common/util/mutex.h"
+#include <csutil/refarr.h>
 
-#include "common/event/eventmanager.h"
+#include "src/common/event/eventhandler.h"
 
 #define ROOTWINDOW "Root"
 
@@ -40,6 +38,11 @@ class Network;
 
 namespace PT
 {
+  namespace Events
+  {
+    class EventManager;
+  }
+
   namespace GUI
   {
     class GUIManager;

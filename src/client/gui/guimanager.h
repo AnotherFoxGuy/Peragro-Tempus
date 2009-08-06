@@ -23,11 +23,11 @@
 #include <csutil/ref.h>
 #include <iutil/vfs.h>
 
-//#include <ivaria/icegui.h>
 #include <CEGUI.h>
 
-#include "common/dragdrop-gui.h"
-#include "base-gui.h"
+#include "client/gui/base-gui.h"
+
+#include "common/reporter/reporter.h"
 
 struct iObjectRegistry;
 struct iVFS;
@@ -46,7 +46,7 @@ namespace PT
       class ChatWindow;
       class ChatInputWindow;
       class InventoryWindow;
-//      class HUDWindow;
+      //class HUDWindow;
       class OptionsWindow;
       class StatusWindow;
       class BuddyWindow;

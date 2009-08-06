@@ -27,17 +27,17 @@
 #include "CEGUI.h"
 #include "ivaria/icegui.h"
 
-#include "common/network/netmessage.h"
-#include "common/util/mutex.h"
-
-#include "client/data/item/itemdatamanager.h"
-#include "client/gui/common/slot.h"
-
-
 class Network;
+class Slot;
+class Object;
 
 namespace PT
 {
+  namespace Data
+  {
+    class ItemDataManager;
+  }
+
   namespace GUI
   {
     class GUIManager;

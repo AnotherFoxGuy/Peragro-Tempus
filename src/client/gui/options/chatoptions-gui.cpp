@@ -18,9 +18,13 @@
 
 #include "client/gui/options/chatoptions-gui.h"
 
+#include <iutil/objreg.h>
 #include <iutil/cfgmgr.h>
 
 #include "client/pointer/pointer.h"
+#include "common/reporter/reporter.h"
+
+#include "common/event/eventmanager.h"
 
 namespace PT
 {

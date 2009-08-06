@@ -28,6 +28,7 @@
 #include "common/reporter/reporter.h"
 
 #include "client/gui/guimanager.h"
+#include "client/gui/common/slot.h"
 
 namespace PT
 {

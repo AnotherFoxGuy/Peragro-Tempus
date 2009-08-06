@@ -32,6 +32,7 @@
 
 #include "client/gui/guimanager.h"
 #include "client/gui/inventory-gui.h"
+#include "client/gui/common/slot.h"
 
 namespace PT
 {

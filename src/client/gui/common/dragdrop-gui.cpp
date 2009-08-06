@@ -18,6 +18,9 @@
 
 #include "client/gui/common/dragdrop-gui.h"
 
+#include "client/gui/common/slot.h"
+#include "client/gui/common/object.h"
+
 #include "client/serversetup/serversetupmanager.h" //remove
 
 #include "client/data/item/itemdatamanager.h"
@@ -30,6 +33,7 @@
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"
 
+#include "common/event/eventmanager.h"
 #include "common/event/interfaceevent.h"
 
 #include "common/reporter/reporter.h"
