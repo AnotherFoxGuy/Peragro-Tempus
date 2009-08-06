@@ -48,10 +48,10 @@ bool Generator::generateNetwork()
     std::string file("src/common/network/");
     std::string filename = network->types[i]->name;
     std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
-    file.append(filename.c_str());
+    file.append(filename);
     file.append("messages.h");
     std::ofstream type_file(file.c_str());
-    std::cout << "- writing " << file.c_str() <<"\n";
+    std::cout << "- writing " << file <<"\n";
     writer.writeTypeHead(type_file, network->types[i]);
   }
 
@@ -60,10 +60,10 @@ bool Generator::generateNetwork()
     std::string file("src/common/network/");
     std::string filename = network->types[i]->name;
     std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
-    file.append(filename.c_str());
+    file.append(filename);
     file.append("messages.cpp");
     std::ofstream type_file(file.c_str());
-    std::cout << "- writing " << file.c_str() <<"\n";
+    std::cout << "- writing " << file <<"\n";
     writer.writeTypeImpl(type_file, network->types[i]);
   }
 
@@ -88,14 +88,14 @@ bool Generator::generateNetwork()
       std::string file("src/");
       std::string pathname = network->peers[i]->name;
       std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
-      file.append(pathname.c_str());
+      file.append(pathname);
       file.append("/network/");
       std::string filename = network->types[j]->name;
       std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
-      file.append(filename.c_str());
+      file.append(filename);
       file.append("handler.h");
       std::ofstream type_file(file.c_str());
-      std::cout << "- writing " << file.c_str() <<"\n";
+      std::cout << "- writing " << file <<"\n";
       writer.writeHandler(type_file, network->peers[i], network->types[j]);
     }
   }
@@ -107,14 +107,14 @@ bool Generator::generateNetwork()
     std::string file("src/");
     std::string pathname = client->name;
     std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
-    file.append(pathname.c_str());
+    file.append(pathname);
     file.append("/network/");
     std::string filename = network->types[j]->name;
     std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
-    file.append(filename.c_str());
+    file.append(filename);
     file.append("handler.cpp");
     std::ofstream type_file(file.c_str());
-    std::cout << "- writing " << file.c_str() <<"\n";
+    std::cout << "- writing " << file <<"\n";
     writer.writeHandlerImplementation(type_file, client, network->types[j]);
   }
 
