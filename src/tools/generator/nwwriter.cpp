@@ -1123,7 +1123,7 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     }
     out << indt <<  "  " << listName << "->Add(itemName.str().c_str(), item);\n";
     out << indt << "}\n";
-    out << indt <<  eventname << "->Add(" << listName << ", list);\n";
+    out << indt <<  eventname << "->Add(" << listName << ", "<< listName <<");\n";
   }
   else
   {
