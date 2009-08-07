@@ -1110,7 +1110,8 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
   else if (param->type == nwParamType::LIST)
   {
     std::string listName = "\"" + toFunction(param->name) + "List\"";
-    out << indt << "csRef<iEvent> "<< listName  <<" = evmgr->CreateEvent(" << listName  << ", true);\n"
+    std::string listVarName = toFunction(param->name) + "List";
+    out << indt << "csRef<iEvent> "<< listVarName  <<" = evmgr->CreateEvent(" << listName  << ", true);\n"
         << indt << "for (unsigned char i = 0; i < pmsg.get" << param->name << "Count(); i++)\n"
         << indt << "{\n"
         << indt << "  std::stringstream itemName;\n"
@@ -1121,9 +1122,9 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
       nwParams* listParam = param->params[j];
       writeParam(out, listParam, "item", "i", indent + 1);
     }
-    out << indt <<  "  " << listName << "->Add(itemName.str().c_str(), item);\n";
+    out << indt <<  "  " << listVarName << "->Add(itemName.str().c_str(), item);\n";
     out << indt << "}\n";
-    out << indt <<  eventname << "->Add(" << listName << ", "<< listName <<");\n";
+    out << indt <<  eventname << "->Add(" << listName << ", "<< listVarName <<");\n";
   }
   else
   {
