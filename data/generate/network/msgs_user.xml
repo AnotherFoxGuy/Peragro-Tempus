@@ -35,6 +35,72 @@
     </event>
   </message>
 
+  <message type="User" name="AvatarListRequest">
+  </message>
+
+  <message type="User" name="AvatarListResponse">
+    <event name="user.avatar.list" specific="None">
+      <list name="Avatar">
+        <uint32>AvatarId</uint32>
+        <string>AvatarName</string>
+      </list>
+    </event>
+  </message>
+
+
+  <message type="User" name="AvatarInfoRequest">
+    <uint32>AvatarId</uint32>
+  </message>
+
+  <message type="User" name="AvatarInfoResponse">
+    <event name="user.avatar.info" specific="None">
+      <uint32>AvatarId</uint32>
+      <string>AvatarName</string>
+      <uint32>MeshId</uint32>
+      <uint32>SpeciesId</uint32>
+      <string>factoryName</string>
+      <string>fileName</string>
+
+      <list name="Inventory">
+        <uint32>InventoryItemTemplateId</uint32>
+        <uint32>InventoryChance</uint32>
+      </list>
+      <list name="Equipment">
+        <uint32>EquipmentItemTemplateId</uint32>
+        <uint32>EquipmentChance</uint32>
+      </list>
+      <list name="Reputations">
+        <string>ReputationsName</string>
+        <uint32>ReputationsMinLevel</uint32>
+        <uint32>ReputationsMaxLevel</uint32>
+        <uint32>ReputationsLevel</uint32>
+      </list>
+      <list name="Skills">
+        <string>SkillsName</string>
+        <uint32>SkillsMin</uint32>
+        <uint32>SkillsMax</uint32>
+        <uint32>SkillsXP</uint32>
+      </list>
+      <list name="Hobbies">
+        <string>HobbiesName</string>
+        <uint32>HobbiesOrder</uint32>
+        <uint32>HobbiesXP</uint32>
+      </list>
+      <list name="Abilities">
+        <string>AbilitiesName</string>
+        <uint32>AbilitiesMin</uint32>
+        <uint32>AbilitiesMax</uint32>
+        <uint32>AbilitiesXP</uint32>
+      </list>
+      <list name="Vulberabilities">
+        <string>VulberabilitiesName</string>
+        <uint32>VulberabilitiesMin</uint32>
+        <uint32>VulberabilitiesMax</uint32>
+        <uint32>VulberabilitiesValue</uint32>
+      </list>
+    </event>
+  </message>
+
   <message type="User" name="CharList">
     <event name="user.character.list" specific="None">
       <list name="Character">
@@ -49,7 +115,7 @@
 
   <message type="User" name="CharCreateRequest">
     <string>Name</string>
-    <string>RaceName</string>
+    <uint32>AvatarTemplateID</uint32>
     <colour24>HairColour</colour24>
     <colour24>SkinColour</colour24>
     <colour24>DecalColour</colour24>

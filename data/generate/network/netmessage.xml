@@ -26,6 +26,10 @@
       <message id="8" name="CharSelectResponse" />
       <message id="9" name="MeshListRequest" />
       <message id="10" name="MeshListResponse" />
+      <message id="11" name="AvatarListRequest" />
+      <message id="12" name="AvatarListResponse" />
+      <message id="13" name="AvatarInfoRequest" />
+      <message id="14" name="AvatarInfoResponse" />
     </type>
     <type id="2" name="Entity">
       <message id="0" name="AddNpcEntity" />
