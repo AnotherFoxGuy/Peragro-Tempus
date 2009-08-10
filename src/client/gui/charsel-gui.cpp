@@ -84,26 +84,11 @@ namespace PT
         return true;
       } // end OnSelection()
 
-      bool SelectCharWindow::NewChar(const CEGUI::EventArgs& e)
-      {
-        CEGUI::String NewCharName = GetNewCharName();
-        ClearNewCharName();
-        if (NewCharName.empty()) return true;
-        CharCreateRequestMessage answer_msg;
-        answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
-        answer_msg.setRaceName(ptString::create("test"));
-        answer_msg.setSkinColour(0xC9, 0xBE, 0x89);
-        answer_msg.setHairColour(0x4B, 0x41, 0x13);
-        answer_msg.setDecalColour(0xFF, 0x00, 0x00);
-        network->send(&answer_msg);
-
-        ToggleNewWindow(false);
-
-        return true;
-      } // end NewChar()
 
       bool SelectCharWindow::CreateButton(const CEGUI::EventArgs& e)
       {
+        AvatarListRequestMessage msg;
+        PointerLibrary::getInstance()->getNetwork()->send(&msg);
         ToggleNewWindow(true);
         return true;
       } // end CreateButton()
@@ -160,7 +145,7 @@ namespace PT
 
       void SelectCharWindow::ToggleNewWindow(bool visible)
       {
-        btn = winMgr->getWindow("CharSelectNew/Frame");
+        btn = winMgr->getWindow("CharNew/Frame");
         btn->setVisible(visible);
         btn = winMgr->getWindow("CharSelect/Frame");
         btn->setVisible(!visible);
@@ -241,8 +226,10 @@ namespace PT
       {
         window = GUIWindow::LoadLayout ("client/charselect.layout");
         GUIWindow::AddToRoot(window);
-        window = GUIWindow::LoadLayout ("client/charselectnew.layout");
-        GUIWindow::AddToRoot(window);
+ //       window = GUIWindow::LoadLayout ("client/charselectnew.layout");
+ //       GUIWindow::AddToRoot(window);
+ //       window = GUIWindow::LoadLayout ("client/charnew.layout");
+ //       GUIWindow::AddToRoot(window);
 
         // Register the button events.
         btn = winMgr->getWindow("CharSelect/Ok");
@@ -256,14 +243,6 @@ namespace PT
         btn = winMgr->getWindow("CharSelect/Create");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,
           CEGUI::Event::Subscriber(&SelectCharWindow::CreateButton, this));
-
-        btn = winMgr->getWindow("CharSelectNew/Cancel");
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&SelectCharWindow::CancelButton, this));
-
-        btn = winMgr->getWindow("CharSelectNew/Ok");
-        btn->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&SelectCharWindow::NewChar, this));
 
         btn = winMgr->getWindow("CharSelect/Admin");
         btn->subscribeEvent(CEGUI::PushButton::EventClicked,

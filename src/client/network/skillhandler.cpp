@@ -37,7 +37,7 @@ void SkillHandler::handleSkillList(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.skill.list", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    csRef<iEvent> list = evmgr->CreateEvent("statsList", true);
+    csRef<iEvent> statsList = evmgr->CreateEvent("statsList", true);
     for (unsigned char i = 0; i < pmsg.getStatsCount(); i++)
     {
       std::stringstream itemName;
@@ -46,9 +46,9 @@ void SkillHandler::handleSkillList(GenericMessage* msg)
       item->Add("skillId", pmsg.getSkillId(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("xp", pmsg.getXp(i));
-      list->Add(itemName.str().c_str(), item);
+      statsList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("statsList", list);
+    pEvent->Add("statsList", statsList);
 
     evmgr->AddEvent(pEvent);
   }

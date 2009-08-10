@@ -69,7 +69,7 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("trade.general.offer.list", pmsg.getIsBuy()), true);
     pEvent->Add("isBuy", pmsg.getIsBuy());
-    csRef<iEvent> list = evmgr->CreateEvent("offersList", true);
+    csRef<iEvent> offersList = evmgr->CreateEvent("offersList", true);
     for (unsigned char i = 0; i < pmsg.getOffersCount(); i++)
     {
       std::stringstream itemName;
@@ -79,9 +79,9 @@ void TradeHandler::handleTradeOffersListNpc(GenericMessage* msg)
       item->Add("price", pmsg.getPrice(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
-      list->Add(itemName.str().c_str(), item);
+      offersList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("offersList", list);
+    pEvent->Add("offersList", offersList);
 
     evmgr->AddEvent(pEvent);
   }
@@ -97,7 +97,7 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.exchange.offer.list", true);
-    csRef<iEvent> list = evmgr->CreateEvent("offersList", true);
+    csRef<iEvent> offersList = evmgr->CreateEvent("offersList", true);
     for (unsigned char i = 0; i < pmsg.getOffersCount(); i++)
     {
       std::stringstream itemName;
@@ -108,9 +108,9 @@ void TradeHandler::handleExchangeOffersList(GenericMessage* msg)
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
       item->Add("slotId", pmsg.getSlotId(i));
-      list->Add(itemName.str().c_str(), item);
+      offersList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("offersList", list);
+    pEvent->Add("offersList", offersList);
 
     evmgr->AddEvent(pEvent);
   }

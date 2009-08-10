@@ -23,8 +23,11 @@ CREATE TABLE EntityChannels ("entity_id" INTEGER NOT NULL REFERENCES "Entities" 
 
 
 CREATE TABLE Users ("login" TEXT NOT NULL, "passwordHash" TEXT NOT NULL, UNIQUE ("login"));
+INSERT INTO "Users" VALUES('admin','admin');  -- Default Admin Account
 
 CREATE TABLE Permissions ("users_login" TEXT NOT NULL REFERENCES "Users" ("login"), "type" TEXT NOT NULL, "level" INTEGER NOT NULL, UNIQUE ("users_login", "type"));
+INSERT INTO "Permissions" VALUES('admin','Admin',2);  -- Default Admin Account Permissions 
+
 
 CREATE TABLE EntityTypes ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, UNIQUE ("id"));
 INSERT INTO "EntityTypes" VALUES(1,'PCEntityType');
@@ -203,8 +206,7 @@ CREATE TABLE ZoneNodes ("zone_id" INTEGER NOT NULL REFERENCES "Zones" ("id"), "c
 
 
 CREATE TABLE Species ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "maxAge" FLOAT NOT NULL, UNIQUE ("id"));
-INSERT INTO "Species" VALUES(1,'Human',101,60.0);
-INSERT INTO "Species" VALUES(2,'Horse',201,60.0);
+
 
 CREATE TABLE SpeciesAbilities ("species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "AbilityTypes_id" INTEGER NOT NULL REFERENCES "AbilityTypes" ("id"), "minXP" FLOAT NOT NULL, "maxXP" FLOAT NOT NULL, UNIQUE ("species_id", "AbilityTypes_id"));
 
@@ -230,6 +232,11 @@ CREATE TABLE Locations ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "location" 
 INSERT INTO "Locations" VALUES(1,'default','(900.765,8.26531,12.1211)');
 INSERT INTO "Locations" VALUES(2,'relocate','(900.765,8.26531,12.1211)');
 
+CREATE TABLE AvatarMeshes ("id" INTEGER NOT NULL, "mesh_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "name" TEXT NOT NULL, UNIQUE ("id", "mesh_id", "species_id"));
+
+INSERT INTO "AvatarMeshes" VALUES(1,101,1,'Human Knight');
+INSERT INTO "AvatarMeshes" VALUES(2,102,1,'Human Male');
+INSERT INTO "AvatarMeshes" VALUES(3,103,1,'Human Female');
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Game Start Settings
@@ -244,13 +251,26 @@ INSERT INTO "Locations" VALUES(4,'site1','(2351.67,44.3489,655.91)');
 -- Charater Meshes
 ----------------------------------------------------------------------------------------------------------------------------------------------------- 
 INSERT INTO "Meshes" VALUES(101,1,'male','/peragro/art/3d_art/characters/male01/male01');
---INSERT INTO "Meshes" VALUES(102,1,'MaleBase','/peragro/art/3d_art/characters/MaleBase/library');
---INSERT INTO "Meshes" VALUES(103,1,'pesant','/peragro/art/3d_art/characters/pesant/library');
---INSERT INTO "Meshes" VALUES(13,1,'MaleBase','/peragro/art/3d_art/characters/Pesant/library');
+INSERT INTO "Meshes" VALUES(102,1,'human-male','/peragro/art/3d_art/characters/human-male/library');
+INSERT INTO "Meshes" VALUES(103,1,'human-female','/peragro/art/3d_art/characters/human-female/library');
+--INSERT INTO "Meshes" VALUES(104,1,'knight','/peragro/art/3d_art/characters/knight/library');
 
 -- Mount Meshes
 INSERT INTO "Meshes" VALUES(201,1,'horse','/peragro/art/3d_art/animals/horse/horse.xml');
 --INSERT INTO "Meshes" VALUES(12,1,'horse','/peragro/art/3d_art/animals/horse/library');
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+-- Species Templates 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO "Species" VALUES(1,'Human',101,60.0);
+INSERT INTO "SpeciesAbilities" VALUES(1,2,0,100);  --Endurance
+INSERT INTO "SpeciesAbilities" VALUES(1,3,0,100);  --Speed
+INSERT INTO "SpeciesAbilities" VALUES(1,4,0,100);  --Strength
+
+INSERT INTO "Species" VALUES(2,'Horse',201,60.0);
+INSERT INTO "SpeciesAbilities" VALUES(2,2,0,100);  --Endurance
+INSERT INTO "SpeciesAbilities" VALUES(2,3,0,100);  --Speed
+INSERT INTO "SpeciesAbilities" VALUES(2,4,0,100);  --Strength
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- Item Meshes and Templates
@@ -266,6 +286,7 @@ INSERT INTO "ItemTemplates" VALUES(1002, 'Book', 1002, 'set:Inventory image:oldb
 -- Daedalian Claymore
 INSERT INTO "Meshes" VALUES(1003,1,'genbastardsword01','/peragro/art/3d_art/props/weapons/swords/bastardsword01/library');
 INSERT INTO "ItemTemplates" VALUES(1003, 'Daedalian Claymore', 1003, 'set:Inventory image:fancyclaymore', 'A masterful sword for those born out of wedlock.', 1, 1);
+
 
 -- Flaming Dragon Edge Sword
 --INSERT INTO "Meshes" VALUES(4,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
@@ -284,6 +305,7 @@ INSERT INTO "ItemTemplates" VALUES(1003, 'Daedalian Claymore', 1003, 'set:Invent
 INSERT INTO "Meshes" VALUES(1007,1,'buckler1','/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml');
 INSERT INTO "ItemTemplates" VALUES(1007, 'Prima Buckler', 1007, 'set:Inventory image:primabuckler', 'A small buckler style shield.', 1, 0)
 
+
 -- Scythe
 INSERT INTO "Meshes" VALUES(1008,1,'genscythe001','/peragro/art/3d_art/props/others/scythes/scythe001/library.xml');
 INSERT INTO "ItemTemplates" VALUES(1008, 'Scythe', 1008, '/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
@@ -294,21 +316,20 @@ INSERT INTO "ItemTemplates" VALUES(1009, 'Small Plate', 1009, 'set:Inventory ima
 
 -- Tiny Ballpot
 INSERT INTO "Meshes" VALUES(1010,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "ItemTemplates" VALUES(10, 'Tiny Ballpot', 1010, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1010, 'Tiny Ballpot', 1010, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
 
 -- Tunic
-INSERT INTO "Meshes" VALUES(1011,1,'tunic','/peragro/art/3d_art/props/clothes/tunic/library');
-INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory image:tinyballpot', 'A simple tunic.', 1, 0)
+--INSERT INTO "Meshes" VALUES(1011,1,'tunic','/peragro/art/3d_art/props/clothes/tunic/library');
+--INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory image:tinyballpot', 'A simple tunic.', 1, 0)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
--- My account stuff
+-- My test account stuff
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-INSERT INTO "Users" VALUES('admin','admin');
-INSERT INTO "Permissions" VALUES('admin','Admin',2);
-
+INSERT INTO "Users" VALUES('mec','123456');
+INSERT INTO "Permissions" VALUES('mec','Admin',2);
 -- My character stuff
+--INSERT INTO "Characters" VALUES(1,'recon',101,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
 INSERT INTO "Characters" VALUES(1,'recon',101,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
---INSERT INTO "Characters" VALUES(1,'recon',103,'(0,0,0)','(0,0,0)','(0,0,0)',1,0.0);
 INSERT INTO "Abilities" VALUES(1,2,10.0);
 INSERT INTO "Abilities" VALUES(1,3,10.0);
 INSERT INTO "Abilities" VALUES(1,5,10.0);

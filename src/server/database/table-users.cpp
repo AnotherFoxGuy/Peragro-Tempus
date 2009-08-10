@@ -31,6 +31,7 @@ UsersTable::UsersTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
+    Insert("admin","admin");
   }
   delete rs;
 }

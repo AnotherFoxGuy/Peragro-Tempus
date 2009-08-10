@@ -19,6 +19,9 @@
 #include "usermanager.h"
 
 #include <csutil/cmdline.h>
+#include <stdlib.h>
+#include <sstream>
+
 
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
@@ -27,6 +30,7 @@
 #include "client/gui/login-gui.h"
 #include "client/gui/servers-gui.h"
 #include "client/gui/charsel-gui.h"
+#include "client/gui/charnew-gui.h"
 #include "client/gui/confirmdialog-gui.h"
 
 #include "client/entity/entitymanager.h"
@@ -58,6 +62,8 @@ namespace PT
       PT_REGISTER_LISTENER(UserManager, RegisterResponse, "user.register")
 
       PT_REGISTER_LISTENER(UserManager, CharacterList, "user.character.list")
+      PT_REGISTER_LISTENER(UserManager, AvatarTemplateList, "user.avatar.list")
+      PT_REGISTER_LISTENER(UserManager, AvatarTemplateInfo, "user.avatar.info")
       PT_REGISTER_LISTENER(UserManager, CharacterCreateResponse, "user.character.create")
 
       iObjectRegistry* object_reg = PointerLibrary::getInstance()->getObjectRegistry();
@@ -296,6 +302,82 @@ namespace PT
       PointerLibrary::getInstance()->getNetwork()->stop();
       PointerLibrary::getInstance()->getEntityManager()->Reset();
     } // end Logout()
+
+    // Character creation 
+
+    bool UserManager::AvatarTemplateList(iEvent& ev)
+    {
+      printf(" bool UserManager::AvatarList(iEvent& ev)\n");
+      using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
+
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      if (!guimanager) return false;
+
+      CreateCharWindow* createCharWindow = guimanager->GetWindow<CreateCharWindow>(CREATECHARWINDOW);
+      createCharWindow->EmptyAvatarList();
+
+      csRef<iEvent> list;
+      if (ev.Retrieve("avatarList", list) == csEventErrNone)
+      {
+        csRef<iEventAttributeIterator> avatars = list->GetAttributeIterator();
+        while (avatars->HasNext())
+        {
+          csRef<iEvent> avatar; list->Retrieve(avatars->Next(), avatar);
+          unsigned int avatarId = Helper::GetUInt(avatar, "avatarId");
+          std::string avatarName = Helper::GetString(avatar, "avatarName");
+          createCharWindow->AddModel(avatarId, avatarName.c_str());
+        } // end while
+      }  // end if event avatarlist
+      else
+        Report(PT::Error, "UserManager failed to get character avatar list!");
+
+      return true;
+    } // end avatarList()
+
+    bool UserManager::AvatarTemplateInfo(iEvent& ev)
+    {
+      using namespace PT::Events;
+      using namespace PT::GUI;
+      using namespace PT::GUI::Windows;
+
+      printf("UserManager::AvatarTemplateInfo\n");
+      GUIManager* guimanager = PointerLibrary::getInstance()->getGUIManager();
+      if (!guimanager) return false;
+
+      CreateCharWindow* createCharWindow = guimanager->GetWindow<CreateCharWindow>(CREATECHARWINDOW);
+
+      std::string infotext;
+      std::stringstream s;
+      infotext = "Abilities - \n" ;
+      csRef<iEvent> list;
+      if (ev.Retrieve("abilitiesList", list) == csEventErrNone)
+      {
+        csRef<iEventAttributeIterator> abilities = list->GetAttributeIterator();
+        while (abilities->HasNext())
+        {
+          csRef<iEvent> ability; list->Retrieve(abilities->Next(), ability);
+          ///@TODO: this needs status bars or something other than text
+          infotext += " Max:";
+          s.str("");
+          s << Helper::GetUInt(ability, "abilitiesMax");
+          infotext += s.str();
+          infotext += " Min:";
+          s.str("");
+          s << Helper::GetUInt(ability, "abilitiesMin");
+          infotext += s.str();
+          infotext += "  ";
+          infotext += Helper::GetString(ability, "abilitiesName");
+          infotext += "\n";
+        } // end while
+      }  // end if event abilitieslist
+      else
+        Report(PT::Error, "UserManager failed to get character avatar list!");
+
+      createCharWindow->SetInfoTextBox(infotext);
+      return true;
+    } // end AvatarInfo
 
   } // User namespace
 } // PT namespace

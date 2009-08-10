@@ -16,9 +16,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 /**
- * @file questmanager.h
+ * @file usermanager.h
  *
  * @brief Handles connect/disconnect(login) logic aswell as the character selection.
+ *        also handles character creation.
  */
 
 #ifndef USERMANAGER_H_
@@ -54,6 +55,8 @@ namespace PT
       bool RegisterResponse(iEvent& ev);
       bool CharacterList(iEvent& ev);
       bool CharacterCreateResponse(iEvent& ev);
+      bool AvatarTemplateList(iEvent& ev);
+      bool AvatarTemplateInfo(iEvent& ev);
       //bool CharacterSelectResponse(iEvent& ev);
 
     private:

@@ -22,6 +22,7 @@
 #include "servers-gui.h"
 #include "login-gui.h"
 #include "charsel-gui.h"
+#include "charnew-gui.h"
 #include "serversetup-gui.h"
 #include "chat-gui.h"
 #include "chatinput-gui.h"

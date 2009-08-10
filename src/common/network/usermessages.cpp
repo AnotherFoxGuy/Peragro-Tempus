@@ -152,7 +152,7 @@ bool CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(name);
-  serial.setString(racename);
+  serial.setInt32(avatartemplateid);
   serial.setInt8(haircolour[0]);
   serial.setInt8(haircolour[1]);
   serial.setInt8(haircolour[2]);
@@ -171,7 +171,7 @@ void CharCreateRequestMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   name = serial.getString();
-  racename = serial.getString();
+  avatartemplateid = (unsigned int) serial.getInt32();
   haircolour[0] = (unsigned char) serial.getInt8();
   haircolour[1] = (unsigned char) serial.getInt8();
   haircolour[2] = (unsigned char) serial.getInt8();
@@ -301,6 +301,218 @@ void MeshListResponseMessage::deserialise(ByteStream* bs)
     meshes[i].meshid = (unsigned int) serial.getInt32();
     meshes[i].meshname = serial.getString();
     meshes[i].filename = serial.getString();
+  };
+
+}
+
+bool AvatarListRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  return serial.isValid();
+}
+
+void AvatarListRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+}
+
+bool AvatarListResponseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt24(avatarcount);
+  for ( size_t i = 0; i < avatarcount ; i++ )
+  {
+    serial.setInt32(avatar[i].avatarid);
+    serial.setString(avatar[i].avatarname);
+  };
+
+  return serial.isValid();
+}
+
+void AvatarListResponseMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  avatarcount = (unsigned int) serial.getInt24();
+  setAvatarCount(avatarcount);
+  for ( size_t i = 0; i < avatarcount ; i++ )
+  {
+    avatar[i].avatarid = (unsigned int) serial.getInt32();
+    avatar[i].avatarname = serial.getString();
+  };
+
+}
+
+bool AvatarInfoRequestMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(avatarid);
+  return serial.isValid();
+}
+
+void AvatarInfoRequestMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  avatarid = (unsigned int) serial.getInt32();
+}
+
+bool AvatarInfoResponseMessage::serialise(ByteStream* bs)
+{
+  Serialiser serial(bs);
+  serial.setInt8(type);
+  serial.setInt8(id);
+  serial.setInt32(avatarid);
+  serial.setString(avatarname);
+  serial.setInt32(meshid);
+  serial.setInt32(speciesid);
+  serial.setString(factoryname);
+  serial.setString(filename);
+  serial.setInt24(inventorycount);
+  for ( size_t i = 0; i < inventorycount ; i++ )
+  {
+    serial.setInt32(inventory[i].inventoryitemtemplateid);
+    serial.setInt32(inventory[i].inventorychance);
+  };
+
+  serial.setInt24(equipmentcount);
+  for ( size_t i = 0; i < equipmentcount ; i++ )
+  {
+    serial.setInt32(equipment[i].equipmentitemtemplateid);
+    serial.setInt32(equipment[i].equipmentchance);
+  };
+
+  serial.setInt24(reputationscount);
+  for ( size_t i = 0; i < reputationscount ; i++ )
+  {
+    serial.setString(reputations[i].reputationsname);
+    serial.setInt32(reputations[i].reputationsminlevel);
+    serial.setInt32(reputations[i].reputationsmaxlevel);
+    serial.setInt32(reputations[i].reputationslevel);
+  };
+
+  serial.setInt24(skillscount);
+  for ( size_t i = 0; i < skillscount ; i++ )
+  {
+    serial.setString(skills[i].skillsname);
+    serial.setInt32(skills[i].skillsmin);
+    serial.setInt32(skills[i].skillsmax);
+    serial.setInt32(skills[i].skillsxp);
+  };
+
+  serial.setInt24(hobbiescount);
+  for ( size_t i = 0; i < hobbiescount ; i++ )
+  {
+    serial.setString(hobbies[i].hobbiesname);
+    serial.setInt32(hobbies[i].hobbiesorder);
+    serial.setInt32(hobbies[i].hobbiesxp);
+  };
+
+  serial.setInt24(abilitiescount);
+  for ( size_t i = 0; i < abilitiescount ; i++ )
+  {
+    serial.setString(abilities[i].abilitiesname);
+    serial.setInt32(abilities[i].abilitiesmin);
+    serial.setInt32(abilities[i].abilitiesmax);
+    serial.setInt32(abilities[i].abilitiesxp);
+  };
+
+  serial.setInt24(vulberabilitiescount);
+  for ( size_t i = 0; i < vulberabilitiescount ; i++ )
+  {
+    serial.setString(vulberabilities[i].vulberabilitiesname);
+    serial.setInt32(vulberabilities[i].vulberabilitiesmin);
+    serial.setInt32(vulberabilities[i].vulberabilitiesmax);
+    serial.setInt32(vulberabilities[i].vulberabilitiesvalue);
+  };
+
+  return serial.isValid();
+}
+
+void AvatarInfoResponseMessage::deserialise(ByteStream* bs)
+{
+  Deserialiser serial(bs);
+  type = serial.getInt8();
+  id = serial.getInt8();
+  avatarid = (unsigned int) serial.getInt32();
+  avatarname = serial.getString();
+  meshid = (unsigned int) serial.getInt32();
+  speciesid = (unsigned int) serial.getInt32();
+  factoryname = serial.getString();
+  filename = serial.getString();
+  inventorycount = (unsigned int) serial.getInt24();
+  setInventoryCount(inventorycount);
+  for ( size_t i = 0; i < inventorycount ; i++ )
+  {
+    inventory[i].inventoryitemtemplateid = (unsigned int) serial.getInt32();
+    inventory[i].inventorychance = (unsigned int) serial.getInt32();
+  };
+
+  equipmentcount = (unsigned int) serial.getInt24();
+  setEquipmentCount(equipmentcount);
+  for ( size_t i = 0; i < equipmentcount ; i++ )
+  {
+    equipment[i].equipmentitemtemplateid = (unsigned int) serial.getInt32();
+    equipment[i].equipmentchance = (unsigned int) serial.getInt32();
+  };
+
+  reputationscount = (unsigned int) serial.getInt24();
+  setReputationsCount(reputationscount);
+  for ( size_t i = 0; i < reputationscount ; i++ )
+  {
+    reputations[i].reputationsname = serial.getString();
+    reputations[i].reputationsminlevel = (unsigned int) serial.getInt32();
+    reputations[i].reputationsmaxlevel = (unsigned int) serial.getInt32();
+    reputations[i].reputationslevel = (unsigned int) serial.getInt32();
+  };
+
+  skillscount = (unsigned int) serial.getInt24();
+  setSkillsCount(skillscount);
+  for ( size_t i = 0; i < skillscount ; i++ )
+  {
+    skills[i].skillsname = serial.getString();
+    skills[i].skillsmin = (unsigned int) serial.getInt32();
+    skills[i].skillsmax = (unsigned int) serial.getInt32();
+    skills[i].skillsxp = (unsigned int) serial.getInt32();
+  };
+
+  hobbiescount = (unsigned int) serial.getInt24();
+  setHobbiesCount(hobbiescount);
+  for ( size_t i = 0; i < hobbiescount ; i++ )
+  {
+    hobbies[i].hobbiesname = serial.getString();
+    hobbies[i].hobbiesorder = (unsigned int) serial.getInt32();
+    hobbies[i].hobbiesxp = (unsigned int) serial.getInt32();
+  };
+
+  abilitiescount = (unsigned int) serial.getInt24();
+  setAbilitiesCount(abilitiescount);
+  for ( size_t i = 0; i < abilitiescount ; i++ )
+  {
+    abilities[i].abilitiesname = serial.getString();
+    abilities[i].abilitiesmin = (unsigned int) serial.getInt32();
+    abilities[i].abilitiesmax = (unsigned int) serial.getInt32();
+    abilities[i].abilitiesxp = (unsigned int) serial.getInt32();
+  };
+
+  vulberabilitiescount = (unsigned int) serial.getInt24();
+  setVulberabilitiesCount(vulberabilitiescount);
+  for ( size_t i = 0; i < vulberabilitiescount ; i++ )
+  {
+    vulberabilities[i].vulberabilitiesname = serial.getString();
+    vulberabilities[i].vulberabilitiesmin = (unsigned int) serial.getInt32();
+    vulberabilities[i].vulberabilitiesmax = (unsigned int) serial.getInt32();
+    vulberabilities[i].vulberabilitiesvalue = (unsigned int) serial.getInt32();
   };
 
 }

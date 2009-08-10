@@ -27,6 +27,9 @@
 #include "server/database/table-characters.h"
 #include "server/database/table-pcentities.h"
 #include "server/database/table-users.h"
+#include "server/database/table-avatarmeshes.h"
+#include "server/database/table-meshes.h"
+
 #include "server/entity/entitymanager.h"
 #include "server/entity/usermanager.h"
 #include "server/environment/environmentmanager.h"
@@ -36,6 +39,7 @@
 #include "server/entity/pcentity.h"
 
 #include "server/species/speciesmanager.h"
+#include "common/database/database.h"
 
 void UserHandler::handleLoginRequest(GenericMessage* msg)
 {
@@ -130,18 +134,28 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
 
   ptString char_name = char_msg.getName();
+  unsigned int avatarTemplateID = char_msg.getAvatarTemplateID();
   unsigned char* haircolour = char_msg.getHairColour();
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
+  ///@TODO : Create a CharacterHandler and move this stuff to it. 
+  // Get AvatarInfo 
+  AvatarMeshesTable* atable = server->GetTableManager()->Get<AvatarMeshesTable>();
+  AvatarMeshesTableVOp avatarTemplate = atable->GetSingle(avatarTemplateID );
+  // Get Mesh Name
+  MeshesTable* mtable = server->GetTableManager()->Get<MeshesTable>();
+  MeshesTableVOp mesh = mtable->GetSingle(avatarTemplate->mesh_id );
 
   ptString error(ptString::Null);
   Common::Entity::Entity::IdType pcId = Common::Entity::Entity::NoEntity;
   try
   {
     boost::shared_ptr<PcEntity> pc =
-      server->GetSpeciesManager()->CreatePCFromSpecies(1); //Human
+    server->GetSpeciesManager()->CreatePCFromSpecies(avatarTemplate->species_id); 
     pc->SetName(*char_name);
     pc->SetUser(user.get());
+    pc->SetMeshName(mesh->factoryName);
+    pc->SetFileName(mesh->fileName);
     pc->SaveToDB();
 
     pcId = pc->GetId();
@@ -281,4 +295,114 @@ void UserHandler::handleMeshListRequest(GenericMessage* msg)
   msg->getConnection()->send(bs);
   */
 }
+
+void UserHandler::handleAvatarListRequest(GenericMessage* msg)
+{
+  printf("handleAvatarListRequest\n");
+
+  AvatarMeshesTableVOArray avatarList;
+  AvatarMeshesTable* avatarTable;
+
+  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarMeshesTable>();
+  avatarList = avatarTable->GetAll();
+  if (avatarList.size() > 255) return; // TODO: Fix me
+
+  AvatarListResponseMessage response;
+  response.setAvatarCount((char) avatarList.size());
+  printf("avatarList.size %i\n",avatarList.size() );
+  for (size_t i=0; i < avatarList.size(); i++)
+  {
+    printf("id:%i name:%s\n",avatarList[i]->id, avatarList[i]->name.c_str() );
+    response.setAvatarId(i, avatarList[i]->id );
+    response.setAvatarName(i, avatarList[i]->name);
+  }
+
+  ByteStream bs;
+  response.serialise(&bs);
+  msg->getConnection()->send(bs);
+} // end handleAvatarListRequest
+
+void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
+{
+  printf ("UserHandler::handleAvatarInfoRequest\n");
+  
+  AvatarInfoRequestMessage requestMsg;
+  requestMsg.deserialise(msg->getByteStream());
+
+  AvatarMeshesTable* avatarTable;
+  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarMeshesTable>();
+  AvatarMeshesTableVOp avatarTemplate = avatarTable->GetSingle(requestMsg.getAvatarId());
+  if (!avatarTemplate)
+  { 
+    printf("Invalid avatarID\n");
+    return;
+  }
+  printf("AvatarID:%i , MeshId: %i , SpeciesID:%i \n", avatarTemplate->id, avatarTemplate->mesh_id, avatarTemplate->species_id );
+
+  AvatarInfoResponseMessage response;
+  response.setAvatarId(avatarTemplate->id);
+  response.setMeshId(avatarTemplate->mesh_id);
+  response.setSpeciesId(avatarTemplate->species_id);
+  response.setAvatarName(avatarTemplate->name);
+
+
+  MeshesTable* meshesTable;
+  meshesTable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
+  MeshesTableVOp mesh = meshesTable->GetSingle(avatarTemplate->mesh_id);
+  if (!mesh)
+  { 
+    printf("Invalid mesh_id \n");
+    return;
+  }
+  response.setfactoryName(mesh->factoryName);
+  response.setfileName(mesh->fileName);
+
+  Database* db =  Server::getServer()->getDatabase();
+  std::string sql = "SELECT sa.Species_id, sa.AbilityTypes_id, at.name, sa.minXP, sa.maxXP " \
+                            "FROM SpeciesAbilities sa , AbilityTypes at " \
+                            "WHERE  sa.AbilityTypes_id = at.id " \
+                            "AND sa.Species_id = ";
+  std::stringstream s;
+  s << avatarTemplate->species_id;
+  sql += s.str();
+  sql += ";";
+  ResultSet* rs = db->query( sql.c_str() );
+  if (!rs) return;
+  if ( rs->GetRowCount() > 255 ) return;
+  response.setAbilitiesCount((char) rs->GetRowCount());
+
+  std::string name;
+  int min;
+  int max;
+  int xp;
+  for (size_t i = 0; rs && i < rs->GetRowCount(); i++) 
+  {
+    DB::Helper::Convert(name, rs->GetData(i, 2));
+    DB::Helper::Convert(min, rs->GetData(i, 3));
+    DB::Helper::Convert(max, rs->GetData(i, 4));
+    DB::Helper::Convert(xp, rs->GetData(i, 4));
+
+    response.setAbilitiesName(i, name);
+    response.setAbilitiesMin(i, min);
+    response.setAbilitiesMax(i, max);
+    response.setAbilitiesXP(i, xp);
+
+  }  
+
+  delete rs;
+
+/*@@@ TODO Add other species info to AvatarInfoResponseMessage*/
+  response.setInventoryCount((char) 0);
+  response.setEquipmentCount((char) 0);
+  response.setReputationsCount((char) 0);
+  response.setSkillsCount((char) 0);
+  response.setHobbiesCount((char) 0);
+  response.setVulberabilitiesCount((char) 0);
+
+
+  // send responce 
+  ByteStream bs;
+  response.serialise(&bs);
+  msg->getConnection()->send(bs);
+} // end handleAvatarInfoRequest
 

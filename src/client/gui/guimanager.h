@@ -42,6 +42,7 @@ namespace PT
       class LoginWindow;
       class ServerWindow;
       class SelectCharWindow;
+      class CreateCharWindow;
       class ServerSetupWindow;
       class ChatWindow;
       class ChatInputWindow;

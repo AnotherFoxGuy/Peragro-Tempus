@@ -39,7 +39,11 @@ namespace USER
     CHARSELECTREQUEST=7,
     CHARSELECTRESPONSE=8,
     MESHLISTREQUEST=9,
-    MESHLISTRESPONSE=10
+    MESHLISTRESPONSE=10,
+    AVATARLISTREQUEST=11,
+    AVATARLISTRESPONSE=12,
+    AVATARINFOREQUEST=13,
+    AVATARINFORESPONSE=14
   };
 }
 
@@ -228,7 +232,7 @@ public:
 class CharCreateRequestMessage : public NetMessage
 {
   ptString name;
-  ptString racename;
+  unsigned int avatartemplateid;
   unsigned char haircolour[3];
   unsigned char skincolour[3];
   unsigned char decalcolour[3];
@@ -248,8 +252,8 @@ public:
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getRaceName() const { return racename; }
-  void setRaceName(ptString x) { racename = x; }
+  unsigned int getAvatarTemplateID() const { return avatartemplateid; }
+  void setAvatarTemplateID(unsigned int x) { avatartemplateid = x; }
 
   unsigned char* getHairColour() { return haircolour; }
   void setHairColour(unsigned char r, unsigned char g, unsigned char b)
@@ -468,6 +472,378 @@ public:
   void setFileName(size_t i, ptString x) { meshes[i].filename = x; }
 
   // --- end ListMeshes Getter and Setter ---
+
+};
+
+class AvatarListRequestMessage : public NetMessage
+{
+
+public:
+  AvatarListRequestMessage() : NetMessage(MESSAGES::USER,USER::AVATARLISTREQUEST)
+  {
+  }
+
+  ~AvatarListRequestMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+};
+
+class AvatarListResponseMessage : public NetMessage
+{
+  class ListAvatar
+  {
+  public:
+    unsigned int avatarid;
+    ptString avatarname;
+  };
+
+  unsigned int avatarcount;
+  ListAvatar* avatar;
+
+
+public:
+  AvatarListResponseMessage() : NetMessage(MESSAGES::USER,USER::AVATARLISTRESPONSE)
+  {
+    avatar = 0;
+  }
+
+  ~AvatarListResponseMessage()
+  {
+    delete [] avatar;
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned char getAvatarCount() const { return avatarcount; }
+  void setAvatarCount(unsigned char ic)
+  {
+    avatarcount = ic;
+    delete [] avatar;
+    avatar = new ListAvatar[ic];
+  }
+
+  // --- begin ListAvatar Getter and Setter ---
+
+  unsigned int getAvatarId(size_t i) { return avatar[i].avatarid; }
+  void setAvatarId(size_t i, unsigned int x) { avatar[i].avatarid = x; }
+
+  ptString getAvatarName(size_t i) { return avatar[i].avatarname; }
+  void setAvatarName(size_t i, ptString x) { avatar[i].avatarname = x; }
+
+  // --- end ListAvatar Getter and Setter ---
+
+};
+
+class AvatarInfoRequestMessage : public NetMessage
+{
+  unsigned int avatarid;
+
+public:
+  AvatarInfoRequestMessage() : NetMessage(MESSAGES::USER,USER::AVATARINFOREQUEST)
+  {
+  }
+
+  ~AvatarInfoRequestMessage()
+  {
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getAvatarId() const { return avatarid; }
+  void setAvatarId(unsigned int x) { avatarid = x; }
+
+};
+
+class AvatarInfoResponseMessage : public NetMessage
+{
+  unsigned int avatarid;
+  ptString avatarname;
+  unsigned int meshid;
+  unsigned int speciesid;
+  ptString factoryname;
+  ptString filename;
+  class ListInventory
+  {
+  public:
+    unsigned int inventoryitemtemplateid;
+    unsigned int inventorychance;
+  };
+
+  unsigned int inventorycount;
+  ListInventory* inventory;
+
+  class ListEquipment
+  {
+  public:
+    unsigned int equipmentitemtemplateid;
+    unsigned int equipmentchance;
+  };
+
+  unsigned int equipmentcount;
+  ListEquipment* equipment;
+
+  class ListReputations
+  {
+  public:
+    ptString reputationsname;
+    unsigned int reputationsminlevel;
+    unsigned int reputationsmaxlevel;
+    unsigned int reputationslevel;
+  };
+
+  unsigned int reputationscount;
+  ListReputations* reputations;
+
+  class ListSkills
+  {
+  public:
+    ptString skillsname;
+    unsigned int skillsmin;
+    unsigned int skillsmax;
+    unsigned int skillsxp;
+  };
+
+  unsigned int skillscount;
+  ListSkills* skills;
+
+  class ListHobbies
+  {
+  public:
+    ptString hobbiesname;
+    unsigned int hobbiesorder;
+    unsigned int hobbiesxp;
+  };
+
+  unsigned int hobbiescount;
+  ListHobbies* hobbies;
+
+  class ListAbilities
+  {
+  public:
+    ptString abilitiesname;
+    unsigned int abilitiesmin;
+    unsigned int abilitiesmax;
+    unsigned int abilitiesxp;
+  };
+
+  unsigned int abilitiescount;
+  ListAbilities* abilities;
+
+  class ListVulberabilities
+  {
+  public:
+    ptString vulberabilitiesname;
+    unsigned int vulberabilitiesmin;
+    unsigned int vulberabilitiesmax;
+    unsigned int vulberabilitiesvalue;
+  };
+
+  unsigned int vulberabilitiescount;
+  ListVulberabilities* vulberabilities;
+
+
+public:
+  AvatarInfoResponseMessage() : NetMessage(MESSAGES::USER,USER::AVATARINFORESPONSE)
+  {
+    inventory = 0;
+    equipment = 0;
+    reputations = 0;
+    skills = 0;
+    hobbies = 0;
+    abilities = 0;
+    vulberabilities = 0;
+  }
+
+  ~AvatarInfoResponseMessage()
+  {
+    delete [] inventory;
+    delete [] equipment;
+    delete [] reputations;
+    delete [] skills;
+    delete [] hobbies;
+    delete [] abilities;
+    delete [] vulberabilities;
+  }
+
+  bool serialise(ByteStream* bs);
+  void deserialise(ByteStream* bs);
+
+  unsigned int getAvatarId() const { return avatarid; }
+  void setAvatarId(unsigned int x) { avatarid = x; }
+
+  ptString getAvatarName() const { return avatarname; }
+  void setAvatarName(ptString x) { avatarname = x; }
+
+  unsigned int getMeshId() const { return meshid; }
+  void setMeshId(unsigned int x) { meshid = x; }
+
+  unsigned int getSpeciesId() const { return speciesid; }
+  void setSpeciesId(unsigned int x) { speciesid = x; }
+
+  ptString getfactoryName() const { return factoryname; }
+  void setfactoryName(ptString x) { factoryname = x; }
+
+  ptString getfileName() const { return filename; }
+  void setfileName(ptString x) { filename = x; }
+
+  unsigned char getInventoryCount() const { return inventorycount; }
+  void setInventoryCount(unsigned char ic)
+  {
+    inventorycount = ic;
+    delete [] inventory;
+    inventory = new ListInventory[ic];
+  }
+
+  // --- begin ListInventory Getter and Setter ---
+
+  unsigned int getInventoryItemTemplateId(size_t i) { return inventory[i].inventoryitemtemplateid; }
+  void setInventoryItemTemplateId(size_t i, unsigned int x) { inventory[i].inventoryitemtemplateid = x; }
+
+  unsigned int getInventoryChance(size_t i) { return inventory[i].inventorychance; }
+  void setInventoryChance(size_t i, unsigned int x) { inventory[i].inventorychance = x; }
+
+  // --- end ListInventory Getter and Setter ---
+
+  unsigned char getEquipmentCount() const { return equipmentcount; }
+  void setEquipmentCount(unsigned char ic)
+  {
+    equipmentcount = ic;
+    delete [] equipment;
+    equipment = new ListEquipment[ic];
+  }
+
+  // --- begin ListEquipment Getter and Setter ---
+
+  unsigned int getEquipmentItemTemplateId(size_t i) { return equipment[i].equipmentitemtemplateid; }
+  void setEquipmentItemTemplateId(size_t i, unsigned int x) { equipment[i].equipmentitemtemplateid = x; }
+
+  unsigned int getEquipmentChance(size_t i) { return equipment[i].equipmentchance; }
+  void setEquipmentChance(size_t i, unsigned int x) { equipment[i].equipmentchance = x; }
+
+  // --- end ListEquipment Getter and Setter ---
+
+  unsigned char getReputationsCount() const { return reputationscount; }
+  void setReputationsCount(unsigned char ic)
+  {
+    reputationscount = ic;
+    delete [] reputations;
+    reputations = new ListReputations[ic];
+  }
+
+  // --- begin ListReputations Getter and Setter ---
+
+  ptString getReputationsName(size_t i) { return reputations[i].reputationsname; }
+  void setReputationsName(size_t i, ptString x) { reputations[i].reputationsname = x; }
+
+  unsigned int getReputationsMinLevel(size_t i) { return reputations[i].reputationsminlevel; }
+  void setReputationsMinLevel(size_t i, unsigned int x) { reputations[i].reputationsminlevel = x; }
+
+  unsigned int getReputationsMaxLevel(size_t i) { return reputations[i].reputationsmaxlevel; }
+  void setReputationsMaxLevel(size_t i, unsigned int x) { reputations[i].reputationsmaxlevel = x; }
+
+  unsigned int getReputationsLevel(size_t i) { return reputations[i].reputationslevel; }
+  void setReputationsLevel(size_t i, unsigned int x) { reputations[i].reputationslevel = x; }
+
+  // --- end ListReputations Getter and Setter ---
+
+  unsigned char getSkillsCount() const { return skillscount; }
+  void setSkillsCount(unsigned char ic)
+  {
+    skillscount = ic;
+    delete [] skills;
+    skills = new ListSkills[ic];
+  }
+
+  // --- begin ListSkills Getter and Setter ---
+
+  ptString getSkillsName(size_t i) { return skills[i].skillsname; }
+  void setSkillsName(size_t i, ptString x) { skills[i].skillsname = x; }
+
+  unsigned int getSkillsMin(size_t i) { return skills[i].skillsmin; }
+  void setSkillsMin(size_t i, unsigned int x) { skills[i].skillsmin = x; }
+
+  unsigned int getSkillsMax(size_t i) { return skills[i].skillsmax; }
+  void setSkillsMax(size_t i, unsigned int x) { skills[i].skillsmax = x; }
+
+  unsigned int getSkillsXP(size_t i) { return skills[i].skillsxp; }
+  void setSkillsXP(size_t i, unsigned int x) { skills[i].skillsxp = x; }
+
+  // --- end ListSkills Getter and Setter ---
+
+  unsigned char getHobbiesCount() const { return hobbiescount; }
+  void setHobbiesCount(unsigned char ic)
+  {
+    hobbiescount = ic;
+    delete [] hobbies;
+    hobbies = new ListHobbies[ic];
+  }
+
+  // --- begin ListHobbies Getter and Setter ---
+
+  ptString getHobbiesName(size_t i) { return hobbies[i].hobbiesname; }
+  void setHobbiesName(size_t i, ptString x) { hobbies[i].hobbiesname = x; }
+
+  unsigned int getHobbiesOrder(size_t i) { return hobbies[i].hobbiesorder; }
+  void setHobbiesOrder(size_t i, unsigned int x) { hobbies[i].hobbiesorder = x; }
+
+  unsigned int getHobbiesXP(size_t i) { return hobbies[i].hobbiesxp; }
+  void setHobbiesXP(size_t i, unsigned int x) { hobbies[i].hobbiesxp = x; }
+
+  // --- end ListHobbies Getter and Setter ---
+
+  unsigned char getAbilitiesCount() const { return abilitiescount; }
+  void setAbilitiesCount(unsigned char ic)
+  {
+    abilitiescount = ic;
+    delete [] abilities;
+    abilities = new ListAbilities[ic];
+  }
+
+  // --- begin ListAbilities Getter and Setter ---
+
+  ptString getAbilitiesName(size_t i) { return abilities[i].abilitiesname; }
+  void setAbilitiesName(size_t i, ptString x) { abilities[i].abilitiesname = x; }
+
+  unsigned int getAbilitiesMin(size_t i) { return abilities[i].abilitiesmin; }
+  void setAbilitiesMin(size_t i, unsigned int x) { abilities[i].abilitiesmin = x; }
+
+  unsigned int getAbilitiesMax(size_t i) { return abilities[i].abilitiesmax; }
+  void setAbilitiesMax(size_t i, unsigned int x) { abilities[i].abilitiesmax = x; }
+
+  unsigned int getAbilitiesXP(size_t i) { return abilities[i].abilitiesxp; }
+  void setAbilitiesXP(size_t i, unsigned int x) { abilities[i].abilitiesxp = x; }
+
+  // --- end ListAbilities Getter and Setter ---
+
+  unsigned char getVulberabilitiesCount() const { return vulberabilitiescount; }
+  void setVulberabilitiesCount(unsigned char ic)
+  {
+    vulberabilitiescount = ic;
+    delete [] vulberabilities;
+    vulberabilities = new ListVulberabilities[ic];
+  }
+
+  // --- begin ListVulberabilities Getter and Setter ---
+
+  ptString getVulberabilitiesName(size_t i) { return vulberabilities[i].vulberabilitiesname; }
+  void setVulberabilitiesName(size_t i, ptString x) { vulberabilities[i].vulberabilitiesname = x; }
+
+  unsigned int getVulberabilitiesMin(size_t i) { return vulberabilities[i].vulberabilitiesmin; }
+  void setVulberabilitiesMin(size_t i, unsigned int x) { vulberabilities[i].vulberabilitiesmin = x; }
+
+  unsigned int getVulberabilitiesMax(size_t i) { return vulberabilities[i].vulberabilitiesmax; }
+  void setVulberabilitiesMax(size_t i, unsigned int x) { vulberabilities[i].vulberabilitiesmax = x; }
+
+  unsigned int getVulberabilitiesValue(size_t i) { return vulberabilities[i].vulberabilitiesvalue; }
+  void setVulberabilitiesValue(size_t i, unsigned int x) { vulberabilities[i].vulberabilitiesvalue = x; }
+
+  // --- end ListVulberabilities Getter and Setter ---
 
 };
 

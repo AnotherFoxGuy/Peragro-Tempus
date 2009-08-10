@@ -48,6 +48,8 @@ public:
     else if (id == USER::CHARCREATEREQUEST) handleCharCreateRequest(msg);
     else if (id == USER::CHARSELECTREQUEST) handleCharSelectRequest(msg);
     else if (id == USER::MESHLISTREQUEST) handleMeshListRequest(msg);
+    else if (id == USER::AVATARLISTREQUEST) handleAvatarListRequest(msg);
+    else if (id == USER::AVATARINFOREQUEST) handleAvatarInfoRequest(msg);
   }
 
   void handleLoginRequest(GenericMessage* msg);
@@ -55,6 +57,8 @@ public:
   void handleCharCreateRequest(GenericMessage* msg);
   void handleCharSelectRequest(GenericMessage* msg);
   void handleMeshListRequest(GenericMessage* msg);
+  void handleAvatarListRequest(GenericMessage* msg);
+  void handleAvatarInfoRequest(GenericMessage* msg);
 };
 
 #endif // USERHANDLER_H

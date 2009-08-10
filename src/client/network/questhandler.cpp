@@ -38,7 +38,7 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("quest.dialog.npc.add", true);
     pEvent->Add("dialogId", pmsg.getDialogId());
     pEvent->Add("dialogText", pmsg.getDialogText());
-    csRef<iEvent> list = evmgr->CreateEvent("answersList", true);
+    csRef<iEvent> answersList = evmgr->CreateEvent("answersList", true);
     for (unsigned char i = 0; i < pmsg.getAnswersCount(); i++)
     {
       std::stringstream itemName;
@@ -46,9 +46,9 @@ void QuestHandler::handleNpcDialog(GenericMessage* msg)
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
       item->Add("answerId", pmsg.getAnswerId(i));
       item->Add("answerText", pmsg.getAnswerText(i));
-      list->Add(itemName.str().c_str(), item);
+      answersList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("answersList", list);
+    pEvent->Add("answersList", answersList);
 
     evmgr->AddEvent(pEvent);
   }

@@ -37,7 +37,7 @@ void ResourceHandler::handleResourceList(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent(EntityHelper::MakeEntitySpecific("entity.resource.list", pmsg.getEntityId()), true);
     pEvent->Add("entityId", pmsg.getEntityId());
-    csRef<iEvent> list = evmgr->CreateEvent("resourcesList", true);
+    csRef<iEvent> resourcesList = evmgr->CreateEvent("resourcesList", true);
     for (unsigned char i = 0; i < pmsg.getResourcesCount(); i++)
     {
       std::stringstream itemName;
@@ -47,9 +47,9 @@ void ResourceHandler::handleResourceList(GenericMessage* msg)
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
       item->Add("value", pmsg.getValue(i));
       item->Add("maxValue", pmsg.getMaxValue(i));
-      list->Add(itemName.str().c_str(), item);
+      resourcesList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("resourcesList", list);
+    pEvent->Add("resourcesList", resourcesList);
 
     evmgr->AddEvent(pEvent);
   }

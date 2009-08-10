@@ -60,6 +60,7 @@
 #include "table-hobbies.h"
 #include "table-resourcetypes.h"
 #include "table-resources.h"
+#include "table-avatarmeshes.h"
 
 #include "table-vulnerabilitytypes.h"
 #include "table-vulnerabilities.h"
@@ -140,6 +141,7 @@ void TableManager::Initialize()
   Register(new HobbiesTable(db));
   Register(new ResourceTypesTable(db));
   Register(new ResourcesTable(db));
+  Register(new AvatarMeshesTable(db));
 
   Register(new VulnerabilityTypesTable(db));
   Register(new VulnerabilitiesTable(db));

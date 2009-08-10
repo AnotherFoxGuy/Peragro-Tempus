@@ -260,6 +260,11 @@ namespace PT
         charsel->Create();
         windows.Push(charsel);
 
+        PT::GUI::Windows::CreateCharWindow* charnew =
+          new PT::GUI::Windows::CreateCharWindow(this);
+        charnew->Create();
+        windows.Push(charnew);
+
         PT::GUI::Windows::SellWindow* sell =
           new PT::GUI::Windows::SellWindow(this);
         sell->Create();

@@ -31,6 +31,7 @@ PermissionsTable::PermissionsTable(Database* db) : Table(db)
   if (rs == 0)
   {
     CreateTable();
+    Insert("admin","Admin",2);
   }
   delete rs;
 }

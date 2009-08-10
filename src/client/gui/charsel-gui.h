@@ -36,8 +36,6 @@ namespace PT
         bool SelectChar(const CEGUI::EventArgs& e);
         /// Shows the currently selected character.
         bool OnSelection(const CEGUI::EventArgs& e);
-        /// Makes a new character.
-        bool NewChar(const CEGUI::EventArgs& e);
         /// Deletes the selected character.
         bool DelChar(const CEGUI::EventArgs& e);
         /// Returns the character name.

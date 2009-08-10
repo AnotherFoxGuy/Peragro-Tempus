@@ -42,7 +42,7 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
     PT::Events::EntityHelper::SetVector3(pEvent, "position", pmsg.getPosition());
     pEvent->Add("rotation", pmsg.getRotation());
     pEvent->Add("entityId", pmsg.getEntityId());
-    csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
+    csRef<iEvent> equipmentList = evmgr->CreateEvent("equipmentList", true);
     for (unsigned char i = 0; i < pmsg.getEquipmentCount(); i++)
     {
       std::stringstream itemName;
@@ -52,9 +52,9 @@ void EntityHandler::handleAddNpcEntity(GenericMessage* msg)
       item->Add("itemId", pmsg.getItemId(i));
       item->Add("meshName", *pmsg.getMeshName(i)?*pmsg.getMeshName(i):"");
       item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
-      list->Add(itemName.str().c_str(), item);
+      equipmentList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("equipmentList", list);
+    pEvent->Add("equipmentList", equipmentList);
 
     evmgr->AddEvent(pEvent);
   }
@@ -131,7 +131,7 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     pEvent->Add("skinColour", *pmsg.getSkinColour());
     pEvent->Add("decalColour", *pmsg.getDecalColour());
     pEvent->Add("entityId", pmsg.getEntityId());
-    csRef<iEvent> list = evmgr->CreateEvent("equipmentList", true);
+    csRef<iEvent> equipmentList = evmgr->CreateEvent("equipmentList", true);
     for (unsigned char i = 0; i < pmsg.getEquipmentCount(); i++)
     {
       std::stringstream itemName;
@@ -141,9 +141,9 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
       item->Add("itemId", pmsg.getItemId(i));
       item->Add("meshName", *pmsg.getMeshName(i)?*pmsg.getMeshName(i):"");
       item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
-      list->Add(itemName.str().c_str(), item);
+      equipmentList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("equipmentList", list);
+    pEvent->Add("equipmentList", equipmentList);
 
     evmgr->AddEvent(pEvent);
   }

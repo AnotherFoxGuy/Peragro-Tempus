@@ -37,7 +37,7 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.list", true);
     pEvent->Add("inventoryId", pmsg.getInventoryId());
-    csRef<iEvent> list = evmgr->CreateEvent("inventoryList", true);
+    csRef<iEvent> inventoryList = evmgr->CreateEvent("inventoryList", true);
     for (unsigned char i = 0; i < pmsg.getInventoryCount(); i++)
     {
       std::stringstream itemName;
@@ -50,9 +50,9 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
       item->Add("description", *pmsg.getDescription(i)?*pmsg.getDescription(i):"");
       item->Add("weight", pmsg.getWeight(i));
       item->Add("equipType", *pmsg.getEquipType(i)?*pmsg.getEquipType(i):"");
-      list->Add(itemName.str().c_str(), item);
+      inventoryList->Add(itemName.str().c_str(), item);
     }
-    pEvent->Add("inventoryList", list);
+    pEvent->Add("inventoryList", inventoryList);
 
     evmgr->AddEvent(pEvent);
   }
