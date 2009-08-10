@@ -600,6 +600,9 @@
 				RelativePath="..\..\src\client\gui\buy-gui.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\client\gui\charnew-gui.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.cpp">
 			</File>
 			<File
@@ -737,6 +740,9 @@
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\buy-gui.h">
+			</File>
+			<File
+				RelativePath="..\..\src\client\gui\charnew-gui.h">
 			</File>
 			<File
 				RelativePath="..\..\src\client\gui\charsel-gui.h">
