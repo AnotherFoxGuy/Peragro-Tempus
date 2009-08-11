@@ -42,7 +42,7 @@ PT_DECLARE_VO(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FI
  * Provides an interface to the database to handle storage of character
  * inventory.
  */
-class AvatarMeshesTable : public Table 
+class AvatarMeshesTable : public Table
 {
 private:
   PT_DECLARE_ParseSingleResultSet(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)

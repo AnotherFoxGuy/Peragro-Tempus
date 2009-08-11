@@ -16,8 +16,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "client/gui/gui.h"
-#include "charnew-gui.h"
+#include "client/gui/charnew-gui.h"
 
 #include "client/user/usermanager.h"
 
@@ -46,7 +45,6 @@ namespace PT
       CreateCharWindow::~CreateCharWindow()
       {
       } // end ~CreateCharWindow()
-
 
       bool CreateCharWindow::CreateButton(const CEGUI::EventArgs& e)
       {
@@ -111,7 +109,7 @@ namespace PT
 
       bool CreateCharWindow::ReloadWindow()
       {
-        window = GUIWindow::LoadLayout ("client/charnew.layout");
+        window = GUIWindow::LoadLayout("client/charnew.layout");
         GUIWindow::AddToRoot(window);
 
         // Register the button events.
@@ -126,7 +124,7 @@ namespace PT
 
         // Setup model list
         btn = winMgr->getWindow("CharNew/AvatarComboBox");
-        ((CEGUI::Combobox*)btn)->setReadOnly (true);
+        ((CEGUI::Combobox*)btn)->setReadOnly(true);
         btn->subscribeEvent(CEGUI::Combobox::EventListSelectionAccepted,
           CEGUI::Event::Subscriber(&CreateCharWindow::OnAvatarTemplateSelect, this));
 
@@ -147,12 +145,12 @@ namespace PT
       } // end EmptyModelList()
 
       void CreateCharWindow::AddModel(unsigned int avatarId, const char* avatarName)
-      { 
+      {
         btn = winMgr->getWindow("CharNew/AvatarComboBox");
         CEGUI::ListboxItem* avatarItem = new CEGUI::ListboxTextItem(avatarName,avatarId);
         avatarItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
           (CEGUI::utf8*)"TextSelectionBrush");
-        static_cast<CEGUI::Combobox*>(btn)->addItem(avatarItem); 
+        static_cast<CEGUI::Combobox*>(btn)->addItem(avatarItem);
 
       } // end AddModel()
 
@@ -160,7 +158,7 @@ namespace PT
       void CreateCharWindow::SetInfoTextBox(const std::string infoText )
       {
         btn = winMgr->getWindow("CharNew/InfoEditBox");
-	btn->setText( reinterpret_cast<const CEGUI::utf8*>(infoText.c_str()) ); 
+        btn->setText(infoText.c_str());
       }
 
       void CreateCharWindow::ToggleNewWindow(bool visible)

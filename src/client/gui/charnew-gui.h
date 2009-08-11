@@ -46,10 +46,10 @@ namespace PT
 
         /// Updates new Avatar's model on selection
         bool OnAvatarTemplateSelect(const CEGUI::EventArgs& e);
- 
+
         void ToggleNewWindow(bool visible);
 
-      public: 
+      public:
         CreateCharWindow(GUIManager* guimanager);
         virtual ~CreateCharWindow();
         bool Create();
@@ -63,6 +63,7 @@ namespace PT
         void ShowWindow();
 
       };
+
     } // Windows namespace
   } // GUI namespace
 } // PT namespace

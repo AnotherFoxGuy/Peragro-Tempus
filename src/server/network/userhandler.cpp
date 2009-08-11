@@ -138,8 +138,8 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* haircolour = char_msg.getHairColour();
   unsigned char* skincolour = char_msg.getSkinColour();
   unsigned char* decalcolour = char_msg.getDecalColour();
-  ///@TODO : Create a CharacterHandler and move this stuff to it. 
-  // Get AvatarInfo 
+  ///@TODO : Create a CharacterHandler and move this stuff to it.
+  // Get AvatarInfo
   AvatarMeshesTable* atable = server->GetTableManager()->Get<AvatarMeshesTable>();
   AvatarMeshesTableVOp avatarTemplate = atable->GetSingle(avatarTemplateID );
   // Get Mesh Name
@@ -151,7 +151,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   try
   {
     boost::shared_ptr<PcEntity> pc =
-    server->GetSpeciesManager()->CreatePCFromSpecies(avatarTemplate->species_id); 
+    server->GetSpeciesManager()->CreatePCFromSpecies(avatarTemplate->species_id);
     pc->SetName(*char_name);
     pc->SetUser(user.get());
     pc->SetMeshName(mesh->factoryName);
@@ -325,7 +325,7 @@ void UserHandler::handleAvatarListRequest(GenericMessage* msg)
 void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
 {
   printf ("UserHandler::handleAvatarInfoRequest\n");
-  
+
   AvatarInfoRequestMessage requestMsg;
   requestMsg.deserialise(msg->getByteStream());
 
@@ -333,7 +333,7 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
   avatarTable = Server::getServer()->GetTableManager()->Get<AvatarMeshesTable>();
   AvatarMeshesTableVOp avatarTemplate = avatarTable->GetSingle(requestMsg.getAvatarId());
   if (!avatarTemplate)
-  { 
+  {
     printf("Invalid avatarID\n");
     return;
   }
@@ -350,7 +350,7 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
   meshesTable = Server::getServer()->GetTableManager()->Get<MeshesTable>();
   MeshesTableVOp mesh = meshesTable->GetSingle(avatarTemplate->mesh_id);
   if (!mesh)
-  { 
+  {
     printf("Invalid mesh_id \n");
     return;
   }
@@ -375,7 +375,7 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
   int min;
   int max;
   int xp;
-  for (size_t i = 0; rs && i < rs->GetRowCount(); i++) 
+  for (size_t i = 0; rs && i < rs->GetRowCount(); i++)
   {
     DB::Helper::Convert(name, rs->GetData(i, 2));
     DB::Helper::Convert(min, rs->GetData(i, 3));
@@ -386,12 +386,11 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
     response.setAbilitiesMin(i, min);
     response.setAbilitiesMax(i, max);
     response.setAbilitiesXP(i, xp);
-
-  }  
+  }
 
   delete rs;
 
-/*@@@ TODO Add other species info to AvatarInfoResponseMessage*/
+  //@@@ TODO Add other species info to AvatarInfoResponseMessage
   response.setInventoryCount((char) 0);
   response.setEquipmentCount((char) 0);
   response.setReputationsCount((char) 0);
@@ -399,8 +398,7 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
   response.setHobbiesCount((char) 0);
   response.setVulberabilitiesCount((char) 0);
 
-
-  // send responce 
+  // Send response
   ByteStream bs;
   response.serialise(&bs);
   msg->getConnection()->send(bs);

@@ -22,7 +22,6 @@
 #include <stdlib.h>
 #include <sstream>
 
-
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
@@ -159,7 +158,6 @@ namespace PT
       }
       else
         Report(PT::Notify, "Login succeeded!");
-
 
       if (stateManager->GetState() == STATE_RECONNECTED && char_id != NO_CHARACTER_SELECTED_0)
       {
@@ -303,7 +301,7 @@ namespace PT
       PointerLibrary::getInstance()->getEntityManager()->Reset();
     } // end Logout()
 
-    // Character creation 
+    // Character creation
 
     bool UserManager::AvatarTemplateList(iEvent& ev)
     {

@@ -52,7 +52,7 @@ AvatarMeshesTableVOArray AvatarMeshesTable::GetAvatarList()
     "SELECT * " \
     "FROM Meshes INNER JOIN avatarmeshes ON Meshes.Id=avatarmeshes.mesh_id; ");
 
-  AvatarMeshesTableVOArray arr; 
+  AvatarMeshesTableVOArray arr;
   if (!rs) return arr;
   arr = ParseMultiResultSet(rs);
   delete rs;
