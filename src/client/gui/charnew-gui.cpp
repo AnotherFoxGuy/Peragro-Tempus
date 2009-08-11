@@ -143,12 +143,7 @@ namespace PT
       void CreateCharWindow::EmptyAvatarList()
       {
         btn = winMgr->getWindow("CharNew/AvatarComboBox");
-        unsigned int i=0;
-        while (i < ((CEGUI::MultiColumnList*)btn)->getRowCount())
-        {
-          ((CEGUI::MultiColumnList*)btn)->removeRow(i);
-          ++i;
-        }
+        static_cast<CEGUI::Combobox*>(btn)->resetList();
       } // end EmptyModelList()
 
       void CreateCharWindow::AddModel(unsigned int avatarId, const char* avatarName)
@@ -157,7 +152,7 @@ namespace PT
         CEGUI::ListboxItem* avatarItem = new CEGUI::ListboxTextItem(avatarName,avatarId);
         avatarItem->setSelectionBrushImage((CEGUI::utf8*)"Peragro",
           (CEGUI::utf8*)"TextSelectionBrush");
-        ((CEGUI::Combobox*)btn)->addItem(avatarItem);
+        static_cast<CEGUI::Combobox*>(btn)->addItem(avatarItem); 
 
       } // end AddModel()
 
