@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef TABLE_AVATARMESHES_H
-#define TABLE_AVATARMESHES_H
+#ifndef TABLE_AVATARTEMPLATES_H
+#define TABLE_AVATARTEMPLATES_H
 
 #include "common/database/table.h"
 #include "common/database/tablehelper.h"
@@ -29,41 +29,41 @@ class ResultSet;
 //-----------------------------------------------------------------------------------
 //| Name               | C++ type name    | Key Type      | Foreign Key
 //-----------------------------------------------------------------------------------
-#define DB_TABLE_AVATARMESHES AvatarMeshes
-#define DB_TABLE_AVATARMESHES_FIELDS \
+#define DB_TABLE_AVATARTEMPLATES AvatarTemplates
+#define DB_TABLE_AVATARTEMPLATES_FIELDS \
   ((id,                      size_t,             PT_PrimaryKeyS,     0 )) \
   ((mesh_id,                 size_t,             0,                  0 )) \
   ((species_id,              size_t,             0,                  0 )) \
   ((name,                    std::string,        0,                  0 )) \
 
-PT_DECLARE_VO(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+PT_DECLARE_VO(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
 /**
- * Provides an interface to the database to handle storage of character
- * inventory.
+ * Provides an interface to the database to handle storage of player 
+ * avatar templates.
  */
-class AvatarMeshesTable : public Table
+class AvatarTemplatesTable : public Table
 {
 private:
-  PT_DECLARE_ParseSingleResultSet(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
-  PT_DECLARE_ParseMultiResultSet(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+  PT_DECLARE_ParseSingleResultSet(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
+  PT_DECLARE_ParseMultiResultSet(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
-  PT_DECLARE_CreateTable(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+  PT_DECLARE_CreateTable(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
 public:
-  AvatarMeshesTable(Database* db);
+  AvatarTemplatesTable(Database* db);
 
-  PT_DECLARE_DropTable(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+  PT_DECLARE_DropTable(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
-  PT_DECLARE_Insert(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
-  PT_DECLARE_Delete(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+  PT_DECLARE_Insert(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
+  PT_DECLARE_Delete(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
-  PT_DECLARE_GetAll(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
+  PT_DECLARE_GetAll(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
 
-  PT_DECLARE_Get(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
-  PT_DECLARE_GetSingle(AvatarMeshesTable, DB_TABLE_AVATARMESHES, DB_TABLE_AVATARMESHES_FIELDS)
-  AvatarMeshesTableVOArray GetAvatarList();
+  PT_DECLARE_Get(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
+  PT_DECLARE_GetSingle(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVATARTEMPLATES_FIELDS)
+  AvatarTemplatesTableVOArray GetAvatarList();
 
 };
 
-#endif //TABLE_AVATARMESHES_H
+#endif //TABLE_AVATARTEMPLATES_H

@@ -232,11 +232,11 @@ CREATE TABLE Locations ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "location" 
 INSERT INTO "Locations" VALUES(1,'default','(900.765,8.26531,12.1211)');
 INSERT INTO "Locations" VALUES(2,'relocate','(900.765,8.26531,12.1211)');
 
-CREATE TABLE AvatarMeshes ("id" INTEGER NOT NULL, "mesh_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "name" TEXT NOT NULL, UNIQUE ("id", "mesh_id", "species_id"));
+CREATE TABLE AvatarTemplates ("id" INTEGER NOT NULL, "mesh_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "species_id" INTEGER NOT NULL REFERENCES "Species" ("id"), "name" TEXT NOT NULL, UNIQUE ("id", "mesh_id", "species_id"));
 
-INSERT INTO "AvatarMeshes" VALUES(1,101,1,'Human Knight');
-INSERT INTO "AvatarMeshes" VALUES(2,102,1,'Human Male');
-INSERT INTO "AvatarMeshes" VALUES(3,103,1,'Human Female');
+INSERT INTO "AvatarTemplates" VALUES(1,101,1,'Human Knight');
+INSERT INTO "AvatarTemplates" VALUES(2,102,1,'Human Male');
+INSERT INTO "AvatarTemplates" VALUES(3,103,1,'Human Female');
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Game Start Settings

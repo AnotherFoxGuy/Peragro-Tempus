@@ -27,7 +27,7 @@
 #include "server/database/table-characters.h"
 #include "server/database/table-pcentities.h"
 #include "server/database/table-users.h"
-#include "server/database/table-avatarmeshes.h"
+#include "server/database/table-avatartemplates.h"
 #include "server/database/table-meshes.h"
 
 #include "server/entity/entitymanager.h"
@@ -45,7 +45,6 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 {
   LoginRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
-  printf("Received LoginRequest\n");
 
   ptString username = request_msg.getUsername();
   const char* password = request_msg.getPassword();
@@ -106,7 +105,6 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
 
 void UserHandler::handleRegisterRequest(GenericMessage* msg)
 {
-  printf("Received RegisterRequest\n");
   RegisterRequestMessage request_msg;
   request_msg.deserialise(msg->getByteStream());
 
@@ -140,11 +138,13 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   unsigned char* decalcolour = char_msg.getDecalColour();
   ///@TODO : Create a CharacterHandler and move this stuff to it.
   // Get AvatarInfo
-  AvatarMeshesTable* atable = server->GetTableManager()->Get<AvatarMeshesTable>();
-  AvatarMeshesTableVOp avatarTemplate = atable->GetSingle(avatarTemplateID );
+  AvatarTemplatesTable* atable = server->GetTableManager()->Get<AvatarTemplatesTable>();
+  AvatarTemplatesTableVOp avatarTemplate = atable->GetSingle(avatarTemplateID );
+  if (!avatarTemplate) return;
   // Get Mesh Name
   MeshesTable* mtable = server->GetTableManager()->Get<MeshesTable>();
   MeshesTableVOp mesh = mtable->GetSingle(avatarTemplate->mesh_id );
+  if (!mesh) return;
 
   ptString error(ptString::Null);
   Common::Entity::Entity::IdType pcId = Common::Entity::Entity::NoEntity;
@@ -298,21 +298,18 @@ void UserHandler::handleMeshListRequest(GenericMessage* msg)
 
 void UserHandler::handleAvatarListRequest(GenericMessage* msg)
 {
-  printf("handleAvatarListRequest\n");
 
-  AvatarMeshesTableVOArray avatarList;
-  AvatarMeshesTable* avatarTable;
+  AvatarTemplatesTableVOArray avatarList;
+  AvatarTemplatesTable* avatarTable;
 
-  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarMeshesTable>();
+  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarTemplatesTable>();
   avatarList = avatarTable->GetAll();
   if (avatarList.size() > 255) return; // TODO: Fix me
 
   AvatarListResponseMessage response;
   response.setAvatarCount((char) avatarList.size());
-  printf("avatarList.size %i\n",avatarList.size() );
   for (size_t i=0; i < avatarList.size(); i++)
   {
-    printf("id:%i name:%s\n",avatarList[i]->id, avatarList[i]->name.c_str() );
     response.setAvatarId(i, avatarList[i]->id );
     response.setAvatarName(i, avatarList[i]->name);
   }
@@ -324,20 +321,18 @@ void UserHandler::handleAvatarListRequest(GenericMessage* msg)
 
 void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
 {
-  printf ("UserHandler::handleAvatarInfoRequest\n");
 
   AvatarInfoRequestMessage requestMsg;
   requestMsg.deserialise(msg->getByteStream());
 
-  AvatarMeshesTable* avatarTable;
-  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarMeshesTable>();
-  AvatarMeshesTableVOp avatarTemplate = avatarTable->GetSingle(requestMsg.getAvatarId());
+  AvatarTemplatesTable* avatarTable;
+  avatarTable = Server::getServer()->GetTableManager()->Get<AvatarTemplatesTable>();
+  AvatarTemplatesTableVOp avatarTemplate = avatarTable->GetSingle(requestMsg.getAvatarId());
   if (!avatarTemplate)
   {
     printf("Invalid avatarID\n");
     return;
   }
-  printf("AvatarID:%i , MeshId: %i , SpeciesID:%i \n", avatarTemplate->id, avatarTemplate->mesh_id, avatarTemplate->species_id );
 
   AvatarInfoResponseMessage response;
   response.setAvatarId(avatarTemplate->id);
