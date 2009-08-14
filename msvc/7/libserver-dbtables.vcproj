@@ -312,7 +312,7 @@
 				RelativePath="..\..\src\server\database\table-attributetypes.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-avatarmeshes.cpp">
+				RelativePath="..\..\src\server\database\table-avatartemplates.cpp">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-books.cpp">
@@ -478,7 +478,7 @@
 				RelativePath="..\..\src\server\database\table-attributetypes.h">
 			</File>
 			<File
-				RelativePath="..\..\src\server\database\table-avatarmeshes.h">
+				RelativePath="..\..\src\server\database\table-avatartemplates.h">
 			</File>
 			<File
 				RelativePath="..\..\src\server\database\table-books.h">
