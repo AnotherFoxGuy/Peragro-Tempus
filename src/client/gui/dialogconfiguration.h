@@ -22,7 +22,7 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <csutil/array.h>
-
+#include <csutil/xmltiny.h>
 #include <CEGUI.h>
 
 #ifdef WIN32
@@ -58,9 +58,12 @@ namespace PT
       typedef std::map<CEGUI::Window*, DialogConfig> WindowMap;
       WindowMap dialogConfigurations;
 
+      bool LoadDialogConfig(iDocumentNode* winCfg);
+
     public:
       DialogConfiguration(iObjectRegistry* objReg);
       ~DialogConfiguration();
+
 
       /**
        * Loads the configuration.

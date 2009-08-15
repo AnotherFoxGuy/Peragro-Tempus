@@ -51,7 +51,6 @@ namespace PT
     {
       csRef<iFile> buf = vfs->Open(file.c_str(), VFS_FILE_READ);
       csRef<iDocumentSystem> docsys = csQueryRegistry<iDocumentSystem>(objReg);
-      CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
 
       if (!buf)
       {
@@ -79,107 +78,130 @@ namespace PT
         {
           return false;
         }
-      }
+        // ugly hack to stop client crashes corrupting cfg file
+        // loop through dialog windows and check for saved config
+        WindowMap::iterator ppkNode = dialogConfigurations.begin();
+        WindowMap::iterator ppkEnd = dialogConfigurations.end();
 
-      // Get all the nodes from the node 'dialogs'.
-      csRef<iDocumentNodeIterator> it = node->GetNodes();
-
-      while (it->HasNext())
-      {
-        // For each dialog
-        csRef<iDocumentNode> child = it->Next();
-
-        DialogConfig dialogConfig;
-        std::string windowName = child->GetAttributeValue("name");
-        CEGUI::Window * window = 0;
-        try
+        csRef<iDocumentNodeIterator> it;
+        csRef<iDocumentNode> child;
+        bool dialogcfg = false;
+        for (; ppkNode != ppkEnd; ++ppkNode) 
         {
-          window = winMgr->getWindow(windowName);
-        }
-        catch (CEGUI::Exception)
-        {
-          continue;
-        }
-        dialogConfig.defaultPosition = window->getPosition();
-        dialogConfig.defaultSize = window->getSize();
-        dialogConfig.windowName = windowName;
-
-        csRef<iDocumentNode> position = child->GetNode("position");
-        csRef<iDocumentNode> size = child->GetNode("size");
-        csRef<iDocumentNode> visible = child->GetNode("visible");
-
-        if (!position || !size || !visible)
-        {
-          continue;
-        }
-        std::string positionVal = position->GetContentsValue();
-        float xScale, xOffset, yScale, yOffset;
-        xScale = xOffset = yScale = yOffset = 0.0f;
-
-        std::vector<std::string> parts = split(positionVal, ",");
-
-        if (parts.size() != 4)
-        {
-          continue;
-        }
-        if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
-            sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
-        {
-          continue;
-        }
-        if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
-            sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
-        {
-          continue;
-        }
-
-        dialogConfig.userPosition = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
-          CEGUI::UDim(yScale, yOffset));
-
-        std::string sizeVal = size->GetContentsValue();
-        xScale = xOffset = yScale = yOffset = 0.0f;
-
-        parts = split(sizeVal, ",");
-
-        if (parts.size() != 4)
-        {
-          continue;
-        }
-        if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
-            sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
-        {
-          continue;
-        }
-        if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
-            sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
-        {
-          continue;
-        }
-
-        dialogConfig.userSize = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
-          CEGUI::UDim(yScale, yOffset));
-
-        std::string visibleVal = visible->GetContentsValue();
-        if (!visibleVal.empty())
-        {
-          if (visibleVal == "true" || visibleVal == "True")
+          // For each window 
+          // See if it has a saved configuration 
+          dialogcfg = false;
+          it = node->GetNodes();
+          while (it->HasNext())
           {
-            dialogConfig.visible = true;
-          }
-          else
+            child = it->Next();
+            if ( !(*ppkNode).first->getName().compare(child->GetAttributeValue("name")) )
+            {
+              if (LoadDialogConfig(child))
+              {
+                ApplyDialogConfiguration((*ppkNode).first);
+                dialogcfg = true;
+              }
+            }  // end if saved config element found
+          } // end find saved config element loop
+          if (!dialogcfg)
           {
-            dialogConfig.visible = false;
+            // get the defaults from the window and initilise them !!!
+            (*ppkNode).second.userPosition = (*ppkNode).first->getPosition();
+            (*ppkNode).second.userSize = (*ppkNode).first->getSize();
+            ApplyDialogConfiguration((*ppkNode).first);
           }
-        }
-
-        dialogConfigurations[window] = dialogConfig;
-      }
+        } // end loop dialogs 
+      } // end if document 
 
       if (!ApplyDialogConfiguration()) return false;
       HideAll();
-
       return true;
     } // end LoadConfiguration()
+
+    bool DialogConfiguration::LoadDialogConfig(iDocumentNode* winCfg)
+    {
+      CEGUI::WindowManager * winMgr = cegui->GetWindowManagerPtr();
+      DialogConfig dialogConfig;
+      std::string windowName = winCfg->GetAttributeValue("name");
+      CEGUI::Window * window = 0;
+      try
+      {
+        window = winMgr->getWindow(windowName);
+      }
+      catch (CEGUI::Exception)
+      {
+        return false;
+      }
+      dialogConfig.defaultPosition = window->getPosition();
+      dialogConfig.defaultSize = window->getSize();
+      dialogConfig.windowName = windowName;
+      csRef<iDocumentNode> position = winCfg->GetNode("position");
+      csRef<iDocumentNode> size = winCfg->GetNode("size");
+      csRef<iDocumentNode> visible = winCfg->GetNode("visible");
+      if (!position || !size || !visible)
+      {
+        return false;
+      }
+      std::string positionVal = position->GetContentsValue();
+      float xScale, xOffset, yScale, yOffset;
+      xScale = xOffset = yScale = yOffset = 0.0f;
+      std::vector<std::string> parts = split(positionVal, ",");
+      if (parts.size() != 4)
+      {
+        return false;
+      }
+      if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
+          sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
+      {
+        return false;
+      }
+      if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
+          sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
+      {
+        return false;
+      }
+
+      dialogConfig.userPosition = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
+         CEGUI::UDim(yScale, yOffset));
+
+      std::string sizeVal = size->GetContentsValue();
+      xScale = xOffset = yScale = yOffset = 0.0f;
+
+      parts = split(sizeVal, ",");
+
+      if (parts.size() != 4)
+      {
+        return false;;
+      }
+      if (sscanf(parts.at(0).c_str(), "%f", &xScale) == 0 ||
+          sscanf(parts.at(1).c_str(), "%f", &xOffset) == 0)
+      {
+        return false;;
+      }
+      if (sscanf(parts.at(2).c_str(), "%f", &yScale) == 0 ||
+          sscanf(parts.at(3).c_str(), "%f", &yOffset) == 0)
+      {
+        return false;
+      }
+      dialogConfig.userSize = CEGUI::UVector2(CEGUI::UDim(xScale, xOffset),
+       CEGUI::UDim(yScale, yOffset));
+      std::string visibleVal = visible->GetContentsValue();
+      if (!visibleVal.empty())
+      {
+        if (visibleVal == "true" || visibleVal == "True")
+        {
+          dialogConfig.visible = true;
+        }
+        else
+        {
+          dialogConfig.visible = false;
+        }
+      }
+
+      dialogConfigurations[window] = dialogConfig;
+      return true;
+    }  // end LoadDialogConfig()
 
     bool DialogConfiguration::SaveConfiguration(const std::string& fileName)
     {

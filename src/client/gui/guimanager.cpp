@@ -339,7 +339,6 @@ namespace PT
         dlgConfig->AddDialog(buddyWindow->GetName());
         dlgConfig->AddDialog(bookWindow->GetName());
 
-
         if (!dlgConfig->LoadConfiguration(dialogConfigFile))
         {
           Report(PT::Warning, "Unable to load dialogs settings!");

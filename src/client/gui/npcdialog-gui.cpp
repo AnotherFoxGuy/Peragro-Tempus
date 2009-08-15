@@ -77,6 +77,7 @@ namespace PT
           GUIWindow::HideWindow();
           return true;
         }
+
         NpcDialogAnswerMessage answer_msg;
         answer_msg.setDialogId(dialogId);
         answer_msg.setAnswerId(answerId);
