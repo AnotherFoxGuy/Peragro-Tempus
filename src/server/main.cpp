@@ -170,10 +170,10 @@ int App::Initialize(int argc, char* argv[])
     config_options.add_options()
       ("port,p", po::value<unsigned int>(&port)->default_value(12345),
         "Set which network port number the server will use.")
-      ("sqlitedb", po::value<string>(&dbname)->default_value("test_db.sqlite")
+      ("sqlite.dbfile", po::value<string>(&dbname)->default_value("test_db.sqlite")
         ,"Name of SQLite database file.")
-      ("sqlcreatedb", po::value<string>(&dbname)->default_value("createdb.sql")
-        , "Name of SQL script to create\ndefault database.")
+      ("sqlite.dbcreatesql", po::value<string>(&dbname)->default_value("createdb.sql")
+        , "Name of SQL script to create\n database.")
     ;
 
     // Declare the cmdline options.
@@ -218,16 +218,16 @@ int App::Initialize(int argc, char* argv[])
          << vm["cfg"].as<string>() << endl;
     }
 
-    if (vm.count("sqlitedb"))
+    if (vm.count("sqlite.dbfile"))
     {
        cout << "DB name: "
-         << vm["sqlitedb"].as<string>() << endl;
+         << vm["sqlite.dbfile"].as<string>() << endl;
     }
 
-    if (vm.count("sqlcreatedb"))
+    if (vm.count("sqlite.dbcreatesql"))
     {
        cout << "DB create script: "
-         << vm["sqlcreatedb"].as<string>() << endl;
+         << vm["sqlite.dbcreatesql"].as<string>() << endl;
     }
   }
   catch(exception& e)
@@ -237,24 +237,24 @@ int App::Initialize(int argc, char* argv[])
   } // end load server options
 
   // Check sqlite database.
-  //cout << vm["sqlitedb"].as<string>() << "\n";
+  // cout << vm["sqlite.dbfile"].as<string>() << "\n";
   int rc;
-  if (!FileExists(vm["sqlitedb"].as<string>()))
+  if (!FileExists(vm["sqlite.dbfile"].as<string>()))
   { // no sqlite database file so create one
     sqlite3 *sqlitedb;
-    rc = sqlite3_open(vm["sqlitedb"].as<string>().c_str(), &sqlitedb);
+    rc = sqlite3_open(vm["sqlite.dbfile"].as<string>().c_str(), &sqlitedb);
     if (rc != SQLITE_OK)
     {
       cout << "Error(" << rc << ") Creating sqlite database:"
-        <<  vm["sqlitedb"].as<string>().c_str() << endl;
+        <<  vm["sqlite.dbfile"].as<string>().c_str() << endl;
       return 1;
     }
-    cout << "database '" << vm["sqlcreatedb"].as<string>()
+    cout << "database '" << vm["sqlite.dbcreatesql"].as<string>()
       << "' created succesfully!" << endl;
 
-    if (FileExists(vm["sqlcreatedb"].as<string>()) )
+    if (FileExists(vm["sqlite.dbcreatesql"].as<string>()) )
     { // database script exists, setup database tables and data using script
-      fstream ifs_sql(vm["sqlcreatedb"].as<string>().c_str(),ios::in);
+      fstream ifs_sql(vm["sqlite.dbcreatesql"].as<string>().c_str(),ios::in);
       string sql_line;
       char *errmsg = 0;
 
@@ -272,14 +272,14 @@ int App::Initialize(int argc, char* argv[])
           sqlite3_free(errmsg);
           ifs_sql.close();
           sqlite3_close(sqlitedb);
-          remove (vm["sqlitedb"].as<string>().c_str()); // make sure incomplete db file goes away
+          remove (vm["sqlite.dbfile"].as<string>().c_str()); // make sure incomplete db file goes away
           return 1;
         }
       } // end while sql
       ifs_sql.close();
-      cout << "Database script '" << vm["sqlcreatedb"].as<string>()
+      cout << "Database script '" << vm["sqlite.dbcreatesql"].as<string>()
         << "' completed succesfully!" << endl;
-    } // end if sqlcreatedb
+    } // end if createdbsql
     sqlite3_close(sqlitedb);
   } // end if !sqlitedb
 
