@@ -38,7 +38,7 @@ namespace Common
     bool EntityManager::Add(Entityp entity)
     {
       {
-        ptScopedMutex p(mutex);
+        LockType lock(mutex);
         // If object is already present return false.
         if (entities.count(entity->GetId()) > 0)
           return false;
@@ -48,12 +48,12 @@ namespace Common
       if (succes)
       {
         {
-          ptScopedMutex p(mutex);
+          LockType lock(mutex);
           entities[entity->GetId()] = entity;
         }
 
         {
-          ptScopedMutex p(cbMutex);
+          LockType lock(cbMutex);
           std::list<Common::Entity::EntityCallback*>::iterator it;
           for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
           {
@@ -68,7 +68,7 @@ namespace Common
     void EntityManager::Remove(const Entityp entity)
     {
       {
-        ptScopedMutex p(cbMutex);
+        LockType lock(cbMutex);
         std::list<Common::Entity::EntityCallback*>::iterator it;
         for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
         {
@@ -76,7 +76,7 @@ namespace Common
         }
       }
 
-      ptScopedMutex p(mutex);
+      LockType lock(mutex);
       // TODO: throw when the entity hasn't been found?
       entities.erase(entity->GetId());
       // Entity will automatically be removed from the octree.
@@ -89,7 +89,7 @@ namespace Common
 
     Entityp EntityManager::FindById(size_t id)
     {
-      ptScopedMutex p(mutex);
+      LockType lock(mutex);
       Iterator it;
       it = entities.find(id);
       if (it != entities.end())
@@ -105,7 +105,7 @@ namespace Common
 
     Entityp EntityManager::FindByName(const std::string& name)
     {
-      ptScopedMutex p(mutex);
+      LockType lock(mutex);
       //TODO
       return Entityp();
     }
@@ -118,21 +118,21 @@ namespace Common
 
     std::list<Entityp> EntityManager::Query(const WFMath::Ball<3>& s)
     {
-      ptScopedMutex p(mutex);
+      LockType lock(mutex);
       std::list<Entityp> r = octree.Query<Entity>(s);
       return r;
     }
 
     void EntityManager::AddEntityCallback(Common::Entity::EntityCallback* cb)
     {
-      ptScopedMutex p(cbMutex);
+      LockType lock(cbMutex);
       callback_list.remove(cb);
       callback_list.push_back(cb);
     }
 
     void EntityManager::RemoveEntityCallback(Common::Entity::EntityCallback* cb)
     {
-      ptScopedMutex p(cbMutex);
+      LockType lock(cbMutex);
       callback_list.remove(cb);
     }
 

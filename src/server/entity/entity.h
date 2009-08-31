@@ -34,30 +34,18 @@ class Tables;
 #define SAFEMUTABLE(funcname, type)         \
 virtual void funcname(type value)           \
 {                                           \
-  mutex.lock();                             \
+  LockType lock(mutex);                     \
   Common::Entity::Entity::funcname(value);  \
-  mutex.unlock();                           \
 }                                           \
 
 class Entity : public Common::Entity::Entity
 {
-protected:
-  boost::shared_ptr<Entity> this_;
-  struct DontDelete { void operator()(void*) {} };
-
-private:
-  Mutex mutex;
-
-protected:
-  WFMath::Point<3> pos_last_saved;
-  float rot_last_saved;
-
 public:
 #pragma warning( push)
 #pragma warning( disable : 4355 )
   Entity(Common::Entity::EntityType type)
     : Common::Entity::Entity(type),
-    this_(this, DontDelete()),
+    this_(this, NullDeleter()),
     pos_last_saved(0.0f), rot_last_saved(0.0f)
   {
   }
@@ -95,6 +83,17 @@ public:
   virtual void LoadFromDB();
   virtual void SaveToDB();
   virtual void DeleteFromDB();
+
+protected:
+  boost::shared_ptr<Entity> this_;
+  struct NullDeleter { void operator()(void*) const {} };
+
+  WFMath::Point<3> pos_last_saved;
+  float rot_last_saved;
+
+private:
+  typedef boost::lock_guard<boost::mutex> LockType;
+  boost::mutex mutex;
 };
 
 PT_DEFINE_EXCEPTION(InvalidEntity);

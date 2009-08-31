@@ -54,9 +54,8 @@ unsigned short Entity::GetSector() const
 
 void Entity::SetSector(unsigned short id)
 {
-  mutex.lock();
+  LockType lock(mutex);
   sectorName = *(Server::getServer()->GetSectorManager()->GetSectorName(id));
-  mutex.unlock();
 }
 */
 
@@ -72,8 +71,7 @@ void Entity::SetSectorName(const std::string& value)
   else
 */
   {
-    mutex.lock();
+    LockType lock(mutex);
     Common::Entity::Entity::SetSectorName(value);
-    mutex.unlock();
   }
 }

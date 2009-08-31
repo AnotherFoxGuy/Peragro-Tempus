@@ -183,7 +183,7 @@ void EntityManager::Moved(WFMath::iShape* shape)
 
   Common::Entity::Entityp entity(ent, DontDelete); //TODO: hack :/
   {
-    ptScopedMutex p(cbMutex);
+    LockType lock(cbMutex);
     std::list<Common::Entity::EntityCallback*>::iterator mit;
     for ( mit=callback_list.begin() ; mit != callback_list.end(); mit++ )
     {

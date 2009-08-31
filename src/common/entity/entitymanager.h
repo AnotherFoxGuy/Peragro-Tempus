@@ -25,10 +25,13 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
+
 #include "ext/wfmath/octree.h"
 #include "ext/wfmath/point.h"
 
-#include "common/util/mutex.h"
+#include "common/thread/lockwrapper.h"
 
 namespace Common
 {
@@ -47,25 +50,12 @@ namespace Common
     typedef boost::weak_ptr<Entity> WeakEntityp;
 
     typedef std::map<size_t, Entityp> Entities;
-    typedef std::pair<ptScopedMutexCopyAble, Entities> EntitiesSafe;
+    typedef LockWrapper<Entities> EntitiesSafe;
 
     typedef WFMath::OcTree<WFMath::Point<3>, true>::Type Octree;
 
     class EntityManager
     {
-    protected:
-      Mutex cbMutex;
-      std::list<EntityCallback*> callback_list;
-
-    protected:
-      Mutex mutex;
-      Entities entities;
-      typedef Entities::iterator Iterator;
-      typedef Entities::const_iterator ConstIterator;
-      size_t primaryId; // for example, player ID
-
-      Octree octree;
-
     public:
       EntityManager();
       virtual ~EntityManager();
@@ -80,9 +70,9 @@ namespace Common
 
       /// This is threadsafe, but do NOT keep a reference!
       /// It will keep a lock as long as the EntitiesSafe exists.
-      EntitiesSafe GetEntitiesSafe() { return EntitiesSafe(ptScopedMutexCopyAble(mutex), entities); }
+      EntitiesSafe GetEntitiesSafe() { return EntitiesSafe(mutex, entities); }
 
-      size_t GetCount() { ptScopedMutex p(mutex); return entities.size(); }
+      size_t GetCount() { LockType lock(mutex); return entities.size(); }
       Entityp FindById(size_t id);
 
       Entityp FindByName(const std::string& name);
@@ -98,8 +88,21 @@ namespace Common
       virtual void AddEntityCallback(EntityCallback* cb);
       virtual void RemoveEntityCallback(EntityCallback* cb);
 
-      // Helpers
-      Entityp Getp(Entity*);
+      Entityp Getp(Entity* e);
+
+    protected:
+      typedef boost::unique_lock<boost::mutex> LockType;
+      typedef Entities::iterator Iterator;
+      typedef Entities::const_iterator ConstIterator;
+
+      boost::mutex cbMutex;
+      std::list<EntityCallback*> callback_list;
+
+      boost::mutex mutex;
+      Entities entities;
+      size_t primaryId; // for example, player ID
+
+      Octree octree;
     };
 
   } // namespace Entity
