@@ -84,7 +84,6 @@ namespace WFMath
   {
   private:
     G geom;
-    std::list<Listener*> listeners;
 
   public:
     Shape() {}
