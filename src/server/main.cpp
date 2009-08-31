@@ -16,18 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <stdio.h>
 #include <string>
-
-#include <boost/program_options.hpp>
-namespace po = boost::program_options;
-
 #include <iostream>
 #include <fstream>
 #include <iterator>
+
+#include <boost/make_shared.hpp>
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+
 #include <sys/stat.h>
+
 #include "ext/sqlite/sqlite3.h"
 
+#include "common/util/sleep.h"
+#include "common/util/timer.h"
+#include "common/util/wincrashdump.h"
+#include "common/util/consoleapp.h"
+
+#include "common/thread/threadloop.h"
+
+#include "server/server.h"
 #include "server/entity/entitymanager.h"
 #include "server/entity/character/movementmanager.h"
 #include "server/entity/character/character.h"
@@ -43,10 +52,14 @@ namespace po = boost::program_options;
 #include "server/quest/npcdialog.h"
 #include "server/quest/npcdialoganswer.h"
 #include "server/quest/npcdialogmanager.h"
-#include "common/util/sleep.h"
-#include "common/util/timer.h"
+#include "server/entity/usermanager.h"
+#include "server/environment/environmentmanager.h"
+#include "server/spawn/spawner.h"
+#include "server/network/network.h"
+#include "server/colldet/bullet.h"
+#include "server/species/speciesmanager.h"
+#include "server/combat/interactionmanager.h"
 
-#include "server/server.h"
 #include "common/database/sqlite/sqlite.h"
 #include "server/database/tablemanager.h"
 #include "server/database/table-entities.h"
@@ -56,51 +69,13 @@ namespace po = boost::program_options;
 #include "server/database/table-zonenodes.h"
 #include "server/database/table-reputations.h"
 
-#include "server/entity/usermanager.h"
-#include "server/environment/environmentmanager.h"
-#include "server/spawn/spawner.h"
-#include "server/network/network.h"
-#include "server/colldet/bullet.h"
-
-#include "server/species/speciesmanager.h"
-
-#include "common/util/wincrashdump.h"
-#include "common/util/consoleapp.h"
-
 #include "common/world/world.h"
 
-#include "server/combat/interactionmanager.h"
-
 using namespace std;
-
-// A helper function to simplify multi line option part.
-template<class T>
-ostream& operator<<(ostream& os, const vector<T>& v)
-{
-    copy(v.begin(), v.end(), ostream_iterator<T>(cout, " "));
-    return os;
-}
+using namespace PT::Thread;
 
 class App : public Application
 {
-private:
-  unsigned int port;
-  string dbname;
-
-  Database* db;
-  TableManager* tablemgr;
-  Common::World::WorldManager* worldManager;
-  EntityManager* ent_mgr;
-  InteractionManager* interactionMgr;
-  TimerEngine * timerEngine;
-  Network* network;
-  Server* server;
-
-  ResourcesFactory* resourcesFactory;
-
-  int argc;
-  char** argv;
-
 public:
   App();
   virtual ~App();
@@ -108,47 +83,60 @@ public:
   virtual int Initialize(int argc, char* argv[]);
   virtual void Run();
   bool FileExists(const string& fileName);
+
+private:
+  unsigned int port;
+  string dbName;
+  int argc;
+  char** argv;
+
+  Server server;
+
+  struct StringStoreDestructor
+  {
+    ~StringStoreDestructor();
+  } stringStoreDestructor;
+
+  ThreadLoop<Database, OwnedStorage> dbThread;
+  ThreadLoop<TimerEngine, OwnedStorage> timerThread;
+  ThreadLoop<InteractionManager, OwnedStorage> interactionThread;
+
+  boost::scoped_ptr<Network> network;
 };
 
 App::App()
+  : port(0), dbName(""), argc(0), argv(0),
+  dbThread(&Database::Run),
+  timerThread(&TimerEngine::Run), interactionThread(&InteractionManager::Run)
 {
 }
 
 App::~App()
 {
-  printf("Server Shutdown initialised!\n");
+  cout << "Server Shutdown initialised!" << endl;
 
-  printf("- Shutdown Timer Engine:\t");
-  if (timerEngine) timerEngine->Kill();
-  printf("done\n");
+  cout << "- Shutdown Timer Engine:          ";
+  timerThread.Stop();
+  cout << "done" << endl;
 
-  printf("- Shutdown Interaction Manager:     \t");
-  if (interactionMgr) interactionMgr->shutdown();
-  printf("done\n");
+  cout << "- Shutdown Interaction Manager:   ";
+  interactionThread.Stop();
+  cout << "done" << endl;
 
-  printf("- Shutdown Network:     \t");
-  if (network) network->shutdown();
-  printf("done\n");
+  cout << "- Shutdown Network:               ";
+  network->shutdown();
+  cout << "done" << endl;
 
-  printf("- Shutdown Database:     \t");
-  if (db) db->shutdown();
-  printf("done\n");
+  cout << "- Shutdown Database:              ";
+  dbThread.Stop();
+  cout << "done" << endl;
 
-  // This has to be delete before the timerEngine!
-  if (resourcesFactory) delete resourcesFactory;
+  cout << "Time to quit now!" << endl;
+}
 
-  delete db;
-  delete tablemgr;
-  delete ent_mgr;
-  delete interactionMgr;
-  delete timerEngine;
-  delete network;
-  delete server;
-  delete worldManager;
-
+App::StringStoreDestructor::~StringStoreDestructor()
+{
   StringStore::destroy();
-
-  printf("Time to quit now!\n");
 }
 
 int App::Initialize(int argc, char* argv[])
@@ -159,7 +147,7 @@ int App::Initialize(int argc, char* argv[])
   setWinCrashDump(argv[0]);
 
   po::variables_map vm;
-  // load server config file and cml options
+  // Load server config file and command line options.
   try
   {
     string cfgfile;
@@ -170,10 +158,10 @@ int App::Initialize(int argc, char* argv[])
     config_options.add_options()
       ("port,p", po::value<unsigned int>(&port)->default_value(12345),
         "Set which network port number the server will use.")
-      ("sqlite.dbfile", po::value<string>(&dbname)->default_value("test_db.sqlite")
-        ,"Name of SQLite database file.")
-      ("sqlite.dbcreatesql", po::value<string>(&dbname)->default_value("createdb.sql")
-        , "Name of SQL script to create\n database.")
+      ("sqlite.dbfile", po::value<string>(&dbName)->default_value("test_db.sqlite"),
+        "Name of SQLite database file.")
+      ("sqlite.dbcreatesql", po::value<string>(&dbName)->default_value("createdb.sql"),
+        "Name of SQL script to create database.")
     ;
 
     // Declare the cmdline options.
@@ -181,22 +169,22 @@ int App::Initialize(int argc, char* argv[])
     cmdline_options.add_options()
       ("help,h", "Help message")
       ("port,p", po::value<unsigned int>(&port)->default_value(12345),
-       "Set which network port number the server will use.")
-      ("cfg", po::value<string>(&cfgfile)->default_value("pt-server.cfg")
-       ,"Name of server config file.")
+        "Set which network port number the server will use.")
+      ("cfg", po::value<string>(&cfgfile)->default_value("pt-server.cfg"),
+        "Name of server config file.")
     ;
     cmdline_options.add(config_options);
 
-    // parse cmd line options
+    // Parse command line options.
     po::store(po::parse_command_line(argc, argv, cmdline_options), vm);
     po::notify(vm);
 
-    // parse cfg file options
-    ifstream ifs( vm["cfg"].as<string>().c_str() );
+    // Parse config file options.
+    ifstream ifs(vm["cfg"].as<string>().c_str());
     po::store(parse_config_file(ifs, config_options), vm);
     po::notify(vm);
 
-    // clean up
+    // Clean up.
     ifs.close();
 
     if (vm.count("help"))
@@ -205,7 +193,7 @@ int App::Initialize(int argc, char* argv[])
       return 1;
     }
 
-    // output server settings
+    // Output server settings.
     if (vm.count("port"))
     {
       port = vm["port"].as<unsigned int>();
@@ -214,20 +202,17 @@ int App::Initialize(int argc, char* argv[])
 
     if (vm.count("cfg"))
     {
-       cout << "Configure file: "
-         << vm["cfg"].as<string>() << endl;
+      cout << "Configure file: " << vm["cfg"].as<string>() << endl;
     }
 
     if (vm.count("sqlite.dbfile"))
     {
-       cout << "DB name: "
-         << vm["sqlite.dbfile"].as<string>() << endl;
+      cout << "DB name: " << vm["sqlite.dbfile"].as<string>() << endl;
     }
 
     if (vm.count("sqlite.dbcreatesql"))
     {
-       cout << "DB create script: "
-         << vm["sqlite.dbcreatesql"].as<string>() << endl;
+      cout << "DB create script: " << vm["sqlite.dbcreatesql"].as<string>() << endl;
     }
   }
   catch(exception& e)
@@ -237,51 +222,57 @@ int App::Initialize(int argc, char* argv[])
   } // end load server options
 
   // Check sqlite database.
-  // cout << vm["sqlite.dbfile"].as<string>() << "\n";
-  int rc;
-  if (!FileExists(vm["sqlite.dbfile"].as<string>()))
-  { // no sqlite database file so create one
-    sqlite3 *sqlitedb;
-    rc = sqlite3_open(vm["sqlite.dbfile"].as<string>().c_str(), &sqlitedb);
+  const string& dbName(vm["sqlite.dbfile"].as<string>());
+  if (!FileExists(dbName))
+  {
+    // No sqlite database file so create one.
+    sqlite3* sqliteDB;
+    const int rc = sqlite3_open(dbName.c_str(), &sqliteDB);
     if (rc != SQLITE_OK)
     {
-      cout << "Error(" << rc << ") Creating sqlite database:"
-        <<  vm["sqlite.dbfile"].as<string>().c_str() << endl;
+      cout << "Error (" << rc << ") creating sqlite database '" << dbName
+        << "'" << endl;
       return 1;
     }
-    cout << "database '" << vm["sqlite.dbcreatesql"].as<string>()
-      << "' created succesfully!" << endl;
 
-    if (FileExists(vm["sqlite.dbcreatesql"].as<string>()) )
-    { // database script exists, setup database tables and data using script
-      fstream ifs_sql(vm["sqlite.dbcreatesql"].as<string>().c_str(),ios::in);
-      string sql_line;
-      char *errmsg = 0;
+    cout << "database '" << dbName << "' created succesfully!" << endl;
 
-      // load and execute sql script.
-      while(!ifs_sql.eof())
+    const string& sqlCreateDBName(vm["sqlite.dbcreatesql"].as<string>());
+    if (FileExists(sqlCreateDBName) )
+    {
+      // Database script exists; use it to setup database tables and data.
+      fstream ifsSql(sqlCreateDBName.c_str(), ios::in);
+      string sqlLine;
+      char* errorMsg = 0;
+
+      // Load and execute sql script.
+      while (!ifsSql.eof())
       {
-        getline(ifs_sql, sql_line);
-        rc = sqlite3_exec( sqlitedb, sql_line.c_str(), NULL, NULL, &errmsg );
-        if (rc!=SQLITE_OK)
-        { // Error executing a sql statment
-          cout << "ERROR: failed executing sql statment\n"
-            << "sql:" << endl << sql_line.c_str() << endl
-            << "error:" << endl << errmsg << endl;
-          // clean up and exit
-          sqlite3_free(errmsg);
-          ifs_sql.close();
-          sqlite3_close(sqlitedb);
-          remove (vm["sqlite.dbfile"].as<string>().c_str()); // make sure incomplete db file goes away
+        getline(ifsSql, sqlLine);
+        const int rc = sqlite3_exec(sqliteDB, sqlLine.c_str(), 0, 0, &errorMsg);
+        if (rc != SQLITE_OK)
+        {
+          // Error executing a sql statement.
+          cout << "Error (" << rc << ") executing sql statment" << endl
+            << "SQL: " << sqlLine << endl << "Error: " << errorMsg << endl;
+
+          // Clean up and exit.
+          sqlite3_free(errorMsg);
+          ifsSql.close();
+          sqlite3_close(sqliteDB);
+          // Make sure incomplete db file goes away.
+          remove(dbName.c_str());
           return 1;
         }
-      } // end while sql
-      ifs_sql.close();
-      cout << "Database script '" << vm["sqlite.dbcreatesql"].as<string>()
-        << "' completed succesfully!" << endl;
-    } // end if createdbsql
-    sqlite3_close(sqlitedb);
-  } // end if !sqlitedb
+      } // end while
+
+      ifsSql.close();
+      cout << "Database script '" << sqlCreateDBName
+        << "' completed succesfully" << endl;
+    } // end if
+
+    sqlite3_close(sqliteDB);
+  } // end if
 
   return 0;
 }
@@ -289,27 +280,25 @@ int App::Initialize(int argc, char* argv[])
 void App::Run()
 {
   //--[Initialize]--------------------------------------------------------
-  server = new Server();
-  printf ("Opening DB '%s'\n", dbname.c_str());
-  db = new dbSQLite(dbname.c_str());
-  if (!db)
+
+  cout << "Opening database '" << dbName << "'" << endl;
+  auto_ptr<DbSQLite> db(new DbSQLite(dbName.c_str()));
+  if (!db.get())
   {
-    printf("Failed opening DB!\n");
+    cout << "Failed opening DB!" << endl;
     return;
   }
+  server.setDatabase(db.get());
+  dbThread.Set(db.release());
+  dbThread.Start();
 
-  tablemgr = new TableManager(db);
-  tablemgr->Initialize();
-
-  worldManager = new Common::World::WorldManager();
-
-  server->setDatabase(db);
-  server->SetTableManager(tablemgr);
+  TableManager tableManager(server.getDatabase());
+  server.SetTableManager(&tableManager);
 
   /// @TODO think this can be removed
   if (port == 0)
   {
-    ConfigTableVOp p(tablemgr->Get<ConfigTable>()->GetSingle("port"));
+    ConfigTableVOp p(tableManager.Get<ConfigTable>()->GetSingle("port"));
     if (p)
     {
       port = atoi(p->value.c_str());
@@ -322,86 +311,88 @@ void App::Run()
 
   // Save the port.
   stringstream portStr; portStr << port;
-  tablemgr->Get<ConfigTable>()->Insert("port", portStr.str());
+  tableManager.Get<ConfigTable>()->Insert("port", portStr.str());
 
-  timerEngine = new TimerEngine();
-  timerEngine->Begin();
-  server->setTimerEngine(timerEngine);
+  Common::World::WorldManager worldManager;
 
-  interactionMgr = new InteractionManager();
-  server->setInteractionManager(interactionMgr);
+  timerThread.Set(new TimerEngine);
+  timerThread.Start();
+  server.setTimerEngine(timerThread.Get());
 
-  UserManager usr_mgr;
-  server->setUserManager(&usr_mgr);
+  InteractionManager interactionManager;
+  server.setInteractionManager(&interactionManager);
 
-  //Character stuff.
+  UserManager userManager;
+  server.setUserManager(&userManager);
+
+  // Character stuff.
   MovementManager movementManager;
-  server->SetMovementManager(&movementManager);
+  server.SetMovementManager(&movementManager);
 
-  EquipmentFactory equipmentFactory(tablemgr);
-  server->SetEquipmentFactory(&equipmentFactory);
+  EquipmentFactory equipmentFactory(&tableManager);
+  server.SetEquipmentFactory(&equipmentFactory);
 
-  SkillsFactory skillsFactory(tablemgr);
-  server->SetSkillsFactory(&skillsFactory);
+  SkillsFactory skillsFactory(&tableManager);
+  server.SetSkillsFactory(&skillsFactory);
 
-  AbilitiesFactory abilitiesFactory(tablemgr);
-  server->SetAbilitiesFactory(&abilitiesFactory);
+  AbilitiesFactory abilitiesFactory(&tableManager);
+  server.SetAbilitiesFactory(&abilitiesFactory);
 
-  VulnerabilitiesFactory vulnerabilitiesFactory(tablemgr);
-  server->SetVulnerabilitiesFactory(&vulnerabilitiesFactory);
+  VulnerabilitiesFactory vulnerabilitiesFactory(&tableManager);
+  server.SetVulnerabilitiesFactory(&vulnerabilitiesFactory);
 
-  ReputationsFactory reputationsFactory(tablemgr);
-  server->SetReputationsFactory(&reputationsFactory);
+  ReputationsFactory reputationsFactory(&tableManager);
+  server.SetReputationsFactory(&reputationsFactory);
 
-  AttributesFactory attributesFactory(tablemgr);
-  server->SetAttributesFactory(&attributesFactory);
+  AttributesFactory attributesFactory(&tableManager);
+  server.SetAttributesFactory(&attributesFactory);
 
-  resourcesFactory = new ResourcesFactory(tablemgr);
-  server->SetResourcesFactory(resourcesFactory);
+  ResourcesFactory resourcesFactory(&tableManager);
+  server.SetResourcesFactory(&resourcesFactory);
 
   ItemTemplatesManager itemTemplatesManager;
-  server->SetItemTemplatesManager(&itemTemplatesManager);
+  server.SetItemTemplatesManager(&itemTemplatesManager);
 
   SpeciesManager speciesManager;
-  server->SetSpeciesManager(&speciesManager);
+  server.SetSpeciesManager(&speciesManager);
 
-  ent_mgr = new EntityManager();
-  server->setEntityManager(ent_mgr);
-  ent_mgr->LoadFromDB(tablemgr->Get<EntityTable>());
+  EntityManager entityManager;
+  server.setEntityManager(&entityManager);
+  entityManager.LoadFromDB(tableManager.Get<EntityTable>());
 
   ChatManager::getChatManager();
 
-  ZoneManager zone_mgr;
-  server->setZoneManager(&zone_mgr);
-  zone_mgr.LoadFromDB();
+  ZoneManager zoneManager;
+  server.setZoneManager(&zoneManager);
+  zoneManager.LoadFromDB();
 
-  LocationManager locationMgr;
-  server->setLocationManager(&locationMgr);
-  locationMgr.LoadFromDB();
+  LocationManager locationManager;
+  server.setLocationManager(&locationManager);
+  locationManager.LoadFromDB();
 
-  EnvironmentManager environment_mgr;
-  server->setEnvironmentManager(&environment_mgr);
-  environment_mgr.Initialize();
+  EnvironmentManager environmentManager;
+  server.setEnvironmentManager(&environmentManager);
 
-  printf("Initialising collision detection... ");
+  cout << "Initialising collision detection... ";
   BulletCD cd;
-  server->setCollisionDetection(&cd);
+  server.setCollisionDetection(&cd);
   cd.setup();
-  printf("done\n");
+  cout << "done" << endl;
   //cd.begin();
 
   Spawner spawner;
-  server->setSpawner(&spawner);
+  server.setSpawner(&spawner);
 
-  NPCDialogManager dialog_mgr;
-  dialog_mgr.LoadFromDB();
+  NPCDialogManager dialogManager;
+  dialogManager.LoadFromDB();
 
   // Finally initialising the network!
-  network = new Network(server);
+  network.reset(new Network(&server));
+  server.setNetwork(network.get());
   network->init(port);
   //----------------------------------------------------------------------
 
-  printf("Server up and running!\n");
+  cout << "Server up and running!" << endl;
 
   size_t sentbyte = 0, recvbyte = 0, timestamp = 0;
   size_t delay_time = 1000; //1 sec = 1000 ms
@@ -410,8 +401,8 @@ void App::Run()
   {
     pt_sleep(delay_time);
     network->getStats(sentbyte, recvbyte, timestamp);
-    float uptraffic = sentbyte/(float)delay_time;
-    float downtraffic = recvbyte/(float)delay_time;
+    float uptraffic = sentbyte / static_cast<float>(delay_time);
+    float downtraffic = recvbyte / static_cast<float>(delay_time);
     if (uptraffic > 0.001 || downtraffic > 0.001)
     {
       printf("Network Usage: Up: %.2f kB/s\t Down: %.2f kB/s\n", uptraffic, downtraffic);

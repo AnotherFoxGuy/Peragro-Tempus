@@ -56,11 +56,20 @@ class ItemTemplatesManager;
 
 class SpeciesManager;
 
+namespace PT
+{
+  namespace Event
+  {
+    class iEventManager;
+  }
+}
+
 class Server
 {
 private:
   static Server* server;
 
+  PT::Event::iEventManager* eventManager;
   TableManager* tablemanager;
   Database* db;
   Network* network;
@@ -94,6 +103,9 @@ private:
 public:
   Server() { server = this; }
   static Server* getServer() { return server; }
+
+  void setEventManager(PT::Event::iEventManager* eventMgr) { this->eventManager = eventMgr; }
+  PT::Event::iEventManager* getEventManager() { return this->eventManager; }
 
   void setInteractionManager(InteractionManager* interactionMgr) {
     this->interactionMgr = interactionMgr;
