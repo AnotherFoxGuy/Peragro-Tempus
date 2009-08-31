@@ -73,7 +73,7 @@ float SkillManager::GetTimeUnusedLastLogin(boost::shared_ptr<Character> characte
                                      const std::string& skill)
 {
   //TODO
-  const std::string& strSkillLastUsed = GetSkillLastUsedStr(skill);
+  //const std::string& strSkillLastUsed = GetSkillLastUsedStr(skill);
   return 0.0f;
 }
 

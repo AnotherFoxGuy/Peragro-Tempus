@@ -276,8 +276,11 @@ namespace PT
           m->Mount(static_cast< ::Client::Entity::Entity*>(entity.get()));
           //Set camera to follow the mount after mounting. Only done for player's mount.
           //TODO: This is just a temporary solution. It will not work nicely with boats etc.
-          if (primaryId == entity->GetId()) PT::Entity::PlayerEntity::Instance()->GetCamera()->SetFollowEntity(m->GetCelEntity());
-          iPcDefaultCamera* PcCam = PT::Entity::PlayerEntity::Instance()->GetCamera();
+          if (primaryId == entity->GetId())
+          {
+            iPcDefaultCamera* PcCam = PT::Entity::PlayerEntity::Instance()->GetCamera();
+            PcCam->SetFollowEntity(m->GetCelEntity());
+          }
         }
       }
       return true;

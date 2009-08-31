@@ -295,31 +295,31 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   {
     // yes, it's a hack. This shouldn't go here either.
     // sector_id <0.5, 0.6, 0.8>
-    unsigned short sector = 0;
+    //unsigned short sector = 0;
     float x = 0, y = 0, z = 0;
- //   sscanf(dialog->GetText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
+    //sscanf(dialog->GetText(), "%hd<%f,%f,%f>", &sector, &x, &y, &z);
 
-//    ptScopedMonitorable<Entity> ent (pcEnt->getEntity());
-//    ent->SetSector(sector);
+    //ptScopedMonitorable<Entity> ent (pcEnt->getEntity());
+    //ent->SetSector(sector);
     pcEnt->SetPosition(x, y, z);
 
-//    server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
+    //server->getCharacterManager()->checkForSave(ent->getPlayerEntity());
 
     TeleportResponseMessage telemsg;
     telemsg.setEntityId(pcEnt->GetId());
     telemsg.setPosition(pcEnt->GetPosition());
     telemsg.setRotation(pcEnt->GetRotation());
-//    telemsg.setSectorId(pcEnt->GetSector());
+    //telemsg.setSectorId(pcEnt->GetSector());
 
     ByteStream bs;
     telemsg.serialise(&bs);
-//    server->broadCast(bs);
+    //server->broadCast(bs);
 
     NpcEndDialogMessage endmsg;
     endmsg.setNpcId(diaState->GetNpc()->GetId());
     ByteStream bs2;
     endmsg.serialise(&bs2);
-//    server->BroadCast(bs2);
+    //server->BroadCast(bs2);
     NetworkHelper::sendMessage(pcEnt,bs2);
   }
   else if (dialog->GetAction() == NPCDialog::FUNCTION)

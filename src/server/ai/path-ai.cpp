@@ -39,14 +39,14 @@ PathAI::~PathAI()
 
 void PathAI::LoadFromDB()
 {
-  NpcAiSettingTable* table =
-    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+  //NpcAiSettingTable* table =
+  //  Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
 }
 
 void PathAI::SaveToDB()
 {
-  NpcAiSettingTable* table =
-    Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
+  //NpcAiSettingTable* table =
+  //  Server::getServer()->GetTableManager()->Get<NpcAiSettingTable>();
 }
 
 /*

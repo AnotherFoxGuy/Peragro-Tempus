@@ -164,6 +164,7 @@ void User::SendAddEntity(Common::Entity::Entityp entity)
     msg.setFileName(entity->GetFileName());
     msg.setPosition(entity->GetPosition());
     msg.setRotation(entity->GetRotation());
+    msg.setInventoryId(0); // TODO what is this for?
     msg.serialise(&bs);
   }
   else

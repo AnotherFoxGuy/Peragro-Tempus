@@ -52,8 +52,8 @@ BulletCD::~BulletCD()
 
 void BulletCD::setup()
 {
-  TableManager* tablemgr = Server::getServer()->GetTableManager();
 /*
+  TableManager* tablemgr = Server::getServer()->GetTableManager();
   Array<VerticesTableVO*> vertices =
     tablemgr->Get<VerticesTable>()->getAll();
 
