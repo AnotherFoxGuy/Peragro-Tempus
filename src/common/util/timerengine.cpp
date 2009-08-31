@@ -17,10 +17,13 @@
 */
 
 #include "timerengine.h"
-#include "sleep.h"
-#include "timer.h"
 
 #include <limits>
+
+#include <boost/thread/locks.hpp>
+
+#include "sleep.h"
+#include "timer.h"
 
 #ifdef max
   #undef max
@@ -37,20 +40,18 @@ TimerEngine::TimerEngine()
 
 void TimerEngine::registerTimer(Timer* timer)
 {
-  mutex.lock();
+  LockType lock(mutex);
   timers.add(timer);
-  mutex.unlock();
 }
 
 void TimerEngine::unregisterTimer(Timer* timer)
 {
-  mutex.lock();
-  size_t pos = timers.find(timer);
+  LockType lock(mutex);
+  const size_t pos = timers.find(timer);
   if (pos < timers.getCount())
   {
     timers.remove(pos);
   }
-  mutex.unlock();
 }
 
 void TimerEngine::Run()
@@ -80,10 +81,9 @@ void TimerEngine::Run()
     startTime.Initialize();
   }
 
-  mutex.lock();
+  LockType lock(mutex);
   for (size_t i = 0; i < timers.getCount(); ++i)
   {
     timers.get(i)->tick();
   }
-  mutex.unlock();
 }

@@ -24,53 +24,53 @@ namespace PT
   {
     void Clock::ChangeCalendar(const boost::shared_ptr<const Calendar>& cal)
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       calendar = cal;
       splitDate = cal->ToSplitDate(integerDate);
     }
 
     void Clock::Tick(LongType seconds)
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       integerDate.seconds += seconds;
       calendar->Advance(splitDate, seconds);
     }
 
     IntegerDate Clock::GetIntegerDate() const
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       return integerDate;
     }
 
     SplitDate Clock::GetSplitDate() const
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       return splitDate;
     }
 
     void Clock::SetDate(const IntegerDate& date)
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       integerDate = date;
       splitDate = calendar->ToSplitDate(integerDate);
     }
 
     void Clock::SetDate(const SplitDate& date)
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       integerDate = calendar->ToIntegerDate(date);
       splitDate = date;
     }
 
     DayTime Clock::GetDayTime() const
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       return DayTime(splitDate.second, splitDate.minute, splitDate.hour);
     }
 
     float Clock::GetFractionOfDay() const
     {
-      ptScopedMutex lock(dateMutex);
+      LockType lock(dateMutex);
       return calendar->FractionOfDay(integerDate);
     }
 

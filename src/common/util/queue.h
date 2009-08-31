@@ -19,50 +19,48 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "mutex.h"
-
 #include <queue>
+
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
 
 template<class T>
 class SynchronizedQueue
 {
-private:
-
-  std::queue<T> queue;
-
-  Mutex mutex;
-
 public:
   SynchronizedQueue() {}
   ~SynchronizedQueue() {}
 
   void push(T element)
   {
-    mutex.lock();
+    LockType lock(mutex);
     queue.push(element);
-    mutex.unlock();
   }
 
   T pop()
   {
-    mutex.lock();
-    T tmp = 0;
+    LockType lock(mutex);
+    T tmp = T();
     if (queue.empty() == false)
     {
       tmp = queue.front();
       queue.pop();
     }
-    mutex.unlock();
     return tmp;
   }
 
   int getCount()
   {
-    mutex.lock();
+    LockType lock(mutex);
     size_t count = queue.size();
-    mutex.unlock();
     return count;
   }
+
+private:
+  std::queue<T> queue;
+
+  typedef boost::lock_guard<boost::mutex> LockType;
+  boost::mutex mutex;
 };
 
 #endif // QUEUE_H

@@ -21,6 +21,8 @@
 #include "common/util/timer.h"
 #include "common/util/timerengine.h"
 
+#include "common/thread/threadloop.h"
+
 int counter = 100;
 
 class TestTimer : public Timer
@@ -60,11 +62,12 @@ int main(int argc, char ** argv)
   {
     printf("Sleeping... \t");
     pt_sleep(1000);
-    printf("slept for %d ms\n", time.GetElapsedMS());
+    printf("slept for %d ms\n", int(time.GetElapsedMS()));
   }
 
-  TimerEngine timerEngine;
-  timerEngine.Begin();
+  PT::Thread::ThreadLoop<TimerEngine, PT::Thread::OwnedStorage> timerThread(
+    &TimerEngine::Run, new TimerEngine);
+  timerThread.Start();
 
   TestTimer* timer = new TestTimer();
   timer->setInterval(10); // interval in 100ms => 10 = 1 second.
@@ -82,6 +85,6 @@ int main(int argc, char ** argv)
   delete timer;
   delete jam;
 
-  timerEngine.Kill();
+  timerThread.Stop();
   printf("End\n");
 }

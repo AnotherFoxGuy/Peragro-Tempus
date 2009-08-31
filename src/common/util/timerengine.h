@@ -24,9 +24,9 @@
 #ifndef TIMERENGINE_H
 #define TIMERENGINE_H
 
+#include <boost/thread/mutex.hpp>
+
 #include "array.h"
-#include "mutex.h"
-#include "thread.h"
 #include "pttime.h"
 
 class Timer;
@@ -35,7 +35,7 @@ class Timer;
  * The timer engine. This keeps track of all timer objects, and calls the tick
  * method of each of them at the specified interval.
  */
-class TimerEngine : public Thread
+class TimerEngine
 {
 public:
   /// Constructor.
@@ -58,15 +58,16 @@ public:
   /// Get self.
   static TimerEngine* getTimerEngine();
 
-private:
   /// The main loop for this thread.
   void Run();
 
+private:
   /// Pointer to self.
   static TimerEngine* self;
 
+  typedef boost::lock_guard<boost::mutex> LockType;
   /// The mutex locked when ticking all the timers.
-  Mutex mutex;
+  boost::mutex mutex;
 
   /// Stores the start time.
   PTTime startTime;

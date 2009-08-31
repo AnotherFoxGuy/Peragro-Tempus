@@ -21,14 +21,16 @@
 
 #include <string.h>
 
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
+
 #include "array.h"
-#include "mutex.h"
 
 class StringStore
 {
 private:
-
-  Mutex mutex;
+  typedef boost::unique_lock<boost::mutex> LockType;
+  boost::mutex mutex;
 
   class StoreString
   {
@@ -74,7 +76,7 @@ private:
   {
     if (string == 0 || len == 0) return 0;
 
-    mutex.lock();
+    LockType lock(mutex);
 
     for (size_t i=0; i<strings.getCount(); i++)
     {
@@ -83,13 +85,11 @@ private:
         if (!strcmp(strings.get(i)->string, string))
         {
           string = strings.get(i)->string;
-          mutex.unlock();
           return i;
         }
       }
     }
     size_t str_id = add(string);
-    mutex.unlock();
 
     //String not found, time to add it.
     return str_id;
@@ -97,14 +97,12 @@ private:
 
   const char* lookupString(size_t id)
   {
-    mutex.lock();
+    LockType lock(mutex);
 
     if (id >= strings.getCount())
     {
-      mutex.unlock();
       return 0;
     }
-    mutex.unlock();
     return strings.get(id)->string;
   }
 

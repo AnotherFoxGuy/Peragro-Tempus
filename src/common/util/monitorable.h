@@ -22,15 +22,15 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "monitor.h"
-#include "mutex.h"
+#include <boost/thread/mutex.hpp>
 
+#include "monitor.h"
 
 template<class T>
 class ptMonitorable
 {
 private:
-  Mutex mutex;
+  boost::mutex mutex;
   ptMonitor<T> ref;
 
   bool isLocked;

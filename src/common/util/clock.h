@@ -25,9 +25,10 @@
 #define PT_DATE_CLOCK_H
 
 #include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
 
 #include "common/util/date.h"
-#include "common/util/mutex.h"
 
 namespace PT
 {
@@ -74,8 +75,9 @@ namespace PT
       float GetFractionOfDay() const;
 
     private:
+      typedef boost::lock_guard<boost::mutex> LockType;
       /// Mutex to protect the members of the clock from getting out of sync.
-      mutable Mutex dateMutex;
+      mutable boost::mutex dateMutex;
       /// The calendar.
       boost::shared_ptr<const Calendar> calendar;
       /// The current date in integer format.
