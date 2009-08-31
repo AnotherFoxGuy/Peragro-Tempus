@@ -25,17 +25,20 @@
 #ifndef INTERACTIONMANAGER
 #define INTERACTIONMANAGER
 
-#include "common/util/thread.h"
+#include <list>
+
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
+#include <boost/thread/condition.hpp>
+
 #include "interaction.h"
 
-#include "src/server/entity/pcentity.h"
-#include "interactionqueue.h"
-
+#include "server/entity/pcentity.h"
 
 /**
  * Server interaction manager.
  */
-class InteractionManager : public Thread
+class InteractionManager
 {
 public:
   /// Constructor.
@@ -58,31 +61,29 @@ public:
   bool QueueInteraction(boost::shared_ptr<PcEntity> sourceEntity,
                         unsigned int interactionID);
 
-  void shutdown();
-
-protected:
   /**
    * Function popping interactions of the head of the interaction queue.
    * @return None.
    */
   void Run();
 
-
 private:
-  /// The queue containing pending interactions.
-  InteractionQueue* interactionQueue;
+  typedef boost::shared_ptr<Interaction> InteractionPtr;
+  typedef boost::unique_lock<boost::mutex> LockType;
+  typedef std::list<InteractionPtr> QueueType;
+
   /**
    * Perform a normal attack.
    * @param interaction Contains details about the attack.
    * @return True if it was successfull.
    */
-  bool NormalAttack(Interaction* interaction);
+  bool NormalAttack(InteractionPtr interaction);
   /**
    * Deducts the players stamina after an attack.
    * @param character The character to deduct stamina for.
    * @param interaction The interaction that causes stamina deduction.
    */
-  bool DeductStamina(boost::shared_ptr<Character> character, Interaction* interaction);
+  bool DeductStamina(boost::shared_ptr<Character> character, InteractionPtr interaction);
   /**
    * Calculates the attacking character's chance of hitting.
    * @param attacker The locked version of the attacking character.
@@ -102,7 +103,7 @@ private:
    * @param interaction The interaction.
    * @return True if the interaction was handled.
    */
-  bool PerformInteraction(Interaction* interaction);
+  bool PerformInteraction(InteractionPtr interaction);
   /**
    * Checks that target is within reach and "legal" target.
    * @param attacker The locked version of the attacking character.
@@ -244,7 +245,19 @@ private:
    * @return The distance to report neraby interactions.
    */
   unsigned int GetNotificationDistance();
+  /**
+   * Used to remove all interactions for a character.
+   * @param lockedCharacter The character for whom to remove interactiosn.
+   * @return None.
+   */
+  void RemoveAllInteractions(boost::shared_ptr<Character> lockedCharacter);
 
+  /// The queue containing pending interactions.
+  QueueType interactionQueue;
+  /// The queue mutex.
+  boost::mutex queueMutex;
+  /// Condition to signal an interaction is ready for processing.
+  boost::condition_variable interactionReady;
 };
 
 namespace InteractionManagerSendTo

@@ -26,7 +26,7 @@ InteractionQueue::InteractionQueue()
 
 InteractionQueue::~InteractionQueue()
 {
-  ptScopedMutex lock(mutex);
+  LockType lock(mutex);
   if (!head)
   {
     return;
@@ -53,7 +53,7 @@ InteractionQueue::~InteractionQueue()
 
 Interaction* InteractionQueue::GetInteraction()
 {
-  ptScopedMutex lock(mutex);
+  LockType lock(mutex);
   if (!head)
   {
     return 0;
@@ -80,7 +80,7 @@ Interaction* InteractionQueue::GetInteraction()
 
 void InteractionQueue::RemoveAllInteractions(boost::shared_ptr<Character> character)
 {
-  ptScopedMutex lock(mutex);
+  LockType lock(mutex);
 
   for (QueueItem* queue = head; queue; queue = queue->next)
   {
@@ -95,7 +95,7 @@ void InteractionQueue::RemoveAllInteractions(boost::shared_ptr<Character> charac
 
 void InteractionQueue::RemoveInteractionEntry(QueueItem* queue)
 {
-  ptScopedMutex lock(mutex);
+  LockType lock(mutex);
   if (queue == head)
   {
     head = queue->next;
@@ -125,7 +125,7 @@ void InteractionQueue::SetInteraction(Interaction* interaction)
   queueItem->prev = queueItem->next = 0;
   interaction->time = time(0);
 
-  ptScopedMutex lock(mutex);
+  LockType lock(mutex);
 
   // TODO If the same player already has interactions enqueued time
   // need to include those as well.

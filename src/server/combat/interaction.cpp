@@ -18,7 +18,11 @@
 
 #include "interaction.h"
 
-Interaction::Interaction()
+Interaction::Interaction(unsigned int interactionID,
+  const boost::shared_ptr<PcEntity>& character, float staminaRequired,
+  ssize_t time)
+  : interactionID(interactionID), character(character),
+  staminaRequired(staminaRequired), time(time)
 {
 }
 

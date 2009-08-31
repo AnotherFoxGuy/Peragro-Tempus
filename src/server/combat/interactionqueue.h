@@ -26,7 +26,9 @@
 #ifndef INTERACTIONQUEUE
 #define INTERACTIONQUEUE
 
-#include "common/util/thread.h"
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
+
 #include "interaction.h"
 
 #include "src/server/entity/pcentity.h"
@@ -36,25 +38,6 @@
  */
 class InteractionQueue
 {
-private:
-  /// Mutex used to syncronize queue calls.
-  Mutex mutex;
-  /**
-   * Server queue item, class for holding next/prev interaction pointers.
-   */
-  class QueueItem {
-  public:
-    /// Constructor
-    QueueItem();
-    /// Destructor.
-    ~QueueItem();
-    /// Pointer to the previous entry in the queue.
-    QueueItem* prev;
-    /// Pointer to the next entry in the queue.
-    QueueItem* next;
-    /// Pointer to the interaction.
-    Interaction* interaction;
-  };
 public:
   /// Constructor.
   InteractionQueue();
@@ -78,6 +61,24 @@ public:
    */
   void RemoveAllInteractions(boost::shared_ptr<Character> lockedCharacter);
 
+private:
+  /**
+   * Server queue item, class for holding next/prev interaction pointers.
+   */
+  class QueueItem {
+  public:
+    /// Constructor
+    QueueItem();
+    /// Destructor.
+    ~QueueItem();
+    /// Pointer to the previous entry in the queue.
+    QueueItem* prev;
+    /// Pointer to the next entry in the queue.
+    QueueItem* next;
+    /// Pointer to the interaction.
+    Interaction* interaction;
+  };
+
   /**
    * Removes an entry from the queue.
    * @param queue The entry to remove.
@@ -85,8 +86,9 @@ public:
    */
   void RemoveInteractionEntry(QueueItem* queue);
 
-private:
-
+  typedef boost::unique_lock<boost::mutex> LockType;
+  /// Mutex used to syncronize queue calls.
+  boost::mutex mutex;
   /// The head of the queue.
   QueueItem* head;
 };

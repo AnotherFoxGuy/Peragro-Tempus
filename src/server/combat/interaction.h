@@ -39,21 +39,22 @@
  */
 class Interaction
 {
-  public:
-    /// The interaction ID associated with this interaction, 0 = unset.
-    unsigned int interactionID;
-    /// Holds the unlocked character that is associated with this action.
-    boost::weak_ptr<PcEntity> character;
-    /// The amount of extra stamina required for this interaction.
-    float staminaRequired;
-    /// The time to perform this interaction.
-    ssize_t time;
+public:
+  /// Constructor.
+  Interaction(unsigned int interactionID,
+    const boost::shared_ptr<PcEntity>& character, float staminaRequired = 0.0f,
+    ssize_t time = 0);
+  /// Destructor.
+  ~Interaction();
 
-
-    /// Constructor.
-    Interaction();
-    /// Destructor.
-    ~Interaction();
+  /// The interaction ID associated with this interaction, 0 = unset.
+  unsigned int interactionID;
+  /// Holds the unlocked character that is associated with this action.
+  boost::weak_ptr<PcEntity> character;
+  /// The amount of extra stamina required for this interaction.
+  float staminaRequired;
+  /// The time to perform this interaction.
+  ssize_t time;
 };
 
 #endif //INTERACTION

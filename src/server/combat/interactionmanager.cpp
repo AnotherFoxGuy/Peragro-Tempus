@@ -16,14 +16,15 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "interactionmanager.h"
+
+#include <boost/make_shared.hpp>
 
 #include <wfmath/point.h>
 #include <wfmath/vector.h>
 #include <wfmath/stream.h>
 
 #include "server/server.h"
-#include "interactionmanager.h"
-#include "interaction.h"
 
 #include "common/network/entitymessages.h"
 
@@ -60,47 +61,39 @@ extern "C" void __cxa_pure_virtual()
 
 InteractionManager::InteractionManager()
 {
-  interactionQueue = new InteractionQueue();
-  Begin();
 }
 
 InteractionManager::~InteractionManager()
 {
-  Kill();
-  delete interactionQueue;
-}
-
-void InteractionManager::shutdown()
-{
-  Kill();
 }
 
 void InteractionManager::Run()
 {
-  Interaction *interaction = 0;
-  // caller must free allocation
-  interaction = interactionQueue->GetInteraction();
-  while (!interaction && isRunning)
+  InteractionPtr interaction;
+  LockType lock(queueMutex);
+  while (interactionQueue.empty())
   {
-    // No character have any outstanding interactions.
-    pt_sleep(SLEEP);
-    interaction = interactionQueue->GetInteraction();
+    interactionReady.wait(lock);
   }
-  if (!isRunning) return;
-  PerformInteraction(interaction);
-  delete interaction;
+  do
+  {
+    interaction = interactionQueue.front();
+    interactionQueue.pop_front();
+
+    lock.unlock();
+    PerformInteraction(interaction);
+    lock.lock();
+  }
+  while (!interactionQueue.empty());
 }
 
-bool InteractionManager::NormalAttack(Interaction *interaction)
+bool InteractionManager::NormalAttack(InteractionPtr interaction)
 {
   DEBUG("NormalAttack");
-  unsigned int targetID = 0;
-  boost::shared_ptr<Character> target;
-  int damage = 0;
 
-  boost::shared_ptr<Character> attacker = interaction->character.lock();
+  const boost::shared_ptr<Character> attacker = interaction->character.lock();
 
-  targetID = attacker->GetTargetID();
+  const unsigned int targetID = attacker->GetTargetID();
 
   if (targetID == 0) {
     printf(IM "\n\n Please file a bug or notify the peragro team at #peragro "
@@ -108,7 +101,7 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
     return false;
   }
 
-  target = GetTargetCharacter(attacker);
+  const boost::shared_ptr<Character> target(GetTargetCharacter(attacker));
   if (!target) return false;
 
   // For normal attack it is not legal to attack the own character.
@@ -122,7 +115,7 @@ bool InteractionManager::NormalAttack(Interaction *interaction)
   if (!DeductStamina(attacker, interaction))
     return false;
 
-  damage = CalculateDamage(attacker, target);
+  const int damage = CalculateDamage(attacker, target);
 
   printf("CombatManager: HP before deduction: %d\n", target->GetResources()->Get("Hit Points"));
   target->GetResources()->Sub("Hit Points", static_cast<int>(damage));
@@ -218,9 +211,9 @@ void InteractionManager::DropAllItems(boost::shared_ptr<Character> character)
 void InteractionManager::ReportDamage(boost::shared_ptr<Character> character)
 {
   DEBUG("ReportDamage");
-  size_t hpId = Server::getServer()->GetResourcesFactory()->GetID("Hit Points");
-  int hp = character->GetResources()->Get("Hit Points");
-  int hpMax = character->GetResources()->GetMax("Hit Points");
+  const size_t hpId = Server::getServer()->GetResourcesFactory()->GetID("Hit Points");
+  const int hp = character->GetResources()->Get("Hit Points");
+  const int hpMax = character->GetResources()->GetMax("Hit Points");
 
   ResourceUpdateMessage msg;
   ByteStream statsbs;
@@ -234,16 +227,14 @@ void InteractionManager::ReportDamage(boost::shared_ptr<Character> character)
 }
 
 bool InteractionManager::DeductStamina(boost::shared_ptr<Character> character,
-                                  Interaction *interaction)
+  InteractionPtr interaction)
 {
   DEBUG("DeductStamin");
 
-  float currentStamina = 0;
-  float staminaDeduction = static_cast<int>(GetWeaponHeft(character) /
-                                            GetStrength(character) +
-                                            interaction->staminaRequired);
+  const float staminaDeduction = static_cast<int>(GetWeaponHeft(character) /
+    GetStrength(character) + interaction->staminaRequired);
 
-  currentStamina = character->GetResources()->Get("Stamina");
+  const float currentStamina = character->GetResources()->Get("Stamina");
 
   printf(IM "Stamina before deduction: %f\n", currentStamina);
 
@@ -272,18 +263,19 @@ int InteractionManager::CalculateDamage(boost::shared_ptr<Character> attacker,
 {
   DEBUG("CalculateDamage");
 
-  int damage = 0;
   const unsigned int attackResult = RollDice();
-  const unsigned int attackChance = GetAttackChance(attacker,
-                                                    target);
+  const unsigned int attackChance = GetAttackChance(attacker, target);
 
+  int damage = 0;
   if (attackResult <= attackChance)
   {
     Types types = GetTypes(attacker);
-    int basedam = ( (attackChance - attackResult) * GetDamage(attacker) ) / GetTotal(types);
+    const int basedam = ( (attackChance - attackResult) * GetDamage(attacker) ) / GetTotal(types);
     Types::const_iterator it;
     for (it = types.begin(); it != types.end(); it++)
+    {
       damage += basedam * it->second * GetVulnerability(target, it->first);
+    }
   }
 
   // If attackResult was 10% or less of attackChance, critcal hit.
@@ -310,7 +302,7 @@ unsigned int InteractionManager::GetVulnerability(boost::shared_ptr<Character> c
   return (character->GetVulnerabilities()->Get(name)/100.0f);
 }
 
-bool InteractionManager::PerformInteraction(Interaction* interaction)
+bool InteractionManager::PerformInteraction(InteractionPtr interaction)
 {
   DEBUG("PerformInteraction");
   if (!interaction)
@@ -336,17 +328,12 @@ bool InteractionManager::TargetAttackable(boost::shared_ptr<Character> attacker,
                                           boost::shared_ptr<Character> target)
 {
   DEBUG("TargetAttackable");
-  float maxAttackDistance = 0;
-  float distance = 0;
-  float attackerRotation = 0;
-  float attackAngle = 0;
-  float angleDiff = 0;
   static const float allowedAngle = PT_PI * 0.3f;
   const WFMath::Point<3> attackerPos(attacker->GetPosition());
   const WFMath::Point<3> tarGetPosition(target->GetPosition());
 
-  maxAttackDistance = GetReach(attacker);
-  distance = Distance(attackerPos, tarGetPosition);
+  const float maxAttackDistance = GetReach(attacker);
+  const float distance = Distance(attackerPos, tarGetPosition);
 
   printf(IM "attackerPos: %s, tarGetPosition: %s, distance %f, "
     "maxAttackDistance: %f\n", WFMath::ToString(attackerPos).c_str(),
@@ -359,15 +346,15 @@ bool InteractionManager::TargetAttackable(boost::shared_ptr<Character> attacker,
     return false;
   }
 
-  WFMath::Point<3> difference(attackerPos - tarGetPosition);
-
-  attackerRotation =
+  const float attackerRotation =
     PT::Math::NormalizeAngle(attacker->GetRotation());
 
+  WFMath::Point<3> difference(attackerPos - tarGetPosition);
   if (difference[0] == 0.0f) difference[0] = PT_EPSILON;
-  attackAngle = PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
+  const float attackAngle =
+    PT::Math::NormalizeAngle(atan2(difference[0], difference[2]));
 
-  angleDiff = attackAngle - attackerRotation;
+  const float angleDiff = attackAngle - attackerRotation;
 
   printf("attackerRotation: %f, attackAngle: %f angleDiff: %f allowedAngle: %f\n",
          attackerRotation, attackAngle, angleDiff, allowedAngle);
@@ -394,9 +381,29 @@ bool InteractionManager::SelectTarget(boost::shared_ptr<PcEntity> sourceEntity,
     return false;
   }
 
-  interactionQueue->RemoveAllInteractions(sourceEntity);
+  RemoveAllInteractions(sourceEntity);
+
   sourceEntity->SetTargetID(targetID);
   return true;
+}
+
+void InteractionManager::RemoveAllInteractions(boost::shared_ptr<Character> character)
+{
+  const size_t id = character->GetId();
+  LockType lock(queueMutex);
+
+  QueueType::iterator itr(interactionQueue.begin());
+  while (itr != interactionQueue.end());
+  {
+    if ((*itr)->character.lock()->GetId() == id)
+    {
+      itr = interactionQueue.erase(itr);
+    }
+    else
+    {
+      ++itr;
+    }
+  }
 }
 
 boost::shared_ptr<Character> InteractionManager::GetTargetCharacter(boost::shared_ptr<Character> character)
@@ -427,23 +434,21 @@ bool InteractionManager::QueueInteraction(boost::shared_ptr<PcEntity> sourceEnti
                                           unsigned int interactionID)
 {
   DEBUG("QueueInteraction");
-  Interaction* interaction = new Interaction();
-
   printf(IM "Got queueInteraction request, interaction: %d\n", interactionID);
 
   if (!sourceEntity)
   {
     // Invalid source.
     printf(IM "Invalid source.\n");
-    delete interaction;
     return false;
   }
 
-  interaction->interactionID = interactionID;
-  interaction->character = sourceEntity;
+  InteractionPtr interaction(boost::make_shared<Interaction>(interactionID,
+    sourceEntity));
 
-  // Caller must alloc interaction
-  interactionQueue->SetInteraction(interaction);
+  LockType lock(queueMutex);
+  interactionQueue.push_back(interaction);
+  interactionReady.notify_one();
   return true;
 }
 
@@ -498,9 +503,11 @@ InteractionManager::Types InteractionManager::GetTypes(boost::shared_ptr<Charact
 unsigned int InteractionManager::GetTotal(const Types& types)
 {
   unsigned int value = 0;
-  Types::const_iterator it;
-  for (it = types.begin(); it != types.end(); it++)
+  Types::const_iterator it = types.begin();
+  for ( ; it != types.end(); it++)
+  {
     value += it->second;
+  }
   return value;
 }
 
