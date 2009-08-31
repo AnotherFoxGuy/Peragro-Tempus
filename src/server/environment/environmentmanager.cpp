@@ -20,25 +20,11 @@
 #include "server/environment/clock.h"
 
 EnvironmentManager::EnvironmentManager()
- : clock(0)
+ : clock(new PT::Server::Environment::Clock)
 {
 }
 
 EnvironmentManager::~EnvironmentManager()
 {
-  delete clock;
 }
 
-bool EnvironmentManager::Initialize()
-{
-  if (clock)
-  {
-    delete clock;
-  }
-
-  clock = new PT::Server::Environment::Clock();
-  if (!clock)
-    return false;
-
-  return true;
-}

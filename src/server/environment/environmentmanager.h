@@ -24,6 +24,8 @@
 #ifndef ENVIRONMENTMANAGER_H
 #define ENVIRONMENTMANAGER_H
 
+#include <boost/scoped_ptr.hpp>
+
 namespace PT
 {
   namespace Server
@@ -47,21 +49,15 @@ public:
   /// Destructor.
   ~EnvironmentManager();
 
-  /**
-   * Initialize the environment.
-   * @return Whether it was successful.
-   */
-  bool Initialize();
-
   /// Returns the game clock.
-  PT::Server::Environment::Clock* GetClock() const;
+  PT::Server::Environment::Clock* GetClock();
 
 private:
   /// The game clock.
-  PT::Server::Environment::Clock* clock;
+  boost::scoped_ptr<PT::Server::Environment::Clock> clock;
 };
 
-inline PT::Server::Environment::Clock* EnvironmentManager::GetClock() const
-{ return clock; }
+inline PT::Server::Environment::Clock* EnvironmentManager::GetClock()
+{ return clock.get(); }
 
 #endif // ENVIRONMENT_H
