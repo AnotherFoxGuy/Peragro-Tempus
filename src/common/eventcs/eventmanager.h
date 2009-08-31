@@ -39,10 +39,10 @@
 #include <vector>
 
 #include <boost/shared_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
 
 #include "eventhandler.h"
-
-#include "common/util/mutex.h"
 
 #ifdef _WINBASE_
 #undef _WINBASE_
@@ -101,8 +101,9 @@ namespace PT
       /// The pointer library.
       iPointerLibrary* pointerlib;
 
+      typedef boost::unique_lock<boost::mutex> LockType;
       /// A mutex used while accessing the event queue.
-      Mutex mutex;
+      boost::mutex mutex;
 
       /// Handle the next event in the queue.
       void Handle();

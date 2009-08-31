@@ -42,7 +42,6 @@
 #include <CEGUILogger.h>
 
 #include "common/network/netmessage.h"
-#include "common/util/mutex.h"
 
 #include "client/pointer/pointer.h"
 
@@ -231,7 +230,6 @@ namespace PT
     PT::User::UserManager* userManager;
     PT::Quest::QuestManager* questManager;
 
-    Mutex mutex;
     csTicks timer;
     iSector* room;
     bool world_loaded;

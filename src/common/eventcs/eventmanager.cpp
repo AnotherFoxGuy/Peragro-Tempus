@@ -106,11 +106,8 @@ namespace PT
 
     void EventManager::AddEvent(iEvent* ev)
     {
-      mutex.lock();
-
+      LockType lock(mutex);
       events.Push(ev);
-
-      mutex.unlock();
     } // end AddEvent()
 
     void EventManager::AddListener(csEventID eventId, EventHandlerCallback* handler)
@@ -162,14 +159,13 @@ namespace PT
 
     void EventManager::Handle()
     {
-      mutex.lock();
+      LockType lock(mutex);
       while (!events.IsEmpty())
       {
         csRef<iEvent> ev = events.Get(0);
         eventQueue->Post(ev);
         events.DeleteIndex(0);
       }
-      mutex.unlock();
     } // end Handle()
 
     bool EventManager::HandleEvent(iEvent& ev)
