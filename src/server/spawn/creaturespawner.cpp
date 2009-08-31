@@ -54,13 +54,12 @@ void CreatureSpawner::CheckEntity(boost::shared_ptr<NpcEntity> npc)
 
 void CreatureSpawner::timeOut()
 {
-  mutex.lock();
+  LockType lock(mutex);
   std::vector<boost::weak_ptr<NpcEntity> >::iterator it;
   for (it = npcentities.begin(); it != npcentities.end(); it++)
   {
     if (!it->lock()) { npcentities.erase(it); continue; }
     CheckEntity(it->lock());
   }
-  mutex.unlock();
 }
 

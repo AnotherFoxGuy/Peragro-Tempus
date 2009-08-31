@@ -38,7 +38,7 @@ ItemSpawner::ItemSpawner() : timeCounter(0)
 
 ItemSpawner::~ItemSpawner()
 {
-  mutex.lock();
+  LockType lock(mutex);
   std::vector<boost::shared_ptr<SpawnPoint> >::const_iterator it;
   for (it = spawnpoints.begin(); it != spawnpoints.end(); it++)
   {
@@ -48,19 +48,17 @@ ItemSpawner::~ItemSpawner()
       i->DeleteFromDB();
     }
   }
-  mutex.unlock();
 }
 
 void ItemSpawner::timeOut()
 {
-  mutex.lock();
+  LockType lock(mutex);
   std::vector<boost::shared_ptr<SpawnPoint> >::const_iterator it;
   for (it = spawnpoints.begin(); it != spawnpoints.end(); it++)
   {
     CheckSpawnPoint(*it);
   }
   timeCounter++;
-  mutex.unlock();
 }
 
 void ItemSpawner::CheckSpawnPoint(boost::shared_ptr<SpawnPoint> sp)
@@ -104,9 +102,8 @@ void ItemSpawner::AddSpawnPoint(size_t itemTemplateId, WFMath::Point<3> position
   sp->position = position;
   sp->spawnInterval = spawnInterval;
 
-  mutex.lock();
+  LockType lock(mutex);
   spawnpoints.push_back(sp);
-  mutex.unlock();
 }
 
 void ItemSpawner::LoadFromDB()
@@ -134,7 +131,6 @@ void ItemSpawner::RemoveAllSpawnPoints()
   SpawnPointsTable* table = Server::getServer()->GetTableManager()->Get<SpawnPointsTable>();
   table->DeleteAll();
 
-  mutex.lock();
+  LockType lock(mutex);
   spawnpoints.clear();
-  mutex.unlock();
 }

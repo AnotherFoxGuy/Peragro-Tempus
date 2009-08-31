@@ -23,6 +23,8 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
 
 #include <wfmath/point.h>
 
@@ -34,7 +36,8 @@ class NpcEntity;
 class CreatureSpawner : public Timer
 {
 private:
-  Mutex mutex;
+  typedef boost::unique_lock<boost::mutex> LockType;
+  boost::mutex mutex;
   void timeOut();
 
 private:

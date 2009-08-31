@@ -23,13 +23,14 @@
 
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
 
 #include <wfmath/point.h>
 
 #include "common/util/timer.h"
 
 class ItemEntity;
-
 
 class ItemSpawner : public Timer
 {
@@ -51,7 +52,8 @@ private:
 
   std::vector<boost::shared_ptr<SpawnPoint> > spawnpoints;
 
-  Mutex mutex;
+  typedef boost::unique_lock<boost::mutex> LockType;
+  boost::mutex mutex;
 
   // Thread implementation
   void timeOut();
