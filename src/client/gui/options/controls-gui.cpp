@@ -26,8 +26,8 @@
 #include <iutil/cfgmgr.h>
 #include <iutil/stringarray.h>
 
-#include "common/event/eventmanager.h"
-#include "common/event/inputevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/inputevent.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"

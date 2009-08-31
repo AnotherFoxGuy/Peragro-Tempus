@@ -23,8 +23,8 @@
 
 #include <csutil/ref.h>
 
-#include "common/event/event.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/event.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "include/client/component/component.h"
 

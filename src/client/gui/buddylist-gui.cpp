@@ -26,7 +26,7 @@
 #include "client/network/network.h"
 #include "client/entity/entitymanager.h"
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "common/entity/entity.h"
 #include "common/reporter/reporter.h"

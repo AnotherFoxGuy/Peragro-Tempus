@@ -24,7 +24,7 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 #include "client/network/network.h"
 #include "common/network/netmessage.h"
 
@@ -33,8 +33,8 @@
 #include "client/gui/chatinput-gui.h"
 #include "client/gui/whisper-gui.h"
 
-#include "common/event/chatevent.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/chatevent.h"
+#include "common/eventcs/entityevent.h"
 
 // to determine the identity of the player character
 #include "client/entity/player/playerentity.h"

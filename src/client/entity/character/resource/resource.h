@@ -21,7 +21,7 @@
 
 #include <csutil/scf_implementation.h>
 #include <csutil/refarr.h>
-#include "common/event/eventhandler.h"
+#include "common/eventcs/eventhandler.h"
 
 #include <stdio.h>
 #include <string>

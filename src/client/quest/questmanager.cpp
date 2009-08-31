@@ -24,7 +24,7 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/npcdialog-gui.h"
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 
 namespace PT

@@ -34,7 +34,7 @@
 #include <propclass/mesh.h>
 #include <propclass/actormove.h>
 
-#include "common/event/entityevent.h"
+#include "common/eventcs/entityevent.h"
 
 #include "common/reporter/reporter.h"
 

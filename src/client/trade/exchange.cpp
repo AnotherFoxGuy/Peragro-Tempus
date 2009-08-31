@@ -18,8 +18,8 @@
 
 #include "exchange.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/tradeevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/tradeevent.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"

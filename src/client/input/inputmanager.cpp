@@ -20,8 +20,8 @@
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
-#include "common/event/eventmanager.h"
-#include "common/event/inputevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/inputevent.h"
 #include "include/clipboard.h"
 
 #include "CEGUI.h"

@@ -22,7 +22,7 @@
 #include <cssysdef.h>
 #include <csutil/ref.h>
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "include/icommandmanager.h"
 #include "chatlogger.h"

@@ -26,7 +26,7 @@
 #include <iutil/cfgmgr.h>
 
 #include "common/reporter/reporter.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "client/pointer/pointer.h"
 

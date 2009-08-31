@@ -30,8 +30,8 @@
 #include <iengine/engine.h>
 #include <csgfx/shadervar.h>
 
-#include "common/event/event.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/event.h"
+#include "common/eventcs/eventmanager.h"
 
 // Solarsystem plugins.
 #include "imystarbox.h"

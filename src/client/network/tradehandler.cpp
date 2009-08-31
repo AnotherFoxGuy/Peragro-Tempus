@@ -22,8 +22,8 @@
 
 #include "client/network/tradehandler.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/entityevent.h"
 
 #include "client/pointer/pointer.h"
 

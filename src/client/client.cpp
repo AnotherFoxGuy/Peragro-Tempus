@@ -85,9 +85,9 @@
 #include "client/user/usermanager.h"
 #include "client/quest/questmanager.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/regionevent.h"
-#include "common/event/inputevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/regionevent.h"
+#include "common/eventcs/inputevent.h"
 
 //#include "common/util/wincrashdump.h"
 #include "common/version.h"

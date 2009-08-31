@@ -35,8 +35,8 @@
 #include <propclass/linmove.h>
 #include <propclass/actormove.h>
 
-#include "common/event/eventmanager.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/entityevent.h"
 
 #include "client/entity/entity.h"
 #include "client/entity/player/playerentity.h"

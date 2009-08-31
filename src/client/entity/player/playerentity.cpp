@@ -33,9 +33,9 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/interfaceevent.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/interfaceevent.h"
+#include "common/eventcs/entityevent.h"
 
 #include "include/world.h"
 

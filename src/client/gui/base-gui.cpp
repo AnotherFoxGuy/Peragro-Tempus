@@ -30,8 +30,8 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/skinmanager.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/inputevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/inputevent.h"
 
 namespace PT
 {

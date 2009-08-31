@@ -30,7 +30,7 @@
 
 #include <csutil/refarr.h>
 
-#include "src/common/event/eventhandler.h"
+#include "common/eventcs/eventhandler.h"
 
 #define ROOTWINDOW "Root"
 

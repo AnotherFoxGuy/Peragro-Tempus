@@ -27,8 +27,8 @@
 
 #include "common/reporter/reporter.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/bookevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/bookevent.h"
 
 #include "client/gui/guimanager.h"
 #include "client/gui/inventory-gui.h"

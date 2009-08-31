@@ -24,7 +24,7 @@
 #include "client/pointer/pointer.h"
 #include "common/reporter/reporter.h"
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 namespace PT
 {

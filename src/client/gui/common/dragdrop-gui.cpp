@@ -33,8 +33,8 @@
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/interfaceevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/interfaceevent.h"
 
 #include "common/reporter/reporter.h"
 

@@ -33,7 +33,7 @@
 #include "physicallayer/pl.h"
 
 #include "common/util/mutex.h"
-#include "common/event/eventhandler.h"
+#include "common/eventcs/eventhandler.h"
 
 #include "client/network/network.h"
 

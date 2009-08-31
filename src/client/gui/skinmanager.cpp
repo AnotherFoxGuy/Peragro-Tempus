@@ -19,7 +19,7 @@
 #include "skinmanager.h"
 #include "gui.h"
 #include "guimanager.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 #include "common/reporter/reporter.h"
 
 #include <iutil/vfs.h>

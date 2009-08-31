@@ -35,8 +35,8 @@
 #include "client/entity/entitymanager.h"
 #include "client/network/network.h"
 
-#include "common/event/eventmanager.h"
-#include "common/event/event.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/event.h"
 
 #include "client/state/statemanager.h"
 

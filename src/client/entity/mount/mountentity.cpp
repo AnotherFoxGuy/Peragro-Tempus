@@ -31,7 +31,7 @@
 #include "client/entity/player/playerentity.h"
 
 #include "common/reporter/reporter.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/entityevent.h"
 #include "client/network/network.h"
 #include "common/network/entitymessages.h"
 

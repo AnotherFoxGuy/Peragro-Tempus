@@ -45,9 +45,9 @@
 
 #include "client/network/network.h"
 
-#include "common/event/entityevent.h"
-#include "common/event/stateevent.h"
-#include "common/event/inputevent.h"
+#include "common/eventcs/entityevent.h"
+#include "common/eventcs/stateevent.h"
+#include "common/eventcs/inputevent.h"
 
 class Effect;
 

@@ -30,8 +30,8 @@
 #include <propclass/defcam.h>
 #include <iengine/camera.h>
 
-#include "common/event/eventmanager.h"
-#include "common/event/entityevent.h"
+#include "common/eventcs/eventmanager.h"
+#include "common/eventcs/entityevent.h"
 
 #include "client/entity/entity.h"
 #include "client/entity/player/playerentity.h"

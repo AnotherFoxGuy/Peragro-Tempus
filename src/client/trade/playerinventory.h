@@ -21,8 +21,8 @@
 
 #include <cssysdef.h>
 
-#include "common/event/tradeevent.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/tradeevent.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "common/inventory/item.h"
 #include "common/inventory/slotinventory.h"

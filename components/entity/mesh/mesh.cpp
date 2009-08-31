@@ -28,7 +28,7 @@
 #include <propclass/mesh.h>
 #include <propclass/linmove.h>
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "client/entity/entity.h"
 

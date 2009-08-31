@@ -18,9 +18,9 @@
 
 #include "environmentmanager.h"
 #include "client/pointer/pointer.h"
-#include "common/event/environmentevent.h"
+#include "common/eventcs/environmentevent.h"
 #include "common/reporter/reporter.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include <iengine/engine.h>
 #include <iengine/mesh.h>

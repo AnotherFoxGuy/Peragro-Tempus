@@ -37,8 +37,8 @@
 
 #include "controlcombo.h"
 
-#include "common/event/event.h"
-#include "common/event/eventmanager.h"
+#include "common/eventcs/event.h"
+#include "common/eventcs/eventmanager.h"
 
 struct iClipboard;
 

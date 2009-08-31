@@ -21,7 +21,7 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-#include "common/event/eventmanager.h"
+#include "common/eventcs/eventmanager.h"
 
 #include "client/trade/playerinventory.h"
 #include "client/trade/exchange.h"

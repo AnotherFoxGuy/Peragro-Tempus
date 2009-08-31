@@ -1,4 +1,4 @@
-SubDir TOP src common event ;
+SubDir TOP src common eventcs ;
 
 Description eventmanager-cs : "eventmanager" ;
 Library eventmanager-cs :

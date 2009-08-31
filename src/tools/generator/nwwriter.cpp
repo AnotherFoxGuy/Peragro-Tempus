@@ -977,8 +977,8 @@ void nwWriter::writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwTy
 
   out << "#include \"client/network/" << toVariable(type->name) << "handler.h\"\n\n";
 
-  out << "#include \"common/event/eventmanager.h\"\n";
-  out << "#include \"common/event/entityevent.h\"\n\n";
+  out << "#include \"common/eventcs/eventmanager.h\"\n";
+  out << "#include \"common/eventcs/entityevent.h\"\n\n";
   out << "#include \"client/pointer/pointer.h\"\n\n";
 
   if (type->name == "Combat") {

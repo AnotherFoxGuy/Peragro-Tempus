@@ -23,7 +23,7 @@
 //#include <boost/weak_ptr.hpp>
 
 #include "client/entity/pc/pcentity.h"
-#include "common/event/event.h"
+#include "common/eventcs/event.h"
 
 #include <iutil/cfgmgr.h>
 #include <iutil/cfgfile.h>
