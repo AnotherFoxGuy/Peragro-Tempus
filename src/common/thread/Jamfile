@@ -1,0 +1,7 @@
+SubDir TOP src common thread ;
+
+Description thread : "thread" ;
+Library thread :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs thread : BOOST BOOST.THREAD ;
+
