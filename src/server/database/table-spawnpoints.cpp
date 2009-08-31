@@ -27,7 +27,7 @@
 
 SpawnPointsTable::SpawnPointsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_SPAWNPOINTS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_SPAWNPOINTS) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -37,7 +37,7 @@ SpawnPointsTable::SpawnPointsTable(Database* db) : Table(db)
 
 size_t SpawnPointsTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from " PT_GetTableName(DB_TABLE_SPAWNPOINTS));
+  ResultSet* rs = db->Query("select max(id) from " PT_GetTableName(DB_TABLE_SPAWNPOINTS));
   if (rs == 0 || rs->GetRowCount() == 0)
     return 0;
 

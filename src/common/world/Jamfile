@@ -4,5 +4,5 @@ Description world : "World" ;
 Library world :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs world : BOOST ;
-LinkWith world : wfmath database sqlite_adp ;
+LinkWith world : wfmath database sqlite_adp thread ;
 MsvcCFlags world : /wd4396 ;

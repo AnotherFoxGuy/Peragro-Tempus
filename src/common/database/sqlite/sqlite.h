@@ -19,50 +19,56 @@
 #ifndef _PT_SQLITE_H_
 #define _PT_SQLITE_H_
 
-#include "common/database/database.h"
-
-#include "common/util/mutex.h"
-#include "common/util/thread.h"
-
 #include <queue>
-#include <map>
+
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/locks.hpp>
+#include <boost/thread/condition.hpp>
+
+#include "common/database/database.h"
 
 class ResultSet;
 struct sqlite3;
 struct sqlite3_stmt;
 
-class dbSQLite : public Database, Thread
+class DbSQLite : public Database
 {
-  Mutex mutex;
-
-  std::queue<char*> updates;
-
-  sqlite3 *db;
-
-  /**Callback needed for sqlite
-   * Gets called once for each row.
-   * \param ptr same pointer as given to sqlite3_exec, preferably the result object
-   * \param cols number of colums for this row.
-   * \param colArg array of strings representing the value ôf all collums in this row.
-   * \param colArg array of strings representing the name of all collums.
-   */
-  static int callback(void *rs, int cols, char **colArg, char **colName);
-  void update();
-  size_t getLastInsertedId();
-
-  void shutdown();
-
-  void Run();
-
 public:
-  dbSQLite(const char* database);
-  ~dbSQLite();
+  /// Ctor.
+  DbSQLite(const char* database);
+  /// Dtor.
+  ~DbSQLite();
 
-  //---[Implementing Database interface]-------------------------------------
+  /// Query the database.
+  virtual ResultSet* Query(const char*, ...);
+  /// Queue a database update.
+  virtual void Update(const char*, ...);
+  /// Get the id of the last inserted row.
+  virtual size_t GetLastInsertedId() const;
+  /// Apply queued updates.
+  virtual void Run();
 
-  ResultSet* query(const char*, ...);
-  void update(const char*, ...);
+private:
+  /**
+   * Callback needed for sqlite; Gets called once for each row.
+   * @param ptr same pointer as given to sqlite3_exec, preferably the result object
+   * @param cols number of colums for this row.
+   * @param colArg array of strings representing the value ôf all collums in this row.
+   * @param colArg array of strings representing the name of all collums.
+   * @return 0.
+   */
+  static int Callback(void *rs, int cols, char **colArg, char **colName);
 
+  /// Apply a database update.
+  void ApplyUpdate(char* query);
+
+  typedef boost::mutex MutexType;
+  typedef boost::unique_lock<MutexType> LockType;
+  MutexType updatesMutex;
+  boost::condition_variable updatesQueued;
+  boost::condition_variable updatesEmpty;
+  std::queue<char*> updates;
+  sqlite3* db;
 };
 
 #endif // _PT_SQLITE_H_

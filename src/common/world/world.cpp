@@ -17,13 +17,18 @@
 */
 
 #include "world.h"
+
+#include "common/database/sqlite/sqlite.h"
+
 #include "common/util/printhelper.h"
 
 namespace Common
 {
   namespace World
   {
-    WorldManager::WorldManager() : db("world.sqlite"), objectsTable(&db), factoryTable(&db)
+    WorldManager::WorldManager()
+      : db(&DbSQLite::Run, new DbSQLite("world.sqlite")),
+      objectsTable(db.Get()), factoryTable(db.Get())
     {
       ObjectsTableVOArray objs = objectsTable.GetAll();
       ObjectsTableVOArray::iterator it;

@@ -361,7 +361,7 @@ void UserHandler::handleAvatarInfoRequest(GenericMessage* msg)
   s << avatarTemplate->species_id;
   sql += s.str();
   sql += ";";
-  ResultSet* rs = db->query( sql.c_str() );
+  ResultSet* rs = db->Query(sql.c_str());
   if (!rs) return;
   if ( rs->GetRowCount() > 255 ) return;
   response.setAbilitiesCount((char) rs->GetRowCount());

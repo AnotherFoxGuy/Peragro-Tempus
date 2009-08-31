@@ -27,7 +27,7 @@
 
 SpeciesTable::SpeciesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIES) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -50,7 +50,7 @@ PT_DEFINE_GetSingle(SpeciesTable, DB_TABLE_SPECIES, DB_TABLE_SPECIES_FIELDS)
 
 size_t SpeciesTable::FindByName(const std::string& name)
 {
-  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_SPECIES) " "
+  ResultSet* rs = db->Query("select * from " PT_GetTableName(DB_TABLE_SPECIES) " "
     "where name='%s';",
     name.c_str());
   std::vector<SpeciesTableVOp> arr;

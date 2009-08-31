@@ -27,7 +27,7 @@
 
 ObjectsTable::ObjectsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_OBJECTS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_OBJECTS) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -48,7 +48,7 @@ PT_DEFINE_DeleteAll(ObjectsTable, DB_TABLE_OBJECTS, DB_TABLE_OBJECTS_FIELDS)
 
 size_t ObjectsTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from Objects");
+  ResultSet* rs = db->Query("select max(id) from Objects");
   if (rs == 0 || rs->GetRowCount() == 0) return 0;
   size_t id = atoi(rs->GetData(0,0).c_str());
   delete rs;

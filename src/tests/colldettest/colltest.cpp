@@ -210,9 +210,8 @@ bool CollisionDetectionTest::SetupModules ()
   iGraphics2D* g2d = g3d->GetDriver2D ();
   view->SetRectangle (0, 0, g2d->GetWidth (), g2d->GetHeight ());
 
-  dbSQLite db("test_db.sqlite");
+  DbSQLite db("test_db.sqlite");
   TableManager tablemgr(&db);
-  tablemgr.Initialize();
 
   LoadWorld(&tablemgr);
   SetupPhysics(&tablemgr);

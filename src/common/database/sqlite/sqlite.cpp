@@ -16,121 +16,119 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include <stdio.h>
 #include <stdarg.h>
+#include <iostream>
+#include <memory>
 
 #include "sqlite.h"
 #include "resultset.h"
 
 #include "ext/sqlite/sqlite3.h"
 
-#include "common/util/sleep.h"
-
-dbSQLite::dbSQLite(const char* database) : Database()
+DbSQLite::DbSQLite(const char* database)
 {
-  int rc = sqlite3_open(database, &db);
-  if ( rc )
+  const int rc = sqlite3_open(database, &db);
+  if (rc != SQLITE_OK)
   {
-    printf("Can't open database: %s\n", sqlite3_errmsg(db));
+    std::cout << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
   }
-
-  Begin();
 }
 
-dbSQLite::~dbSQLite()
+DbSQLite::~DbSQLite()
 {
-  Kill();
   sqlite3_close(db);
 }
 
-ResultSet* dbSQLite::query(const char* query, ...)
+ResultSet* DbSQLite::Query(const char* query, ...)
 {
   va_list args;
-  va_start (args, query);
+  va_start(args, query);
   char* escaped_query = sqlite3_vmprintf(query, args);
-  va_end (args);
+  va_end(args);
 
-  while (updates.size() > 0)
-    pt_sleep(10);
+  std::auto_ptr<SQLITEResultSet> result(new SQLITEResultSet);
 
-  char *zErrMsg = 0;
-  SQLITEResultSet* result = new SQLITEResultSet();
-
-  mutex.lock();
-
-  int rc = sqlite3_exec(db, escaped_query, callback, result, &zErrMsg);
-  sqlite3_free(escaped_query);
-  mutex.unlock();
-
-  if ( rc!=SQLITE_OK )
+  char *errorMsg = 0;
+  int rc = SQLITE_OK;
   {
-    printf("SQL error: %s\n", zErrMsg);
-    delete result;
-    sqlite3_free(zErrMsg);
+    LockType lock(updatesMutex);
+    while (!updates.empty())
+    {
+      updatesEmpty.wait(lock);
+    }
+
+     rc = sqlite3_exec(db, escaped_query, Callback, result.get(), &errorMsg);
+  }
+  sqlite3_free(escaped_query);
+
+  if (rc != SQLITE_OK)
+  {
+    std::cout << "SQL error: " << errorMsg << std::endl;
+    sqlite3_free(errorMsg);
     return 0;
   }
 
-  return result;
+  return result.release();
 }
 
-void dbSQLite::update(const char* query, ...)
+void DbSQLite::Update(const char* query, ...)
 {
   va_list args;
-  va_start (args, query);
+  va_start(args, query);
   char* escaped_query = sqlite3_vmprintf(query, args);
-  va_end (args);
+  va_end(args);
 
-  mutex.lock();
+  LockType lock(updatesMutex);
   updates.push(escaped_query);
-  mutex.unlock();
+  updatesQueued.notify_one();
 }
 
-void dbSQLite::shutdown()
+void DbSQLite::Run()
 {
-  while (updates.size())
-    update();
-
-  Kill();
-}
-
-void dbSQLite::Run()
-{
-  if (updates.size() == 0)
-    pt_sleep(10);
-  else
-    update();
-}
-
-void dbSQLite::update()
-{
-  char *zErrMsg = 0;
-  mutex.lock();
-  char* query = updates.front();
-  int rc = sqlite3_exec(db, query, callback, 0, &zErrMsg);
-  if ( rc!=SQLITE_OK )
+  LockType lock(updatesMutex);
+  while (updates.empty())
   {
-    printf("SQL query: %s\n", query);
-    printf("SQL error: %s\n", zErrMsg);
+    updatesQueued.wait(lock);
   }
-  updates.pop();
-  sqlite3_free(query);
-  mutex.unlock();
+  do
+  {
+    char* query = updates.front();
+    updates.pop();
+
+    lock.unlock();
+    ApplyUpdate(query);
+    lock.lock();
+  }
+  while (!updates.empty());
+  updatesEmpty.notify_one();
 }
 
-size_t dbSQLite::getLastInsertedId()
+void DbSQLite::ApplyUpdate(char* query)
 {
-  return (size_t) sqlite3_last_insert_rowid(db);
+  char* errorMsg = 0;
+  const int rc = sqlite3_exec(db, query, Callback, 0, &errorMsg);
+  if (rc != SQLITE_OK)
+  {
+    std::cout << "SQL query: " << query << std::endl;
+    std::cout << "SQL error: " << errorMsg << std::endl;
+  }
+  sqlite3_free(query);
 }
 
-int dbSQLite::callback(void *rs, int cols, char **colArg, char ** /*colName*/)
+size_t DbSQLite::GetLastInsertedId() const
+{
+  return static_cast<size_t>(sqlite3_last_insert_rowid(db));
+}
+
+int DbSQLite::Callback(void *rs, int cols, char **colArg, char ** /*colName*/)
 {
   if (!rs) return 0;
 
-  SQLITEResultSet* result = (SQLITEResultSet*) rs;
+  SQLITEResultSet* result = static_cast<SQLITEResultSet*>(rs);
 
-  size_t row = result->GetRowCount();
+  const size_t row = result->GetRowCount();
 
-  for(size_t i=0; i<size_t(cols); i++)
+  for (size_t i = 0; i < size_t(cols); ++i)
   {
     result->AddData(row, i, colArg[i]);
   }

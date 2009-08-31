@@ -27,7 +27,7 @@
 
 ServersTable::ServersTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from servers;");
+  ResultSet* rs = db->Query("select count(*) from servers;");
   if (rs == 0)
   {
     createTable();
@@ -38,28 +38,28 @@ ServersTable::ServersTable(Database* db) : Table(db)
 void ServersTable::createTable()
 {
   printf("Creating Table servers...\n");
-  db->update("create table servers ("
+  db->Update("create table servers ("
     "id INTEGER, "
     "name TEXT, "
     "pwhash TEXT, "
     "PRIMARY KEY (id) );");
 
-  db->update("insert into servers (id, name, pwhash) values (0, '_npc_',null);");
+  db->Update("insert into servers (id, name, pwhash) values (0, '_npc_',null);");
 }
 
 void ServersTable::insert(ptString name, const char* pwhash)
 {
-  db->update("insert into servers (name, pwhash) values ('%q','%q');", *name, pwhash);
+  db->Update("insert into servers (name, pwhash) values ('%q','%q');", *name, pwhash);
 }
 
 void ServersTable::dropTable()
 {
-  db->update("drop table servers;");
+  db->Update("drop table servers;");
 }
 
 bool ServersTable::existsServer(ptString name)
 {
-  ResultSet* rs = db->query("select id from servers where name = '%q' and id > 0;", *name);
+  ResultSet* rs = db->Query("select id from servers where name = '%q' and id > 0;", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -67,7 +67,7 @@ bool ServersTable::existsServer(ptString name)
 
 ServersTableVO* ServersTable::getServer(ptString name)
 {
-  ResultSet* rs = db->query("select * from servers where name = '%q' and id > 0;", *name);
+  ResultSet* rs = db->Query("select * from servers where name = '%q' and id > 0;", *name);
   if (!rs || rs->GetRowCount() == 0)
   {
     delete rs;

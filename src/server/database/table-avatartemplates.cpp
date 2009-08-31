@@ -27,7 +27,7 @@
 
 AvatarTemplatesTable::AvatarTemplatesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_AVATARTEMPLATES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_AVATARTEMPLATES) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -48,7 +48,7 @@ PT_DEFINE_GetSingle(AvatarTemplatesTable, DB_TABLE_AVATARTEMPLATES, DB_TABLE_AVA
 
 AvatarTemplatesTableVOArray AvatarTemplatesTable::GetAvatarList()
 {
-  ResultSet* rs = db->query(
+  ResultSet* rs = db->Query(
     "SELECT * " \
     "FROM Meshes INNER JOIN avatartemplates ON Meshes.Id=avatartemplates.mesh_id; ");
 

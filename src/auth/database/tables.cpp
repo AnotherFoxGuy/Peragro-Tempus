@@ -29,10 +29,10 @@ Tables::Tables()
 
 void Tables::init(Database* db)
 {
-  db->update("begin transaction");
+  db->Update("begin transaction");
   userstable = new UsersTable(db);
   serverstable = new ServersTable(db);
-  db->update("commit");
+  db->Update("commit");
 }
 
 Tables::~Tables()

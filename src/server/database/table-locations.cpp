@@ -27,7 +27,7 @@
 
 LocationsTable::LocationsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(PT_DB_TABLE_LOCATIONS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(PT_DB_TABLE_LOCATIONS) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -49,7 +49,7 @@ PT_DEFINE_GetSingle(LocationsTable, PT_DB_TABLE_LOCATIONS, PT_DB_TABLE_LOCATIONS
 
 size_t LocationsTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from " PT_GetTableName(PT_DB_TABLE_LOCATIONS));
+  ResultSet* rs = db->Query("select max(id) from " PT_GetTableName(PT_DB_TABLE_LOCATIONS));
   if (rs == 0 || rs->GetRowCount() == 0)
     return 0;
 
@@ -61,7 +61,7 @@ size_t LocationsTable::GetMaxId()
 
 size_t LocationsTable::FindByName(const std::string& name)
 {
-  ResultSet* rs = db->query("select * from " PT_GetTableName(PT_PT_DB_TABLE_LOCATIONS) " "
+  ResultSet* rs = db->Query("select * from " PT_GetTableName(PT_PT_DB_TABLE_LOCATIONS) " "
     "where name='%s';",
     name.c_str());
   std::vector<LocationsTableVOp> arr;

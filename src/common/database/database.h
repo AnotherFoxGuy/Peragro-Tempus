@@ -26,14 +26,12 @@ class Tables;
 class Database
 {
 public:
-  virtual ResultSet* query(const char*, ...) = 0;
-  virtual void update(const char*, ...) = 0;
-  //virtual int getLastInsertedId() = 0;
-
-  Database() {}
   virtual ~Database() {}
 
-  virtual void shutdown() = 0;
+  virtual ResultSet* Query(const char*, ...) = 0;
+  virtual void Update(const char*, ...) = 0;
+  virtual size_t GetLastInsertedId() const = 0;
+  virtual void Run() = 0;
 };
 
 #endif // DATABASE_H

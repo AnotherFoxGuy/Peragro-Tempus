@@ -27,7 +27,7 @@
 
 SpeciesEquipmentTable::SpeciesEquipmentTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESEQUIPMENT) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESEQUIPMENT) ";");
   if (rs == 0)
   {
     CreateTable();

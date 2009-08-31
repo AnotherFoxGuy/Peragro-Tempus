@@ -28,11 +28,12 @@
 #include <wfmath/point.h>
 #include <wfmath/ball.h>
 
-//class dbSQLite;
-#include "common/database/sqlite/sqlite.h"
-
 #include "table-objects.h"
 #include "table-factories.h"
+
+#include "common/thread/threadloop.h"
+
+class DbSQLite;
 
 namespace Common
 {
@@ -82,7 +83,7 @@ namespace Common
     class WorldManager
     {
     private:
-      dbSQLite db;
+      PT::Thread::ThreadLoop<DbSQLite, PT::Thread::OwnedStorage> db;
       ObjectsTable objectsTable;
       FactoriesTable factoryTable;
 

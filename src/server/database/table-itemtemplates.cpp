@@ -27,7 +27,7 @@
 
 ItemTemplatesTable::ItemTemplatesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_ITEMTEMPLATES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_ITEMTEMPLATES) ";");
   if (rs == 0)
   {
     CreateTable();

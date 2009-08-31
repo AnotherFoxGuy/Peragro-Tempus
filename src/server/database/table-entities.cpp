@@ -29,7 +29,7 @@
 
 EntityTable::EntityTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(PT_DB_TABLE_ENTITIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(PT_DB_TABLE_ENTITIES) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -53,7 +53,7 @@ PT_DEFINE_GetAll(EntityTable, PT_DB_TABLE_ENTITIES, PT_DB_TABLE_ENTITIES_FIELDS)
 
 size_t EntityTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from " PT_GetTableName(PT_DB_TABLE_ENTITIES));
+  ResultSet* rs = db->Query("select max(id) from " PT_GetTableName(PT_DB_TABLE_ENTITIES));
   if (rs == 0 || rs->GetRowCount() == 0)
     return 0;
 
@@ -66,7 +66,7 @@ size_t EntityTable::GetMaxId()
 EntitiesTableVOArray EntityTable::GetWorldEntities()
 {
   // Get all worldentities: doors, items(with a position), NPCs, mounts.
-  ResultSet* rs = db->query(
+  ResultSet* rs = db->Query(
     "select e.id, e.EntityTypes_id " \
     "from Entities as e, EntityPositions as p " \
     "where e.id = p.entity_id AND e.EntityTypes_id <> %d;",

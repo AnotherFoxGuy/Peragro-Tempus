@@ -27,7 +27,7 @@
 
 SpeciesAbilitiesTable::SpeciesAbilitiesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESABILITIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESABILITIES) ";");
   if (rs == 0)
   {
     CreateTable();

@@ -27,7 +27,7 @@
 
 UsersTable::UsersTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from users;");
+  ResultSet* rs = db->Query("select count(*) from users;");
   if (rs == 0)
   {
     createTable();
@@ -38,28 +38,28 @@ UsersTable::UsersTable(Database* db) : Table(db)
 void UsersTable::createTable()
 {
   printf("Creating Table users...\n");
-  db->update("create table users ("
+  db->Update("create table users ("
     "id INTEGER, "
     "name TEXT, "
     "pwhash TEXT, "
     "PRIMARY KEY (id) );");
 
-  db->update("insert into users (id, name, pwhash) values (0, '_npc_',null);");
+  db->Update("insert into users (id, name, pwhash) values (0, '_npc_',null);");
 }
 
 void UsersTable::insert(ptString name, const char* pwhash)
 {
-  db->update("insert into users (name, pwhash) values ('%q','%q');", *name, pwhash);
+  db->Update("insert into users (name, pwhash) values ('%q','%q');", *name, pwhash);
 }
 
 void UsersTable::dropTable()
 {
-  db->update("drop table users;");
+  db->Update("drop table users;");
 }
 
 bool UsersTable::existsUser(ptString name)
 {
-  ResultSet* rs = db->query("select id from users where name = '%q' and id > 0;", *name);
+  ResultSet* rs = db->Query("select id from users where name = '%q' and id > 0;", *name);
   bool existence = (rs->GetRowCount() > 0);
   delete rs;
   return existence;
@@ -67,7 +67,7 @@ bool UsersTable::existsUser(ptString name)
 
 UsersTableVO* UsersTable::getUser(ptString name)
 {
-  ResultSet* rs = db->query("select * from users where name = '%q' and id > 0;", *name);
+  ResultSet* rs = db->Query("select * from users where name = '%q' and id > 0;", *name);
   if (!rs || rs->GetRowCount() == 0)
   {
     delete rs;

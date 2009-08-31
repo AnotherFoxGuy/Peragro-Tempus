@@ -6,7 +6,7 @@ SubInclude TOP src auth network ;
 Description auth-server : "Peragro Tempus Auth Server" ;
 Application auth-server : [ Wildcard *.h *.cpp ] : console ;
 
-LinkWith auth-server : auth-network events sqlite_adp auth-dbtables util ;
+LinkWith auth-server : auth-network events sqlite_adp auth-dbtables util thread ;
 ExternalLibs auth-server : BOOST ;
 
 MsvcExternalLibrary auth-server : "wsock32.lib" ;

@@ -27,7 +27,7 @@
 
 CharactersTable::CharactersTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_CHARACTERS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_CHARACTERS) ";");
   if (rs == 0)
   {
     CreateTable();

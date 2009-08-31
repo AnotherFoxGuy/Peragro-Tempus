@@ -27,7 +27,7 @@
 
 EntityTypesTable::EntityTypesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(PT_DB_TABLE_ENTITYTYPES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(PT_DB_TABLE_ENTITYTYPES) ";");
   if (rs == 0)
   {
     CreateTable();

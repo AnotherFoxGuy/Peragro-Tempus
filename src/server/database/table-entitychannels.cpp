@@ -27,7 +27,7 @@
 
 EntityChannelsTable::EntityChannelsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_ENTITYCHANNELS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_ENTITYCHANNELS) ";");
   if (rs == 0)
   {
     CreateTable();

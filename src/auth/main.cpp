@@ -18,6 +18,8 @@
 
 #include "stdio.h"
 
+#include <boost/scoped_ptr.hpp>
+
 #include "auth/network/network.h"
 #include "auth/database/tables.h"
 
@@ -27,14 +29,15 @@
 #include "common/util/wincrashdump.h"
 #include "common/util/consoleapp.h"
 
+#include "common/thread/threadloop.h"
+
 #include "common/events/engine.h"
 
 class App : public Application
 {
 private:
-  Database* db;
-  Tables* tables;
-  Network* network;
+  PT::Thread::ThreadLoop<Database, PT::Thread::OwnedStorage> dbThread;
+  boost::scoped_ptr<Network> network;
 
   int argc;
   char** argv;
@@ -48,6 +51,7 @@ public:
 };
 
 App::App()
+  : dbThread(&Database::Run)
 {
 }
 
@@ -60,12 +64,8 @@ App::~App()
   printf("done\n");
 
   printf("- Shutdown Database:     \t");
-  db->shutdown();
+  dbThread.Stop();
   printf("done\n");
-
-  delete db;
-  delete tables;
-  delete network;
 
   StringStore::destroy();
 
@@ -85,9 +85,10 @@ int App::Initialize(int argc, char* argv[])
 
 void App::Run()
 {
-  tables = new Tables();
-  db = new dbSQLite("auth_db.sqlite");
-  tables->init(db);
+  dbThread.Set(new DbSQLite("auth_db.sqlite"));
+  Tables tables;
+  tables.init(dbThread.Get());
+  dbThread.Start();
 
   EventEngine eng;
 
@@ -103,7 +104,7 @@ void App::Run()
   unsigned int port = 12345;
 
   // Finally initialising the network!
-  network = new Network();
+  network.reset(new Network);
   network->init(port);
 
   printf("Server up and running!\n");

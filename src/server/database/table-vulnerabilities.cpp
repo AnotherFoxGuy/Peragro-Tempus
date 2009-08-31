@@ -27,7 +27,7 @@
 
 VulnerabilitiesTable::VulnerabilitiesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_VULNERABILITIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_VULNERABILITIES) ";");
   if (rs == 0)
   {
     CreateTable();

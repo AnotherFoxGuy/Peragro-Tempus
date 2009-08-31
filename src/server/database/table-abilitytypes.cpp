@@ -27,7 +27,7 @@
 
 AbilityTypesTable::AbilityTypesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_ABILITYTYPES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_ABILITYTYPES) ";");
   if (rs == 0)
   {
     CreateTable();

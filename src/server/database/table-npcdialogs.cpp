@@ -27,7 +27,7 @@
 
 NpcDialogsTable::NpcDialogsTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_NPCDIALOGS) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_NPCDIALOGS) ";");
   if (rs == 0)
   {
     CreateTable();

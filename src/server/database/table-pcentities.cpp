@@ -27,7 +27,7 @@
 
 PcEntitiesTable::PcEntitiesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_PCENTITIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_PCENTITIES) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -45,7 +45,7 @@ PT_DEFINE_Get(PcEntitiesTable, DB_TABLE_PCENTITIES, DB_TABLE_PCENTITIES_FIELDS)
 
 PcEntitiesTableVOArray PcEntitiesTable::GetAll(const std::string& login)
 {
-  ResultSet* rs = db->query(
+  ResultSet* rs = db->Query(
     "select * " \
     "from PcEntities " \
     "where users_login='%s';",

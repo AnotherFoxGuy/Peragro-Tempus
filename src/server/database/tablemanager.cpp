@@ -94,11 +94,7 @@
 
 TableManager::TableManager(Database* db) : db(db)
 {
-}
-
-void TableManager::Initialize()
-{
-  db->update("begin transaction");
+  db->Update("begin transaction");
 
   // Chat stuff
   Register(new JoinTypesTable(db));
@@ -174,7 +170,7 @@ void TableManager::Initialize()
   // Misc stuff
   Register(new LocationsTable(db));
 
-  db->update("commit");
+  db->Update("commit");
 }
 
 TableManager::~TableManager()
@@ -183,11 +179,11 @@ TableManager::~TableManager()
 
 void TableManager::Register(Table* table)
 {
-  boost::shared_ptr<Table> t(table);
-  tables.push_back(t);
+  boost::shared_ptr<Table> tableSp(table);
+  Register(tableSp);
 }
 
-void TableManager::Register(boost::shared_ptr<Table> table)
+void TableManager::Register(const boost::shared_ptr<Table>& table)
 {
   tables.push_back(table);
 }

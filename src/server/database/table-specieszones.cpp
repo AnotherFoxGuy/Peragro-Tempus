@@ -27,7 +27,7 @@
 
 SpeciesZonesTable::SpeciesZonesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESZONES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_SPECIESZONES) ";");
   if (rs == 0)
   {
     CreateTable();

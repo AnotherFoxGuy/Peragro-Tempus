@@ -27,7 +27,7 @@
 
 ZonesTable::ZonesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_ZONES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_ZONES) ";");
   if (rs == 0)
   {
     CreateTable();

@@ -27,7 +27,7 @@
 
 MeshesTable::MeshesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_MESHES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_MESHES) ";");
   if (rs == 0)
   {
     CreateTable();
@@ -46,7 +46,7 @@ PT_DEFINE_GetSingle(MeshesTable, DB_TABLE_MESHES, DB_TABLE_MESHES_FIELDS)
 
 size_t MeshesTable::GetMaxId()
 {
-  ResultSet* rs = db->query("select max(id) from " PT_GetTableName(DB_TABLE_MESHES));
+  ResultSet* rs = db->Query("select max(id) from " PT_GetTableName(DB_TABLE_MESHES));
   if (rs == 0 || rs->GetRowCount() == 0)
     return 0;
 
@@ -58,7 +58,7 @@ size_t MeshesTable::GetMaxId()
 
 size_t MeshesTable::FindBy(const std::string& factoryName, const std::string& fileName)
 {
-  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
+  ResultSet* rs = db->Query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
     "where factoryName='%s' AND fileName='%s';",
     factoryName.c_str(), fileName.c_str());
   std::vector<MeshesTableVOp> arr;
@@ -72,7 +72,7 @@ size_t MeshesTable::FindBy(const std::string& factoryName, const std::string& fi
 
 size_t MeshesTable::FindByName(const std::string& factoryName)
 {
-  ResultSet* rs = db->query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
+  ResultSet* rs = db->Query("select * from " PT_GetTableName(DB_TABLE_MESHES) " "
     "where factoryName='%s';",
     factoryName.c_str());
   std::vector<MeshesTableVOp> arr;

@@ -27,7 +27,7 @@
 
 ConfigTable::ConfigTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_CONFIG) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_CONFIG) ";");
   if (rs == 0)
   {
     CreateTable();

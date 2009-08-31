@@ -31,16 +31,13 @@ private:
   Database* db;
   std::vector<boost::shared_ptr<Table> > tables;
 
-  /// Takes ownership of the object!
   void Register(Table* table);
 
 public:
   TableManager(Database* db);
   virtual ~TableManager();
 
-  void Initialize();
-
-  void Register(boost::shared_ptr<Table> table);
+  void Register(const boost::shared_ptr<Table>& table);
 
   template<typename T>
   T* Get()
@@ -49,8 +46,8 @@ public:
     for (it = tables.begin(); it != tables.end(); it++)
     {
       if (!*it) continue;
-      T* t = static_cast<T*>((*it).get());
-      if (t) return t;
+      T* table = dynamic_cast<T*>(it->get());
+      if (table) return table;
     }
     return 0;
   }

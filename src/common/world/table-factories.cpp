@@ -27,7 +27,7 @@
 
 FactoriesTable::FactoriesTable(Database* db) : Table(db)
 {
-  ResultSet* rs = db->query("select count(*) from " PT_GetTableName(DB_TABLE_FACTORIES) ";");
+  ResultSet* rs = db->Query("select count(*) from " PT_GetTableName(DB_TABLE_FACTORIES) ";");
   if (rs == 0)
   {
     CreateTable();
