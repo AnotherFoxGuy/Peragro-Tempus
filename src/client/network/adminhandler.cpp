@@ -20,7 +20,7 @@
 //  !! Do not change this file since all changes will be overwritten later !!
 //  !! Instead please change the source files here: peragro/data/generate  !!
 
-#include "client/network/adminhandler.h"
+#include "client/network/network.h"
 
 #include "common/eventcs/eventmanager.h"
 #include "common/eventcs/entityevent.h"
