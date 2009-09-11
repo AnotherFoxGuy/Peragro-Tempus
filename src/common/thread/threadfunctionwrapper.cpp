@@ -20,6 +20,7 @@
 
 #include <boost/thread/thread.hpp>
 
+#include <iostream>
 #include <boost/exception/diagnostic_information.hpp>
 
 namespace PT
