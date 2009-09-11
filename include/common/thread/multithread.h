@@ -46,6 +46,7 @@ namespace PT
       typedef ThreadFunctionWrapper::FunctionType FunctionType;
 
       MultiThread(const FunctionType& f);
+      ~MultiThread();
       void Start(size_t number = 1);
       void Stop();
       void Stop(size_t number);

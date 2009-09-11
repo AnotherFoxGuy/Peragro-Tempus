@@ -39,7 +39,7 @@ namespace PT
      */
     template<typename T, template <typename> class StoragePolicy_ = OwnedStorage,
       typename ThreadPolicy_ = SingleThread>
-    class ThreadLoop : public ThreadPolicy_
+    class ThreadLoop : public StoragePolicy_<T>, public ThreadPolicy_
     {
     public:
       typedef StoragePolicy_<T> StoragePolicy;
@@ -51,55 +51,40 @@ namespace PT
       ThreadLoop(FunctionPtr fPtr);
       /// Constructor; starts a thread running immediately.
       ThreadLoop(FunctionPtr fPtr, ArgType obj);
-      /// Set the object for the function pointer.
-      void Set(ArgType obj);
-      /// Get the object.
-      T* Get() const;
 
     private:
       /// Functor for the thread to call.
       struct ThreadFunction
       {
         /// Constructor.
-        ThreadFunction(FunctionPtr fPtr);
-        /// Constructor.
-        ThreadFunction(FunctionPtr fPtr, ArgType obj);
+        ThreadFunction(FunctionPtr fPtr, const StoragePolicy& obj);
         /// Function call operator.
         void operator()() const;
 
         /// Member function pointer of object (T).
         FunctionPtr functionPtr;
         /// Object pointer.
-        StoragePolicy object;
+        const StoragePolicy& object;
       } function;
     };
 
     template<typename T, template <typename> class SP, typename TP>
     ThreadLoop<T,SP,TP>::ThreadLoop(FunctionPtr fPtr)
-      : ThreadPolicy(boost::cref(function)), function(fPtr) {}
+      : StoragePolicy(), ThreadPolicy(boost::cref(function)),
+      function(fPtr, *this)
+    {}
 
     template<typename T, template <typename> class SP, typename TP>
     ThreadLoop<T,SP,TP>::ThreadLoop(FunctionPtr fPtr, ArgType obj)
-      : ThreadPolicy(boost::cref(function)), function(fPtr, obj)
+      : StoragePolicy(obj), ThreadPolicy(boost::cref(function)),
+      function(fPtr, *this)
     { ThreadPolicy::Start(); }
 
     template<typename T, template <typename> class SP, typename TP>
-    inline void ThreadLoop<T,SP,TP>::Set(ArgType obj)
-    { function.object.Set(obj); BOOST_ASSERT(function.object.Get() != 0); }
-
-    template<typename T, template <typename> class SP, typename TP>
-    inline T* ThreadLoop<T,SP,TP>::Get() const
-    { return function.object.Get(); }
-
-    template<typename T, template <typename> class SP, typename TP>
-    ThreadLoop<T,SP,TP>::ThreadFunction::ThreadFunction(FunctionPtr fPtr)
-      : functionPtr(fPtr)
-    { BOOST_ASSERT(functionPtr != 0); }
-
-    template<typename T, template <typename> class SP, typename TP>
-    ThreadLoop<T,SP,TP>::ThreadFunction::ThreadFunction(FunctionPtr fPtr, ArgType obj)
+    ThreadLoop<T,SP,TP>::ThreadFunction::ThreadFunction(FunctionPtr fPtr,
+      const StoragePolicy& obj)
       : functionPtr(fPtr), object(obj)
-    { BOOST_ASSERT(functionPtr != 0); BOOST_ASSERT(object.Get() != 0); }
+    { BOOST_ASSERT(functionPtr != 0); }
 
     template<typename T, template <typename> class SP, typename TP>
     void ThreadLoop<T,SP,TP>::ThreadFunction::operator()() const

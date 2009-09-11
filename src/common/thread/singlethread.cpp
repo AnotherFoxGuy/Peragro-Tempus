@@ -29,6 +29,11 @@ namespace PT
     {
     }
 
+    SingleThread::~SingleThread()
+    {
+      Stop();
+    }
+
     void SingleThread::Start()
     {
       if (thread.joinable())

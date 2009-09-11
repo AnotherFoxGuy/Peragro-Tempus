@@ -38,6 +38,7 @@ namespace PT
       typedef ThreadFunctionWrapper::FunctionType FunctionType;
 
       SingleThread(const FunctionType& f);
+      ~SingleThread();
       void Start();
       void Stop();
       const boost::thread& GetThread() const;

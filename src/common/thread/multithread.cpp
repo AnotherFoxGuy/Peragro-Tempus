@@ -31,6 +31,11 @@ namespace PT
     {
     }
 
+    MultiThread::~MultiThread()
+    {
+      Stop();
+    }
+
     void MultiThread::Start(size_t number)
     {
       for (size_t i = 0; i < number; ++i)
