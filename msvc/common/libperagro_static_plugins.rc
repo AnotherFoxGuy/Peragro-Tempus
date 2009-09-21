@@ -1,0 +1,35 @@
+// This file is generated automatically.
+
+
+1 VERSIONINFO
+FILEVERSION 0,1,0,0
+PRODUCTVERSION 0,1,0,0
+#ifdef CS_DEBUG
+FILEFLAGS 0x1
+#else
+FILEFLAGS 0x0
+#endif
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "040904E4"
+    {
+      VALUE "ProductName", "Peragro Tempus"
+      VALUE "ProductVersion", "0.1"
+      VALUE "FileVersion", "0.1"
+      VALUE "LegalCopyright", "Peragro Team"
+      VALUE "FileDescription", "peragro_static_plugins"
+#ifdef CS_DEBUG
+      VALUE "Comments", "Debug build"
+#else
+      VALUE "Comments", "Release build"
+#endif
+      VALUE "WWW", "http://peragro.org"
+    }
+  }
+  BLOCK "VarFileInfo"
+  {
+      VALUE "Translation", 0x409, 1200
+  }
+
+}
