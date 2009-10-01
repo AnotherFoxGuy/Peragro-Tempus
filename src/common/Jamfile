@@ -2,6 +2,7 @@ SubDir TOP src common ;
 
 SubInclude TOP src common database ;
 SubInclude TOP src common entity ;
+SubInclude TOP src common event ;
 SubInclude TOP src common eventcs ;
 SubInclude TOP src common events ;
 SubInclude TOP src common network ;

@@ -1,0 +1,8 @@
+SubDir TOP src common event ;
+
+Description eventmanager : "Event system" ;
+Library eventmanager :
+  [ Wildcard *.h *.cpp ] ;
+
+LinkWith eventmanager : wfmath util ;
+ExternalLibs eventmanager : BOOST BOOST.THREAD ;
