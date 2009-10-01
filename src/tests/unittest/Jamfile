@@ -1,0 +1,9 @@
+SubDir TOP src tests unittest ;
+
+Description unittest : "Unit test cases" ;
+Application unittest :
+  [ Wildcard *.h *.cpp ]
+  : console ;
+
+LinkWith unittest : eventmanager thread ;
+ExternalLibs unittest : BOOST PTHREAD ;

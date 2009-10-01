@@ -7,3 +7,4 @@ SubInclude TOP src tests entitytest ;
 SubInclude TOP src tests inventorytest ;
 SubInclude TOP src tests databasetest ;
 SubInclude TOP src tests timertest ;
+SubInclude TOP src tests unittest ;
