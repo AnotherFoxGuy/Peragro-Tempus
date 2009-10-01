@@ -19,10 +19,17 @@
 #include "ptstring.h"
 
 #include <string>
+#include <iostream>
 
 ptString ptString::Null(0,0);
 
 ptString ptString::create(const std::string& str)
 {
   return ptString(str.c_str(), str.length());
+}
+
+std::ostream& operator<<(std::ostream& os, const ptString& ptStr)
+{
+  os << *ptStr;
+  return os;
 }

@@ -19,7 +19,8 @@
 #ifndef PTSTRING_H
 #define PTSTRING_H
 
-#include <stdio.h>
+#include <cstdio>
+#include <iosfwd>
 #include "stringstore.h"
 
 class ptString
@@ -100,5 +101,7 @@ public:
     return string_id == 0;
   }
 };
+
+std::ostream& operator<<(std::ostream& os, const ptString& ptStr);
 
 #endif // PTSTRING_H
