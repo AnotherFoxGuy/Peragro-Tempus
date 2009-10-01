@@ -92,9 +92,9 @@ void UserHandler::handleLoginRequest(GenericMessage* msg)
     char_msg.setCharId(i, vo->entity_id);
     char_msg.setName(i, vo->name);
     //char_msg.setMesh(i, vo->meshes_id);
-    char_msg.setHairColour(i, vo->hairColor[0], vo->hairColor[1], vo->hairColor[2]);
-    char_msg.setSkinColour(i, vo->skinColor[0], vo->skinColor[1], vo->skinColor[2]);
-    char_msg.setDecalColour(i, vo->decalColor[0], vo->decalColor[1], vo->decalColor[2]);
+    char_msg.setHairColour(i, vo->hairColor);
+    char_msg.setSkinColour(i, vo->skinColor);
+    char_msg.setDecalColour(i, vo->decalColor);
   }
 
   ByteStream char_bs;
@@ -133,9 +133,9 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 
   ptString char_name = char_msg.getName();
   unsigned int avatarTemplateID = char_msg.getAvatarTemplateID();
-  unsigned char* haircolour = char_msg.getHairColour();
-  unsigned char* skincolour = char_msg.getSkinColour();
-  unsigned char* decalcolour = char_msg.getDecalColour();
+  PT::Colour24 haircolour(char_msg.getHairColour());
+  PT::Colour24 skincolour(char_msg.getSkinColour());
+  PT::Colour24 decalcolour(char_msg.getDecalColour());
   ///@TODO : Create a CharacterHandler and move this stuff to it.
   // Get AvatarInfo
   AvatarTemplatesTable* atable = server->GetTableManager()->Get<AvatarTemplatesTable>();
@@ -151,7 +151,7 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
   try
   {
     boost::shared_ptr<PcEntity> pc =
-    server->GetSpeciesManager()->CreatePCFromSpecies(avatarTemplate->species_id);
+      server->GetSpeciesManager()->CreatePCFromSpecies(avatarTemplate->species_id);
     pc->SetName(*char_name);
     pc->SetUser(user.get());
     pc->SetMeshName(mesh->factoryName);
@@ -160,8 +160,9 @@ void UserHandler::handleCharCreateRequest(GenericMessage* msg)
 
     pcId = pc->GetId();
 
-    //TODO: set colours.
-
+    pc->SetHairColour(haircolour);
+    pc->SetSkinColour(skincolour);
+    pc->SetDecalColour(decalcolour);
   }
   catch (std::exception& ex)
   {

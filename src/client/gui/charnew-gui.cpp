@@ -93,9 +93,9 @@ namespace PT
         CharCreateRequestMessage answer_msg;
         answer_msg.setName(ptString(NewCharName.c_str(), NewCharName.length()));
         answer_msg.setAvatarTemplateID(item->getID());
-        answer_msg.setSkinColour(0xC9, 0xBE, 0x89);
-        answer_msg.setHairColour(0x4B, 0x41, 0x13);
-        answer_msg.setDecalColour(0xFF, 0x00, 0x00);
+        answer_msg.setSkinColour(Colour24(0xC9, 0xBE, 0x89));
+        answer_msg.setHairColour(Colour24(0x4B, 0x41, 0x13));
+        answer_msg.setDecalColour(Colour24(0xFF, 0x00, 0x00));
         network->send(&answer_msg);
 
         return true;

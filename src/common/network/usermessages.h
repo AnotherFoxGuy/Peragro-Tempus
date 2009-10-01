@@ -29,21 +29,21 @@ namespace USER
 {
   enum MESSAGES
   {
-    LOGINREQUEST=0,
-    LOGINRESPONSE=1,
-    REGISTERREQUEST=2,
-    REGISTERRESPONSE=3,
-    CHARLIST=4,
-    CHARCREATEREQUEST=5,
-    CHARCREATERESPONSE=6,
-    CHARSELECTREQUEST=7,
-    CHARSELECTRESPONSE=8,
-    MESHLISTREQUEST=9,
-    MESHLISTRESPONSE=10,
-    AVATARLISTREQUEST=11,
-    AVATARLISTRESPONSE=12,
-    AVATARINFOREQUEST=13,
-    AVATARINFORESPONSE=14
+    LOGINREQUEST = 0,
+    LOGINRESPONSE = 1,
+    REGISTERREQUEST = 2,
+    REGISTERRESPONSE = 3,
+    CHARLIST = 4,
+    CHARCREATEREQUEST = 5,
+    CHARCREATERESPONSE = 6,
+    CHARSELECTREQUEST = 7,
+    CHARSELECTRESPONSE = 8,
+    MESHLISTREQUEST = 9,
+    MESHLISTRESPONSE = 10,
+    AVATARLISTREQUEST = 11,
+    AVATARLISTRESPONSE = 12,
+    AVATARINFOREQUEST = 13,
+    AVATARINFORESPONSE = 14
   };
 }
 
@@ -150,9 +150,9 @@ class CharListMessage : public NetMessage
   public:
     unsigned int charid;
     ptString name;
-    unsigned char haircolour[3];
-    unsigned char skincolour[3];
-    unsigned char decalcolour[3];
+    PT::Colour24 haircolour;
+    PT::Colour24 skincolour;
+    PT::Colour24 decalcolour;
   };
 
   unsigned int charactercount;
@@ -189,41 +189,14 @@ public:
   ptString getName(size_t i) { return character[i].name; }
   void setName(size_t i, ptString x) { character[i].name = x; }
 
-  unsigned char* getHairColour(size_t i) { return character[i].haircolour; }
-  void setHairColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
-  {
-    character[i].haircolour[0] = r;
-    character[i].haircolour[1] = g;
-    character[i].haircolour[2] = b;
-  }
-  void setHairColour(size_t i, const unsigned char* x)
-  {
-    setHairColour(i, x[0], x[1], x[2]);
-  }
+  PT::Colour24 getHairColour(size_t i) { return character[i].haircolour; }
+  void setHairColour(size_t i, PT::Colour24 x) { character[i].haircolour = x; }
 
-  unsigned char* getSkinColour(size_t i) { return character[i].skincolour; }
-  void setSkinColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
-  {
-    character[i].skincolour[0] = r;
-    character[i].skincolour[1] = g;
-    character[i].skincolour[2] = b;
-  }
-  void setSkinColour(size_t i, const unsigned char* x)
-  {
-    setSkinColour(i, x[0], x[1], x[2]);
-  }
+  PT::Colour24 getSkinColour(size_t i) { return character[i].skincolour; }
+  void setSkinColour(size_t i, PT::Colour24 x) { character[i].skincolour = x; }
 
-  unsigned char* getDecalColour(size_t i) { return character[i].decalcolour; }
-  void setDecalColour(size_t i, unsigned char r, unsigned char g, unsigned char b)
-  {
-    character[i].decalcolour[0] = r;
-    character[i].decalcolour[1] = g;
-    character[i].decalcolour[2] = b;
-  }
-  void setDecalColour(size_t i, const unsigned char* x)
-  {
-    setDecalColour(i, x[0], x[1], x[2]);
-  }
+  PT::Colour24 getDecalColour(size_t i) { return character[i].decalcolour; }
+  void setDecalColour(size_t i, PT::Colour24 x) { character[i].decalcolour = x; }
 
   // --- end ListCharacter Getter and Setter ---
 
@@ -233,9 +206,9 @@ class CharCreateRequestMessage : public NetMessage
 {
   ptString name;
   unsigned int avatartemplateid;
-  unsigned char haircolour[3];
-  unsigned char skincolour[3];
-  unsigned char decalcolour[3];
+  PT::Colour24 haircolour;
+  PT::Colour24 skincolour;
+  PT::Colour24 decalcolour;
 
 public:
   CharCreateRequestMessage() : NetMessage(MESSAGES::USER,USER::CHARCREATEREQUEST)
@@ -255,41 +228,14 @@ public:
   unsigned int getAvatarTemplateID() const { return avatartemplateid; }
   void setAvatarTemplateID(unsigned int x) { avatartemplateid = x; }
 
-  unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    haircolour[0] = r;
-    haircolour[1] = g;
-    haircolour[2] = b;
-  }
-  void setHairColour(const unsigned char* x)
-  {
-    setHairColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getHairColour() const { return haircolour; }
+  void setHairColour(PT::Colour24 x) { haircolour = x; }
 
-  unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    skincolour[0] = r;
-    skincolour[1] = g;
-    skincolour[2] = b;
-  }
-  void setSkinColour(const unsigned char* x)
-  {
-    setSkinColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getSkinColour() const { return skincolour; }
+  void setSkinColour(PT::Colour24 x) { skincolour = x; }
 
-  unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    decalcolour[0] = r;
-    decalcolour[1] = g;
-    decalcolour[2] = b;
-  }
-  void setDecalColour(const unsigned char* x)
-  {
-    setDecalColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getDecalColour() const { return decalcolour; }
+  void setDecalColour(PT::Colour24 x) { decalcolour = x; }
 
 };
 
@@ -297,9 +243,9 @@ class CharCreateResponseMessage : public NetMessage
 {
   unsigned int charid;
   ptString name;
-  unsigned char haircolour[3];
-  unsigned char skincolour[3];
-  unsigned char decalcolour[3];
+  PT::Colour24 haircolour;
+  PT::Colour24 skincolour;
+  PT::Colour24 decalcolour;
   ptString error;
 
 public:
@@ -320,41 +266,14 @@ public:
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    haircolour[0] = r;
-    haircolour[1] = g;
-    haircolour[2] = b;
-  }
-  void setHairColour(const unsigned char* x)
-  {
-    setHairColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getHairColour() const { return haircolour; }
+  void setHairColour(PT::Colour24 x) { haircolour = x; }
 
-  unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    skincolour[0] = r;
-    skincolour[1] = g;
-    skincolour[2] = b;
-  }
-  void setSkinColour(const unsigned char* x)
-  {
-    setSkinColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getSkinColour() const { return skincolour; }
+  void setSkinColour(PT::Colour24 x) { skincolour = x; }
 
-  unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    decalcolour[0] = r;
-    decalcolour[1] = g;
-    decalcolour[2] = b;
-  }
-  void setDecalColour(const unsigned char* x)
-  {
-    setDecalColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getDecalColour() const { return decalcolour; }
+  void setDecalColour(PT::Colour24 x) { decalcolour = x; }
 
   ptString getError() const { return error; }
   void setError(ptString x) { error = x; }

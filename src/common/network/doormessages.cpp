@@ -38,7 +38,7 @@ void OpenDoorRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
+  doorid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool OpenDoorResponseMessage::serialise(ByteStream* bs)
@@ -56,8 +56,8 @@ void OpenDoorResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  doorid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool CloseDoorRequestMessage::serialise(ByteStream* bs)
@@ -74,7 +74,7 @@ void CloseDoorRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
+  doorid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool CloseDoorResponseMessage::serialise(ByteStream* bs)
@@ -92,8 +92,8 @@ void CloseDoorResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  doorid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool LockDoorRequestMessage::serialise(ByteStream* bs)
@@ -110,7 +110,7 @@ void LockDoorRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
+  doorid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool LockDoorResponseMessage::serialise(ByteStream* bs)
@@ -128,8 +128,8 @@ void LockDoorResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  doorid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool UnlockDoorRequestMessage::serialise(ByteStream* bs)
@@ -146,7 +146,7 @@ void UnlockDoorRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
+  doorid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool UnlockDoorResponseMessage::serialise(ByteStream* bs)
@@ -164,7 +164,7 @@ void UnlockDoorResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  doorid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  doorid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 

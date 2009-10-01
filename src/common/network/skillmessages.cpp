@@ -46,14 +46,14 @@ void SkillListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  statscount = (unsigned int) serial.getInt24();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  statscount = static_cast<unsigned int>(serial.getInt24());
   setStatsCount(statscount);
-  for ( size_t i = 0; i < statscount ; i++ )
+  for (size_t i = 0; i < statscount ; ++i)
   {
-    stats[i].skillid = (unsigned short) serial.getInt16();
-    stats[i].name = serial.getString();
-    stats[i].xp = serial.getFloat();
+    stats[i].skillid = static_cast<unsigned short>(serial.getInt16());
+    stats[i].name = static_cast<ptString>(serial.getString());
+    stats[i].xp = static_cast<float>(serial.getFloat());
   };
 
 }
@@ -74,8 +74,8 @@ void SkillUpdateMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  skillid = (unsigned short) serial.getInt16();
-  xp = serial.getFloat();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  skillid = static_cast<unsigned short>(serial.getInt16());
+  xp = static_cast<float>(serial.getFloat());
 }
 

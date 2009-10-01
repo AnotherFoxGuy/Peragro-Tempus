@@ -40,8 +40,8 @@ void ChatMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  speakername = serial.getString();
-  volume = (unsigned char) serial.getInt8();
+  speakername = static_cast<ptString>(serial.getString());
+  volume = static_cast<unsigned char>(serial.getInt8());
   serial.getString(message);
 }
 
@@ -60,7 +60,7 @@ void WhisperToMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  listenername = serial.getString();
+  listenername = static_cast<ptString>(serial.getString());
   serial.getString(message);
 }
 
@@ -80,8 +80,8 @@ void GroupMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  speakername = serial.getString();
-  channel = serial.getString();
+  speakername = static_cast<ptString>(serial.getString());
+  channel = static_cast<ptString>(serial.getString());
   serial.getString(message);
 }
 

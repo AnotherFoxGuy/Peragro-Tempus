@@ -38,7 +38,7 @@ void ClientLoginRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
+  serverid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ClientLoginChallengeMessage::serialise(ByteStream* bs)
@@ -55,7 +55,7 @@ void ClientLoginChallengeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  challenge = (unsigned int) serial.getInt32();
+  challenge = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ClientLoginResponseMessage::serialise(ByteStream* bs)
@@ -89,7 +89,7 @@ void ServerLoginRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
+  serverid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ServerLoginChallengeMessage::serialise(ByteStream* bs)
@@ -106,7 +106,7 @@ void ServerLoginChallengeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  challenge = (unsigned int) serial.getInt32();
+  challenge = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ServerLoginResponseMessage::serialise(ByteStream* bs)
@@ -140,7 +140,7 @@ void JoinServerRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
+  serverid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool SessionIdMessage::serialise(ByteStream* bs)
@@ -157,7 +157,7 @@ void SessionIdMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  sessionid = (unsigned int) serial.getInt32();
+  sessionid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ClientJoinedMessage::serialise(ByteStream* bs)
@@ -174,7 +174,7 @@ void ClientJoinedMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  userid = (unsigned int) serial.getInt32();
+  userid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ClientLeftMessage::serialise(ByteStream* bs)
@@ -191,7 +191,7 @@ void ClientLeftMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  userid = (unsigned int) serial.getInt32();
+  userid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool RegisterGameRequestMessage::serialise(ByteStream* bs)
@@ -209,8 +209,8 @@ void RegisterGameRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
-  ipaddress = (unsigned int) serial.getInt32();
+  name = static_cast<ptString>(serial.getString());
+  ipaddress = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool RegisterServerRequestMessage::serialise(ByteStream* bs)
@@ -228,8 +228,8 @@ void RegisterServerRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  userid = (unsigned int) serial.getInt32();
-  username = serial.getString();
+  userid = static_cast<unsigned int>(serial.getInt32());
+  username = static_cast<ptString>(serial.getString());
 }
 
 bool RegisterServerResponseMessage::serialise(ByteStream* bs)
@@ -248,7 +248,7 @@ void RegisterServerResponseMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   serial.getString(passwordhash);
-  error = serial.getString();
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool RegisterGameResponseMessage::serialise(ByteStream* bs)
@@ -265,7 +265,7 @@ void RegisterGameResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  error = serial.getString();
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool ServerListMessage::serialise(ByteStream* bs)
@@ -279,7 +279,7 @@ bool ServerListMessage::serialise(ByteStream* bs)
     serial.setInt32(unnamed1[i].serverid);
     serial.setString(unnamed1[i].name);
     serial.setInt32(unnamed1[i].ipaddress);
-    serial.setInt8(unnamed1[i].isjoinable?1:0);
+    serial.setInt8(unnamed1[i].isjoinable);
   };
 
   return serial.isValid();
@@ -290,14 +290,14 @@ void ServerListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  unnamed1count = (unsigned int) serial.getInt24();
+  unnamed1count = static_cast<unsigned int>(serial.getInt24());
   setunnamed1Count(unnamed1count);
-  for ( size_t i = 0; i < unnamed1count ; i++ )
+  for (size_t i = 0; i < unnamed1count ; ++i)
   {
-    unnamed1[i].serverid = (unsigned int) serial.getInt32();
-    unnamed1[i].name = serial.getString();
-    unnamed1[i].ipaddress = (unsigned int) serial.getInt32();
-    unnamed1[i].isjoinable = serial.getInt8() != 0;
+    unnamed1[i].serverid = static_cast<unsigned int>(serial.getInt32());
+    unnamed1[i].name = static_cast<ptString>(serial.getString());
+    unnamed1[i].ipaddress = static_cast<unsigned int>(serial.getInt32());
+    unnamed1[i].isjoinable = static_cast<bool>(serial.getInt8());
   };
 
 }
@@ -310,7 +310,7 @@ bool ServerListAddMessage::serialise(ByteStream* bs)
   serial.setInt32(serverid);
   serial.setString(name);
   serial.setInt32(ipaddress);
-  serial.setInt8(isjoinable?1:0);
+  serial.setInt8(isjoinable);
   return serial.isValid();
 }
 
@@ -319,10 +319,10 @@ void ServerListAddMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
-  name = serial.getString();
-  ipaddress = (unsigned int) serial.getInt32();
-  isjoinable = serial.getInt8() != 0;
+  serverid = static_cast<unsigned int>(serial.getInt32());
+  name = static_cast<ptString>(serial.getString());
+  ipaddress = static_cast<unsigned int>(serial.getInt32());
+  isjoinable = static_cast<bool>(serial.getInt8());
 }
 
 bool ServerListRemoveMessage::serialise(ByteStream* bs)
@@ -339,7 +339,7 @@ void ServerListRemoveMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
+  serverid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ServerListUpdateMessage::serialise(ByteStream* bs)
@@ -348,7 +348,7 @@ bool ServerListUpdateMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(serverid);
-  serial.setInt8(isjoinable?1:0);
+  serial.setInt8(isjoinable);
   return serial.isValid();
 }
 
@@ -357,7 +357,7 @@ void ServerListUpdateMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  serverid = (unsigned int) serial.getInt32();
-  isjoinable = serial.getInt8() != 0;
+  serverid = static_cast<unsigned int>(serial.getInt32());
+  isjoinable = static_cast<bool>(serial.getInt8());
 }
 

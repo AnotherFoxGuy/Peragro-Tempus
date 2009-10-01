@@ -39,8 +39,8 @@ void SetConfigMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  option = serial.getString();
-  value = serial.getString();
+  option = static_cast<ptString>(serial.getString());
+  value = static_cast<ptString>(serial.getString());
 }
 
 bool CreateMeshMessage::serialise(ByteStream* bs)
@@ -59,9 +59,9 @@ void CreateMeshMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  revision = (unsigned int) serial.getInt32();
-  file = serial.getString();
-  factory = serial.getString();
+  revision = static_cast<unsigned int>(serial.getInt32());
+  file = static_cast<ptString>(serial.getString());
+  factory = static_cast<ptString>(serial.getString());
 }
 
 bool CreateSpawnPointMessage::serialise(ByteStream* bs)
@@ -70,9 +70,9 @@ bool CreateSpawnPointMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itemtemplateid);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setInt32(interval);
   return serial.isValid();
 }
@@ -82,11 +82,11 @@ void CreateSpawnPointMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemtemplateid = (unsigned int) serial.getInt32();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  interval = (unsigned int) serial.getInt32();
+  itemtemplateid = static_cast<unsigned int>(serial.getInt32());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  interval = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool SpawnItemMessage::serialise(ByteStream* bs)
@@ -95,9 +95,9 @@ bool SpawnItemMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itemtemplateid);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   return serial.isValid();
 }
 
@@ -106,10 +106,10 @@ void SpawnItemMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemtemplateid = (unsigned int) serial.getInt32();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
+  itemtemplateid = static_cast<unsigned int>(serial.getInt32());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
 }
 
 bool SpawnMountMessage::serialise(ByteStream* bs)
@@ -119,9 +119,9 @@ bool SpawnMountMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setString(species);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   return serial.isValid();
 }
@@ -131,12 +131,12 @@ void SpawnMountMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
-  species = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
+  name = static_cast<ptString>(serial.getString());
+  species = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
 }
 
 bool SpawnDoorMessage::serialise(ByteStream* bs)
@@ -147,11 +147,11 @@ bool SpawnDoorMessage::serialise(ByteStream* bs)
   serial.setInt32(entityid);
   serial.setString(name);
   serial.setString(mesh);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
-  serial.setInt8(isopen?1:0);
-  serial.setInt8(islocked?1:0);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
+  serial.setInt8(isopen);
+  serial.setInt8(islocked);
   serial.setString(animation);
   return serial.isValid();
 }
@@ -161,15 +161,15 @@ void SpawnDoorMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  name = serial.getString();
-  mesh = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  isopen = serial.getInt8() != 0;
-  islocked = serial.getInt8() != 0;
-  animation = serial.getString();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  name = static_cast<ptString>(serial.getString());
+  mesh = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  isopen = static_cast<bool>(serial.getInt8());
+  islocked = static_cast<bool>(serial.getInt8());
+  animation = static_cast<ptString>(serial.getString());
 }
 
 bool RemoveSpawnedEntityMessage::serialise(ByteStream* bs)
@@ -186,7 +186,7 @@ void RemoveSpawnedEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
+  entityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ToggleFlashStepMessage::serialise(ByteStream* bs)
@@ -226,14 +226,14 @@ void CreateZoneMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  zoneid = (unsigned short) serial.getInt16();
-  zonetype = serial.getString();
-  nodescount = (unsigned int) serial.getInt24();
+  zoneid = static_cast<unsigned short>(serial.getInt16());
+  zonetype = static_cast<ptString>(serial.getString());
+  nodescount = static_cast<unsigned int>(serial.getInt24());
   setNodesCount(nodescount);
-  for ( size_t i = 0; i < nodescount ; i++ )
+  for (size_t i = 0; i < nodescount ; ++i)
   {
-    nodes[i].x = serial.getFloat();
-    nodes[i].z = serial.getFloat();
+    nodes[i].x = static_cast<float>(serial.getFloat());
+    nodes[i].z = static_cast<float>(serial.getFloat());
   };
 
 }
@@ -252,7 +252,7 @@ void SetDateMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  seconds = (unsigned int) serial.getInt32();
+  seconds = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool CreateChanDefaultMessage::serialise(ByteStream* bs)
@@ -260,9 +260,9 @@ bool CreateChanDefaultMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(isinitchan?1:0);
+  serial.setInt8(isinitchan);
   serial.setString(group);
-  serial.setInt8(permanent?1:0);
+  serial.setInt8(permanent);
   return serial.isValid();
 }
 
@@ -271,9 +271,9 @@ void CreateChanDefaultMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  isinitchan = serial.getInt8() != 0;
-  group = serial.getString();
-  permanent = serial.getInt8() != 0;
+  isinitchan = static_cast<bool>(serial.getInt8());
+  group = static_cast<ptString>(serial.getString());
+  permanent = static_cast<bool>(serial.getInt8());
 }
 
 bool CreateChanSpaceMessage::serialise(ByteStream* bs)
@@ -285,14 +285,14 @@ bool CreateChanSpaceMessage::serialise(ByteStream* bs)
   serial.setString(form);
   serial.setString(createtype);
   serial.setInt16(createval);
-  serial.setInt8(createperm?1:0);
+  serial.setInt8(createperm);
   serial.setString(jointype);
   serial.setInt16(joinval);
-  serial.setInt8(joinperm?1:0);
+  serial.setInt8(joinperm);
   serial.setString(invitetype);
   serial.setInt16(inviteval);
-  serial.setInt8(vischannel?1:0);
-  serial.setInt8(vismembers?1:0);
+  serial.setInt8(vischannel);
+  serial.setInt8(vismembers);
   return serial.isValid();
 }
 
@@ -301,18 +301,18 @@ void CreateChanSpaceMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
-  form = serial.getString();
-  createtype = serial.getString();
-  createval = (unsigned short) serial.getInt16();
-  createperm = serial.getInt8() != 0;
-  jointype = serial.getString();
-  joinval = (unsigned short) serial.getInt16();
-  joinperm = serial.getInt8() != 0;
-  invitetype = serial.getString();
-  inviteval = (unsigned short) serial.getInt16();
-  vischannel = serial.getInt8() != 0;
-  vismembers = serial.getInt8() != 0;
+  name = static_cast<ptString>(serial.getString());
+  form = static_cast<ptString>(serial.getString());
+  createtype = static_cast<ptString>(serial.getString());
+  createval = static_cast<unsigned short>(serial.getInt16());
+  createperm = static_cast<bool>(serial.getInt8());
+  jointype = static_cast<ptString>(serial.getString());
+  joinval = static_cast<unsigned short>(serial.getInt16());
+  joinperm = static_cast<bool>(serial.getInt8());
+  invitetype = static_cast<ptString>(serial.getString());
+  inviteval = static_cast<unsigned short>(serial.getInt16());
+  vischannel = static_cast<bool>(serial.getInt8());
+  vismembers = static_cast<bool>(serial.getInt8());
 }
 
 bool CreateLocationMessage::serialise(ByteStream* bs)
@@ -329,7 +329,7 @@ void CreateLocationMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
+  name = static_cast<ptString>(serial.getString());
 }
 
 bool TeleportLocationMessage::serialise(ByteStream* bs)
@@ -346,6 +346,6 @@ void TeleportLocationMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
+  name = static_cast<ptString>(serial.getString());
 }
 

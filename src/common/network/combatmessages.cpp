@@ -38,7 +38,7 @@ void AttackRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  attacktype = (unsigned int) serial.getInt32();
+  attacktype = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool AttackNotificationMessage::serialise(ByteStream* bs)
@@ -56,8 +56,8 @@ void AttackNotificationMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  playerid = (unsigned int) serial.getInt32();
-  health = (unsigned int) serial.getInt32();
+  playerid = static_cast<unsigned int>(serial.getInt32());
+  health = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool DeathMessage::serialise(ByteStream* bs)
@@ -74,7 +74,7 @@ void DeathMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned short) serial.getInt16();
+  entityid = static_cast<unsigned short>(serial.getInt16());
 }
 
 bool SelectTargetMessage::serialise(ByteStream* bs)
@@ -91,6 +91,6 @@ void SelectTargetMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  targetid = (unsigned int) serial.getInt32();
+  targetid = static_cast<unsigned int>(serial.getInt32());
 }
 

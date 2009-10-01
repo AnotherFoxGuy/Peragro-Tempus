@@ -29,8 +29,8 @@ namespace SKILL
 {
   enum MESSAGES
   {
-    SKILLLIST=0,
-    SKILLUPDATE=1
+    SKILLLIST = 0,
+    SKILLUPDATE = 1
   };
 }
 

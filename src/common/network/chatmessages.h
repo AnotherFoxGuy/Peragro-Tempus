@@ -29,9 +29,9 @@ namespace CHAT
 {
   enum MESSAGES
   {
-    CHAT=0,
-    WHISPERTO=2,
-    GROUP=4
+    CHAT = 0,
+    WHISPERTO = 2,
+    GROUP = 4
   };
 }
 

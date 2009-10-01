@@ -23,6 +23,8 @@
 #include <boost/weak_ptr.hpp>
 #include <wfmath/point.h>
 
+#include "common/utility/colour24.h"
+
 #include "../../server.h"
 
 #include "../entity.h"
@@ -68,9 +70,9 @@ protected:
   size_t t_stop;
   WFMath::Point<3> tmp_pos; //used only for temporary calculations!
 
-  WFMath::Point<3> haircolour; //24bit color
-  WFMath::Point<3> skincolour; //24bit color
-  WFMath::Point<3> decalcolour; //24bit color
+  PT::Colour24 haircolour;
+  PT::Colour24 skincolour;
+  PT::Colour24 decalcolour;
 
   size_t species;
   float age;
@@ -86,7 +88,7 @@ protected:
 
 public:
   Character(Common::Entity::EntityType type)
-    : Entity(type), state(StateStanding), haircolour(0.0f), skincolour(0.0f), decalcolour(0.0f), species(0), age(0.0f)
+    : Entity(type), state(StateStanding), haircolour(), skincolour(), decalcolour(), species(0), age(0.0f)
   {
     isWalking = false;
     inventory = boost::shared_ptr<Inventory>(new Inventory(this_));
@@ -111,14 +113,14 @@ public:
   void SetTargetID(unsigned int targetID) { this->targetID = targetID; }
   unsigned int GetTargetID() { return targetID; }
 
-  const WFMath::Point<3>& GetSkinColour() const { return skincolour; }
-  void SetSkinColour(const WFMath::Point<3>& colour) { skincolour = colour; }
+  const PT::Colour24& GetSkinColour() const { return skincolour; }
+  void SetSkinColour(const PT::Colour24& colour) { skincolour = colour; }
 
-  const WFMath::Point<3>& GetHairColour() const { return haircolour; }
-  void SetHairColour(const WFMath::Point<3>& colour) { haircolour = colour; }
+  const PT::Colour24& GetHairColour() const { return haircolour; }
+  void SetHairColour(const PT::Colour24& colour) { haircolour = colour; }
 
-  const WFMath::Point<3>& GetDecalColour() const { return decalcolour; }
-  void SetDecalColour(const WFMath::Point<3>& colour) { decalcolour = colour; }
+  const PT::Colour24& GetDecalColour() const { return decalcolour; }
+  void SetDecalColour(const PT::Colour24& colour) { decalcolour = colour; }
 
   size_t GetSpecies() const { return species; }
   void SetSpecies(size_t species) { this->species = species; }

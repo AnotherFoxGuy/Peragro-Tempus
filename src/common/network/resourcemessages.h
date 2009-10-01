@@ -29,8 +29,8 @@ namespace RESOURCE
 {
   enum MESSAGES
   {
-    RESOURCELIST=0,
-    RESOURCEUPDATE=1
+    RESOURCELIST = 0,
+    RESOURCEUPDATE = 1
   };
 }
 

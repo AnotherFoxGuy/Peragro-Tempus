@@ -29,32 +29,32 @@ namespace ENTITY
 {
   enum MESSAGES
   {
-    ADDNPCENTITY=0,
-    ADDITEMENTITY=1,
-    ADDDOORENTITY=2,
-    ADDPLAYERENTITY=3,
-    ADDMOUNTENTITY=4,
-    REMOVEENTITY=5,
-    MOVE=6,
-    MOVEREQUEST=7,
-    MOVETO=8,
-    MOVETOREQUEST=9,
-    PICKREQUEST=10,
-    PICKRESPONSE=11,
-    DROPREQUEST=12,
-    DROPRESPONSE=13,
-    EQUIP=14,
-    RELOCATE=15,
-    TELEPORTREQUEST=16,
-    TELEPORTRESPONSE=17,
-    DRUPDATEREQUEST=18,
-    DRUPDATE=19,
-    MOUNTREQUEST=20,
-    MOUNT=21,
-    UNMOUNTREQUEST=22,
-    UNMOUNT=23,
-    POSEREQUEST=24,
-    POSE=25
+    ADDNPCENTITY = 0,
+    ADDITEMENTITY = 1,
+    ADDDOORENTITY = 2,
+    ADDPLAYERENTITY = 3,
+    ADDMOUNTENTITY = 4,
+    REMOVEENTITY = 5,
+    MOVE = 6,
+    MOVEREQUEST = 7,
+    MOVETO = 8,
+    MOVETOREQUEST = 9,
+    PICKREQUEST = 10,
+    PICKRESPONSE = 11,
+    DROPREQUEST = 12,
+    DROPRESPONSE = 13,
+    EQUIP = 14,
+    RELOCATE = 15,
+    TELEPORTREQUEST = 16,
+    TELEPORTRESPONSE = 17,
+    DRUPDATEREQUEST = 18,
+    DRUPDATE = 19,
+    MOUNTREQUEST = 20,
+    MOUNT = 21,
+    UNMOUNTREQUEST = 22,
+    UNMOUNT = 23,
+    POSEREQUEST = 24,
+    POSE = 25
   };
 }
 
@@ -256,9 +256,9 @@ class AddPlayerEntityMessage : public NetMessage
   ptString filename;
   WFMath::Point<3> position;
   float rotation;
-  unsigned char haircolour[3];
-  unsigned char skincolour[3];
-  unsigned char decalcolour[3];
+  PT::Colour24 haircolour;
+  PT::Colour24 skincolour;
+  PT::Colour24 decalcolour;
   unsigned int entityid;
   class ListEquipment
   {
@@ -312,41 +312,14 @@ public:
   float getRotation() const { return rotation; }
   void setRotation(float x) { rotation = x; }
 
-  unsigned char* getHairColour() { return haircolour; }
-  void setHairColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    haircolour[0] = r;
-    haircolour[1] = g;
-    haircolour[2] = b;
-  }
-  void setHairColour(const unsigned char* x)
-  {
-    setHairColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getHairColour() const { return haircolour; }
+  void setHairColour(PT::Colour24 x) { haircolour = x; }
 
-  unsigned char* getSkinColour() { return skincolour; }
-  void setSkinColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    skincolour[0] = r;
-    skincolour[1] = g;
-    skincolour[2] = b;
-  }
-  void setSkinColour(const unsigned char* x)
-  {
-    setSkinColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getSkinColour() const { return skincolour; }
+  void setSkinColour(PT::Colour24 x) { skincolour = x; }
 
-  unsigned char* getDecalColour() { return decalcolour; }
-  void setDecalColour(unsigned char r, unsigned char g, unsigned char b)
-  {
-    decalcolour[0] = r;
-    decalcolour[1] = g;
-    decalcolour[2] = b;
-  }
-  void setDecalColour(const unsigned char* x)
-  {
-    setDecalColour(x[0], x[1], x[2]);
-  }
+  PT::Colour24 getDecalColour() const { return decalcolour; }
+  void setDecalColour(PT::Colour24 x) { decalcolour = x; }
 
   unsigned int getEntityId() const { return entityid; }
   void setEntityId(unsigned int x) { entityid = x; }

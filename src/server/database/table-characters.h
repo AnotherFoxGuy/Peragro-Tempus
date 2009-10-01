@@ -33,9 +33,9 @@ class ResultSet;
   ((entity_id,          size_t,             PT_PrimaryKey,  0)) \
   ((name,               std::string,        0,              0)) \
   ((meshes_id,          size_t,             0,              (Meshes, id) )) \
-  ((hairColor,          WFMath::Point<3>,   0,              0)) \
-  ((skinColor,          WFMath::Point<3>,   0,              0)) \
-  ((decalColor,         WFMath::Point<3>,   0,              0)) \
+  ((hairColor,          PT::Colour24,       0,              0)) \
+  ((skinColor,          PT::Colour24,       0,              0)) \
+  ((decalColor,         PT::Colour24,       0,              0)) \
   ((species_id,         size_t,             0,              (Species, id) )) \
   ((age,                float,              0,              0)) \
 

@@ -50,18 +50,18 @@ void InventoryListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  inventoryid = (unsigned int) serial.getInt32();
-  inventorycount = (unsigned int) serial.getInt24();
+  inventoryid = static_cast<unsigned int>(serial.getInt32());
+  inventorycount = static_cast<unsigned int>(serial.getInt24());
   setInventoryCount(inventorycount);
-  for ( size_t i = 0; i < inventorycount ; i++ )
+  for (size_t i = 0; i < inventorycount ; ++i)
   {
-    inventory[i].itementityid = (unsigned int) serial.getInt32();
-    inventory[i].slotid = (unsigned char) serial.getInt8();
-    inventory[i].name = serial.getString();
-    inventory[i].iconname = serial.getString();
-    inventory[i].description = serial.getString();
-    inventory[i].weight = serial.getFloat();
-    inventory[i].equiptype = serial.getString();
+    inventory[i].itementityid = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].slotid = static_cast<unsigned char>(serial.getInt8());
+    inventory[i].name = static_cast<ptString>(serial.getString());
+    inventory[i].iconname = static_cast<ptString>(serial.getString());
+    inventory[i].description = static_cast<ptString>(serial.getString());
+    inventory[i].weight = static_cast<float>(serial.getFloat());
+    inventory[i].equiptype = static_cast<ptString>(serial.getString());
   };
 
 }
@@ -83,10 +83,10 @@ void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  oldslot = (unsigned char) serial.getInt8();
-  oldinventoryid = (unsigned int) serial.getInt32();
-  newslot = (unsigned char) serial.getInt8();
-  newinventoryid = (unsigned int) serial.getInt32();
+  oldslot = static_cast<unsigned char>(serial.getInt8());
+  oldinventoryid = static_cast<unsigned int>(serial.getInt32());
+  newslot = static_cast<unsigned char>(serial.getInt8());
+  newinventoryid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool InventoryMoveItemMessage::serialise(ByteStream* bs)
@@ -107,10 +107,10 @@ void InventoryMoveItemMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  oldslot = (unsigned char) serial.getInt8();
-  oldinventoryid = (unsigned int) serial.getInt32();
-  newslot = (unsigned char) serial.getInt8();
-  newinventoryid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  oldslot = static_cast<unsigned char>(serial.getInt8());
+  oldinventoryid = static_cast<unsigned int>(serial.getInt32());
+  newslot = static_cast<unsigned char>(serial.getInt8());
+  newinventoryid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 

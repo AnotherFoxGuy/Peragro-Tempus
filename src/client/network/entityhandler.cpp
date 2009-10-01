@@ -127,9 +127,9 @@ void EntityHandler::handleAddPlayerEntity(GenericMessage* msg)
     pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
     PT::Events::EntityHelper::SetVector3(pEvent, "position", pmsg.getPosition());
     pEvent->Add("rotation", pmsg.getRotation());
-    pEvent->Add("hairColour", *pmsg.getHairColour());
-    pEvent->Add("skinColour", *pmsg.getSkinColour());
-    pEvent->Add("decalColour", *pmsg.getDecalColour());
+    pEvent->Add("hairColour", pmsg.getHairColour().red);
+    pEvent->Add("skinColour", pmsg.getSkinColour().red);
+    pEvent->Add("decalColour", pmsg.getDecalColour().red);
     pEvent->Add("entityId", pmsg.getEntityId());
     csRef<iEvent> equipmentList = evmgr->CreateEvent("equipmentList", true);
     for (unsigned char i = 0; i < pmsg.getEquipmentCount(); i++)

@@ -77,9 +77,9 @@ void UserHandler::handleCharList(GenericMessage* msg)
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
       item->Add("charId", pmsg.getCharId(i));
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
-      item->Add("hairColour", *pmsg.getHairColour(i));
-      item->Add("skinColour", *pmsg.getSkinColour(i));
-      item->Add("decalColour", *pmsg.getDecalColour(i));
+      item->Add("hairColour", pmsg.getHairColour(i).red);
+      item->Add("skinColour", pmsg.getSkinColour(i).red);
+      item->Add("decalColour", pmsg.getDecalColour(i).red);
       characterList->Add(itemName.str().c_str(), item);
     }
     pEvent->Add("characterList", characterList);
@@ -100,9 +100,9 @@ void UserHandler::handleCharCreateResponse(GenericMessage* msg)
     csRef<iEvent> pEvent = evmgr->CreateEvent("user.character.create", true);
     pEvent->Add("charId", pmsg.getCharId());
     pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
-    pEvent->Add("hairColour", *pmsg.getHairColour());
-    pEvent->Add("skinColour", *pmsg.getSkinColour());
-    pEvent->Add("decalColour", *pmsg.getDecalColour());
+    pEvent->Add("hairColour", pmsg.getHairColour().red);
+    pEvent->Add("skinColour", pmsg.getSkinColour().red);
+    pEvent->Add("decalColour", pmsg.getDecalColour().red);
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
 
     evmgr->AddEvent(pEvent);

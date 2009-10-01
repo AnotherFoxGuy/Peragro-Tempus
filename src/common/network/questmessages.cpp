@@ -46,13 +46,13 @@ void NpcDialogMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  dialogid = (unsigned int) serial.getInt32();
+  dialogid = static_cast<unsigned int>(serial.getInt32());
   serial.getString(dialogtext);
-  answerscount = (unsigned int) serial.getInt24();
+  answerscount = static_cast<unsigned int>(serial.getInt24());
   setAnswersCount(answerscount);
-  for ( size_t i = 0; i < answerscount ; i++ )
+  for (size_t i = 0; i < answerscount ; ++i)
   {
-    answers[i].answerid = (unsigned int) serial.getInt32();
+    answers[i].answerid = static_cast<unsigned int>(serial.getInt32());
     serial.getString(answers[i].answertext);
   };
 
@@ -73,8 +73,8 @@ void NpcDialogAnswerMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  dialogid = (unsigned int) serial.getInt32();
-  answerid = (unsigned int) serial.getInt32();
+  dialogid = static_cast<unsigned int>(serial.getInt32());
+  answerid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool NpcStartDialogMessage::serialise(ByteStream* bs)
@@ -91,7 +91,7 @@ void NpcStartDialogMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  npcid = (unsigned int) serial.getInt32();
+  npcid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool NpcEndDialogMessage::serialise(ByteStream* bs)
@@ -108,7 +108,7 @@ void NpcEndDialogMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  npcid = (unsigned int) serial.getInt32();
+  npcid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool SetupDialogsMessage::serialise(ByteStream* bs)
@@ -116,7 +116,7 @@ bool SetupDialogsMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(deleteexisting?1:0);
+  serial.setInt8(deleteexisting);
   serial.setInt24(dialogscount);
   for ( size_t i = 0; i < dialogscount ; i++ )
   {
@@ -134,7 +134,7 @@ bool SetupDialogsMessage::serialise(ByteStream* bs)
     serial.setInt32(answers[i].answerid);
     serial.setString(answers[i].answertext);
     serial.setInt32(answers[i].answerlink);
-    serial.setInt8(answers[i].isendanswer?1:0);
+    serial.setInt8(answers[i].isendanswer);
   };
 
   return serial.isValid();
@@ -145,27 +145,27 @@ void SetupDialogsMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  deleteexisting = serial.getInt8() != 0;
-  dialogscount = (unsigned int) serial.getInt24();
+  deleteexisting = static_cast<bool>(serial.getInt8());
+  dialogscount = static_cast<unsigned int>(serial.getInt24());
   setDialogsCount(dialogscount);
-  for ( size_t i = 0; i < dialogscount ; i++ )
+  for (size_t i = 0; i < dialogscount ; ++i)
   {
-    dialogs[i].npcname = serial.getString();
-    dialogs[i].dialogid = (unsigned int) serial.getInt32();
-    dialogs[i].action = serial.getString();
+    dialogs[i].npcname = static_cast<ptString>(serial.getString());
+    dialogs[i].dialogid = static_cast<unsigned int>(serial.getInt32());
+    dialogs[i].action = static_cast<ptString>(serial.getString());
     serial.getString(dialogs[i].value);
   };
 
-  answerscount = (unsigned int) serial.getInt24();
+  answerscount = static_cast<unsigned int>(serial.getInt24());
   setAnswersCount(answerscount);
-  for ( size_t i = 0; i < answerscount ; i++ )
+  for (size_t i = 0; i < answerscount ; ++i)
   {
-    answers[i].answernpcname = serial.getString();
-    answers[i].answerdialogid = (unsigned int) serial.getInt32();
-    answers[i].answerid = (unsigned int) serial.getInt32();
+    answers[i].answernpcname = static_cast<ptString>(serial.getString());
+    answers[i].answerdialogid = static_cast<unsigned int>(serial.getInt32());
+    answers[i].answerid = static_cast<unsigned int>(serial.getInt32());
     serial.getString(answers[i].answertext);
-    answers[i].answerlink = (unsigned int) serial.getInt32();
-    answers[i].isendanswer = serial.getInt8() != 0;
+    answers[i].answerlink = static_cast<unsigned int>(serial.getInt32());
+    answers[i].isendanswer = static_cast<bool>(serial.getInt8());
   };
 
 }

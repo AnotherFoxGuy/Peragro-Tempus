@@ -32,9 +32,9 @@ bool AddNpcEntityMessage::serialise(ByteStream* bs)
   serial.setString(entityname);
   serial.setString(meshname);
   serial.setString(filename);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   serial.setInt32(entityid);
   serial.setInt24(equipmentcount);
@@ -55,25 +55,25 @@ void AddNpcEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityname = serial.getString();
-  meshname = serial.getString();
-  filename = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
-  equipmentcount = (unsigned int) serial.getInt24();
+  entityname = static_cast<ptString>(serial.getString());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  equipmentcount = static_cast<unsigned int>(serial.getInt24());
   setEquipmentCount(equipmentcount);
-  for ( size_t i = 0; i < equipmentcount ; i++ )
+  for (size_t i = 0; i < equipmentcount ; ++i)
   {
-    equipment[i].slotid = (unsigned int) serial.getInt32();
-    equipment[i].itemid = (unsigned int) serial.getInt32();
-    equipment[i].meshname = serial.getString();
-    equipment[i].filename = serial.getString();
+    equipment[i].slotid = static_cast<unsigned int>(serial.getInt32());
+    equipment[i].itemid = static_cast<unsigned int>(serial.getInt32());
+    equipment[i].meshname = static_cast<ptString>(serial.getString());
+    equipment[i].filename = static_cast<ptString>(serial.getString());
   };
 
-  poseid = (unsigned char) serial.getInt8();
+  poseid = static_cast<unsigned char>(serial.getInt8());
 }
 
 bool AddItemEntityMessage::serialise(ByteStream* bs)
@@ -84,9 +84,9 @@ bool AddItemEntityMessage::serialise(ByteStream* bs)
   serial.setString(entityname);
   serial.setString(meshname);
   serial.setString(filename);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   serial.setInt32(entityid);
   return serial.isValid();
@@ -97,14 +97,14 @@ void AddItemEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityname = serial.getString();
-  meshname = serial.getString();
-  filename = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
+  entityname = static_cast<ptString>(serial.getString());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
+  entityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool AddDoorEntityMessage::serialise(ByteStream* bs)
@@ -112,8 +112,8 @@ bool AddDoorEntityMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(isopen?1:0);
-  serial.setInt8(islocked?1:0);
+  serial.setInt8(isopen);
+  serial.setInt8(islocked);
   serial.setInt32(entityid);
   serial.setString(entityname);
   serial.setInt16(meshid);
@@ -128,14 +128,14 @@ void AddDoorEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  isopen = serial.getInt8() != 0;
-  islocked = serial.getInt8() != 0;
-  entityid = (unsigned int) serial.getInt32();
-  entityname = serial.getString();
-  meshid = (unsigned short) serial.getInt16();
-  meshname = serial.getString();
-  filename = serial.getString();
-  animationname = serial.getString();
+  isopen = static_cast<bool>(serial.getInt8());
+  islocked = static_cast<bool>(serial.getInt8());
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  entityname = static_cast<ptString>(serial.getString());
+  meshid = static_cast<unsigned short>(serial.getInt16());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  animationname = static_cast<ptString>(serial.getString());
 }
 
 bool AddPlayerEntityMessage::serialise(ByteStream* bs)
@@ -146,19 +146,19 @@ bool AddPlayerEntityMessage::serialise(ByteStream* bs)
   serial.setString(entityname);
   serial.setString(meshname);
   serial.setString(filename);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[1]);
-  serial.setInt8(haircolour[2]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[1]);
-  serial.setInt8(skincolour[2]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[1]);
-  serial.setInt8(decalcolour[2]);
+  serial.setInt8(haircolour.red);
+  serial.setInt8(haircolour.green);
+  serial.setInt8(haircolour.blue);
+  serial.setInt8(skincolour.red);
+  serial.setInt8(skincolour.green);
+  serial.setInt8(skincolour.blue);
+  serial.setInt8(decalcolour.red);
+  serial.setInt8(decalcolour.green);
+  serial.setInt8(decalcolour.blue);
   serial.setInt32(entityid);
   serial.setInt24(equipmentcount);
   for ( size_t i = 0; i < equipmentcount ; i++ )
@@ -178,34 +178,34 @@ void AddPlayerEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityname = serial.getString();
-  meshname = serial.getString();
-  filename = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  haircolour[0] = (unsigned char) serial.getInt8();
-  haircolour[1] = (unsigned char) serial.getInt8();
-  haircolour[2] = (unsigned char) serial.getInt8();
-  skincolour[0] = (unsigned char) serial.getInt8();
-  skincolour[1] = (unsigned char) serial.getInt8();
-  skincolour[2] = (unsigned char) serial.getInt8();
-  decalcolour[0] = (unsigned char) serial.getInt8();
-  decalcolour[1] = (unsigned char) serial.getInt8();
-  decalcolour[2] = (unsigned char) serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  equipmentcount = (unsigned int) serial.getInt24();
+  entityname = static_cast<ptString>(serial.getString());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
+  haircolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  equipmentcount = static_cast<unsigned int>(serial.getInt24());
   setEquipmentCount(equipmentcount);
-  for ( size_t i = 0; i < equipmentcount ; i++ )
+  for (size_t i = 0; i < equipmentcount ; ++i)
   {
-    equipment[i].slotid = (unsigned int) serial.getInt32();
-    equipment[i].itemid = (unsigned int) serial.getInt32();
-    equipment[i].meshname = serial.getString();
-    equipment[i].filename = serial.getString();
+    equipment[i].slotid = static_cast<unsigned int>(serial.getInt32());
+    equipment[i].itemid = static_cast<unsigned int>(serial.getInt32());
+    equipment[i].meshname = static_cast<ptString>(serial.getString());
+    equipment[i].filename = static_cast<ptString>(serial.getString());
   };
 
-  poseid = (unsigned char) serial.getInt8();
+  poseid = static_cast<unsigned char>(serial.getInt8());
 }
 
 bool AddMountEntityMessage::serialise(ByteStream* bs)
@@ -216,9 +216,9 @@ bool AddMountEntityMessage::serialise(ByteStream* bs)
   serial.setString(entityname);
   serial.setString(meshname);
   serial.setString(filename);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   serial.setInt32(entityid);
   serial.setInt32(inventoryid);
@@ -230,15 +230,15 @@ void AddMountEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityname = serial.getString();
-  meshname = serial.getString();
-  filename = serial.getString();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
-  inventoryid = (unsigned int) serial.getInt32();
+  entityname = static_cast<ptString>(serial.getString());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  inventoryid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool RemoveEntityMessage::serialise(ByteStream* bs)
@@ -255,7 +255,7 @@ void RemoveEntityMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
+  entityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool MoveMessage::serialise(ByteStream* bs)
@@ -263,12 +263,12 @@ bool MoveMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(movedirection[0]);
-  serial.setFloat(movedirection[1]);
-  serial.setFloat(movedirection[2]);
+  serial.setFloat(movedirection.x());
+  serial.setFloat(movedirection.y());
+  serial.setFloat(movedirection.z());
   serial.setInt32(entityid);
-  serial.setInt8(run?1:0);
-  serial.setInt8(jump?1:0);
+  serial.setInt8(run);
+  serial.setInt8(jump);
   return serial.isValid();
 }
 
@@ -277,12 +277,12 @@ void MoveMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  movedirection[0] = serial.getFloat();
-  movedirection[1] = serial.getFloat();
-  movedirection[2] = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
-  run = serial.getInt8() != 0;
-  jump = serial.getInt8() != 0;
+  movedirection.x() = serial.getFloat();
+  movedirection.y() = serial.getFloat();
+  movedirection.z() = serial.getFloat();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  run = static_cast<bool>(serial.getInt8());
+  jump = static_cast<bool>(serial.getInt8());
 }
 
 bool MoveRequestMessage::serialise(ByteStream* bs)
@@ -290,11 +290,11 @@ bool MoveRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(movedirection[0]);
-  serial.setFloat(movedirection[1]);
-  serial.setFloat(movedirection[2]);
-  serial.setInt8(run?1:0);
-  serial.setInt8(jump?1:0);
+  serial.setFloat(movedirection.x());
+  serial.setFloat(movedirection.y());
+  serial.setFloat(movedirection.z());
+  serial.setInt8(run);
+  serial.setInt8(jump);
   return serial.isValid();
 }
 
@@ -303,11 +303,11 @@ void MoveRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  movedirection[0] = serial.getFloat();
-  movedirection[1] = serial.getFloat();
-  movedirection[2] = serial.getFloat();
-  run = serial.getInt8() != 0;
-  jump = serial.getInt8() != 0;
+  movedirection.x() = serial.getFloat();
+  movedirection.y() = serial.getFloat();
+  movedirection.z() = serial.getFloat();
+  run = static_cast<bool>(serial.getInt8());
+  jump = static_cast<bool>(serial.getInt8());
 }
 
 bool MoveToMessage::serialise(ByteStream* bs)
@@ -315,17 +315,17 @@ bool MoveToMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(from[0]);
-  serial.setFloat(from[1]);
-  serial.setFloat(from[2]);
-  serial.setFloat(to[0]);
-  serial.setFloat(to[1]);
-  serial.setFloat(to[2]);
+  serial.setFloat(from.x());
+  serial.setFloat(from.y());
+  serial.setFloat(from.z());
+  serial.setFloat(to.x());
+  serial.setFloat(to.y());
+  serial.setFloat(to.z());
   serial.setFloat(speed);
   serial.setInt32(entityid);
-  serial.setInt8(run?1:0);
+  serial.setInt8(run);
   serial.setInt8(turn);
-  serial.setInt8(jump?1:0);
+  serial.setInt8(jump);
   return serial.isValid();
 }
 
@@ -334,17 +334,17 @@ void MoveToMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  from[0] = serial.getFloat();
-  from[1] = serial.getFloat();
-  from[2] = serial.getFloat();
-  to[0] = serial.getFloat();
-  to[1] = serial.getFloat();
-  to[2] = serial.getFloat();
-  speed = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
-  run = serial.getInt8() != 0;
-  turn = (unsigned char) serial.getInt8();
-  jump = serial.getInt8() != 0;
+  from.x() = serial.getFloat();
+  from.y() = serial.getFloat();
+  from.z() = serial.getFloat();
+  to.x() = serial.getFloat();
+  to.y() = serial.getFloat();
+  to.z() = serial.getFloat();
+  speed = static_cast<float>(serial.getFloat());
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  run = static_cast<bool>(serial.getInt8());
+  turn = static_cast<unsigned char>(serial.getInt8());
+  jump = static_cast<bool>(serial.getInt8());
 }
 
 bool MoveToRequestMessage::serialise(ByteStream* bs)
@@ -352,13 +352,13 @@ bool MoveToRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(to[0]);
-  serial.setFloat(to[1]);
-  serial.setFloat(to[2]);
-  serial.setInt8(run?1:0);
-  serial.setInt8(backwards?1:0);
+  serial.setFloat(to.x());
+  serial.setFloat(to.y());
+  serial.setFloat(to.z());
+  serial.setInt8(run);
+  serial.setInt8(backwards);
   serial.setInt8(turn);
-  serial.setInt8(jump?1:0);
+  serial.setInt8(jump);
   return serial.isValid();
 }
 
@@ -367,13 +367,13 @@ void MoveToRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  to[0] = serial.getFloat();
-  to[1] = serial.getFloat();
-  to[2] = serial.getFloat();
-  run = serial.getInt8() != 0;
-  backwards = serial.getInt8() != 0;
-  turn = (unsigned char) serial.getInt8();
-  jump = serial.getInt8() != 0;
+  to.x() = serial.getFloat();
+  to.y() = serial.getFloat();
+  to.z() = serial.getFloat();
+  run = static_cast<bool>(serial.getInt8());
+  backwards = static_cast<bool>(serial.getInt8());
+  turn = static_cast<unsigned char>(serial.getInt8());
+  jump = static_cast<bool>(serial.getInt8());
 }
 
 bool PickRequestMessage::serialise(ByteStream* bs)
@@ -391,8 +391,8 @@ void PickRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itementityid = (unsigned int) serial.getInt32();
-  slot = (unsigned char) serial.getInt8();
+  itementityid = static_cast<unsigned int>(serial.getInt32());
+  slot = static_cast<unsigned char>(serial.getInt8());
 }
 
 bool PickResponseMessage::serialise(ByteStream* bs)
@@ -416,14 +416,14 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itementityid = (unsigned int) serial.getInt32();
-  slotid = (unsigned char) serial.getInt8();
-  name = serial.getString();
-  iconname = serial.getString();
-  description = serial.getString();
-  weight = serial.getFloat();
-  equiptype = serial.getString();
-  error = serial.getString();
+  itementityid = static_cast<unsigned int>(serial.getInt32());
+  slotid = static_cast<unsigned char>(serial.getInt8());
+  name = static_cast<ptString>(serial.getString());
+  iconname = static_cast<ptString>(serial.getString());
+  description = static_cast<ptString>(serial.getString());
+  weight = static_cast<float>(serial.getFloat());
+  equiptype = static_cast<ptString>(serial.getString());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool DropRequestMessage::serialise(ByteStream* bs)
@@ -441,8 +441,8 @@ void DropRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  slot = (unsigned char) serial.getInt8();
-  inventoryid = (unsigned int) serial.getInt32();
+  slot = static_cast<unsigned char>(serial.getInt8());
+  inventoryid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool DropResponseMessage::serialise(ByteStream* bs)
@@ -460,8 +460,8 @@ void DropResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  slotid = (unsigned char) serial.getInt8();
-  error = serial.getString();
+  slotid = static_cast<unsigned char>(serial.getInt8());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool EquipMessage::serialise(ByteStream* bs)
@@ -481,10 +481,10 @@ void EquipMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  slotid = (unsigned char) serial.getInt8();
-  meshname = serial.getString();
-  filename = serial.getString();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  slotid = static_cast<unsigned char>(serial.getInt8());
+  meshname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
 }
 
 bool RelocateMessage::serialise(ByteStream* bs)
@@ -508,9 +508,9 @@ bool TeleportRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   return serial.isValid();
 }
@@ -520,11 +520,11 @@ void TeleportRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
 }
 
 bool TeleportResponseMessage::serialise(ByteStream* bs)
@@ -533,9 +533,9 @@ bool TeleportResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(entityid);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   return serial.isValid();
 }
@@ -545,11 +545,11 @@ void TeleportResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
 }
 
 bool DrUpdateRequestMessage::serialise(ByteStream* bs)
@@ -557,9 +557,9 @@ bool DrUpdateRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   return serial.isValid();
 }
@@ -569,10 +569,10 @@ void DrUpdateRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
 }
 
 bool DrUpdateMessage::serialise(ByteStream* bs)
@@ -580,9 +580,9 @@ bool DrUpdateMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setFloat(position[0]);
-  serial.setFloat(position[1]);
-  serial.setFloat(position[2]);
+  serial.setFloat(position.x());
+  serial.setFloat(position.y());
+  serial.setFloat(position.z());
   serial.setFloat(rotation);
   serial.setInt32(entityid);
   return serial.isValid();
@@ -593,11 +593,11 @@ void DrUpdateMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  position[0] = serial.getFloat();
-  position[1] = serial.getFloat();
-  position[2] = serial.getFloat();
-  rotation = serial.getFloat();
-  entityid = (unsigned int) serial.getInt32();
+  position.x() = serial.getFloat();
+  position.y() = serial.getFloat();
+  position.z() = serial.getFloat();
+  rotation = static_cast<float>(serial.getFloat());
+  entityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool MountRequestMessage::serialise(ByteStream* bs)
@@ -614,7 +614,7 @@ void MountRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  mountentityid = (unsigned int) serial.getInt32();
+  mountentityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool MountMessage::serialise(ByteStream* bs)
@@ -624,7 +624,7 @@ bool MountMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(playerentityid);
   serial.setInt32(mountentityid);
-  serial.setInt8(cancontrol?1:0);
+  serial.setInt8(cancontrol);
   return serial.isValid();
 }
 
@@ -633,9 +633,9 @@ void MountMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  playerentityid = (unsigned int) serial.getInt32();
-  mountentityid = (unsigned int) serial.getInt32();
-  cancontrol = serial.getInt8() != 0;
+  playerentityid = static_cast<unsigned int>(serial.getInt32());
+  mountentityid = static_cast<unsigned int>(serial.getInt32());
+  cancontrol = static_cast<bool>(serial.getInt8());
 }
 
 bool UnmountRequestMessage::serialise(ByteStream* bs)
@@ -652,7 +652,7 @@ void UnmountRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  mountentityid = (unsigned int) serial.getInt32();
+  mountentityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool UnmountMessage::serialise(ByteStream* bs)
@@ -670,8 +670,8 @@ void UnmountMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  playerentityid = (unsigned int) serial.getInt32();
-  mountentityid = (unsigned int) serial.getInt32();
+  playerentityid = static_cast<unsigned int>(serial.getInt32());
+  mountentityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool PoseRequestMessage::serialise(ByteStream* bs)
@@ -688,7 +688,7 @@ void PoseRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  poseid = (unsigned char) serial.getInt8();
+  poseid = static_cast<unsigned char>(serial.getInt8());
 }
 
 bool PoseMessage::serialise(ByteStream* bs)
@@ -706,7 +706,7 @@ void PoseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  poseid = (unsigned char) serial.getInt8();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  poseid = static_cast<unsigned char>(serial.getInt8());
 }
 

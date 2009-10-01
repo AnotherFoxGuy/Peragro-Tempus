@@ -38,7 +38,7 @@ void ExchangeRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
+  entityid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool ExchangeResponseMessage::serialise(ByteStream* bs)
@@ -55,7 +55,7 @@ void ExchangeResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  error = serial.getString();
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool TradeOffersListNpcMessage::serialise(ByteStream* bs)
@@ -81,15 +81,15 @@ void TradeOffersListNpcMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  isbuy = (unsigned char) serial.getInt8();
-  offerscount = (unsigned int) serial.getInt24();
+  isbuy = static_cast<unsigned char>(serial.getInt8());
+  offerscount = static_cast<unsigned int>(serial.getInt24());
   setOffersCount(offerscount);
-  for ( size_t i = 0; i < offerscount ; i++ )
+  for (size_t i = 0; i < offerscount ; ++i)
   {
-    offers[i].itemid = (unsigned int) serial.getInt32();
-    offers[i].price = (unsigned int) serial.getInt32();
-    offers[i].name = serial.getString();
-    offers[i].iconname = serial.getString();
+    offers[i].itemid = static_cast<unsigned int>(serial.getInt32());
+    offers[i].price = static_cast<unsigned int>(serial.getInt32());
+    offers[i].name = static_cast<ptString>(serial.getString());
+    offers[i].iconname = static_cast<ptString>(serial.getString());
   };
 
 }
@@ -117,15 +117,15 @@ void ExchangeOffersListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  offerscount = (unsigned int) serial.getInt24();
+  offerscount = static_cast<unsigned int>(serial.getInt24());
   setOffersCount(offerscount);
-  for ( size_t i = 0; i < offerscount ; i++ )
+  for (size_t i = 0; i < offerscount ; ++i)
   {
-    offers[i].itemid = (unsigned int) serial.getInt32();
-    offers[i].amount = (unsigned int) serial.getInt32();
-    offers[i].name = serial.getString();
-    offers[i].iconname = serial.getString();
-    offers[i].slotid = (unsigned char) serial.getInt8();
+    offers[i].itemid = static_cast<unsigned int>(serial.getInt32());
+    offers[i].amount = static_cast<unsigned int>(serial.getInt32());
+    offers[i].name = static_cast<ptString>(serial.getString());
+    offers[i].iconname = static_cast<ptString>(serial.getString());
+    offers[i].slotid = static_cast<unsigned char>(serial.getInt8());
   };
 
 }
@@ -150,12 +150,12 @@ void TradeOrderListNpcMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  isbuy = (unsigned char) serial.getInt8();
-  orderscount = (unsigned int) serial.getInt24();
+  isbuy = static_cast<unsigned char>(serial.getInt8());
+  orderscount = static_cast<unsigned int>(serial.getInt24());
   setOrdersCount(orderscount);
-  for ( size_t i = 0; i < orderscount ; i++ )
+  for (size_t i = 0; i < orderscount ; ++i)
   {
-    orders[i].itemid = (unsigned int) serial.getInt32();
+    orders[i].itemid = static_cast<unsigned int>(serial.getInt32());
   };
 
 }
@@ -219,6 +219,6 @@ void TradeConfirmResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  error = serial.getString();
+  error = static_cast<ptString>(serial.getString());
 }
 

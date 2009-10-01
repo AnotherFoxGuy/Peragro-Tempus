@@ -31,6 +31,7 @@
 #include <wfmath/axisbox.h>
 #include <wfmath/rotmatrix.h>
 #include <wfmath/stream.h>
+#include "common/utility/colour24.h"
 
 namespace DB
 {
@@ -50,6 +51,7 @@ namespace DB
     template<> inline const char* DBType<WFMath::Point<3> >() { return "TEXT"; }
     template<> inline const char* DBType<WFMath::AxisBox<3> >() { return "TEXT"; }
     template<> inline const char* DBType<WFMath::RotMatrix<3> >() { return "TEXT"; }
+    template<> inline const char* DBType<PT::Colour24>() { return "TEXT"; }
 
     template<typename T>
     inline void Convert(T& val, const std::string& str) { val = str; }
@@ -62,6 +64,7 @@ namespace DB
     template<> inline void Convert(WFMath::Point<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     template<> inline void Convert(WFMath::AxisBox<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
     template<> inline void Convert(WFMath::RotMatrix<3>& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
+    template<> inline void Convert(PT::Colour24& val, const std::string& str) { std::stringstream ss(str); ss >> val; }
 
     template<typename T>
     inline std::string Convert(const T& val) { return val; }
@@ -74,6 +77,7 @@ namespace DB
     template<> inline std::string Convert(const WFMath::Point<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
     template<> inline std::string Convert(const WFMath::AxisBox<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
     template<> inline std::string Convert(const WFMath::RotMatrix<3>& val) { std::stringstream o; o << val; return Quote(o.str()); }
+    template<> inline std::string Convert(const PT::Colour24& val) { std::stringstream o; o << val; return Quote(o.str()); }
   };
   //----------------------------------------------------------------
 

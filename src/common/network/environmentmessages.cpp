@@ -47,16 +47,16 @@ void InitTimeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  seconds = (unsigned int) serial.getInt32();
-  epoch = (unsigned short) serial.getInt16();
-  secondsperminute = (unsigned char) serial.getInt8();
-  minutesperhour = (unsigned char) serial.getInt8();
-  hoursperday = (unsigned char) serial.getInt8();
-  daysperweek = (unsigned char) serial.getInt8();
-  weekspermonth = (unsigned char) serial.getInt8();
-  monthsperseason = (unsigned char) serial.getInt8();
-  seasonsperyear = (unsigned char) serial.getInt8();
-  gameperreal = (unsigned int) serial.getInt32();
+  seconds = static_cast<unsigned int>(serial.getInt32());
+  epoch = static_cast<unsigned short>(serial.getInt16());
+  secondsperminute = static_cast<unsigned char>(serial.getInt8());
+  minutesperhour = static_cast<unsigned char>(serial.getInt8());
+  hoursperday = static_cast<unsigned char>(serial.getInt8());
+  daysperweek = static_cast<unsigned char>(serial.getInt8());
+  weekspermonth = static_cast<unsigned char>(serial.getInt8());
+  monthsperseason = static_cast<unsigned char>(serial.getInt8());
+  seasonsperyear = static_cast<unsigned char>(serial.getInt8());
+  gameperreal = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool UpdateTimeMessage::serialise(ByteStream* bs)
@@ -73,7 +73,7 @@ void UpdateTimeMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  seconds = (unsigned int) serial.getInt32();
+  seconds = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool WeatherMessage::serialise(ByteStream* bs)
@@ -90,6 +90,6 @@ void WeatherMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  weatherid = (unsigned char) serial.getInt8();
+  weatherid = static_cast<unsigned char>(serial.getInt8());
 }
 

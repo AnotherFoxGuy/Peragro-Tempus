@@ -39,7 +39,7 @@ void LoginRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  username = serial.getString();
+  username = static_cast<ptString>(serial.getString());
   serial.getString(password);
 }
 
@@ -49,7 +49,7 @@ bool LoginResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setString(error);
-  serial.setInt8(isadmin?1:0);
+  serial.setInt8(isadmin);
   return serial.isValid();
 }
 
@@ -58,8 +58,8 @@ void LoginResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  error = serial.getString();
-  isadmin = serial.getInt8() != 0;
+  error = static_cast<ptString>(serial.getString());
+  isadmin = static_cast<bool>(serial.getInt8());
 }
 
 bool RegisterRequestMessage::serialise(ByteStream* bs)
@@ -77,7 +77,7 @@ void RegisterRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  username = serial.getString();
+  username = static_cast<ptString>(serial.getString());
   serial.getString(password);
 }
 
@@ -95,7 +95,7 @@ void RegisterResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  error = serial.getString();
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool CharListMessage::serialise(ByteStream* bs)
@@ -108,15 +108,15 @@ bool CharListMessage::serialise(ByteStream* bs)
   {
     serial.setInt32(character[i].charid);
     serial.setString(character[i].name);
-    serial.setInt8(character[i].haircolour[0]);
-    serial.setInt8(character[i].haircolour[1]);
-    serial.setInt8(character[i].haircolour[2]);
-    serial.setInt8(character[i].skincolour[0]);
-    serial.setInt8(character[i].skincolour[1]);
-    serial.setInt8(character[i].skincolour[2]);
-    serial.setInt8(character[i].decalcolour[0]);
-    serial.setInt8(character[i].decalcolour[1]);
-    serial.setInt8(character[i].decalcolour[2]);
+    serial.setInt8(character[i].haircolour.red);
+    serial.setInt8(character[i].haircolour.green);
+    serial.setInt8(character[i].haircolour.blue);
+    serial.setInt8(character[i].skincolour.red);
+    serial.setInt8(character[i].skincolour.green);
+    serial.setInt8(character[i].skincolour.blue);
+    serial.setInt8(character[i].decalcolour.red);
+    serial.setInt8(character[i].decalcolour.green);
+    serial.setInt8(character[i].decalcolour.blue);
   };
 
   return serial.isValid();
@@ -127,21 +127,21 @@ void CharListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  charactercount = (unsigned int) serial.getInt24();
+  charactercount = static_cast<unsigned int>(serial.getInt24());
   setCharacterCount(charactercount);
-  for ( size_t i = 0; i < charactercount ; i++ )
+  for (size_t i = 0; i < charactercount ; ++i)
   {
-    character[i].charid = (unsigned int) serial.getInt32();
-    character[i].name = serial.getString();
-    character[i].haircolour[0] = (unsigned char) serial.getInt8();
-    character[i].haircolour[1] = (unsigned char) serial.getInt8();
-    character[i].haircolour[2] = (unsigned char) serial.getInt8();
-    character[i].skincolour[0] = (unsigned char) serial.getInt8();
-    character[i].skincolour[1] = (unsigned char) serial.getInt8();
-    character[i].skincolour[2] = (unsigned char) serial.getInt8();
-    character[i].decalcolour[0] = (unsigned char) serial.getInt8();
-    character[i].decalcolour[1] = (unsigned char) serial.getInt8();
-    character[i].decalcolour[2] = (unsigned char) serial.getInt8();
+    character[i].charid = static_cast<unsigned int>(serial.getInt32());
+    character[i].name = static_cast<ptString>(serial.getString());
+    character[i].haircolour.red = static_cast<unsigned char>(serial.getInt8());
+    character[i].haircolour.green = static_cast<unsigned char>(serial.getInt8());
+    character[i].haircolour.blue = static_cast<unsigned char>(serial.getInt8());
+    character[i].skincolour.red = static_cast<unsigned char>(serial.getInt8());
+    character[i].skincolour.green = static_cast<unsigned char>(serial.getInt8());
+    character[i].skincolour.blue = static_cast<unsigned char>(serial.getInt8());
+    character[i].decalcolour.red = static_cast<unsigned char>(serial.getInt8());
+    character[i].decalcolour.green = static_cast<unsigned char>(serial.getInt8());
+    character[i].decalcolour.blue = static_cast<unsigned char>(serial.getInt8());
   };
 
 }
@@ -153,15 +153,15 @@ bool CharCreateRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setString(name);
   serial.setInt32(avatartemplateid);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[1]);
-  serial.setInt8(haircolour[2]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[1]);
-  serial.setInt8(skincolour[2]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[1]);
-  serial.setInt8(decalcolour[2]);
+  serial.setInt8(haircolour.red);
+  serial.setInt8(haircolour.green);
+  serial.setInt8(haircolour.blue);
+  serial.setInt8(skincolour.red);
+  serial.setInt8(skincolour.green);
+  serial.setInt8(skincolour.blue);
+  serial.setInt8(decalcolour.red);
+  serial.setInt8(decalcolour.green);
+  serial.setInt8(decalcolour.blue);
   return serial.isValid();
 }
 
@@ -170,17 +170,17 @@ void CharCreateRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  name = serial.getString();
-  avatartemplateid = (unsigned int) serial.getInt32();
-  haircolour[0] = (unsigned char) serial.getInt8();
-  haircolour[1] = (unsigned char) serial.getInt8();
-  haircolour[2] = (unsigned char) serial.getInt8();
-  skincolour[0] = (unsigned char) serial.getInt8();
-  skincolour[1] = (unsigned char) serial.getInt8();
-  skincolour[2] = (unsigned char) serial.getInt8();
-  decalcolour[0] = (unsigned char) serial.getInt8();
-  decalcolour[1] = (unsigned char) serial.getInt8();
-  decalcolour[2] = (unsigned char) serial.getInt8();
+  name = static_cast<ptString>(serial.getString());
+  avatartemplateid = static_cast<unsigned int>(serial.getInt32());
+  haircolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
 }
 
 bool CharCreateResponseMessage::serialise(ByteStream* bs)
@@ -190,15 +190,15 @@ bool CharCreateResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(id);
   serial.setInt32(charid);
   serial.setString(name);
-  serial.setInt8(haircolour[0]);
-  serial.setInt8(haircolour[1]);
-  serial.setInt8(haircolour[2]);
-  serial.setInt8(skincolour[0]);
-  serial.setInt8(skincolour[1]);
-  serial.setInt8(skincolour[2]);
-  serial.setInt8(decalcolour[0]);
-  serial.setInt8(decalcolour[1]);
-  serial.setInt8(decalcolour[2]);
+  serial.setInt8(haircolour.red);
+  serial.setInt8(haircolour.green);
+  serial.setInt8(haircolour.blue);
+  serial.setInt8(skincolour.red);
+  serial.setInt8(skincolour.green);
+  serial.setInt8(skincolour.blue);
+  serial.setInt8(decalcolour.red);
+  serial.setInt8(decalcolour.green);
+  serial.setInt8(decalcolour.blue);
   serial.setString(error);
   return serial.isValid();
 }
@@ -208,18 +208,18 @@ void CharCreateResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  charid = (unsigned int) serial.getInt32();
-  name = serial.getString();
-  haircolour[0] = (unsigned char) serial.getInt8();
-  haircolour[1] = (unsigned char) serial.getInt8();
-  haircolour[2] = (unsigned char) serial.getInt8();
-  skincolour[0] = (unsigned char) serial.getInt8();
-  skincolour[1] = (unsigned char) serial.getInt8();
-  skincolour[2] = (unsigned char) serial.getInt8();
-  decalcolour[0] = (unsigned char) serial.getInt8();
-  decalcolour[1] = (unsigned char) serial.getInt8();
-  decalcolour[2] = (unsigned char) serial.getInt8();
-  error = serial.getString();
+  charid = static_cast<unsigned int>(serial.getInt32());
+  name = static_cast<ptString>(serial.getString());
+  haircolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  haircolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  skincolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.red = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.green = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  decalcolour.blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool CharSelectRequestMessage::serialise(ByteStream* bs)
@@ -236,7 +236,7 @@ void CharSelectRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  charid = (unsigned int) serial.getInt32();
+  charid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool CharSelectResponseMessage::serialise(ByteStream* bs)
@@ -254,8 +254,8 @@ void CharSelectResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 
 bool MeshListRequestMessage::serialise(ByteStream* bs)
@@ -294,13 +294,13 @@ void MeshListResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  meshescount = (unsigned int) serial.getInt24();
+  meshescount = static_cast<unsigned int>(serial.getInt24());
   setMeshesCount(meshescount);
-  for ( size_t i = 0; i < meshescount ; i++ )
+  for (size_t i = 0; i < meshescount ; ++i)
   {
-    meshes[i].meshid = (unsigned int) serial.getInt32();
-    meshes[i].meshname = serial.getString();
-    meshes[i].filename = serial.getString();
+    meshes[i].meshid = static_cast<unsigned int>(serial.getInt32());
+    meshes[i].meshname = static_cast<ptString>(serial.getString());
+    meshes[i].filename = static_cast<ptString>(serial.getString());
   };
 
 }
@@ -340,12 +340,12 @@ void AvatarListResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  avatarcount = (unsigned int) serial.getInt24();
+  avatarcount = static_cast<unsigned int>(serial.getInt24());
   setAvatarCount(avatarcount);
-  for ( size_t i = 0; i < avatarcount ; i++ )
+  for (size_t i = 0; i < avatarcount ; ++i)
   {
-    avatar[i].avatarid = (unsigned int) serial.getInt32();
-    avatar[i].avatarname = serial.getString();
+    avatar[i].avatarid = static_cast<unsigned int>(serial.getInt32());
+    avatar[i].avatarname = static_cast<ptString>(serial.getString());
   };
 
 }
@@ -364,7 +364,7 @@ void AvatarInfoRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  avatarid = (unsigned int) serial.getInt32();
+  avatarid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool AvatarInfoResponseMessage::serialise(ByteStream* bs)
@@ -444,75 +444,75 @@ void AvatarInfoResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  avatarid = (unsigned int) serial.getInt32();
-  avatarname = serial.getString();
-  meshid = (unsigned int) serial.getInt32();
-  speciesid = (unsigned int) serial.getInt32();
-  factoryname = serial.getString();
-  filename = serial.getString();
-  inventorycount = (unsigned int) serial.getInt24();
+  avatarid = static_cast<unsigned int>(serial.getInt32());
+  avatarname = static_cast<ptString>(serial.getString());
+  meshid = static_cast<unsigned int>(serial.getInt32());
+  speciesid = static_cast<unsigned int>(serial.getInt32());
+  factoryname = static_cast<ptString>(serial.getString());
+  filename = static_cast<ptString>(serial.getString());
+  inventorycount = static_cast<unsigned int>(serial.getInt24());
   setInventoryCount(inventorycount);
-  for ( size_t i = 0; i < inventorycount ; i++ )
+  for (size_t i = 0; i < inventorycount ; ++i)
   {
-    inventory[i].inventoryitemtemplateid = (unsigned int) serial.getInt32();
-    inventory[i].inventorychance = (unsigned int) serial.getInt32();
+    inventory[i].inventoryitemtemplateid = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].inventorychance = static_cast<unsigned int>(serial.getInt32());
   };
 
-  equipmentcount = (unsigned int) serial.getInt24();
+  equipmentcount = static_cast<unsigned int>(serial.getInt24());
   setEquipmentCount(equipmentcount);
-  for ( size_t i = 0; i < equipmentcount ; i++ )
+  for (size_t i = 0; i < equipmentcount ; ++i)
   {
-    equipment[i].equipmentitemtemplateid = (unsigned int) serial.getInt32();
-    equipment[i].equipmentchance = (unsigned int) serial.getInt32();
+    equipment[i].equipmentitemtemplateid = static_cast<unsigned int>(serial.getInt32());
+    equipment[i].equipmentchance = static_cast<unsigned int>(serial.getInt32());
   };
 
-  reputationscount = (unsigned int) serial.getInt24();
+  reputationscount = static_cast<unsigned int>(serial.getInt24());
   setReputationsCount(reputationscount);
-  for ( size_t i = 0; i < reputationscount ; i++ )
+  for (size_t i = 0; i < reputationscount ; ++i)
   {
-    reputations[i].reputationsname = serial.getString();
-    reputations[i].reputationsminlevel = (unsigned int) serial.getInt32();
-    reputations[i].reputationsmaxlevel = (unsigned int) serial.getInt32();
-    reputations[i].reputationslevel = (unsigned int) serial.getInt32();
+    reputations[i].reputationsname = static_cast<ptString>(serial.getString());
+    reputations[i].reputationsminlevel = static_cast<unsigned int>(serial.getInt32());
+    reputations[i].reputationsmaxlevel = static_cast<unsigned int>(serial.getInt32());
+    reputations[i].reputationslevel = static_cast<unsigned int>(serial.getInt32());
   };
 
-  skillscount = (unsigned int) serial.getInt24();
+  skillscount = static_cast<unsigned int>(serial.getInt24());
   setSkillsCount(skillscount);
-  for ( size_t i = 0; i < skillscount ; i++ )
+  for (size_t i = 0; i < skillscount ; ++i)
   {
-    skills[i].skillsname = serial.getString();
-    skills[i].skillsmin = (unsigned int) serial.getInt32();
-    skills[i].skillsmax = (unsigned int) serial.getInt32();
-    skills[i].skillsxp = (unsigned int) serial.getInt32();
+    skills[i].skillsname = static_cast<ptString>(serial.getString());
+    skills[i].skillsmin = static_cast<unsigned int>(serial.getInt32());
+    skills[i].skillsmax = static_cast<unsigned int>(serial.getInt32());
+    skills[i].skillsxp = static_cast<unsigned int>(serial.getInt32());
   };
 
-  hobbiescount = (unsigned int) serial.getInt24();
+  hobbiescount = static_cast<unsigned int>(serial.getInt24());
   setHobbiesCount(hobbiescount);
-  for ( size_t i = 0; i < hobbiescount ; i++ )
+  for (size_t i = 0; i < hobbiescount ; ++i)
   {
-    hobbies[i].hobbiesname = serial.getString();
-    hobbies[i].hobbiesorder = (unsigned int) serial.getInt32();
-    hobbies[i].hobbiesxp = (unsigned int) serial.getInt32();
+    hobbies[i].hobbiesname = static_cast<ptString>(serial.getString());
+    hobbies[i].hobbiesorder = static_cast<unsigned int>(serial.getInt32());
+    hobbies[i].hobbiesxp = static_cast<unsigned int>(serial.getInt32());
   };
 
-  abilitiescount = (unsigned int) serial.getInt24();
+  abilitiescount = static_cast<unsigned int>(serial.getInt24());
   setAbilitiesCount(abilitiescount);
-  for ( size_t i = 0; i < abilitiescount ; i++ )
+  for (size_t i = 0; i < abilitiescount ; ++i)
   {
-    abilities[i].abilitiesname = serial.getString();
-    abilities[i].abilitiesmin = (unsigned int) serial.getInt32();
-    abilities[i].abilitiesmax = (unsigned int) serial.getInt32();
-    abilities[i].abilitiesxp = (unsigned int) serial.getInt32();
+    abilities[i].abilitiesname = static_cast<ptString>(serial.getString());
+    abilities[i].abilitiesmin = static_cast<unsigned int>(serial.getInt32());
+    abilities[i].abilitiesmax = static_cast<unsigned int>(serial.getInt32());
+    abilities[i].abilitiesxp = static_cast<unsigned int>(serial.getInt32());
   };
 
-  vulberabilitiescount = (unsigned int) serial.getInt24();
+  vulberabilitiescount = static_cast<unsigned int>(serial.getInt24());
   setVulberabilitiesCount(vulberabilitiescount);
-  for ( size_t i = 0; i < vulberabilitiescount ; i++ )
+  for (size_t i = 0; i < vulberabilitiescount ; ++i)
   {
-    vulberabilities[i].vulberabilitiesname = serial.getString();
-    vulberabilities[i].vulberabilitiesmin = (unsigned int) serial.getInt32();
-    vulberabilities[i].vulberabilitiesmax = (unsigned int) serial.getInt32();
-    vulberabilities[i].vulberabilitiesvalue = (unsigned int) serial.getInt32();
+    vulberabilities[i].vulberabilitiesname = static_cast<ptString>(serial.getString());
+    vulberabilities[i].vulberabilitiesmin = static_cast<unsigned int>(serial.getInt32());
+    vulberabilities[i].vulberabilitiesmax = static_cast<unsigned int>(serial.getInt32());
+    vulberabilities[i].vulberabilitiesvalue = static_cast<unsigned int>(serial.getInt32());
   };
 
 }

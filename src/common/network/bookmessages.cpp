@@ -39,8 +39,8 @@ void BookReadRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
-  bookid = (unsigned int) serial.getInt32();
+  itemid = static_cast<unsigned int>(serial.getInt32());
+  bookid = static_cast<unsigned int>(serial.getInt32());
 }
 
 bool BookReadResponseMessage::serialise(ByteStream* bs)
@@ -58,7 +58,7 @@ void BookReadResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  bookname = serial.getString();
+  bookname = static_cast<ptString>(serial.getString());
   serial.getString(text);
 }
 
@@ -79,9 +79,9 @@ void BookWriteRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  itemid = (unsigned int) serial.getInt32();
-  bookid = (unsigned int) serial.getInt32();
-  bookname = serial.getString();
+  itemid = static_cast<unsigned int>(serial.getInt32());
+  bookid = static_cast<unsigned int>(serial.getInt32());
+  bookname = static_cast<ptString>(serial.getString());
   serial.getString(text);
 }
 
@@ -100,7 +100,7 @@ void BookWriteResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  bookid = (unsigned int) serial.getInt32();
-  error = serial.getString();
+  bookid = static_cast<unsigned int>(serial.getInt32());
+  error = static_cast<ptString>(serial.getString());
 }
 

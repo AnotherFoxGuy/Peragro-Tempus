@@ -47,15 +47,15 @@ void ResourceListMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  resourcescount = (unsigned int) serial.getInt24();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  resourcescount = static_cast<unsigned int>(serial.getInt24());
   setResourcesCount(resourcescount);
-  for ( size_t i = 0; i < resourcescount ; i++ )
+  for (size_t i = 0; i < resourcescount ; ++i)
   {
-    resources[i].resourceid = (unsigned short) serial.getInt16();
-    resources[i].name = serial.getString();
-    resources[i].value = (unsigned int) serial.getInt32();
-    resources[i].maxvalue = (unsigned int) serial.getInt32();
+    resources[i].resourceid = static_cast<unsigned short>(serial.getInt16());
+    resources[i].name = static_cast<ptString>(serial.getString());
+    resources[i].value = static_cast<unsigned int>(serial.getInt32());
+    resources[i].maxvalue = static_cast<unsigned int>(serial.getInt32());
   };
 
 }
@@ -77,9 +77,9 @@ void ResourceUpdateMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  entityid = (unsigned int) serial.getInt32();
-  resourceid = (unsigned short) serial.getInt16();
-  value = (unsigned int) serial.getInt32();
-  maxvalue = (unsigned int) serial.getInt32();
+  entityid = static_cast<unsigned int>(serial.getInt32());
+  resourceid = static_cast<unsigned short>(serial.getInt16());
+  value = static_cast<unsigned int>(serial.getInt32());
+  maxvalue = static_cast<unsigned int>(serial.getInt32());
 }
 

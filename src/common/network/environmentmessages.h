@@ -29,9 +29,9 @@ namespace ENVIRONMENT
 {
   enum MESSAGES
   {
-    INITTIME=0,
-    UPDATETIME=1,
-    WEATHER=2
+    INITTIME = 0,
+    UPDATETIME = 1,
+    WEATHER = 2
   };
 }
 
