@@ -71,7 +71,10 @@ namespace po = boost::program_options;
 
 #include "common/world/world.h"
 
+#include "common/event/eventmanager.h"
+
 using namespace std;
+using namespace PT::Event;
 using namespace PT::Thread;
 
 class App : public Application
@@ -97,6 +100,7 @@ private:
     ~StringStoreDestructor();
   } stringStoreDestructor;
 
+  ThreadLoop<PT::Event::iEventManager, OwnedStorage> eventThread;
   ThreadLoop<Database, OwnedStorage> dbThread;
   ThreadLoop<TimerEngine, OwnedStorage> timerThread;
   ThreadLoop<InteractionManager, OwnedStorage> interactionThread;
@@ -106,7 +110,7 @@ private:
 
 App::App()
   : port(0), dbName(""), argc(0), argv(0),
-  dbThread(&Database::Run),
+  eventThread(&PT::Event::iEventManager::SendEvents), dbThread(&Database::Run),
   timerThread(&TimerEngine::Run), interactionThread(&InteractionManager::Run)
 {
 }
@@ -129,6 +133,10 @@ App::~App()
 
   cout << "- Shutdown Database:              ";
   dbThread.Stop();
+  cout << "done" << endl;
+
+  cout << "- Shutdown Event Manager:         ";
+  eventThread.Stop();
   cout << "done" << endl;
 
   cout << "Time to quit now!" << endl;
@@ -280,6 +288,11 @@ int App::Initialize(int argc, char* argv[])
 void App::Run()
 {
   //--[Initialize]--------------------------------------------------------
+
+  using namespace PT::Event;
+  eventThread.Set(new EventManager);
+  eventThread.Start();
+  server.setEventManager(eventThread.Get());
 
   cout << "Opening database '" << dbName << "'" << endl;
   auto_ptr<DbSQLite> db(new DbSQLite(dbName.c_str()));

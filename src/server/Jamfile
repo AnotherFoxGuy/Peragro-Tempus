@@ -19,7 +19,7 @@ Application peragro-server : [ Wildcard *.h *.cpp ] : console ;
 
 ExternalLibs peragro-server : BOOST BOOST.PROGRAM_OPTIONS ;
 LinkWith peragro-server : server-network server-entity server-environment server-ai server-colldet sqlite_adp
-  server-dbtables server-trade server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath world thread ;
+  server-dbtables server-trade server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath world thread eventmanager ;
 
 MsvcExternalLibrary peragro-server : "wsock32.lib" ;
 MsvcCFlags peragro-server : /wd4396 ;
@@ -34,7 +34,7 @@ if [ Property build : projgen_version ] != 6
 
   Application peragro-server_static : [ Wildcard *.cpp *.h ] : independent noinstall console ;
   LinkWith peragro-server_static : server-network server-entity server-environment server-ai server-colldet
-    sqlite_adp server-dbtables server-trade server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath world thread ;
+    sqlite_adp server-dbtables server-trade server-group server-species server-spawner server-combat server-zonemanager network entity quest inventory util tinyxml wfmath world thread eventmanager ;
   MsvcExternalLibrary peragro-server_static : "wsock32.lib" ;
   if $(WSOCK32.LFLAGS) {
       LFlags peragro-server_static : $(WSOCK32.LFLAGS) ;
