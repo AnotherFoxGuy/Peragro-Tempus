@@ -77,8 +77,6 @@ void Body::Create_Body_Mesh()
   mesh->SetZBufMode (CS_ZBUF_USE);
   mesh->SetRenderPriority (engine->GetObjectRenderPriority ());
 
-  mesh->SetLightingUpdate( CS_LIGHTINGUPDATE_ALWAYSUPDATE, 8 );
-
   if (csbody_report_lvl) printf ("Body::Create_Body_Mesh:created body %s\n",name.c_str());
 }
 
