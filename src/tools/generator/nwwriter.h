@@ -41,6 +41,7 @@ class nwWriter
   void writeParamListGetterSetter(std::ofstream& out, std::string listname, nwParams* param);
 
   void writeParam(std::ofstream& out, nwParams* param, const std::string& eventname, const std::string& arg, size_t indent);
+  void writeServerParam(std::ofstream& out, nwParams* param, const std::string& eventname, const std::string& arg, size_t indent);
   std::string toGetFunction(std::string str, std::string arg ="");
 
 public:
@@ -51,4 +52,5 @@ public:
   void writeTypeImpl(std::ofstream& out, nwType* type);
   void writeHandler(std::ofstream& out, nwPeer* peer, nwType* type);
   void writeHandlerImplementation(std::ofstream& out, nwPeer* peer, nwType* type);
+  void writeServerHandlerImplementation(std::ofstream& out, nwPeer* peer, nwType* type);
 };

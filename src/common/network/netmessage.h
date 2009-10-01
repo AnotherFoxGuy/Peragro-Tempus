@@ -22,7 +22,8 @@
 #include "assert.h"
 #include "string.h"
 
-#include <wfmath/point.h>
+#include "wfmath/point.h"
+#include "common/utility/colour24.h"
 
 //#include "common/network/socket.h"
 #include "deserialiser.h"

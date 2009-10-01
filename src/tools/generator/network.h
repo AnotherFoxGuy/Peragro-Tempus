@@ -77,7 +77,7 @@ namespace nwParamType
 {
   enum Type
   {
-    STRING,
+    STRING = 0,
     TEXT,
     VECTOR3F,
     BOOL,

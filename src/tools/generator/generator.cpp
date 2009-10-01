@@ -27,6 +27,16 @@
 #include <algorithm>
 #include <iostream>
 
+bool hasMessages(const nwPeer* peer, const nwType* type)
+{
+  for (size_t i = 0; i < peer->recvMsg.size(); ++i)
+  {
+    const nwMessage* const msg = peer->recvMsg[i];
+    if (msg && msg->type == type) return true;
+  }
+  return false;
+}
+
 bool Generator::generateNetwork()
 {
   nwFactory factory;
@@ -43,7 +53,7 @@ bool Generator::generateNetwork()
   nwWriter writer(network);
   writer.writeNetwork(nw_file);
 
-  for ( size_t i=1; i<network->types.size(); i++)
+  for (size_t i = 1; i < network->types.size(); ++i)
   {
     std::string file("src/common/network/");
     std::string filename = network->types[i]->name;
@@ -55,7 +65,7 @@ bool Generator::generateNetwork()
     writer.writeTypeHead(type_file, network->types[i]);
   }
 
-  for ( size_t i=1; i<network->types.size(); i++)
+  for (size_t i = 1; i < network->types.size(); ++i)
   {
     std::string file("src/common/network/");
     std::string filename = network->types[i]->name;
@@ -67,23 +77,11 @@ bool Generator::generateNetwork()
     writer.writeTypeImpl(type_file, network->types[i]);
   }
 
-  for ( size_t i=0; i<network->peers.size(); i++)
+  for (size_t i = 0; i < network->peers.size(); ++i)
   {
-    for ( size_t j=1; j<network->types.size(); j++)
+    for (size_t j = 1; j < network->types.size(); ++j)
     {
-      bool hasMessages = false;
-      for (size_t x = 0; x < network->peers[i]->recvMsg.size(); x++)
-      {
-        nwMessage* msg = network->peers[i]->recvMsg[x];
-        if (!msg || msg->type != network->types[j])
-          continue;
-        else
-        {
-          hasMessages = true;
-          break;
-        }
-      }
-      if (!hasMessages) continue;
+      if (!hasMessages(network->peers[i], network->types[j])) continue;
 
       std::string file("src/");
       std::string pathname = network->peers[i]->name;
@@ -102,8 +100,10 @@ bool Generator::generateNetwork()
 
   // EXPERIMENTAL
   nwPeer* client = network->getPeer("Client");
-  for ( size_t j=1; j<network->types.size(); j++)
+  for (size_t j = 1; j < network->types.size(); ++j)
   {
+    if (!hasMessages(client, network->types[j])) continue;
+
     std::string file("src/");
     std::string pathname = client->name;
     std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
@@ -117,6 +117,25 @@ bool Generator::generateNetwork()
     std::cout << "- writing " << file <<"\n";
     writer.writeHandlerImplementation(type_file, client, network->types[j]);
   }
+/*
+  nwPeer* server = network->getPeer("Server");
+  for (size_t j = 1; j < network->types.size(); ++j)
+  {
+    if (!hasMessages(server, network->types[j])) continue;
 
+    std::string file("src/");
+    std::string pathname = server->name;
+    std::transform(pathname.begin(), pathname.end(), pathname.begin(), tolower);
+    file.append(pathname);
+    file.append("/network/");
+    std::string filename = network->types[j]->name;
+    std::transform(filename.begin(), filename.end(), filename.begin(), tolower);
+    file.append(filename);
+    file.append("handler.cpp");
+    std::ofstream type_file(file.c_str());
+    std::cout << "- writing " << file <<"\n";
+    writer.writeServerHandlerImplementation(type_file, server, network->types[j]);
+  }
+*/
   return true;
 }

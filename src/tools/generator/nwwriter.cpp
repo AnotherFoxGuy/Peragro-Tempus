@@ -25,6 +25,25 @@
 
 /// \todo: It would be better to use a template rather than hardcode everything.
 
+namespace
+{
+  const char* nwParamTypeName[][2] = {
+    {"ptString", "String"},
+    {"const char*", "String"},
+    {"WFMath::Point<3>", "Vector3_special_case"},
+    {"bool", "Int8"},
+    {"unsigned char", "Int8"},
+    {"unsigned short", "Int16"},
+    {"unsigned int", "Int32"},
+    {"char", "Int8"},
+    {"short", "Int16"},
+    {"int", "Int32"},
+    {"float", "Float"},
+    {"PT::Colour24", "Colour24_special_case"},
+    {"List_special_case", "List_special_case"}
+  };
+}
+
 nwWriter::nwWriter(nwNetwork* nw) : nw(nw)
 {
 }
@@ -103,11 +122,12 @@ void nwWriter::writeNetwork(std::ofstream& out)
 
   for (i = 0; i < nw->types.size()-1; i++)
   {
-    out <<  "    " << toConst(nw->types[i]->name) <<
-            "=" << nw->types[i]->id << ",\n";
+    out << "    " << toConst(nw->types[i]->name) <<
+           " = " << nw->types[i]->id << ",\n";
   }
+
   out << "    " << toConst(nw->types[i]->name) <<
-         "=" << nw->types[i]->id << "\n";
+         " = " << nw->types[i]->id << "\n";
 
   out << "  };\n"
          "}\n"
@@ -118,615 +138,295 @@ void nwWriter::writeNetwork(std::ofstream& out)
 
 void nwWriter::writeParamDeclaration(std::ofstream& out, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "  ptString " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "  const char* " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "  bool " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "  unsigned char " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "  unsigned short " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "  unsigned int " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "  char " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "  short " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "  int " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "  float " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "  unsigned char " << toVariable(param->name) << "[3];\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "  WFMath::Point<3> " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    out <<  "  class List" << param->name << "\n"
-        <<  "  {\n"
-        <<  "  public:\n";
-
-    for ( size_t i=0; i < param->params.size(); i++ )
+    case nwParamType::LIST:
     {
-      writeParamListDefinition(out, param->params[i]);
-    }
+      out << "  class List" << param->name << "\n"
+          << "  {\n"
+          << "  public:\n";
 
-    out <<  "  };\n\n";
-    out <<  "  unsigned int " << toVariable(param->name) << "count;\n";
-    out <<  "  List" << param->name << "* " << toVariable(param->name) << ";\n\n";
+      for (size_t i = 0; i < param->params.size(); ++i)
+      {
+        writeParamListDefinition(out, param->params[i]);
+      }
+
+      out << "  };\n\n";
+      out << "  unsigned int " << toVariable(param->name) << "count;\n";
+      out << "  List" << param->name << "* " << toVariable(param->name) << ";\n\n";
+      break;
+    }
+    default:
+    {
+      const char* const typeName = nwParamTypeName[param->type][0];
+      out << "  " << typeName << " " << toVariable(param->name) << ";\n";
+    }
   }
 }
 
 void nwWriter::writeParamSerialisation(std::ofstream& out, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "  serial.setString(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "  serial.setString(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "  serial.setInt8(" << toVariable(param->name) << "?1:0);\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "  serial.setInt8(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "  serial.setInt16(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "  serial.setInt32(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "  serial.setInt8(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "  serial.setInt16(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "  serial.setInt32(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "  serial.setFloat(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "  serial.setInt8(" << toVariable(param->name) << "[0]);\n";
-    out <<  "  serial.setInt8(" << toVariable(param->name) << "[1]);\n";
-    out <<  "  serial.setInt8(" << toVariable(param->name) << "[2]);\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "  serial.setFloat(" << toVariable(param->name) << "[0]);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name) << "[1]);\n";
-    out <<  "  serial.setFloat(" << toVariable(param->name) << "[2]);\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    out <<  "  serial.setInt24(" << toVariable(param->name) << "count);\n"
-        <<  "  for ( size_t i = 0; i < " << toVariable(param->name) << "count ; i++ )\n"
-        <<  "  {\n";
-
-    for ( size_t i=0; i < param->params.size(); i++ )
+    case nwParamType::COLOUR24:
     {
-      writeParamListSerialisation(out, param->name, param->params[i]);
+      out <<  "  serial.setInt8(" << toVariable(param->name) << ".red);\n";
+      out <<  "  serial.setInt8(" << toVariable(param->name) << ".green);\n";
+      out <<  "  serial.setInt8(" << toVariable(param->name) << ".blue);\n";
+      break;
     }
+    case nwParamType::VECTOR3F:
+    {
+      out <<  "  serial.setFloat(" << toVariable(param->name) << ".x());\n";
+      out <<  "  serial.setFloat(" << toVariable(param->name) << ".y());\n";
+      out <<  "  serial.setFloat(" << toVariable(param->name) << ".z());\n";
+      break;
+    }
+    case nwParamType::LIST:
+    {
+      out <<  "  serial.setInt24(" << toVariable(param->name) << "count);\n"
+          <<  "  for ( size_t i = 0; i < " << toVariable(param->name) << "count ; i++ )\n"
+          <<  "  {\n";
 
-    out <<  "  };\n\n";
+      for (size_t i = 0; i < param->params.size(); ++i)
+      {
+        writeParamListSerialisation(out, param->name, param->params[i]);
+      }
+
+      out <<  "  };\n\n";
+      break;
+    }
+    default:
+    {
+      const char* const typeFunctionName = nwParamTypeName[param->type][1];
+      out << "  serial.set" << typeFunctionName << "(" << toVariable(param->name) << ");\n";
+    }
   }
 }
 
 void nwWriter::writeParamDeserialisation(std::ofstream& out, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "  " << toVariable(param->name) << " = serial.getString();\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "  serial.getString(" << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "  " << toVariable(param->name) << " = serial.getInt8() != 0;\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "  " << toVariable(param->name) << " = (unsigned char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "  " << toVariable(param->name) << " = (unsigned short) serial.getInt16();\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "  " << toVariable(param->name) << " = (unsigned int) serial.getInt32();\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "  " << toVariable(param->name) << " = (char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "  " << toVariable(param->name) << " = (short) serial.getInt16();\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "  " << toVariable(param->name) << " = (int) serial.getInt32();\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "  " << toVariable(param->name) << " = serial.getFloat();\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "  " << toVariable(param->name) << "[0] = (unsigned char) serial.getInt8();\n";
-    out <<  "  " << toVariable(param->name) << "[1] = (unsigned char) serial.getInt8();\n";
-    out <<  "  " << toVariable(param->name) << "[2] = (unsigned char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "  " << toVariable(param->name) << "[0] = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name) << "[1] = serial.getFloat();\n";
-    out <<  "  " << toVariable(param->name) << "[2] = serial.getFloat();\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    out <<  "  " << toVariable(param->name) << "count = (unsigned int) serial.getInt24();\n"
-        <<  "  set" << param->name << "Count(" << toVariable(param->name) << "count);\n"
-        <<  "  for ( size_t i = 0; i < " << toVariable(param->name) << "count ; i++ )\n"
-        <<  "  {\n";
-
-    for ( size_t i=0; i < param->params.size(); i++ )
+    case nwParamType::TEXT:
     {
-      writeParamListDeserialisation(out, param->name, param->params[i]);
+      out <<  "  serial.getString(" << toVariable(param->name) << ");\n";
+      break;
     }
+    case nwParamType::COLOUR24:
+    {
+      out << "  " << toVariable(param->name) << ".red = static_cast<PT::Colour24::ColourType>(serial.getInt8());\n";
+      out << "  " << toVariable(param->name) << ".green = static_cast<PT::Colour24::ColourType>(serial.getInt8());\n";
+      out << "  " << toVariable(param->name) << ".blue = static_cast<PT::Colour24::ColourType>(serial.getInt8());\n";
+      break;
+    }
+    case nwParamType::VECTOR3F:
+    {
+      out << "  " << toVariable(param->name) << ".x() = serial.getFloat();\n";
+      out << "  " << toVariable(param->name) << ".y() = serial.getFloat();\n";
+      out << "  " << toVariable(param->name) << ".z() = serial.getFloat();\n";
+      break;
+    }
+    case nwParamType::LIST:
+    {
+      out << "  " << toVariable(param->name) << "count = static_cast<unsigned int>(serial.getInt24());\n"
+          << "  set" << param->name << "Count(" << toVariable(param->name) << "count);\n"
+          << "  for (size_t i = 0; i < " << toVariable(param->name) << "count ; ++i)\n"
+          << "  {\n";
 
-    out <<  "  };\n\n";
+      for (size_t i = 0; i < param->params.size(); ++i)
+      {
+        writeParamListDeserialisation(out, param->name, param->params[i]);
+      }
+
+      out <<  "  };\n\n";
+      break;
+    }
+    default:
+    {
+      const char* const typeName = nwParamTypeName[param->type][0];
+      const char* const typeFunctionName = nwParamTypeName[param->type][1];
+      out << "  " << toVariable(param->name) << " = static_cast<" << typeName
+          << ">(serial.get" << typeFunctionName << "());\n";
+    }
   }
 }
 
 void nwWriter::writeParamGetterSetter(std::ofstream& out, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  const char* const typeName = nwParamTypeName[param->type][0];
+  switch (param->type)
   {
-    out <<  "  ptString get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(ptString x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "  const char* get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(const char* x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "  bool get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(bool x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "  unsigned char get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(unsigned char x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "  unsigned short get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(unsigned short x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "  unsigned int get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(unsigned int x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "  char get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(char x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "  short get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(short x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "  int get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(int x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "  float get" << param->name << "() const { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(float x) { "
-        << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "  unsigned char* get" << param->name << "() { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(unsigned char r, unsigned char g, unsigned char b)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(param->name) << "[0] = r;\n"
-        <<  "    " << toVariable(param->name) << "[1] = g;\n"
-        <<  "    " << toVariable(param->name) << "[2] = b;\n"
-        <<  "  }\n"
-        <<  "  void set" << param->name << "(const unsigned char* x)\n"
-        <<  "  {\n"
-        <<  "    set" << param->name << "(x[0], x[1], x[2]);\n"
-        <<  "  }\n\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "  WFMath::Point<3> get" << param->name << "() { return "
-        << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(const WFMath::Point<3>& x)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(param->name) << " = x;\n"
-        <<  "  }\n"
-        <<  "  void set" << param->name << "(float x, float y, float z)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(param->name) << "[0] = x;\n"
-        <<  "    " << toVariable(param->name) << "[1] = y;\n"
-        <<  "    " << toVariable(param->name) << "[2] = z;\n"
-        <<  "  }\n\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    out <<  "  unsigned char get" << param->name << "Count() const { return "
-        <<  toVariable(param->name) << "count; }\n"
-        <<  "  void set" << param->name << "Count(unsigned char ic)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(param->name) << "count = ic;\n"
-        <<  "    delete [] " << toVariable(param->name) << ";\n"
-        <<  "    " << toVariable(param->name) << " = new List" << param->name
-        <<  "[ic];\n"
-        <<  "  }\n\n";
-
-    out <<  "  // --- begin List" << param->name << " Getter and Setter ---\n\n";
-
-    for ( size_t i=0; i < param->params.size(); i++ )
+    case nwParamType::VECTOR3F:
     {
-      writeParamListGetterSetter(out, param->name, param->params[i]);
+      out << "  WFMath::Point<3> get" << param->name << "() { return "
+          << toVariable(param->name) << "; }\n"
+          << "  void set" << param->name << "(const WFMath::Point<3>& x)\n"
+          << "  {\n"
+          << "    " << toVariable(param->name) << " = x;\n"
+          << "  }\n"
+          << "  void set" << param->name << "(float x, float y, float z)\n"
+          << "  {\n"
+          << "    " << toVariable(param->name) << "[0] = x;\n"
+          << "    " << toVariable(param->name) << "[1] = y;\n"
+          << "    " << toVariable(param->name) << "[2] = z;\n"
+          << "  }\n\n";
+      break;
     }
-    out <<  "  // --- end List" << param->name << " Getter and Setter ---\n\n";
+    case nwParamType::LIST:
+    {
+      out << "  unsigned char get" << param->name << "Count() const { return "
+          << toVariable(param->name) << "count; }\n"
+          << "  void set" << param->name << "Count(unsigned char ic)\n"
+          << "  {\n"
+          << "    " << toVariable(param->name) << "count = ic;\n"
+          << "    delete [] " << toVariable(param->name) << ";\n"
+          << "    " << toVariable(param->name) << " = new List" << param->name
+          << "[ic];\n"
+          << "  }\n\n";
+
+      out << "  // --- begin List" << param->name << " Getter and Setter ---\n\n";
+
+      for (size_t i = 0; i < param->params.size(); ++i)
+      {
+        writeParamListGetterSetter(out, param->name, param->params[i]);
+      }
+      out << "  // --- end List" << param->name << " Getter and Setter ---\n\n";
+      break;
+    }
+    default:
+    {
+      out << "  " << typeName << " get" << param->name << "() const { return "
+        << toVariable(param->name) << "; }\n"
+        << "  void set"<< param->name << "(" << typeName << " x) { "
+        << toVariable(param->name) << " = x; }\n\n";
+    }
   }
 }
 
 void nwWriter::writeParamListDefinition(std::ofstream& out, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "    ptString " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "    const char* " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "    bool " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "    unsigned char " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "    unsigned short " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "    unsigned int " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "    char " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "    short " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "    int " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "    float " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "    unsigned char " << toVariable(param->name) << "[3];\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "    WFMath::Point<3> " << toVariable(param->name) << ";\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    std::cerr << "Error! Nested Lists are not yet supported!";
+    case nwParamType::LIST:
+    {
+      std::cerr << "Error! Nested Lists are not yet supported!";
+      break;
+    }
+    default:
+    {
+      const char* const typeName = nwParamTypeName[param->type][0];
+      out << "    " << typeName << " " << toVariable(param->name) << ";\n";
+    }
   }
 }
 
 void nwWriter::writeParamListSerialisation(std::ofstream& out, std::string listname, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "    serial.setString(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "    serial.setString(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << "?1:0);\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "    serial.setInt16(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "    serial.setInt32(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "    serial.setInt16(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "    serial.setInt32(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[0]);\n";
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[1]);\n";
-    out <<  "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[2]);\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[0]);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[1]);\n";
-    out <<  "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << "[2]);\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    // Not yet supported
+    case nwParamType::COLOUR24:
+    {
+      out << "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".red);\n";
+      out << "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".green);\n";
+      out << "    serial.setInt8(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".blue);\n";
+      break;
+    }
+    case nwParamType::VECTOR3F:
+    {
+      out << "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".x);\n";
+      out << "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".y);\n";
+      out << "    serial.setFloat(" << toVariable(listname) << "[i]." << toVariable(param->name) << ".z);\n";
+      break;
+    }
+    case nwParamType::LIST:
+    {
+      std::cerr << "Error! Nested Lists are not yet supported!";
+      break;
+    }
+    default:
+    {
+      const char* const typeFunctionName = nwParamTypeName[param->type][1];
+      out << "    serial.set" << typeFunctionName << "(" << toVariable(listname) << "[i]."
+          << toVariable(param->name) << ");\n";
+    }
   }
 }
 
 void nwWriter::writeParamListDeserialisation(std::ofstream& out, std::string listname, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = serial.getString();\n";
-  }
-  if (param->type == nwParamType::TEXT)
-  {
-    out <<  "    serial.getString(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = serial.getInt8() != 0;\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (unsigned char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (unsigned short) serial.getInt16();\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (unsigned int) serial.getInt32();\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (short) serial.getInt16();\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = (int) serial.getInt32();\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = serial.getFloat();\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[0] = (unsigned char) serial.getInt8();\n";
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[1] = (unsigned char) serial.getInt8();\n";
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[2] = (unsigned char) serial.getInt8();\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[0] = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[1] = serial.getFloat();\n";
-    out <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[2] = serial.getFloat();\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    // Not yet supported
+    case nwParamType::TEXT:
+    {
+      out << "    serial.getString(" << toVariable(listname) << "[i]." << toVariable(param->name) << ");\n";
+      break;
+    }
+    case nwParamType::COLOUR24:
+    {
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name)
+        << ".red = static_cast<unsigned char>(serial.getInt8());\n";
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name)
+        << ".green = static_cast<unsigned char>(serial.getInt8());\n";
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name)
+        << ".blue = static_cast<unsigned char>(serial.getInt8());\n";
+      break;
+    }
+    case nwParamType::VECTOR3F:
+    {
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".x = serial.getFloat();\n";
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".y = serial.getFloat();\n";
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".z = serial.getFloat();\n";
+      break;
+    }
+    case nwParamType::LIST:
+    {
+      std::cerr << "Error! Nested Lists are not yet supported!";
+      break;
+    }
+    default:
+    {
+      const char* const typeName = nwParamTypeName[param->type][0];
+      const char* const typeFunctionName = nwParamTypeName[param->type][1];
+      out << "    " << toVariable(listname) << "[i]." << toVariable(param->name)
+          << " = static_cast<" << typeName << ">(serial.get" << typeFunctionName << "());\n";
+    }
   }
 }
 
 void nwWriter::writeParamListGetterSetter(std::ofstream& out, std::string listname, nwParams* param)
 {
-  if (param->type == nwParamType::STRING)
+  switch (param->type)
   {
-    out <<  "  ptString get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, ptString x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::TEXT)
-  {
-    out <<  "  const char* get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]."<< toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, const char* x) { "
-        << toVariable(listname) << "[i]."<< toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::BOOL)
-  {
-    out <<  "  bool get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, bool x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT8)
-  {
-    out <<  "  unsigned char get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, unsigned char x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT16)
-  {
-    out <<  "  unsigned short get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, unsigned short x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::UINT32)
-  {
-    out <<  "  unsigned int get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, unsigned int x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT8)
-  {
-    out <<  "  char get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, char x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT16)
-  {
-    out <<  "  short get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, short x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::INT32)
-  {
-    out <<  "  int get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, int x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::FLOAT)
-  {
-    out <<  "  float get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, float x) { "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
-  }
-  else if (param->type == nwParamType::COLOUR24)
-  {
-    out <<  "  unsigned char* get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, unsigned char r, unsigned char g, unsigned char b)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[0] = r;\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[1] = g;\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[2] = b;\n"
-        <<  "  }\n"
-        <<  "  void set" << param->name << "(size_t i, const unsigned char* x)\n"
-        <<  "  {\n"
-        <<  "    set" << param->name << "(i, x[0], x[1], x[2]);\n"
-        <<  "  }\n\n";
-  }
-  else if (param->type == nwParamType::VECTOR3F)
-  {
-    out <<  "  WFMath::Point<3> get" << param->name << "(size_t i) { return "
-        << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
-        <<  "  void set" << param->name << "(size_t i, const WFMath::Point<3>& x)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = x;\n"
-        <<  "  }\n"
-        <<  "  void set" << param->name << "(size_t i, float x, float y, float z)\n"
-        <<  "  {\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[0] = x;\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[1] = y;\n"
-        <<  "    " << toVariable(listname) << "[i]." << toVariable(param->name) << "[2] = z;\n"
-        <<  "  }\n\n";
-  }
-  else if (param->type == nwParamType::LIST)
-  {
-    // Not yet supported
+    case nwParamType::VECTOR3F:
+    {
+      out << "  WFMath::Point<3> get" << param->name << "(size_t i) { return "
+          << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
+          << "  void set" << param->name << "(size_t i, const WFMath::Point<3>& x)\n"
+          << "  {\n"
+          << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << " = x;\n"
+          << "  }\n"
+          << "  void set" << param->name << "(size_t i, float x, float y, float z)\n"
+          << "  {\n"
+          << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".x = x;\n"
+          << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".y = y;\n"
+          << "    " << toVariable(listname) << "[i]." << toVariable(param->name) << ".z = z;\n"
+          << "  }\n\n";
+      break;
+    }
+    case nwParamType::LIST:
+    {
+      std::cerr << "Error! Nested Lists are not yet supported!";
+      break;
+    }
+    default:
+    {
+      const char* const typeName = nwParamTypeName[param->type][0];
+      out << "  " << typeName << " get" << param->name << "(size_t i) { return "
+          << toVariable(listname) << "[i]." << toVariable(param->name) << "; }\n"
+          << "  void set" << param->name << "(size_t i, " << typeName << " x) { "
+          << toVariable(listname) << "[i]." << toVariable(param->name) << " = x; }\n\n";
+    }
   }
 }
 
@@ -745,25 +445,26 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
          "  {\n";
 
   size_t i = 0;
-  for (i = 0; i < type->msgs.size()-1; i++)
+  for (i = 0; i < type->msgs.size()-1; ++i)
   {
-    out <<  "    " << toConst(type->msgs[i]->name) <<
-            "=" << type->msgs[i]->id << ",\n";
+    out << "    " << toConst(type->msgs[i]->name) <<
+           " = " << type->msgs[i]->id << ",\n";
   }
+
   out << "    " << toConst(type->msgs[i]->name) <<
-         "=" << type->msgs[i]->id << "\n";
+         " = " << type->msgs[i]->id << "\n";
 
   out << "  };\n"
          "}\n\n";
 
-  for (i = 0; i < type->msgs.size(); i++)
+  for (i = 0; i < type->msgs.size(); ++i)
   {
     nwMessage* msg = type->msgs[i];
 
     out << "class " << msg->name << "Message : public NetMessage\n"
            "{\n";
 
-    for (size_t j = 0; j < msg->params.size(); j++)
+    for (size_t j = 0; j < msg->params.size(); ++j)
     {
       nwParams* param = msg->params[j];
       writeParamDeclaration(out, param);
@@ -775,51 +476,13 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
            toConst(type->name) << "," << toConst(type->name) <<
            "::" << toConst(msg->name) << ")\n"
            "  {\n";
-    for (size_t j = 0; j < msg->params.size(); j++)
+    for (size_t j = 0; j < msg->params.size(); ++j)
     {
       nwParams* param = msg->params[j];
       if (param->type == nwParamType::LIST)
       {
         out << "    " << toVariable(param->name) << " = 0;\n";
       }
-/*
-      else if (param->type == nwParamType::BOOL)
-      {
-        out << "    " << toVariable(param->name) << " = false;\n";
-      }
-      else if (param->type == nwParamType::UINT8 ||
-                 param->type == nwParamType::UINT16 ||
-                 param->type == nwParamType::UINT32)
-      {
-        out << "    " << toVariable(param->name) << " = 0;\n";
-      }
-      else if (param->type == nwParamType::FLOAT)
-      {
-        out << "    " << toVariable(param->name) << " = 0.0;\n";
-      }
-      else if (param->type == nwParamType::VECTOR3F)
-      {
-        out << "    " << toVariable(param->name) << ".x = 0.0;\n";
-        out << "    " << toVariable(param->name) << ".y = 0.0;\n";
-        out << "    " << toVariable(param->name) << ".z = 0.0;\n";
-      }
-      else if (param->type == nwParamType::COLOUR24)
-      {
-        out << "    " << toVariable(param->name) << "[0] = \'\\0\';\n";
-        out << "    " << toVariable(param->name) << "[1] = \'\\0\';\n";
-        out << "    " << toVariable(param->name) << "[2] = \'\\0\';\n";
-      }
-      else if (param->type == nwParamType::TEXT)
-      {
-        out << "    " << toVariable(param->name) << " = \'\\0\';\n";
-      }
-      else if (param->type == nwParamType::COLOUR24)
-      {
-        out << "    " << toVariable(param->name) << "[0] = \'\\0\';\n";
-        out << "    " << toVariable(param->name) << "[1] = \'\\0\';\n";
-        out << "    " << toVariable(param->name) << "[2] = \'\\0\';\n";
-      }
-*/
     }
 
     out << "  }\n\n"
@@ -843,10 +506,6 @@ void nwWriter::writeTypeHead(std::ofstream& out, nwType* type)
     {
       nwParams* param = msg->params[j];
       writeParamGetterSetter(out, param);
-//      out << "  unsigned " << param->type << " get" << param->name
-//          << "() { return " << param->name << "; }\n"
-//          << "  void set" << param->name << "(" << param->type
-//          << " x) { " << param->name << " = x; }\n\n";
     }
 
     out << "};\n\n";
@@ -1089,13 +748,18 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
   // results in "paramName".
   std::string paramNameStr = "\"" + toFunction(param->name) + "\"";
 
-  if (param->type == nwParamType::STRING || param->type == nwParamType::COLOUR24)
+  if (param->type == nwParamType::STRING)
   {
     // if its a ptString or uchar*, derefrence it.
     std::string value = "*pmsg.";
     value += toGetFunction(param->name, arg);
-    if (param->type == nwParamType::STRING)
-      value = value + "?" + value + ":\"\""; // Don't add 0 values!
+    value = value + "?" + value + ":\"\""; // Don't add 0 values!
+    out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
+  }
+  else if (param->type == nwParamType::COLOUR24)
+  {
+    std::string value = "pmsg.";
+    value += toGetFunction(param->name, arg) + ".red";
     out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
   }
   else if (param->type == nwParamType::VECTOR3F)
@@ -1131,6 +795,162 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
     std::string value = "pmsg.";
     value += toGetFunction(param->name, arg);
     out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
+  }
+}
+
+void nwWriter::writeServerHandlerImplementation(std::ofstream& out, nwPeer* peer, nwType* type)
+{
+  writeLicenceHeader(out);
+
+  out << "#include \"server/network/" << toVariable(type->name) << "handler.h\"\n\n";
+
+  out << "#include \"common/event/ieventmanager.h\"\n";
+  out << "#include \"common/event/eventdata.h\"\n\n";
+  out << "#include \"server/server.h\"\n\n";
+
+  for (size_t i = 0; i < peer->recvMsg.size(); ++i)
+  {
+    nwMessage* const msg = peer->recvMsg[i];
+    if (!msg || msg->type != type)
+      continue;
+
+    out << "void " << type->name << "Handler::" << "handle" << msg->name << "(GenericMessage* msg)\n"
+      << "{\n"
+      << "  " << msg->name << "Message" << " pmsg;\n"
+      << "  pmsg.deserialise(msg->getByteStream());\n\n"
+      << "  using namespace PT::Event;\n"
+      << "  iEventManager* eventManager = Server::getServer()->getEventManager();\n";
+
+    typedef std::map<std::string, std::vector<nwParams*> > EventAndParams;
+    EventAndParams eventAndParams;
+
+    // Add all the events from the message.
+    std::map<std::string, bool>::iterator msgIt;
+    for (msgIt = msg->eventNames.begin(); msgIt != msg->eventNames.end(); ++msgIt)
+    {
+      eventAndParams[msgIt->first];
+    }
+
+    // Add the params to the events.
+    for (size_t i = 0; i < msg->params.size(); i++)
+    {
+      nwParams* param = msg->params[i];
+      std::map<std::string, bool>::iterator it;
+      for (it = param->eventNames.begin(); it != param->eventNames.end(); ++it)
+      {
+        eventAndParams[it->first].push_back(param);
+      }
+    }
+
+    EventAndParams::iterator it;
+    for (it = eventAndParams.begin(); it != eventAndParams.end(); ++it)
+    {
+      const std::string& eventName(it->first);
+
+      if (eventName.empty())
+      {
+        out << "\n  // @todo Implement me!\n\n";
+        continue;
+      }
+
+      nwParams* entSpecPar = 0;
+      for (size_t i = 0; i < it->second.size(); i++)
+      {
+        if (it->second[i]->eventNames[eventName])
+        {
+          entSpecPar = it->second[i];
+          break;
+        }
+      }
+
+      out << "  {\n";
+      const std::string indent("    ");
+      out << indent << "EventDataPtr event(new EventData(\"" << eventName << "\"";
+      if (entSpecPar)
+      {
+        out << ", pmsg." << toGetFunction(entSpecPar->name);
+      }
+      out << ");\n";
+
+      for (size_t i = 0; i < it->second.size(); ++i)
+      {
+        writeServerParam(out, it->second[i], "event", "", 1);
+      }
+
+      out << "\n";
+      out << indent << "eventManager->Post(event);\n";
+      out << "  }\n\n";
+    }
+
+    out << "} // end " << "handle" << msg->name << "()\n\n";
+  }
+}
+
+void nwWriter::writeServerParam(std::ofstream& out, nwParams* param, const std::string& eventname, const std::string& arg, size_t indt)
+{
+  std::string indent("  ");
+  for (size_t j = 0; j < indt; j++)
+  {
+    indent += "  ";
+  }
+
+  const std::string paramNameStr = "\"" + param->name + "\"";
+
+  switch (param->type)
+  {
+    case nwParamType::LIST:
+    {
+      const std::string listName = "\"" + param->name + "List\"";
+      std::string listVarName = toFunction(param->name) + "List";
+      out << indent << "EventDataPtr " << listVarName  << "(new EventData(" << listName << ");\n"
+          << indent << "for (unsigned char i = 0; i < pmsg.get" << param->name << "Count(); i++)\n"
+          << indent << "{\n"
+          << indent << "  std::stringstream itemName;\n"
+          << indent << "  itemName << " << paramNameStr << " << \"_\" << i;\n"
+          << indent << "  EventDataPtr item(new EventData(itemName.str());\n";
+      for (size_t j = 0; j < param->params.size(); ++j)
+      {
+        nwParams* listParam = param->params[j];
+        writeParam(out, listParam, "item", "i", indt + 1);
+      }
+      out << indent << "  " << listVarName << "->Add<EventDataPtr>(itemName.str(), item);\n";
+      out << indent << "}\n";
+      out << indent << eventname << "->Add<EventDataPtr>(" << listName << ", " << listVarName << ");\n";
+      break;
+    }
+    default:
+    {
+      std::string typeName(nwParamTypeName[param->type][0]);
+      const std::string value = "pmsg." + toGetFunction(param->name, arg);
+      switch (param->type)
+      {
+        case nwParamType::TEXT:
+        {
+          typeName = "std::string";
+          break;
+        }
+        case nwParamType::INT8:
+        case nwParamType::INT16:
+        case nwParamType::INT32:
+        {
+          typeName = "boost::int32_t";
+          break;
+        }
+        case nwParamType::UINT8:
+        case nwParamType::UINT16:
+        case nwParamType::UINT32:
+        {
+          typeName = "boost::uint32_t";
+          break;
+        }
+        default:
+        {
+          break;
+        }
+      }
+
+      out << indent << eventname << "->Add<" << typeName << ">(" << paramNameStr << ", " << value << ");\n";
+    }
   }
 }
 
