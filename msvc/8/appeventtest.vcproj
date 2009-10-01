@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="libentity"
-	ProjectGUID="{9410B0F7-D07B-3D4A-1A73-F20755801F65}"
+	Name="appeventtest"
+	ProjectGUID="{16A6CA2C-7A8B-2230-3954-97145D4A9653}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,9 +13,11 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release8\build\libentity\"
-			IntermediateDirectory="..\..\out\release8\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8\build\appeventtest\"
+			IntermediateDirectory="..\..\out\release8\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -25,14 +27,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libentity\Win32\entity.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\release8\build\appeventtest\Win32\eventtest.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release8\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libentity\"
-				ObjectFile="..\..\out\release8\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\release8\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\release8\build\appeventtest\"
+				ObjectFile="..\..\out\release8\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -49,6 +51,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\release8\build\appeventtest\Win32\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -56,15 +61,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -75,8 +79,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,9 +89,11 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release8\build\libentity\"
-			IntermediateDirectory="..\..\out\release8\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8\build\appeventtest\"
+			IntermediateDirectory="..\..\out\release8\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -97,14 +103,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8\build\libentity\Win32\entity.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release8\build\appeventtest\Win32\eventtest.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release8\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\release8\build\libentity\"
-				ObjectFile="..\..\out\release8\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\release8\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\release8\build\appeventtest\"
+				ObjectFile="..\..\out\release8\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -121,6 +127,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\release8\build\appeventtest\Win32\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -128,15 +137,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\release8\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8\bin\&#x0D;&#x0A;"
@@ -147,8 +155,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,9 +165,10 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\libentity\"
-			IntermediateDirectory="..\..\out\debug8\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8\build\appeventtest\"
+			IntermediateDirectory="..\..\out\debug8\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -169,14 +178,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\libentity\Win32\entity.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug8\build\appeventtest\Win32\eventtest.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libentity\"
-				ObjectFile="..\..\out\debug8\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\appeventtest\"
+				ObjectFile="..\..\out\debug8\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -191,6 +200,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\debug8\build\appeventtest\Win32\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -198,15 +210,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -217,8 +228,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,9 +238,10 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug8\build\libentity\"
-			IntermediateDirectory="..\..\out\debug8\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8\build\appeventtest\"
+			IntermediateDirectory="..\..\out\debug8\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -239,14 +251,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8\build\libentity\Win32\entity.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug8\build\appeventtest\Win32\eventtest.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug8\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\debug8\build\libentity\"
-				ObjectFile="..\..\out\debug8\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\debug8\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\debug8\build\appeventtest\"
+				ObjectFile="..\..\out\debug8\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -261,6 +273,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\debug8\build\appeventtest\Win32\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -268,15 +283,14 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\debug8\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8\bin\&#x0D;&#x0A;"
@@ -287,8 +301,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -297,9 +311,11 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\libentity\"
-			IntermediateDirectory="..\..\out\release8-x64\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8-x64\build\appeventtest\"
+			IntermediateDirectory="..\..\out\release8-x64\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -309,14 +325,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\libentity\x64\entity.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\release8-x64\build\appeventtest\x64\eventtest.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\libentity\"
-				ObjectFile="..\..\out\release8-x64\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\appeventtest\"
+				ObjectFile="..\..\out\release8-x64\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -333,6 +349,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\release8-x64\build\appeventtest\x64\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -340,15 +359,14 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8-x64\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
@@ -359,8 +377,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -369,9 +387,11 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release8-x64\build\libentity\"
-			IntermediateDirectory="..\..\out\release8-x64\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\release8-x64\build\appeventtest\"
+			IntermediateDirectory="..\..\out\release8-x64\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
+			WholeProgramOptimization="1"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -381,14 +401,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release8-x64\build\libentity\x64\entity.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release8-x64\build\appeventtest\x64\eventtest.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release8-x64\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\release8-x64\build\libentity\"
-				ObjectFile="..\..\out\release8-x64\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\release8-x64\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\release8-x64\build\appeventtest\"
+				ObjectFile="..\..\out\release8-x64\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -405,6 +425,9 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\release8-x64\build\appeventtest\x64\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -412,15 +435,14 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release8-x64\libs\libentity.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release8-x64\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\release8-x64\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release8-x64\bin\&#x0D;&#x0A;"
@@ -431,8 +453,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -441,9 +463,10 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\libentity\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8-x64\build\appeventtest\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -453,14 +476,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\libentity\x64\entity.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug8-x64\build\appeventtest\x64\eventtest.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\libentity\"
-				ObjectFile="..\..\out\debug8-x64\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\appeventtest\"
+				ObjectFile="..\..\out\debug8-x64\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -475,6 +498,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\debug8-x64\build\appeventtest\x64\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -482,15 +508,14 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8-x64\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
@@ -501,8 +526,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -511,9 +536,10 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug8-x64\build\libentity\"
-			IntermediateDirectory="..\..\out\debug8-x64\build\libentity\"
-			ConfigurationType="4"
+			OutputDirectory="..\..\out\debug8-x64\build\appeventtest\"
+			IntermediateDirectory="..\..\out\debug8-x64\build\appeventtest\"
+			ConfigurationType="1"
+			CharacterSet="2"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -523,14 +549,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug8-x64\build\libentity\x64\entity.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug8-x64\build\appeventtest\x64\eventtest.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" /wd4396 "
+				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libentity\libentity.pch"
-				AssemblerListingLocation="..\..\out\debug8-x64\build\libentity\"
-				ObjectFile="..\..\out\debug8-x64\build\libentity\"
+				PrecompiledHeaderFile="..\..\out\debug8-x64\build\appeventtest\appeventtest.pch"
+				AssemblerListingLocation="..\..\out\debug8-x64\build\appeventtest\"
+				ObjectFile="..\..\out\debug8-x64\build\appeventtest\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -545,6 +571,9 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
+				OutputFile="..\..\eventtest.exe"
+				ProgramDatabaseFile="..\..\out\debug8-x64\build\appeventtest\x64\eventtest.pdb"
+				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -552,15 +581,14 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug8-x64\libs\libentity_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug8-x64\build\libentity\libentity.tlb"/>
+				TypeLibraryName="..\..\out\debug8-x64\build\appeventtest\appeventtest.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug8-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug8-x64\bin\&#x0D;&#x0A;"
@@ -571,8 +599,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\entity;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=8"
+				AdditionalIncludeDirectories=".;..\..\src\tests\eventtest;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -585,29 +613,17 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\entity\character\base.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\entity\entitymanager.cpp">
+				RelativePath="..\..\src\tests\eventtest\eventtest.cpp">
 			</File>
 		</Filter>
 		<Filter
-			Name="Header Files"
+			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\entity\character\base.h">
+				RelativePath="..\..\msvc\common\appeventtest.manifest">
 			</File>
 			<File
-				RelativePath="..\..\src\common\entity\entity.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\entity\entitycallback.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\entity\entityid.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\entity\entitymanager.h">
+				RelativePath="..\..\msvc\common\appeventtest.rc">
 			</File>
 		</Filter>
 	</Files>

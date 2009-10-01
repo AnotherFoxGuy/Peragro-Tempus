@@ -604,6 +604,9 @@
 				RelativePath="..\..\src\common\entity\entitycallback.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\entity\entityid.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\entity\entitymanager.h">
 			</File>
 		</Filter>
