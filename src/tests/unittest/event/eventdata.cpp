@@ -25,6 +25,7 @@
 
 BOOST_AUTO_TEST_SUITE(Event_System)
 
+using namespace PT;
 using namespace PT::Event;
 using PT::Entity::EntityId;
 
@@ -50,7 +51,7 @@ struct EventDataAttributesFixture
 {
   EventDataAttributesFixture() : length(67), hasFailed(true),
     lengthId("Length"), hasFailedId("HasFailed") {}
-  const int length;
+  const int32_t length;
   const bool hasFailed;
   const EventAttrId lengthId;
   const EventAttrId hasFailedId;
@@ -60,7 +61,7 @@ struct EventData2AttributesFixture : EventData2Fixture, EventDataAttributesFixtu
 {
   EventData2AttributesFixture()
   {
-    event2.Add<int>(lengthId, length);
+    event2.Add<int32_t>(lengthId, length);
     event2.Add<bool>(hasFailedId, hasFailed);
   }
 };
@@ -96,15 +97,15 @@ BOOST_FIXTURE_TEST_CASE(Event_Data_Copy_Construct, EventData2AttributesFixture)
 struct EventDataAddAttributesFixture : EventData1Fixture, EventDataAttributesFixture {};
 BOOST_FIXTURE_TEST_CASE(Event_Data_Add_Attributes, EventDataAddAttributesFixture)
 {
-  BOOST_CHECK(event1.Add<int>(lengthId, length));
-  BOOST_CHECK(event1.Add<int>(lengthId, length) == false);
+  BOOST_CHECK(event1.Add<int32_t>(lengthId, length));
+  BOOST_CHECK(event1.Add<int32_t>(lengthId, length) == false);
   BOOST_CHECK(event1.Add<bool>(hasFailedId, hasFailed));
 }
 
 BOOST_FIXTURE_TEST_CASE(Event_Data_Get_Attributes, EventData2AttributesFixture)
 {
-  int lengthResult = 0;
-  BOOST_CHECK_THROW(lengthResult = event2.Get<int>("Langth"),
+  int32_t lengthResult = 0;
+  BOOST_CHECK_THROW(lengthResult = event2.Get<int32_t>("Langth"),
     AttributeNotFound);
   BOOST_CHECK_THROW(lengthResult = event2.Get<float>(lengthId),
     AttributeTypeMismatch);
@@ -112,9 +113,9 @@ BOOST_FIXTURE_TEST_CASE(Event_Data_Get_Attributes, EventData2AttributesFixture)
   BOOST_CHECK_EQUAL(lengthResult, length);
   BOOST_CHECK_EQUAL(event2.Get<bool>(hasFailedId), hasFailed);
 
-  boost::optional<int> lengthResult2 = event2.TryGet<int>("Langth");
+  boost::optional<int32_t> lengthResult2 = event2.TryGet<int32_t>("Langth");
   BOOST_CHECK(!lengthResult2.is_initialized());
-  lengthResult2 = event2.TryGet<int>(lengthId);
+  lengthResult2 = event2.TryGet<int32_t>(lengthId);
   BOOST_CHECK(lengthResult2.is_initialized());
 }
 
