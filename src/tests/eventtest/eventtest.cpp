@@ -68,7 +68,7 @@ public:
   bool Event2(const EventData& ev)
   {
     boost::lock_guard<boost::mutex> l(m);
-    attr1 = ev.Get<int>(attr1Id);
+    attr1 = ev.Get<int32_t>(attr1Id);
     attr2 = ev.Get<string>(attr2Id);
     DEBUG_PRINT("Event2 " << id << " " << attr1 << " " << attr2);
     return true;
@@ -76,16 +76,16 @@ public:
 
   bool Event3(const EventData& ev)
   {
-    int attr3 = ev.Get<int>(attr3Id);
+    int attr3 = ev.Get<int32_t>(attr3Id);
     bool attr4 = ev.Get<bool>(attr4Id);
     float attr5 = ev.Get<float>(attr5Id);
     string attr6 = ev.Get<string>(attr6Id);
     WFMath::Point<3> attr7 = ev.Get<WFMath::Point<3> >(attr7Id);
-    int attr8 = ev.Get<int>(attr8Id);
+    int attr8 = ev.Get<int32_t>(attr8Id);
     bool attr9 = ev.Get<bool>(attr9Id);
     float attr10 = ev.Get<float>(attr10Id);
     boost::lock_guard<boost::mutex> l(m);
-    attr1 = ev.Get<int>(attr1Id);
+    attr1 = ev.Get<int32_t>(attr1Id);
     attr2 = ev.Get<string>(attr2Id);
     DEBUG_PRINT("Event3 " << id << " " << attr1 << " " << attr2 << " "
       << attr3 << " " << attr4 << " " << attr5 << " " << attr6 << " "
@@ -147,21 +147,21 @@ public:
         evMgr->Post(event);
 
         event.reset(new EventData(Handler::event2Id, idCounter));
-        event->Add<int>(Handler::attr1Id, ++attr1Counter);
+        event->Add<int32_t>(Handler::attr1Id, ++attr1Counter);
         event->Add<string>(Handler::attr2Id, name);
         evMgr->Post(event);
 
         event.reset(new EventData(Handler::event3Id, idCounter));
-        event->Add<int>(Handler::attr1Id, ++attr1Counter);
+        event->Add<int32_t>(Handler::attr1Id, ++attr1Counter);
         event->Add<string>(Handler::attr2Id, name);
-        event->Add<int>(Handler::attr3Id, 289);
+        event->Add<int32_t>(Handler::attr3Id, 289);
         event->Add<bool>(Handler::attr4Id, true);
-        event->Add<float>(Handler::attr5Id, 13.432);
+        event->Add<float>(Handler::attr5Id, 13.432f);
         event->Add<string>(Handler::attr6Id, "goat");
         event->Add<WFMath::Point<3> >(Handler::attr7Id, WFMath::Point<3>(1,2,3));
-        event->Add<int>(Handler::attr8Id, 124);
+        event->Add<int32_t>(Handler::attr8Id, 124);
         event->Add<bool>(Handler::attr9Id, false);
-        event->Add<float>(Handler::attr10Id, 54.23);
+        event->Add<float>(Handler::attr10Id, 54.23f);
         evMgr->Post(event);
 
         boost::this_thread::yield();
