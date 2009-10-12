@@ -25,7 +25,9 @@
 #include "common/thread/threadloop.h"
 #include "common/thread/multithread.h"
 
-#define DEBUG_PRINT(s) cout << s << endl
+boost::mutex ioMutex;
+typedef boost::lock_guard<boost::mutex> Lock;
+#define DEBUG_PRINT(s) do { Lock l(ioMutex); cout << s << endl; } while (false)
 //#define DEBUG_PRINT(s)
 
 using namespace std;
