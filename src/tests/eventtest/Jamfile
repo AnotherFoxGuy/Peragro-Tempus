@@ -2,5 +2,5 @@ SubDir TOP src tests eventtest ;
 
 Description eventtest : "Event test app" ;
 Application eventtest : eventtest.cpp : console ;
-LinkWith eventtest : eventmanager thread wfmath ;
+LinkWith eventtest : eventmanager thread wfmath util ;
 ExternalLibs eventtest : BOOST BOOST.THREAD ;

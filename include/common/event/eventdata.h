@@ -43,6 +43,7 @@
 
 #include "common/utility/types.h"
 #include "wfmath/point.h"
+#include "wfmath/stream.h"
 #include "common/util/ptstring.h"
 #include "common/utility/colour24.h"
 

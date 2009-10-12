@@ -109,7 +109,7 @@ BOOST_FIXTURE_TEST_CASE(Event_Data_Get_Attributes, EventData2AttributesFixture)
     AttributeNotFound);
   BOOST_CHECK_THROW(lengthResult = event2.Get<float>(lengthId),
     AttributeTypeMismatch);
-  BOOST_CHECK_NO_THROW(lengthResult = event2.Get<int>(lengthId));
+  BOOST_CHECK_NO_THROW(lengthResult = event2.Get<int32_t>(lengthId));
   BOOST_CHECK_EQUAL(lengthResult, length);
   BOOST_CHECK_EQUAL(event2.Get<bool>(hasFailedId), hasFailed);
 
