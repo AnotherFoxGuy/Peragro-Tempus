@@ -517,9 +517,8 @@ bool MyStarbox::SaveImage(std::string filename)
   if (!vfs) return false;
 
   csRef<iImageIO> iio = csQueryRegistry<iImageIO>(object_reg);
-  csString fn;
+  csString fn(filename.c_str());
 
-  fn.Format(filename.c_str());
   // shot = csImageManipulate::Crop (shot, 0, g2dh - dim, dim, dim);
   csRef<iDataBuffer> data = iio->Save(star_img, "image/png");
   if (!vfs->WriteFile(fn, data->GetData(), data->GetSize())) {
@@ -538,10 +537,9 @@ bool MyStarbox::SaveImage(std::string filename, csImageMemory* csImgMem)
     return false;
 
   csRef<iImageIO> iio = csQueryRegistry<iImageIO> (object_reg);
-  csString fn;
+  csString fn(filename.c_str());
 
   // Create2dHaloTexture (1);
-  fn.Format(filename.c_str());
   // shot = csImageManipulate::Crop (shot, 0, g2dh - dim, dim, dim);
   csRef<iDataBuffer> data = iio->Save(csImgMem, "image/png");
   if (!vfs->WriteFile(fn, data->GetData(), data->GetSize())) {
