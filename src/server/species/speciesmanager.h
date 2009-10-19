@@ -26,7 +26,7 @@
 #include <boost/weak_ptr.hpp>
 #include <wfmath/point.h>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class Character;
 class PcEntity;

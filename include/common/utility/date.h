@@ -21,19 +21,24 @@
  * @basic Classes for dealing with game dates and times.
  */
 
-#ifndef PT_DATE_DATE_H
-#define PT_DATE_DATE_H
+#ifndef PT_UTILITY_DATE_H
+#define PT_UTILITY_DATE_H
 
 #include <vector>
 #include <string>
+#include <iosfwd>
+
+#include <boost/operators.hpp>
+
+#include "common/utility/types.h"
 
 namespace PT
 {
-  namespace Date
+  namespace Time
   {
-    typedef unsigned long LongType;
-    typedef long DifferenceType;
-    typedef unsigned short ShortType;
+    typedef uint32_t LongType;
+    typedef int32_t DifferenceType;
+    typedef uint8_t ShortType;
     typedef std::vector<std::string> NameListType;
 
     struct Calendar;
@@ -44,7 +49,7 @@ namespace PT
      *   All units are zero based, even if we normally use them starting from
      *   one, like days and months.
      */
-    struct SplitDate
+    struct SplitDate : private boost::totally_ordered<SplitDate>
     {
       /// Default constructor.
       SplitDate();
@@ -85,7 +90,7 @@ namespace PT
     struct IntegerDate
     {
       /// Default constructor.
-      IntegerDate(LongType date = 0);
+      IntegerDate(LongType date = 0u);
 
       /// Seconds since epoch.
       LongType seconds;
@@ -124,7 +129,7 @@ namespace PT
     {
     public:
       /// Default constructor.
-      Calendar(ShortType epoch = 256, ShortType sPM = 60, ShortType mPH = 60,
+      Calendar(ShortType epoch = 255, ShortType sPM = 60, ShortType mPH = 60,
         ShortType hPD = 24, ShortType dPW = 6, ShortType wPM = 7,
         ShortType mPS = 3, ShortType sPY = 4);
 
@@ -192,18 +197,6 @@ namespace PT
 
     bool operator==(const SplitDate& l, const SplitDate& r);
 
-    inline bool operator!=(const SplitDate& l, const SplitDate& r)
-    { return !(l == r); }
-
-    inline bool operator>(const SplitDate& l, const SplitDate& r)
-    { return (r < l); }
-
-    inline bool operator<=(const SplitDate& l, const SplitDate& r)
-    { return !(r < l); }
-
-    inline bool operator>=(const SplitDate& l, const SplitDate& r)
-    { return !(l < r); }
-
     /// Output a date to a stream. This will convert units to start with one,
     /// if that is the normal earth way, like day and month.
     std::ostream& operator<<(std::ostream& os, const SplitDate& d);
@@ -218,43 +211,6 @@ namespace PT
     /// Output the calendar parameters to a stream.
     std::ostream& operator<<(std::ostream& os, const Calendar& c);
 
-    inline SplitDate::SplitDate()
-      : second(0), minute(0), hour(0), day(0), month(0), year(0)
-    {}
-
-    inline SplitDate::SplitDate(ShortType second, ShortType minute,
-      ShortType hour, ShortType day, ShortType month, ShortType year)
-      : second(second), minute(minute), hour(hour), day(day), month(month),
-      year(year)
-    {}
-
-    inline SplitDate::SplitDate(const DayTime& dayTime)
-      : second(dayTime.second), minute(dayTime.minute), hour(dayTime.hour),
-      day(0), month(0), year(0)
-    {}
-
-    inline SplitDate& SplitDate::operator=(const DayTime& o)
-    { second = o.second; minute = o.minute; hour = o.hour; return (*this); }
-
-    inline IntegerDate::IntegerDate(LongType date)
-      : seconds(date)
-    {}
-
-    inline DayTime::DayTime()
-      : second(0), minute(0), hour(0)
-    {}
-
-    inline DayTime::DayTime(ShortType s, ShortType m, ShortType h)
-      : second(s), minute(m), hour(h)
-    {}
-
-    inline DayTime::DayTime(const SplitDate& o)
-      : second(o.second), minute(o.minute), hour(o.hour)
-    {}
-
-    inline DayTime& DayTime::operator=(const SplitDate& o)
-    { second = o.second; minute = o.minute; hour = o.hour; return (*this); }
-
     inline void SplitDate::Advance(const Calendar& cal, ShortType seconds)
     { cal.Advance(*this, seconds); }
 
@@ -267,7 +223,7 @@ namespace PT
     inline ShortType Calendar::GetSeason(const SplitDate& date) const
     { return date.month / monthsPerSeason; }
 
-  } // Date namespace
+  } // Time namespace
 } // PT namespace
 
-#endif // PT_DATE_DATE_H
+#endif // PT_UTILITY_DATE_H

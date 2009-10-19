@@ -306,7 +306,7 @@ void AdminHandler::handleSetDate(GenericMessage* msg)
   SetDateMessage dateMsg;
   dateMsg.deserialise(msg->getByteStream());
 
-  PT::Date::IntegerDate date(dateMsg.getSeconds());
+  PT::Time::IntegerDate date(dateMsg.getSeconds());
 
   PT::Server::Environment::Clock* clock =
     Server::getServer()->getEnvironmentManager()->GetClock();

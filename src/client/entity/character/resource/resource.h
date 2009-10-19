@@ -30,7 +30,7 @@
 
 //#include "common/entity/character/base.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 struct iObjectRegistry;
 struct iEvent;

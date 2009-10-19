@@ -22,7 +22,7 @@
 #include <boost/thread.hpp>
 #include <boost/lambda/bind.hpp>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 #ifdef Yield
   #undef Yield

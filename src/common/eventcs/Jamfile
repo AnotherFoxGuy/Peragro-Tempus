@@ -3,4 +3,5 @@ SubDir TOP src common eventcs ;
 Description eventmanager-cs : "eventmanager" ;
 Library eventmanager-cs :
   [ Wildcard *.h *.cpp ] ;
+LinkWith eventmanager-cs : utility ;
 ExternalLibs eventmanager-cs : CRYSTAL CEL BOOST ;

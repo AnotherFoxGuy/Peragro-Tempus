@@ -16,39 +16,37 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "common/thread/singlethread.h"
+#include "common/utility/timer.h"
 
-#include "common/utility/exception.h"
+namespace bpt = boost::posix_time;
 
 namespace PT
 {
-  namespace Thread
+  namespace Time
   {
-    SingleThread::SingleThread(const FunctionType& f)
-      : function(f)
+    Timer::Timer()
+      : timeInit(bpt::microsec_clock::universal_time())
     {
     }
 
-    SingleThread::~SingleThread()
+    void Timer::Reset(time_t offset)
     {
-      Stop();
+      timeInit = bpt::microsec_clock::universal_time();
+      if (offset) timeInit += bpt::milliseconds(offset);
     }
 
-    void SingleThread::Start()
+    time_t Timer::ElapsedMilliseconds() const
     {
-      if (thread.joinable())
-      {
-        throw PT_EX(Exception("Thread already running"));
-      }
-
-      thread = boost::thread(boost::cref(function));
+      return (bpt::microsec_clock::universal_time() - timeInit)
+        .total_milliseconds();
     }
 
-    void SingleThread::Stop()
+    time_t Timer::ElapsedSeconds() const
     {
-      thread.interrupt();
-      thread.join();
+      return (bpt::microsec_clock::universal_time() - timeInit)
+        .total_seconds();
     }
 
-  } // Thread namespace
+  } // Time namespace
 } // PT namespace
+

@@ -24,6 +24,8 @@
 #ifndef ENVIRONMENTMANAGER_H_
 #define ENVIRONMENTMANAGER_H_
 
+#include <boost/scoped_ptr.hpp>
+
 #include <cssysdef.h>
 #include <csutil/ref.h>
 #include <imap/loader.h>
@@ -75,7 +77,7 @@ namespace PT
       // end TODO.
 
       /// The game clock.
-      Clock* clock;
+      boost::scoped_ptr<Clock> clock;
       /// The horizontal angle of the sun.
       float sun_alpha;
       /// The vertical angle of the sun.
@@ -130,7 +132,7 @@ namespace PT
        * Get a pointer to the clock object.
        * @return Clock*
        */
-      const Clock* GetClock() const { return clock; }
+      const Clock* GetClock() const { return clock.get(); }
 
     };
   } // Environment namespace

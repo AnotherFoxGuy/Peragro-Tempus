@@ -73,7 +73,7 @@ namespace PT
       cb.AttachNew(new FrameCallBack(this));
       engine->AddEngineFrameCallback(cb);
 
-      timer.Initialize();
+      timer.Reset();
 
       return true;
     } // end Initialize()
@@ -95,7 +95,7 @@ namespace PT
       SetDate(PT::Events::EnvironmentHelper::GetSeconds(&ev));
 
       // Reset the client timer.
-      timer.Initialize();
+      timer.Reset();
 
       return true;
     } // end UpdateTime()
@@ -103,7 +103,7 @@ namespace PT
     void Clock::ClientTick()
     {
       // Get the elapsed milliseconds since last clock tick.
-      size_t elapsed = timer.GetElapsedMS();
+      size_t elapsed = timer.ElapsedMilliseconds();
 
       size_t realMSPerGame = (1000 / gamePerReal);
 
@@ -114,7 +114,7 @@ namespace PT
       Tick(elapsed / realMSPerGame);
 
       // Reset the minute timer offset by the remaining elapsed time.
-      timer.Initialize(-1 * static_cast<time_t>(elapsed % realMSPerGame));
+      timer.Reset(-1 * static_cast<time_t>(elapsed % realMSPerGame));
     } // end Tick()
 
     void Clock::FrameCallBack::StartFrame(iEngine* engine, iRenderView* rview)

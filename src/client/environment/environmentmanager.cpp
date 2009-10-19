@@ -43,11 +43,8 @@ namespace PT
   namespace Environment
   {
     EnvironmentManager::EnvironmentManager()
-      : clock(0)
+      : sun_alpha(3.21f), sun_theta(0.206f), min_light(0.3f)
     {
-      sun_alpha = 3.21f;//2.91f; //horizontal
-      sun_theta = 0.206f;//0.256f; //vertical
-      min_light = 0.3f; // default min light level
     }
 
     EnvironmentManager::~EnvironmentManager()
@@ -57,8 +54,6 @@ namespace PT
       {
         engine->RemoveEngineFrameCallback(cb);
       }
-
-      delete clock;
     }
 
     bool EnvironmentManager::UpdateOptions(iEvent& ev)
@@ -78,7 +73,7 @@ namespace PT
 
     bool EnvironmentManager::Initialize()
     {
-      clock = new Clock();
+      clock.reset(new Clock());
       clock->Initialize();
 
       PT_SETUP_HANDLER

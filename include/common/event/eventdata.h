@@ -39,7 +39,7 @@
 #include "common/event/eventdata_fwd.h"
 #include "common/event/eventid.h"
 #include "common/entity/entityid.h"
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 #include "common/utility/types.h"
 #include "wfmath/point.h"

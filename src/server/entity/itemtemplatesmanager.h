@@ -23,7 +23,7 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class ItemEntity;
 

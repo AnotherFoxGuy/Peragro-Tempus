@@ -410,7 +410,7 @@ std::string cmdDbg::Execute (const StringArray& args)
       const Environment::Clock* clock =
         ptrlib->getEnvironmentManager()->GetClock();
 
-      Date::SplitDate newDate(clock->GetSplitDate());
+      Time::SplitDate newDate(clock->GetSplitDate());
       std::stringstream ss;
       ss << args[3];
 
@@ -423,12 +423,12 @@ std::string cmdDbg::Execute (const StringArray& args)
       else
       {
         // Change only the time of day, keep the current date.
-        Date::DayTime dayTime;
+        Time::DayTime dayTime;
         ss >> dayTime;
         newDate = dayTime;
       }
 
-      Date::LongType seconds =
+      Time::LongType seconds =
         clock->GetCalendar()->ToIntegerDate(newDate).seconds;
 
       SetDateMessage msg;

@@ -18,7 +18,7 @@
 
 #include "server/entity/character/character.h"
 
-#include "common/util/diagnosticinformation.h"
+#include "common/utility/diagnosticinformation.h"
 
 #include "server/network/userhandler.h"
 #include "networkhelper.h"

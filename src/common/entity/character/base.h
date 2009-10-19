@@ -24,7 +24,7 @@
 #include <map>
 #include <boost/shared_ptr.hpp>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class TableManager;
 class Entity;

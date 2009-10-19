@@ -27,7 +27,7 @@
 #include <wfmath/point.h>
 #include "common/util/ptstring.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class Tables;
 

@@ -24,7 +24,7 @@
 
 #include "server/entity/statistic/vulnerabilities.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 PT_DEFINE_EXCEPTION(InvalidSpeciesVulnerabilities);
 PT_DEFINE_ERRORINFO(SpeciesId, size_t);

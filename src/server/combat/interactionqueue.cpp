@@ -17,7 +17,6 @@
 */
 
 #include "interactionqueue.h"
-#include "src/common/util/pttime.h"
 
 InteractionQueue::InteractionQueue()
   : head(0)

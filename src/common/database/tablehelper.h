@@ -33,7 +33,7 @@
 #include <boost/preprocessor/seq/filter.hpp>
 #include <boost/preprocessor/seq/for_each_i.hpp>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 #include "fieldhelper.h"
 

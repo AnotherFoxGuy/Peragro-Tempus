@@ -27,7 +27,7 @@
 #include "src/server/database/table-resourcetypes.h"
 
 #include "common/util/timer.h"
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class TableManager;
 class Entity;

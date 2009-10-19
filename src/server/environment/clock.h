@@ -24,9 +24,10 @@
 #ifndef PT_SERVER_CLOCK_H
 #define PT_SERVER_CLOCK_H
 
+#include "common/utility/clock.h"
+
 #include "common/util/timer.h"
 #include "common/util/sleep.h"
-#include "common/util/clock.h"
 
 class Entity;
 
@@ -40,7 +41,7 @@ namespace PT
        * Controls the current game time; broadcasts to all clients at the
        *   specified interval.
        */
-      class Clock : public Timer, public PT::Date::Clock
+      class Clock : public Timer, public PT::Time::Clock
       {
       public:
         /// Constructor.

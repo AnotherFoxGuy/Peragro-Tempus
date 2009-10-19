@@ -31,7 +31,7 @@
 
 #include "../server.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 PT_DEFINE_EXCEPTION(InvalidItemEntity);
 

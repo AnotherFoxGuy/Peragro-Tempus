@@ -24,7 +24,7 @@
 
 #include "server/entity/statistic/abilities.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 PT_DEFINE_EXCEPTION(InvalidSpeciesAbilities);
 PT_DEFINE_ERRORINFO(SpeciesId, size_t);

@@ -16,14 +16,69 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "common/util/date.h"
+#include "common/utility/date.h"
+
 #include <iostream>
 #include <iomanip>
 
 namespace PT
 {
-  namespace Date
+  namespace Time
   {
+    SplitDate::SplitDate()
+      : second(0), minute(0), hour(0), day(0), month(0), year(0)
+    {
+    }
+
+    SplitDate::SplitDate(ShortType second, ShortType minute,
+      ShortType hour, ShortType day, ShortType month, ShortType year)
+      : second(second), minute(minute), hour(hour), day(day), month(month),
+      year(year)
+    {
+    }
+
+    SplitDate::SplitDate(const DayTime& dayTime)
+      : second(dayTime.second), minute(dayTime.minute), hour(dayTime.hour),
+      day(0), month(0), year(0)
+    {
+    }
+
+    SplitDate& SplitDate::operator=(const DayTime& o)
+    {
+      second = o.second;
+      minute = o.minute;
+      hour = o.hour;
+      return *this;
+    }
+
+    IntegerDate::IntegerDate(LongType date)
+      : seconds(date)
+    {
+    }
+
+    DayTime::DayTime()
+      : second(0), minute(0), hour(0)
+    {
+    }
+
+    DayTime::DayTime(ShortType s, ShortType m, ShortType h)
+      : second(s), minute(m), hour(h)
+    {
+    }
+
+    DayTime::DayTime(const SplitDate& o)
+      : second(o.second), minute(o.minute), hour(o.hour)
+    {
+    }
+
+    DayTime& DayTime::operator=(const SplitDate& o)
+    {
+      second = o.second;
+      minute = o.minute;
+      hour = o.hour;
+      return *this;
+    }
+
     bool operator<(const SplitDate& l, const SplitDate& r)
     {
       return ((l.year < r.year) ||
@@ -205,6 +260,6 @@ namespace PT
       return os;
     }
 
-  } // Date namespace
+  } // Time namespace
 } // PT namespace
 

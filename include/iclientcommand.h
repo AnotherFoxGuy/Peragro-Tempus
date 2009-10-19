@@ -25,7 +25,7 @@
 #include <csutil/scf.h>
 #include <csutil/scf_implementation.h>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 namespace PT
 {

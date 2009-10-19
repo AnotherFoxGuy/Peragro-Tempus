@@ -4,5 +4,5 @@ Description client-environmentmanager : "client environmentmanager" ;
 Library client-environmentmanager :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs client-environmentmanager : CRYSTAL CEL BOOST ;
-LinkWith client-environmentmanager : util ;
+LinkWith client-environmentmanager : utility ;
 MsvcCFlags client-environmentmanager : /wd4396 ;

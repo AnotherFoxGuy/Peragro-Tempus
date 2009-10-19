@@ -25,7 +25,7 @@
 
 #include "server/entity/itementity.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class TableManager;
 class Entity;

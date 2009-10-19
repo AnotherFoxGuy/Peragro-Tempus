@@ -27,7 +27,7 @@
 
 #include "server/ai/ai.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 PT_DEFINE_EXCEPTION(InvalidNpcEntity);
 

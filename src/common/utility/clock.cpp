@@ -16,12 +16,27 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "common/util/clock.h"
+#include "common/utility/clock.h"
 
 namespace PT
 {
-  namespace Date
+  namespace Time
   {
+    Clock::Clock()
+      : calendar(new Calendar()), integerDate(0),
+      splitDate(calendar->ToSplitDate(integerDate))
+    {
+    }
+
+    Clock::~Clock()
+    {
+    }
+
+    Clock::Clock(const boost::shared_ptr<const Calendar>& cal)
+      : calendar(cal)
+    {
+    }
+
     void Clock::ChangeCalendar(const boost::shared_ptr<const Calendar>& cal)
     {
       LockType lock(dateMutex);
@@ -74,6 +89,6 @@ namespace PT
       return calendar->FractionOfDay(integerDate);
     }
 
-  } // Date namespace
+  } // Time namespace
 } // PT namespace
 

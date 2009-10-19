@@ -30,7 +30,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "common/util/date.h"
+#include "common/utility/date.h"
 #include "common/reporter/reporter.h"
 
 namespace PT
@@ -62,10 +62,10 @@ namespace PT
        * @param event The event.
        * @return The minute as a number.
        */
-      static boost::shared_ptr<PT::Date::Calendar> GetCalendar(
+      static boost::shared_ptr<PT::Time::Calendar> GetCalendar(
         const iEvent* event)
       {
-        using namespace PT::Date;
+        using namespace PT::Time;
         unsigned short epoch = 0;
         unsigned char secondsPerMinute = 1;
         unsigned char minutesPerHour = 1;
@@ -92,7 +92,7 @@ namespace PT
         if (event->Retrieve("seasonsPerYear", seasonsPerYear) != csEventErrNone)
           Report(PT::Error, "EnvironmentHelper::GetCalendar seasonsPerYear failed!");
 
-        return boost::shared_ptr<PT::Date::Calendar>(new Calendar(
+        return boost::shared_ptr<PT::Time::Calendar>(new Calendar(
           epoch, secondsPerMinute, minutesPerHour, hoursPerDay, daysPerWeek,
           weeksPerMonth, monthsPerSeason, seasonsPerYear));
       }

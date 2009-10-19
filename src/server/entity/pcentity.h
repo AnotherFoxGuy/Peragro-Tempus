@@ -27,7 +27,7 @@
 
 #include "server/quest/npcdialogstate.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 class User;
 class MountEntity;

@@ -28,7 +28,7 @@ namespace PT
     namespace Environment
     {
       Clock::Clock()
-        : PT::Date::Clock(), gamePerReal(6), broadcastInterval(60)
+        : PT::Time::Clock(), gamePerReal(6), broadcastInterval(60)
       {
         // Set interval to one second, to avoid remainders when trying to divide
         // 10 by different values of gamePerReal.
@@ -46,7 +46,7 @@ namespace PT
 
         time_msg.setSeconds(GetIntegerDate().seconds);
 
-        boost::shared_ptr<const PT::Date::Calendar> cal(GetCalendar());
+        boost::shared_ptr<const PT::Time::Calendar> cal(GetCalendar());
         time_msg.setEpoch(cal->epoch);
         time_msg.setSecondsPerMinute(cal->secondsPerMinute);
         time_msg.setMinutesPerHour(cal->minutesPerHour);

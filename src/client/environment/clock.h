@@ -29,8 +29,8 @@
 #include <iengine/engine.h>
 
 #include "common/eventcs/eventmanager.h"
-#include "common/util/pttime.h"
-#include "common/util/clock.h"
+#include "common/utility/timer.h"
+#include "common/utility/clock.h"
 
 struct iEngine;
 struct iEvent;
@@ -42,7 +42,7 @@ namespace PT
     /**
      * The game clock.
      */
-    class Clock : public PT::Date::Clock
+    class Clock : public PT::Time::Clock
     {
     public:
       /// Constructor.
@@ -86,7 +86,7 @@ namespace PT
       unsigned int gamePerReal;
 
       /// Millisecond timer since last clock update.
-      PTTime timer;
+      PT::Time::Timer timer;
     };
 
   } // Environment namespace

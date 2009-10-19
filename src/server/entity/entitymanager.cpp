@@ -37,7 +37,7 @@
 #include "server/server.h"
 #include "server/colldet/colldet.h"
 
-#include "common/util/preformattedinfo.h"
+#include "common/utility/preformattedinfo.h"
 
 EntityManager::EntityManager()
 {

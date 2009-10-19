@@ -30,7 +30,7 @@
 #include <boost/multi_index/mem_fun.hpp>
 #include <boost/thread/thread.hpp>
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 #include "common/thread/threadfunctionwrapper.h"
 

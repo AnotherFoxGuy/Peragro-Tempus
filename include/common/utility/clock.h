@@ -21,18 +21,18 @@
  * @basic Base class for game clocks.
  */
 
-#ifndef PT_DATE_CLOCK_H
-#define PT_DATE_CLOCK_H
+#ifndef PT_UTILITY_CLOCK_H
+#define PT_UTILITY_CLOCK_H
 
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/thread/locks.hpp>
 
-#include "common/util/date.h"
+#include "common/utility/date.h"
 
 namespace PT
 {
-  namespace Date
+  namespace Time
   {
     /**
      * Represents a the time and date, by combining the current date in
@@ -86,22 +86,10 @@ namespace PT
       SplitDate splitDate;
     };
 
-    inline Clock::Clock()
-      : calendar(new Calendar()), integerDate(0),
-      splitDate(calendar->ToSplitDate(integerDate))
-    {}
-
-    inline Clock::~Clock()
-    {}
-
-    inline Clock::Clock(const boost::shared_ptr<const Calendar>& cal)
-      : calendar(cal)
-    {}
-
     inline boost::shared_ptr<const Calendar> Clock::GetCalendar() const
     { return calendar; }
 
-  } // Date namespace
+  } // Time namespace
 } // PT namespace
 
-#endif // PT_DATE_CLOCK_H
+#endif // PT_UTILITY_CLOCK_H
