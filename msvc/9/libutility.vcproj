@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="appunittest"
-	ProjectGUID="{80CE18F1-310C-298C-A92E-99AA9FB6D733}"
+	Name="libutility"
+	ProjectGUID="{8A6988B2-0BFC-8B80-B3A6-5B68A9CD1817}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,11 +13,9 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appunittest\"
-			IntermediateDirectory="..\..\out\release9\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release9\build\libutility\"
+			IntermediateDirectory="..\..\out\release9\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -27,14 +25,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appunittest\Win32\unittest.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
+				ProgramDataBaseFileName="..\..\out\release9\build\libutility\Win32\utility.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appunittest\"
-				ObjectFile="..\..\out\release9\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libutility\"
+				ObjectFile="..\..\out\release9\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -51,9 +49,6 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appunittest\Win32\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -61,14 +56,15 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -79,8 +75,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -89,11 +85,9 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\appunittest\"
-			IntermediateDirectory="..\..\out\release9\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release9\build\libutility\"
+			IntermediateDirectory="..\..\out\release9\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -103,14 +97,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\appunittest\Win32\unittest.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9\build\libutility\Win32\utility.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\release9\build\appunittest\"
-				ObjectFile="..\..\out\release9\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libutility\"
+				ObjectFile="..\..\out\release9\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -127,9 +121,6 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\release9\build\appunittest\Win32\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -137,14 +128,15 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -155,8 +147,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -165,10 +157,9 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appunittest\"
-			IntermediateDirectory="..\..\out\debug9\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9\build\libutility\"
+			IntermediateDirectory="..\..\out\debug9\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -178,14 +169,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appunittest\Win32\unittest.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libutility\Win32\utility.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appunittest\"
-				ObjectFile="..\..\out\debug9\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libutility\"
+				ObjectFile="..\..\out\debug9\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -200,9 +191,6 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appunittest\Win32\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -210,14 +198,15 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -228,8 +217,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -238,10 +227,9 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\appunittest\"
-			IntermediateDirectory="..\..\out\debug9\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9\build\libutility\"
+			IntermediateDirectory="..\..\out\debug9\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -251,14 +239,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\appunittest\Win32\unittest.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libutility\Win32\utility.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\appunittest\"
-				ObjectFile="..\..\out\debug9\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libutility\"
+				ObjectFile="..\..\out\debug9\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -273,9 +261,6 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\debug9\build\appunittest\Win32\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -283,14 +268,15 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -301,8 +287,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -311,11 +297,9 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\appunittest\"
-			IntermediateDirectory="..\..\out\release9-x64\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release9-x64\build\libutility\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -325,14 +309,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\appunittest\x64\unittest.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libutility\x64\utility.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\appunittest\"
-				ObjectFile="..\..\out\release9-x64\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libutility\"
+				ObjectFile="..\..\out\release9-x64\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -349,9 +333,6 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\appunittest\x64\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -359,14 +340,15 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9-x64\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -377,8 +359,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -387,11 +369,9 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\appunittest\"
-			IntermediateDirectory="..\..\out\release9-x64\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
-			WholeProgramOptimization="1"
+			OutputDirectory="..\..\out\release9-x64\build\libutility\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -401,14 +381,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\appunittest\x64\unittest.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libutility\x64\utility.pdb"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\appunittest\"
-				ObjectFile="..\..\out\release9-x64\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libutility\"
+				ObjectFile="..\..\out\release9-x64\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -425,9 +405,6 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\release9-x64\build\appunittest\x64\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -435,14 +412,15 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\release9-x64\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -453,8 +431,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -463,10 +441,9 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\appunittest\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9-x64\build\libutility\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -476,14 +453,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appunittest\x64\unittest.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libutility\x64\utility.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\appunittest\"
-				ObjectFile="..\..\out\debug9-x64\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libutility\"
+				ObjectFile="..\..\out\debug9-x64\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -498,9 +475,6 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\appunittest\x64\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -508,14 +482,15 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9-x64\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -526,8 +501,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -536,10 +511,9 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\appunittest\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\appunittest\"
-			ConfigurationType="1"
-			CharacterSet="2"
+			OutputDirectory="..\..\out\debug9-x64\build\libutility\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libutility\"
+			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
@@ -549,14 +523,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\appunittest\x64\unittest.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;WIN32;CS_BUILD_SHARED_LIBS"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libutility\x64\utility.pdb"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\appunittest\appunittest.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\appunittest\"
-				ObjectFile="..\..\out\debug9-x64\build\appunittest\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libutility\"
+				ObjectFile="..\..\out\debug9-x64\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -571,9 +545,6 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				OutputFile="..\..\unittest.exe"
-				ProgramDatabaseFile="..\..\out\debug9-x64\build\appunittest\x64\unittest.pdb"
-				SubSystem="1"
 				AdditionalOptions=" "
 				AdditionalDependencies=""
 				SuppressStartupBanner="TRUE"
@@ -581,14 +552,15 @@
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="..\..\out\debug9-x64\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX"
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\appunittest\appunittest.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -599,8 +571,8 @@
 				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\tests\unittest;..\..;..\..\include;..\..\src;..\..\src\ext"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -613,29 +585,16 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\tests\unittest\colour24.cpp">
+				RelativePath="..\..\src\common\utility\clock.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tests\unittest\event\eventdata.cpp">
+				RelativePath="..\..\src\common\utility\colour24.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tests\unittest\event\eventmanager.cpp">
+				RelativePath="..\..\src\common\utility\date.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\tests\unittest\main.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\tests\unittest\stringid.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			Filter="">
-			<File
-				RelativePath="..\..\msvc\common\appunittest.manifest">
-			</File>
-			<File
-				RelativePath="..\..\msvc\common\appunittest.rc">
+				RelativePath="..\..\src\common\utility\timer.cpp">
 			</File>
 		</Filter>
 	</Files>

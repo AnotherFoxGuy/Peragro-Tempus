@@ -300,12 +300,6 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\util\clock.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\date.cpp">
-			</File>
-			<File
 				RelativePath="..\..\src\common\util\ptstring.cpp">
 			</File>
 			<File
@@ -322,19 +316,7 @@
 				RelativePath="..\..\src\common\util\array.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\clock.h">
-			</File>
-			<File
 				RelativePath="..\..\src\common\util\consoleapp.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\date.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\diagnosticinformation.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\exception.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\flags.h">
@@ -353,9 +335,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\mutex.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\preformattedinfo.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\util\printhelper.h">

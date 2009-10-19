@@ -613,6 +613,9 @@
 			Name="Source Files"
 			Filter="">
 			<File
+				RelativePath="..\..\src\tests\unittest\colour24.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\tests\unittest\event\eventdata.cpp">
 			</File>
 			<File

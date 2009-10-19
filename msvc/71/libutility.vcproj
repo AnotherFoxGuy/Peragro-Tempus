@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="libutil"
-	ProjectGUID="{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
+	Name="libutility"
+	ProjectGUID="{8A6988B2-0BFC-8B80-B3A6-5B68A9CD1817}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -12,8 +12,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libutil\"
-			IntermediateDirectory="..\..\out\release71\build\libutil\"
+			OutputDirectory="..\..\out\release71\build\libutility\"
+			IntermediateDirectory="..\..\out\release71\build\libutility\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -24,14 +24,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libutility\Win32\utility.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release71\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libutil\"
-				ObjectFile="..\..\out\release71\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libutility\"
+				ObjectFile="..\..\out\release71\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -55,7 +55,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libutil.lib"
+				OutputFile="..\..\out\release71\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -63,7 +63,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -75,7 +75,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -84,8 +84,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release71\build\libutil\"
-			IntermediateDirectory="..\..\out\release71\build\libutil\"
+			OutputDirectory="..\..\out\release71\build\libutility\"
+			IntermediateDirectory="..\..\out\release71\build\libutility\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -96,14 +96,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release71\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release71\build\libutility\Win32\utility.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release71\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release71\build\libutil\"
-				ObjectFile="..\..\out\release71\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release71\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\release71\build\libutility\"
+				ObjectFile="..\..\out\release71\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -127,7 +127,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release71\libs\libutil.lib"
+				OutputFile="..\..\out\release71\libs\libutility.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -135,7 +135,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release71\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release71\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release71\bin\&#x0D;&#x0A;"
@@ -147,7 +147,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -156,8 +156,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libutil\"
-			IntermediateDirectory="..\..\out\debug71\build\libutil\"
+			OutputDirectory="..\..\out\debug71\build\libutility\"
+			IntermediateDirectory="..\..\out\debug71\build\libutility\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -168,14 +168,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libutility\Win32\utility.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libutil\"
-				ObjectFile="..\..\out\debug71\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libutility\"
+				ObjectFile="..\..\out\debug71\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -197,7 +197,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug71\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -205,7 +205,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -217,7 +217,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -226,8 +226,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug71\build\libutil\"
-			IntermediateDirectory="..\..\out\debug71\build\libutil\"
+			OutputDirectory="..\..\out\debug71\build\libutility\"
+			IntermediateDirectory="..\..\out\debug71\build\libutility\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -238,14 +238,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug71\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug71\build\libutility\Win32\utility.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug71\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug71\build\libutil\"
-				ObjectFile="..\..\out\debug71\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug71\build\libutility\libutility.pch"
+				AssemblerListingLocation="..\..\out\debug71\build\libutility\"
+				ObjectFile="..\..\out\debug71\build\libutility\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -267,7 +267,7 @@
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug71\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug71\libs\libutility_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -275,7 +275,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug71\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug71\build\libutility\libutility.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug71\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug71\bin\&#x0D;&#x0A;"
@@ -287,7 +287,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=71"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\utility;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -300,74 +300,16 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\util\ptstring.cpp">
+				RelativePath="..\..\src\common\utility\clock.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\stringstore.cpp">
+				RelativePath="..\..\src\common\utility\colour24.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\timerengine.cpp">
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="">
-			<File
-				RelativePath="..\..\src\common\util\array.h">
+				RelativePath="..\..\src\common\utility\date.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\consoleapp.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\flags.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\geomhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\math.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\monitor.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\monitorable.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\mutex.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\printhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\ptstring.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\pttime.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\queryhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\queue.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\sleep.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\stringstore.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\thread.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\timer.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\timerengine.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\wincrashdump.h">
+				RelativePath="..\..\src\common\utility\timer.cpp">
 			</File>
 		</Filter>
 	</Files>
