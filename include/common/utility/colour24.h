@@ -24,7 +24,7 @@
 #ifndef PT_UTILITY_COLOUR24_H
 #define PT_UTILITY_COLOUR24_H
 
-#include <iostream>
+#include <iosfwd>
 
 #include "common/utility/types.h"
 
@@ -43,6 +43,13 @@ namespace PT
     /// Constructor.
     Colour24(ColourType r, ColourType g, ColourType b);
 
+    /// Get red component cast to int.
+    int Red() const;
+    /// Get green component cast to int.
+    int Green() const;
+    /// Get blue component cast to int.
+    int Blue() const;
+
     /// Red component.
     ColourType red;
     /// Green component.
@@ -51,18 +58,19 @@ namespace PT
     ColourType blue;
   };
 
-  inline std::ostream& operator<<(std::ostream& os, const Colour24& colour)
-  { os << colour.red << "," << colour.green << "," << colour.blue; return os; }
+  /// Output streaming from Colour24.
+  std::ostream& operator<<(std::ostream& os, const Colour24& colour);
+  /// Input streaming into Colour24.
+  std::istream& operator>>(std::istream& is, Colour24& colour);
 
-  inline std::istream& operator>>(std::istream& is, Colour24& colour)
-  { is >> colour.red; is.ignore(5, ','); is >> colour.green;
-    is.ignore(5, ','); is >> colour.blue; return is; }
+  inline int Colour24::Red() const
+  { return red; }
 
-  inline Colour24::Colour24()
-    : red(0), green(0), blue(0) {}
+  inline int Colour24::Green() const
+  { return green; }
 
-  inline Colour24::Colour24(ColourType r, ColourType g, ColourType b)
-    : red(r), green(g), blue(b) {}
+  inline int Colour24::Blue() const
+  { return blue; }
 
 } // PT namespace
 

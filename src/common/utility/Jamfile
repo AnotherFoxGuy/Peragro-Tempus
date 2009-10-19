@@ -1,0 +1,7 @@
+SubDir TOP src common utility ;
+
+Description utility : "Utility functions and classes" ;
+Library utility :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs utility : BOOST ;
+

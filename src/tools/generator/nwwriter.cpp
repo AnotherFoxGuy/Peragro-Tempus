@@ -759,7 +759,7 @@ void nwWriter::writeParam(std::ofstream& out, nwParams* param, const std::string
   else if (param->type == nwParamType::COLOUR24)
   {
     std::string value = "pmsg.";
-    value += toGetFunction(param->name, arg) + ".red";
+    value += toGetFunction(param->name, arg) + ".Red()";
     out << indt << eventname << "->Add(" << paramNameStr << ", " << value << ");\n";
   }
   else if (param->type == nwParamType::VECTOR3F)

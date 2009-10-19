@@ -10,5 +10,6 @@ SubInclude TOP src common pointer ;
 SubInclude TOP src common reporter ;
 SubInclude TOP src common thread ;
 SubInclude TOP src common util ;
+SubInclude TOP src common utility ;
 SubInclude TOP src common inventory ;
 SubInclude TOP src common world ;
