@@ -6,5 +6,5 @@ Application unittest :
   [ Wildcard [ ConcatDirs event ] : *.h *.cpp ]
   : console ;
 
-LinkWith unittest : eventmanager thread ;
+LinkWith unittest : eventmanager thread utility ;
 ExternalLibs unittest : BOOST PTHREAD ;
