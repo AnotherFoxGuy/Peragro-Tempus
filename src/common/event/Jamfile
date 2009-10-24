@@ -4,5 +4,5 @@ Description eventmanager : "Event system" ;
 Library eventmanager :
   [ Wildcard *.h *.cpp ] ;
 
-LinkWith eventmanager : wfmath util ;
+LinkWith eventmanager : wfmath utility util ;
 ExternalLibs eventmanager : BOOST BOOST.THREAD ;

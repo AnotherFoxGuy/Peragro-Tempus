@@ -3,6 +3,6 @@ SubDir TOP src server database ;
 Description server-dbtables : "server-dbtables" ;
 Library server-dbtables :
   [ Wildcard *.h *.cpp ] ;
-LinkWith server-dbtables : server-ai util ;
+LinkWith server-dbtables : database server-ai util ;
 ExternalLibs server-dbtables : BOOST ;
 MsvcCFlags server-dbtables : /wd4396 ;
