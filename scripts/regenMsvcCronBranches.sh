@@ -30,6 +30,17 @@ do
 	cd $BDIR/$i
 	echo "--> Jam maintiner cleaning."
 	jam maintainerclean -j5 > /dev/null
+	echo "--> Updating buildsystem files from CS."
+	cd mk/autoconf
+	wget -erobots=off -r -l1 --no-parent -A'.m4,config.*,install-sh' -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/autoconf/'  >/dev/null 2>&1
+	svn add * >/dev/null 2>&1
+	cd ../jam
+	wget -erobots=off -r -l1 --no-parent -A.jam -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/jam/' >/dev/null 2>&1
+	svn add * >/dev/null 2>&1
+	cd ../msvcgen
+	wget -erobots=off -r -l1 --no-parent -A'*.tlib,custom.cslib' -nd -m 'https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk/mk/msvcgen/' >/dev/null 2>&1
+	svn add * >/dev/null 2>&1
+	cd ../..
 	echo "--> Generating configure scripts."
 	chmod +x autogen.sh
 	./autogen.sh
@@ -88,6 +99,11 @@ do
 	cd $BDIR/$i
 	echo "--> Deleting files no longer part of build system."
 	svn status | grep "\!" | grep -v "appperagro.rc" | grep -v "appperagro_static.rc" | awk ' { print $2 } ' | xargs svn del  >/dev/null 2>/dev/null
+	echo "--> Setting eol-style on MSVC project files."
+	find ./msvc/ -type f -name "*.sln" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style CRLF
+	find ./msvc/ -type f -name "*.vcproj" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style CRLF
+	find ./msvc/ -type f -name "*.manifest" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style native
+	find ./msvc/ -type f -name "*.rc" | grep -v '.svn' | xargs -n 1 svn propset svn:eol-style native
 	echo "--> Committing to SVN Repository if changes were found."
 	svn ci . -m "Automated MSVC project file regeneration on branch: $i."
 	cd ../..
