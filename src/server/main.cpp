@@ -128,7 +128,7 @@ App::~App()
   cout << "done" << endl;
 
   cout << "- Shutdown Network:               ";
-  network->shutdown();
+  if (network) network->shutdown();
   cout << "done" << endl;
 
   cout << "- Shutdown Database:              ";
