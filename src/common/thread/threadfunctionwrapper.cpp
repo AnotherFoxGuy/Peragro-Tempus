@@ -48,17 +48,11 @@ namespace PT
         // This exception is thrown after interrupt() is called on the thread.
         throw;
       }
-      catch (boost::exception& ex)
-      {
-        std::cerr << "Unhandled exception in thread "
-          << boost::this_thread::get_id() << std::endl
-          << boost::diagnostic_information(ex);
-        throw;
-      }
       catch (...)
       {
         std::cerr << "Unhandled exception in thread "
-          << boost::this_thread::get_id() << std::endl;
+          << boost::this_thread::get_id() << std::endl
+          << boost::current_exception_diagnostic_information();
         throw;
       }
     }

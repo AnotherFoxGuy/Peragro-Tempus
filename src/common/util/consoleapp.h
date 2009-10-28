@@ -21,6 +21,9 @@
 
 #include <signal.h>
 
+#include <iostream>
+#include <boost/exception/diagnostic_information.hpp>
+
 class Application
 {
 private:
@@ -80,6 +83,7 @@ public:
   static int Run (int argc, char* argv[])
   {
     int result;
+    try
     {
       T app;
       result = app.Initialize (argc, argv);
@@ -89,6 +93,12 @@ public:
         app.Run();
       //}
     }
+    catch (...)
+    {
+      std::cerr << "Unhandled exception in main thread" << std::endl
+        << boost::current_exception_diagnostic_information();
+    }
+
     return result;
   }
 };
