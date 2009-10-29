@@ -12,6 +12,7 @@
 #####################################################
 
 
+TRIES=3
 version=$(sed -n '2p' files/ptbuild.cfg)
 ps_login=':pserver:anonymous:@Peragro.cvs.sourceforge.net:/cvsroot/Peragro login'
 ps_cvs=':pserver:anonymous@Peragro.cvs.sourceforge.net:/cvsroot/Peragro co'
@@ -19,7 +20,6 @@ cal3d_login=':pserver:anonymous:@cal3d.cvs.sourceforge.net:/cvsroot/cal3d login'
 cal3d_co=':pserver:anonymous@cal3d.cvs.sourceforge.net:/cvsroot/cal3d co cal3d'
 cs_svn_1='https://svn.sourceforge.net/svnroot/crystal/CS/trunk cs'
 cel_svn_1='https://svn.sourceforge.net/svnroot/cel/cel/trunk cel'
-CVS_TRIES=$(sed -n '4p' /usr/local/PTBuild/files/ptbuild.cfg)
 
 function install_dir_choose {
 
@@ -94,28 +94,26 @@ function build_env {
 }
 function get_cal3d_source {
 
-	CAL3D_EXIT=0
+	cd $ptdir
+	rm -r $ptdir/cal3d
 
-	cd $psdir
-	rm -r $psdir/cal3d
-
-#        for (( i=1; i<=$CVS_TRIES; i++ )); do
+#        for (( i=1; i<=$TRIES; i++ )); do
              cvs -d$cal3d_login >> $install_dir/peragro_svn/ptbuild.log 2>&1
              # exit loop if successful
 #             [ "$?" -eq "0" ] && break
 #        done
-        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
-#        if [ "$i" -gt "$CVS_TRIES" ]; then
+        # "i" greater than $TRIES means $TRIES failed
+#        if [ "$i" -gt "$TRIES" ]; then
 #	CAL3D_EXIT=1
 #	fi 
 
-#        for (( i=1; i<=$CVS_TRIES; i++ )); do
+#        for (( i=1; i<=$TRIES; i++ )); do
 	     cvs -z3 -d$cal3d_co >> $install_dir/peragro_svn/ptbuild.log 2>&1
 #             # exit loop if successful
 #             [ "$?" -eq "0" ] && break
 #	done
 
-#        if [ "$i" -gt "$CVS_TRIES" ]; then
+#        if [ "$i" -gt "$TRIES" ]; then
 #	CAL3D_EXIT=1
 #	fi 
 
@@ -124,35 +122,34 @@ function get_cs_source {
 
 	CS_EXIT=0
 
-	cd $psdir
+	cd $ptdir
 
-	rm -r $psdir/cs
+	rm -r $ptdir/cs
 
-        for (( i=1; i<=$CVS_TRIES; i++ )); do
+        for (( i=1; i<=$TRIES; i++ )); do
              svn co $cs_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
              # exit loop if successful
              [ "$?" -eq "0" ] && break
         done
-        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
-        if [ "$i" -gt "$CVS_TRIES" ]; then
+        # "i" greater than $TRIES means $TRIES failed
+        if [ "$i" -gt "$TRIES" ]; then
 	CS_EXIT=1
 	fi 
 
 }
 function get_cel_source {
 
-	CEL_EXIT=0
 
-	cd $psdir
-	rm -r $psdir/cel
+	cd $ptdir
+	rm -r $ptdir/cel
 
-        for (( i=1; i<=$CVS_TRIES; i++ )); do
+        for (( i=1; i<=$TRIES; i++ )); do
              svn co $cel_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
              # exit loop if successful
              [ "$?" -eq "0" ] && break
         done
-        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
-        if [ "$i" -gt "$CVS_TRIES" ]; then
+        # "i" greater than $TRIES means $TRIES failed
+        if [ "$i" -gt "$TRIES" ]; then
 
 	CEL_EXIT=1
 	fi 
@@ -164,10 +161,10 @@ function buildcal3d {
 	ZENITY_PID="$!"
 
 	# Modifies Makefile.am
-	sed -i 's/all_libraries = @all_libraries@/#all_libraries = @all_libraries@/' $psdir/cal3d/src/cal3d/Makefile.am
+	sed -i 's/all_libraries = @all_libraries@/#all_libraries = @all_libraries@/' $ptdir/cal3d/src/cal3d/Makefile.am
 
 
-	cd $psdir/cal3d
+	cd $ptdir/cal3d
 
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
@@ -196,7 +193,7 @@ function buildcs {
 	zenity --progress --pulsate --text $"Compiling CrystalSpace...you may want to take a nap or grab some tea...." &
 	ZENITY_PID="$!"
 
-	cd $psdir/cs
+	cd $ptdir/cs
 
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
@@ -219,7 +216,7 @@ function buildcel {
 	zenity --progress --pulsate --text $"Compiling CEL...please wait...." &
 	ZENITY_PID="$!"
 
-	cd $psdir/cel 
+	cd $ptdir/cel 
 	
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
 	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
