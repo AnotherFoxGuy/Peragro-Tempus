@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PeragroBuilder is copyrighted by Peragro Tempus
-# GooeyBuild is released under the General Public license (Please refer to GPL.txt)
+# PTBuild is released under the General Public license (Please refer to GPL.txt)
 # Written By Brant Watson (aka Induane)
 
 
@@ -19,14 +19,14 @@ cal3d_login=':pserver:anonymous:@cal3d.cvs.sourceforge.net:/cvsroot/cal3d login'
 cal3d_co=':pserver:anonymous@cal3d.cvs.sourceforge.net:/cvsroot/cal3d co cal3d'
 cs_svn_1='https://svn.sourceforge.net/svnroot/crystal/CS/trunk cs'
 cel_svn_1='https://svn.sourceforge.net/svnroot/cel/cel/trunk cel'
-CVS_TRIES=$(sed -n '4p' /usr/local/GooeyBuild/files/ptbuild.cfg)
+CVS_TRIES=$(sed -n '4p' /usr/local/PTBuild/files/ptbuild.cfg)
 
 function install_dir_choose {
 
 	exit_var=0
 
 	RET=`zenity --list --radiolist --width=480 --height=100 \
-		--title "GooeyBuild version $version" \
+		--title "PTBuild version $version" \
 		--column="" --column $"Select Your Processor" --column $"Description" \
 		TRUE    $"Default Directories"	$"Installs to /opt/peragro_svn" \
 	        FALSE   $"Custom Directory"   	$"Choose custom install directory."`		
@@ -51,7 +51,7 @@ function choose_optimize {
 	exit_var=0
 	# Asks user to select their processor
 	RET=`zenity --list --radiolist --width=700 --height=285 \
-		--title "GooeyBuild version $version" \
+		--title "PTBuild version $version" \
 		--column="" --column $"Select Your Processor" --column $"Description" \
 		TRUE    $"Generic Build"	$"Compile with no optimizations." \
 		FALSE   $"Automatic"		$"Attempt to detect best optimizations."`		
@@ -260,16 +260,16 @@ function dpkg_check {
 
 	# Makes sure package manager isn't running.
 	if ps -U root -u root u | grep "synaptic" | grep -v grep;
-		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while Synaptic is running. Please close Synaptic";
+		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while Synaptic is running. Please close Synaptic";
 	exit 1;
 	elif ps -U root -u root u | grep "update-manager" | grep -v grep;
-		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT while update-manager is running. Please close update-manager";
+		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT while update-manager is running. Please close update-manager";
 	exit 1;
 	elif ps -U root -u root u | grep "apt-get" | grep -v grep;
-		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while you are also running apt-get. Please finish what you were doing with apt and restart this script.";
+		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while you are also running apt-get. Please finish what you were doing with apt and restart this script.";
 	exit 1;
 	elif ps -U root -u root u | grep "dpkg" | grep -v grep;
-		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while you are installing packages with dpkg. Please finish installing your package and rerun GooeyBuild";
+		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while you are installing packages with dpkg. Please finish installing your package and rerun PTBuild";
 	exit 0;
 	kill -9 $ZENITY_PID
 
@@ -298,30 +298,7 @@ function artAsk {
 
 
 }
-function update {
 
-	# Modifies updaterconfig.xml and performs an update.
-
-	cp /usr/local/GooeyBuild/files/updaterconfig.xml $psdir
-	kill $ZENITY_PID
-
-	zenity --progress --pulsate --text $"Running Updater..." &
-	ZENITY_PID="$!"
-	cd $psdir
-	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo "|                  UPDATING                    |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
-	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
-
-	./updater --auto >> $install_dir/peragro_svn/ptbuild.log 2>&1
-
-
-}
 function getSources {
 
 		# Runs functions that get source code from CVS
@@ -389,7 +366,7 @@ function exits {
 }
 function build_date {
 
-./usr/local/GooeyBuild/build_dates
+./usr/local/PTBuild/build_dates
 
 }
 
