@@ -5,7 +5,7 @@
 
 # instead of grepping for karmic I grep for armic because I've seen a few config files that capitalized the K for some reason.
 if cat /etc/*release | grep "armic";
-then buildscript
+then $PWD/buildscript
 else
 zenity --info --title "PTBuilder" --text $"Could not find a buildscript compatible with your linux distro. Exiting..."
 exit 0

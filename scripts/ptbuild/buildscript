@@ -14,28 +14,32 @@ CEL_SVN='https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk CEL_latest'
 CEGUI_DL='http://prdownloads.sourceforge.net/crayzedsgui/CEGUI-0.6.1.tar.gz?download'
 CEGUI_FN='CEGUI-0.6.1.tar.gz'
 CEGUI_DN='CEGUI-0.6.1'
-
-
+CG_DL_32='http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_October2009_x86.tgz'
+CG_FN_32='Cg-2.2_October2009_x86.tgz'
+CG_DL_64='http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_October2009_x86_64.tgz'
+CG_FN_64='Cg-2.2_October2009_x86_64.tgz'
 
 function INSTALL_DIR_CHOOSE {
 
 	RET=`zenity --list --radiolist --width=480 --height=100 \
 		--title "PTBuild version $version" \
-		--column="" --column $"Select Your Processor" --column $"Description" \
+		--column="" --column $"Select install destination" --column $"Description" \
 		TRUE    $"Default Directories"	$"Installs to /opt/peragro_svn" \
-	        FALSE   $"Custom Directory"   	$"Choose custom install directory."`		
+	        FALSE   $"Custom Directory"   	$"Choose custom install directory. (A directory peragro_svn will be created here)"`		
 
 	if echo "$RET" | grep $"Default"; then
 
 		INSTALL_DIR=/opt
-		ptir=$INSTALL_DIR/peragro_svn/peragro
+		PT_DIR=$INSTALL_DIR/peragro_svn/peragro
+		CO_DIR=$INSTALL_DIR/peragro_svn
 		exit_var=1
 
 	fi
 	if echo "$RET" | grep $"Custom"; then
 
 		INSTALL_DIR=$(zenity --file-selection --directory)
-		ptdir=$INSTALL_DIR/peragro_svn/peragro
+		PT_DIR=$INSTALL_DIR/peragro_svn/peragro
+		CO_DIR=$INSTALL_DIR/peragro_svn
 		exit_var=1
 
 	fi
@@ -55,8 +59,6 @@ function CHOOSE_OPTIMIZATION {
 		cal3dconfig="./configure --prefix=$CAL3D"
 		csconfig="./configure --without-python --without-java --with-libcal3d=$CAL3D"
 		celconfig="./configure --without-python"
-		begin
-
 	fi
 
 	if echo "$RET" | grep $"Automatic"; then
@@ -64,19 +66,34 @@ function CHOOSE_OPTIMIZATION {
 		cal3dconfig="./configure --prefix=$CAL3D"
 		csconfig="./configure --without-python --without-java --with-libcal3d=$CAL3D --enable-cpu-specific-optimizations=max"
 		celconfig="./configure --without-python"
-		begin
-
 	fi
 }
 function BUILD_ENV {
-	sudo mkdir $INSTALL_DIR/peragro_svn
-	sudo chmod -R a+rw $INSTALL_DIR
-	touch $INSTALL_DIR/peragro_svn/ptbuild.log
-	cd $INSTALL_DIR/peragro_svn
+
+	sudo mkdir $CO_DIR
+	sudo mkdir $PT_DIR
+	sudo chown -R $USER:users $CO_DIR
+	cd $CO_DIR
+	rm profile &> /dev/null
+
+cat << EOF > profile
+export CRYSTAL=$PWD/CS_latest
+export CEL=$PWD/CEL_latest
+export CSCONFPATH=$PWD/CEL_latest
+export CEGUI=$PWD/'$CEGUI_DN'
+export LD_LIBRARY_PATH=$PWD/cal3d/cal3d/src/cal3d/.libs/:$CEGUI/lib:$PWD/CS_latest/:$PWD/CEL_latest/:$LD_LIBRARY_PATH
+EOF
+
+source profile
+
+# Comment out later, using for doublechecking
+echo $CRYSTAL
+echo $CEGUI
+echo $CEL
 
 }
 function GET_CS_SOURCE {
-		cd $ptdir
+		cd $CO_DIR
 		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CrystalSpace."
 			echo "This will probably take a while so be patient."
@@ -92,7 +109,7 @@ function GET_CS_SOURCE {
 
 }
 function GET_CEL_SOURCE {
-		cd $ptdir
+		cd $CO_DIR
         for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CEL."
 			echo "This will probably take a while so be patient."
@@ -108,7 +125,7 @@ function GET_CEL_SOURCE {
 
 }
 function GET_CEGUI_SOURCE {
-		cd $ptdir
+		cd $CO_DIR
         for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CEGUI."
 			echo "This will probably go quickly."
@@ -121,27 +138,47 @@ function GET_CEGUI_SOURCE {
 			echo "Download of CEGUI has failed. Please check your net connection or try again later."
 			exit 0
 		fi 
-		tar -xf $CEGUI_FN
+		notify-send "CEGUI Download Finished!"
+		echo "# Unpacking CEGUI"
+        echo "60" ; tar -xf $CEGUI_FN
+		notify-send "CEGUI Unpacked!"
 		rm $CEGUI_FN
 
 }
+function GET_CG_32 {
+	cd $CO_DIR
+	
+	for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+		echo "Getting NVidia CG Library"
+		wget -c $CG_DL_32L
+		# exit loop if successful
+		[ "$?" -eq "0" ] && break
+	done
+	# "i" greater than $CHECKOUT_TRIES means the download failed
+	if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+		echo "Download of CG Library has failed. Please check your net connection or try again later."
+		exit 0
+	fi 
+	cd /
+	sudo tar -xf $CEGUI_FN
+	cd $CO_DIR
+}
 function COMPILE_CEL {
 	echo "Compiling CEL"
-	cd $INSTALL_DIR/CEL_latest
+	cd $CO_DIR/CEL_latest
 	./autogen.sh
 	./configure
-	jam -aq libs plugins cel-config
+	jam -aq libs plugins cel-config cel-config-1.9
 }
 function COMPILE_CS {
-	cd $INSTALL_DIR/CS_latest
+	cd $CO_DIR/CS_latest
 	echo "Compiling CrystalSpace"
 	./configure --without-java --without-lib3ds --without-libaws --with-CEGUI=$CEGUI
-	jam -aq libs plugins cs-config walktest basemapgen lighter2
+	jam -aq libs plugins cs-config cs-config-1.9 walktest
 }
 function COMPILE_CEGUI {
-	cd $INSTALL_DIR
-	tar -xf $CEGUI_FN
-	cd $INSTALL_DIR/$CEGUI_DN
+	cd $CO_DIR
+	cd $CO_DIR/$CEGUI_DN
 	echo "Compiling CEGUI"
 	./configure --prefix=$CEGUI --disable-xerces-c
 	make
@@ -155,7 +192,7 @@ function RESOLVE_KARMIC {
         echo "# Updating Sources Cache"
         echo "35" ; sudo apt-get update
         echo "# Installing Software"
-        echo "50" ; sudo apt-get --assume-yes install libjpeg62-dev x11proto-gl-dev autoconf jam bison flex-old automake1.9 libcurl4-openssl-dev libmng-dev libmikmod2-dev libogg-dev libvorbis-dev zlib1g-dev libpng12-dev build-essential libtool libglu1-mesa-dev libglu1-xorg-dev xserver-xorg-dev libxt-dev libopenal1 libopenal-dev subversion zlibc libfreetype6-dev libfreetype6 libasound2-dev alsa-oss libxxf86vm-dev libxext-dev x11proto-xext-dev libboost1.40-dev libxerces-c2-dev libode0-dev swig libpcre3-dev
+        echo "50" ; sudo apt-get --assume-yes install libnotify-bin libjpeg62-dev x11proto-gl-dev autoconf jam bison flex-old automake1.9 libcurl4-openssl-dev libmng-dev libmikmod2-dev libogg-dev libvorbis-dev zlib1g-dev libpng12-dev build-essential libtool libglu1-mesa-dev libglu1-xorg-dev xserver-xorg-dev libxt-dev libopenal1 libopenal-dev subversion zlibc libfreetype6-dev libfreetype6 libasound2-dev alsa-oss libxxf86vm-dev libxext-dev x11proto-xext-dev libboost1.40-dev libxerces-c2-dev libode0-dev swig libpcre3-dev
         echo "# Finishing Up..."
         echo "100"
         ) |
@@ -196,21 +233,6 @@ function ASK {
 
 
 }
-function BUILD_SOURCES {
-		
-		# Runs functions that build source code.
-		buildcal3d
-		killall zenity
-		buildcs
-		killall zenity
-		buildcel
-		killall zenity
-		psbuild
-		killall zenity
-		update
-		killall zenity
-
-}
 function PASSWORD {
 sudo -k
 	for (( i=1; i<=$PASS_TRIES; i++ )); do
@@ -222,13 +244,25 @@ sudo -k
 	# "i" greater than $PASS_TRIES means $PASS_TRIES failed tries
 	[ "$i" -gt "$PASS_TRIES" ] && { zenity --error --text "Failed to enter correct password, exiting..."; exit 1; }
 }
-
-
-
+function CHECKOUT_SOURCES {
+	(
+        echo "10" ; sleep 3 && cd $CO_DIR
+        echo "# Downloading CEGUI"
+        echo "40" ; GET_CEGUI_SOURCE
+        echo "# Finishing Up..."
+        echo "100"
+        ) |
+        zenity --progress \
+          --title="Dependency Resolution" \
+          --text="Entering Checkout Directory" \
+          --percentage=0
+}
+PASSWORD
 INSTALL_DIR_CHOOSE
 # setup_profile
 BUILD_ENV
 ASK
 CHOOSE_OPTIMIZATION
+CHECKOUT_SOURCES
 
 exit 0
