@@ -1,0 +1,402 @@
+#!/bin/bash
+
+# PeragroBuilder is copyrighted by Peragro Tempus
+# GooeyBuild is released under the General Public license (Please refer to GPL.txt)
+# Written By Brant Watson (aka Induane)
+
+
+#####################################################
+#                                                   #
+#                 VARIABLES!!!                      #
+#                                                   #
+#####################################################
+
+
+version=$(sed -n '2p' files/ptbuild.cfg)
+ps_login=':pserver:anonymous:@Peragro.cvs.sourceforge.net:/cvsroot/Peragro login'
+ps_cvs=':pserver:anonymous@Peragro.cvs.sourceforge.net:/cvsroot/Peragro co'
+cal3d_login=':pserver:anonymous:@cal3d.cvs.sourceforge.net:/cvsroot/cal3d login'
+cal3d_co=':pserver:anonymous@cal3d.cvs.sourceforge.net:/cvsroot/cal3d co cal3d'
+cs_svn_1='https://svn.sourceforge.net/svnroot/crystal/CS/trunk cs'
+cel_svn_1='https://svn.sourceforge.net/svnroot/cel/cel/trunk cel'
+CVS_TRIES=$(sed -n '4p' /usr/local/GooeyBuild/files/ptbuild.cfg)
+
+function install_dir_choose {
+
+	exit_var=0
+
+	RET=`zenity --list --radiolist --width=480 --height=100 \
+		--title "GooeyBuild version $version" \
+		--column="" --column $"Select Your Processor" --column $"Description" \
+		TRUE    $"Default Directories"	$"Installs to /opt/peragro_svn" \
+	        FALSE   $"Custom Directory"   	$"Choose custom install directory."`		
+
+	if echo "$RET" | grep $"Default"; then
+
+		install_dir=/opt
+		psdir=$install_dir/peragro_svn/peragro
+		exit_var=1
+
+	fi
+	if echo "$RET" | grep $"Custom"; then
+
+		install_dir=$(zenity --file-selection --directory)
+		psdir=$install_dir/peragro_svn/peragro
+		exit_var=1
+
+	fi
+
+}
+function choose_optimize {
+	exit_var=0
+	# Asks user to select their processor
+	RET=`zenity --list --radiolist --width=700 --height=285 \
+		--title "GooeyBuild version $version" \
+		--column="" --column $"Select Your Processor" --column $"Description" \
+		TRUE    $"Generic Build"	$"Compile with no optimizations." \
+		FALSE   $"Automatic"		$"Attempt to detect best optimizations."`		
+
+
+	if echo "$RET" | grep $"Generic"; then
+		exit_var=1
+		cal3dconfig="./configure --prefix=$CAL3D"
+		csconfig="./configure --without-python --without-java --with-libcal3d=$CAL3D"
+		celconfig="./configure --without-python"
+		begin
+
+	fi
+
+	if echo "$RET" | grep $"Automatic"; then
+		exit_var=1
+		cal3dconfig="./configure --prefix=$CAL3D"
+		csconfig="./configure --without-python --without-java --with-libcal3d=$CAL3D --enable-cpu-specific-optimizations=max"
+		celconfig="./configure --without-python"
+		begin
+
+	fi
+}
+function build_env {
+
+        PASS_TRIES=3
+        # sudo -k to test script
+        sudo -k
+        for (( i=1; i<=$PASS_TRIES; i++ )); do
+              zenity --entry --title "Password Prompt" --hide-text --text $"Enter your password (try #$i of $PASS_TRIES)." | sudo -S -v
+              # exit loop if password was correct
+              [ "$?" -eq "0" ] && break
+        done
+        # "i" greater than $PASS_TRIES means $PASS_TRIES failed tries
+        [ "$i" -gt "$PASS_TRIES" ] && { zenity --error --text "Failed to enter correct password, exiting..."; exit 1; }
+        [ -d $install_dir/peragro_svn ] || sudo mkdir $install_dir/peragro_svn
+        sudo chmod -R a+rw $install_dir
+        touch $install_dir/peragro_svn/ptbuild.log
+        cd $install_dir/peragro_svn
+
+}
+function get_cal3d_source {
+
+	CAL3D_EXIT=0
+
+	cd $psdir
+	rm -r $psdir/cal3d
+
+#        for (( i=1; i<=$CVS_TRIES; i++ )); do
+             cvs -d$cal3d_login >> $install_dir/peragro_svn/ptbuild.log 2>&1
+             # exit loop if successful
+#             [ "$?" -eq "0" ] && break
+#        done
+        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
+#        if [ "$i" -gt "$CVS_TRIES" ]; then
+#	CAL3D_EXIT=1
+#	fi 
+
+#        for (( i=1; i<=$CVS_TRIES; i++ )); do
+	     cvs -z3 -d$cal3d_co >> $install_dir/peragro_svn/ptbuild.log 2>&1
+#             # exit loop if successful
+#             [ "$?" -eq "0" ] && break
+#	done
+
+#        if [ "$i" -gt "$CVS_TRIES" ]; then
+#	CAL3D_EXIT=1
+#	fi 
+
+}
+function get_cs_source {
+
+	CS_EXIT=0
+
+	cd $psdir
+
+	rm -r $psdir/cs
+
+        for (( i=1; i<=$CVS_TRIES; i++ )); do
+             svn co $cs_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
+             # exit loop if successful
+             [ "$?" -eq "0" ] && break
+        done
+        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
+        if [ "$i" -gt "$CVS_TRIES" ]; then
+	CS_EXIT=1
+	fi 
+
+}
+function get_cel_source {
+
+	CEL_EXIT=0
+
+	cd $psdir
+	rm -r $psdir/cel
+
+        for (( i=1; i<=$CVS_TRIES; i++ )); do
+             svn co $cel_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
+             # exit loop if successful
+             [ "$?" -eq "0" ] && break
+        done
+        # "i" greater than $CVS_TRIES means $CVS_TRIES failed
+        if [ "$i" -gt "$CVS_TRIES" ]; then
+
+	CEL_EXIT=1
+	fi 
+}
+function buildcal3d {
+
+
+	zenity --progress --pulsate --text $"Compiling Cal3d....please wait..." &
+	ZENITY_PID="$!"
+
+	# Modifies Makefile.am
+	sed -i 's/all_libraries = @all_libraries@/#all_libraries = @all_libraries@/' $psdir/cal3d/src/cal3d/Makefile.am
+
+
+	cd $psdir/cal3d
+
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|            BUILD LOG FOR CAL3D               |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	./autogen.sh >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	$cal3dconfig >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	make >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	make install >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	kill $ZENITY_PID
+
+}
+function buildcs {
+
+
+	zenity --progress --pulsate --text $"Compiling CrystalSpace...you may want to take a nap or grab some tea...." &
+	ZENITY_PID="$!"
+
+	cd $psdir/cs
+
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|             BUILD LOG FOR CS                 |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	$csconfig >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	jam -aq libs plugins cs-config walktest >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	kill $ZENITY_PID
+
+}
+function buildcel {
+
+	zenity --progress --pulsate --text $"Compiling CEL...please wait...." &
+	ZENITY_PID="$!"
+
+	cd $psdir/cel 
+	
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|             BUILD LOG FOR CEL                |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	./autogen.sh  >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	$celconfig >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	jam -aq  >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	kill $ZENITY_PID
+
+}
+function resolveKarmic {
+
+	# attempt to resolve dependencies
+	(
+        echo "10" ; sleep 3 && dpkg_check
+        echo "# Updating Sources Cache"
+        echo "35" ; sudo apt-get update
+        echo "# Installing Software"
+        echo "50" ; sudo apt-get --assume-yes install libjpeg62-dev x11proto-gl-dev autoconf jam bison flex-old automake1.9 libcurl4-openssl-dev libmng-dev libmikmod2-dev libogg-dev libvorbis-dev zlib1g-dev libpng12-dev build-essential libtool libglu1-mesa-dev libglu1-xorg-dev xserver-xorg-dev libxt-dev libopenal1 libopenal-dev subversion zlibc libfreetype6-dev libfreetype6 libasound2-dev alsa-oss libxxf86vm-dev libxext-dev x11proto-xext-dev libboost1.40-dev libxerces-c2-dev libode0-dev swig libpcre3-dev
+        echo "# Finishing Up..."
+        echo "100"
+        ) |
+        zenity --progress \
+          --title="Dependency Resolution" \
+          --text="Checking if any package managers are running" \
+          --percentage=0
+}
+function dpkg_check {
+
+	# Makes sure package manager isn't running.
+	if ps -U root -u root u | grep "synaptic" | grep -v grep;
+		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while Synaptic is running. Please close Synaptic";
+	exit 1;
+	elif ps -U root -u root u | grep "update-manager" | grep -v grep;
+		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT while update-manager is running. Please close update-manager";
+	exit 1;
+	elif ps -U root -u root u | grep "apt-get" | grep -v grep;
+		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while you are also running apt-get. Please finish what you were doing with apt and restart this script.";
+	exit 1;
+	elif ps -U root -u root u | grep "dpkg" | grep -v grep;
+		then zenity --info --title "GooeyBuild" --text $"PTBuild WILL NOT run while you are installing packages with dpkg. Please finish installing your package and rerun GooeyBuild";
+	exit 0;
+	kill -9 $ZENITY_PID
+
+fi
+
+
+
+}
+function ask {
+
+	# Asks user if they want to attempt to resolve dependancies.
+	zenity --question --text $"Would you like to attempt to get all software needed to compile Peragro? (Only necessary if this is the first time you have run this script.) "
+	if [ $? -eq 0 ] ; then
+		resolveKarmic
+	fi
+
+
+}
+function artAsk {
+
+	# Asks user if they want to backup their art directory.
+	zenity --question --text $"Would you like to try to backup your art directory? Hit cancel if this is the first time you have run this script."
+	if [ $? -eq 0 ] ; then
+	artBackup
+	fi
+
+
+}
+function update {
+
+	# Modifies updaterconfig.xml and performs an update.
+
+	cp /usr/local/GooeyBuild/files/updaterconfig.xml $psdir
+	kill $ZENITY_PID
+
+	zenity --progress --pulsate --text $"Running Updater..." &
+	ZENITY_PID="$!"
+	cd $psdir
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                  UPDATING                    |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "|                                              |" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo "------------------------------------------------" >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+	echo " " >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+	./updater --auto >> $install_dir/peragro_svn/ptbuild.log 2>&1
+
+
+}
+function getSources {
+
+		# Runs functions that get source code from CVS
+		get_ps_source | zenity --progress --pulsate --auto-close --text "Getting Peragro sources from cvs repository.  Hitting cancel at any time will abort this script."
+
+	if [ $PS_EXIT -eq 1 ]; then
+	killall zenity
+	zenity --error --text "Max retries for getting Peragro sources has failed.  The script will now exit.";	
+	exit 0
+	fi
+
+get_cal3d_source | zenity --progress --pulsate --auto-close --text "Getting Cal3d sources from cvs repository.  Hitting cancel at any time will abort this script."
+
+	if [ $CAL3D_EXIT -eq 1 ]; then
+	killall zenity
+	zenity --error --text "Max retries for getting Cal3D sources has failed.  The script will now exit.";	
+	exit 0
+	fi
+
+		get_cs_source | zenity --progress --pulsate --auto-close --text "Getting CS sources from cvs repository.  Hitting cancel at any time will abort this script."
+
+	if [ $CS_EXIT -eq 1 ]; then
+	killall zenity
+	zenity --error --text "Max retries for getting CrystalSpace sources has failed.  The script will now exit.";	
+	exit 0
+	fi
+
+		get_cel_source | zenity --progress --pulsate --auto-close --text "Getting CEL sources from cvs repository.  Hitting cancel at any time will abort this script."
+
+	if [ $CEL_EXIT -eq 1 ]; then
+	killall zenity
+	zenity --error --text "Max retries for getting CEL sources has failed.  The script will now exit.";	
+	exit 0
+	fi
+
+}
+function buildSources {
+		
+		# Runs functions that build source code.
+		buildcal3d
+		killall zenity
+		buildcs
+		killall zenity
+		buildcel
+		killall zenity
+		psbuild
+		killall zenity
+		update
+		killall zenity
+
+}
+function begin {
+		
+	getSources
+
+	buildSources
+
+}
+function exits {
+
+	if [ "$exit_var" -ne "1" ]; then
+	exit 0
+	fi
+
+}
+function build_date {
+
+./usr/local/GooeyBuild/build_dates
+
+}
+
+install_dir_choose
+# setup_profile
+build_env
+ask
+choose_optimization
+
+exit 0

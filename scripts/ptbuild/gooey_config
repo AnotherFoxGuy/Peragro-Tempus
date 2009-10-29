@@ -1,0 +1,46 @@
+#!/bin/bash
+
+##
+function variables {
+
+version=$(sed -n '2p' /usr/local/GooeyBuild/files/gooeybuild.cfg)
+cvs_tries=$(sed -n '4p' /usr/local/GooeyBuild/files/gooeybuild.cfg)
+
+}
+
+function setup_stuff {
+
+	exit_var=0
+
+	RET=`zenity --list --radiolist --width=520 --height=300 \
+		--title "GooeyConf version $version" \
+		--column="" --column $"Select Info to Edit" --column $"Description" --column $"Current Setting" \
+		FALSE   $"Max Retries	"	$"How often script should retry if cvs or svn fails" $(grep -n 1 /usr/local/GooeyBuild/files/gooeybuild.cfg | sed -e "s/.*://") \
+		FALSE   $"Build Mode"   	$"Enable or Disable debugging symbols" \
+	        FALSE   $"Some Other Option"  	$"Some non existant setting"`		
+
+
+	if echo "$RET" | grep $"Retries"; then
+
+	zenity --info --title "GooeyBuild Version $version" --text $"Not yet implemented.";
+	setup_stuff
+
+	fi
+	if echo "$RET" | grep $"Build Mode"; then
+
+	zenity --info --title "GooeyBuild Version $version" --text $"Not yet implemented";
+	setup_stuff
+
+	fi
+	if echo "$RET" | grep $"Option"; then
+
+	zenity --info --title "GooeyBuild Version $version" --text $"Not yet implemented";
+	setup_stuff
+
+	fi
+
+}
+
+setup_stuff
+
+exit 0
