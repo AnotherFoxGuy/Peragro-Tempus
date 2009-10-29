@@ -48,7 +48,6 @@ function install_dir_choose {
 
 }
 function choose_optimize {
-	exit_var=0
 	# Asks user to select their processor
 	RET=`zenity --list --radiolist --width=700 --height=285 \
 		--title "PTBuild version $version" \
@@ -298,43 +297,6 @@ function artAsk {
 
 
 }
-
-function getSources {
-
-		# Runs functions that get source code from CVS
-		get_ps_source | zenity --progress --pulsate --auto-close --text "Getting Peragro sources from cvs repository.  Hitting cancel at any time will abort this script."
-
-	if [ $PS_EXIT -eq 1 ]; then
-	killall zenity
-	zenity --error --text "Max retries for getting Peragro sources has failed.  The script will now exit.";	
-	exit 0
-	fi
-
-get_cal3d_source | zenity --progress --pulsate --auto-close --text "Getting Cal3d sources from cvs repository.  Hitting cancel at any time will abort this script."
-
-	if [ $CAL3D_EXIT -eq 1 ]; then
-	killall zenity
-	zenity --error --text "Max retries for getting Cal3D sources has failed.  The script will now exit.";	
-	exit 0
-	fi
-
-		get_cs_source | zenity --progress --pulsate --auto-close --text "Getting CS sources from cvs repository.  Hitting cancel at any time will abort this script."
-
-	if [ $CS_EXIT -eq 1 ]; then
-	killall zenity
-	zenity --error --text "Max retries for getting CrystalSpace sources has failed.  The script will now exit.";	
-	exit 0
-	fi
-
-		get_cel_source | zenity --progress --pulsate --auto-close --text "Getting CEL sources from cvs repository.  Hitting cancel at any time will abort this script."
-
-	if [ $CEL_EXIT -eq 1 ]; then
-	killall zenity
-	zenity --error --text "Max retries for getting CEL sources has failed.  The script will now exit.";	
-	exit 0
-	fi
-
-}
 function buildSources {
 		
 		# Runs functions that build source code.
@@ -350,25 +312,8 @@ function buildSources {
 		killall zenity
 
 }
-function begin {
-		
-	getSources
 
-	buildSources
 
-}
-function exits {
-
-	if [ "$exit_var" -ne "1" ]; then
-	exit 0
-	fi
-
-}
-function build_date {
-
-./usr/local/PTBuild/build_dates
-
-}
 
 install_dir_choose
 # setup_profile
