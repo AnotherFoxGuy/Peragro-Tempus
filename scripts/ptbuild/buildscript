@@ -140,7 +140,7 @@ function GET_CEGUI_SOURCE {
 		fi 
 		notify-send "CEGUI Download Finished!"
 		echo "# Unpacking CEGUI"
-        echo "60" ; tar -xf $CEGUI_FN
+        echo "20" ; tar -xf $CEGUI_FN
 		notify-send "CEGUI Unpacked!"
 		rm $CEGUI_FN
 
@@ -246,9 +246,9 @@ sudo -k
 }
 function CHECKOUT_SOURCES {
 	(
-        echo "10" ; sleep 3 && cd $CO_DIR
+        echo "5" ; cd $CO_DIR
         echo "# Downloading CEGUI"
-        echo "40" ; GET_CEGUI_SOURCE
+        echo "10" ; GET_CEGUI_SOURCE
         echo "# Finishing Up..."
         echo "100"
         ) |
