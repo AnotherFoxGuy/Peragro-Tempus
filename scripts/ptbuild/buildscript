@@ -1,25 +1,21 @@
 #!/bin/bash
 
-# PeragroBuilder is copyrighted by Peragro Tempus
+# PeragroBuilder is copyrighted by Peragro Tempus Team
 # PTBuild is released under the General Public license (Please refer to GPL.txt)
 # Written By Brant Watson (aka Induane)
 
 
-#####################################################
-#                                                   #
-#                 VARIABLES!!!                      #
-#                                                   #
-#####################################################
+# Set some easy initial variables. Defaults should work fine but this way they can be easily changed.
+VERSION="0.1"
+PASS_TRIES=3
+CHECKOUT_TRIES=3
+CS_SVN='https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk CS_latest'
+CEL_SVN='https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk CEL_latest'
+CEGUI_DL='http://prdownloads.sourceforge.net/crayzedsgui/CEGUI-0.6.1.tar.gz?download'
+CEGUI_FN='CEGUI-0.6.1.tar.gz'
+CEGUI_DN='CEGUI-0.6.1'
 
 
-TRIES=3
-version=$(sed -n '2p' files/ptbuild.cfg)
-ps_login=':pserver:anonymous:@Peragro.cvs.sourceforge.net:/cvsroot/Peragro login'
-ps_cvs=':pserver:anonymous@Peragro.cvs.sourceforge.net:/cvsroot/Peragro co'
-cal3d_login=':pserver:anonymous:@cal3d.cvs.sourceforge.net:/cvsroot/cal3d login'
-cal3d_co=':pserver:anonymous@cal3d.cvs.sourceforge.net:/cvsroot/cal3d co cal3d'
-cs_svn_1='https://svn.sourceforge.net/svnroot/crystal/CS/trunk cs'
-cel_svn_1='https://svn.sourceforge.net/svnroot/cel/cel/trunk cel'
 
 function install_dir_choose {
 
@@ -92,68 +88,57 @@ function build_env {
         cd $install_dir/peragro_svn
 
 }
-function get_cal3d_source {
-
-	cd $ptdir
-	rm -r $ptdir/cal3d
-
-#        for (( i=1; i<=$TRIES; i++ )); do
-             cvs -d$cal3d_login >> $install_dir/peragro_svn/ptbuild.log 2>&1
-             # exit loop if successful
-#             [ "$?" -eq "0" ] && break
-#        done
-        # "i" greater than $TRIES means $TRIES failed
-#        if [ "$i" -gt "$TRIES" ]; then
-#	CAL3D_EXIT=1
-#	fi 
-
-#        for (( i=1; i<=$TRIES; i++ )); do
-	     cvs -z3 -d$cal3d_co >> $install_dir/peragro_svn/ptbuild.log 2>&1
-#             # exit loop if successful
-#             [ "$?" -eq "0" ] && break
-#	done
-
-#        if [ "$i" -gt "$TRIES" ]; then
-#	CAL3D_EXIT=1
-#	fi 
+function GET_CS_SOURCE {
+		cd $ptdir
+		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+			echo "Getting source code for CrystalSpace."
+			echo "This will probably take a while so be patient."
+			echo t |  svn co $CS_SVN >> log.log 2>&1
+			# exit loop if successful
+			[ "$?" -eq "0" ] && break
+		done
+        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
+        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+			echo "Checkout of crystalspace has failed. Please check your net connection or try again later."
+			exit 0
+		fi 
 
 }
-function get_cs_source {
-
-	CS_EXIT=0
-
-	cd $ptdir
-
-	rm -r $ptdir/cs
-
-        for (( i=1; i<=$TRIES; i++ )); do
-             svn co $cs_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
-             # exit loop if successful
-             [ "$?" -eq "0" ] && break
+function GET_CEL_SOURCE {
+		cd $ptdir
+        for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+			echo "Getting source code for CEL."
+			echo "This will probably take a while so be patient."
+			echo t | svn co $CEL_SVN >> log.log 2>&1
+			# exit loop if successful
+			[ "$?" -eq "0" ] && break
         done
-        # "i" greater than $TRIES means $TRIES failed
-        if [ "$i" -gt "$TRIES" ]; then
-	CS_EXIT=1
-	fi 
+        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
+        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+			echo "Checkout of CEL has failed. Please check your net connection or try again later."
+			exit 0
+		fi 
 
 }
-function get_cel_source {
-
-
-	cd $ptdir
-	rm -r $ptdir/cel
-
-        for (( i=1; i<=$TRIES; i++ )); do
-             svn co $cel_svn >> $install_dir/peragro_svn/ptbuild.log 2>&1
-             # exit loop if successful
-             [ "$?" -eq "0" ] && break
+function GET_CEGUI_SOURCE {
+		cd $ptdir
+        for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+			echo "Getting source code for CEGUI."
+			echo "This will probably go quickly."
+			wget -c $CEGUI_DL>> log.log 2>&1
+			# exit loop if successful
+			[ "$?" -eq "0" ] && break
         done
-        # "i" greater than $TRIES means $TRIES failed
-        if [ "$i" -gt "$TRIES" ]; then
+        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
+        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+			echo "Download of CEGUI has failed. Please check your net connection or try again later."
+			exit 0
+		fi 
+		tar -xf $CEGUI_FN
+		rm $CEGUI_FN
 
-	CEL_EXIT=1
-	fi 
 }
+
 function buildcal3d {
 
 
