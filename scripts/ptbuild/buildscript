@@ -97,7 +97,7 @@ function GET_CS_SOURCE {
 		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CrystalSpace."
 			echo "This will probably take a while so be patient."
-			echo t |  svn co $CS_SVN >> log.log 2>&1
+			svn co $CS_SVN
 			# exit loop if successful
 			[ "$?" -eq "0" ] && break
 		done
@@ -105,7 +105,8 @@ function GET_CS_SOURCE {
         if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
 			echo "Checkout of crystalspace has failed. Please check your net connection or try again later."
 			exit 0
-		fi 
+		fi
+		notify-send "CrystalSpace Source Code Downloaded!"
 
 }
 function GET_CEL_SOURCE {
@@ -129,7 +130,7 @@ function GET_CEGUI_SOURCE {
         for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CEGUI."
 			echo "This will probably go quickly."
-			wget -c $CEGUI_DL>> log.log 2>&1
+			wget -c $CEGUI_DL
 			# exit loop if successful
 			[ "$?" -eq "0" ] && break
         done
@@ -150,7 +151,7 @@ function GET_CG_32 {
 	
 	for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 		echo "Getting NVidia CG Library"
-		wget -c $CG_DL_32L
+		wget -c $CG_DL_32
 		# exit loop if successful
 		[ "$?" -eq "0" ] && break
 	done
@@ -158,9 +159,13 @@ function GET_CG_32 {
 	if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
 		echo "Download of CG Library has failed. Please check your net connection or try again later."
 		exit 0
-	fi 
+	fi	
+	notify-send "Cg Library Download Finished"
+	echo "# Unpacking Cg Library"
 	cd /
-	sudo tar -xf $CEGUI_FN
+	echo "40" ; sudo tar -xf $CG_FN_32
+	sudo rm $CG_FN_32
+	notify-send "nVidia Cg Library Installed!"
 	cd $CO_DIR
 }
 function COMPILE_CEL {
@@ -249,6 +254,10 @@ function CHECKOUT_SOURCES {
         echo "5" ; cd $CO_DIR
         echo "# Downloading CEGUI"
         echo "10" ; GET_CEGUI_SOURCE
+        echo "# Downloading nVidia Gg Library"
+        echo "30" ; GET_CG_32
+        echo "# Downloading CrystalSpace Source"
+        echo "40" ; GET_CS_SOURCE
         echo "# Finishing Up..."
         echo "100"
         ) |
