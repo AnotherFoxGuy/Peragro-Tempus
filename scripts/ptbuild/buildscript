@@ -106,7 +106,8 @@ function GET_CS_SOURCE {
 		done
         # "i" greater than $CHECKOUT_TRIES means svn checkout failed
         if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
-			echo "Checkout of crystalspace has failed. Please check your net connection or try again later."
+			echo "Checkout of CrystalSpace has failed. Please check your net connection or try again later."
+			notify-send "CrystalSpace Download Failed"
 			exit 0
 		fi
 		notify-send "CrystalSpace Source Code Downloaded!"
