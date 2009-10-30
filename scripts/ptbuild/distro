@@ -1,13 +1,44 @@
 #!/bin/bash
+#===============================================================================
 #
-#
-# This script detects the distro. Closes if you aren't running a supported distro.
+#          FILE:  clean
+# 
+#         USAGE:  Simply execute ./distro for defaults or run ./distro nocheck
+#                 if you want to proceed regardless of your distro.
+# 
+#   DESCRIPTION:  Performs a simple check to determine what distro you are running
+#                 and errors out if the distro you are running isn't supported by
+#                 this script.
+# 
+#     ARGUMENTS:  none, optional to use nocheck to skip checking.
+#  REQUIREMENTS:  none
+#          BUGS:  afaik none
+#         NOTES:  None atm
+#        AUTHOR:  Brant Watson 
+#       COMPANY:  Vaalnor Inc.
+#       VERSION:  0.1
+#       CREATED:  06/19/2007 03:27:47 PM CDT
+#       LICENSE:  GPL (See attached GPL.txt)
+#      REVISION:  4
+#===============================================================================
+
+
+if [[ $1 = nocheck ]]; then
+
+	echo "Skipping Distro Check..."
+	$PWD/buildscript
+
+	exit 0
+
+fi
+
 
 # instead of grepping for karmic I grep for armic because I've seen a few config files that capitalized the K for some reason.
+
 if cat /etc/*release | grep "armic";
 then $PWD/buildscript
 else
-zenity --info --title "PTBuilder" --text $"Could not find a buildscript compatible with your linux distro. Exiting..."
+zenity --info --title "PTBuild" --text $"Your distro is not supported by this script. Exiting..."
 exit 0
 fi
 
