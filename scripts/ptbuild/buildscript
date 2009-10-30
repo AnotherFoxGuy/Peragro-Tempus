@@ -11,6 +11,8 @@ PASS_TRIES=3
 CHECKOUT_TRIES=3
 CS_SVN='https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk CS_latest'
 CEL_SVN='https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk CEL_latest'
+CAL3D_SVN='http://svn.gna.org/svn/cal3d/trunk cal3d'
+CAL3D_REV=407
 CEGUI_DL='http://prdownloads.sourceforge.net/crayzedsgui/CEGUI-0.6.1.tar.gz?download'
 CEGUI_FN='CEGUI-0.6.1.tar.gz'
 CEGUI_DN='CEGUI-0.6.1'
@@ -53,6 +55,7 @@ function CHOOSE_OPTIMIZATION {
 		TRUE    $"Generic Build"	$"Compile with no optimizations." \
 		FALSE   $"Automatic"		$"Attempt to detect best optimizations."`		
 
+http://svn.gna.org/svn/cal3d/trunk cal3d
 
 	if echo "$RET" | grep $"Generic"; then
 		exit_var=1
@@ -80,7 +83,7 @@ cat << EOF > profile
 export CRYSTAL=$PWD/CS_latest
 export CEL=$PWD/CEL_latest
 export CSCONFPATH=$PWD/CEL_latest
-export CEGUI=$PWD/'$CEGUI_DN'
+export CEGUI=$PWD/'$CEGUI_DN'http://svn.gna.org/svn/cal3d/trunk
 export LD_LIBRARY_PATH=$PWD/cal3d/cal3d/src/cal3d/.libs/:$CEGUI/lib:$PWD/CS_latest/:$PWD/CEL_latest/:$LD_LIBRARY_PATH
 EOF
 
@@ -109,6 +112,24 @@ function GET_CS_SOURCE {
 		notify-send "CrystalSpace Source Code Downloaded!"
 
 }
+function GET_CAL3D_SOURCE {
+		cd $CO_DIR
+		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+			echo "Getting source code for Cal3D."
+			echo "This will probably take a while so be patient."
+			svn co -r $CAL3D_REV $CAL3D_SVN
+			# exit loop if successful
+			[ "$?" -eq "0" ] && break
+		done
+        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
+        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+			echo "Checkout of Cal3D has failed. Please check your net connection or try again later."
+			notify-send "Cal3D Download Failed"
+			exit 0
+		fi
+		notify-send "Cal3D Source Code Downloaded!"
+
+}
 function GET_CEL_SOURCE {
 		cd $CO_DIR
         for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
@@ -117,10 +138,12 @@ function GET_CEL_SOURCE {
 			echo t | svn co $CEL_SVN >> log.log 2>&1
 			# exit loop if successful
 			[ "$?" -eq "0" ] && break
+			notify-send "CEL Source Code Downloaded"
         done
         # "i" greater than $CHECKOUT_TRIES means svn checkout failed
         if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
 			echo "Checkout of CEL has failed. Please check your net connection or try again later."
+			notify-send "CEL Source Download has failed"
 			exit 0
 		fi 
 
@@ -285,11 +308,17 @@ function CHECKOUT_SOURCES {
         echo "30" ; GET_CG
         echo "# Downloading CrystalSpace Source"
         echo "40" ; GET_CS_SOURCE
-        echo "# Finishing Up..."
+        echo "# Downloading CrystalSpace Source"
+        echo "65" ; GET_CEL_SOURCE
+        echo "# Downloading CrystalSpace Source"
+        echo "80" ; GET_CAL3D_SOURCE
+        echo "# Downloading CrystalSpace Source"
+        echo "85" ; GET_PT_SOURCE
+        echo "# Finishing Up..." ; sleep 1
         echo "100"
         ) |
         zenity --progress \
-          --title="Dependency Resolution" \
+          --title="Checking Out Source Code" \
           --text="Entering Checkout Directory" \
           --percentage=0
 }
