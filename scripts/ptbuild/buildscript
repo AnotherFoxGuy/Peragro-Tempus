@@ -71,7 +71,6 @@ function CHOOSE_OPTIMIZATION {
 function BUILD_ENV {
 
 	sudo mkdir $CO_DIR
-	sudo mkdir $PT_DIR
 	sudo chown -R $USER:users $CO_DIR
 	sudo chmod -R a+rw $CO_DIR
 	cd $CO_DIR
@@ -166,6 +165,28 @@ function GET_CG_32 {
 	cd /
 	echo "40" ; sudo tar -xf $CG_FN_32
 	sudo rm $CG_FN_32
+	notify-send "nVidia Cg Library Installed!"
+	cd $CO_DIR
+}
+function GET_CG_64 {
+	cd $CO_DIR
+	
+	for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
+		echo "Getting NVidia CG Library"
+		wget -c $CG_DL_64
+		# exit loop if successful
+		[ "$?" -eq "0" ] && break
+	done
+	# "i" greater than $CHECKOUT_TRIES means the download failed
+	if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
+		echo "Download of CG Library has failed. Please check your net connection or try again later."
+		exit 0
+	fi	
+	notify-send "Cg Library Download Finished"
+	echo "# Unpacking Cg Library"
+	cd /
+	echo "40" ; sudo tar -xf $CG_FN_64
+	sudo rm $CG_FN_64
 	notify-send "nVidia Cg Library Installed!"
 	cd $CO_DIR
 }
