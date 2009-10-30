@@ -73,6 +73,7 @@ function BUILD_ENV {
 	sudo mkdir $CO_DIR
 	sudo mkdir $PT_DIR
 	sudo chown -R $USER:users $CO_DIR
+	sudo chmod -R a+rw $CO_DIR
 	cd $CO_DIR
 	rm profile &> /dev/null
 
@@ -224,9 +225,6 @@ function DPKG_CHECK {
 	kill -9 $ZENITY_PID
 
 fi
-
-
-
 }
 function ASK {
 
