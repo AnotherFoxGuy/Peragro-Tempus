@@ -190,6 +190,14 @@ function GET_CG_64 {
 	notify-send "nVidia Cg Library Installed!"
 	cd $CO_DIR
 }
+function GET_CG {
+	
+	if uname -m | grep "x86_64"; then
+		GET_CG_64
+	else
+		GET_CG_32
+	fi
+}
 function COMPILE_CEL {
 	echo "Compiling CEL"
 	cd $CO_DIR/CEL_latest
@@ -274,7 +282,7 @@ function CHECKOUT_SOURCES {
         echo "# Downloading CEGUI"
         echo "10" ; GET_CEGUI_SOURCE
         echo "# Downloading nVidia Gg Library"
-        echo "30" ; GET_CG_32
+        echo "30" ; GET_CG
         echo "# Downloading CrystalSpace Source"
         echo "40" ; GET_CS_SOURCE
         echo "# Finishing Up..."

@@ -1,7 +1,7 @@
 #!/bin/bash
 #===============================================================================
 #
-#          FILE:  clean
+#          FILE:  distro
 # 
 #         USAGE:  Simply execute ./distro for defaults or run ./distro nocheck
 #                 if you want to proceed regardless of your distro.
@@ -17,9 +17,9 @@
 #        AUTHOR:  Brant Watson 
 #       COMPANY:  Vaalnor Inc.
 #       VERSION:  0.1
-#       CREATED:  06/19/2007 03:27:47 PM CDT
+#       CREATED:  10/28/2009 03:27:47 PM CDT
 #       LICENSE:  GPL (See attached GPL.txt)
-#      REVISION:  4
+#      REVISION:  5
 #===============================================================================
 
 
@@ -27,8 +27,6 @@ if [[ $1 = nocheck ]]; then
 
 	echo "Skipping Distro Check..."
 	$PWD/buildscript
-
-	exit 0
 
 fi
 
@@ -41,4 +39,6 @@ else
 zenity --info --title "PTBuild" --text $"Your distro is not supported by this script. Exiting..."
 exit 0
 fi
+
+exit 0
 
