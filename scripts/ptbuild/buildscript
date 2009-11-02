@@ -9,17 +9,26 @@
 VERSION="0.1"
 PASS_TRIES=3
 CHECKOUT_TRIES=3
-CS_SVN='https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk CS_latest'
-CEL_SVN='https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk CEL_latest'
-CAL3D_SVN='http://svn.gna.org/svn/cal3d/trunk cal3d'
-CAL3D_REV=407
-CEGUI_DL='http://prdownloads.sourceforge.net/crayzedsgui/CEGUI-0.6.1.tar.gz?download'
-CEGUI_FN='CEGUI-0.6.1.tar.gz'
-CEGUI_DN='CEGUI-0.6.1'
+
+CS_DIR='CS_latest'
+PT_DIR='PT_latest'
+CEL_DIR='CEL_latest'
+CAL3D_DIR='cal3d'
+
 CG_DL_32='http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_October2009_x86.tgz'
 CG_FN_32='Cg-2.2_October2009_x86.tgz'
 CG_DL_64='http://developer.download.nvidia.com/cg/Cg_2.2/Cg-2.2_October2009_x86_64.tgz'
 CG_FN_64='Cg-2.2_October2009_x86_64.tgz'
+
+CEGUI_DL='http://prdownloads.sourceforge.net/crayzedsgui/CEGUI-0.6.1.tar.gz?download'
+CEGUI_FN='CEGUI-0.6.1.tar.gz'
+CEGUI_DIR='CEGUI-0.6.1'
+
+CAL3D_SVN='-r 407 http://svn.gna.org/svn/cal3d/trunk'
+
+CS_SVN='https://crystal.svn.sourceforge.net/svnroot/crystal/CS/trunk'
+CEL_SVN='https://cel.svn.sourceforge.net/svnroot/cel/cel/trunk'
+PT_SVN='https://cyanox.nl/peragro/trunk/'
 
 function INSTALL_DIR_CHOOSE {
 
@@ -29,23 +38,14 @@ function INSTALL_DIR_CHOOSE {
 		TRUE    $"Default Directories"	$"Installs to /opt/peragro_svn" \
 	        FALSE   $"Custom Directory"   	$"Choose custom install directory. (A directory peragro_svn will be created here)"`		
 
-	if echo "$RET" | grep $"Default"; then
-
-		INSTALL_DIR=/opt
-		PT_DIR=$INSTALL_DIR/peragro_svn/peragro
-		CO_DIR=$INSTALL_DIR/peragro_svn
-		exit_var=1
-
-	fi
 	if echo "$RET" | grep $"Custom"; then
-
 		INSTALL_DIR=$(zenity --file-selection --directory)
-		PT_DIR=$INSTALL_DIR/peragro_svn/peragro
-		CO_DIR=$INSTALL_DIR/peragro_svn
-		exit_var=1
-
+	else
+		INSTALL_DIR=/opt
 	fi
-
+	
+	INSTALL_DIR=$INSTALL_DIR/peragro_svn
+	exit_var=1
 }
 function CHOOSE_OPTIMIZATION {
 	# Asks user to select their processor
@@ -72,18 +72,17 @@ http://svn.gna.org/svn/cal3d/trunk cal3d
 	fi
 }
 function BUILD_ENV {
-
-	sudo mkdir $CO_DIR
-	sudo chown -R $USER:users $CO_DIR
-	sudo chmod -R a+rw $CO_DIR
-	cd $CO_DIR
+	sudo mkdir $INSTALL_DIR
+	sudo chown -R $USER:users $INSTALL_DIR
+	sudo chmod -R a+rw $INSTALL_DIR
+	cd $INSTALL_DIR
 	rm profile &> /dev/null
 
 cat << EOF > profile
-export CRYSTAL=$PWD/CS_latest
-export CEL=$PWD/CEL_latest
-export CSCONFPATH=$PWD/CEL_latest
-export CEGUI=$PWD/'$CEGUI_DN'http://svn.gna.org/svn/cal3d/trunk
+export CRYSTAL=$PWD/$CS_DIR
+export CEL=$PWD/$CEL_DIR
+export CSCONFPATH=$PWD/$CEL_DIR
+export CEGUI=$PWD/$CEGUI_DIR
 export LD_LIBRARY_PATH=$PWD/cal3d/cal3d/src/cal3d/.libs/:$CEGUI/lib:$PWD/CS_latest/:$PWD/CEL_latest/:$LD_LIBRARY_PATH
 EOF
 
@@ -95,62 +94,28 @@ echo $CEGUI
 echo $CEL
 
 }
-function GET_CS_SOURCE {
-		cd $CO_DIR
+function SVN_CHECKOUT {
+		# $1 : Name
+		# $2 : SVN URL
+		# $3 : Target Directory
 		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
-			echo "Getting source code for CrystalSpace."
+			echo "Getting source code for $1."
 			echo "This will probably take a while so be patient."
-			svn co $CS_SVN
+			svn co $2 $3
 			# exit loop if successful
 			[ "$?" -eq "0" ] && break
 		done
         # "i" greater than $CHECKOUT_TRIES means svn checkout failed
         if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
-			echo "Checkout of CrystalSpace has failed. Please check your net connection or try again later."
-			notify-send "CrystalSpace Download Failed"
+			echo "Checkout of $1 has failed. Please check your net connection or try again later."
+			notify-send "$1 Download Failed"
 			exit 0
 		fi
-		notify-send "CrystalSpace Source Code Downloaded!"
-
-}
-function GET_CAL3D_SOURCE {
-		cd $CO_DIR
-		for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
-			echo "Getting source code for Cal3D."
-			echo "This will probably take a while so be patient."
-			svn co -r $CAL3D_REV $CAL3D_SVN
-			# exit loop if successful
-			[ "$?" -eq "0" ] && break
-		done
-        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
-        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
-			echo "Checkout of Cal3D has failed. Please check your net connection or try again later."
-			notify-send "Cal3D Download Failed"
-			exit 0
-		fi
-		notify-send "Cal3D Source Code Downloaded!"
-
-}
-function GET_CEL_SOURCE {
-		cd $CO_DIR
-        for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
-			echo "Getting source code for CEL."
-			echo "This will probably take a while so be patient."
-			echo t | svn co $CEL_SVN >> log.log 2>&1
-			# exit loop if successful
-			[ "$?" -eq "0" ] && break
-			notify-send "CEL Source Code Downloaded"
-        done
-        # "i" greater than $CHECKOUT_TRIES means svn checkout failed
-        if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
-			echo "Checkout of CEL has failed. Please check your net connection or try again later."
-			notify-send "CEL Source Download has failed"
-			exit 0
-		fi 
+		notify-send "$1 Source Code Downloaded!"
 
 }
 function GET_CEGUI_SOURCE {
-		cd $CO_DIR
+		cd $INSTALL_DIR
         for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 			echo "Getting source code for CEGUI."
 			echo "This will probably go quickly."
@@ -170,12 +135,14 @@ function GET_CEGUI_SOURCE {
 		rm $CEGUI_FN
 
 }
-function GET_CG_32 {
-	cd $CO_DIR
+function GET_CG_FILE {
+	# $1 : URL
+    # $2 : FileName
+	cd $INSTALL_DIR
 	
 	for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
 		echo "Getting NVidia CG Library"
-		wget -c $CG_DL_32
+		wget -c $1
 		# exit loop if successful
 		[ "$?" -eq "0" ] && break
 	done
@@ -187,57 +154,33 @@ function GET_CG_32 {
 	notify-send "Cg Library Download Finished"
 	echo "# Unpacking Cg Library"
 	cd /
-	echo "40" ; sudo tar -xf $CG_FN_32
-	sudo rm $CG_FN_32
+	echo "40" ; sudo tar -xf $2
+	sudo rm $2
 	notify-send "nVidia Cg Library Installed!"
-	cd $CO_DIR
-}
-function GET_CG_64 {
-	cd $CO_DIR
-	
-	for (( i=1; i<=$CHECKOUT_TRIES; i++ )); do
-		echo "Getting NVidia CG Library"
-		wget -c $CG_DL_64
-		# exit loop if successful
-		[ "$?" -eq "0" ] && break
-	done
-	# "i" greater than $CHECKOUT_TRIES means the download failed
-	if [ "$i" -gt "$CHECKOUT_TRIES" ]; then
-		echo "Download of CG Library has failed. Please check your net connection or try again later."
-		exit 0
-	fi	
-	notify-send "Cg Library Download Finished"
-	echo "# Unpacking Cg Library"
-	cd /
-	echo "40" ; sudo tar -xf $CG_FN_64
-	sudo rm $CG_FN_64
-	notify-send "nVidia Cg Library Installed!"
-	cd $CO_DIR
 }
 function GET_CG {
 	
 	if uname -m | grep "x86_64"; then
-		GET_CG_64
+		GET_CG_FILE $CG_DL_64 $CG_FN_64
 	else
-		GET_CG_32
+		GET_CG_FILE $CG_DL_32 $CG_FN_32
 	fi
 }
 function COMPILE_CEL {
 	echo "Compiling CEL"
-	cd $CO_DIR/CEL_latest
+	cd $CEL
 	./autogen.sh
 	./configure
 	jam -aq libs plugins cel-config cel-config-1.9
 }
 function COMPILE_CS {
-	cd $CO_DIR/CS_latest
+	cd cd $CRYSTAL
 	echo "Compiling CrystalSpace"
 	./configure --without-java --without-lib3ds --without-libaws --with-CEGUI=$CEGUI
 	jam -aq libs plugins cs-config cs-config-1.9 walktest
 }
 function COMPILE_CEGUI {
-	cd $CO_DIR
-	cd $CO_DIR/$CEGUI_DN
+	cd $CEGUI
 	echo "Compiling CEGUI"
 	./configure --prefix=$CEGUI --disable-xerces-c
 	make
@@ -247,7 +190,7 @@ function RESOLVE_KARMIC {
 
 	# attempt to resolve dependencies
 	(
-        echo "10" ; sleep 3 && DPKG_CHECK
+        echo "10" ; [ DPKG_CHECK -ne 0 ] && { zenity --error --text "Please try again later, exiting..."; exit 1; }
         echo "# Updating Sources Cache"
         echo "35" ; sudo apt-get update
         echo "# Installing Software"
@@ -265,24 +208,24 @@ function DPKG_CHECK {
 	# Makes sure package manager isn't running.
 	if ps -U root -u root u | grep "synaptic" | grep -v grep;
 		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while Synaptic is running. Please close Synaptic";
-	exit 1;
+		return 1;
 	elif ps -U root -u root u | grep "update-manager" | grep -v grep;
 		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT while update-manager is running. Please close update-manager";
-	exit 1;
+		return 1;
 	elif ps -U root -u root u | grep "apt-get" | grep -v grep;
 		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while you are also running apt-get. Please finish what you were doing with apt and restart this script.";
-	exit 1;
+		return 1;
 	elif ps -U root -u root u | grep "dpkg" | grep -v grep;
 		then zenity --info --title "PTBuild" --text $"PTBuild WILL NOT run while you are installing packages with dpkg. Please finish installing your package and rerun PTBuild";
-	exit 0;
-	kill -9 $ZENITY_PID
-
-fi
+		return 1;
+	fi
+	
+	return 0;
 }
 function ASK {
 
 	# Asks user if they want to attempt to resolve dependancies.
-	zenity --question --text $"Would you like to attempt to get all software needed to compile Peragro? (Only necessary if this is the first time you have run this script.) "
+	zenity --question --text $"Would you like to attempt to get all software needed to compile Peragro Tempus? (Only necessary if this is the first time you have run this script.) "
 	if [ $? -eq 0 ] ; then
 		RESOLVE_KARMIC
 	fi
@@ -302,19 +245,19 @@ sudo -k
 }
 function CHECKOUT_SOURCES {
 	(
-        echo "5" ; cd $CO_DIR
+        echo "5" ; cd $INSTALL_DIR
         echo "# Downloading CEGUI"
         echo "10" ; GET_CEGUI_SOURCE
         echo "# Downloading nVidia Gg Library"
         echo "30" ; GET_CG
         echo "# Downloading CrystalSpace Source"
-        echo "40" ; GET_CS_SOURCE
+        echo "40" ; SVN_CHECKOUT "Crystal Space" $CS_SVN $INSTALL_DIR/$CS_DIR
         echo "# Downloading CrystalSpace Source"
-        echo "65" ; GET_CEL_SOURCE
+        echo "65" ; SVN_CHECKOUT "Crystal Entity Layer" $CEL_SVN $INSTALL_DIR/$CEL_DIR
         echo "# Downloading CrystalSpace Source"
-        echo "80" ; GET_CAL3D_SOURCE
+        echo "80" ; SVN_CHECKOUT "Cal3D" $CAL3D_SVN $INSTALL_DIR/$CAL3D_DIR
         echo "# Downloading CrystalSpace Source"
-        echo "85" ; GET_PT_SOURCE
+        echo "85" ; SVN_CHECKOUT "Peragro Tempus" $PT_SVN $INSTALL_DIR/$PT_DIR
         echo "# Finishing Up..." ; sleep 1
         echo "100"
         ) |
