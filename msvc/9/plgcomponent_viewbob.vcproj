@@ -623,6 +623,9 @@
 			<File
 				RelativePath="..\..\components\entity\move\viewbob\viewbob.cpp">
 			</File>
+			<File
+				RelativePath="..\..\msvc\common\plugin_impl.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

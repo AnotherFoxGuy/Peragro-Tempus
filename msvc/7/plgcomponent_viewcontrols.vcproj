@@ -320,6 +320,9 @@
 			<File
 				RelativePath="..\..\components\entity\input\viewcontrols\viewcontrols.cpp">
 			</File>
+			<File
+				RelativePath="..\..\msvc\common\plugin_impl.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
