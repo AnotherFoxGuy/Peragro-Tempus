@@ -24,7 +24,6 @@
 
 using namespace PT::Command;
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdHelp)
 
 cmdHelp::cmdHelp (iBase* parent) : ptCommandDefault(parent, "help") { }

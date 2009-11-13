@@ -58,7 +58,6 @@ namespace PT
 
 using namespace PT::Command;
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdEmote)
 
 cmdEmote::cmdEmote (iBase* parent)

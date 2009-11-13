@@ -20,7 +20,6 @@
 #include <iutil/objreg.h>
 #include "clipboard.h"
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (csClipboard)
 
 csClipboard::csClipboard(iBase* parent)

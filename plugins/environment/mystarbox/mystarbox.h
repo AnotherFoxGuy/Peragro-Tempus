@@ -42,7 +42,7 @@ enum SpectralType
   O, B, A, F, G, K, M
 };
 
-CS_IMPLEMENT_PLUGIN
+//CS_IMPLEMENT_PLUGIN
 
 class csCameraCatcher;
 

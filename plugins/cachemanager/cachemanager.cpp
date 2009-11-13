@@ -28,8 +28,6 @@
 
 #include <csutil/csevent.h>
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (CacheManager)
 
 void CacheManager::Report(int severity, const char* msg, ...)

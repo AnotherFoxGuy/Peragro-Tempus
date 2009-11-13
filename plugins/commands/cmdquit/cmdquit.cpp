@@ -23,7 +23,6 @@
 
 using namespace PT::Command;
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdQuit)
 
 cmdQuit::cmdQuit (iBase* parent)

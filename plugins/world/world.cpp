@@ -51,8 +51,6 @@
 
 #include "editorobject.h"
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (WorldManager)
 
 //----------------------------------------------------------

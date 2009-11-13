@@ -29,7 +29,6 @@
 
 using namespace PT::Command;
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdGroup)
 
 cmdGroup::cmdGroup(iBase* parent)

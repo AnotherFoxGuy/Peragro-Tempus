@@ -96,7 +96,6 @@ csEventID SoundEventMaterial::GetEventId() const
 
 //=======================================================
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(SoundManager)
 
 SoundManager::SoundManager(iBase* parent)

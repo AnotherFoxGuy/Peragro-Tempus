@@ -37,8 +37,6 @@
 #include "effecttemplate.h"
 #include "effect.h"
 
-CS_IMPLEMENT_PLUGIN
-
 SCF_IMPLEMENT_FACTORY (EffectsManager)
 
 //=================================================================

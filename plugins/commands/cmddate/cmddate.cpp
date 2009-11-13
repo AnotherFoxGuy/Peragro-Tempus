@@ -31,7 +31,6 @@
 
 using namespace PT::Command;
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY(cmdDate)
 
 cmdDate::cmdDate (iBase* parent) : ptCommandDefault(parent, "date") { }

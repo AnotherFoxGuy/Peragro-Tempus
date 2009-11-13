@@ -44,7 +44,6 @@
 #define SIZE_T_FORMAT_SPECIFIER "l"
 #endif
 
-CS_IMPLEMENT_PLUGIN
 SCF_IMPLEMENT_FACTORY (TerrainEd)
 
 TerrainEd::TerrainEd(iBase* parent) :
