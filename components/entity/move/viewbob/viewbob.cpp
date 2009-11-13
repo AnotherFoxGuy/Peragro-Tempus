@@ -48,7 +48,6 @@
 #define RUN_OFFSET_RANGE 0.08f
 #define HEAD_HEIGHT 1.55f
 
-CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (ViewBob, "peragro.entity.move.viewbob")
 
 ComponentViewBob::ComponentViewBob(iObjectRegistry* object_reg) :

@@ -37,7 +37,6 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (Mesh, "peragro.entity.mesh")
 
 ComponentMesh::ComponentMesh(iObjectRegistry* object_reg) :

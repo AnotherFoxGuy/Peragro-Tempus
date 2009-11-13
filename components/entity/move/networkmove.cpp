@@ -47,7 +47,6 @@
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
 
-CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (NetworkMove, "peragro.entity.move.networkmove")
 
 ComponentNetworkMove::ComponentNetworkMove(iObjectRegistry* object_reg) :

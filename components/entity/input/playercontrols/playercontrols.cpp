@@ -56,7 +56,6 @@
 
 #include "common/util/geomhelper.h"
 
-CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (PlayerControls, "peragro.entity.input.playercontrols")
 
 ComponentPlayerControls::ComponentPlayerControls(iObjectRegistry* object_reg)

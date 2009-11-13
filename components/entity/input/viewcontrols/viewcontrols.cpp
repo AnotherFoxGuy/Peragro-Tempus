@@ -44,7 +44,6 @@
 #define PITCH_SPEED 1.0f
 #define ZOOM_SPEED cameraDistance * 0.10f
 
-CS_IMPLEMENT_PLUGIN
 PT_IMPLEMENT_COMPONENTFACTORY (ViewControls, "peragro.entity.input.viewcontrols")
 
 ComponentViewControls::ComponentViewControls(iObjectRegistry* object_reg)
