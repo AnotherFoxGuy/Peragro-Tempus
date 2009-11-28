@@ -256,8 +256,8 @@ INSERT INTO "Meshes" VALUES(103,1,'human-female','/peragro/art/3d_art/characters
 --INSERT INTO "Meshes" VALUES(104,1,'knight','/peragro/art/3d_art/characters/knight/library');
 
 -- Mount Meshes
-INSERT INTO "Meshes" VALUES(201,1,'horse','/peragro/art/3d_art/animals/horse/horse.xml');
---INSERT INTO "Meshes" VALUES(12,1,'horse','/peragro/art/3d_art/animals/horse/library');
+--INSERT INTO "Meshes" VALUES(201,1,'horse','/peragro/art/3d_art/animals/horse/horse.xml');
+INSERT INTO "Meshes" VALUES(201,1,'horse','/peragro/art/3d_art/animals/horse/library');
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- Species Templates 
@@ -319,8 +319,12 @@ INSERT INTO "Meshes" VALUES(1010,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3
 INSERT INTO "ItemTemplates" VALUES(1010, 'Tiny Ballpot', 1010, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
 
 -- Tunic
---INSERT INTO "Meshes" VALUES(1011,1,'tunic','/peragro/art/3d_art/props/clothes/tunic/library');
---INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory image:tinyballpot', 'A simple tunic.', 1, 0)
+INSERT INTO "Meshes" VALUES(1011,1,'tunic','/peragro/art/3d_art/props/clothes/tunic/library');
+INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory image:tinyballpot', 'A simple tunic.', 1, 0)
+
+-- Pants
+INSERT INTO "Meshes" VALUES(1012,1,'trousers','/peragro/art/3d_art/props/clothes/trousers/library');
+INSERT INTO "ItemTemplates" VALUES(1012, 'Plain trousers', 1012, 'set:Inventory image:tinyballpot', 'A simple pair of trousers.', 1, 0)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- My test account stuff

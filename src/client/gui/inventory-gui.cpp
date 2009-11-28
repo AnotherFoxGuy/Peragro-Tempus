@@ -30,6 +30,11 @@
 #include "client/gui/guimanager.h"
 #include "client/gui/common/slot.h"
 
+#include <cstool/procmesh.h>
+
+#include "ir2tmanager.h"
+
+
 namespace PT
 {
   namespace GUI
@@ -174,11 +179,12 @@ namespace PT
 
         //TODO
         //Load the inventory icon imageset
+/*
         vfs->ChDir ("/peragro/art/skins/default/");
         cegui->GetImagesetManagerPtr()->
           createImageset("/peragro/art/skins/default/images/inventory.imageset",
             "Inventory");
-
+*/
         window = GUIWindow::LoadLayout ("client/inventory.layout");
         GUIWindow::AddToRoot(window);
         winMgr = cegui->GetWindowManagerPtr ();

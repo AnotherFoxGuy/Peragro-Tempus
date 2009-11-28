@@ -158,7 +158,7 @@ namespace PT
       if (damage > 0)
       {
         if (effectsManager) effectsManager->CreateEffect("Blood", GetMesh(target));
-        target->PlayAnimation("hit", 0.1f, false, true);
+        target->PlayAnimation("Hit", 0.1f, false, true);
       }
       // Damage is negative, we got healed.
       else if (damage < 0)
@@ -179,7 +179,7 @@ namespace PT
 
     void CombatManager::Die(PT::Entity::CharacterEntity* target)
     {
-      target->PlayAnimation("die", 0.1f, false, false);
+      target->PlayAnimation("Die", 0.1f, false, false);
     } // end Die()
 
     void CombatManager::SkillUsageStart(unsigned int casterId,

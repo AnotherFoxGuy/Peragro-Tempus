@@ -180,7 +180,6 @@ void QuestHandler::handleNpcStartDialog(GenericMessage* msg)
   Server* server = Server::getServer();
 
   unsigned int npcId = message.getNpcId();
-  printf("handleNpcStartDialog::Get NPC ID:%i\n", npcId);
   // @TODO this is a crash point, the dialogs cause a invalid pointer here.
   Common::Entity::Entityp ent = server->getEntityManager()->FindById(npcId);
   if (!ent) { return; }

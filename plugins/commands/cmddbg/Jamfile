@@ -3,7 +3,7 @@ SubDir TOP plugins commands cmddbg ;
 Description cmddbg : "Debug Commands" ;
 Plugin cmddbg : [ Wildcard *.cpp *.h ] ;
 ExternalLibs cmddbg : BOOST CRYSTAL CEL ;
-LinkWith cmddbg : plugins-commands network util tcp-network client-entitybase client-entitymanager entity client-pointer client-data reporter client-component ;
+LinkWith cmddbg : plugins-commands network util tcp-network client-entitybase client-entitymanager entity client-pointer client-data reporter client-component inventory ;
 MsvcExternalLibrary cmddbg : "wsock32.lib" ;
 MsvcCFlags cmddbg : /wd4396 ;
 

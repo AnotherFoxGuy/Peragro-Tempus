@@ -1,3 +1,4 @@
 SubDir TOP plugins gui ;
 
 SubInclude TOP plugins gui clipboard ;
+SubInclude TOP plugins gui r2tmanager ;

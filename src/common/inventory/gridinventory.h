@@ -67,17 +67,21 @@ namespace Common
       /// Container that holds refs to all the objects.
       std::list<boost::shared_ptr<PositionedObject> > objects;
 
-      static WFMath::AxisBox<2> GetBB(const PositionRef& pos, const WFMath::AxisBox<2>& size, float offset = 0.0f);
+      static WFMath::AxisBox<2> GetBB(const PositionRef& pos, const WFMath::AxisBox<2>& size);
 
       bool IsInInventory(const WFMath::AxisBox<2>& bb);
 
       boost::shared_ptr<PositionedObject> GetPositionedObjectAt(const PositionRef& position) const;
 
+      bool AddObjectAtImpl(const PositionRef& position, boost::shared_ptr<Object> object);
+      boost::shared_ptr<Object> RemoveObjectAtImpl(const PositionRef& position);
+      PositionRef RemoveObjectImpl(boost::shared_ptr<Object> object);
+
     public:
       /**
        * Base constructor
        */
-      GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      GridInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows);
       virtual ~GridInventory();
 
       /**

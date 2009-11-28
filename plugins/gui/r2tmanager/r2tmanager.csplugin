@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<plugin>
+  <scf>
+    <classes>
+      <class>
+        <name>peragro.r2twidgetmanager</name>
+        <implementation>R2TWidgetManager</implementation>
+        <description>A plugin for displaying meshes in a CEGUI window</description>
+      </class>
+    </classes>
+  </scf>
+</plugin>

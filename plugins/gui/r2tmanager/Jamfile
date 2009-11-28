@@ -1,0 +1,6 @@
+SubDir TOP plugins gui r2tmanager ;
+
+Description r2tmanager : "a Plugin for displaying meshes in a window on screen" ;
+Plugin r2tmanager : [ Wildcard *.cpp *.h ] ;
+
+ExternalLibs r2tmanager : CRYSTAL CEGUI ;

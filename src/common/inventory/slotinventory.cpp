@@ -28,14 +28,14 @@ namespace Common
 {
   namespace Inventory
   {
-    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
-      :Inventory(name, type, rows, columns)
+    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows)
+      :Inventory(name, type, columns, rows)
     {
     }
 
-    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
+    SlotInventory::SlotInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows,
         unsigned int visibleRows, unsigned int visibleColumns)
-        :Inventory(name, type, rows, columns)
+        :Inventory(name, type, columns, rows)
     {
       SlotInventory::visibleRows = visibleRows;
       SlotInventory::visibleColumns = visibleColumns;
@@ -94,21 +94,7 @@ namespace Common
       return GetSlot(IdToPos(id));
     }
 
-    boost::shared_ptr<Object> SlotInventory::GetObjectAt(const PositionRef& position) const
-    {
-      boost::shared_ptr<Slot> slot = GetSlot(position);
-      if(!slot){ return boost::shared_ptr<Object>(); }
-      return slot->GetContents();
-    }
-
-    boost::shared_ptr<Object> SlotInventory::GetObjectAt(unsigned int id) const
-    {
-      boost::shared_ptr<Slot> slot = GetSlot(id);
-      if(!slot){ return boost::shared_ptr<Object>(); }
-      return slot->GetContents();
-    }
-
-    bool SlotInventory::AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object)
+    bool SlotInventory::AddObjectAtImpl(const PositionRef& position, boost::shared_ptr<Object> object)
     {
       if(position.column >= inventoryColumns
         && position.row >= inventoryRows)
@@ -140,9 +126,47 @@ namespace Common
 
       object->SetParent(this);
 
-      NotifyObjectAdded(object, position);
-
       return true;
+    }
+
+    boost::shared_ptr<Object> SlotInventory::RemoveObjectAtImpl(const PositionRef& position)
+    {
+      std::list<boost::shared_ptr<Slot> >::iterator it;
+      for (it=slots.begin(); it != slots.end(); it++)
+      {
+        if((*it)->GetPosition() == position)
+        {
+          boost::shared_ptr<Object> object = (*it)->GetContents();
+          if (object && object->GetParent() == this) object->SetParent(0);
+          slots.erase(it);
+          return object;
+        }
+      }
+      return boost::shared_ptr<Object>();
+    }
+
+    boost::shared_ptr<Object> SlotInventory::GetObjectAt(const PositionRef& position) const
+    {
+      boost::shared_ptr<Slot> slot = GetSlot(position);
+      if(!slot){ return boost::shared_ptr<Object>(); }
+      return slot->GetContents();
+    }
+
+    boost::shared_ptr<Object> SlotInventory::GetObjectAt(unsigned int id) const
+    {
+      boost::shared_ptr<Slot> slot = GetSlot(id);
+      if(!slot){ return boost::shared_ptr<Object>(); }
+      return slot->GetContents();
+    }
+
+    bool SlotInventory::AddObjectAt(const PositionRef& position, boost::shared_ptr<Object> object)
+    {
+      if (AddObjectAtImpl(position, object))
+      {
+        NotifyObjectAdded(object, position);
+        return true;
+      }
+      return false;
     }
 
     bool SlotInventory::AddObjectAt(unsigned int id, boost::shared_ptr<Object> object)
@@ -161,19 +185,10 @@ namespace Common
 
     boost::shared_ptr<Object> SlotInventory::RemoveObjectAt(const PositionRef& position)
     {
-      std::list<boost::shared_ptr<Slot> >::iterator it;
-      for (it=slots.begin(); it != slots.end(); it++)
-      {
-        if((*it)->GetPosition() == position)
-        {
-          boost::shared_ptr<Object> object = (*it)->GetContents();
-          if (object && object->GetParent() == this) object->SetParent(0);
-          NotifyObjectRemoved(object, position);
-          slots.erase(it);
-          return object;
-        }
-      }
-      return boost::shared_ptr<Object>();
+      boost::shared_ptr<Object> object = RemoveObjectAtImpl(position);
+      if (object) NotifyObjectRemoved(object, position);
+
+      return object;
     }
 
     boost::shared_ptr<Object> SlotInventory::RemoveObjectAt(unsigned int id)
@@ -212,19 +227,23 @@ namespace Common
 
     bool SlotInventory::MoveObject(const PositionRef& curpos, const PositionRef& newpos, bool allowSwap)
     {
-      if (curpos == newpos) return true;
+      if (curpos == newpos) return false;
 
       bool hasObjAtNew = HasObjectAt(newpos);
       if (hasObjAtNew && !allowSwap) return false; // No swapping allowed.
 
-      boost::shared_ptr<Object> curo = RemoveObjectAt(curpos);
+      boost::shared_ptr<Object> curo = RemoveObjectAtImpl(curpos);
+      boost::shared_ptr<Object> newo;
       if (!curo) return false; // No object at curpos
       if (hasObjAtNew)
       {
-        boost::shared_ptr<Object> newo = RemoveObjectAt(newpos);
-        AddObjectAt(curpos, newo);
+        newo = RemoveObjectAtImpl(newpos);
+        if (!AddObjectAtImpl(curpos, newo)) throw PT_EX(InventoryException("Failed to add object for unknown reason!"));
       }
-      AddObjectAt(newpos, curo);
+      if (!AddObjectAtImpl(newpos, curo)) throw PT_EX(InventoryException("Failed to add object for unknown reason!"));
+
+      NotifyObjectMoved(curo, newpos, newo, curpos);
+
       return true;
     }
 
@@ -235,6 +254,13 @@ namespace Common
 
     void SlotInventory::GetObjects(std::list<PositionRef>& positions, std::list<boost::shared_ptr<Object> >& objects)
     {
+      std::list<boost::shared_ptr<Slot> >::const_iterator it = slots.begin();
+      for (; it != slots.end(); it++)
+      {
+        if (!(*it)->HasContents()) continue;
+        positions.push_back((*it)->GetPosition());
+        objects.push_back((*it)->GetContents());
+      }
     }
 
     void SlotInventory::ObjectMovedToOther(Inventory* other, boost::shared_ptr<Object> object)

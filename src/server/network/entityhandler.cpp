@@ -147,7 +147,7 @@ void EntityHandler::handleDrUpdateRequest(GenericMessage* msg)
 
 void EntityHandler::handlePickRequest(GenericMessage* msg)
 {
-
+  printf("EntityHandler::handlePickRequest\n");
   boost::shared_ptr<Character> charEnt = NetworkHelper::GetEntity (msg);
 
   PickRequestMessage requestMsg;
@@ -198,7 +198,7 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
       if (retVal)
       {
         responseMsg.setName(itemEnt->GetName());
-        responseMsg.setIconName(itemEnt->GetIcon());
+//        responseMsg.setIconName(itemEnt->GetIcon());
         responseMsg.setDescription(itemEnt->GetDescription());
         responseMsg.setWeight(itemEnt->GetWeight());
         responseMsg.setEquipType(itemEnt->GetEquipType());
@@ -352,7 +352,6 @@ void EntityHandler::handleRelocate(GenericMessage* msg)
 
 void EntityHandler::handleTeleportRequest(GenericMessage* msg)
 {
-  printf ("EntityHandler::handleTeleportRequest\n");
   boost::shared_ptr<User> user = NetworkHelper::getUser(msg);
 
   if (!user) return;

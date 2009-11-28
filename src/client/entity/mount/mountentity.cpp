@@ -86,7 +86,7 @@ namespace PT
       pclinmove->SetDRData(on_ground, speed, pos, rot, sector, vel, wvel, avel);
       pclinmove->SetAnchor(mtmesh);
 
-      ptplayer->PlayAnimation("horse_mount", true, true);
+      ptplayer->PlayAnimation("mount_horse", true, true);
 
       mounted = true;
       ptplayer->SetHasMount(true);

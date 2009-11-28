@@ -55,7 +55,7 @@ struct CallBack : public InventoryCallBack
 int main()
 {
   //TestSlotInventory();
-  TestGridInventory();
+  //TestGridInventory();
 
   return 0;
 }

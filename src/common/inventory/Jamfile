@@ -4,4 +4,5 @@ Description inventory : "inventory" ;
 Library inventory :
   [ Wildcard *.h *.cpp ] ;
 ExternalLibs inventory : BOOST ;
+LinkWith inventory : wfmath ;
 MsvcCFlags inventory : /wd4396 ;

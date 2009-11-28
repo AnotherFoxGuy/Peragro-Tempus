@@ -27,7 +27,7 @@ namespace Common
 {
   namespace Inventory
   {
-    Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns)
+    Inventory::Inventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows)
     {
       inventoryName = name;
       inventoryType = type;
@@ -95,16 +95,26 @@ namespace Common
       }
     }
 
+    void Inventory::NotifyObjectMoved(boost::shared_ptr<Object> o1, const PositionRef& r1,
+                                      boost::shared_ptr<Object> o2, const PositionRef& r2)
+    {
+      std::list<Common::Inventory::InventoryCallBack*>::const_iterator it;
+      for ( it=callback_list.begin() ; it != callback_list.end(); it++ )
+      {
+        (*it)->ObjectMoved(o1, r1, o2, r2);
+      }
+    }
+
     std::ostream& operator<< (std::ostream& os, const Inventory& i)
     {
       for (size_t r = 0; r < i.GetRowCount(); r++)
       {
         os << std::endl <<"-";
-        for (size_t c = 0; c < i.GetColumnCount(); c++)
+        for (unsigned int c = 0; c < i.GetColumnCount(); c++)
           os << "-----";
         os << std::endl;
 
-        for (size_t c = 0; c < i.GetColumnCount(); c++)
+        for (unsigned int c = 0; c < i.GetColumnCount(); c++)
         {
           boost::shared_ptr<Object> o = i.GetObjectAt(PositionRef(c, r));
           if (o) {os << "| "<<std::setw(2)<< *o.get() << " ";} else {os << "|    ";}

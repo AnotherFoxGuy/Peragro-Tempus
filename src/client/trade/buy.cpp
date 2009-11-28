@@ -117,7 +117,6 @@ namespace PT
     bool Buy::TradeOffersList(iEvent& ev)
     {
       using namespace Events;
-
       //buyWindow->ClearItems();
 
       csRef<iEvent> list;

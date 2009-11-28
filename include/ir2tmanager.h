@@ -15,28 +15,29 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/**
- * @file signal.h
- *
- * @basic Signal typedefs.
- */
 
-#ifndef PT_EVENT_SIGNAL_H
-#define PT_EVENT_SIGNAL_H
 
-#include <boost/signals.hpp>
-#include <boost/signals2.hpp>
-#include "common/event/eventdata_fwd.h"
+#ifndef _H_IR2TMANAGER
+#define _H_IR2TMANAGER
 
-namespace PT
+#include <cssysdef.h>
+#include <csutil/scf.h>
+
+struct iMeshWrapper;
+
+namespace CEGUI
 {
-  namespace Event
-  {
-    typedef boost::signals2::signal<bool (const EventData& event)> Signal;
-    typedef Signal::slot_type Slot;
-    typedef boost::signals2::connection Connection;
+  class Window;
+}
 
-  } // Event namespace
-} // PT namespace
+struct iR2TWidgetManager : public virtual iBase
+{
+  SCF_INTERFACE(iR2TWidgetManager,1,0,0);
+
+  virtual bool Register (CEGUI::Window*, iMeshWrapper*) = 0;
+
+  virtual bool UnRegister (CEGUI::Window*) = 0;
+};
 
 #endif
+// _H_IR2TMANAGER
