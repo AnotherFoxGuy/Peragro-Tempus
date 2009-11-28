@@ -604,6 +604,9 @@
 				RelativePath="..\..\src\common\util\consoleapp.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\util\exception.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\util\flags.h">
 			</File>
 			<File

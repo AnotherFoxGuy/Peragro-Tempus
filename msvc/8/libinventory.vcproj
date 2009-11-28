@@ -607,6 +607,9 @@
 				RelativePath="..\..\src\common\inventory\gridinventory.h">
 			</File>
 			<File
+				RelativePath="..\..\src\common\inventory\iconrenderer.h">
+			</File>
+			<File
 				RelativePath="..\..\src\common\inventory\inventory.h">
 			</File>
 			<File

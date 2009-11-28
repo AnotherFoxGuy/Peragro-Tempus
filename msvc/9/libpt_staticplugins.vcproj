@@ -672,6 +672,9 @@
 				RelativePath="..\..\msvc\common\libmystarbox_staticreg.cpp">
 			</File>
 			<File
+				RelativePath="..\..\msvc\common\libr2tmanager_staticreg.cpp">
+			</File>
+			<File
 				RelativePath="..\..\msvc\common\libsolarsys_staticreg.cpp">
 			</File>
 			<File
@@ -766,6 +769,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.cpp">
+			</File>
+			<File
+				RelativePath="..\..\plugins\gui\r2tmanager\r2tmanager.cpp">
 			</File>
 			<File
 				RelativePath="..\..\plugins\sound\soundmanager.cpp">
@@ -899,6 +905,9 @@
 			</File>
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\clipboard.h">
+			</File>
+			<File
+				RelativePath="..\..\plugins\gui\r2tmanager\r2tmanager.h">
 			</File>
 			<File
 				RelativePath="..\..\plugins\sound\soundmanager.h">
