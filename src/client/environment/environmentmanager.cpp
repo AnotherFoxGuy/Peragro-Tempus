@@ -125,7 +125,7 @@ namespace PT
       if ((step - lastStep) < 0.0001f && (step - lastStep) > -0.0001f) return;
 
       lastStep = step;
-/*
+
       //=[ Sun position ]===================================
       // TODO Temporarily removed, the light doesn't match up to the skybox.
       if (false) // (solarsys)
@@ -155,7 +155,7 @@ namespace PT
         csShaderVariable* var = shaderMgr->GetVariableAdd(string_sunDirection);
         var->SetValue(sun_vec);
       }
-*/
+
       // Move the sun light.
       if (cam && sun)
       {

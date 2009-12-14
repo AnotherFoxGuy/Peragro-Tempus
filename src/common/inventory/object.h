@@ -47,8 +47,7 @@ namespace Common
       unsigned int objectId;
       std::string name;
       ObjectType objectType;
-      std::string fileName;
-      std::string meshFactName;
+      std::string objectIcon;
       std::string objectDescription;
       WFMath::AxisBox<2> objectSize;
 
@@ -78,11 +77,8 @@ namespace Common
       virtual void SetDescription(const std::string& description) { objectDescription = description; }
       virtual const std::string& GetDescription() const { return objectDescription; }
 
-      virtual void SetObjectFileName(const std::string& file) { fileName = file; }
-      virtual const std::string& GetObjectFileName() const { return fileName; }
-
-      virtual void SetMeshFactName(const std::string& mesh) { meshFactName = mesh; }
-      virtual const std::string& GetMeshFactName() const { return meshFactName; }
+      virtual void SetIcon(const std::string& icon) { objectIcon = icon; }
+      virtual const std::string& GetIcon() const { return objectIcon; }
 
       ObjectType GetType() const { return objectType; }
 

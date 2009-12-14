@@ -85,11 +85,8 @@ namespace PT
         PT::Events::Helper::GetFloat(&ev, "rotation"),
         "World" ); // TODO: "world" is a hardcoded value, needs fixing
 
-     //Inventory stuff.
-     using namespace Common::Inventory;
-     inventory = boost::shared_ptr<GridInventory>(new GridInventory("Inventory", ALLOW_ITEMS, 3, 4));
-      // Equipment
       equipment.ClearAll();
+
       //Add the equipment
       using namespace Events;
       csRef<iEvent> evequipment = EntityHelper::GetEquipment(&ev);
@@ -158,7 +155,6 @@ namespace PT
         script = skeleton->Execute (animationName);
         if (script) script->SetLoop (loop);
       }
-
     if (!script) printf("Error Playing Animation Script:%s\n", animationName);
     }
 
@@ -237,7 +233,7 @@ namespace PT
         if (sitting)
         {
           sitting = false;
-          PlayAnimation("sit_up", 1.0f, false, true);
+          PlayAnimation("Sit_up", 1.0f, false, true);
         }
         PlayAnimation("idle", 0.1f, true, false);
       }
@@ -250,9 +246,9 @@ namespace PT
         if (!sitting)
         {
           sitting = true;
-          PlayAnimation("sit_down", 0.5f, false, true);
+          PlayAnimation("Sit_down", 0.5f, false, true);
         }
-        PlayAnimation("sit", 0.1f, false, false);
+        PlayAnimation("Sit", 0.1f, false, false);
       }
     }
 

@@ -31,7 +31,7 @@
 #include "src/common/util/flags.h"
 #include "src/common/inventory/positionref.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 namespace Common
 {
@@ -49,8 +49,6 @@ namespace Common
     {
       virtual void ObjectAdded(boost::shared_ptr<Object>, const PositionRef&) = 0;
       virtual void ObjectRemoved(boost::shared_ptr<Object>, const PositionRef&) = 0;
-      virtual void ObjectMoved(boost::shared_ptr<Object>, const PositionRef&, 
-                               boost::shared_ptr<Object>, const PositionRef&) = 0;
       virtual ~InventoryCallBack() {};
     };
 
@@ -79,8 +77,6 @@ namespace Common
       std::list<InventoryCallBack*> callback_list;
       void NotifyObjectAdded(boost::shared_ptr<Object>, const PositionRef&);
       void NotifyObjectRemoved(boost::shared_ptr<Object>, const PositionRef&);
-      void NotifyObjectMoved(boost::shared_ptr<Object>, const PositionRef&,
-                             boost::shared_ptr<Object>, const PositionRef&);
 
     protected:
       bool AllowsType(boost::shared_ptr<Object> object);
@@ -92,7 +88,7 @@ namespace Common
       /**
        * Base constructor
        */
-      Inventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows);
+      Inventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
       virtual ~Inventory();
 
       /**

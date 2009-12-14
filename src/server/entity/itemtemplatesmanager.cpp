@@ -76,7 +76,7 @@ void ItemTemplate::SaveToDB()
 void ItemTemplate::SetDataOn(ItemEntity* item)
 {
   item->SetName(name);
-  //item->SetIcon(iconFile);
+  item->SetIcon(iconFile);
   item->SetDescription(description);
   //item->SetWeight(weight);
   item->SetEquipType(equipType);

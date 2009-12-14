@@ -21,7 +21,6 @@
 
 #include "client/entity/entity.h"
 
-#include "common/inventory/gridinventory.h"
 #include "client/entity/character/equipment/equipment.h"
 #include "client/entity/character/resource/resource.h"
 
@@ -49,10 +48,6 @@ namespace PT
     protected:
       ///Equipment that character entity carries/owns.
       Equipment equipment;
-
-      /// Inventory
-      boost::shared_ptr<Common::Inventory::Inventory> inventory;
-
       ///Time of last update of character's statistics.
       csTicks lastStatUpdate;
 
