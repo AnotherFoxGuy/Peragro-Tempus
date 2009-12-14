@@ -754,9 +754,6 @@
 				RelativePath="..\..\src\client\gui\chatinput-gui.h">
 			</File>
 			<File
-				RelativePath="..\..\src\client\gui\common\csiconrenderer.h">
-			</File>
-			<File
 				RelativePath="..\..\src\client\gui\common\dragdrop-gui.h">
 			</File>
 			<File
