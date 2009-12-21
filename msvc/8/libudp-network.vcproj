@@ -313,7 +313,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libudp-network\libudp-network.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libudp-network\"
 				ObjectFile="..\..\out\release8-x64\build\libudp-network\"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\network\udp;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\udp"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -385,7 +385,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libudp-network\libudp-network.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libudp-network\"
 				ObjectFile="..\..\out\release8-x64\build\libudp-network\"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\network\udp;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\udp"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -457,7 +457,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libudp-network\libudp-network.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libudp-network\"
 				ObjectFile="..\..\out\debug8-x64\build\libudp-network\"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\network\udp;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\udp"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -527,7 +527,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libudp-network\libudp-network.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libudp-network\"
 				ObjectFile="..\..\out\debug8-x64\build\libudp-network\"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\common\network\udp;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\network\udp"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

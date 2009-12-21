@@ -313,7 +313,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libsqlite_lib\"
 				ObjectFile="..\..\out\release8-x64\build\libsqlite_lib\"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -385,7 +385,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libsqlite_lib\"
 				ObjectFile="..\..\out\release8-x64\build\libsqlite_lib\"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -457,7 +457,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libsqlite_lib\"
 				ObjectFile="..\..\out\debug8-x64\build\libsqlite_lib\"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -527,7 +527,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libsqlite_lib\libsqlite_lib.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libsqlite_lib\"
 				ObjectFile="..\..\out\debug8-x64\build\libsqlite_lib\"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;SQLITE_OMIT_LOAD_EXTENSION;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\sqlite"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

@@ -308,7 +308,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\grpall_static\"
 				ObjectFile="..\..\out\release9-x64\build\grpall_static\"
@@ -355,7 +355,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -379,7 +379,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\grpall_static\"
 				ObjectFile="..\..\out\release9-x64\build\grpall_static\"
@@ -426,7 +426,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -450,7 +450,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\grpall_static\"
 				ObjectFile="..\..\out\debug9-x64\build\grpall_static\"
@@ -495,7 +495,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -519,7 +519,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories="."
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\grpall_static\grpall_static.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\grpall_static\"
 				ObjectFile="..\..\out\debug9-x64\build\grpall_static\"
@@ -564,7 +564,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletCollision"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>

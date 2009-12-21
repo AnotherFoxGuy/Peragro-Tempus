@@ -313,7 +313,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libbulletdynamics\libbulletdynamics.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libbulletdynamics\"
 				ObjectFile="..\..\out\release8-x64\build\libbulletdynamics\"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..\src\ext\bullet"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -385,7 +385,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet"
 				PrecompiledHeaderFile="..\..\out\release8-x64\build\libbulletdynamics\libbulletdynamics.pch"
 				AssemblerListingLocation="..\..\out\release8-x64\build\libbulletdynamics\"
 				ObjectFile="..\..\out\release8-x64\build\libbulletdynamics\"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..\src\ext\bullet"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -457,7 +457,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libbulletdynamics\libbulletdynamics.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libbulletdynamics\"
 				ObjectFile="..\..\out\debug8-x64\build\libbulletdynamics\"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..\src\ext\bullet"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -527,7 +527,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet"
 				PrecompiledHeaderFile="..\..\out\debug8-x64\build\libbulletdynamics\libbulletdynamics.pch"
 				AssemblerListingLocation="..\..\out\debug8-x64\build\libbulletdynamics\"
 				ObjectFile="..\..\out\debug8-x64\build\libbulletdynamics\"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=8"
-				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\src\ext\bullet"
+				AdditionalIncludeDirectories=".;..\..\src\ext\bullet\BulletDynamics;..\..\src\ext\bullet"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
