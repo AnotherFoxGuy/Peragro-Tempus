@@ -329,7 +329,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\apptimestamp_test\apptimestamp_test.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\apptimestamp_test\"
 				ObjectFile="..\..\out\release9-x64\build\apptimestamp_test\"
@@ -378,7 +378,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -405,7 +405,7 @@
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\release9-x64\build\apptimestamp_test\apptimestamp_test.pch"
 				AssemblerListingLocation="..\..\out\release9-x64\build\apptimestamp_test\"
 				ObjectFile="..\..\out\release9-x64\build\apptimestamp_test\"
@@ -454,7 +454,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -480,7 +480,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;WIN32"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\apptimestamp_test\apptimestamp_test.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\apptimestamp_test\"
 				ObjectFile="..\..\out\debug9-x64\build\apptimestamp_test\"
@@ -527,7 +527,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -553,7 +553,7 @@
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
-				AdditionalIncludeDirectories="."
+				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
 				PrecompiledHeaderFile="..\..\out\debug9-x64\build\apptimestamp_test\apptimestamp_test.pch"
 				AssemblerListingLocation="..\..\out\debug9-x64\build\apptimestamp_test\"
 				ObjectFile="..\..\out\debug9-x64\build\apptimestamp_test\"
@@ -600,7 +600,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_CONSOLE;__WIN32__;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath"
+				AdditionalIncludeDirectories=".;..\..\src\ext\wfmath;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
