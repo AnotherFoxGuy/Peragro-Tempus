@@ -54,7 +54,7 @@
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc71.lib libjpeg.lib libpng.lib cal3d-vc71.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -130,7 +130,7 @@
 				ProgramDatabaseFile="..\..\out\release71\build\appperagro_static\Win32\peragro_static.pdb"
 				SubSystem="2"
 				AdditionalOptions=" libcel_staticplugins.lib libceltool.lib libcrystalspace.lib freetype2.lib cg.lib cgGL.lib CEGUIBase-vc71.lib libjpeg.lib libpng.lib cal3d-vc71.lib vorbisfile.lib vorbis.lib ogg.lib openal32.lib libcrystalspace_directx.lib dsound.lib ddraw.lib dinput.lib libcrystalspace_staticplugins.lib libcrystalspace_windows.lib libcrystalspace_opengl.lib opengl32.lib zlib.lib version.lib "
-				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib wsock32.lib"
+				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
 				TargetMachine="1"/>
