@@ -131,15 +131,19 @@ AS_IF([test -z "$with_CEGUI"], [with_CEGUI=yes])
 AS_IF([test $with_CEGUI != no],
 [AS_IF([test $cs_cv_libCEGUI = yes],
     [CS_CHECK_BUILD([if CEGUI is sufficiently recent], [cs_cv_CEGUI_recent],
-	[AC_LANG_PROGRAM(
-	    [[#include <CEGUIWindow.h>]],
-	    [CEGUI::Window* a;a->setFalagardType(CEGUI::String(""), CEGUI::String(""));])],
-	[], [C++],
-	[CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
-	[$cs_cv_libCEGUI_cflags],
-	[$cs_cv_libCEGUI_lflags],
-	[$cs_cv_libCEGUI_libs])], [AC_MSG_ERROR([
-*** CEGUI could not be found. Version 0.6.0 is required.
+        [AC_LANG_PROGRAM(
+            [[#include <CEGUIWindow.h>]],
+            [CEGUI::Window* a;a->setFalagardType(CEGUI::String(""), CEGUI::String(""));
+            #if (CEGUI_VERSION_MAJOR == 0) && (CEGUI_VERSION_MINOR < 7)
+            fail
+            #endif
+            ])],
+        [], [C++],
+        [CS_EMIT_BUILD_RESULT([cs_cv_libCEGUI], [CEGUI])], [], [],
+        [$cs_cv_libCEGUI_cflags],
+        [$cs_cv_libCEGUI_lflags],
+        [$cs_cv_libCEGUI_libs])], [AC_MSG_ERROR([
+*** CEGUI could not be found. Version 0.7.1 is required.
 *** You can get it from http://www.cegui.org.uk/
 ])])])
 
@@ -193,9 +197,9 @@ AS_IF([test $with_cs != no],
     [AC_MSG_CHECKING([for Crystal Space static plugins])
     pt_have_crystal_static=no
     for m in $CRYSTAL_AVAILABLE_LIBS; do
-	AS_IF([test crystalspace_staticplugins = "$m"],
-	    [pt_have_crystal_static=yes
-	    break])
+        AS_IF([test crystalspace_staticplugins = "$m"],
+            [pt_have_crystal_static=yes
+            break])
     done
     AC_MSG_RESULT([$pt_have_crystal_static])
     CS_EMIT_BUILD_PROPERTY([HAVE_STATIC_PLUGINS], [$pt_have_crystal_static])])
@@ -208,7 +212,7 @@ CS_CHECK_PTHREAD([cygwin*])
 CS_EMIT_BUILD_RESULT([cs_cv_sys_pthread], [PTHREAD])
 AS_IF([test $cs_cv_sys_pthread_mutex_recursive != no],
     [CS_HEADER_PROPERTY([CS_PTHREAD_MUTEX_RECURSIVE],
-	[$cs_cv_sys_pthread_mutex_recursive])])
+        [$cs_cv_sys_pthread_mutex_recursive])])
 
 #-----------------------------------------------------------------------------
 # WinSock
@@ -244,16 +248,16 @@ m4_define([gpl_compatible], [yes])
 CS_META_INFO_EMBED([emit], gpl_compatible)
 AS_IF([test $enable_meta_info_embedding = yes],
     [CS_EMIT_BUILD_PROPERTY([COMPILER.CFLAGS],
-	[AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
+        [AS_ESCAPE([$(EMBED_META.CFLAGS)])], [+])
     CS_EMIT_BUILD_PROPERTY([COMPILER.LFLAGS],
-	[AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
+        [AS_ESCAPE([$(EMBED_META.LFLAGS)])], [+])])
 
 #----------------------------------------------------------------------------
 # Package configuration switches.
 #----------------------------------------------------------------------------
 AC_ARG_ENABLE([debug],
     [AC_HELP_STRING([--enable-debug],
-	[build with debugging information (default NO)])],
+        [build with debugging information (default NO)])],
     [], [enable_debug=no])
 
 AC_MSG_CHECKING([build mode])

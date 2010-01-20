@@ -301,7 +301,7 @@ namespace PT
             //TODO
         //Load the skill icon imageset
         vfs->ChDir ("/peragro/art/skins/default/");
-        cegui->GetImagesetManagerPtr()->createImageset("/peragro/art/skins/default/images/skill.imageset", "Skill");
+        cegui->GetImagesetManagerPtr()->create("/peragro/art/skins/default/images/skill.imageset", "Skill");
 
         // Create the skill holders.
         CEGUI::Window* skillframe = winMgr->getWindow("SkillHUD/Frame");

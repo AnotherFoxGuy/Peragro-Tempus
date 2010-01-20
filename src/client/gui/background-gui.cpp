@@ -54,8 +54,8 @@ namespace PT
 
         vfs->ChDir ("/peragro/art/skins/default/images/");
         CEGUI::ImagesetManager* immgr = cegui->GetImagesetManagerPtr();
-        if (!immgr->isImagesetPresent("Background"))
-          immgr->createImagesetFromImageFile("Background", "background1600.jpg");
+        if (!immgr->isDefined("Background"))
+          immgr->createFromImageFile("Background", "background1600.jpg");
 
         // set the background image
         window->setProperty("Image", "set:Background image:full_image");

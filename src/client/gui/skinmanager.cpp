@@ -83,11 +83,11 @@ namespace PT
       return true;
     } // end LoadPressed()
 
-    Skin SkinManager::FindSkin(const char* name)
+    Skin& SkinManager::FindSkin(const char* name)
     {
       for (size_t i = 0; i < skinList.GetSize();i++)
       {
-        Skin skin = skinList.Get(i);
+        Skin& skin = skinList.Get(i);
         if (strcmp(skin.GetName(), name) == 0)
           return skin;
       } // for
@@ -139,38 +139,28 @@ namespace PT
       vfs->ChDir(defaultSkin.GetPath());
 
       // Load the default skin.
-      cegui->GetSchemeManagerPtr()->loadScheme("widgets/peragro.scheme");
-      cegui->GetSchemeManagerPtr()->loadScheme("widgets/alias.scheme");
+      cegui->GetSchemeManagerPtr()->create("widgets/peragro.scheme");
+      cegui->GetSchemeManagerPtr()->create("widgets/alias.scheme");
 
       // Set the default mouse cursor.
       cegui->GetSystemPtr()->
         setDefaultMouseCursor(defaultSkin.GetName(), "MouseArrow");
 
       // Load the default font.
-      CEGUI::Font* font = cegui->GetFontManagerPtr()->
-        createFont("FreeType", "Vera", "/peragro/art/skins/default/font/vera.ttf");
-      font->setProperty("PointSize", "10");
-      font->load();
+      cegui->GetFontManagerPtr()->createFreeTypeFont("Vera", 10, true,
+        "/peragro/art/skins/default/font/vera.ttf");
 
-      CEGUI::Font* font2 = cegui->GetFontManagerPtr ()->
-        createFont("FreeType", "Commonwealth-8", "/peragro/art/skins/default/font/commonv2c.ttf");
-      font2->setProperty("PointSize", "8");
-      font2->load();
+      cegui->GetFontManagerPtr()->createFreeTypeFont("Commonwealth-8", 8, true,
+        "/peragro/art/skins/default/font/commonv2c.ttf");
 
-      CEGUI::Font* font3 = cegui->GetFontManagerPtr ()->
-        createFont("FreeType", "Commonwealth-10", "/peragro/art/skins/default/font/commonv2c.ttf");
-      font3->setProperty("PointSize", "10");
-      font3->load();
+      cegui->GetFontManagerPtr()->createFreeTypeFont("Commonwealth-10", 10, true,
+        "/peragro/art/skins/default/font/commonv2c.ttf");
 
-      CEGUI::Font* font4 = cegui->GetFontManagerPtr ()->
-        createFont("FreeType", "CommonWealth", "/peragro/art/skins/default/font/commonv2c.ttf");
-      font4->setProperty("PointSize", "10");
-      font4->load();
+      cegui->GetFontManagerPtr()->createFreeTypeFont("CommonWealth", 10, true,
+        "/peragro/art/skins/default/font/commonv2c.ttf");
 
-      CEGUI::Font* font5 = cegui->GetFontManagerPtr ()->
-      createFont("FreeType", "Tahoma-12", "/peragro/art/skins/default/font/commonv2c.ttf");
-      font5->setProperty("PointSize", "12");
-      font5->load();
+      cegui->GetFontManagerPtr()->createFreeTypeFont("Tahoma-12", 12, true,
+        "/peragro/art/skins/default/font/commonv2c.ttf");
 
       currentSkin = defaultSkin;
       Report(PT::Notify, "Current skin is: '%s' at '%s'",
@@ -258,23 +248,23 @@ namespace PT
       winMgr->destroyAllWindows();
       winMgr->cleanDeadPool();
       system->setDefaultMouseCursor(0);
-      schMgr->unloadScheme("Alias");
+      schMgr->destroy("Alias");
       // If current skin is different from default
       // or if new skin is default(reload): unload current skin.
       if ((strcmp(defaultSkin.GetName(), currentSkin.GetName()) != 0)
           || strcmp(defaultSkin.GetName(), skinname) == 0)
       {
-        if (schMgr->isSchemePresent(currentSkin.GetName()))
+        if (schMgr->isDefined(currentSkin.GetName()))
         {
           Report(PT::Notify, "Unloading scheme file: '%s'",
             currentSkin.GetName());
-          schMgr->getScheme(currentSkin.GetName())->unloadResources();
-          schMgr->unloadScheme(currentSkin.GetName());
+          schMgr->get(currentSkin.GetName()).unloadResources();
+          schMgr->destroy(currentSkin.GetName());
         }
       }
 
       // Switch to the new skin.
-      Skin newSkin = FindSkin (skinname);
+      Skin& newSkin = FindSkin(skinname);
 
       currentSkin = newSkin;
       Report(PT::Notify, "Switching to new skin: '%s' at '%s'",
@@ -285,16 +275,16 @@ namespace PT
       {
         vfs->ChDir (currentSkin.GetPath());
 
-        if (!schMgr->isSchemePresent(currentSkin.GetName()))
-          schMgr->loadScheme("widgets/peragro.scheme");
-        schMgr->loadScheme("widgets/alias.scheme");
+        if (!schMgr->isDefined(currentSkin.GetName()))
+          schMgr->create("widgets/peragro.scheme");
+        schMgr->create("widgets/alias.scheme");
       }
       catch ( CEGUI::Exception& e )
       {
         Report(PT::Error, "Failed switching skin: %s", e.getMessage().c_str());
         // Switch to default skin.
         vfs->ChDir (defaultSkin.GetPath());
-        schMgr->loadScheme("widgets/alias.scheme");
+        schMgr->create("widgets/alias.scheme");
       }
 
       // Recreate layouts.

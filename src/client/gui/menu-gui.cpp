@@ -61,7 +61,7 @@ namespace PT
         {
           const MouseEventArgs & ddeam = static_cast<const MouseEventArgs&>(e);
 
-          Rect rect = btn->getPixelRect();
+          Rect rect = btn->getHitTestRect();
           if (!rect.isPointInRect(ddeam.position))
           {
             if (!guimanager->GetMenuManager()->IsDragging())

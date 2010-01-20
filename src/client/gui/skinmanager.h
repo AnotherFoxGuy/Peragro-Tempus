@@ -80,7 +80,7 @@ namespace PT
 
       csArray<Skin> skinList;
 
-      Skin FindSkin (const char* name);
+      Skin& FindSkin (const char* name);
       void SearchForSkins (const char* path);
       bool LoadDefaultSkin ();
       bool ReloadWindows ();

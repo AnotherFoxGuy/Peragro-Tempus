@@ -56,10 +56,10 @@ namespace PT
         window = GUIWindow::LoadLayout ("client/loadscreen.layout");
         GUIWindow::AddToRoot(window);
 
-        if (!cegui->GetImagesetManagerPtr()->isImagesetPresent("LoadScreen"))
+        if (!cegui->GetImagesetManagerPtr()->isDefined("LoadScreen"))
         { // TODO: Different loading screens for different tiles(?)
           vfs->ChDir ("/peragro/art/skins/default/images/");
-          cegui->GetImagesetManagerPtr()->createImagesetFromImageFile("LoadScreen", "loadscreen.jpg");
+          cegui->GetImagesetManagerPtr()->createFromImageFile("LoadScreen", "loadscreen.jpg");
           window->setProperty("Image", "set:LoadScreen image:full_image");
           window->setProperty("BackgroundEnabled", "True");
         }

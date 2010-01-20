@@ -103,7 +103,7 @@ R2TWidgetManager::R2TWidget::~R2TWidget()
 
   // Destroy the imageset.
   csRef<iCEGUI> cegui = csQueryRegistry<iCEGUI> (manager->object_reg);
-  if (imageSet) cegui->GetImagesetManagerPtr()->destroyImageset(imageSet);
+  if (imageSet) cegui->GetImagesetManagerPtr()->destroy(*imageSet);
 
   manager = 0;
 }
@@ -126,7 +126,7 @@ void R2TWidgetManager::R2TWidget::SizeChanged(int w, int h)
     csRef<iTextureManager> texman = g3d->GetTextureManager();
 
     // Destroy the imageset releasing its texture.
-    if (imageSet) cegui->GetImagesetManagerPtr()->destroyImageset(imageSet);
+    if (imageSet) cegui->GetImagesetManagerPtr()->destroy(*imageSet);
 
     // Unregister the handler.
     csRef<iRenderManagerTargets> rmTargets = scfQueryInterface<iRenderManagerTargets>(engine->GetRenderManager());
@@ -139,13 +139,13 @@ void R2TWidgetManager::R2TWidget::SizeChanged(int w, int h)
     texh->SetTextureClass ("cegui");
 
     // Create CEGUI texture from CS one.
-    CEGUI::Texture* ceguiTxt = cegui->CreateTexture(texh);
+    CEGUI::Texture& ceguiTxt = cegui->CreateTexture(texh);
 
     // Create imageset with texture.
-    imageSet = cegui->GetImagesetManagerPtr()->createImageset(window->getName()+"_ImageSet", ceguiTxt);
-    imageSet->defineImage("mesh", 
+    imageSet = &cegui->GetImagesetManagerPtr()->create(window->getName() + "_ImageSet", ceguiTxt);
+    imageSet->defineImage("mesh",
       CEGUI::Point(0.0f, 0.0f),
-      CEGUI::Size(ceguiTxt->getWidth(), ceguiTxt->getHeight()),
+      ceguiTxt.getSize(),
       CEGUI::Point(0.0f,0.0f));
 
     // Assign the set to our window.
@@ -236,7 +236,7 @@ bool R2TWidgetManager::R2TWidget::EventWindowUpdated(const CEGUI::EventArgs& e)
 bool R2TWidgetManager::R2TWidget::OnEventSized(const CEGUI::EventArgs& e)
 {
   printf("OnEventSized\n");
-  CEGUI::Rect size = window->getInnerRect();
+  CEGUI::Rect size = window->getInnerRectClipper();
   SizeChanged(size.getWidth(), size.getHeight());
 
   return true;

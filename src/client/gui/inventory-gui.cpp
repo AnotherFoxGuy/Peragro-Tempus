@@ -175,9 +175,8 @@ namespace PT
         //TODO
         //Load the inventory icon imageset
         vfs->ChDir ("/peragro/art/skins/default/");
-        cegui->GetImagesetManagerPtr()->
-          createImageset("/peragro/art/skins/default/images/inventory.imageset",
-            "Inventory");
+        cegui->GetImagesetManagerPtr()->create(
+          "/peragro/art/skins/default/images/inventory.imageset", "Inventory");
 
         window = GUIWindow::LoadLayout ("client/inventory.layout");
         GUIWindow::AddToRoot(window);

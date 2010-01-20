@@ -155,7 +155,7 @@ void Cursor::Draw()
     CEGUI::String name = pcprop->GetPropertyString(pcprop->GetPropertyIndex("Entity Name"));
     CEGUI::Font* font = nameTag->getFont();
     float height = font->getFontHeight(1.3f);
-    float width = font->getFormattedTextExtent(name, CEGUI::Rect(0,0,5,5),CEGUI::Centred, 1.1f);
+    float width = font->getTextExtent(name, 1.1f);
     nameTag->setText(name);
     nameTag->setPosition(CEGUI::UVector2(CEGUI::UDim(0,mouseX-(width/2)), CEGUI::UDim(0,mouseY-25)));
     nameTag->setSize( CEGUI::UVector2(CEGUI::UDim(0,width), CEGUI::UDim(0,height)));

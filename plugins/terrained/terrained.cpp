@@ -89,25 +89,23 @@ bool TerrainEd::Initialize (iObjectRegistry* r)
     return false;
   }
 
-  cegui->Initialize ();
+  cegui->Initialize();
 
   // Set the logging level
-  cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
+  cegui->GetLoggerPtr()->setLoggingLevel(CEGUI::Informative);
 
-  csRef<iVFS> vfs = csQueryRegistry<iVFS> (object_reg);
-  vfs->ChDir ("/ceguitest/0.5/");
+  csRef<iVFS> vfs = csQueryRegistry<iVFS>(object_reg);
+  vfs->ChDir("/ceguitest/0.5/");
 
   // Load the ice skin (which uses Falagard skinning system)
-  cegui->GetSchemeManagerPtr ()->loadScheme("ice.scheme");
+  cegui->GetSchemeManagerPtr()->create("ice.scheme");
 
-  cegui->GetSystemPtr ()->setDefaultMouseCursor("ice", "MouseArrow");
+  cegui->GetSystemPtr()->setDefaultMouseCursor("ice", "MouseArrow");
 
-  CEGUI::Font* font = cegui->GetFontManagerPtr ()->createFont("FreeType",
-    "Vera", "/fonts/ttf/Vera.ttf");
-  font->setProperty("PointSize", "10");
-  font->load();
+  cegui->GetFontManagerPtr()->createFreeTypeFont("Vera", 10, true,
+    "/fonts/ttf/Vera.ttf");
 
-  //CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr ();
+  //CEGUI::WindowManager* winMgr = cegui->GetWindowManagerPtr();
 
   // Create the Root window and set it as the GUI sheet.
   CEGUI::Window* root = createWindow("DefaultWindow", "Root");

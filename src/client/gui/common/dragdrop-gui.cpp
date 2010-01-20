@@ -325,10 +325,10 @@ namespace PT
           if (!strstr(iconname, "set:"))
           {
             CEGUI::ImagesetManager* imgmgr = guimanager->GetCEGUI()->GetImagesetManagerPtr();
-            if (!imgmgr->isImagesetPresent(iconname))
+            if (!imgmgr->isDefined(iconname))
             {
               ///TODO: This imageset should be released when the item is destroyed.
-              imgmgr->createImagesetFromImageFile(iconname, iconname);
+              imgmgr->createFromImageFile(iconname, iconname);
             }
             setAndIcon = std::string("set:") + iconname;
             setAndIcon += std::string(" image:") + "full_image";
