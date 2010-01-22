@@ -41,6 +41,13 @@ bool CommandManager::Initialize (iObjectRegistry* objreg)
   object_reg = objreg;
   if (!object_reg) return false;
 
+  return true;
+}
+
+bool CommandManager::Initialize ()
+{
+  commands.clear();
+
   csRef<iStringArray> classlist = csPtr<iStringArray> (
     iSCF::SCF->QueryClassList ("peragro.commands."));
 
@@ -49,7 +56,7 @@ bool CommandManager::Initialize (iObjectRegistry* objreg)
     const char* classname = classlist->Get(0);
     if (classname && classname[0] && strcasecmp(classname, PT_COMMAND_MANAGER_NAME))
     {
-      csRef<iClientCommand> plugin = csLoadPluginCheck<iClientCommand> (objreg, classname);
+      csRef<iClientCommand> plugin = csLoadPluginCheck<iClientCommand> (object_reg, classname);
       if (plugin) commands.push_back(plugin);
     }
 

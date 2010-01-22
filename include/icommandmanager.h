@@ -38,6 +38,8 @@ namespace PT
     {
       SCF_INTERFACE(iCommandManager, 1,0,0);
 
+      virtual bool Initialize () = 0;
+
       /** process the input string, running a command if appropriate */
       virtual std::string ProcessString(const char*) = 0;
 

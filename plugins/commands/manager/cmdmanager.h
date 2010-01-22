@@ -45,6 +45,7 @@ namespace PT
       virtual bool Initialize (iObjectRegistry*);
 
       // from iCommandManager
+      virtual bool Initialize ();
       virtual std::string ProcessString(const char* texti);
       virtual std::string Execute(const char* cmd, const StringArray& args);
       virtual const std::vector<Commandp>& GetAllCommands() const;
