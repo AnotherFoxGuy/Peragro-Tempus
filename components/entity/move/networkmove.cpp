@@ -379,8 +379,11 @@ bool ComponentNetworkMove::RemoveMoveToUpdate()
 {
   using namespace PT::Events;
 
-  EventManager* evmgr = pointerlib->getEventManager();
-  evmgr->RemoveListener(cbMoveToUpdate);
+  if (!cbMoveToUpdate.IsValid())
+  {
+    EventManager* evmgr = pointerlib->getEventManager();
+    evmgr->RemoveListener(cbMoveToUpdate);
+  }
 
   return true;
 } // end RemoveMoveToUpdate()

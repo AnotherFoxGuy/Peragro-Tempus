@@ -190,6 +190,8 @@ namespace PT
     bool Quit(const CEGUI::EventArgs &args);
     bool NoQuit(const CEGUI::EventArgs &args);
 
+    bool ActionFat(iEvent& ev);
+
   private:
     PointerLibrary pointerlib;
 
