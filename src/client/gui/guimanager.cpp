@@ -120,25 +120,23 @@ namespace PT
         // Set the logging level
         cegui->GetLoggerPtr ()->setLoggingLevel(CEGUI::Informative);
 
+        // Initialize the skin manager.
+        skinMgr = new SkinManager(this);
+        if (!skinMgr->Initialize()) return false;
+
         // Register our own window factories.
         CEGUI::WindowFactoryManager* wfMgr = cegui->GetWindowFactoryManagerPtr();
-        wfMgr->addFactory(&CEGUI_WINDOW_FACTORY(SettingSlider));
-        //wfMgr->addFactory<SettingSliderFactory>();
+        wfMgr->addFactory<SettingSliderFactory>();
         wfMgr->addFalagardWindowMapping("Peragro/SettingSlider",
                                         "CEGUI/SettingSlider",
                                         "Peragro/SettingSlider",
                                         "Falagard/Default");
 
-        wfMgr->addFactory(&CEGUI_WINDOW_FACTORY(SettingComboBox));
-        //wfMgr->addFactory<SettingSliderFactory>();
+        wfMgr->addFactory<SettingComboBoxFactory>();
         wfMgr->addFalagardWindowMapping("Peragro/SettingComboBox",
                                         "CEGUI/SettingComboBox",
                                         "Peragro/SettingComboBox",
                                         "Falagard/Default");
-
-        // Initialize the skin manager.
-        skinMgr = new SkinManager(this);
-        if (!skinMgr->Initialize()) return false;
 
         // Initialize the dialog configuration class.
         dlgConfig = new DialogConfiguration(obj_reg);
