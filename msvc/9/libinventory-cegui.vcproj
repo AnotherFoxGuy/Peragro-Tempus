@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="libutil"
-	ProjectGUID="{1020E648-2350-8556-4CD6-29FFD41D5DD6}"
+	Name="libinventory-cegui"
+	ProjectGUID="{5141686A-1056-2E58-1FB3-21CB5074D7A1}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -13,8 +13,8 @@
 	<Configurations>
             		<Configuration
 			Name="Release (with static libs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libutil\"
-			IntermediateDirectory="..\..\out\release9\build\libutil\"
+			OutputDirectory="..\..\out\release9\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\release9\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -25,14 +25,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\libinventory-cegui\Win32\inventory-cegui.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libutil\"
-				ObjectFile="..\..\out\release9\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libinventory-cegui\"
+				ObjectFile="..\..\out\release9\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -50,13 +50,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\libutil.lib"
+				OutputFile="..\..\out\release9\libs\libinventory-cegui.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -64,7 +64,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -76,7 +76,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -85,8 +85,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|Win32"
-			OutputDirectory="..\..\out\release9\build\libutil\"
-			IntermediateDirectory="..\..\out\release9\build\libutil\"
+			OutputDirectory="..\..\out\release9\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\release9\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -97,14 +97,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release9\build\libinventory-cegui\Win32\inventory-cegui.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release9\build\libutil\"
-				ObjectFile="..\..\out\release9\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release9\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\release9\build\libinventory-cegui\"
+				ObjectFile="..\..\out\release9\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -122,13 +122,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9\libs\libutil.lib"
+				OutputFile="..\..\out\release9\libs\libinventory-cegui.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release9\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9\bin\&#x0D;&#x0A;"
@@ -148,7 +148,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -157,8 +157,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libutil\"
-			IntermediateDirectory="..\..\out\debug9\build\libutil\"
+			OutputDirectory="..\..\out\debug9\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\debug9\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -169,14 +169,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libinventory-cegui\Win32\inventory-cegui.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libutil\"
-				ObjectFile="..\..\out\debug9\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libinventory-cegui\"
+				ObjectFile="..\..\out\debug9\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -192,13 +192,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug9\libs\libinventory-cegui_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -206,7 +206,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -218,7 +218,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -227,8 +227,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|Win32"
-			OutputDirectory="..\..\out\debug9\build\libutil\"
-			IntermediateDirectory="..\..\out\debug9\build\libutil\"
+			OutputDirectory="..\..\out\debug9\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\debug9\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -239,14 +239,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9\build\libutil\Win32\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9\build\libinventory-cegui\Win32\inventory-cegui.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug9\build\libutil\"
-				ObjectFile="..\..\out\debug9\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug9\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\debug9\build\libinventory-cegui\"
+				ObjectFile="..\..\out\debug9\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -262,13 +262,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug9\libs\libinventory-cegui_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -276,7 +276,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug9\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9\bin\&#x0D;&#x0A;"
@@ -288,7 +288,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -297,8 +297,8 @@
 		</Configuration>
                         		<Configuration
 			Name="Release (with static libs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libutil\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libutil\"
+			OutputDirectory="..\..\out\release9-x64\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -309,14 +309,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\libutil\x64\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libinventory-cegui\x64\inventory-cegui.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libutil\"
-				ObjectFile="..\..\out\release9-x64\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libinventory-cegui\"
+				ObjectFile="..\..\out\release9-x64\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -334,13 +334,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9-x64\libs\libutil.lib"
+				OutputFile="..\..\out\release9-x64\libs\libinventory-cegui.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -348,7 +348,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -360,7 +360,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -369,8 +369,8 @@
 		</Configuration>
       		<Configuration
 			Name="Release (with DLLs)|x64"
-			OutputDirectory="..\..\out\release9-x64\build\libutil\"
-			IntermediateDirectory="..\..\out\release9-x64\build\libutil\"
+			OutputDirectory="..\..\out\release9-x64\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\release9-x64\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -381,14 +381,14 @@
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
-				ProgramDataBaseFileName="..\..\out\release9-x64\build\libutil\x64\util.pdb"
+				ProgramDataBaseFileName="..\..\out\release9-x64\build\libinventory-cegui\x64\inventory-cegui.pdb"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\release9-x64\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\release9-x64\build\libutil\"
-				ObjectFile="..\..\out\release9-x64\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\release9-x64\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\release9-x64\build\libinventory-cegui\"
+				ObjectFile="..\..\out\release9-x64\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -406,13 +406,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\release9-x64\libs\libutil.lib"
+				OutputFile="..\..\out\release9-x64\libs\libinventory-cegui.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -420,7 +420,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\release9-x64\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\release9-x64\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\release9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\release9-x64\bin\&#x0D;&#x0A;"
@@ -432,7 +432,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -441,8 +441,8 @@
 		</Configuration>
                 		<Configuration
 			Name="Debug (with static libs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libutil\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libutil\"
+			OutputDirectory="..\..\out\debug9-x64\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -453,14 +453,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libutil\x64\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libinventory-cegui\x64\inventory-cegui.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libutil\"
-				ObjectFile="..\..\out\debug9-x64\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libinventory-cegui\"
+				ObjectFile="..\..\out\debug9-x64\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -476,13 +476,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9-x64\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug9-x64\libs\libinventory-cegui_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -490,7 +490,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -502,7 +502,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -511,8 +511,8 @@
 		</Configuration>
       		<Configuration
 			Name="Debug (with DLLs)|x64"
-			OutputDirectory="..\..\out\debug9-x64\build\libutil\"
-			IntermediateDirectory="..\..\out\debug9-x64\build\libutil\"
+			OutputDirectory="..\..\out\debug9-x64\build\libinventory-cegui\"
+			IntermediateDirectory="..\..\out\debug9-x64\build\libinventory-cegui\"
 			ConfigurationType="4"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
@@ -523,14 +523,14 @@
 				RuntimeTypeInfo="TRUE"
 				RuntimeLibrary="3"
 
-				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libutil\x64\util.pdb"
+				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libinventory-cegui\x64\inventory-cegui.pdb"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;WIN32;CS_BUILD_SHARED_LIBS"
 				OptimizeForProcessor="1"
-				AdditionalOptions=" "
+				AdditionalOptions=" /wd4396 "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext"
-				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libutil\libutil.pch"
-				AssemblerListingLocation="..\..\out\debug9-x64\build\libutil\"
-				ObjectFile="..\..\out\debug9-x64\build\libutil\"
+				PrecompiledHeaderFile="..\..\out\debug9-x64\build\libinventory-cegui\libinventory-cegui.pch"
+				AssemblerListingLocation="..\..\out\debug9-x64\build\libinventory-cegui\"
+				ObjectFile="..\..\out\debug9-x64\build\libinventory-cegui\"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
 				Detect64BitPortabilityProblems="false"
@@ -546,13 +546,13 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
 				AdditionalOptions=" "
-				AdditionalDependencies=""
+				AdditionalDependencies="CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="..\..\out\debug9-x64\libs\libutil_d.lib"
+				OutputFile="..\..\out\debug9-x64\libs\libinventory-cegui_d.lib"
 				SuppressStartupBanner="TRUE"/>
 			<Tool
 				Name="VCMIDLTool"
@@ -560,7 +560,7 @@
 				MkTypLibCompatible="TRUE"
 				SuppressStartupBanner="TRUE"
 				TargetEnvironment="1"
-				TypeLibraryName="..\..\out\debug9-x64\build\libutil\libutil.tlb"/>
+				TypeLibraryName="..\..\out\debug9-x64\build\libinventory-cegui\libinventory-cegui.tlb"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="md ..\..\out\debug9-x64\bin 2&gt; nul&#x0D;&#x0A;copy /y &quot;$(TargetPath)&quot; ..\..\out\debug9-x64\bin\&#x0D;&#x0A;"
@@ -572,7 +572,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;PROJECTGEN_VERSION=9"
-				AdditionalIncludeDirectories=".;..\..\src\common\util;..\..;..\..\include;..\..\src;..\..\src\ext"
+				AdditionalIncludeDirectories=".;..\..\src\common\inventory-cegui;..\..;..\..\include;..\..\src;..\..\src\ext"
 				Culture="1033"/>
 			<Tool
 				Name="VCWebServiceProxyGeneratorTool"/>
@@ -585,77 +585,23 @@
 			Name="Source Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\util\ptstring.cpp">
+				RelativePath="..\..\src\common\inventory-cegui\inventory.cpp">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\stringstore.cpp">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\timerengine.cpp">
+				RelativePath="..\..\src\common\inventory-cegui\object.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
 			Filter="">
 			<File
-				RelativePath="..\..\src\common\util\array.h">
+				RelativePath="..\..\src\common\inventory-cegui\iconrenderer.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\consoleapp.h">
+				RelativePath="..\..\src\common\inventory-cegui\inventory.h">
 			</File>
 			<File
-				RelativePath="..\..\src\common\util\exception.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\flags.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\geomhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\math.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\monitor.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\monitorable.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\mutex.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\printhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\ptstring.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\pttime.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\queryhelper.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\queue.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\sleep.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\stringstore.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\thread.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\timer.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\timerengine.h">
-			</File>
-			<File
-				RelativePath="..\..\src\common\util\wincrashdump.h">
+				RelativePath="..\..\src\common\inventory-cegui\object.h">
 			</File>
 		</Filter>
 	</Files>

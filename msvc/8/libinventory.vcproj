@@ -594,6 +594,15 @@
 				RelativePath="..\..\src\common\inventory\positionref.cpp">
 			</File>
 			<File
+				RelativePath="..\..\src\common\inventory\quadtree.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\rectangle.cpp">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\size.cpp">
+			</File>
+			<File
 				RelativePath="..\..\src\common\inventory\slot.cpp">
 			</File>
 			<File
@@ -617,6 +626,18 @@
 			</File>
 			<File
 				RelativePath="..\..\src\common\inventory\positionref.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\quadtree.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\rectangle.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\rectanglepacker.h">
+			</File>
+			<File
+				RelativePath="..\..\src\common\inventory\size.h">
 			</File>
 			<File
 				RelativePath="..\..\src\common\inventory\slot.h">
