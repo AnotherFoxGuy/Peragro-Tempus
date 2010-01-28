@@ -37,7 +37,8 @@
 
 #include <wfmath/point.h>
 
-#include <wfmath/point.h>
+#include "common/inventory/positionref.h"
+#include "common/inventory/size.h"
 
 #include "common/reporter/reporter.h"
 
@@ -86,6 +87,87 @@ namespace PT
         }
         return equipment;
       }
+
+      /**
+       * Add coordinates to an event parameter, as a WFMath::Point<2>.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to add the coordinates to.
+       * @param pos The coordinates.
+       */
+      static void SetPositionRef(iEvent* ev, const char* name, const Common::Inventory::PositionRef& pos)
+      {
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+
+        ev->Add(nmX.c_str(), pos.column);
+        ev->Add(nmY.c_str(), pos.row);
+      }
+
+      /**
+       * Get coordinates from an event parameter.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to get the coordinates from.
+       * @return The coordinates.
+       */
+      static Common::Inventory::PositionRef GetPositionRef(const iEvent* ev, const char* name, Reporter* r=0)
+      {
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+
+        unsigned int x, y;
+        x = y = 0;
+
+        using namespace PT::Events;
+
+        x = Helper::GetUInt(ev,nmX.c_str());
+        y = Helper::GetUInt(ev,nmY.c_str());
+
+        Common::Inventory::PositionRef pos(x, y);
+        return pos;
+      }
+
+      /**
+       * Add coordinates to an event parameter, as a WFMath::Point<2>.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to add the coordinates to.
+       * @param pos The coordinates.
+       */
+      static void SetSize(iEvent* ev, const char* name, const Common::Inventory::Size& pos)
+      {
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+
+        ev->Add(nmX.c_str(), pos.width);
+        ev->Add(nmY.c_str(), pos.height);
+      }
+
+      /**
+       * Get coordinates from an event parameter.
+       * @param ev An entity event.
+       * @param name The name of the event parameter to get the coordinates from.
+       * @return The coordinates.
+       */
+      static Common::Inventory::Size GetSize(const iEvent* ev, const char* name, Reporter* r=0)
+      {
+        std::string nm = name;
+        std::string nmX = nm + "_x";
+        std::string nmY = nm + "_y";
+
+        int x, y;
+        x = y = 0;
+
+        using namespace PT::Events;
+
+        x = Helper::GetUInt(ev,nmX.c_str());
+        y = Helper::GetUInt(ev,nmY.c_str());
+
+        Common::Inventory::Size pos(x, y);
+        return pos;
+      }
+
 
       /**
        * Add coordinates to an event parameter, as a WFMath::Point<3>.

@@ -120,21 +120,16 @@ namespace PT
         }
         else if (ddea.window->getName().compare(PICKUP_BUTTON) == 0)
         {
-          InventoryWindow* inventoryWindow =
-            guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
-          unsigned int slotid = inventoryWindow->FindFreeSlot();
-          if (slotid < 30)
-          {
-            Report(PT::Notify, "OnAction: Requesting picking up: %d for slot %d.",
-              interactId, slotid);
-            PickRequestMessage msg;
-            msg.setItemEntityId(interactId);
-            msg.setSlot(slotid); // TODO: get a free slot for this!
-            network->send(&msg);
-          }
+          Report(PT::Notify, "OnAction: Requesting picking up: %d.",
+            interactId);
+          PickRequestMessage msg;
+          msg.setItemEntityId(interactId);
+          network->send(&msg);
         }
         else if (ddea.window->getName().compare(DROP_BUTTON) == 0)
         {
+          //TODO
+          /*
           if (interactId < 30) // slot id
           {
             Report(PT::Notify, "OnAction: Requesting dropping slot %d.",
@@ -142,7 +137,7 @@ namespace PT
             DropRequestMessage msg;
             msg.setSlot(interactId);
             network->send(&msg);
-          }
+          }*/
         }
         else if (ddea.window->getName().compare(DOOR_BUTTON) == 0)
         {

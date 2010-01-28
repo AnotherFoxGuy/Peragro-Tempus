@@ -46,6 +46,13 @@ struct CallBack : public InventoryCallBack
   {
     std::cout << "Removed: " << *o.get() << " at " << r.column<<","<< r.row<< std::endl;
   }
+
+  virtual void ObjectMoved(boost::shared_ptr<Object> o1, const PositionRef& r1, 
+                           boost::shared_ptr<Object> o2, const PositionRef& r2)
+  {
+    std::cout << "ObjectMoved: " << *o1.get() << " to " << r1.column<<","<< r1.row;
+    std::cout << " and " << *o2.get() << " to " << r2.column<<","<< r2.row<< std::endl;
+  }
 };
 
 #include "slotinventory.h"

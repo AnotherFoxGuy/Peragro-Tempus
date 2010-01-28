@@ -92,6 +92,7 @@ namespace PT
 
       bool BookWindow::HandleWrite(iEvent& ev)
       {
+        /* TODO
         using namespace PT::Events;
 
         InventoryWindow* inv =
@@ -103,6 +104,7 @@ namespace PT
 
         Object* obj = slot->GetObject();
         if (!obj) return true;
+        */
 
         return true;
       } // end HandleWrite()

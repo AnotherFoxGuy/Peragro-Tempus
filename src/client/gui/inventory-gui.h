@@ -19,13 +19,21 @@
 #ifndef INV_GUI_H
 #define INV_GUI_H
 
-#include "base-gui.h"
+#include <boost/shared_ptr.hpp>
 
-#include "client/gui/common/inventory.h"
+#include "base-gui.h"
 
 #define INVENTORYWINDOW "Inventory/Frame"
 
-class DragDrop;
+class CSIconRenderer;
+
+namespace Common
+{
+  namespace Inventory
+  {
+    class Inventory;
+  } // Inventory namespace
+} // Common namespace
 
 namespace PT
 {
@@ -36,27 +44,18 @@ namespace PT
       class InventoryWindow : public GUIWindow
       {
       private:
-        bool handleCloseButton(const CEGUI::EventArgs& args);
-        PT::GUI::Windows::DragDrop* dragdrop;
-        unsigned int numberOfSlots;
-        Inventory* inventory;
+        CSIconRenderer* rend;
 
       private:
-        void SetupEquipSlot(unsigned int id, const char* window);
+        bool handleCloseButton(const CEGUI::EventArgs& args);
 
       public:
         InventoryWindow(GUIManager* guimanager);
         virtual ~InventoryWindow();
         bool Create();
         bool ReloadWindow();
-        bool AddItem(unsigned int itemid,
-                  const char* name, const char* iconname, unsigned int slotid);
-        bool MoveItem(unsigned int oldslotid, unsigned int newslotid);
-        bool MoveItem(Slot* oldslot, Slot* newslot);
-        bool RemoveItem(unsigned int slotid);
-        unsigned int FindItem(unsigned int itemid);
-        unsigned int FindFreeSlot();
-        Slot* GetSlot(unsigned int slotid);
+
+        bool SetInventory(boost::shared_ptr<Common::Inventory::Inventory>);
       };
 
     } // Windows namespace

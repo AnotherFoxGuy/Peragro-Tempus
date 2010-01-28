@@ -620,7 +620,6 @@ public:
 class PickRequestMessage : public NetMessage
 {
   unsigned int itementityid;
-  unsigned char slot;
 
 public:
   PickRequestMessage() : NetMessage(MESSAGES::ENTITY,ENTITY::PICKREQUEST)
@@ -637,17 +636,20 @@ public:
   unsigned int getItemEntityId() const { return itementityid; }
   void setItemEntityId(unsigned int x) { itementityid = x; }
 
-  unsigned char getSlot() const { return slot; }
-  void setSlot(unsigned char x) { slot = x; }
-
 };
 
 class PickResponseMessage : public NetMessage
 {
   unsigned int itementityid;
-  unsigned char slotid;
+
+  Common::Inventory::PositionRef position;
+
   ptString name;
-  ptString iconname;
+
+  ptString fileName;
+  ptString meshFactName;
+  Common::Inventory::Size size;
+
   ptString description;
   float weight;
   ptString equiptype;
@@ -668,14 +670,25 @@ public:
   unsigned int getItemEntityId() const { return itementityid; }
   void setItemEntityId(unsigned int x) { itementityid = x; }
 
-  unsigned char getSlotId() const { return slotid; }
-  void setSlotId(unsigned char x) { slotid = x; }
+  Common::Inventory::PositionRef getPosition() const { return position; }
+  void setPosition(Common::Inventory::PositionRef x) { position = x; }
 
   ptString getName() const { return name; }
   void setName(ptString x) { name = x; }
 
-  ptString getIconName() const { return iconname; }
-  void setIconName(ptString x) { iconname = x; }
+
+  ptString getFileName() { return fileName; }
+  void setFileName(ptString x) { fileName = x; }
+
+  ptString getMeshFactName() { return meshFactName; }
+  void setMeshFactName(ptString x) { meshFactName = x; }
+
+  Common::Inventory::Size getSize() { return size; }
+  void setSize(const Common::Inventory::Size& x)
+  {
+    size = x;
+  }
+
 
   ptString getDescription() const { return description; }
   void setDescription(ptString x) { description = x; }
@@ -693,7 +706,7 @@ public:
 
 class DropRequestMessage : public NetMessage
 {
-  unsigned char slot;
+  Common::Inventory::PositionRef position;
   unsigned int inventoryid;
 
 public:
@@ -708,8 +721,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getSlot() const { return slot; }
-  void setSlot(unsigned char x) { slot = x; }
+  Common::Inventory::PositionRef getPosition() const { return position; }
+  void setPosition(Common::Inventory::PositionRef x) { position = x; }
 
   unsigned int getInventoryId() const { return inventoryid; }
   void setInventoryId(unsigned int x) { inventoryid = x; }
@@ -718,7 +731,7 @@ public:
 
 class DropResponseMessage : public NetMessage
 {
-  unsigned char slotid;
+  Common::Inventory::PositionRef position;
   ptString error;
 
 public:
@@ -733,8 +746,8 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getSlotId() const { return slotid; }
-  void setSlotId(unsigned char x) { slotid = x; }
+  Common::Inventory::PositionRef getPosition() const { return position; }
+  void setPosition(Common::Inventory::PositionRef x) { position = x; }
 
   ptString getError() const { return error; }
   void setError(ptString x) { error = x; }

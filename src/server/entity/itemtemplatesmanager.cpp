@@ -42,7 +42,9 @@ void ItemTemplate::LoadFromDB()
 
   name = it->name;
   size_t meshId = it->meshes_id;
-  iconFile = it->iconFile;
+
+  size = it->size;
+
   description = it->description;
   size_t equipTypeId = it->equipType_id;
 
@@ -65,7 +67,7 @@ void ItemTemplate::LoadFromDB()
     throw PT_EX(InvalidItemTemplate("Invalid mesh for item template"))
       << MeshIdInfo(meshId) << ItemTemplateIdInfo(templateId);
   }
-  factoryName = m->factoryName;
+  meshName = m->factoryName;
   fileName = m->fileName;
 }
 
@@ -76,12 +78,13 @@ void ItemTemplate::SaveToDB()
 void ItemTemplate::SetDataOn(ItemEntity* item)
 {
   item->SetName(name);
-  item->SetIcon(iconFile);
+  item->SetSize(size);
+
   item->SetDescription(description);
   //item->SetWeight(weight);
   item->SetEquipType(equipType);
   item->SetEquipTypeName(equipTypeName);
-  item->SetMeshName(factoryName);
+  item->SetMeshName(meshName);
   item->SetFileName(fileName);
 }
 

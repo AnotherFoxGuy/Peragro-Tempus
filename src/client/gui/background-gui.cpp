@@ -62,6 +62,7 @@ namespace PT
         window->setProperty("BackgroundEnabled", "True");
         window->setProperty("FrameEnabled", "False");
         window->setProperty("Disabled", "True");
+        window->setProperty("MousePassThroughEnabled", "True");
         window->moveToBack();
 
         HideWindow();

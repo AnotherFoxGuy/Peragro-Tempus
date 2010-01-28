@@ -156,8 +156,8 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
   if (charEnt)
   {
     std::string name = charEnt->GetName();
-    printf("Received PickRequest from: '%s' -> '%d' to slot %i \n", name.c_str(),
-      requestMsg.getItemEntityId(), requestMsg.getSlot());
+    printf("Received PickRequest from: '%s' -> '%d'.\n", name.c_str(),
+      requestMsg.getItemEntityId());
   }
 
   Server* server = Server::getServer();
@@ -187,18 +187,23 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
 
   if (responseMsg.getError().isNull())
   {
-    unsigned int slot = requestMsg.getSlot();
     responseMsg.setItemEntityId(itemEnt->GetId());
-    responseMsg.setSlotId(slot);
-
-    if (!charEnt->GetInventory()->HasObjectAt(slot))
+    
+    Common::Inventory::PositionRef pos;
+    if (charEnt->GetInventory()->FindFreePosition(pos, itemEnt))
     {
+      printf("A: FindFreePosition %d,%d", pos.column, pos.row);
+      responseMsg.setPosition(pos);
 
-      bool retVal = charEnt->GetInventory()->AddObjectAt(slot,itemEnt);
+      bool retVal = charEnt->GetInventory()->AddObjectAt(pos, itemEnt);
       if (retVal)
       {
         responseMsg.setName(itemEnt->GetName());
-        responseMsg.setIconName(itemEnt->GetIcon());
+
+        responseMsg.setFileName(itemEnt->GetFileName());
+        responseMsg.setMeshFactName(itemEnt->GetMeshName());
+        responseMsg.setSize(itemEnt->GetSize());
+
         responseMsg.setDescription(itemEnt->GetDescription());
         responseMsg.setWeight(itemEnt->GetWeight());
         responseMsg.setEquipType(itemEnt->GetEquipType());
@@ -209,8 +214,10 @@ void EntityHandler::handlePickRequest(GenericMessage* msg)
         return;
       }
       responseMsg.setError(ptString("Couldn't add item!",strlen("Couldn't add item!"))); // <-- TODO: Error Message Storage
-    } else
+    } 
+    else
     {
+      printf("E: FindFreePosition %d,%d(%d,%d)", pos.column, pos.row, itemEnt->GetSize().width, itemEnt->GetSize().height);
       responseMsg.setError(ptString("Failed adding inventory,Slot is full!",
         strlen("Failed adding inventory,Slot is full!"))); // <-- TODO: Error Message Storage
     }  // end if slot empty
@@ -231,14 +238,15 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
   std::string name = charEnt->GetName();
   DropRequestMessage requestMsg;
   requestMsg.deserialise(msg->getByteStream());
-  printf("Received DropRequest from: '%s' -> '%d' \n", name.c_str(), requestMsg.getSlot());
-
+  
   DropResponseMessage responseMsg;
-  unsigned char slotId = requestMsg.getSlot();
+  Common::Inventory::PositionRef pos = requestMsg.getPosition();
+
+  printf("Received DropRequest from: '%s' -> '%d,%d' \n", name.c_str(), pos.column, pos.row);
 
   // Get Item
   boost::shared_ptr<ItemEntity> itemEnt = boost::dynamic_pointer_cast<ItemEntity>
-    (charEnt->GetInventory()->RemoveObjectAt(slotId));
+    (charEnt->GetInventory()->RemoveObjectAt(pos));
 
   if (!itemEnt)
   {
@@ -249,7 +257,7 @@ void EntityHandler::handleDropRequest(GenericMessage* msg)
     return;
   }
 
-  responseMsg.setSlotId(slotId);
+  responseMsg.setPosition(pos);
 
   ByteStream bs;
   responseMsg.serialise(&bs);

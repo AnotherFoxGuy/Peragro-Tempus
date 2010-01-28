@@ -102,6 +102,8 @@
 const char* const appConfigFile = "/peragro/config/client.cfg";
 const char* const userConfigFile = "/UserData/client.cfg";
 
+#include <imesh/animesh.h>
+
 CS_IMPLEMENT_APPLICATION
 
 namespace PT
@@ -465,6 +467,8 @@ namespace PT
     // Register listener for Quit
     PT_REGISTER_LISTENER(Client, UserQuit, "user.quit")
 
+    PT_REGISTER_LISTENER(Client, ActionFat, "input.Fat")
+
     // Create the world.
     csRef<iWorld> world = csQueryRegistry<iWorld>(object_reg);
     if (world.IsValid())
@@ -489,6 +493,9 @@ namespace PT
     // Let the engine prepare all lightmaps for use and also free all images
     // that were loaded for the texture manager.
     engine->Prepare ();
+
+    //TODO: this must be done nicer somehow.
+    view->GetCamera()->SetSector (engine->FindSector("CSIconRenderer"));
 
     Run();
 
@@ -682,6 +689,49 @@ namespace PT
 
   bool Client::NoQuit(const CEGUI::EventArgs &args)
   {
+    return true;
+  }
+
+  bool Client::ActionFat(iEvent& ev)
+  {
+    /*
+    static float weight = 0.0f;
+
+    weight += 0.1f;
+    if (weight > 1.0f) weight = 0.0f;
+
+    boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
+
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(player->GetCelEntity(), iPcMesh);
+
+    csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject());
+
+    csRef<iAnimatedMeshFactory> animeshf = scfQueryInterface<iAnimatedMeshFactory> (pcmesh->GetMesh()->GetFactory()->GetMeshObjectFactory());
+
+    uint target = animeshf->FindMorphTarget("Fat");
+
+    animesh->SetMorphTargetWeight(target, weight);
+    */
+
+    boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
+    csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(player->GetCelEntity(), iPcMesh);
+    csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject());
+    csRef<iAnimatedMeshFactory> animeshf = scfQueryInterface<iAnimatedMeshFactory> (pcmesh->GetMesh()->GetFactory()->GetMeshObjectFactory());
+
+    csRef<iSkeletonFactory2> skeletonf = animeshf->GetSkeletonFactory();
+    csRef<iSkeleton2> skeleton = animesh->GetSkeleton();
+
+    csQuaternion rot; 
+    csVector3 offset;
+
+    BoneID spine = skeletonf->FindBone("Leg_Lower.L");
+    skeleton->GetTransformBoneSpace(spine, rot, offset);
+    offset = offset + csVector3(0,0.5,0);
+    rot.SetEulerAngles(csVector3(1.45,0,0));
+    skeleton->SetTransformBoneSpace(spine, rot, offset);
+
+    printf("BLAH: FAT\n");
+
     return true;
   }
 

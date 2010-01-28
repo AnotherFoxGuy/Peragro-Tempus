@@ -42,9 +42,11 @@ class InventoryListMessage : public NetMessage
   {
   public:
     unsigned int itementityid;
-    unsigned char slotid;
+    Common::Inventory::PositionRef position;
     ptString name;
-    ptString iconname;
+    ptString fileName;
+    ptString meshFactName;
+    Common::Inventory::Size size;
     ptString description;
     float weight;
     ptString equiptype;
@@ -84,14 +86,23 @@ public:
   unsigned int getItemEntityId(size_t i) { return inventory[i].itementityid; }
   void setItemEntityId(size_t i, unsigned int x) { inventory[i].itementityid = x; }
 
-  unsigned char getSlotId(size_t i) { return inventory[i].slotid; }
-  void setSlotId(size_t i, unsigned char x) { inventory[i].slotid = x; }
+  Common::Inventory::PositionRef getPosition(size_t i) const { return inventory[i].position; }
+  void setPosition(size_t i, Common::Inventory::PositionRef x) {inventory[i].position = x; }
 
   ptString getName(size_t i) { return inventory[i].name; }
   void setName(size_t i, ptString x) { inventory[i].name = x; }
 
-  ptString getIconName(size_t i) { return inventory[i].iconname; }
-  void setIconName(size_t i, ptString x) { inventory[i].iconname = x; }
+  ptString getFileName(size_t i) { return inventory[i].fileName; }
+  void setFileName(size_t i, ptString x) { inventory[i].fileName = x; }
+
+  ptString getMeshFactName(size_t i) { return inventory[i].meshFactName; }
+  void setMeshFactName(size_t i, ptString x) { inventory[i].meshFactName = x; }
+
+  Common::Inventory::Size getSize(size_t i) { return inventory[i].size; }
+  void setSize(size_t i, const Common::Inventory::Size& x)
+  {
+    inventory[i].size = x;
+  }
 
   ptString getDescription(size_t i) { return inventory[i].description; }
   void setDescription(size_t i, ptString x) { inventory[i].description = x; }
@@ -108,9 +119,9 @@ public:
 
 class InventoryMoveItemRequestMessage : public NetMessage
 {
-  unsigned char oldslot;
+  Common::Inventory::PositionRef oldslot;
   unsigned int oldinventoryid;
-  unsigned char newslot;
+  Common::Inventory::PositionRef newslot;
   unsigned int newinventoryid;
 
 public:
@@ -125,14 +136,14 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getOldSlot() const { return oldslot; }
-  void setOldSlot(unsigned char x) { oldslot = x; }
+  Common::Inventory::PositionRef getOldSlot() const { return oldslot; }
+  void setOldSlot(Common::Inventory::PositionRef x) { oldslot = x; }
 
   unsigned int getOldInventoryId() const { return oldinventoryid; }
   void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
 
-  unsigned char getNewSlot() const { return newslot; }
-  void setNewSlot(unsigned char x) { newslot = x; }
+  Common::Inventory::PositionRef getNewSlot() const { return newslot; }
+  void setNewSlot(Common::Inventory::PositionRef x) { newslot = x; }
 
   unsigned int getNewInventoryId() const { return newinventoryid; }
   void setNewInventoryId(unsigned int x) { newinventoryid = x; }
@@ -141,9 +152,9 @@ public:
 
 class InventoryMoveItemMessage : public NetMessage
 {
-  unsigned char oldslot;
+  Common::Inventory::PositionRef oldslot;
   unsigned int oldinventoryid;
-  unsigned char newslot;
+  Common::Inventory::PositionRef newslot;
   unsigned int newinventoryid;
   ptString error;
 
@@ -159,14 +170,14 @@ public:
   bool serialise(ByteStream* bs);
   void deserialise(ByteStream* bs);
 
-  unsigned char getOldSlot() const { return oldslot; }
-  void setOldSlot(unsigned char x) { oldslot = x; }
+  Common::Inventory::PositionRef getOldSlot() const { return oldslot; }
+  void setOldSlot(Common::Inventory::PositionRef x) { oldslot = x; }
 
   unsigned int getOldInventoryId() const { return oldinventoryid; }
   void setOldInventoryId(unsigned int x) { oldinventoryid = x; }
 
-  unsigned char getNewSlot() const { return newslot; }
-  void setNewSlot(unsigned char x) { newslot = x; }
+  Common::Inventory::PositionRef getNewSlot() const { return newslot; }
+  void setNewSlot(Common::Inventory::PositionRef x) { newslot = x; }
 
   unsigned int getNewInventoryId() const { return newinventoryid; }
   void setNewInventoryId(unsigned int x) { newinventoryid = x; }

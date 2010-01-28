@@ -76,6 +76,7 @@ namespace PT
 
       void SellWindow::AcceptTrade()
       {
+        /* TODO
         winMgr->getWindow("SellWindow/Frame")->setVisible(false);
 
         int nrInventorySlots = 30;
@@ -100,6 +101,7 @@ namespace PT
             }
           }
         }
+        */
       } // end AcceptTrade()
 
       bool SellWindow::Create()

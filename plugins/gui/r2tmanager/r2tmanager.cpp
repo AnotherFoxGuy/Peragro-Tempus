@@ -77,10 +77,13 @@ R2TWidgetManager::R2TWidget::R2TWidget(R2TWidgetManager* m, CEGUI::Window* w, iM
   window->subscribeEvent(CEGUI::Window::EventSized,
     CEGUI::Event::Subscriber(&R2TWidget::OnEventSized, this));
 
-  window->subscribeEvent(CEGUI::Window::EventMouseEnters,
+  //TODO: bug? CEGUI 0.7 no longer trigger these events on the 
+  // image window with MousePassThroughEnabled.
+  // Changed to subscribe on the parent.
+  window->getParent()->subscribeEvent(CEGUI::Window::EventMouseEnters,
     CEGUI::Event::Subscriber(&R2TWidget::OnEventMouseEnters, this));
 
-  window->subscribeEvent(CEGUI::Window::EventMouseLeaves,
+  window->getParent()->subscribeEvent(CEGUI::Window::EventMouseLeaves,
     CEGUI::Event::Subscriber(&R2TWidget::OnEventMouseLeaves, this));
 
   CEGUI::Size size = window->getPixelSize();
@@ -97,14 +100,15 @@ R2TWidgetManager::R2TWidget::~R2TWidget()
   window->removeEvent(CEGUI::Window::EventSized);
 
   // Stop rendering to the texhandle.
-  csRef<iEngine> engine = csQueryRegistry<iEngine> (manager->object_reg);
+  csRef<iEngine> engine = manager->engine;
   csRef<iRenderManagerTargets> rmTargets = scfQueryInterface<iRenderManagerTargets>(engine->GetRenderManager());
   if (texh) rmTargets->UnregisterRenderTarget(texh);
 
   // Destroy the imageset.
   csRef<iCEGUI> cegui = csQueryRegistry<iCEGUI> (manager->object_reg);
-  if (imageSet) cegui->GetImagesetManagerPtr()->destroy(*imageSet);
+  if (cegui && imageSet) cegui->GetImagesetManagerPtr()->destroy(*imageSet);
 
+  imageSet = 0;
   manager = 0;
 }
 
@@ -122,7 +126,7 @@ void R2TWidgetManager::R2TWidget::SizeChanged(int w, int h)
 
     csRef<iGraphics3D> g3d = csQueryRegistry<iGraphics3D> (manager->object_reg);
     csRef<iCEGUI> cegui = csQueryRegistry<iCEGUI> (manager->object_reg);
-    csRef<iEngine> engine = csQueryRegistry<iEngine> (manager->object_reg);
+    csRef<iEngine> engine = manager->engine;
     csRef<iTextureManager> texman = g3d->GetTextureManager();
 
     // Destroy the imageset releasing its texture.
@@ -142,10 +146,10 @@ void R2TWidgetManager::R2TWidget::SizeChanged(int w, int h)
     CEGUI::Texture& ceguiTxt = cegui->CreateTexture(texh);
 
     // Create imageset with texture.
-    imageSet = &cegui->GetImagesetManagerPtr()->create(window->getName() + "_ImageSet", ceguiTxt);
-    imageSet->defineImage("mesh",
+    imageSet = &cegui->GetImagesetManagerPtr()->create(window->getName()+"_ImageSet", ceguiTxt);
+    imageSet->defineImage("mesh", 
       CEGUI::Point(0.0f, 0.0f),
-      ceguiTxt.getSize(),
+      CEGUI::Size(ceguiTxt.getSize().d_width, ceguiTxt.getSize().d_height),
       CEGUI::Point(0.0f,0.0f));
 
     // Assign the set to our window.
@@ -222,7 +226,8 @@ bool R2TWidgetManager::R2TWidget::EventWindowUpdated(const CEGUI::EventArgs& e)
 
   if (rotate) 
   {
-    mesh->GetMovable()->GetTransform().RotateOther(csVector3(0,1,0), -0.02f);
+    csTicks elap = manager->vc->GetElapsedTicks();
+    mesh->GetMovable()->GetTransform().RotateOther(csVector3(0,1,0), -0.002f*elap);
     mesh->GetMovable()->UpdateMove();
   }
 
@@ -256,14 +261,41 @@ R2TWidgetManager::~R2TWidgetManager()
     widgets.pop_back();
 		delete element;
   }
+
+  while (!deadpool.empty()) 
+  {
+		R2TWidget* element = deadpool.back();
+    deadpool.pop_back();
+		delete element;
+  }
 }
 
 bool R2TWidgetManager::Initialize(iObjectRegistry* r)
 {
   object_reg = r;
 
+  engine = csQueryRegistry<iEngine> (object_reg);
+  vc = csQueryRegistry<iVirtualClock> (object_reg);
+
+  eventQueue = csQueryRegistry<iEventQueue> (object_reg);
+  nameRegistry = csEventNameRegistry::GetRegistry(object_reg);
+
   return true;
 } // end Initialize()
+
+bool R2TWidgetManager::HandleEvent(iEvent& ev)
+{
+  while (!deadpool.empty()) 
+  {
+		R2TWidget* element = deadpool.back();
+    deadpool.pop_back();
+		delete element;
+  }
+
+  eventQueue->Unsubscribe(this, nameRegistry->GetID("crystalspace.frame"));
+
+  return true;
+} // end HandleEvent()
 
 bool R2TWidgetManager::Register (CEGUI::Window* w, iMeshWrapper* m)
 {
@@ -285,10 +317,13 @@ bool R2TWidgetManager::UnRegister (CEGUI::Window* w)
     {
       R2TWidget* e = *it;
       widgets.erase(it);
-      delete e;
+      //delete e;
+      deadpool.push_back(e);
       return true;
     }
   }
+
+  eventQueue->RegisterListener(this, nameRegistry->GetID("crystalspace.frame"));
 
   return false;
 } // end UnRegister()

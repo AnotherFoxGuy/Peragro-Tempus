@@ -27,7 +27,7 @@
 
 #include "inventory.h"
 
-#include <wfmath/quadtree.h>
+#include "quadtree.h"
 
 namespace Common
 {
@@ -42,8 +42,8 @@ namespace Common
     class GridInventory : public Inventory
     {
     private:
-      typedef WFMath::QuadTree<WFMath::AxisBox<2>, false>::Type Quadtree;
-      struct PositionedObject : public WFMath::Shape<WFMath::AxisBox<2> >
+      typedef Math::QuadTree Quadtree;
+      struct PositionedObject : public Math::Shape
       {
         PositionRef position;
         boost::shared_ptr<Object> object;
@@ -67,17 +67,23 @@ namespace Common
       /// Container that holds refs to all the objects.
       std::list<boost::shared_ptr<PositionedObject> > objects;
 
-      static WFMath::AxisBox<2> GetBB(const PositionRef& pos, const WFMath::AxisBox<2>& size, float offset = 0.0f);
+      static Math::Rectangle GetBB(const PositionRef& pos, const Size& size); 
 
-      bool IsInInventory(const WFMath::AxisBox<2>& bb);
+      bool Collide(const std::vector<PositionRef>& positions, const std::list<boost::shared_ptr<Object> >& objects, const Math::Rectangle& bb) const;
+
+      bool IsInInventory(const Math::Rectangle& bb) const;
 
       boost::shared_ptr<PositionedObject> GetPositionedObjectAt(const PositionRef& position) const;
+
+      bool AddObjectAtImpl(const PositionRef& position, boost::shared_ptr<Object> object);
+      boost::shared_ptr<Object> RemoveObjectAtImpl(const PositionRef& position);
+      PositionRef RemoveObjectImpl(boost::shared_ptr<Object> object);
 
     public:
       /**
        * Base constructor
        */
-      GridInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      GridInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows);
       virtual ~GridInventory();
 
       /**

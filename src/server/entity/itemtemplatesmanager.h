@@ -23,6 +23,8 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 
+#include "common/inventory/size.h"
+
 #include "common/utility/exception.h"
 
 class ItemEntity;
@@ -43,11 +45,13 @@ private:
 
 public:
   std::string name;
-  std::string iconFile;
+
+  Common::Inventory::Size size;
+
   std::string description;
   std::string equipType;
   std::string equipTypeName;
-  std::string factoryName;
+  std::string meshName;
   std::string fileName;
 
 public:

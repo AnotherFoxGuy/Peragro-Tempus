@@ -97,6 +97,7 @@ namespace PT
       root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
         CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
       root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
+      root->setProperty("MousePassThroughEnabled", "True");
       system->setGUISheet(root);
       return true;
     } // end CreateRootWindow()
@@ -153,13 +154,7 @@ namespace PT
         system = cegui->GetSystemPtr();
 
         // Create the Root window and set it as the GUI sheet.
-        CEGUI::Window* root = cegui->GetWindowManagerPtr()->
-          createWindow("DefaultWindow","Root");
-        root->setArea(CEGUI::UVector2(CEGUI::UDim(0.0f,0), CEGUI::UDim(0.0f,0)),
-          CEGUI::UVector2(CEGUI::UDim(1.0f,0), CEGUI::UDim(1.0f,0)));
-        root->setMaxSize(CEGUI::UVector2(CEGUI::UDim(1.0f,0),
-          CEGUI::UDim(1.0f,0)));
-        cegui->GetSystemPtr()->setGUISheet(root);
+        CreateRootWindow();
 
         // Set up the drag and drop.
         dragdrop = new PT::GUI::Windows::DragDrop (this);

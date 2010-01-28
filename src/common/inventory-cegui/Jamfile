@@ -1,0 +1,8 @@
+SubDir TOP src common inventory-cegui ;
+
+Description inventory-cegui : "CEGUI inventory frontend" ;
+Library inventory-cegui :
+  [ Wildcard *.h *.cpp ] ;
+ExternalLibs inventory-cegui : BOOST CEGUI ;
+LinkWith inventory-cegui : inventory ;
+MsvcCFlags inventory-cegui : /wd4396 ;

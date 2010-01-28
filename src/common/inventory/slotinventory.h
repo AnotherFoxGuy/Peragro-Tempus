@@ -52,14 +52,17 @@ namespace Common
       boost::shared_ptr<Slot> GetSlot(const PositionRef& position) const;
       boost::shared_ptr<Slot> GetSlot(unsigned int id) const;
 
+      bool AddObjectAtImpl(const PositionRef& position, boost::shared_ptr<Object> object);
+      boost::shared_ptr<Object> RemoveObjectAtImpl(const PositionRef& position);
+
     public:
       /**
       * Base constructor
       */
-      SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns);
+      SlotInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows);
 
       ///Create scrollable inventory.
-      SlotInventory(const std::string& name, Utils::Flags type, unsigned int rows, unsigned int columns,
+      SlotInventory(const std::string& name, Utils::Flags type, unsigned int columns, unsigned int rows,
         unsigned int visibleRows, unsigned int visibleColumns);
 
       virtual ~SlotInventory();

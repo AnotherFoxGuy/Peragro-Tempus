@@ -24,6 +24,8 @@
 
 #include "wfmath/point.h"
 #include "common/utility/colour24.h"
+#include "common/inventory/positionref.h"
+#include "common/inventory/size.h"
 
 //#include "common/network/socket.h"
 #include "deserialiser.h"

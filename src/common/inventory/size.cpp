@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2007 - 2008 Development Team of Peragro Tempus
+  Copyright (C) 2010 Development Team of Peragro Tempus
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -16,70 +16,70 @@
   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "positionref.h"
+#include "size.h"
 
 namespace Common
 {
   namespace Inventory
   {
-    PositionRef::PositionRef()
+    Size::Size()
     {
       valid = false;
     }
 
-    PositionRef::PositionRef(int column, int row)
+    Size::Size(unsigned int width, unsigned int height)
     {
-      PositionRef::row = row;
-      PositionRef::column = column;
+      Size::height = height;
+      Size::width = width;
       valid = true;
     }
 
-    PositionRef::~PositionRef()
+    Size::~Size()
     {
     }
 
-    bool PositionRef::operator==(const PositionRef& reference) const
+    bool Size::operator==(const Size& reference) const
     {
-      return row == reference.row && column == reference.column;
+      return height == reference.height && width == reference.width;
     }
 
-    bool PositionRef::operator!=(const PositionRef& reference) const
+    bool Size::operator!=(const Size& reference) const
     {
       return !operator==(reference);
     }
 
-    PositionRef& PositionRef::operator=(const PositionRef& reference)
+    Size& Size::operator=(const Size& reference)
     {
       if (this == &reference)
       {
         return *this;
       }
 
-      row = reference.row;
-      column = reference.column;
+      height = reference.height;
+      width = reference.width;
       valid = reference.valid;
       return *this;
     }
 
-    PositionRef& PositionRef::operator+=(const PositionRef& reference)
+    Size& Size::operator+=(const Size& reference)
     {
-      row += reference.row;
-      column += reference.column;
+      height += reference.height;
+      width += reference.width;
       return *this;
     }
 
-    PositionRef& PositionRef::operator-=(const PositionRef& reference)
+    Size& Size::operator-=(const Size& reference)
     {
 
-      if (reference.row <= row)
-        row -= reference.row;
+      if (reference.height <= height)
+        height -= reference.height;
       else
-        row = 0;
+        height = 0;
 
-      if (reference.column <= column)
-        column -= reference.column;
+      if (reference.width <= width)
+        width -= reference.width;
       else
-        column = 0;
+        width = 0;
 
       return *this;
     }

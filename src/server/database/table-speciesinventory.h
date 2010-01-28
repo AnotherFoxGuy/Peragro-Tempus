@@ -31,7 +31,7 @@ class ResultSet;
 #define DB_TABLE_SPECIESINVENTORY SpeciesInventory
 #define DB_TABLE_SPECIESINVENTORY_FIELDS \
   ((species_id,         size_t,             PT_PrimaryKeyS,  (Species, id) )) \
-  ((slot,               size_t,             PT_PrimaryKey,   0)) \
+  ((position,          Common::Inventory::PositionRef, PT_PrimaryKey,   0)) \
   ((itemTemplates_id,   size_t,             0,               (ItemTemplates, id) )) \
   ((chance,             size_t,             0,                0))
 

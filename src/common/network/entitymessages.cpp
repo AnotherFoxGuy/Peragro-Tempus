@@ -382,7 +382,6 @@ bool PickRequestMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itementityid);
-  serial.setInt8(slot);
   return serial.isValid();
 }
 
@@ -392,7 +391,6 @@ void PickRequestMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   itementityid = static_cast<unsigned int>(serial.getInt32());
-  slot = static_cast<unsigned char>(serial.getInt8());
 }
 
 bool PickResponseMessage::serialise(ByteStream* bs)
@@ -401,9 +399,17 @@ bool PickResponseMessage::serialise(ByteStream* bs)
   serial.setInt8(type);
   serial.setInt8(id);
   serial.setInt32(itementityid);
-  serial.setInt8(slotid);
+
+  serial.setInt32(position.column);
+  serial.setInt32(position.row);
+
   serial.setString(name);
-  serial.setString(iconname);
+
+  serial.setString(fileName);
+  serial.setString(meshFactName);
+  serial.setInt32(size.width);
+  serial.setInt32(size.height);
+
   serial.setString(description);
   serial.setFloat(weight);
   serial.setString(equiptype);
@@ -417,9 +423,19 @@ void PickResponseMessage::deserialise(ByteStream* bs)
   type = serial.getInt8();
   id = serial.getInt8();
   itementityid = static_cast<unsigned int>(serial.getInt32());
-  slotid = static_cast<unsigned char>(serial.getInt8());
+
+  position.column = static_cast<unsigned int>(serial.getInt32());
+  position.row = static_cast<unsigned int>(serial.getInt32());
+  position.valid = true;
+
   name = static_cast<ptString>(serial.getString());
-  iconname = static_cast<ptString>(serial.getString());
+
+  fileName = static_cast<ptString>(serial.getString());
+  meshFactName = static_cast<ptString>(serial.getString());
+  size.width = static_cast<unsigned int>(serial.getInt32());
+  size.height = static_cast<unsigned int>(serial.getInt32());
+  size.valid = true;
+
   description = static_cast<ptString>(serial.getString());
   weight = static_cast<float>(serial.getFloat());
   equiptype = static_cast<ptString>(serial.getString());
@@ -431,7 +447,8 @@ bool DropRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(slot);
+  serial.setInt32(position.column);
+  serial.setInt32(position.row);
   serial.setInt32(inventoryid);
   return serial.isValid();
 }
@@ -441,7 +458,9 @@ void DropRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  slot = static_cast<unsigned char>(serial.getInt8());
+  position.column = static_cast<unsigned int>(serial.getInt32());
+  position.row = static_cast<unsigned int>(serial.getInt32());
+  position.valid = true;
   inventoryid = static_cast<unsigned int>(serial.getInt32());
 }
 
@@ -450,7 +469,8 @@ bool DropResponseMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(slotid);
+  serial.setInt32(position.column);
+  serial.setInt32(position.row);
   serial.setString(error);
   return serial.isValid();
 }
@@ -460,7 +480,9 @@ void DropResponseMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  slotid = static_cast<unsigned char>(serial.getInt8());
+  position.column = static_cast<unsigned int>(serial.getInt32());
+  position.row = static_cast<unsigned int>(serial.getInt32());
+  position.valid = true;
   error = static_cast<ptString>(serial.getString());
 }
 

@@ -20,6 +20,7 @@
 
 #include "common/eventcs/eventmanager.h"
 #include "common/eventcs/tradeevent.h"
+#include "common/eventcs/entityevent.h"
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
@@ -38,17 +39,19 @@ namespace PT
       using namespace PT::Events;
       entityId = Helper::GetUInt(&ev, "itemEntityId");
       name = Helper::GetString(&ev, "name");
-      objectIcon = Helper::GetString(&ev, "iconName");
+      fileName = Helper::GetString(&ev, "fileName");
+      meshFactName = Helper::GetString(&ev, "meshFactName");
+      objectSize = PT::Events::EntityHelper::GetSize(&ev, "size");
       objectDescription = Helper::GetString(&ev, "description");
       weight = Helper::GetFloat(&ev, "weight");
       equipType = Helper::GetString(&ev, "equipType");
 
-      //slotId = Helper::GetUInt(&ev, "slotId");
+      //slotId
     }
 
     PlayerInventory::PlayerInventory ()
     {
-      inventory = boost::shared_ptr<SlotInventory>(new SlotInventory("Inventory", ALLOW_ITEMS, 10, 5));
+      inventory = boost::shared_ptr<GridInventory>(new GridInventory("Inventory", ALLOW_ITEMS, 5, 4));
     }
 
     PlayerInventory::~PlayerInventory ()
@@ -64,7 +67,7 @@ namespace PT
       InventoryWindow* inventoryWindow = guimanager->GetWindow<InventoryWindow>(INVENTORYWINDOW);
       if (!inventoryWindow) return false;
 
-      //if (!inventoryWindow->Initialize(inventory)) return false;
+      if (!inventoryWindow->SetInventory(inventory)) return false;
 
       // Register listener for InventoryAddEvent.
       PT_SETUP_HANDLER
@@ -82,7 +85,7 @@ namespace PT
       using namespace PT::Events;
 
       unsigned int itemId = -1;
-      ev.Retrieve("itemId", itemId);
+      ev.Retrieve("itemEntityId", itemId);
 
       if (!Helper::HasError(&ev))
       {
@@ -98,15 +101,15 @@ namespace PT
     {
       using namespace PT::Events;
 
-      unsigned int slotId = -1;
-      ev.Retrieve("slotId", slotId);
+      Common::Inventory::PositionRef pos;
+      pos = PT::Events::EntityHelper::GetPositionRef(&ev, "position");
 
       if (!Helper::HasError(&ev))
       {
-        if (!inventory->RemoveObjectAt(slotId)) Report(PT::Error, "Inventory error: Drop!");
+        if (!inventory->RemoveObjectAt(pos)) Report(PT::Error, "Inventory error: Drop!");
       }
       else
-        Report(PT::Notify, "You can't drop slot %d! Reason: '%s'.", slotId, Helper::GetError(&ev).c_str());
+        Report(PT::Notify, "You can't drop! Reason: '%s'.", Helper::GetError(&ev).c_str());
 
       return true;
     } // end Drop()
@@ -134,11 +137,15 @@ namespace PT
     bool PlayerInventory::Add(iEvent& ev)
     {
       using namespace PT::Events;
-      unsigned int slotId = Helper::GetUInt(&ev, "slotId");
+
+      Common::Inventory::PositionRef pos;
+      pos = PT::Events::EntityHelper::GetPositionRef(&ev, "position");
 
       boost::shared_ptr<Item> item(new Item(ev));
 
-      if (!inventory->AddObjectAt(slotId, item)) Report(PT::Error, "Inventory error: Add!");
+      Report(PT::Error, "PlayerInventory::Add %d,%d!", pos.column, pos.row);
+
+      if (!inventory->AddObjectAt(pos, item)) Report(PT::Error, "Inventory error: Add!");
 
       return true;
     } // end Add()
@@ -149,16 +156,16 @@ namespace PT
       using namespace PT::GUI;
       using namespace PT::GUI::Windows;
 
-      unsigned int oldSlotId = Helper::GetUInt(&ev, "oldSlot");
-      unsigned int newSlotId = Helper::GetUInt(&ev, "newSlot");
+      Common::Inventory::PositionRef oldSlotId = PT::Events::EntityHelper::GetPositionRef(&ev, "oldSlot");
+      Common::Inventory::PositionRef newSlotId = PT::Events::EntityHelper::GetPositionRef(&ev, "newSlot");
 
       if (!Helper::HasError(&ev))
       {
         if (!inventory->MoveObject(oldSlotId, newSlotId)) Report(PT::Error, "Inventory error: Move!");
       }
       else
-        Report(PT::Notify, "You can't move object from slot %d to slot %d! Reason: '%s'.",
-          oldSlotId, newSlotId, Helper::GetError(&ev).c_str());
+        Report(PT::Notify, "You can't move object from %d,%d to %d,%d! Reason: '%s'.",
+          oldSlotId.column, oldSlotId.row, newSlotId.column, newSlotId.row, Helper::GetError(&ev).c_str());
 
       return true;
     } // end Move()

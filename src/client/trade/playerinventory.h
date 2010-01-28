@@ -25,7 +25,7 @@
 #include "common/eventcs/eventmanager.h"
 
 #include "common/inventory/item.h"
-#include "common/inventory/slotinventory.h"
+#include "common/inventory/gridinventory.h"
 
 struct iEvent;
 
@@ -43,7 +43,7 @@ namespace PT
     class PlayerInventory
     {
     private:
-      boost::shared_ptr<Common::Inventory::SlotInventory> inventory;
+      boost::shared_ptr<Common::Inventory::GridInventory> inventory;
 
     private:
       PT_CALLBACK_HANDLER_LISTENERS
@@ -56,6 +56,8 @@ namespace PT
     public:
       PlayerInventory ();
       ~PlayerInventory ();
+
+      boost::shared_ptr<Common::Inventory::Inventory> GetInventory() { return inventory; }
 
       bool Initialize ();
     };

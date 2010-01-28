@@ -252,6 +252,7 @@ namespace PT
 
       void TradeWindow::AcceptTrade()
       {
+        /* TODO
         winMgr->getWindow("TradeWindow/Frame")->setVisible(false);
 
         int nrInventorySlots = 30;
@@ -292,6 +293,7 @@ namespace PT
         inventory.DeleteAll();
         SetAccept(1, false);
         SetAccept(2, false);
+        */
       } // end AcceptTrade()
 
       bool TradeWindow::Create()

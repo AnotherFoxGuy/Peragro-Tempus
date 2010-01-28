@@ -126,10 +126,12 @@ namespace PT
           tradeWindow->UpdateOffer();
         }
 
+        //TODO
+        /*
         InventoryMoveItemRequestMessage slotchangemsg;
         slotchangemsg.setNewSlot(newslot->GetId());
         slotchangemsg.setOldSlot(oldslot->GetId());
-        if (network) network->send(&slotchangemsg);
+        if (network) network->send(&slotchangemsg);*/
 
         return true;
       } // end handleDragDropped()
@@ -169,10 +171,13 @@ namespace PT
 
         if (objectid < 1) return false;
 
+        //TODO
+        /*
         DropRequestMessage msg;
         //msg.setItemId(objectid);
         msg.setSlot(slot->GetId());
         if (network) network->send(&msg);
+        */
 
         return true;
       } // end handleDragDroppedRoot()

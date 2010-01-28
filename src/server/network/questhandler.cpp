@@ -70,64 +70,11 @@ void QuestHandler::handleNpcDialogAnswer(GenericMessage* msg)
   }
   else if (dialog->GetAction() == NPCDialog::START_BUY)
   {
-    if (npcEnt)
-    {
-      // hardcoded! just to test it!
-      // All this should go to the trade handler anyway!
-      TradeOffersListNpcMessage trade_msg;
-      trade_msg.setIsBuy(1);
-      trade_msg.setOffersCount(1);
-
-      unsigned int itemId = 1007; // Prima Buckler in the test_db
-      boost::shared_ptr<ItemTemplate> itemTemplate = server->GetItemTemplatesManager()
-      ->Get(itemId);
-
-      trade_msg.setItemId(0, itemId );
-      trade_msg.setName(0, ptString(itemTemplate->name.c_str(),strlen(itemTemplate->name.c_str())));
-      trade_msg.setIconName(0, ptString(itemTemplate->iconFile.c_str() ,strlen(itemTemplate->iconFile.c_str())));
-      trade_msg.setPrice(0, 200);
-
-      ByteStream bs;
-      trade_msg.serialise(&bs);
-      NetworkHelper::sendMessage(pcEnt, bs);
-
-      NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(diaState->GetNpc()->GetId());
-      ByteStream bs2;
-      endmsg.serialise(&bs2);
-      NetworkHelper::sendMessage(pcEnt, bs2);
-    }
+    //TODO
   }
   else if (dialog->GetAction() == NPCDialog::START_SELL)
   {
-    if (npcEnt)
-    {
-      // hardcoded! just to test it!
-      // All this should go to the trade handler anyway!
-      TradeOffersListNpcMessage trade_msg;
-      trade_msg.setIsBuy(0);
-      trade_msg.setOffersCount(2);
-
-      trade_msg.setItemId(0, 1004);
-      trade_msg.setName(0, ptString("Pot", 3));
-      trade_msg.setIconName(0, ptString("set:Inventory image:tinyballpot", 31));
-      trade_msg.setPrice(0, 175);
-
-      trade_msg.setItemId(1, 1003);
-      trade_msg.setName(1, ptString("Scythe", 6));
-      trade_msg.setIconName(1, ptString("set:Inventory image:Scythe", 26));
-      trade_msg.setPrice(1,  75);
-
-      ByteStream bs;
-      trade_msg.serialise(&bs);
-      NetworkHelper::sendMessage(pcEnt, bs);
-
-      NpcEndDialogMessage endmsg;
-      endmsg.setNpcId(diaState->GetNpc()->GetId());
-      ByteStream bs2;
-      endmsg.serialise(&bs2);
-      NetworkHelper::sendMessage(pcEnt, bs2);
-    }
+    //TODO
   }
 /*
   else if (dialog->GetAction() == NPCDialog::TELEPORT)

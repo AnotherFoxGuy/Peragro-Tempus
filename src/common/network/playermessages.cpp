@@ -34,9 +34,17 @@ bool InventoryListMessage::serialise(ByteStream* bs)
   for ( size_t i = 0; i < inventorycount ; i++ )
   {
     serial.setInt32(inventory[i].itementityid);
-    serial.setInt8(inventory[i].slotid);
+
+    serial.setInt32(inventory[i].position.column);
+    serial.setInt32(inventory[i].position.row);
+
     serial.setString(inventory[i].name);
-    serial.setString(inventory[i].iconname);
+    
+    serial.setString(inventory[i].fileName);
+    serial.setString(inventory[i].meshFactName);
+    serial.setInt32(inventory[i].size.width);
+    serial.setInt32(inventory[i].size.height);
+
     serial.setString(inventory[i].description);
     serial.setFloat(inventory[i].weight);
     serial.setString(inventory[i].equiptype);
@@ -56,9 +64,17 @@ void InventoryListMessage::deserialise(ByteStream* bs)
   for (size_t i = 0; i < inventorycount ; ++i)
   {
     inventory[i].itementityid = static_cast<unsigned int>(serial.getInt32());
-    inventory[i].slotid = static_cast<unsigned char>(serial.getInt8());
+
+    inventory[i].position.column = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].position.row = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].position.valid = true;
+
     inventory[i].name = static_cast<ptString>(serial.getString());
-    inventory[i].iconname = static_cast<ptString>(serial.getString());
+    inventory[i].fileName = static_cast<ptString>(serial.getString());
+    inventory[i].meshFactName = static_cast<ptString>(serial.getString());
+    inventory[i].size.width = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].size.height = static_cast<unsigned int>(serial.getInt32());
+    inventory[i].size.valid = true;
     inventory[i].description = static_cast<ptString>(serial.getString());
     inventory[i].weight = static_cast<float>(serial.getFloat());
     inventory[i].equiptype = static_cast<ptString>(serial.getString());
@@ -71,9 +87,11 @@ bool InventoryMoveItemRequestMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(oldslot);
+  serial.setInt32(oldslot.column);
+  serial.setInt32(oldslot.row);
   serial.setInt32(oldinventoryid);
-  serial.setInt8(newslot);
+  serial.setInt32(newslot.column);
+  serial.setInt32(newslot.row);
   serial.setInt32(newinventoryid);
   return serial.isValid();
 }
@@ -83,9 +101,13 @@ void InventoryMoveItemRequestMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  oldslot = static_cast<unsigned char>(serial.getInt8());
+  oldslot.column = static_cast<unsigned int>(serial.getInt32());
+  oldslot.row = static_cast<unsigned int>(serial.getInt32());
+  oldslot.valid = true;
   oldinventoryid = static_cast<unsigned int>(serial.getInt32());
-  newslot = static_cast<unsigned char>(serial.getInt8());
+  oldslot.column = static_cast<unsigned int>(serial.getInt32());
+  newslot.row = static_cast<unsigned int>(serial.getInt32());
+  newslot.valid = true;
   newinventoryid = static_cast<unsigned int>(serial.getInt32());
 }
 
@@ -94,9 +116,11 @@ bool InventoryMoveItemMessage::serialise(ByteStream* bs)
   Serialiser serial(bs);
   serial.setInt8(type);
   serial.setInt8(id);
-  serial.setInt8(oldslot);
+  serial.setInt32(oldslot.column);
+  serial.setInt32(oldslot.row);
   serial.setInt32(oldinventoryid);
-  serial.setInt8(newslot);
+  serial.setInt32(newslot.column);
+  serial.setInt32(newslot.row);
   serial.setInt32(newinventoryid);
   serial.setString(error);
   return serial.isValid();
@@ -107,9 +131,13 @@ void InventoryMoveItemMessage::deserialise(ByteStream* bs)
   Deserialiser serial(bs);
   type = serial.getInt8();
   id = serial.getInt8();
-  oldslot = static_cast<unsigned char>(serial.getInt8());
+  oldslot.column = static_cast<unsigned int>(serial.getInt32());
+  oldslot.row = static_cast<unsigned int>(serial.getInt32());
+  oldslot.valid = true;
   oldinventoryid = static_cast<unsigned int>(serial.getInt32());
-  newslot = static_cast<unsigned char>(serial.getInt8());
+  oldslot.column = static_cast<unsigned int>(serial.getInt32());
+  newslot.row = static_cast<unsigned int>(serial.getInt32());
+  newslot.valid = true;
   newinventoryid = static_cast<unsigned int>(serial.getInt32());
   error = static_cast<ptString>(serial.getString());
 }

@@ -52,20 +52,20 @@ void TestGridInventory()
   {
     boost::shared_ptr<Item> o(new Item());
     o->SetObjectName("0");
-    o->SetSize(WFMath::AxisBox<2>(WFMath::Point<2>(0),  WFMath::Point<2>(3)));
+    o->SetSize(Size(3,3));
     assert(inv->AddObjectAt(PositionRef(0, 0), o));
   }
   {
     boost::shared_ptr<Item> o(new Item());
     o->SetObjectName("1");
-    o->SetSize(WFMath::AxisBox<2>(WFMath::Point<2>(0),  WFMath::Point<2>(2)));
+    o->SetSize(Size(2,2));
     assert(inv->AddObjectAt(PositionRef(0, 4), o));
   }
 
   {
     boost::shared_ptr<Item> o(new Item());
     o->SetObjectName("2");
-    o->SetSize(WFMath::AxisBox<2>(WFMath::Point<2>(0),  WFMath::Point<2>(2,3)));
+    o->SetSize(Size(2,3));
     assert(inv->AddObjectAt(PositionRef(3, 4), o));
   }
 

@@ -139,7 +139,7 @@ void AddInventory(boost::shared_ptr<Character> entity, size_t speciesId)
       item->SetItemTemplate(itemTemplate);
       item->SetInWorld(false);
       item->SaveToDB();
-      entity->GetInventory()->AddObjectAt((*it)->slot, item);
+      entity->GetInventory()->AddObjectAt((*it)->position, item);
     }
   }
 }

@@ -83,7 +83,7 @@ INSERT INTO "AttributeTypes" VALUES(12,'Toughness');
 CREATE TABLE Attributes ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "AttributeTypes_id" INTEGER NOT NULL REFERENCES "AttributeTypes" ("id"), "value" INTEGER NOT NULL, UNIQUE ("entity_id", "AttributeTypes_id"));
 
 
-CREATE TABLE Inventory ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "slot" INTEGER NOT NULL, "item_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), UNIQUE ("entity_id", "slot"));
+CREATE TABLE Inventory ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "position" TEXT NOT NULL, "item_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), UNIQUE ("entity_id", "position"));
 
 
 CREATE TABLE Equipment ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "equipType_id" INTEGER NOT NULL REFERENCES "EquipTypes" ("id"), "item_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), UNIQUE ("entity_id", "equipType_id"));
@@ -193,7 +193,7 @@ CREATE TABLE Books ("entity_id" INTEGER NOT NULL REFERENCES "Entities" ("id"), "
 CREATE TABLE Meshes ("id" INTEGER NOT NULL, "revision" INTEGER NOT NULL, "factoryName" TEXT NOT NULL, "fileName" TEXT NOT NULL, UNIQUE ("id"));
 
 
-CREATE TABLE ItemTemplates ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "iconFile" TEXT NOT NULL, "description" TEXT NOT NULL, "equipType_id" INTEGER NOT NULL REFERENCES "EquipTypes" ("id"), "SkillTypes_id" INTEGER NOT NULL REFERENCES "SkillTypes" ("id"), UNIQUE ("id"));
+CREATE TABLE ItemTemplates ("id" INTEGER NOT NULL, "name" TEXT NOT NULL, "meshes_id" INTEGER NOT NULL REFERENCES "Meshes" ("id"), "size" TEXT NOT NULL, "description" TEXT NOT NULL, "equipType_id" INTEGER NOT NULL REFERENCES "EquipTypes" ("id"), "SkillTypes_id" INTEGER NOT NULL REFERENCES "SkillTypes" ("id"), UNIQUE ("id"));
 
 CREATE TABLE Config ("name" TEXT NOT NULL, "value" TEXT NOT NULL, UNIQUE ("name"));
 INSERT INTO "Config" VALUES('port','12345');
@@ -277,54 +277,54 @@ INSERT INTO "SpeciesAbilities" VALUES(2,4,0,100);  --Strength
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- Apple
 INSERT INTO "Meshes" VALUES(1001,1,'apple','/peragro/art/3d_art/props/others/apple01/apple.xml');
-INSERT INTO "ItemTemplates" VALUES(1001, 'Apple', 1001, 'set:Inventory image:apple', 'An tasty looking apple.', 1, 0);
+INSERT INTO "ItemTemplates" VALUES(1001, 'Apple', 1001, '1 1', 'An tasty looking apple.', 1, 0);
 
 -- Book
 INSERT INTO "Meshes" VALUES(1002,1,'book','/peragro/art/3d_art/props/books/book01/book.xml');
-INSERT INTO "ItemTemplates" VALUES(1002, 'Book', 1002, 'set:Inventory image:oldbook', 'An old book.', 1, 0 );
+INSERT INTO "ItemTemplates" VALUES(1002, 'Book', 1002, '1 2', 'An old book.', 1, 0 );
 
 -- Daedalian Claymore
 INSERT INTO "Meshes" VALUES(1003,1,'genbastardsword01','/peragro/art/3d_art/props/weapons/swords/bastardsword01/library');
-INSERT INTO "ItemTemplates" VALUES(1003, 'Daedalian Claymore', 1003, 'set:Inventory image:fancyclaymore', 'A masterful sword for those born out of wedlock.', 1, 1);
+INSERT INTO "ItemTemplates" VALUES(1003, 'Daedalian Claymore', 1003, '1 3', 'A masterful sword for those born out of wedlock.', 1, 1);
 
 
 -- Flaming Dragon Edge Sword
 --INSERT INTO "Meshes" VALUES(4,1,'swordfact','/peragro/art/3d_art/props/weapons/swords/sword/sword.lib');
---INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 4, 'set:Inventory image:DragonEdgeSword', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
+--INSERT INTO "ItemTemplates" VALUES(4, 'Flaming Dragon Edge Sword', 4, '1 3', '	Passed on from generation to generation of Tibet Monks who mastered the movement of the Mighty Dragon and could swing this sword soo fast it would actually caught fire, inflicting extra damage on the foe.', 1, 1);
 
 
 -- Mighty Helmet of the Holy Monkey
 --INSERT INTO "Meshes" VALUES(5,1,'helmet','/peragro/art/armor/helmets/bogus.xml');
---INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '5', 'set:Helmet image:Helmet', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
+--INSERT INTO "ItemTemplates" VALUES(5, 'Mighty Helmet of the Holy Monkey', '5', '1 1', 'The Sweet Mother of the Holy Monkey used this helmet as a drinking bucket.', 1, 0);
 
 -- Key
 --INSERT INTO "Meshes" VALUES(6,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
---INSERT INTO "ItemTemplates" VALUES(6, 'Key', 6, 'set:Inventory image:Key01', 'A small gold key.', 1, 0);
+--INSERT INTO "ItemTemplates" VALUES(6, 'Key', 6, '1 1', 'A small gold key.', 1, 0);
 
 -- Prima Buckler
 INSERT INTO "Meshes" VALUES(1007,1,'buckler1','/peragro/art/3d_art/props/shields/primabuckler/buckler1.xml');
-INSERT INTO "ItemTemplates" VALUES(1007, 'Prima Buckler', 1007, 'set:Inventory image:primabuckler', 'A small buckler style shield.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1007, 'Prima Buckler', 1007, '2 2', 'A small buckler style shield.', 1, 0)
 
 
 -- Scythe
 INSERT INTO "Meshes" VALUES(1008,1,'genscythe001','/peragro/art/3d_art/props/others/scythes/scythe001/library.xml');
-INSERT INTO "ItemTemplates" VALUES(1008, 'Scythe', 1008, '/peragro/art/3d_art/props/others/scythes/scythe001/icon_scythe001.png', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
+INSERT INTO "ItemTemplates" VALUES(1008, 'Scythe', 1008, '1 2', 'A peaceful tool for farming or a deadly weapon in sociopaths hands.', 1, 1)
 
 -- Small Plate
 INSERT INTO "Meshes" VALUES(1009,1,'Stuff001_smallplate_64_plates','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "ItemTemplates" VALUES(1009, 'Small Plate', 1009, 'set:Inventory image:smallplate', 'A small plate.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1009, 'Small Plate', 1009, '1 1', 'A small plate.', 1, 0)
 
 -- Tiny Ballpot
 INSERT INTO "Meshes" VALUES(1010,1,'Stuff001_tinyballpot_84_pot','/peragro/art/3d_art/props/others/stuff001/tinyballpot_84_pot.xml');
-INSERT INTO "ItemTemplates" VALUES(1010, 'Tiny Ballpot', 1010, 'set:Inventory image:tinyballpot', 'A Tiny Ballpot.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1010, 'Tiny Ballpot', 1010, '1 1', 'A Tiny Ballpot.', 1, 0)
 
 -- Tunic
 INSERT INTO "Meshes" VALUES(1011,1,'tunic','/peragro/art/3d_art/props/clothes/tunic/library');
-INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, 'set:Inventory image:tinyballpot', 'A simple tunic.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1011, 'Simple Tunic', 1011, '1 1', 'A simple tunic.', 1, 0)
 
 -- Pants
 INSERT INTO "Meshes" VALUES(1012,1,'trousers','/peragro/art/3d_art/props/clothes/trousers/library');
-INSERT INTO "ItemTemplates" VALUES(1012, 'Plain trousers', 1012, 'set:Inventory image:tinyballpot', 'A simple pair of trousers.', 1, 0)
+INSERT INTO "ItemTemplates" VALUES(1012, 'Plain trousers', 1012, '1 1', 'A simple pair of trousers.', 1, 0)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 -- My test account stuff

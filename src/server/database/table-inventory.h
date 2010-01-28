@@ -31,7 +31,7 @@ class ResultSet;
 #define DB_TABLE_INVENTORY Inventory
 #define DB_TABLE_INVENTORY_FIELDS \
   ((entity_id,         size_t,             PT_PrimaryKeyS,  (Entities, id) )) \
-  ((slot,              size_t,             PT_PrimaryKey,   0)) \
+  ((position,          Common::Inventory::PositionRef,   PT_PrimaryKey,   0)) \
   ((item_id,           size_t,             0,               (Entities, id) )) \
 
 PT_DECLARE_VO(InventoryTable, DB_TABLE_INVENTORY, DB_TABLE_INVENTORY_FIELDS)

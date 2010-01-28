@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2007-2008 Development Team of Peragro Tempus
+    Copyright (C) 2010 Development Team of Peragro Tempus
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,28 +16,28 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef COMMON_POSITIONREF_H
-#define COMMON_POSITIONREF_H
+#ifndef COMMON_SIZE_H
+#define COMMON_SIZE_H
 
 namespace Common
 {
   namespace Inventory
   {
-    struct PositionRef
+    struct Size
     {
       bool valid;
-      int row;
-      int column;
+      unsigned int width;
+      unsigned int height;
 
-      PositionRef();
-      PositionRef(int column, int row);
-      virtual ~PositionRef();
+      Size();
+      Size(unsigned int width, unsigned int height);
+      virtual ~Size();
 
-      bool operator==(const PositionRef& reference) const;
-      bool operator!=(const PositionRef& reference) const;
-      PositionRef& operator=(const PositionRef& reference);
-      PositionRef& operator+=(const PositionRef& reference);
-      PositionRef& operator-=(const PositionRef& reference);
+      bool operator==(const Size& reference) const;
+      bool operator!=(const Size& reference) const;
+      Size& operator=(const Size& reference);
+      Size& operator+=(const Size& reference);
+      Size& operator-=(const Size& reference);
 
       operator bool() const { return valid; }
     };
@@ -45,4 +45,4 @@ namespace Common
   } // Inventory namespace
 } // Common namespace
 
-#endif // COMMON_POSITIONREF_H
+#endif // COMMON_SIZE_H

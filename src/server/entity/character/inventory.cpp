@@ -45,7 +45,7 @@ boost::shared_ptr<ItemEntity> Convert(Entityp e)
 
 bool Inventory::AddObjectAt(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item)
 {
-  bool success = CI::SlotInventory::AddObjectAt(position, item);
+  bool success = CI::GridInventory::AddObjectAt(position, item);
   if (success)
   {
     // We added the item to the inventory, so remove it from the world.
@@ -57,14 +57,9 @@ bool Inventory::AddObjectAt(const CI::PositionRef& position, boost::shared_ptr<I
   return success;
 }
 
-bool Inventory::AddObjectAt(unsigned int id, boost::shared_ptr<ItemEntity> item)
-{
-  return AddObjectAt(IdToPos(id), item);
-}
-
 boost::shared_ptr<CI::Object> Inventory::RemoveObjectAt(const CI::PositionRef& position)
 {
-  boost::shared_ptr<CI::Object> object = CI::SlotInventory::RemoveObjectAt(position);
+  boost::shared_ptr<CI::Object> object = CI::GridInventory::RemoveObjectAt(position);
   if (object)
   {
     DeleteItemFromDB(position);
@@ -72,14 +67,9 @@ boost::shared_ptr<CI::Object> Inventory::RemoveObjectAt(const CI::PositionRef& p
   return object;
 }
 
-boost::shared_ptr<CI::Object> Inventory::RemoveObjectAt(unsigned int id)
-{
-  return RemoveObjectAt(IdToPos(id));
-}
-
 CI::PositionRef Inventory::RemoveObject(boost::shared_ptr<CI::Object> object)
 {
-  CI::PositionRef ref = CI::SlotInventory::RemoveObject(object);
+  CI::PositionRef ref = CI::GridInventory::RemoveObject(object);
   if (ref)
   {
     DeleteItemFromDB(ref);
@@ -96,20 +86,20 @@ void Inventory::LoadFromDB()
   {
     Entityp entity = Server::getServer()->getEntityManager()->CreateNew(Common::Entity::ItemEntityType, (*it)->item_id);
     entity->LoadFromDB();
-    AddObjectAt(IdToPos((*it)->slot), Convert(entity));
+    AddObjectAt((*it)->position, Convert(entity));
   }
 }
 
 void Inventory::SaveItemToDB(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item)
 {
   InventoryTable* table = Server::getServer()->GetTableManager()->Get<InventoryTable>();
-  table->Insert(entity.lock()->GetId(), PosToId(position), item->GetId());
+  table->Insert(entity.lock()->GetId(), position, item->GetId());
 }
 
 void Inventory::DeleteItemFromDB(const CI::PositionRef& position)
 {
   InventoryTable* table = Server::getServer()->GetTableManager()->Get<InventoryTable>();
-  table->Delete(entity.lock()->GetId(), PosToId(position));
+  table->Delete(entity.lock()->GetId(), position);
 }
 
 void Inventory::SaveToDB()
@@ -126,6 +116,28 @@ void Inventory::SendAllItems(Connection* conn)
   InventoryListMessage itemlist_msg;
   itemlist_msg.setInventoryCount((char)objects.size());
   itemlist_msg.setInventoryId(0); //TODO unused
+
+  std::list<boost::shared_ptr<CI::Object> >::const_iterator it1 = objects.begin();
+  std::list<CI::PositionRef>::const_iterator it2 = positions.begin();
+  size_t n = 0;
+  for (; it1 != objects.end(); it1++, it2++, n++)
+  {
+    boost::shared_ptr<ItemEntity> item( Convert(*it1) );
+
+    itemlist_msg.setItemEntityId(n, item->GetId());
+
+    itemlist_msg.setPosition(n, *it2);
+
+    itemlist_msg.setName(n, item->GetName());
+    itemlist_msg.setFileName(n, item->GetFileName());
+    itemlist_msg.setMeshFactName(n, item->GetMeshName());
+    itemlist_msg.setSize(n, item->GetSize());
+    itemlist_msg.setDescription(n, item->GetDescription());
+    itemlist_msg.setWeight(n, item->GetWeight());
+    itemlist_msg.setEquipType(n, item->GetEquipType());
+  }
+
+
 /* TODO
   std::list<boost::shared_ptr<CI::Slot> >::const_iterator it;
   size_t n = 0;

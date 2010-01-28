@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _H_R2TMANAGER
-#define _H_R2TMANAGER
+#ifndef R2TMANAGER_H_
+#define R2TMANAGER_H_
 
 #include <cssysdef.h>
 #include <csutil/scf.h>
@@ -25,17 +25,35 @@
 #include <iutil/comp.h>
 #include <iengine/mesh.h>
 #include <cstool/procmesh.h>
+#include <iutil/virtclk.h>
+
+#include <iutil/event.h>
+#include <iutil/eventh.h>
+#include <iutil/eventq.h>
+#include <csutil/eventnames.h>
 
 #include <list>
 
 #include "ir2tmanager.h"
 
 class R2TWidgetManager
-  : public scfImplementation2<R2TWidgetManager, iR2TWidgetManager,
-      iComponent>
+  : public scfImplementation3<R2TWidgetManager, iR2TWidgetManager,
+      iComponent, iEventHandler>
 {
 private:
   iObjectRegistry* object_reg;
+  csRef<iVirtualClock> vc;
+  csRef<iEngine> engine;
+
+  /// The event queue.
+  csRef<iEventQueue> eventQueue;
+  /// The name registry.
+  csRef<iEventNameRegistry> nameRegistry;
+
+  CS_EVENTHANDLER_NAMES ("peragro.r2tmanager")
+  CS_EVENTHANDLER_NIL_CONSTRAINTS
+
+  bool HandleEvent(iEvent& ev);
 
 private:
   struct R2TWidget
@@ -66,6 +84,7 @@ private:
   };
   friend struct R2TWidget;
   std::list<R2TWidget*> widgets;
+  std::list<R2TWidget*> deadpool;
 
 public:
   R2TWidgetManager(iBase* parent);

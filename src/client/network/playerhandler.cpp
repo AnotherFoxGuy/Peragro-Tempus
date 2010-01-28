@@ -44,9 +44,17 @@ void PlayerHandler::handleInventoryList(GenericMessage* msg)
       itemName << "inventory" << "_" << i;
       csRef<iEvent> item = evmgr->CreateEvent(itemName.str().c_str(), true);
       item->Add("itemEntityId", pmsg.getItemEntityId(i));
-      item->Add("slotId", pmsg.getSlotId(i));
+
+      printf("A: handleInventoryList::Add %d,%d!", pmsg.getPosition(i).column, pmsg.getPosition(i).row);
+
+      PT::Events::EntityHelper::SetPositionRef(item, "position", pmsg.getPosition(i));
+
       item->Add("name", *pmsg.getName(i)?*pmsg.getName(i):"");
-      item->Add("iconName", *pmsg.getIconName(i)?*pmsg.getIconName(i):"");
+
+      item->Add("fileName", *pmsg.getFileName(i)?*pmsg.getFileName(i):"");
+      item->Add("meshFactName", *pmsg.getMeshFactName(i)?*pmsg.getMeshFactName(i):"");
+      PT::Events::EntityHelper::SetSize(item, "size", pmsg.getSize(i));
+
       item->Add("description", *pmsg.getDescription(i)?*pmsg.getDescription(i):"");
       item->Add("weight", pmsg.getWeight(i));
       item->Add("equipType", *pmsg.getEquipType(i)?*pmsg.getEquipType(i):"");
@@ -68,9 +76,9 @@ void PlayerHandler::handleInventoryMoveItem(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.move", true);
-    pEvent->Add("oldSlot", pmsg.getOldSlot());
+    PT::Events::EntityHelper::SetPositionRef(pEvent, "oldSlot", pmsg.getOldSlot());
     pEvent->Add("oldInventoryId", pmsg.getOldInventoryId());
-    pEvent->Add("newSlot", pmsg.getNewSlot());
+    PT::Events::EntityHelper::SetPositionRef(pEvent, "newSlot", pmsg.getNewSlot());
     pEvent->Add("newInventoryId", pmsg.getNewInventoryId());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
 

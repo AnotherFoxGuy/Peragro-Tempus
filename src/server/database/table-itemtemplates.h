@@ -33,7 +33,7 @@ class ResultSet;
   ((id,                size_t,             PT_PrimaryKey, 0 )) \
   ((name,              std::string,        0,             0)) \
   ((meshes_id,         size_t,             0,             (Meshes, id) )) \
-  ((iconFile,          std::string,        0,             0)) \
+  ((size,              Common::Inventory::Size, 0,        0)) \
   ((description,       std::string,        0,             0)) \
   ((equipType_id,      size_t,             0,             (EquipTypes, id) )) \
   ((SkillTypes_id,     size_t,             0,             (SkillTypes, id) ))

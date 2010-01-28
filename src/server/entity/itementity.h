@@ -59,6 +59,13 @@ public:
   bool GetInWorld() { return inWorld; }
   void SetInWorld(bool value);
 
+  using Common::Inventory::Item::GetFileName;
+  void SetFileName(const std::string& n)
+  {
+    Common::Entity::Entity::SetFileName(n);
+    Common::Inventory::Item::SetFileName(n);
+  }
+
   std::string GetEquipType() {assert(itemTemplate); return itemTemplate->equipTypeName; }  /// @TODO needs changing to a id value
 
   boost::shared_ptr<ItemTemplate> GetItemTemplate() { return itemTemplate; }

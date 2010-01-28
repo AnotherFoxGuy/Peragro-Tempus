@@ -21,15 +21,13 @@
 
 #include <string>
 #include <iostream>
-#include <wfmath/point.h>
-#include <wfmath/axisbox.h>
+#include "size.h"
 
 namespace Common
 {
   namespace Inventory
   {
     class Inventory;
-    struct Size;
 
     class Object
     {
@@ -47,15 +45,16 @@ namespace Common
       unsigned int objectId;
       std::string name;
       ObjectType objectType;
-      std::string objectIcon;
+      std::string fileName;
+      std::string meshFactName;
       std::string objectDescription;
-      WFMath::AxisBox<2> objectSize;
+      Size objectSize;
 
     public:
       friend inline std::ostream& operator<< (std::ostream&, const Object&);
 
     public:
-      Object(ObjectType type) : parent(0), objectType(type), objectSize(WFMath::Point<2>(0),WFMath::Point<2>(1))
+      Object(ObjectType type) : parent(0), objectType(type), objectSize(1, 1)
       {
       }
 
@@ -77,13 +76,16 @@ namespace Common
       virtual void SetDescription(const std::string& description) { objectDescription = description; }
       virtual const std::string& GetDescription() const { return objectDescription; }
 
-      virtual void SetIcon(const std::string& icon) { objectIcon = icon; }
-      virtual const std::string& GetIcon() const { return objectIcon; }
+      virtual void SetFileName(const std::string& file) { fileName = file; }
+      virtual const std::string& GetFileName() const { return fileName; }
+
+      virtual void SetMeshFactName(const std::string& mesh) { meshFactName = mesh; }
+      virtual const std::string& GetMeshFactName() const { return meshFactName; }
 
       ObjectType GetType() const { return objectType; }
 
-      virtual void SetSize(const WFMath::AxisBox<2>& size) { objectSize = size; }
-      virtual const WFMath::AxisBox<2>& GetSize() const { return objectSize; }
+      virtual void SetSize(const Size& size) { objectSize = size; }
+      virtual const Size& GetSize() const { return objectSize; }
 
       virtual bool Execute() = 0;
       virtual bool Execute(const std::string& action) = 0;

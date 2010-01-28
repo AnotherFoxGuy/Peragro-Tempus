@@ -192,6 +192,7 @@ namespace PT
 
       void BuyWindow::AcceptTrade()
       {
+        /* TODO
         winMgr->getWindow("BuyWindow/Frame")->setVisible(false);
 
         int nrInventorySlots = 30;
@@ -220,6 +221,7 @@ namespace PT
         upperslots->ClearSlotsDelete();
         lowerslots->ClearSlotsDelete();
         items.DeleteAll();
+        */
       } // end AcceptTrade()
 
       void BuyWindow::CancelTrade()

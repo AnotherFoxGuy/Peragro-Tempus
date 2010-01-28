@@ -260,9 +260,9 @@ void UserHandler::handleCharSelectRequest(GenericMessage* msg)
 
   if (!pc) pc = boost::shared_polymorphic_downcast<PcEntity>(entity);
   pc->GetResources()->SendAll(msg->getConnection());
-/*
-  pc->getInventory()->sendAllItems(msg->getConnection());
 
+  pc->GetInventory()->SendAllItems(msg->getConnection());
+/*
   pc->getStats()->sendAllStats(msg->getConnection());
   pc->getSkills()->sendAllSkills(msg->getConnection());
 

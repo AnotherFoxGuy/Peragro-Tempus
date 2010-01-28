@@ -22,7 +22,7 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
-#include "common/inventory/slotinventory.h"
+#include "common/inventory/gridinventory.h"
 
 class Connection;
 class Entity;
@@ -39,7 +39,7 @@ namespace Common
   } // end Inventory
 } // end Common
 
-class Inventory : public CI::SlotInventory
+class Inventory : public CI::GridInventory
 {
 private:
   boost::weak_ptr<Entity> entity;
@@ -48,22 +48,18 @@ private:
   //Only allow adding ItemEntitys.
   virtual bool AddObjectAt(const CI::PositionRef& position, boost::shared_ptr<CI::Object> object)
   { return false; }
-  virtual bool AddObjectAt(unsigned int id, boost::shared_ptr<CI::Object> object)
-  { return false; }
 
 private:
   void SaveItemToDB(const CI::PositionRef& position, boost::shared_ptr<ItemEntity> item);
   void DeleteItemFromDB(const CI::PositionRef& position);
 
 public:
-  Inventory(boost::shared_ptr<Entity> entity) : CI::SlotInventory("Inventory", ALLOW_ITEMS, 4, 5), entity(entity) {}
+  Inventory(boost::shared_ptr<Entity> entity) : CI::GridInventory("Inventory", ALLOW_ITEMS, 5, 4), entity(entity) {}
   ~Inventory() {}
 
   bool AddObjectAt(const CI::PositionRef&, boost::shared_ptr<ItemEntity>);
-  bool AddObjectAt(unsigned int id, boost::shared_ptr<ItemEntity>);
 
   boost::shared_ptr<CI::Object> RemoveObjectAt(const CI::PositionRef& position);
-  boost::shared_ptr<CI::Object> RemoveObjectAt(unsigned int id);
   CI::PositionRef RemoveObject(boost::shared_ptr<CI::Object> object);
 
   void LoadFromDB();

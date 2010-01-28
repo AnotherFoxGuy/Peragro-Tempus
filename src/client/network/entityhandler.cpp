@@ -203,9 +203,15 @@ void EntityHandler::handlePickResponse(GenericMessage* msg)
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.pickup", true);
     pEvent->Add("itemEntityId", pmsg.getItemEntityId());
-    pEvent->Add("slotId", pmsg.getSlotId());
+
+    PT::Events::EntityHelper::SetPositionRef(pEvent, "position", pmsg.getPosition());
+
     pEvent->Add("name", *pmsg.getName()?*pmsg.getName():"");
-    pEvent->Add("iconName", *pmsg.getIconName()?*pmsg.getIconName():"");
+    
+    pEvent->Add("fileName", *pmsg.getFileName()?*pmsg.getFileName():"");
+    pEvent->Add("meshFactName", *pmsg.getMeshFactName()?*pmsg.getMeshFactName():"");
+    PT::Events::EntityHelper::SetSize(pEvent, "size", pmsg.getSize());
+
     pEvent->Add("description", *pmsg.getDescription()?*pmsg.getDescription():"");
     pEvent->Add("weight", pmsg.getWeight());
     pEvent->Add("equipType", *pmsg.getEquipType()?*pmsg.getEquipType():"");
@@ -225,7 +231,7 @@ void EntityHandler::handleDropResponse(GenericMessage* msg)
   EventManager* evmgr = PointerLibrary::getInstance()->getEventManager();
   {
     csRef<iEvent> pEvent = evmgr->CreateEvent("trade.inventory.drop", true);
-    pEvent->Add("slotId", pmsg.getSlotId());
+    PT::Events::EntityHelper::SetPositionRef(pEvent, "position", pmsg.getPosition());
     pEvent->Add("error", *pmsg.getError()?*pmsg.getError():"");
 
     evmgr->AddEvent(pEvent);
