@@ -146,7 +146,7 @@ namespace Common
             for (it = shapes.begin() ; it != shapes.end(); it++ )
             {
               if ((*it).lock())
-                if ((*it).lock()->GetShape().Intersect(s, proper))
+                if ((*it).lock()->GetShape().Intersects(s, proper))
                   result.push_back((*it).lock());
             }
 
