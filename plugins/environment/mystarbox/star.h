@@ -90,8 +90,6 @@ class Star{
     void DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_size, const float& apr_mag_exp);
     void DrawStar2D(iGraphics2D* g2d, const iCamera* c);
 
-  private:
-    int Adjust_Perspective_Height(int y,iGraphics2D* g2d);
 
 };
 

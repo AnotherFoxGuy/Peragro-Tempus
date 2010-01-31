@@ -74,7 +74,6 @@ void Star::DrawStar2D( iGraphics2D* g2d, const iCamera* c)
     // convert point to camera space
     csVector3 cp1 = c->GetTransform().Other2This(starpos);
     csVector2 screen_spot = c->Perspective(cp1);
-    screen_spot.y = Adjust_Perspective_Height(static_cast<int>(screen_spot.y), g2d);
 
     if (
       screen_spot.x < w && screen_spot.y < h &&
@@ -109,7 +108,6 @@ void Star::DrawStar3D(iGraphics3D* g3d, const iCamera* c,const float& base_star_
   // convert point to camera space
   csVector3 cp1 = c->GetTransform().Other2This(starpos);
   csVector2 screen_spot = c->Perspective(cp1);
-  screen_spot.y = Adjust_Perspective_Height(static_cast<int>(screen_spot.y), g2d);
 
   if (
     screen_spot.x < w && screen_spot.y < h &&
@@ -225,18 +223,3 @@ float Star::GetStarScale (const float& dist, const float& base_star_size, const 
 
 }
 
-
-
-int Star::Adjust_Perspective_Height(int y, iGraphics2D* g2d)
-{
-
-  float w = static_cast<float>(g2d->GetWidth());
-  float h = static_cast<float>(g2d->GetHeight());
-  int c = static_cast<int>(h/2.0f);
-  float adj;
-  adj = (w/h);
-
-  int result = static_cast<int>(((y-c) * adj)+c);
-
-  return result;
-}
