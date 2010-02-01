@@ -24,7 +24,7 @@ ApplicationIcon macosx : peragro : peragro_icon.icns : $(TOP)/data/art/icons ;
 Application peragro :
 [ Wildcard *.h *.cpp ] ;
 ExternalLibs peragro : BOOST CEGUI CRYSTAL CEL ;
-LinkWith peragro : reporter client-pointer client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager client-pointerplug entity wfmath utility util ;
+LinkWith peragro : reporter client-pointer client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager client-pointerplug inventory inventory-cegui entity wfmath utility util ;
 
 MsvcExternalLibrary peragro : "wsock32.lib" ;
 MsvcCFlags peragro : /wd4396 ;
@@ -42,7 +42,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   Application peragro_static : [ Wildcard *.h *.cpp ] : independent noinstall ;
   CFlags peragro_static : [ FDefines CS_STATIC_LINKED ] ;
   MsvcDefine peragro_static : CS_STATIC_LINKED ;
-  LinkWith peragro_static : reporter client-pointer client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager client-pointerplug entity wfmath ;
+  LinkWith peragro_static : reporter client-pointer client-network client-gui client-entitymanager eventmanager-cs client-inputmanager client-combatmanager client-data client-trademanager client-chatmanager util client-serversetup client-statemanager client-environmentmanager client-cursor client-component client-questmanager client-usermanager client-pointerplug inventory inventory-cegui entity wfmath ;
   LinkStaticPlugins peragro_static :
    csclipboard
    loader_starbox
