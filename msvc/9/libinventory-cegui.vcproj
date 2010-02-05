@@ -50,7 +50,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
@@ -122,7 +122,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="1"/>
@@ -334,7 +334,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>
@@ -406,7 +406,7 @@
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
 				AdditionalOptions=" "
-				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories=""
 				TargetMachine="17"/>

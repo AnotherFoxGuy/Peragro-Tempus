@@ -56,7 +56,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9\build\plgr2tmanager\Win32\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="1"/>
@@ -133,7 +133,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9\build\plgr2tmanager\Win32\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="1"/>
@@ -358,7 +358,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9-x64\build\plgr2tmanager\x64\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="17"/>
@@ -435,7 +435,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release9-x64\build\plgr2tmanager\x64\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release9\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release9\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="17"/>

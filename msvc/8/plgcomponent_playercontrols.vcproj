@@ -56,7 +56,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8\build\plgcomponent_playercontrols\Win32\plgcomponent_playercontrols.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -133,7 +133,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8\build\plgcomponent_playercontrols\Win32\plgcomponent_playercontrols.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="1"/>
@@ -358,7 +358,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8-x64\build\plgcomponent_playercontrols\x64\plgcomponent_playercontrols.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="17"/>
@@ -435,7 +435,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release8-x64\build\plgcomponent_playercontrols\x64\plgcomponent_playercontrols.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib CEGUIBase.lib CEGUIFalagardBase.lib wsock32.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib libceltool.lib CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib wsock32.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release8\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release8\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release8\libs;$(CEL)\out\release8\libs;$(CEL)\libs"
 				TargetMachine="17"/>

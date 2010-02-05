@@ -55,7 +55,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release71\build\plgr2tmanager\Win32\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="1"/>
@@ -132,7 +132,7 @@
 				DelayLoadDLLs=""
 				ImportLibrary="..\..\out\release71\build\plgr2tmanager\Win32\plgr2tmanager.lib"
 				AdditionalOptions=" "
-				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib CEGUIBase.lib CEGUIFalagardBase.lib"
+				AdditionalDependencies="delayimp.lib libcrystalspace.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib"
 				TargetMachine="1"/>
