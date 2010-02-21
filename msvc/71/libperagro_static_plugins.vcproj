@@ -48,7 +48,7 @@
 				EnableCOMDATFolding="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD"
-				AdditionalOptions="libcel_staticplugins.lib libceltool.lib libcrystalspace.lib  "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
@@ -124,7 +124,7 @@
                         OutputFile="..\..\peragro_static_plugins-0.1-vc71.dll"
 				ImportLibrary="..\..\out\release71\libs\libperagro_static_plugins.lib"
 				ProgramDatabaseFile="..\..\out\release71\build\libperagro_static_plugins\Win32\peragro_static_plugins-0.1-vc71.pdb"
-				AdditionalOptions="libcel_staticplugins.lib libceltool.lib libcrystalspace.lib  "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace.lib libceltool.lib CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\release71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\release71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\release71\libs;$(CEL)\out\release71\libs;$(CEL)\libs"
@@ -193,7 +193,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="TRUE"
 				IgnoreDefaultLibraryNames="LIBC,LIBCD,LIBCMT,LIBCMTD,MSVCRT"
-				AdditionalOptions="libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib  "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
@@ -267,7 +267,7 @@
                         OutputFile="..\..\peragro_static_plugins-0.1-vc71_d.dll"
 				ImportLibrary="..\..\out\debug71\libs\libperagro_static_plugins_d.lib"
 				ProgramDatabaseFile="..\..\out\debug71\build\libperagro_static_plugins\Win32\peragro_static_plugins-0.1-vc71_d.pdb"
-				AdditionalOptions="libcel_staticplugins_d.lib libceltool_d.lib libcrystalspace_d.lib  "
+				AdditionalOptions=" "
 				AdditionalDependencies="libcrystalspace_d.lib libceltool_d.lib CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="..\..\..\CS\out\debug71\libs;..\..\..\CS\win32libs\lib;$(CRYSTAL)\out\debug71\libs;$(CRYSTAL)\libs;$(CRYSTAL)\win32libs\lib;..\..\..\cel\out\debug71\libs;$(CEL)\out\debug71\libs;$(CEL)\libs"
@@ -305,9 +305,6 @@
 		<Filter
 			Name="Source Files"
 			Filter="">
-			<File
-				RelativePath="..\..\msvc\common\appperagro_static_static_glue_app_CEL.cpp">
-			</File>
 			<File
 				RelativePath="..\..\msvc\common\appperagro_static_static_glue_lib.cpp">
 			</File>
