@@ -98,4 +98,6 @@ SCF_USE_STATIC_PLUGIN(sndsyswav)
 SCF_USE_STATIC_PLUGIN(sndmanager)
 SCF_USE_STATIC_PLUGIN(sndsysnull)
 SCF_USE_STATIC_PLUGIN(sndsyssoft)
+SCF_USE_STATIC_PLUGIN(sndsysopenal)
+SCF_USE_STATIC_PLUGIN(sndsyswin)
 
