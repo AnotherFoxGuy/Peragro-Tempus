@@ -26,7 +26,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9\build\libperagro_static_plugins\Win32\peragro_static_plugins.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -99,7 +99,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release9\build\libperagro_static_plugins\Win32\peragro_static_plugins-0.1-vc9.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -173,7 +173,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9\build\libperagro_static_plugins\Win32\peragro_static_plugins.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -244,7 +244,7 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug9\build\libperagro_static_plugins\Win32\peragro_static_plugins-0.1-vc9_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -316,7 +316,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDataBaseFileName="..\..\out\release9-x64\build\libperagro_static_plugins\x64\peragro_static_plugins.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -389,7 +389,7 @@
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
 				ProgramDatabaseFileName="..\..\out\release9-x64\build\libperagro_static_plugins\x64\peragro_static_plugins-0.1-vc9-x64.pdb"
-				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="NDEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -463,7 +463,7 @@
 				RuntimeLibrary="3"
 
 				ProgramDataBaseFileName="..\..\out\debug9-x64\build\libperagro_static_plugins\x64\peragro_static_plugins.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;USE_CEL;WIN32;CS_USE_STATIC_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
@@ -534,7 +534,7 @@
 
 
 				ProgramDatabaseFileName="..\..\out\debug9-x64\build\libperagro_static_plugins\x64\peragro_static_plugins-0.1-vc9-x64_d.pdb"
-				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_BUILD_SHARED_LIBS"
+				PreprocessorDefinitions="_DEBUG;CS_DEBUG;CS_WIN32_CSCONFIG;__CRYSTAL_SPACE__;CS_SUPPORTS_MMX;_WINDOWS;USE_CEL;WIN32;CS_USE_SHARED_LIBS"
 				OptimizeForProcessor="1"
 				AdditionalOptions=" "
 				AdditionalIncludeDirectories=".;..\..;..\..\include;..\..\src;..\..\src\ext;..\..\..\CS\include;..\..\..\CS\win32libs\include;$(CRYSTAL)\include;$(CRYSTAL)\include\crystalspace;$(CRYSTAL)\win32libs\include;..\..\..\cel\include;$(CEL)\include;$(CEL)\include\cel"
