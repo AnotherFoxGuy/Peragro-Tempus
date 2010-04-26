@@ -620,10 +620,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\appeventtest.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\appeventtest.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\appeventtest.manifest">
 			</File>
 		</Filter>
 	</Files>

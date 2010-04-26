@@ -335,10 +335,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\move\viewbob\component_viewbob.csplugin">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\plgcomponent_viewbob.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
+			<File
+				RelativePath="..\..\components\entity\move\viewbob\component_viewbob.csplugin">
 			</File>
 		</Filter>
 	</Files>

@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdsay.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdsay\cmdsay.csplugin">
 			</File>

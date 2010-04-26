@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgsoundmanager.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\sound\soundmanager.csplugin">
 			</File>

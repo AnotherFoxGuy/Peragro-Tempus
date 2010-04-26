@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmddate.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmddate\cmddate.csplugin">
 			</File>

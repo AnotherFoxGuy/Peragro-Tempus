@@ -337,6 +337,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdquit.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdquit\cmdquit.csplugin">
 			</File>

@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgloader_solarsys.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\environment\loader_solarsys\loader_solarsys.csplugin">
 			</File>

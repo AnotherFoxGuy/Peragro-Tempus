@@ -649,6 +649,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgworldloader.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\world\worldloader.csplugin">
 			</File>

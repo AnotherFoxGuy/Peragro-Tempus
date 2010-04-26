@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgr2tmanager.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\gui\r2tmanager\r2tmanager.csplugin">
 			</File>

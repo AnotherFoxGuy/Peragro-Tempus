@@ -620,10 +620,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\apptimertest.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\apptimertest.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\apptimertest.manifest">
 			</File>
 		</Filter>
 	</Files>

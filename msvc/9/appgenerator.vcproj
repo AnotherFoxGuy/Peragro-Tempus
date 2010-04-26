@@ -654,10 +654,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\appgenerator.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\appgenerator.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\appgenerator.manifest">
 			</File>
 		</Filter>
 	</Files>

@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdwhisper.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdwhisper\cmdwhisper.csplugin">
 			</File>

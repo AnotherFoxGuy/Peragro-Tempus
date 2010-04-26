@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdlogout.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdlogout\cmdlogout.csplugin">
 			</File>

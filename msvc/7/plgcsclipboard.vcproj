@@ -337,6 +337,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcsclipboard.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\gui\clipboard\win32\csclipboard.csplugin">
 			</File>

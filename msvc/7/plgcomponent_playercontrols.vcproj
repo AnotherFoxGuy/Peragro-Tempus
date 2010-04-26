@@ -335,10 +335,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\input\playercontrols\component_playercontrols.csplugin">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\plgcomponent_playercontrols.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
+			<File
+				RelativePath="..\..\components\entity\input\playercontrols\component_playercontrols.csplugin">
 			</File>
 		</Filter>
 	</Files>

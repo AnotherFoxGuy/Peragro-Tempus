@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgloader_mybody.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\environment\loader_mybody\loader_mybody.csplugin">
 			</File>

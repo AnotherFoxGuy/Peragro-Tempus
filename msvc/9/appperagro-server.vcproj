@@ -633,10 +633,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\appperagro-server.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\appperagro-server.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\appperagro-server.manifest">
 			</File>
 		</Filter>
 	</Files>

@@ -337,6 +337,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdhelp.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdhelp\cmdhelp.csplugin">
 			</File>

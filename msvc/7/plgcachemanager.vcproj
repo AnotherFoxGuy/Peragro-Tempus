@@ -346,6 +346,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcachemanager.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\cachemanager\cachemanager.csplugin">
 			</File>

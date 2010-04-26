@@ -620,10 +620,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\apppolygon_test.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\apppolygon_test.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\apppolygon_test.manifest">
 			</File>
 		</Filter>
 	</Files>

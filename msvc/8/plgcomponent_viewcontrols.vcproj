@@ -638,10 +638,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\input\viewcontrols\component_viewcontrols.csplugin">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\plgcomponent_viewcontrols.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
+			<File
+				RelativePath="..\..\components\entity\input\viewcontrols\component_viewcontrols.csplugin">
 			</File>
 		</Filter>
 	</Files>

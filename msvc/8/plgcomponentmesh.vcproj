@@ -638,10 +638,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\mesh\componentmesh.csplugin">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\plgcomponentmesh.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
+			<File
+				RelativePath="..\..\components\entity\mesh\componentmesh.csplugin">
 			</File>
 		</Filter>
 	</Files>

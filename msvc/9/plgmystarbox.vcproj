@@ -664,6 +664,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgmystarbox.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\environment\mystarbox\mystarbox.csplugin">
 			</File>

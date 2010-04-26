@@ -640,6 +640,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgcmdgroup.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\commands\cmdgroup\cmdgroup.csplugin">
 			</File>

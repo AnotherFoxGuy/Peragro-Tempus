@@ -638,10 +638,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\components\entity\move\component_networkmove.csplugin">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\plgcomponent_networkmove.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
+			<File
+				RelativePath="..\..\components\entity\move\component_networkmove.csplugin">
 			</File>
 		</Filter>
 	</Files>

@@ -649,6 +649,10 @@
 			<File
 				RelativePath="..\..\msvc\common\plgeffectsmanager.rc">
 			</File>
+		</Filter>
+		<Filter
+			Name="Other Files"
+			Filter="">
 			<File
 				RelativePath="..\..\plugins\effectsmanager\effectsmanager.csplugin">
 			</File>

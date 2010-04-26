@@ -630,10 +630,14 @@
 			Name="Resource Files"
 			Filter="">
 			<File
-				RelativePath="..\..\msvc\common\appinventorytest.manifest">
-			</File>
-			<File
 				RelativePath="..\..\msvc\common\appinventorytest.rc">
+			</File>
+		</Filter>
+		<Filter
+			Name="Manifest Files"
+			Filter="">
+			<File
+				RelativePath="..\..\msvc\common\appinventorytest.manifest">
 			</File>
 		</Filter>
 	</Files>
