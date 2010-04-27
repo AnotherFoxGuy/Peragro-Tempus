@@ -574,7 +574,8 @@ Global
   		ConfigName.1 = Debug (with static libs)
     		ConfigName.2 = Release (with DLLs)
   		ConfigName.3 = Release (with static libs)
-  	EndGlobalSection	GlobalSection(ProjectConfiguration) = postSolution
+  	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
 		{05C80CB6-B150-559B-9B8F-7287BDB0450D}.Debug (with DLLs)|Win32.ActiveCfg = Debug (with DLLs)|Win32
 		{05C80CB6-B150-559B-9B8F-7287BDB0450D}.Debug (with DLLs)|Win32.Build.0 = Debug (with DLLs)|Win32
 		{05C80CB6-B150-559B-9B8F-7287BDB0450D}.Debug (with DLLs)|x64.ActiveCfg = Debug (with DLLs)|x64
@@ -2384,5 +2385,4 @@ Global
 		{FCCA1931-31F6-221E-477D-DB4F82598B8E}.Release (with static libs)|x64.ActiveCfg = Release (with static libs)|x64
 		{FCCA1931-31F6-221E-477D-DB4F82598B8E}.Release (with static libs)|x64.Build.0 = Release (with static libs)|x64
 	EndGlobalSection
-
 EndGlobal
