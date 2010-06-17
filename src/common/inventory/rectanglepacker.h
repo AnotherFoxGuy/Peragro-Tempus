@@ -30,7 +30,7 @@
 
 #include "src/common/inventory/positionref.h"
 
-#include "common/util/exception.h"
+#include "common/utility/exception.h"
 
 namespace Common
 {
