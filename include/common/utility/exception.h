@@ -23,7 +23,7 @@
 #ifndef PT_UTILITY_EXCEPTION_H
 #define PT_UTILITY_EXCEPTION_H
 
-#include <boost/exception.hpp>
+#include <boost/exception/all.hpp>
 #include <boost/current_function.hpp>
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/cat.hpp>
