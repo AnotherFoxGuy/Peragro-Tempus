@@ -26,9 +26,9 @@
 #include "client/data/item/itemdatamanager.h"
 #include "client/data/item/item.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"

@@ -20,9 +20,9 @@
 
 #include "client/user/usermanager.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/network/network.h"
 #include "client/gui/guimanager.h"

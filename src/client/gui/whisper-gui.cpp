@@ -18,9 +18,9 @@
 
 #include "client/gui/whisper-gui.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include "client/pointer/pointer.h"
 #include "client/network/network.h"

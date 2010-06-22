@@ -24,9 +24,9 @@
 #include "common/eventcs/inputevent.h"
 #include "include/clipboard.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 #include "client/gui/guimanager.h"
 
 #include <utility>

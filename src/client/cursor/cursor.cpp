@@ -29,9 +29,9 @@
 #include <physicallayer/propclas.h>
 #include <propclass/prop.h>
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 #include "client/gui/guimanager.h"
 
 #include "client/pointer/pointer.h"

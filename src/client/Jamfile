@@ -83,7 +83,7 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   ;
 
   # Generic stuff
-  PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug csconin csconout stdrep cssynldr ;
+  PTPLUGINLIST = vfs engine engseq csopcode csparser reporter sequence bugplug stdrep cssynldr ;
 
   # Font
   PTPLUGINLIST += csfont fontplex freefnt2 ;
@@ -119,13 +119,18 @@ if $(HAVE_STATIC_PLUGINS) = "yes"
   PTPLUGINLIST += simpleformer simpleformerldr bruteblock terrainldr terrain2 terrain2ldr ;
   PTPLUGINLIST += spr2d spr2dldr ;
   PTPLUGINLIST += spr3d spr3dldr ;
-  PTPLUGINLIST += sprcal3d sprcal3dldr ;
-
+  
   # Sound
   PTPLUGINLIST += sndsysloader sndsysogg sndsyswav sndmanager sndsysnull sndsyssoft ;
 
   # Sound Renderers
   PTOPTIONALPLUGINLIST = sndsysopenal sndsyscoreaudio sndsysalsa sndsyswin sndsysjackasyn sndsysoss ;
+  
+  # Meshes
+  PTOPTIONALPLUGINLIST += sprcal3d sprcal3dldr ;
+  
+  # Misc
+  PTOPTIONALPLUGINLIST += csconin csconout ;
 
   # Canvas
   PTOPTIONALPLUGINLIST += xwin xext86vm glx2d glwin32 glosx2d ;

@@ -26,7 +26,7 @@
 #include "csutil/ref.h"
 #include "csutil/csstring.h"
 
-#include "CEGUI.h"
+#include <CEGUI.h>
 #include "ivaria/icegui.h"
 
 class Object

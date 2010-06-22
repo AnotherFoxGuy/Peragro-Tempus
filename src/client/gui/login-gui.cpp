@@ -18,9 +18,9 @@
 
 #include "client/gui/login-gui.h"
 
-#include "CEGUI.h"
-#include "CEGUIWindowManager.h"
-#include "CEGUILogger.h"
+#include <CEGUI.h>
+#include <CEGUIWindowManager.h>
+#include <CEGUILogger.h>
 
 #include <csutil/csstring.h>
 
