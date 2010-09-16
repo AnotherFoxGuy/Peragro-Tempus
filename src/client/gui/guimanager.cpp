@@ -30,14 +30,11 @@
 #include <CEGUILogger.h>
 
 #include "client/network/network.h"
+#include "client/pointer/pointer.h"
 
 #include "gui.h"
 
 #include "common/reporter/reporter.h"
-
-//Custom windows
-#include "config/settingslider.h"
-#include "config/settingcombobox.h"
 
 const char* const dialogConfigFile = "/UserData/dialog.cfg";
 
@@ -124,20 +121,6 @@ namespace PT
         // Initialize the skin manager.
         skinMgr = new SkinManager(this);
         if (!skinMgr->Initialize()) return false;
-
-        // Register our own window factories.
-        CEGUI::WindowFactoryManager* wfMgr = cegui->GetWindowFactoryManagerPtr();
-        wfMgr->addFactory<SettingSliderFactory>();
-        wfMgr->addFalagardWindowMapping("Peragro/SettingSlider",
-                                        "CEGUI/SettingSlider",
-                                        "Peragro/SettingSlider",
-                                        "Falagard/Default");
-
-        wfMgr->addFactory<SettingComboBoxFactory>();
-        wfMgr->addFalagardWindowMapping("Peragro/SettingComboBox",
-                                        "CEGUI/SettingComboBox",
-                                        "Peragro/SettingComboBox",
-                                        "Falagard/Default");
 
         // Initialize the dialog configuration class.
         dlgConfig = new DialogConfiguration(obj_reg);
