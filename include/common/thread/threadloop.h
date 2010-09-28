@@ -29,6 +29,8 @@
 #include "common/thread/singlethread.h"
 #include "common/thread/storagepolicy.h"
 
+#pragma warning(disable:4355)
+
 namespace PT
 {
   namespace Thread

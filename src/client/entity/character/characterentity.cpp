@@ -163,20 +163,20 @@ namespace PT
     {
       csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcMesh);
 
-      csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
+      csRef<CS::Mesh::iAnimatedMesh> animesh = scfQueryInterface<CS::Mesh::iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
 
-      iSkeletonAnimNode2* root = animesh->GetSkeleton ()->GetAnimationPacket ()->GetAnimationRoot ();
-      csRef<iSkeletonAnimNode2> anim;
+      CS::Animation::iSkeletonAnimNode* root = animesh->GetSkeleton ()->GetAnimationPacket ()->GetAnimationRoot ();
+      csRef<CS::Animation::iSkeletonAnimNode> anim;
 
       if (root)
       {
         anim = root->FindNode("standard");
 
         bool played = false;
-        csRef<iSkeletonFSMNode2> fsm = scfQueryInterfaceSafe<iSkeletonFSMNode2> (anim);
+        csRef<CS::Animation::iSkeletonFSMNode> fsm = scfQueryInterfaceSafe<CS::Animation::iSkeletonFSMNode> (anim);
         if (fsm)
         {
-          csRef<iSkeletonFSMNodeFactory2> fsmfact = scfQueryInterface<iSkeletonFSMNodeFactory2>(anim->GetFactory());
+          csRef<CS::Animation::iSkeletonFSMNodeFactory> fsmfact = scfQueryInterface<CS::Animation::iSkeletonFSMNodeFactory>(anim->GetFactory());
           CS::Animation::StateID wanted_state = fsmfact->FindState(animationName);
           if (wanted_state != CS::Animation::InvalidStateID)
           {
@@ -216,7 +216,7 @@ namespace PT
         return;
       }
 
-      csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
+      csRef<CS::Mesh::iAnimatedMesh> animesh = scfQueryInterface<CS::Mesh::iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject ());
       if (animesh)
       {
         PlayAnimationAniMesh(animationName, blend_factor, loop, stopOthers);

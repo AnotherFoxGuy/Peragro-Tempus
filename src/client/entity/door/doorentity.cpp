@@ -29,6 +29,7 @@
 //#include <propclass/linmove.h>
 #include <propclass/prop.h>
 #include <propclass/quest.h>
+#include <tools/parameters.h>
 
 #include "common/reporter/reporter.h"
 #include "client/pointer/pointer.h"
@@ -73,7 +74,7 @@ namespace PT
 
       //Use CEL's quest system for door state and simple animating.
       csRef<iPcQuest> pcquest = CEL_QUERY_PROPCLASS_ENT(celEntity, iPcQuest);
-      celQuestParams parameters;
+      celParams parameters;
       pcquest->StopQuest();
       pcquest->NewQuest(animationName.c_str(), parameters);
 

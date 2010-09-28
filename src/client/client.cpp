@@ -715,16 +715,16 @@ namespace PT
 
     boost::shared_ptr<PT::Entity::PlayerEntity> player = Entity::PlayerEntity::Instance();
     csRef<iPcMesh> pcmesh = CEL_QUERY_PROPCLASS_ENT(player->GetCelEntity(), iPcMesh);
-    csRef<iAnimatedMesh> animesh = scfQueryInterface<iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject());
-    csRef<iAnimatedMeshFactory> animeshf = scfQueryInterface<iAnimatedMeshFactory> (pcmesh->GetMesh()->GetFactory()->GetMeshObjectFactory());
+    csRef<CS::Mesh::iAnimatedMesh> animesh = scfQueryInterface<CS::Mesh::iAnimatedMesh> (pcmesh->GetMesh()->GetMeshObject());
+    csRef<CS::Mesh::iAnimatedMeshFactory> animeshf = scfQueryInterface<CS::Mesh::iAnimatedMeshFactory> (pcmesh->GetMesh()->GetFactory()->GetMeshObjectFactory());
 
-    csRef<iSkeletonFactory2> skeletonf = animeshf->GetSkeletonFactory();
-    csRef<iSkeleton2> skeleton = animesh->GetSkeleton();
+    csRef<CS::Animation::iSkeletonFactory> skeletonf = animeshf->GetSkeletonFactory();
+    csRef<CS::Animation::iSkeleton> skeleton = animesh->GetSkeleton();
 
     csQuaternion rot; 
     csVector3 offset;
 
-    BoneID spine = skeletonf->FindBone("Leg_Lower.L");
+    CS::Animation::BoneID spine = skeletonf->FindBone("Leg_Lower.L");
     skeleton->GetTransformBoneSpace(spine, rot, offset);
     offset = offset + csVector3(0,0.5,0);
     rot.SetEulerAngles(csVector3(1.45,0,0));

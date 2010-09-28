@@ -30,7 +30,7 @@ namespace
   const char* nwParamTypeName[][2] = {
     {"ptString", "String"},
     {"const char*", "String"},
-    {"WFMath::Point<3>", "Vector3_special_case"},
+    {"WFMath::Point<3> ", "Vector3_special_case"},
     {"bool", "Int8"},
     {"unsigned char", "Int8"},
     {"unsigned short", "Int16"},

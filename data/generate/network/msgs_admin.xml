@@ -30,13 +30,15 @@
   </message>
 
   <message type="Admin" name="SpawnDoor">
-    <uint32>EntityId</uint32>
-    <string>Name</string>
-    <string>Mesh</string>
-    <vector3f>Position</vector3f>
-    <bool>IsOpen</bool>
-    <bool>IsLocked</bool>
-    <string>Animation</string>
+    <event name="admin.spawndoor" specific="None">
+      <uint32>EntityId</uint32>
+      <string>Name</string>
+      <string>Mesh</string>
+      <vector3f>Position</vector3f>
+      <bool>IsOpen</bool>
+      <bool>IsLocked</bool>
+      <string>Animation</string>
+    </event>
   </message>
 
   <message type="Admin" name="RemoveSpawnedEntity">

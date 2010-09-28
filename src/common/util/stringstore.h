@@ -26,6 +26,9 @@
 
 #include "array.h"
 
+#pragma warning( push)
+#pragma warning( disable : 4996 )
+
 class StringStore
 {
 private:
@@ -111,5 +114,7 @@ private:
 public:
   static void destroy() { delete getStore(); }
 };
+
+#pragma warning( pop )
 
 #endif //STRINGSTORE_H

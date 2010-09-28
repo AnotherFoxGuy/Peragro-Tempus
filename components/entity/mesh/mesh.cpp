@@ -73,7 +73,7 @@ void ComponentMesh::Loaded(iCacheEntry* cacheEntry)
   }
   else
   {
-    pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to load mesh: %s",
-      entity->GetMeshName().c_str());
+    pointerlib->getReporter()->Report(PT::Error,  "ComponentMesh: Failed to load mesh: %s(%s)",
+      entity->GetMeshName().c_str(), entity->GetFileName().c_str());
   }
 } // end Loaded()

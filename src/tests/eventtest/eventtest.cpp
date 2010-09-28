@@ -82,7 +82,7 @@ public:
     bool attr4 = ev.Get<bool>(attr4Id);
     float attr5 = ev.Get<float>(attr5Id);
     string attr6 = ev.Get<string>(attr6Id);
-    WFMath::Point<3> attr7 = ev.Get<WFMath::Point<3> >(attr7Id);
+    //WFMath::Point<3> attr7 = ev.Get<WFMath::Point<3> >(attr7Id);
     int attr8 = ev.Get<int32_t>(attr8Id);
     bool attr9 = ev.Get<bool>(attr9Id);
     float attr10 = ev.Get<float>(attr10Id);
@@ -91,7 +91,7 @@ public:
     attr2 = ev.Get<string>(attr2Id);
     DEBUG_PRINT("Event3 " << id << " " << attr1 << " " << attr2 << " "
       << attr3 << " " << attr4 << " " << attr5 << " " << attr6 << " "
-      << attr7 << " " << attr8 << " " << attr9 << " " << attr10);
+      /*<< attr7*/ << " " << attr8 << " " << attr9 << " " << attr10);
     return true;
   }
 
@@ -160,7 +160,7 @@ public:
         event->Add<bool>(Handler::attr4Id, true);
         event->Add<float>(Handler::attr5Id, 13.432f);
         event->Add<string>(Handler::attr6Id, "goat");
-        event->Add<WFMath::Point<3> >(Handler::attr7Id, WFMath::Point<3>(1,2,3));
+        //event->Add<WFMath::Point<3> >(Handler::attr7Id, WFMath::Point<3>(1,2,3));
         event->Add<int32_t>(Handler::attr8Id, 124);
         event->Add<bool>(Handler::attr9Id, false);
         event->Add<float>(Handler::attr10Id, 54.23f);
