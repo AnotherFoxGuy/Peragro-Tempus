@@ -1,0 +1,139 @@
+TOP ?= "." ;
+BUILDTOP ?= "." ;
+
+SubDir TOP ;
+
+IncludeDir ;
+IncludeDir "include" ;
+IncludeDir src ;
+IncludeDir src ext ;
+IncludeDir $(BUILDTOP) : : literal transient ;
+
+CleanDir clean :
+    out ;
+Clean distclean :
+    aclocal.m4
+    config.h
+    config.h.in~
+    config.log
+    config.status
+    config.status.lineno
+    config.cache
+    configure.lineno
+    Jamconfig
+    Jamfile ;
+CleanDir distclean :
+    autom4te.cache ;
+Depends distclean : clean ;
+
+Clean maintainerclean :
+  config.h.in
+  configure ;
+Depends maintainerclean : distclean ;
+
+Help distclean : "Remove built targets and configuration" ;
+Help maintainerclean :
+    "Remove built targets, configuration, and generated files." ;
+
+# Set up subdirectories into which the different generated project for 
+# different go.
+MsvcGenSubDir TOP msvc common : common ;
+MsvcGenSubDir TOP msvc 7 : 7 ;
+MsvcGenSubDir TOP msvc 71 : 71 ;
+MsvcGenSubDir TOP msvc 8 : 8 ;
+MsvcGenSubDir TOP msvc 9 : 9 ;
+MsvcGenTemplateDir TOP mk msvcgen ;
+
+# Customize the build configurations to contain some defines required by
+# CrystalSpace.  NOTE: The file with the customization options is assumed
+# to reside in mk/msvcgen/.
+MsvcGenVariable customize : custom.cslib ;
+
+# What the typical user will need. 
+MsvcGenWorkspace all : : "grp.+_(?!typical$)" static ;
+# Workspace for static variants of plugins and apps.
+MsvcGenWorkspace static : static ^lib.* : "grp.+_(?!typical$)" ;
+
+local hash = "\$" ;
+MsvcGenConfig HAVE_STATIC_PLUGINS : yes ;
+
+MsvcGenConfig CRYSTAL.AVAILABLE : yes ;
+MsvcGenConfig CRYSTAL.DEFINES ;
+MsvcGenConfig CRYSTAL.CFLAGS ;
+MsvcGenConfig CRYSTAL.LFLAGS ;
+MsvcGenConfig CRYSTAL.LIBS : "libcrystalspace.lib" ;
+MsvcGenConfig CRYSTAL.LIBS.DEBUG : "libcrystalspace_d.lib" ;
+MsvcGenConfig CRYSTAL.INCDIRS :
+  [ ConcatDirs .. .. .. CS include ]
+  [ ConcatDirs .. .. .. CS win32libs include ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" include crystalspace ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" win32libs include ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS :
+  [ ConcatDirs .. .. .. CS out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS win32libs lib ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ] ;
+MsvcGenConfig CRYSTAL.LIBDIRS.DEBUG :
+  [ ConcatDirs .. .. .. CS out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs .. .. .. CS win32libs lib ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" libs ]
+  [ ConcatDirs "$(hash)(CRYSTAL)" win32libs lib ] ;
+MsvcGenConfig CRYSTAL.STATICDEPS : $(TOP)/mk/staticplugins/crystalspace_staticplugins_msvc.jam
+
+MsvcGenConfig CEL.AVAILABLE : yes ;
+MsvcGenConfig CEL.DEFINES : USE_CEL ;
+MsvcGenConfig CEL.CFLAGS ;
+MsvcGenConfig CEL.LFLAGS ;
+MsvcGenConfig CEL.LIBS : "libceltool.lib" ;
+MsvcGenConfig CEL.LIBS.DEBUG : "libceltool_d.lib" ;
+MsvcGenConfig CEL.INCDIRS :
+  [ ConcatDirs .. .. .. cel include ]
+  [ ConcatDirs "$(hash)(CEL)" include ]
+  [ ConcatDirs "$(hash)(CEL)" include cel ] ;
+MsvcGenConfig CEL.LIBDIRS :
+  [ ConcatDirs .. .. .. cel out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CEL)" out release$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CEL)" libs ] ;
+MsvcGenConfig CEL.LIBDIRS.DEBUG :
+  [ ConcatDirs .. .. .. cel out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CEL)" out debug$(MSVC_VERSION) libs ]
+  [ ConcatDirs "$(hash)(CEL)" libs ] ;
+MsvcGenConfig CEL.STATICDEPS : $(TOP)/mk/staticplugins/cel_staticplugins_msvc.jam
+
+MsvcGenConfig CEGUI.AVAILABLE : yes ;
+MsvcGenConfig CEGUI.CFLAGS : "" ;
+MsvcGenConfig CEGUI.LFLAGS : "" ;
+MsvcGenConfig CEGUI.LIBS : "CEGUIBase.lib CEGUIFalagardBase.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG : "CEGUIBase_d.lib CEGUIFalagardBase_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.7 : "CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.7 : "CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.71 : "CEGUIBase-vc7.lib CEGUIFalagardWRBase-vc7.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.71 : "CEGUIBase-vc7_d.lib CEGUIFalagardWRBase-vc7_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.8 : "CEGUIBase-vc8.lib CEGUIFalagardWRBase-vc8.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.8 : "CEGUIBase-vc8_d.lib CEGUIFalagardWRBase-vc8_d.lib" ;
+MsvcGenConfig CEGUI.LIBS.9 : "CEGUIBase-vc9.lib CEGUIFalagardWRBase-vc9.lib" ;
+MsvcGenConfig CEGUI.LIBS.DEBUG.9 : "CEGUIBase-vc9_d.lib CEGUIFalagardWRBase-vc9_d.lib" ;
+
+MsvcGenConfig BOOST.CFLAGS : "" ;
+MsvcGenConfig BOOST.LFLAGS : "" ;
+
+MsvcGenConfig PTHREAD.CFLAGS : "" ;
+MsvcGenConfig PTHREAD.LFLAGS : "" ;
+
+MsvcGenConfig WX.AVAILABLE : yes ;
+MsvcGenConfig WX.DEFINES : wxUSE_GUI=1 WXUSINGDLL=1 ;
+MsvcGenConfig WX.LIBS : wxbase26.lib wxmsw26_core.lib wxmsw26_gl.lib opengl32.lib ;
+MsvcGenConfig WX.DEFINES.DEBUG : wxUSE_GUI=1 WXUSINGDLL=1 WXDEBUG=1 ;
+MsvcGenConfig WX.LIBS.DEBUG : wxbase26d.lib wxmsw26d_core.lib wxmsw26d_gl.lib opengl32.lib ;
+
+# The order for the directories below is extremely important for msvc.
+# They must be in order by dependency for the msvc project files to correctly link them.
+# For example, plugins are dependent on libs, therefore, src must be done first.
+SubInclude TOP docs ;
+SubInclude TOP src ;
+SubInclude TOP components ;
+SubInclude TOP plugins ;
+
