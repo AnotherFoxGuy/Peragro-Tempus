@@ -91,20 +91,22 @@ sed_expr_base=[\\\([0-9]\\\+\\\)\.\\\([0-9]\\\+\\\).*]
 cel_version_major=`echo $cel_version_desired | sed "s/$sed_expr_base/\1/"`
 cel_version_minor=`echo $cel_version_desired | sed "s/$sed_expr_base/\2/"`
 
-cel_version_sequence="$cel_version_major.$cels_version_minor"
+cel_version_sequence="$cel_version_major.$cel_version_minor"
 
 cel_version_desired_is_unstable=`expr $cel_version_minor % 2`
 
 AS_IF([test $cel_version_desired_is_unstable -eq 1],
   [# Development version search sequence
-  y=`expr $cel_version_minor`
-  cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
   y=`expr $cel_version_minor + 1`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
   y=`expr $cel_version_minor + 3`
+  cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
+  y=`expr $cel_version_minor + 2`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"],
   [# Stable version search sequence
   y=`expr $cel_version_minor + 2`
+  cel_version_sequence="$cel_version_sequence $cel_version_major.$y"
+  y=`expr $cel_version_minor + 1`
   cel_version_sequence="$cel_version_sequence $cel_version_major.$y"])
 
 for test_version in $cel_version_sequence; do
@@ -120,7 +122,7 @@ AS_IF([test -n "$CEL_CONFIG_TOOL"],
     [cfg="$CEL_CONFIG_TOOL"
 
     CS_CHECK_PROG_VERSION([CEL], [$cfg --version],
-	[m4_default([$1],[cel_min_version_default])], [9.9|.9],
+	m4_default([$1],[cel_min_version_default]), [9.9|.9],
 	[cel_sdk=yes], [cel_sdk=no])
 
     AS_IF([test $cel_sdk = yes],
