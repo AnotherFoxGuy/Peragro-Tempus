@@ -47,6 +47,18 @@ AC_DEFUN([CS_CHECK_COMMON_TOOLS_LINK],
 
     CS_CHECK_TOOLS([OBJCOPY], [objcopy])
     CS_EMIT_BUILD_PROPERTY([CMD.OBJCOPY], [$OBJCOPY], [], [], [$1])
+    AS_IF([test -n "$OBJCOPY"],
+	[AC_CACHE_CHECK([whether $OBJCOPY supports --long-section-names],
+            [cs_cv_objcopy_supports_long_section_names],
+	    [cs_cv_objcopy_supports_long_section_names=no
+	    AS_IF([AC_TRY_COMMAND(
+		    [$OBJCOPY --help 2>/dev/null | grep -e "--long-section-names" >/dev/null 2>&1])],
+		    [cs_cv_objcopy_supports_long_section_names=yes])
+	    ])
+        AS_IF([test "$cs_cv_objcopy_supports_long_section_names" != "no"],
+	    [CS_EMIT_BUILD_PROPERTY([CMD.OBJCOPY.LONG_SECTION_NAMES_ENABLE],
+	        [--long-section-names=enable], [], [], [$1])])
+	])
     
     CS_CHECK_LIBTOOL
     CS_EMIT_BUILD_PROPERTY([LIBTOOL], [$LIBTOOL], [], [], [$1])
@@ -170,6 +182,9 @@ AC_DEFUN([CS_CHECK_COMMON_TOOLS_ICONS],
     # Tools needed to generate OS/X icons.
     CS_CHECK_PROGS([MAKEICNS], [makeicns])
     CS_EMIT_BUILD_PROPERTY([CMD.MAKEICNS], [$MAKEICNS], [], [], [$1])
+    # png2icns is available for POSIX platforms and not just OS/X.
+    CS_CHECK_PROGS([PNG2ICNS], [png2icns])
+    CS_EMIT_BUILD_PROPERTY([CMD.PNG2ICNS], [$PNG2ICNS], [], [], [$1])
     ])
 
 #------------------------------------------------------------------------------
