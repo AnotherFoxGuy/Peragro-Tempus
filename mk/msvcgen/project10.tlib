@@ -116,19 +116,27 @@ END -%]
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>[% composedirs('libdirs', []) %];%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <TargetMachine>[% platform.targetmachine10 %]</TargetMachine>
+      <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <Lib>
 [% interpolate('librarian') -%]
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetMachine>[% platform.targetmachine10 %]</TargetMachine>
     </Lib>
     <PostBuildEvent>
 [% interpolate('postbuild') -%]
     </PostBuildEvent>
     <ResourceCompile>
-      <PreprocessorDefinitions>[% composedefs([glue (['PROJECTGEN_VERSION', my.doc.msvcversion.0], '=')]) %];%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>
+[%- composedefs(platform.rcdefs.merge([glue (['PROJECTGEN_VERSION', my.doc.msvcversion.0], '=')])) %];%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>[% composedirs('incdirs', ['.', path([my.doc.sourceroot.0, my.doc.subdir.0])]) %]</AdditionalIncludeDirectories>
       <Culture>0x0409</Culture>
     </ResourceCompile>
+[%- IF ${"my.doc.manifest${platform.suffix}"} %]
+    <Manifest>
+      <AdditionalManifestFiles>[% path([my.doc.sourceroot.0, ${"my.doc.manifest${platform.suffix}.0"}]) %]</AdditionalManifestFiles>
+    </Manifest>
+[%- END %]
   </ItemDefinitionGroup>
       [%~ END %]
     [%~ END %]
@@ -136,24 +144,32 @@ END -%]
 [%~ END %]
 [%- FOREACH group IN groups %]
 [%- items = files.grep(group.types) %]
-[%- items2 = files_obj_unique.grep(group.types) %]
-[%- IF (items.size > 0) || (items2.size > 0) %]
+[%- items_ambiguous = files_obj_unique.grep(group.types) %]
+[%- IF (items.size > 0) || (items_ambiguous.size > 0) %]
   <ItemGroup>
   [%- FOREACH file IN items %]
+    [%- exclusion = [] %]
+    [%- IF group.apply_exclusion %]
+      [%- FOREACH build IN builds -%]
+	[%~ FOREACH mutator IN mutators %]
+	  [%- exclusion = exclusion.merge(interpolate('exclude_' _ group.apply_exclusion, '\|').split('\|')) %]
+	[%~ END %]
+      [%~ END %]
+    [%- END %]
+    [%- IF exclusion.size > 0 %]
+    <[% group.itemtype %] Include="[% path([my.doc.sourceroot.0, file]) %]">
+      [%- exclusion.join('') %]
+    </[% group.itemtype %]>
+    [%- ELSE %]
     <[% group.itemtype %] Include="[% path([my.doc.sourceroot.0, file]) %]" />
+    [%- END %]
   [%- END %]
-  [%- FOREACH file IN items2 %]
+  [%- FOREACH file IN items_ambiguous %]
     [%- IF file.match('\\.(h|hpp|rc)$') %]
     <[% group.itemtype %] Include="[% path([my.doc.sourceroot.0, file]) %]" />
     [%- ELSE %]
     <[% group.itemtype %] Include="[% path([my.doc.sourceroot.0, file]) %]">
-    [%~ FOREACH build IN builds %]
-      [%~ FOREACH mutator IN mutators %]
-        [%~ FOREACH platform IN platforms %]
-      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='[% build.name %][% mutator.namesuffix %]|[% platform.name %]'">[% workbuild([file.replace('/', '_'), '.obj']) %]</ObjectFileName>
-        [%~ END %]
-      [%~ END %]
-    [%~ END %]
+      <ObjectFileName>[% "\$(IntermediateOutputPath)" _ file.replace('/', '_') _ '.obj' %]</ObjectFileName>
     </[% group.itemtype %]>
     [%~ END %]
   [%~ END %]
